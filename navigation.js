@@ -8,7 +8,8 @@
         { name: 'Data Rate', file: 'data-rate-calculator.html', id: 'data-rate' },
         { name: 'Regex', file: 'regex-tester.html', id: 'regex' },
         { name: 'Timestamp', file: 'timestamp-converter.html', id: 'timestamp' },
-        { name: 'Disk Tools', file: 'disk-tools.html', id: 'disk' }
+        { name: 'Disk Tools', file: 'disk-tools.html', id: 'disk' },
+        { name: 'Password', file: 'password-generator.html', id: 'password' }
     ];
 
     // Navigation CSS styles
