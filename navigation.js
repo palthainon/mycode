@@ -4,6 +4,7 @@
         { name: 'Home', file: 'index.html', id: 'home' },
         { name: 'Subnet Calc', file: 'subnet-calculator.html', id: 'subnet' },
         { name: 'CIDR Converter', file: 'cidr-converter.html', id: 'cidr' },
+        { name: 'Subnet Planner', file: 'subnet-planner.html', id: 'planner' },
         { name: 'Bit Calc', file: 'bit-calculator.html', id: 'bit' },
         { name: 'Data Rate', file: 'data-rate-calculator.html', id: 'data-rate' },
         { name: 'Regex', file: 'regex-tester.html', id: 'regex' },

@@ -1,0 +1,1467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPv4 Subnet Planner</title>
+    <script src="navigation.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            color: #4fc3f7;
+            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
+        }
+
+        h2 {
+            color: #4fc3f7;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        /* ASCII Logo */
+        .ascii-logo {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.65rem;
+            line-height: 1.1;
+            color: #4fc3f7;
+            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
+            opacity: 0.8;
+            white-space: pre;
+        }
+
+        /* Calculator Section */
+        .calculator {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .input-field {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .input-field label {
+            display: block;
+            margin-bottom: 8px;
+            color: #90caf9;
+            font-weight: 500;
+        }
+
+        .input-field input, .input-field select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            color: #fff;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .input-field input:focus, .input-field select:focus {
+            outline: none;
+            border-color: #4fc3f7;
+            box-shadow: 0 0 15px rgba(79, 195, 247, 0.2);
+        }
+
+        .input-field input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
+            color: #fff;
+            border: none;
+            padding: 14px 40px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+            display: block;
+            width: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(79, 195, 247, 0.3);
+        }
+
+        .error {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid #f44336;
+            color: #ff8a80;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .error.show {
+            display: block;
+        }
+
+        /* Planner Section */
+        .planner-section {
+            display: none;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .planner-section.show {
+            display: block;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        /* View Toggle */
+        .view-toggle {
+            display: flex;
+            gap: 10px;
+        }
+
+        .toggle-btn {
+            background: rgba(79, 195, 247, 0.1);
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            color: #4fc3f7;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .toggle-btn:hover {
+            background: rgba(79, 195, 247, 0.2);
+        }
+
+        .toggle-btn.active {
+            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
+            color: #fff;
+            border-color: transparent;
+        }
+
+        /* Table Controls */
+        .table-controls {
+            margin-bottom: 15px;
+        }
+
+        .btn-small {
+            background: linear-gradient(135deg, #66bb6a 0%, #4caf50 100%);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 0.95rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+        }
+
+        .btn-small:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 187, 106, 0.3);
+        }
+
+        /* Table Styles */
+        .table-container {
+            overflow-x: auto;
+            margin-bottom: 20px;
+        }
+
+        .allocation-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        .allocation-table thead {
+            background: rgba(79, 195, 247, 0.1);
+        }
+
+        .allocation-table th {
+            padding: 12px;
+            text-align: left;
+            color: #4fc3f7;
+            font-weight: 600;
+            border-bottom: 2px solid rgba(79, 195, 247, 0.3);
+            white-space: nowrap;
+        }
+
+        .allocation-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .allocation-table tbody tr {
+            transition: background 0.2s;
+        }
+
+        .allocation-table tbody tr:hover {
+            background: rgba(79, 195, 247, 0.05);
+        }
+
+        .allocation-table td[contenteditable="true"] {
+            cursor: text;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .allocation-table td[contenteditable="true"]:hover {
+            background: rgba(79, 195, 247, 0.1);
+            border-color: rgba(79, 195, 247, 0.3);
+        }
+
+        .allocation-table td[contenteditable="true"]:focus {
+            outline: none;
+            background: rgba(0, 0, 0, 0.4);
+            border-color: #4fc3f7;
+            box-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
+        }
+
+        .allocation-table td.calculated-field {
+            color: #90caf9;
+            font-family: 'Consolas', 'Monaco', monospace;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .allocation-table tr.error-row {
+            background: rgba(244, 67, 54, 0.1);
+        }
+
+        .allocation-table tr.warning-row {
+            background: rgba(255, 235, 59, 0.1);
+        }
+
+        /* Color Picker Cell */
+        .color-picker-cell {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .color-picker-cell input[type="color"] {
+            width: 50px;
+            height: 35px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            cursor: pointer;
+            background: transparent;
+        }
+
+        /* Action Buttons */
+        .action-btn {
+            background: transparent;
+            border: 1px solid rgba(244, 67, 54, 0.4);
+            color: #f44336;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .action-btn:hover {
+            background: rgba(244, 67, 54, 0.2);
+        }
+
+        /* View Containers */
+        .view-container {
+            display: none;
+        }
+
+        .view-container.active {
+            display: block;
+        }
+
+        /* Bar Chart */
+        .bar-chart-container {
+            margin-bottom: 30px;
+        }
+
+        .bar-chart {
+            display: flex;
+            width: 100%;
+            height: 60px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+        }
+
+        .bar-segment {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: opacity 0.2s;
+            position: relative;
+            cursor: pointer;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .bar-segment:hover {
+            opacity: 0.85;
+        }
+
+        .bar-segment.unallocated {
+            background: repeating-linear-gradient(
+                45deg,
+                rgba(255, 255, 255, 0.05),
+                rgba(255, 255, 255, 0.05) 10px,
+                rgba(255, 255, 255, 0.1) 10px,
+                rgba(255, 255, 255, 0.1) 20px
+            );
+            color: rgba(255, 255, 255, 0.5);
+            cursor: default;
+        }
+
+        /* Legend */
+        .chart-legend {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 12px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 6px;
+        }
+
+        .legend-color {
+            width: 30px;
+            height: 30px;
+            border-radius: 4px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            flex-shrink: 0;
+        }
+
+        .legend-label {
+            font-weight: 600;
+            color: #4fc3f7;
+            flex: 1;
+        }
+
+        .legend-cidr {
+            font-family: 'Consolas', 'Monaco', monospace;
+            color: #90caf9;
+            font-size: 0.9rem;
+        }
+
+        /* Tree View */
+        .tree-container {
+            padding: 20px;
+        }
+
+        .tree-node {
+            margin-left: 30px;
+            margin-bottom: 10px;
+        }
+
+        .tree-node.root {
+            margin-left: 0;
+        }
+
+        .tree-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 15px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            border-left: 4px solid #4fc3f7;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+
+        .tree-label {
+            font-weight: 600;
+            font-size: 1.1rem;
+            min-width: 150px;
+        }
+
+        .tree-network {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background: rgba(79, 195, 247, 0.1);
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .tree-vlan {
+            background: rgba(102, 187, 106, 0.2);
+            color: #66bb6a;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+
+        .tree-size {
+            color: #90caf9;
+            font-size: 0.9rem;
+        }
+
+        .tree-description {
+            width: 100%;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            margin-top: 8px;
+            font-style: italic;
+        }
+
+        .tree-connector {
+            border-left: 2px solid rgba(79, 195, 247, 0.3);
+            border-bottom: 2px solid rgba(79, 195, 247, 0.3);
+            width: 25px;
+            height: 20px;
+            margin-left: -15px;
+            margin-bottom: -20px;
+        }
+
+        /* Validation Messages */
+        .validation-messages {
+            margin-top: 20px;
+        }
+
+        .validation-message {
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .validation-message.error {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid #f44336;
+            color: #ff8a80;
+        }
+
+        .validation-message.warning {
+            background: rgba(255, 235, 59, 0.2);
+            border: 1px solid #ffeb3b;
+            color: #ffd54f;
+        }
+
+        .validation-message.info {
+            background: rgba(66, 165, 245, 0.2);
+            border: 1px solid #42a5f5;
+            color: #90caf9;
+        }
+
+        /* Export Section */
+        .export-section {
+            margin-top: 20px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .export-btn {
+            background: linear-gradient(135deg, #66bb6a 0%, #4caf50 100%);
+            color: #fff;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+        }
+
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 187, 106, 0.3);
+        }
+
+        .export-btn.json {
+            background: linear-gradient(135deg, #42a5f5 0%, #2196f3 100%);
+        }
+
+        .export-btn.json:hover {
+            box-shadow: 0 5px 15px rgba(66, 165, 245, 0.3);
+        }
+
+        footer {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 40px;
+            font-size: 0.9rem;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 10px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .ascii-logo {
+                display: none;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .view-toggle {
+                width: 100%;
+                justify-content: stretch;
+            }
+
+            .toggle-btn {
+                flex: 1;
+            }
+
+            .bar-chart {
+                height: 80px;
+            }
+
+            .allocation-table {
+                font-size: 0.8rem;
+            }
+
+            .allocation-table th,
+            .allocation-table td {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="ascii-logo">  _____ _   _ ____  _   _ _____ _____
+ / ____| | | |  _ \| \ | |  ___|_   _|
+| (___ | | | | |_) |  \| | |__   | |
+ \___ \| | | |  _ <| . ` |  __|  | |
+ ____) | |_| | |_) | |\  | |___  | |
+|_____/ \___/|____/|_| \_|_____| |_|  </div>
+
+    <div class="container">
+        <h1>IPv4 Subnet Planner</h1>
+
+        <!-- Parent Network Input -->
+        <div class="calculator">
+            <div class="input-group">
+                <div class="input-field">
+                    <label for="parentIP">Parent Network IP Address</label>
+                    <input type="text" id="parentIP" placeholder="10.0.0.0">
+                </div>
+                <div class="input-field">
+                    <label for="parentCIDR">CIDR Prefix</label>
+                    <select id="parentCIDR">
+                        <option value="8">/8 - 255.0.0.0</option>
+                        <option value="9">/9 - 255.128.0.0</option>
+                        <option value="10">/10 - 255.192.0.0</option>
+                        <option value="11">/11 - 255.224.0.0</option>
+                        <option value="12">/12 - 255.240.0.0</option>
+                        <option value="13">/13 - 255.248.0.0</option>
+                        <option value="14">/14 - 255.252.0.0</option>
+                        <option value="15">/15 - 255.254.0.0</option>
+                        <option value="16" selected>/16 - 255.255.0.0</option>
+                        <option value="17">/17 - 255.255.128.0</option>
+                        <option value="18">/18 - 255.255.192.0</option>
+                        <option value="19">/19 - 255.255.224.0</option>
+                        <option value="20">/20 - 255.255.240.0</option>
+                        <option value="21">/21 - 255.255.248.0</option>
+                        <option value="22">/22 - 255.255.252.0</option>
+                        <option value="23">/23 - 255.255.254.0</option>
+                        <option value="24">/24 - 255.255.255.0</option>
+                        <option value="25">/25 - 255.255.255.128</option>
+                        <option value="26">/26 - 255.255.255.192</option>
+                        <option value="27">/27 - 255.255.255.224</option>
+                        <option value="28">/28 - 255.255.255.240</option>
+                        <option value="29">/29 - 255.255.255.248</option>
+                        <option value="30">/30 - 255.255.255.252</option>
+                    </select>
+                </div>
+            </div>
+            <button class="btn" onclick="initializePlanner()">Initialize Planner</button>
+            <div class="error" id="initError"></div>
+        </div>
+
+        <!-- Planner Section -->
+        <div class="planner-section" id="plannerSection">
+            <div class="section-header">
+                <h2>Subnet Allocations</h2>
+                <div class="view-toggle">
+                    <button class="toggle-btn active" data-view="table" onclick="switchView('table')">Table View</button>
+                    <button class="toggle-btn" data-view="bar" onclick="switchView('bar')">Bar Chart</button>
+                    <button class="toggle-btn" data-view="tree" onclick="switchView('tree')">Tree View</button>
+                </div>
+            </div>
+
+            <!-- Table View -->
+            <div class="view-container active" id="tableView">
+                <div class="table-controls">
+                    <button class="btn-small" onclick="addAllocation()">+ Add Subnet</button>
+                </div>
+                <div class="table-container">
+                    <table class="allocation-table">
+                        <thead>
+                            <tr>
+                                <th>Label</th>
+                                <th>CIDR</th>
+                                <th>Network Address</th>
+                                <th>Size (IPs)</th>
+                                <th>VLAN</th>
+                                <th>Description</th>
+                                <th>Color</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="allocationTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Bar Chart View -->
+            <div class="view-container" id="barView">
+                <div class="bar-chart-container">
+                    <div class="bar-chart" id="barChart"></div>
+                </div>
+                <div id="barChartLegend" class="chart-legend"></div>
+            </div>
+
+            <!-- Tree View -->
+            <div class="view-container" id="treeView">
+                <div class="tree-container" id="treeContainer"></div>
+            </div>
+
+            <!-- Validation Messages -->
+            <div class="validation-messages" id="validationMessages"></div>
+
+            <!-- Export Section -->
+            <div class="export-section">
+                <button class="export-btn" onclick="exportCSV()">Export CSV</button>
+                <button class="export-btn json" onclick="exportJSON()">Export JSON</button>
+            </div>
+        </div>
+
+        <footer>
+            Subnet Planner - Works offline, no installation required
+        </footer>
+    </div>
+
+    <script>
+        // Global state
+        const state = {
+            parentNetwork: null,
+            allocations: [],
+            nextId: 1,
+            currentView: 'table'
+        };
+
+        // Default colors for allocations
+        const defaultColors = [
+            '#4fc3f7', '#66bb6a', '#ff8a65', '#ffeb3b',
+            '#9c27b0', '#f44336', '#42a5f5', '#26a69a',
+            '#ffa726', '#ec407a', '#ab47bc', '#7e57c2'
+        ];
+
+        // ===== Utility Functions =====
+
+        function isValidIP(ip) {
+            const parts = ip.split('.');
+            if (parts.length !== 4) return false;
+            return parts.every(part => {
+                const num = parseInt(part, 10);
+                return !isNaN(num) && num >= 0 && num <= 255 && part === num.toString();
+            });
+        }
+
+        function ipToInt(ip) {
+            const parts = ip.split('.').map(Number);
+            return ((parts[0] << 24) | (parts[1] << 16) | (parts[2] << 8) | parts[3]) >>> 0;
+        }
+
+        function intToIP(int) {
+            return [
+                (int >>> 24) & 255,
+                (int >>> 16) & 255,
+                (int >>> 8) & 255,
+                int & 255
+            ].join('.');
+        }
+
+        function cidrToMask(cidr) {
+            return cidr === 0 ? 0 : (0xFFFFFFFF << (32 - cidr)) >>> 0;
+        }
+
+        // ===== Initialization =====
+
+        function initializePlanner() {
+            const ipInput = document.getElementById('parentIP').value.trim();
+            const cidr = parseInt(document.getElementById('parentCIDR').value, 10);
+            const errorDiv = document.getElementById('initError');
+
+            // Hide previous error
+            errorDiv.classList.remove('show');
+
+            // Validate IP
+            if (!isValidIP(ipInput)) {
+                errorDiv.textContent = 'Please enter a valid IPv4 address (e.g., 10.0.0.0)';
+                errorDiv.classList.add('show');
+                return;
+            }
+
+            // Calculate parent network
+            const ipInt = ipToInt(ipInput);
+            const maskInt = cidrToMask(cidr);
+            const networkInt = (ipInt & maskInt) >>> 0;
+            const wildcardInt = (~maskInt) >>> 0;
+            const broadcastInt = (networkInt | wildcardInt) >>> 0;
+
+            // Initialize state
+            state.parentNetwork = {
+                ip: intToIP(networkInt),
+                cidr: cidr,
+                networkInt: networkInt,
+                broadcastInt: broadcastInt
+            };
+
+            state.allocations = [];
+            state.nextId = 1;
+
+            // Show planner section
+            document.getElementById('plannerSection').classList.add('show');
+
+            // Add first empty allocation
+            addAllocation();
+        }
+
+        // ===== Table Management =====
+
+        function addAllocation() {
+            // Determine next available CIDR and network
+            let defaultCIDR = state.parentNetwork.cidr + 8;
+            if (defaultCIDR > 30) defaultCIDR = 24;
+            if (defaultCIDR < state.parentNetwork.cidr) defaultCIDR = state.parentNetwork.cidr + 1;
+
+            // Find next available network address
+            let networkInt = findNextAvailableNetwork(defaultCIDR);
+
+            // Create allocation object
+            const allocation = {
+                id: state.nextId++,
+                label: `Subnet ${state.allocations.length + 1}`,
+                cidr: defaultCIDR,
+                networkInt: networkInt,
+                description: '',
+                vlanId: null,
+                color: defaultColors[state.allocations.length % defaultColors.length]
+            };
+
+            state.allocations.push(allocation);
+            renderTable();
+            validateAllocations();
+        }
+
+        function deleteAllocation(id) {
+            state.allocations = state.allocations.filter(a => a.id !== id);
+            updateAllViews();
+        }
+
+        function updateAllocation(id, field, value) {
+            const allocation = state.allocations.find(a => a.id === id);
+            if (!allocation) return;
+
+            allocation[field] = value;
+
+            // If CIDR changed, recalculate network address
+            if (field === 'cidr') {
+                allocation.networkInt = findNextAvailableNetwork(allocation.cidr, id);
+            }
+
+            updateAllViews();
+        }
+
+        function findNextAvailableNetwork(cidr, excludeId = null) {
+            const subnetSize = Math.pow(2, 32 - cidr);
+
+            // Get sorted allocations excluding current one
+            const sorted = state.allocations
+                .filter(a => excludeId === null || a.id !== excludeId)
+                .sort((a, b) => a.networkInt - b.networkInt);
+
+            let candidateNetwork = state.parentNetwork.networkInt;
+
+            // Align to subnet boundary
+            const alignedStart = candidateNetwork - (candidateNetwork % subnetSize);
+            if (alignedStart >= state.parentNetwork.networkInt) {
+                candidateNetwork = alignedStart;
+            } else {
+                candidateNetwork = alignedStart + subnetSize;
+            }
+
+            // Find first non-overlapping slot
+            for (const existing of sorted) {
+                const existingSize = Math.pow(2, 32 - existing.cidr);
+                const existingEnd = existing.networkInt + existingSize;
+
+                // Check if candidate overlaps with existing
+                if (candidateNetwork < existingEnd && candidateNetwork + subnetSize > existing.networkInt) {
+                    // Move candidate past this allocation
+                    candidateNetwork = existingEnd;
+                    // Realign to subnet boundary
+                    const remainder = candidateNetwork % subnetSize;
+                    if (remainder !== 0) {
+                        candidateNetwork += (subnetSize - remainder);
+                    }
+                }
+            }
+
+            // Check if within parent network
+            if (candidateNetwork + subnetSize <= state.parentNetwork.broadcastInt + 1) {
+                return candidateNetwork;
+            }
+
+            return null; // No space available
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('allocationTableBody');
+            tbody.innerHTML = '';
+
+            // Sort by network address
+            const sorted = [...state.allocations].sort((a, b) => {
+                if (a.networkInt === null) return 1;
+                if (b.networkInt === null) return -1;
+                return a.networkInt - b.networkInt;
+            });
+
+            sorted.forEach(allocation => {
+                const tr = document.createElement('tr');
+                tr.dataset.id = allocation.id;
+
+                // Label cell
+                const labelCell = createEditableCell(allocation.label, 'text', (value) => {
+                    updateAllocation(allocation.id, 'label', value);
+                });
+
+                // CIDR cell
+                const cidrCell = createEditableCell(allocation.cidr, 'number', (value) => {
+                    const cidr = parseInt(value);
+                    if (cidr >= state.parentNetwork.cidr && cidr <= 32) {
+                        updateAllocation(allocation.id, 'cidr', cidr);
+                    }
+                });
+
+                // Network cell (calculated)
+                const networkCell = document.createElement('td');
+                networkCell.className = 'calculated-field';
+                networkCell.textContent = allocation.networkInt !== null ?
+                    `${intToIP(allocation.networkInt)}/${allocation.cidr}` :
+                    'No space';
+
+                // Size cell (calculated)
+                const sizeCell = document.createElement('td');
+                sizeCell.className = 'calculated-field';
+                const size = Math.pow(2, 32 - allocation.cidr);
+                sizeCell.textContent = size.toLocaleString();
+
+                // VLAN cell
+                const vlanCell = createEditableCell(allocation.vlanId || '', 'number', (value) => {
+                    const vlan = value ? parseInt(value) : null;
+                    updateAllocation(allocation.id, 'vlanId', vlan);
+                });
+
+                // Description cell
+                const descCell = createEditableCell(allocation.description, 'text', (value) => {
+                    updateAllocation(allocation.id, 'description', value);
+                });
+
+                // Color cell
+                const colorCell = document.createElement('td');
+                colorCell.className = 'color-picker-cell';
+                const colorInput = document.createElement('input');
+                colorInput.type = 'color';
+                colorInput.value = allocation.color;
+                colorInput.addEventListener('change', (e) => {
+                    updateAllocation(allocation.id, 'color', e.target.value);
+                });
+                colorCell.appendChild(colorInput);
+
+                // Actions cell
+                const actionsCell = document.createElement('td');
+                const deleteBtn = document.createElement('button');
+                deleteBtn.textContent = 'Delete';
+                deleteBtn.className = 'action-btn';
+                deleteBtn.onclick = () => deleteAllocation(allocation.id);
+                actionsCell.appendChild(deleteBtn);
+
+                tr.append(labelCell, cidrCell, networkCell, sizeCell, vlanCell, descCell, colorCell, actionsCell);
+                tbody.appendChild(tr);
+            });
+        }
+
+        function createEditableCell(value, type, onUpdate) {
+            const td = document.createElement('td');
+            td.contentEditable = true;
+            td.textContent = value;
+            td.dataset.type = type;
+
+            // Store original value
+            let originalValue = value;
+
+            // Validate on blur
+            td.addEventListener('blur', (e) => {
+                const newValue = e.target.textContent.trim();
+
+                if (type === 'number') {
+                    const num = parseInt(newValue);
+                    if (!isNaN(num) && num >= 0) {
+                        onUpdate(newValue);
+                        originalValue = newValue;
+                    } else {
+                        e.target.textContent = originalValue;
+                    }
+                } else {
+                    onUpdate(newValue);
+                    originalValue = newValue;
+                }
+            });
+
+            // Prevent enter key from creating newlines
+            td.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    e.target.blur();
+                }
+            });
+
+            return td;
+        }
+
+        // ===== Validation =====
+
+        function validateAllocations() {
+            const errors = [];
+            const warnings = [];
+
+            // Check each allocation
+            state.allocations.forEach(allocation => {
+                if (allocation.networkInt === null) {
+                    errors.push({
+                        allocationId: allocation.id,
+                        message: `${allocation.label}: No available space in parent network`
+                    });
+                    return;
+                }
+
+                const subnetSize = Math.pow(2, 32 - allocation.cidr);
+                const endInt = allocation.networkInt + subnetSize;
+
+                // Check if within parent network
+                if (allocation.networkInt < state.parentNetwork.networkInt ||
+                    endInt > state.parentNetwork.broadcastInt + 1) {
+                    errors.push({
+                        allocationId: allocation.id,
+                        message: `${allocation.label}: Outside parent network bounds`
+                    });
+                }
+
+                // Check alignment
+                if (allocation.networkInt % subnetSize !== 0) {
+                    warnings.push({
+                        allocationId: allocation.id,
+                        message: `${allocation.label}: Network address not aligned to /${allocation.cidr} boundary`
+                    });
+                }
+
+                // Check VLAN range
+                if (allocation.vlanId !== null && (allocation.vlanId < 1 || allocation.vlanId > 4094)) {
+                    warnings.push({
+                        allocationId: allocation.id,
+                        message: `${allocation.label}: VLAN ID outside typical range (1-4094)`
+                    });
+                }
+            });
+
+            // Check for overlaps
+            const sorted = [...state.allocations]
+                .filter(a => a.networkInt !== null)
+                .sort((a, b) => a.networkInt - b.networkInt);
+
+            for (let i = 0; i < sorted.length - 1; i++) {
+                const current = sorted[i];
+                const next = sorted[i + 1];
+                const currentSize = Math.pow(2, 32 - current.cidr);
+                const currentEnd = current.networkInt + currentSize;
+
+                if (currentEnd > next.networkInt) {
+                    errors.push({
+                        allocationId: current.id,
+                        message: `${current.label}: Overlaps with ${next.label}`
+                    });
+                }
+            }
+
+            displayValidationMessages(errors, warnings);
+            highlightErrorRows(errors, warnings);
+
+            return { errors, warnings };
+        }
+
+        function displayValidationMessages(errors, warnings) {
+            const container = document.getElementById('validationMessages');
+            container.innerHTML = '';
+
+            errors.forEach(err => {
+                const div = document.createElement('div');
+                div.className = 'validation-message error';
+                div.innerHTML = `<strong>Error:</strong> ${err.message}`;
+                container.appendChild(div);
+            });
+
+            warnings.forEach(warn => {
+                const div = document.createElement('div');
+                div.className = 'validation-message warning';
+                div.innerHTML = `<strong>Warning:</strong> ${warn.message}`;
+                container.appendChild(div);
+            });
+
+            // Add info message about available space
+            if (errors.length === 0 && warnings.length === 0 && state.allocations.length > 0) {
+                const totalSize = state.parentNetwork.broadcastInt - state.parentNetwork.networkInt + 1;
+                const usedSize = state.allocations
+                    .filter(a => a.networkInt !== null)
+                    .reduce((sum, a) => sum + Math.pow(2, 32 - a.cidr), 0);
+                const availableSize = totalSize - usedSize;
+                const percentUsed = ((usedSize / totalSize) * 100).toFixed(1);
+
+                const div = document.createElement('div');
+                div.className = 'validation-message info';
+                div.innerHTML = `<strong>Space Usage:</strong> ${usedSize.toLocaleString()} of ${totalSize.toLocaleString()} IPs allocated (${percentUsed}%) - ${availableSize.toLocaleString()} IPs available`;
+                container.appendChild(div);
+            }
+        }
+
+        function highlightErrorRows(errors, warnings) {
+            // Clear existing highlights
+            document.querySelectorAll('.allocation-table tr').forEach(tr => {
+                tr.classList.remove('error-row', 'warning-row');
+            });
+
+            // Apply error highlights
+            errors.forEach(err => {
+                const row = document.querySelector(`tr[data-id="${err.allocationId}"]`);
+                if (row) row.classList.add('error-row');
+            });
+
+            // Apply warning highlights
+            warnings.forEach(warn => {
+                const row = document.querySelector(`tr[data-id="${warn.allocationId}"]`);
+                if (row && !row.classList.contains('error-row')) {
+                    row.classList.add('warning-row');
+                }
+            });
+        }
+
+        // ===== Bar Chart =====
+
+        function renderBarChart() {
+            const container = document.getElementById('barChart');
+            container.innerHTML = '';
+
+            const totalSize = state.parentNetwork.broadcastInt - state.parentNetwork.networkInt + 1;
+
+            // Sort allocations by network address
+            const sorted = [...state.allocations]
+                .filter(a => a.networkInt !== null)
+                .sort((a, b) => a.networkInt - b.networkInt);
+
+            let currentPosition = state.parentNetwork.networkInt;
+
+            sorted.forEach(allocation => {
+                const allocSize = Math.pow(2, 32 - allocation.cidr);
+
+                // Add unallocated space before this allocation
+                if (allocation.networkInt > currentPosition) {
+                    const gapSize = allocation.networkInt - currentPosition;
+                    const gapPercent = (gapSize / totalSize) * 100;
+
+                    if (gapPercent > 0.1) { // Only show if > 0.1%
+                        const gapSegment = createBarSegment('Unallocated', gapPercent, '#333', true);
+                        container.appendChild(gapSegment);
+                    }
+                }
+
+                // Add allocation segment
+                const allocPercent = (allocSize / totalSize) * 100;
+                const segment = createBarSegment(
+                    allocation.label || 'Unnamed',
+                    allocPercent,
+                    allocation.color,
+                    false,
+                    allocation
+                );
+                container.appendChild(segment);
+
+                currentPosition = allocation.networkInt + allocSize;
+            });
+
+            // Add remaining unallocated space
+            if (currentPosition <= state.parentNetwork.broadcastInt) {
+                const remainingSize = state.parentNetwork.broadcastInt - currentPosition + 1;
+                const remainingPercent = (remainingSize / totalSize) * 100;
+
+                if (remainingPercent > 0.1) {
+                    const remainingSegment = createBarSegment('Unallocated', remainingPercent, '#333', true);
+                    container.appendChild(remainingSegment);
+                }
+            }
+
+            renderBarChartLegend(sorted);
+        }
+
+        function createBarSegment(label, widthPercent, color, isUnallocated, allocation = null) {
+            const segment = document.createElement('div');
+            segment.className = 'bar-segment' + (isUnallocated ? ' unallocated' : '');
+            segment.style.width = widthPercent + '%';
+
+            if (!isUnallocated) {
+                segment.style.backgroundColor = color;
+            }
+
+            // Only show label if segment is wide enough
+            if (widthPercent > 5) {
+                segment.textContent = label;
+            }
+
+            // Tooltip
+            if (allocation) {
+                segment.title = `${allocation.label}\n${intToIP(allocation.networkInt)}/${allocation.cidr}\n${Math.pow(2, 32 - allocation.cidr).toLocaleString()} IPs\n${allocation.description || '(no description)'}`;
+
+                // Click to highlight in table
+                segment.onclick = () => {
+                    switchView('table');
+                    setTimeout(() => {
+                        const row = document.querySelector(`tr[data-id="${allocation.id}"]`);
+                        if (row) {
+                            row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            row.style.outline = '3px solid #4fc3f7';
+                            setTimeout(() => { row.style.outline = ''; }, 2000);
+                        }
+                    }, 100);
+                };
+            } else {
+                segment.title = label;
+            }
+
+            return segment;
+        }
+
+        function renderBarChartLegend(allocations) {
+            const legend = document.getElementById('barChartLegend');
+            legend.innerHTML = '';
+
+            allocations.forEach(allocation => {
+                const item = document.createElement('div');
+                item.className = 'legend-item';
+
+                const colorBox = document.createElement('span');
+                colorBox.className = 'legend-color';
+                colorBox.style.backgroundColor = allocation.color;
+
+                const labelSpan = document.createElement('span');
+                labelSpan.className = 'legend-label';
+                labelSpan.textContent = allocation.label;
+
+                const cidrSpan = document.createElement('span');
+                cidrSpan.className = 'legend-cidr';
+                cidrSpan.textContent = `${intToIP(allocation.networkInt)}/${allocation.cidr}`;
+
+                item.appendChild(colorBox);
+                item.appendChild(labelSpan);
+                item.appendChild(cidrSpan);
+                legend.appendChild(item);
+            });
+        }
+
+        // ===== Tree View =====
+
+        function renderTreeView() {
+            const container = document.getElementById('treeContainer');
+            container.innerHTML = '';
+
+            // Root node - parent network
+            const rootNode = createTreeNode({
+                label: 'Parent Network',
+                network: intToIP(state.parentNetwork.networkInt),
+                cidr: state.parentNetwork.cidr,
+                color: '#4fc3f7',
+                isRoot: true,
+                size: state.parentNetwork.broadcastInt - state.parentNetwork.networkInt + 1
+            });
+            container.appendChild(rootNode);
+
+            // Sort allocations by network address
+            const sorted = [...state.allocations]
+                .filter(a => a.networkInt !== null)
+                .sort((a, b) => a.networkInt - b.networkInt);
+
+            // Add each allocation as child node
+            sorted.forEach(allocation => {
+                const connector = document.createElement('div');
+                connector.className = 'tree-connector';
+                container.appendChild(connector);
+
+                const node = createTreeNode({
+                    label: allocation.label || 'Unnamed',
+                    network: intToIP(allocation.networkInt),
+                    cidr: allocation.cidr,
+                    color: allocation.color,
+                    vlanId: allocation.vlanId,
+                    description: allocation.description,
+                    size: Math.pow(2, 32 - allocation.cidr),
+                    isRoot: false
+                });
+                container.appendChild(node);
+            });
+        }
+
+        function createTreeNode(data) {
+            const node = document.createElement('div');
+            node.className = 'tree-node' + (data.isRoot ? ' root' : '');
+
+            const item = document.createElement('div');
+            item.className = 'tree-item';
+            item.style.borderLeftColor = data.color;
+
+            const labelDiv = document.createElement('div');
+            labelDiv.className = 'tree-label';
+            labelDiv.style.color = data.color;
+            labelDiv.textContent = data.label;
+
+            const networkDiv = document.createElement('div');
+            networkDiv.className = 'tree-network';
+            networkDiv.textContent = `${data.network}/${data.cidr}`;
+
+            item.appendChild(labelDiv);
+            item.appendChild(networkDiv);
+
+            if (data.vlanId) {
+                const vlanDiv = document.createElement('div');
+                vlanDiv.className = 'tree-vlan';
+                vlanDiv.textContent = `VLAN ${data.vlanId}`;
+                item.appendChild(vlanDiv);
+            }
+
+            if (data.size) {
+                const sizeDiv = document.createElement('div');
+                sizeDiv.className = 'tree-size';
+                sizeDiv.textContent = `${data.size.toLocaleString()} IPs`;
+                item.appendChild(sizeDiv);
+            }
+
+            if (data.description && !data.isRoot) {
+                const descDiv = document.createElement('div');
+                descDiv.className = 'tree-description';
+                descDiv.textContent = data.description;
+                item.appendChild(descDiv);
+            }
+
+            node.appendChild(item);
+            return node;
+        }
+
+        // ===== View Management =====
+
+        function switchView(viewName) {
+            state.currentView = viewName;
+
+            // Update toggle buttons
+            document.querySelectorAll('.toggle-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.view === viewName);
+            });
+
+            // Hide all view containers
+            document.querySelectorAll('.view-container').forEach(container => {
+                container.classList.remove('active');
+            });
+
+            // Show selected view
+            const viewMap = {
+                'table': 'tableView',
+                'bar': 'barView',
+                'tree': 'treeView'
+            };
+
+            const containerId = viewMap[viewName];
+            document.getElementById(containerId).classList.add('active');
+
+            // Render view
+            if (viewName === 'bar') {
+                renderBarChart();
+            } else if (viewName === 'tree') {
+                renderTreeView();
+            }
+        }
+
+        function updateAllViews() {
+            // Always re-render table
+            renderTable();
+
+            // Re-render current visualization
+            if (state.currentView === 'bar') {
+                renderBarChart();
+            } else if (state.currentView === 'tree') {
+                renderTreeView();
+            }
+
+            // Validate
+            validateAllocations();
+        }
+
+        // ===== Export Functions =====
+
+        function exportCSV() {
+            if (state.allocations.length === 0) {
+                alert('No allocations to export');
+                return;
+            }
+
+            const rows = [['Label', 'Network', 'CIDR', 'Size', 'VLAN', 'Description', 'Color']];
+
+            state.allocations
+                .filter(a => a.networkInt !== null)
+                .sort((a, b) => a.networkInt - b.networkInt)
+                .forEach(allocation => {
+                    const size = Math.pow(2, 32 - allocation.cidr);
+                    rows.push([
+                        allocation.label || '',
+                        intToIP(allocation.networkInt),
+                        allocation.cidr,
+                        size,
+                        allocation.vlanId || '',
+                        allocation.description || '',
+                        allocation.color
+                    ]);
+                });
+
+            const csv = rows.map(row =>
+                row.map(cell => {
+                    const str = String(cell);
+                    return str.includes(',') || str.includes('"') ? `"${str.replace(/"/g, '""')}"` : str;
+                }).join(',')
+            ).join('\n');
+
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', `subnet-plan-${Date.now()}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function exportJSON() {
+            if (state.allocations.length === 0) {
+                alert('No allocations to export');
+                return;
+            }
+
+            const data = {
+                exportDate: new Date().toISOString(),
+                parentNetwork: {
+                    network: state.parentNetwork.ip,
+                    cidr: state.parentNetwork.cidr,
+                    totalIPs: state.parentNetwork.broadcastInt - state.parentNetwork.networkInt + 1
+                },
+                allocations: state.allocations
+                    .filter(a => a.networkInt !== null)
+                    .sort((a, b) => a.networkInt - b.networkInt)
+                    .map(a => ({
+                        label: a.label,
+                        network: intToIP(a.networkInt),
+                        cidr: a.cidr,
+                        size: Math.pow(2, 32 - a.cidr),
+                        vlanId: a.vlanId,
+                        description: a.description,
+                        color: a.color
+                    }))
+            };
+
+            const json = JSON.stringify(data, null, 2);
+            const blob = new Blob([json], { type: 'application/json;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', `subnet-plan-${Date.now()}.json`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Allow Enter key to initialize
+        document.getElementById('parentIP').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') initializePlanner();
+        });
+    </script>
+</body>
+</html>
