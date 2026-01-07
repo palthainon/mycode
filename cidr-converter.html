@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CIDR Notation Converter</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            color: #4fc3f7;
+            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
+        }
+
+        /* Navigation Bar */
+        .nav-bar {
+            position: absolute;
+            top: 20px;
+            left: 40px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .nav-link {
+            color: #4fc3f7;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: color 0.2s, text-shadow 0.2s;
+        }
+
+        .nav-link:hover {
+            color: #2196f3;
+            text-shadow: 0 0 10px rgba(79, 195, 247, 0.5);
+        }
+
+        .nav-link.current {
+            color: #66bb6a;
+            border-bottom: 2px solid #66bb6a;
+        }
+
+        .nav-separator {
+            color: rgba(79, 195, 247, 0.3);
+            user-select: none;
+        }
+
+        /* ASCII Logo */
+        .ascii-logo {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.65rem;
+            line-height: 1.1;
+            color: #4fc3f7;
+            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
+            opacity: 0.8;
+            white-space: pre;
+        }
+
+        /* Mode Toggle */
+        .mode-toggle {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 10px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .mode-btn {
+            background: rgba(79, 195, 247, 0.1);
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            color: #4fc3f7;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            font-weight: 600;
+        }
+
+        .mode-btn:hover {
+            background: rgba(79, 195, 247, 0.2);
+            border-color: #4fc3f7;
+        }
+
+        .mode-btn.active {
+            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
+            color: #fff;
+            border-color: #4fc3f7;
+        }
+
+        /* Calculator Container */
+        .calculator {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .input-field {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .input-field label {
+            display: block;
+            margin-bottom: 8px;
+            color: #90caf9;
+            font-weight: 500;
+        }
+
+        .input-field input, .input-field select, .input-field textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            color: #fff;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        .input-field textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .input-field input:focus, .input-field select:focus, .input-field textarea:focus {
+            outline: none;
+            border-color: #4fc3f7;
+            box-shadow: 0 0 15px rgba(79, 195, 247, 0.2);
+        }
+
+        .input-field input::placeholder, .input-field textarea::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .input-field textarea::placeholder {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .quick-masks {
+            margin-top: 20px;
+            margin-bottom: 25px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .quick-masks h3 {
+            color: #90caf9;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .mask-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .mask-btn {
+            background: rgba(79, 195, 247, 0.1);
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            color: #4fc3f7;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .mask-btn:hover {
+            background: rgba(79, 195, 247, 0.2);
+            border-color: #4fc3f7;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
+            color: #fff;
+            border: none;
+            padding: 14px 40px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+            display: block;
+            width: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(79, 195, 247, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .error {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid #f44336;
+            color: #ff8a80;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .error.show {
+            display: block;
+        }
+
+        /* Results Section */
+        .results {
+            display: none;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .results.show {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .results h2 {
+            color: #4fc3f7;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .result-item {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px 20px;
+            border-radius: 8px;
+            border-left: 4px solid #4fc3f7;
+        }
+
+        .result-item .label {
+            color: #90caf9;
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .result-item .value {
+            font-size: 1.2rem;
+            font-family: 'Consolas', 'Monaco', monospace;
+            color: #fff;
+        }
+
+        .binary-display {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .binary-display h3 {
+            color: #4fc3f7;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .binary-item {
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+        }
+
+        .binary-item .bin-label {
+            color: #90caf9;
+            display: inline-block;
+            width: 140px;
+        }
+
+        .binary-item .network-bits {
+            color: #4fc3f7;
+        }
+
+        .binary-item .host-bits {
+            color: #ff8a65;
+        }
+
+        /* Table Styles */
+        .data-table-container {
+            max-height: 600px;
+            overflow-y: auto;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .data-table-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .data-table-container::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+        }
+
+        .data-table-container::-webkit-scrollbar-thumb {
+            background: rgba(79, 195, 247, 0.5);
+            border-radius: 4px;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.85rem;
+        }
+
+        .data-table th {
+            background: rgba(79, 195, 247, 0.2);
+            color: #4fc3f7;
+            padding: 12px 10px;
+            text-align: left;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            font-size: 0.8rem;
+        }
+
+        .data-table td {
+            padding: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: #fff;
+        }
+
+        .data-table tr:hover {
+            background: rgba(79, 195, 247, 0.1);
+        }
+
+        .data-table tr.no-overlap {
+            background: rgba(102, 187, 106, 0.05);
+        }
+
+        .data-table tr.partial-overlap {
+            background: rgba(255, 235, 59, 0.1);
+        }
+
+        .data-table tr.full-overlap {
+            background: rgba(244, 67, 54, 0.1);
+        }
+
+        .overlap-badge {
+            display: inline-block;
+            background: #f44336;
+            color: #fff;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.7rem;
+            margin-left: 5px;
+        }
+
+        .overlap-badge.none {
+            background: #66bb6a;
+        }
+
+        .overlap-badge.partial {
+            background: #ffeb3b;
+            color: #000;
+        }
+
+        /* Export Buttons */
+        .export-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .export-btn {
+            background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+        }
+
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 187, 106, 0.4);
+        }
+
+        .export-btn.json {
+            background: linear-gradient(135deg, #42a5f5 0%, #1976d2 100%);
+        }
+
+        .export-btn.json:hover {
+            box-shadow: 0 4px 15px rgba(66, 165, 245, 0.4);
+        }
+
+        /* Summary Cards */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .summary-card {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #4fc3f7;
+            text-align: center;
+        }
+
+        .summary-card .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #4fc3f7;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        .summary-card .stat-label {
+            color: #90caf9;
+            font-size: 0.85rem;
+            margin-top: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Mode-Specific Sections */
+        .mode-section {
+            display: none;
+        }
+
+        .mode-section.active {
+            display: block;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-bar {
+                position: static;
+                justify-content: center;
+                flex-wrap: wrap;
+                margin-bottom: 20px;
+                gap: 10px;
+            }
+
+            .ascii-logo {
+                position: static;
+                text-align: center;
+                margin-bottom: 20px;
+                font-size: 0.5rem;
+            }
+
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .data-table {
+                font-size: 0.75rem;
+            }
+
+            .data-table th, .data-table td {
+                padding: 8px 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav-bar">
+        <a href="index.html" class="nav-link">Home</a>
+        <span class="nav-separator">|</span>
+        <a href="subnet-calculator.html" class="nav-link">Subnet Calc</a>
+        <span class="nav-separator">|</span>
+        <a href="cidr-converter.html" class="nav-link current">CIDR Converter</a>
+        <span class="nav-separator">|</span>
+        <a href="bit-calculator.html" class="nav-link">Bit Calc</a>
+        <span class="nav-separator">|</span>
+        <a href="data-rate-calculator.html" class="nav-link">Data Rate</a>
+        <span class="nav-separator">|</span>
+        <a href="regex-tester.html" class="nav-link">Regex</a>
+    </nav>
+
+    <div class="ascii-logo">  ___  _     _  __        __   _
+ / _ \| | __| | \ \      / /__| |__
+| | | | |/ _` |  \ \ /\ / / _ \ '_ \
+| |_| | | (_| |   \ V  V /  __/ |_) |
+ \___/|_|\__,_|    \_/\_/ \___|_.__/
+</div>
+
+    <div class="container">
+        <h1>CIDR Notation Converter</h1>
+
+        <div class="mode-toggle">
+            <button class="mode-btn active" onclick="switchMode('single')">Single CIDR</button>
+            <button class="mode-btn" onclick="switchMode('multiple')">Multiple CIDRs</button>
+            <button class="mode-btn" onclick="switchMode('reverse')">Range to CIDR</button>
+        </div>
+
+        <div class="calculator">
+            <!-- Single CIDR Mode -->
+            <div id="single-mode" class="mode-section active">
+                <div class="input-group">
+                    <div class="input-field">
+                        <label for="singleIP">IP Address</label>
+                        <input type="text" id="singleIP" placeholder="192.168.1.0">
+                    </div>
+                    <div class="input-field">
+                        <label for="singleCIDR">CIDR Prefix</label>
+                        <input type="number" id="singleCIDR" placeholder="24" min="0" max="32">
+                    </div>
+                </div>
+
+                <div class="quick-masks">
+                    <h3>Quick Select:</h3>
+                    <div class="mask-buttons">
+                        <button class="mask-btn" onclick="setQuickCIDR(8)">/8</button>
+                        <button class="mask-btn" onclick="setQuickCIDR(16)">/16</button>
+                        <button class="mask-btn" onclick="setQuickCIDR(24)">/24</button>
+                        <button class="mask-btn" onclick="setQuickCIDR(25)">/25</button>
+                        <button class="mask-btn" onclick="setQuickCIDR(26)">/26</button>
+                        <button class="mask-btn" onclick="setQuickCIDR(27)">/27</button>
+                        <button class="mask-btn" onclick="setQuickCIDR(28)">/28</button>
+                        <button class="mask-btn" onclick="setQuickCIDR(29)">/29</button>
+                        <button class="mask-btn" onclick="setQuickCIDR(30)">/30</button>
+                        <button class="mask-btn" onclick="setQuickCIDR(31)">/31</button>
+                        <button class="mask-btn" onclick="setQuickCIDR(32)">/32</button>
+                    </div>
+                </div>
+
+                <button class="btn" onclick="calculateSingle()">Convert CIDR</button>
+            </div>
+
+            <!-- Multiple CIDR Mode -->
+            <div id="multiple-mode" class="mode-section">
+                <div class="input-field">
+                    <label for="multipleInput">Enter CIDRs (one per line)</label>
+                    <textarea id="multipleInput" placeholder="192.168.1.0/24
+10.0.0.0/8
+172.16.0.0/12
+192.168.1.0 255.255.255.0
+permit ip 192.168.100.0 0.0.0.255"></textarea>
+                </div>
+
+                <button class="btn" onclick="calculateMultiple()">Analyze CIDRs & Detect Overlaps</button>
+            </div>
+
+            <!-- Reverse Mode -->
+            <div id="reverse-mode" class="mode-section">
+                <div class="input-group">
+                    <div class="input-field">
+                        <label for="reverseStart">Start IP Address</label>
+                        <input type="text" id="reverseStart" placeholder="192.168.1.0">
+                    </div>
+                    <div class="input-field">
+                        <label for="reverseEnd">End IP Address</label>
+                        <input type="text" id="reverseEnd" placeholder="192.168.1.255">
+                    </div>
+                </div>
+
+                <button class="btn" onclick="calculateReverse()">Convert to CIDR</button>
+            </div>
+
+            <div class="error" id="error"></div>
+        </div>
+
+        <div class="results" id="results"></div>
+
+        <footer>
+            CIDR Converter - Works offline, no installation required
+        </footer>
+    </div>
+
+    <script>
+        let currentMode = 'single';
+
+        // Utility Functions (from subnet-calculator.html)
+        function isValidIP(ip) {
+            const parts = ip.split('.');
+            if (parts.length !== 4) return false;
+            return parts.every(part => {
+                const num = parseInt(part, 10);
+                return !isNaN(num) && num >= 0 && num <= 255 && part === num.toString();
+            });
+        }
+
+        function ipToInt(ip) {
+            const parts = ip.split('.').map(Number);
+            return ((parts[0] << 24) | (parts[1] << 16) | (parts[2] << 8) | parts[3]) >>> 0;
+        }
+
+        function intToIP(int) {
+            return [
+                (int >>> 24) & 255,
+                (int >>> 16) & 255,
+                (int >>> 8) & 255,
+                int & 255
+            ].join('.');
+        }
+
+        function cidrToMask(cidr) {
+            return cidr === 0 ? 0 : (0xFFFFFFFF << (32 - cidr)) >>> 0;
+        }
+
+        function intToBinary(int) {
+            return [
+                ((int >>> 24) & 255).toString(2).padStart(8, '0'),
+                ((int >>> 16) & 255).toString(2).padStart(8, '0'),
+                ((int >>> 8) & 255).toString(2).padStart(8, '0'),
+                (int & 255).toString(2).padStart(8, '0')
+            ].join('.');
+        }
+
+        function formatBinaryWithColors(binary, cidr) {
+            const bits = binary.replace(/\./g, '');
+            let result = '';
+            let fullBits = bits;
+            for (let i = 0; i < 32; i++) {
+                if (i > 0 && i % 8 === 0) result += '.';
+                if (i < cidr) {
+                    result += `<span class="network-bits">${fullBits[i]}</span>`;
+                } else {
+                    result += `<span class="host-bits">${fullBits[i]}</span>`;
+                }
+            }
+            return result;
+        }
+
+        // Mode Switching
+        function switchMode(mode) {
+            currentMode = mode;
+            document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.mode-section').forEach(section => section.classList.remove('active'));
+
+            event.target.classList.add('active');
+            document.getElementById(`${mode}-mode`).classList.add('active');
+
+            document.getElementById('results').classList.remove('show');
+            document.getElementById('error').classList.remove('show');
+        }
+
+        function setQuickCIDR(cidr) {
+            document.getElementById('singleCIDR').value = cidr;
+        }
+
+        // Parsing Functions
+        function parseCIDR(input) {
+            input = input.trim();
+            const match = input.match(/^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\s*\/\s*(\d+)$/);
+            if (match) {
+                return { ip: match[1], cidr: parseInt(match[2], 10) };
+            }
+            return null;
+        }
+
+        function parseSubnetMask(line) {
+            line = line.trim();
+            const match = line.match(/^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\s+(?:mask\s+)?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})$/);
+            if (match) {
+                const ip = match[1];
+                const mask = match[2];
+                if (isValidIP(ip) && isValidIP(mask)) {
+                    const maskInt = ipToInt(mask);
+                    const cidr = 32 - Math.log2((~maskInt >>> 0) + 1);
+                    if (Number.isInteger(cidr) && cidr >= 0 && cidr <= 32) {
+                        return { ip, cidr };
+                    }
+                }
+            }
+            return null;
+        }
+
+        function parseWildcard(line) {
+            line = line.trim();
+            const aclMatch = line.match(/(?:permit|deny)\s+ip\s+(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\s+(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/);
+            if (aclMatch) {
+                const ip = aclMatch[1];
+                const wildcard = aclMatch[2];
+                if (isValidIP(ip) && isValidIP(wildcard)) {
+                    const wildcardInt = ipToInt(wildcard);
+                    const maskInt = (~wildcardInt) >>> 0;
+                    const cidr = 32 - Math.log2(wildcardInt + 1);
+                    if (Number.isInteger(cidr) && cidr >= 0 && cidr <= 32) {
+                        return { ip, cidr };
+                    }
+                }
+            }
+
+            const simpleMatch = line.match(/^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\s+(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})$/);
+            if (simpleMatch) {
+                const ip = simpleMatch[1];
+                const wildcard = simpleMatch[2];
+                if (isValidIP(ip) && isValidIP(wildcard)) {
+                    const wildcardInt = ipToInt(wildcard);
+                    if ((wildcardInt & (wildcardInt + 1)) === 0) {
+                        const maskInt = (~wildcardInt) >>> 0;
+                        const cidr = 32 - Math.log2(wildcardInt + 1);
+                        if (Number.isInteger(cidr) && cidr >= 0 && cidr <= 32) {
+                            return { ip, cidr };
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+
+        function parseLine(line) {
+            line = line.split('#')[0].trim();
+            if (!line) return null;
+
+            let result = parseCIDR(line);
+            if (result) return result;
+
+            result = parseWildcard(line);
+            if (result) return result;
+
+            result = parseSubnetMask(line);
+            if (result) return result;
+
+            return null;
+        }
+
+        function getCIDRRange(ip, cidr) {
+            const ipInt = ipToInt(ip);
+            const maskInt = cidrToMask(cidr);
+            const wildcardInt = (~maskInt) >>> 0;
+            const networkInt = (ipInt & maskInt) >>> 0;
+            const broadcastInt = (networkInt | wildcardInt) >>> 0;
+
+            const totalIPs = Math.pow(2, 32 - cidr);
+            let usableHosts = totalIPs - 2;
+            if (cidr === 31) usableHosts = 2;
+            if (cidr === 32) usableHosts = 1;
+
+            const firstHostInt = cidr >= 31 ? networkInt : networkInt + 1;
+            const lastHostInt = cidr >= 31 ? broadcastInt : broadcastInt - 1;
+
+            return {
+                network: networkInt,
+                broadcast: broadcastInt,
+                first: firstHostInt,
+                last: lastHostInt,
+                totalIPs,
+                usableHosts,
+                subnetMask: intToIP(maskInt),
+                wildcardMask: intToIP(wildcardInt),
+                cidr
+            };
+        }
+
+        // Single CIDR Mode
+        function calculateSingle() {
+            const ipInput = document.getElementById('singleIP').value.trim();
+            const cidrInput = document.getElementById('singleCIDR').value.trim();
+            const errorDiv = document.getElementById('error');
+            const resultsDiv = document.getElementById('results');
+
+            errorDiv.classList.remove('show');
+            resultsDiv.classList.remove('show');
+
+            if (!ipInput || !cidrInput) {
+                errorDiv.textContent = 'Please enter both IP address and CIDR prefix';
+                errorDiv.classList.add('show');
+                return;
+            }
+
+            if (!isValidIP(ipInput)) {
+                errorDiv.textContent = 'Please enter a valid IPv4 address';
+                errorDiv.classList.add('show');
+                return;
+            }
+
+            const cidr = parseInt(cidrInput, 10);
+            if (isNaN(cidr) || cidr < 0 || cidr > 32) {
+                errorDiv.textContent = 'CIDR prefix must be between 0 and 32';
+                errorDiv.classList.add('show');
+                return;
+            }
+
+            const range = getCIDRRange(ipInput, cidr);
+            const ipInt = ipToInt(ipInput);
+
+            if (ipInt !== range.network) {
+                errorDiv.innerHTML = `<strong>Note:</strong> ${ipInput} is not a network address. Using ${intToIP(range.network)}/${cidr} instead.`;
+                errorDiv.classList.add('show');
+            }
+
+            resultsDiv.innerHTML = `
+                <h2>Network Details</h2>
+                <div class="export-section">
+                    <button class="export-btn" onclick="exportSingleCSV()">Export CSV</button>
+                    <button class="export-btn json" onclick="exportSingleJSON()">Export JSON</button>
+                </div>
+                <div class="results-grid">
+                    <div class="result-item">
+                        <div class="label">CIDR Notation</div>
+                        <div class="value">${intToIP(range.network)}/${cidr}</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="label">Network Address</div>
+                        <div class="value">${intToIP(range.network)}</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="label">Broadcast Address</div>
+                        <div class="value">${cidr === 32 ? 'N/A' : intToIP(range.broadcast)}</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="label">IP Range</div>
+                        <div class="value">${intToIP(range.network)} - ${intToIP(range.broadcast)}</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="label">First Usable Host</div>
+                        <div class="value">${intToIP(range.first)}</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="label">Last Usable Host</div>
+                        <div class="value">${cidr === 32 ? intToIP(range.first) : intToIP(range.last)}</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="label">Total IPs</div>
+                        <div class="value">${range.totalIPs.toLocaleString()}</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="label">Usable Hosts</div>
+                        <div class="value">${range.usableHosts.toLocaleString()}</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="label">Subnet Mask</div>
+                        <div class="value">${range.subnetMask}</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="label">Wildcard Mask</div>
+                        <div class="value">${range.wildcardMask}</div>
+                    </div>
+                </div>
+
+                <div class="binary-display">
+                    <h3>Binary Representation</h3>
+                    <div class="binary-item">
+                        <span class="bin-label">Network Address:</span>
+                        <span>${formatBinaryWithColors(intToBinary(range.network), cidr)}</span>
+                    </div>
+                    <div class="binary-item">
+                        <span class="bin-label">Subnet Mask:</span>
+                        <span>${intToBinary(ipToInt(range.subnetMask))}</span>
+                    </div>
+                    <div class="binary-item">
+                        <span class="bin-label">Broadcast:</span>
+                        <span>${formatBinaryWithColors(intToBinary(range.broadcast), cidr)}</span>
+                    </div>
+                </div>
+            `;
+
+            resultsDiv.classList.add('show');
+        }
+
+        // Multiple CIDR Mode
+        function calculateMultiple() {
+            const input = document.getElementById('multipleInput').value;
+            const errorDiv = document.getElementById('error');
+            const resultsDiv = document.getElementById('results');
+
+            errorDiv.classList.remove('show');
+            resultsDiv.classList.remove('show');
+
+            const lines = input.split('\n');
+            const networks = [];
+            const errors = [];
+
+            lines.forEach((line, index) => {
+                const parsed = parseLine(line);
+                if (parsed) {
+                    if (!isValidIP(parsed.ip)) {
+                        errors.push(`Line ${index + 1}: Invalid IP address`);
+                        return;
+                    }
+                    if (parsed.cidr < 0 || parsed.cidr > 32) {
+                        errors.push(`Line ${index + 1}: Invalid CIDR prefix`);
+                        return;
+                    }
+                    const range = getCIDRRange(parsed.ip, parsed.cidr);
+                    networks.push({ ...parsed, range, lineNumber: index + 1 });
+                } else if (line.trim()) {
+                    errors.push(`Line ${index + 1}: Unable to parse`);
+                }
+            });
+
+            if (networks.length === 0) {
+                errorDiv.textContent = errors.length > 0 ? errors.join('\n') : 'No valid CIDR notations found';
+                errorDiv.classList.add('show');
+                return;
+            }
+
+            if (errors.length > 0) {
+                errorDiv.innerHTML = `<strong>Warnings:</strong><br>${errors.join('<br>')}`;
+                errorDiv.classList.add('show');
+            }
+
+            const overlaps = detectOverlaps(networks);
+            displayMultipleResults(networks, overlaps);
+        }
+
+        function detectOverlaps(networks) {
+            const overlaps = [];
+            for (let i = 0; i < networks.length; i++) {
+                for (let j = i + 1; j < networks.length; j++) {
+                    const a = networks[i].range;
+                    const b = networks[j].range;
+
+                    if (a.network <= b.broadcast && b.network <= a.broadcast) {
+                        let type = 'partial';
+                        if (a.network === b.network && a.broadcast === b.broadcast) {
+                            type = 'identical';
+                        } else if ((a.network >= b.network && a.broadcast <= b.broadcast) ||
+                                   (b.network >= a.network && b.broadcast <= a.broadcast)) {
+                            type = 'contained';
+                        }
+
+                        overlaps.push({
+                            index1: i,
+                            index2: j,
+                            type
+                        });
+                    }
+                }
+            }
+            return overlaps;
+        }
+
+        function displayMultipleResults(networks, overlaps) {
+            const resultsDiv = document.getElementById('results');
+
+            const totalIPs = networks.reduce((sum, net) => sum + net.range.totalIPs, 0);
+            const networksWithOverlaps = new Set();
+            overlaps.forEach(o => {
+                networksWithOverlaps.add(o.index1);
+                networksWithOverlaps.add(o.index2);
+            });
+
+            let html = `
+                <h2>Analysis Summary</h2>
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <div class="stat-value">${networks.length}</div>
+                        <div class="stat-label">Networks Analyzed</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="stat-value">${totalIPs.toLocaleString()}</div>
+                        <div class="stat-label">Total IP Addresses</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="stat-value">${overlaps.length}</div>
+                        <div class="stat-label">Overlap Pairs Found</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="stat-value">${networksWithOverlaps.size}</div>
+                        <div class="stat-label">Networks with Overlaps</div>
+                    </div>
+                </div>
+
+                <h2>Network Details</h2>
+                <div class="data-table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>CIDR</th>
+                                <th>Network</th>
+                                <th>First IP</th>
+                                <th>Last IP</th>
+                                <th>Broadcast</th>
+                                <th>Total IPs</th>
+                                <th>Usable</th>
+                                <th>Overlaps</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+
+            networks.forEach((net, i) => {
+                const netOverlaps = overlaps.filter(o => o.index1 === i || o.index2 === i);
+                const overlapCount = netOverlaps.length;
+                let rowClass = 'no-overlap';
+                let badgeClass = 'none';
+
+                if (overlapCount > 0) {
+                    const hasIdentical = netOverlaps.some(o => o.type === 'identical');
+                    const hasContained = netOverlaps.some(o => o.type === 'contained');
+                    if (hasIdentical || hasContained) {
+                        rowClass = 'full-overlap';
+                        badgeClass = 'full';
+                    } else {
+                        rowClass = 'partial-overlap';
+                        badgeClass = 'partial';
+                    }
+                }
+
+                const overlapWith = netOverlaps.map(o => {
+                    const otherIndex = o.index1 === i ? o.index2 : o.index1;
+                    return `${intToIP(networks[otherIndex].range.network)}/${networks[otherIndex].cidr}`;
+                }).join(', ');
+
+                html += `
+                    <tr class="${rowClass}">
+                        <td>${i + 1}</td>
+                        <td>${intToIP(net.range.network)}/${net.cidr}</td>
+                        <td>${intToIP(net.range.network)}</td>
+                        <td>${intToIP(net.range.first)}</td>
+                        <td>${intToIP(net.range.last)}</td>
+                        <td>${net.cidr === 32 ? 'N/A' : intToIP(net.range.broadcast)}</td>
+                        <td>${net.range.totalIPs.toLocaleString()}</td>
+                        <td>${net.range.usableHosts.toLocaleString()}</td>
+                        <td>
+                            ${overlapCount > 0 ?
+                                `<span class="overlap-badge ${badgeClass}">${overlapCount}</span> ${overlapWith}` :
+                                '<span class="overlap-badge none">None</span>'}
+                        </td>
+                    </tr>
+                `;
+            });
+
+            html += `
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="export-section">
+                    <button class="export-btn" onclick="exportMultipleCSV()">Export CSV</button>
+                    <button class="export-btn json" onclick="exportMultipleJSON()">Export JSON</button>
+                </div>
+            `;
+
+            resultsDiv.innerHTML = html;
+            resultsDiv.classList.add('show');
+        }
+
+        // Reverse Conversion (IP Range to CIDR)
+        function calculateReverse() {
+            const startIP = document.getElementById('reverseStart').value.trim();
+            const endIP = document.getElementById('reverseEnd').value.trim();
+            const errorDiv = document.getElementById('error');
+            const resultsDiv = document.getElementById('results');
+
+            errorDiv.classList.remove('show');
+            resultsDiv.classList.remove('show');
+
+            if (!startIP || !endIP) {
+                errorDiv.textContent = 'Please enter both start and end IP addresses';
+                errorDiv.classList.add('show');
+                return;
+            }
+
+            if (!isValidIP(startIP) || !isValidIP(endIP)) {
+                errorDiv.textContent = 'Please enter valid IPv4 addresses';
+                errorDiv.classList.add('show');
+                return;
+            }
+
+            const startInt = ipToInt(startIP);
+            const endInt = ipToInt(endIP);
+
+            if (startInt > endInt) {
+                errorDiv.textContent = 'Start IP must be less than or equal to End IP';
+                errorDiv.classList.add('show');
+                return;
+            }
+
+            const totalIPs = endInt - startInt + 1;
+            const isPowerOf2 = (totalIPs & (totalIPs - 1)) === 0;
+
+            if (isPowerOf2) {
+                const cidr = 32 - Math.log2(totalIPs);
+                const expectedNetwork = startInt;
+                const maskInt = cidrToMask(cidr);
+                const actualNetwork = (startInt & maskInt) >>> 0;
+
+                if (actualNetwork === expectedNetwork) {
+                    const range = getCIDRRange(startIP, cidr);
+                    resultsDiv.innerHTML = `
+                        <h2>Exact CIDR Match Found</h2>
+                        <div class="summary-grid">
+                            <div class="summary-card">
+                                <div class="stat-value">${intToIP(range.network)}/${cidr}</div>
+                                <div class="stat-label">CIDR Notation</div>
+                            </div>
+                        </div>
+
+                        <div class="results-grid">
+                            <div class="result-item">
+                                <div class="label">Network Address</div>
+                                <div class="value">${intToIP(range.network)}</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="label">Broadcast Address</div>
+                                <div class="value">${intToIP(range.broadcast)}</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="label">Total IPs</div>
+                                <div class="value">${range.totalIPs.toLocaleString()}</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="label">Usable Hosts</div>
+                                <div class="value">${range.usableHosts.toLocaleString()}</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="label">Subnet Mask</div>
+                                <div class="value">${range.subnetMask}</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="label">Wildcard Mask</div>
+                                <div class="value">${range.wildcardMask}</div>
+                            </div>
+                        </div>
+
+                        <div class="export-section">
+                            <button class="export-btn" onclick="exportReverseCSV()">Export CSV</button>
+                            <button class="export-btn json" onclick="exportReverseJSON()">Export JSON</button>
+                        </div>
+                    `;
+                    resultsDiv.classList.add('show');
+                    return;
+                }
+            }
+
+            const blocks = rangeToCIDRBlocks(startInt, endInt);
+
+            resultsDiv.innerHTML = `
+                <h2>Multiple CIDR Blocks Required</h2>
+                <p style="color: #90caf9; margin-bottom: 20px;">The IP range cannot be represented as a single CIDR block. Here are the ${blocks.length} CIDR blocks needed:</p>
+
+                <div class="data-table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>CIDR Notation</th>
+                                <th>Network</th>
+                                <th>Broadcast</th>
+                                <th>Total IPs</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${blocks.map((block, i) => `
+                                <tr>
+                                    <td>${i + 1}</td>
+                                    <td>${intToIP(block.network)}/${block.cidr}</td>
+                                    <td>${intToIP(block.network)}</td>
+                                    <td>${intToIP(block.broadcast)}</td>
+                                    <td>${block.totalIPs.toLocaleString()}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="export-section">
+                    <button class="export-btn" onclick="exportReverseCSV()">Export CSV</button>
+                    <button class="export-btn json" onclick="exportReverseJSON()">Export JSON</button>
+                </div>
+            `;
+            resultsDiv.classList.add('show');
+        }
+
+        function rangeToCIDRBlocks(startInt, endInt) {
+            const blocks = [];
+            let current = startInt;
+
+            while (current <= endInt) {
+                let maxSize = 32;
+                for (let i = 0; i < 32; i++) {
+                    if ((current & (1 << i)) !== 0) {
+                        maxSize = i;
+                        break;
+                    }
+                }
+
+                let maxCIDR = 32 - maxSize;
+                let blockSize = 1 << maxSize;
+
+                while (blockSize > 0 && current + blockSize - 1 > endInt) {
+                    blockSize >>= 1;
+                    maxCIDR++;
+                }
+
+                const cidr = maxCIDR;
+                const range = getCIDRRange(intToIP(current), cidr);
+                blocks.push(range);
+
+                current += blockSize;
+            }
+
+            return blocks;
+        }
+
+        // Export Functions
+        function downloadFile(filename, content, type) {
+            const blob = new Blob([content], { type: `${type};charset=utf-8;` });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', filename);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function exportSingleCSV() {
+            const resultsDiv = document.getElementById('results');
+            const values = resultsDiv.querySelectorAll('.result-item .value');
+            const labels = resultsDiv.querySelectorAll('.result-item .label');
+
+            const rows = [['Field', 'Value']];
+            labels.forEach((label, i) => {
+                rows.push([label.textContent, values[i].textContent]);
+            });
+
+            const csv = rows.map(row => row.join(',')).join('\n');
+            const date = new Date().toISOString().split('T')[0];
+            downloadFile(`cidr-single-${date}.csv`, csv, 'text/csv');
+        }
+
+        function exportSingleJSON() {
+            const resultsDiv = document.getElementById('results');
+            const values = resultsDiv.querySelectorAll('.result-item .value');
+            const labels = resultsDiv.querySelectorAll('.result-item .label');
+
+            const data = {};
+            labels.forEach((label, i) => {
+                const key = label.textContent.replace(/\s+/g, '');
+                data[key] = values[i].textContent;
+            });
+
+            const json = JSON.stringify({ exportDate: new Date().toISOString(), network: data }, null, 2);
+            const date = new Date().toISOString().split('T')[0];
+            downloadFile(`cidr-single-${date}.json`, json, 'application/json');
+        }
+
+        function exportMultipleCSV() {
+            const table = document.querySelector('.data-table');
+            const headers = Array.from(table.querySelectorAll('th')).map(th => th.textContent);
+            const rows = [headers];
+
+            table.querySelectorAll('tbody tr').forEach(tr => {
+                const cells = Array.from(tr.querySelectorAll('td')).map(td => {
+                    let text = td.textContent.trim();
+                    text = text.replace(/[\r\n]+/g, ' ').replace(/\s+/g, ' ');
+                    if (text.includes(',')) {
+                        text = `"${text.replace(/"/g, '""')}"`;
+                    }
+                    return text;
+                });
+                rows.push(cells);
+            });
+
+            const csv = rows.map(row => row.join(',')).join('\n');
+            const date = new Date().toISOString().split('T')[0];
+            downloadFile(`cidr-analysis-${date}.csv`, csv, 'text/csv');
+        }
+
+        function exportMultipleJSON() {
+            const table = document.querySelector('.data-table');
+            const networks = [];
+
+            table.querySelectorAll('tbody tr').forEach(tr => {
+                const cells = tr.querySelectorAll('td');
+                networks.push({
+                    number: cells[0].textContent.trim(),
+                    cidr: cells[1].textContent.trim(),
+                    network: cells[2].textContent.trim(),
+                    firstIP: cells[3].textContent.trim(),
+                    lastIP: cells[4].textContent.trim(),
+                    broadcast: cells[5].textContent.trim(),
+                    totalIPs: cells[6].textContent.trim(),
+                    usableHosts: cells[7].textContent.trim(),
+                    overlaps: cells[8].textContent.trim()
+                });
+            });
+
+            const json = JSON.stringify({
+                exportDate: new Date().toISOString(),
+                totalNetworks: networks.length,
+                networks
+            }, null, 2);
+
+            const date = new Date().toISOString().split('T')[0];
+            downloadFile(`cidr-analysis-${date}.json`, json, 'application/json');
+        }
+
+        function exportReverseCSV() {
+            const table = document.querySelector('.data-table');
+            if (table) {
+                const headers = Array.from(table.querySelectorAll('th')).map(th => th.textContent);
+                const rows = [headers];
+
+                table.querySelectorAll('tbody tr').forEach(tr => {
+                    const cells = Array.from(tr.querySelectorAll('td')).map(td => td.textContent.trim());
+                    rows.push(cells);
+                });
+
+                const csv = rows.map(row => row.join(',')).join('\n');
+                const date = new Date().toISOString().split('T')[0];
+                downloadFile(`range-to-cidr-${date}.csv`, csv, 'text/csv');
+            } else {
+                exportSingleCSV();
+            }
+        }
+
+        function exportReverseJSON() {
+            const table = document.querySelector('.data-table');
+            if (table) {
+                const blocks = [];
+                table.querySelectorAll('tbody tr').forEach(tr => {
+                    const cells = tr.querySelectorAll('td');
+                    blocks.push({
+                        number: cells[0].textContent.trim(),
+                        cidr: cells[1].textContent.trim(),
+                        network: cells[2].textContent.trim(),
+                        broadcast: cells[3].textContent.trim(),
+                        totalIPs: cells[4].textContent.trim()
+                    });
+                });
+
+                const json = JSON.stringify({
+                    exportDate: new Date().toISOString(),
+                    totalBlocks: blocks.length,
+                    blocks
+                }, null, 2);
+
+                const date = new Date().toISOString().split('T')[0];
+                downloadFile(`range-to-cidr-${date}.json`, json, 'application/json');
+            } else {
+                exportSingleJSON();
+            }
+        }
+
+        // Keyboard Shortcuts
+        document.getElementById('singleIP').addEventListener('keypress', e => {
+            if (e.key === 'Enter') calculateSingle();
+        });
+
+        document.getElementById('singleCIDR').addEventListener('keypress', e => {
+            if (e.key === 'Enter') calculateSingle();
+        });
+
+        document.getElementById('reverseStart').addEventListener('keypress', e => {
+            if (e.key === 'Enter') calculateReverse();
+        });
+
+        document.getElementById('reverseEnd').addEventListener('keypress', e => {
+            if (e.key === 'Enter') calculateReverse();
+        });
+    </script>
+</body>
+</html>
