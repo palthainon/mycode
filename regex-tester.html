@@ -65,9 +65,10 @@
             font-weight: 500;
         }
 
-        textarea {
+        .test-input {
             width: 100%;
             min-height: 200px;
+            max-height: 400px;
             padding: 12px 16px;
             border: 2px solid rgba(255, 255, 255, 0.1);
             border-radius: 8px;
@@ -75,19 +76,63 @@
             color: #fff;
             font-size: 0.95rem;
             font-family: 'Consolas', 'Monaco', monospace;
-            resize: vertical;
             transition: border-color 0.3s, box-shadow 0.3s;
             line-height: 1.6;
+            overflow-y: auto;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            cursor: text;
         }
 
-        textarea:focus, input:focus {
+        .test-input:focus {
             outline: none;
             border-color: #4fc3f7;
             box-shadow: 0 0 15px rgba(79, 195, 247, 0.2);
         }
 
-        textarea::placeholder {
+        .test-input:empty::before {
+            content: attr(data-placeholder);
             color: rgba(255, 255, 255, 0.4);
+            pointer-events: none;
+        }
+
+        .test-input mark {
+            background: rgba(102, 187, 106, 0.3);
+            color: #fff;
+            padding: 2px 0;
+            border-left: 3px solid #66bb6a;
+            padding-left: 4px;
+            border-radius: 2px;
+        }
+
+        .test-input mark:hover {
+            background: rgba(102, 187, 106, 0.4);
+        }
+
+        .char-counter {
+            text-align: right;
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 4px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            transition: color 0.2s;
+        }
+
+        .char-counter.warning {
+            color: #ff8a65;
+        }
+
+        .match-badge {
+            display: inline-block;
+            background: #4fc3f7;
+            color: #fff;
+            font-size: 0.65rem;
+            padding: 2px 6px;
+            border-radius: 10px;
+            margin-left: 4px;
+            font-weight: 600;
+            vertical-align: super;
         }
 
         input[type="text"] {
@@ -102,6 +147,12 @@
             transition: border-color 0.3s, box-shadow 0.3s;
         }
 
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #4fc3f7;
+            box-shadow: 0 0 15px rgba(79, 195, 247, 0.2);
+        }
+
         input[type="text"]::placeholder {
             color: rgba(255, 255, 255, 0.4);
         }
@@ -114,7 +165,6 @@
             display: flex;
             gap: 20px;
             flex-wrap: wrap;
-            margin-bottom: 20px;
         }
 
         .flag-item {
@@ -173,6 +223,70 @@
             transform: translateY(-1px);
         }
 
+        .match-summary-bar {
+            display: none;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #66bb6a;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .match-summary-bar.show {
+            display: flex;
+        }
+
+        .match-summary-bar.no-matches {
+            border-left-color: #ff8a65;
+        }
+
+        .match-info {
+            flex: 1;
+        }
+
+        .match-count {
+            font-size: 1.1rem;
+            color: #66bb6a;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .match-count.no-matches {
+            color: #ff8a65;
+        }
+
+        .match-pattern {
+            color: #90caf9;
+            font-size: 0.85rem;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        .export-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .export-btn {
+            background: linear-gradient(135deg, #66bb6a 0%, #4caf50 100%);
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            font-size: 0.85rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+        }
+
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 187, 106, 0.4);
+        }
+
         .btn {
             background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
             color: #fff;
@@ -213,250 +327,6 @@
 
         .error.show {
             display: block;
-        }
-
-        .results {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 30px;
-            display: none;
-        }
-
-        .results.show {
-            display: block;
-            animation: fadeIn 0.3s;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .results-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .results-header h2 {
-            color: #4fc3f7;
-            font-size: 1.8rem;
-        }
-
-        .export-buttons {
-            display: flex;
-            gap: 10px;
-        }
-
-        .export-btn {
-            background: linear-gradient(135deg, #66bb6a 0%, #4caf50 100%);
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            font-size: 0.9rem;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            font-weight: 600;
-        }
-
-        .export-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 187, 106, 0.4);
-        }
-
-        .match-summary {
-            background: rgba(0, 0, 0, 0.2);
-            padding: 15px 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            border-left: 4px solid #66bb6a;
-        }
-
-        .match-summary .count {
-            font-size: 1.3rem;
-            color: #66bb6a;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-        .match-summary .count.no-matches {
-            color: #ff8a65;
-        }
-
-        .match-summary .info {
-            color: #90caf9;
-            font-size: 0.9rem;
-            margin-top: 5px;
-            font-family: 'Consolas', 'Monaco', monospace;
-        }
-
-        .view-toggle {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            justify-content: center;
-        }
-
-        .view-btn {
-            padding: 10px 24px;
-            background: rgba(79, 195, 247, 0.1);
-            border: 2px solid rgba(79, 195, 247, 0.3);
-            border-radius: 8px;
-            color: #4fc3f7;
-            font-size: 0.95rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-weight: 600;
-        }
-
-        .view-btn:hover {
-            background: rgba(79, 195, 247, 0.2);
-        }
-
-        .view-btn.active {
-            background: rgba(79, 195, 247, 0.3);
-            border-color: #4fc3f7;
-        }
-
-        .highlighted-view {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 20px;
-            border-radius: 8px;
-            max-height: 500px;
-            overflow-y: auto;
-            font-family: 'Consolas', 'Monaco', monospace;
-            font-size: 0.9rem;
-            line-height: 1.8;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-        }
-
-        .highlighted-view mark {
-            background: rgba(102, 187, 106, 0.3);
-            color: #fff;
-            padding: 2px 0;
-            border-left: 3px solid #66bb6a;
-            padding-left: 4px;
-            position: relative;
-        }
-
-        .highlighted-view mark:hover {
-            background: rgba(102, 187, 106, 0.4);
-        }
-
-        .match-badge {
-            display: inline-block;
-            background: #4fc3f7;
-            color: #fff;
-            font-size: 0.65rem;
-            padding: 2px 6px;
-            border-radius: 10px;
-            margin-left: 4px;
-            font-weight: 600;
-            vertical-align: super;
-        }
-
-        .list-view {
-            display: none;
-        }
-
-        .list-view.active {
-            display: block;
-        }
-
-        .match-item {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 15px 20px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            border-left: 4px solid #66bb6a;
-        }
-
-        .match-item-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .match-number {
-            background: #4fc3f7;
-            color: #fff;
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-
-        .copy-btn {
-            background: rgba(79, 195, 247, 0.2);
-            border: 1px solid rgba(79, 195, 247, 0.3);
-            color: #4fc3f7;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .copy-btn:hover {
-            background: rgba(79, 195, 247, 0.3);
-            border-color: rgba(79, 195, 247, 0.5);
-        }
-
-        .copy-btn.copied {
-            background: rgba(102, 187, 106, 0.3);
-            border-color: #66bb6a;
-            color: #66bb6a;
-        }
-
-        .match-text {
-            font-family: 'Consolas', 'Monaco', monospace;
-            font-size: 1rem;
-            color: #fff;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 10px;
-            border-radius: 6px;
-            margin-bottom: 10px;
-            word-wrap: break-word;
-        }
-
-        .match-position {
-            color: #90caf9;
-            font-size: 0.85rem;
-            margin-bottom: 8px;
-        }
-
-        .captured-groups {
-            margin-top: 10px;
-        }
-
-        .captured-groups .label {
-            color: #90caf9;
-            font-size: 0.85rem;
-            margin-bottom: 5px;
-        }
-
-        .group-item {
-            background: rgba(79, 195, 247, 0.1);
-            padding: 6px 10px;
-            border-radius: 4px;
-            margin-bottom: 5px;
-            font-family: 'Consolas', 'Monaco', monospace;
-            font-size: 0.85rem;
-        }
-
-        .group-item .group-label {
-            color: #4fc3f7;
-            font-weight: 600;
-            margin-right: 8px;
         }
 
         footer {
@@ -527,7 +397,7 @@
                 grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
             }
 
-            .results-header {
+            .match-summary-bar {
                 flex-direction: column;
                 align-items: flex-start;
             }
@@ -566,11 +436,6 @@
 
         <div class="calculator">
             <div class="input-group">
-                <label for="testString">Test String</label>
-                <textarea id="testString" placeholder="Enter text to test against your regex pattern..."></textarea>
-            </div>
-
-            <div class="input-group">
                 <label for="pattern">Regular Expression Pattern</label>
                 <input type="text" id="pattern" placeholder="Enter regex pattern or select from presets...">
             </div>
@@ -604,9 +469,11 @@
                     <button class="preset-btn" data-pattern="([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}" data-flags="g">MAC (colon)</button>
                     <button class="preset-btn" data-pattern="([0-9A-Fa-f]{2}-){5}[0-9A-Fa-f]{2}" data-flags="g">MAC (dash)</button>
                     <button class="preset-btn" data-pattern="([0-9A-Fa-f]{4}\.){2}[0-9A-Fa-f]{4}" data-flags="g">MAC (dot)</button>
+                    <button class="preset-btn" data-pattern="([0-9A-Fa-f]{4}:){2}[0-9A-Fa-f]{4}" data-flags="g">MAC (4-digit)</button>
                     <button class="preset-btn" data-pattern="([0-9A-Fa-f]{2}[:-]){5}[0-9A-Fa-f]{2}|([0-9A-Fa-f]{4}\.){2}[0-9A-Fa-f]{4}" data-flags="g">MAC (any)</button>
                     <button class="preset-btn" data-pattern="\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b" data-flags="g">IPv4</button>
                     <button class="preset-btn" data-pattern="\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\/(?:[0-9]|[12][0-9]|3[0-2])\b" data-flags="g">IPv4 CIDR</button>
+                    <button class="preset-btn" data-pattern="\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\s+(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b" data-flags="g">IP + Mask</button>
                     <button class="preset-btn" data-pattern="\bvlan\s*(\d{1,4})\b" data-flags="gi">VLAN ID</button>
                     <button class="preset-btn" data-pattern="\b(?:Ethernet|FastEthernet|GigabitEthernet|eth|ge|fe)\s*[\d/]+" data-flags="gi">Interface</button>
                     <button class="preset-btn" data-pattern="\s+" data-flags="g">All Spaces</button>
@@ -614,30 +481,27 @@
                 </div>
             </div>
 
-            <div class="error" id="errorMsg"></div>
-
-            <button class="btn" onclick="testPattern()">Test Pattern</button>
-            <button class="btn secondary" onclick="loadSample()">Load Sample Data</button>
-        </div>
-
-        <div class="results" id="results">
-            <div class="results-header">
-                <h2>Matches</h2>
+            <div class="match-summary-bar" id="matchSummary">
+                <div class="match-info">
+                    <div class="match-count" id="matchCount">Found 0 matches</div>
+                    <div class="match-pattern" id="matchPattern"></div>
+                </div>
                 <div class="export-buttons">
                     <button class="export-btn" onclick="exportCSV()">Export CSV</button>
                     <button class="export-btn" onclick="exportTXT()">Export TXT</button>
                 </div>
             </div>
 
-            <div class="match-summary" id="matchSummary"></div>
-
-            <div class="view-toggle">
-                <button class="view-btn active" onclick="switchView('highlighted')">Highlighted View</button>
-                <button class="view-btn" onclick="switchView('list')">List View</button>
+            <div class="input-group">
+                <label for="testString">Test String</label>
+                <div id="testString" contenteditable="true" class="test-input" data-placeholder="Enter text to test against your regex pattern..."></div>
+                <div class="char-counter" id="charCounter">0 / 100,000 characters</div>
             </div>
 
-            <div class="highlighted-view" id="highlightedView"></div>
-            <div class="list-view" id="listView"></div>
+            <div class="error" id="errorMsg"></div>
+
+            <button class="btn" onclick="testPattern()">Test Pattern</button>
+            <button class="btn secondary" onclick="loadSample()">Load Sample Data</button>
         </div>
 
         <footer>
@@ -649,9 +513,25 @@
         let matchesData = [];
         let currentPattern = '';
         let currentFlags = '';
-        let testString = '';
+        let isHighlighted = false;
+        const MAX_CHARS = 100000;
 
-        document.getElementById('pattern').addEventListener('keypress', function(e) {
+        const testInput = document.getElementById('testString');
+        const patternInput = document.getElementById('pattern');
+        const charCounter = document.getElementById('charCounter');
+
+        function updateCharCounter() {
+            const length = getPlainText().length;
+            charCounter.textContent = `${length.toLocaleString()} / ${MAX_CHARS.toLocaleString()} characters`;
+
+            if (length >= MAX_CHARS * 0.9) {
+                charCounter.classList.add('warning');
+            } else {
+                charCounter.classList.remove('warning');
+            }
+        }
+
+        patternInput.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 testPattern();
             }
@@ -659,7 +539,8 @@
 
         document.querySelectorAll('.flag-item input').forEach(checkbox => {
             checkbox.addEventListener('change', function() {
-                if (document.getElementById('pattern').value && document.getElementById('testString').value) {
+                const testText = getPlainText();
+                if (patternInput.value && testText) {
                     testPattern();
                 }
             });
@@ -670,40 +551,64 @@
                 const pattern = this.getAttribute('data-pattern');
                 const flags = this.getAttribute('data-flags');
 
-                document.getElementById('pattern').value = pattern;
+                patternInput.value = pattern;
 
                 document.getElementById('flagG').checked = flags.includes('g');
                 document.getElementById('flagI').checked = flags.includes('i');
                 document.getElementById('flagM').checked = flags.includes('m');
                 document.getElementById('flagS').checked = flags.includes('s');
 
-                if (document.getElementById('testString').value) {
+                if (getPlainText()) {
                     testPattern();
                 }
             });
         });
 
+        testInput.addEventListener('input', function() {
+            if (isHighlighted) {
+                clearHighlights();
+            }
+            updateCharCounter();
+        });
+
+        testInput.addEventListener('paste', function(e) {
+            e.preventDefault();
+            const text = e.clipboardData.getData('text/plain');
+            document.execCommand('insertText', false, text);
+        });
+
+        function getPlainText() {
+            return testInput.textContent || '';
+        }
+
+        function clearHighlights() {
+            const text = getPlainText();
+            testInput.textContent = text;
+            isHighlighted = false;
+            document.getElementById('matchSummary').classList.remove('show');
+        }
+
         function testPattern() {
             const errorDiv = document.getElementById('errorMsg');
-            const resultsDiv = document.getElementById('results');
+            const summaryBar = document.getElementById('matchSummary');
 
             errorDiv.classList.remove('show');
             errorDiv.textContent = '';
 
-            testString = document.getElementById('testString').value;
-            currentPattern = document.getElementById('pattern').value;
+            const testString = getPlainText();
+            currentPattern = patternInput.value;
 
             if (!testString) {
                 errorDiv.textContent = 'Please enter text to test.';
                 errorDiv.classList.add('show');
-                resultsDiv.classList.remove('show');
+                summaryBar.classList.remove('show');
                 return;
             }
 
             if (!currentPattern) {
                 errorDiv.textContent = 'Please enter a regex pattern.';
                 errorDiv.classList.add('show');
-                resultsDiv.classList.remove('show');
+                summaryBar.classList.remove('show');
                 return;
             }
 
@@ -719,12 +624,12 @@
             } catch (e) {
                 errorDiv.textContent = 'Invalid regex pattern: ' + e.message;
                 errorDiv.classList.add('show');
-                document.getElementById('pattern').classList.add('error');
-                resultsDiv.classList.remove('show');
+                patternInput.classList.add('error');
+                summaryBar.classList.remove('show');
                 return;
             }
 
-            document.getElementById('pattern').classList.remove('error');
+            patternInput.classList.remove('error');
 
             matchesData = [];
             let match;
@@ -760,90 +665,55 @@
                 }
             }
 
-            displayResults();
+            applyHighlights(testString);
+            displaySummary();
         }
 
-        function displayResults() {
-            const resultsDiv = document.getElementById('results');
-            const summaryDiv = document.getElementById('matchSummary');
-
-            resultsDiv.classList.add('show');
-
-            const countClass = matchesData.length > 0 ? '' : 'no-matches';
-            const flagsText = currentFlags || 'none';
-
-            summaryDiv.innerHTML = `
-                <div class="count ${countClass}">Found ${matchesData.length} match${matchesData.length !== 1 ? 'es' : ''}</div>
-                <div class="info">Pattern: /${currentPattern}/${flagsText}</div>
-            `;
-
-            if (matchesData.length > 0) {
-                displayHighlightedView();
-                displayListView();
-            } else {
-                document.getElementById('highlightedView').innerHTML = '<div style="color: #ff8a65;">No matches found.</div>';
-                document.getElementById('listView').innerHTML = '<div style="color: #ff8a65;">No matches found.</div>';
+        function applyHighlights(text) {
+            if (matchesData.length === 0) {
+                testInput.textContent = text;
+                isHighlighted = false;
+                return;
             }
-        }
 
-        function displayHighlightedView() {
-            const highlightedDiv = document.getElementById('highlightedView');
-            let result = testString;
-            let offset = 0;
+            let result = '';
+            let lastIndex = 0;
 
             matchesData.forEach((match, index) => {
-                const actualIndex = match.index + offset;
-                const matchText = match.text;
-                const replacement = `<mark>${escapeHtml(matchText)}<span class="match-badge">${index + 1}</span></mark>`;
+                result += escapeHtml(text.substring(lastIndex, match.index));
 
-                result = result.substring(0, actualIndex) + replacement + result.substring(actualIndex + matchText.length);
-                offset += replacement.length - matchText.length;
-            });
-
-            highlightedDiv.innerHTML = result;
-        }
-
-        function displayListView() {
-            const listDiv = document.getElementById('listView');
-            let html = '';
-
-            matchesData.forEach((match, index) => {
-                const position = getMatchPosition(testString, match.index, match.text.length);
-
-                html += `
-                    <div class="match-item">
-                        <div class="match-item-header">
-                            <span class="match-number">Match #${index + 1}</span>
-                            <button class="copy-btn" onclick="copyMatch(${index})">Copy</button>
-                        </div>
-                        <div class="match-text">${escapeHtml(match.text)}</div>
-                        <div class="match-position">Line ${position.line}, Characters ${position.start}-${position.end}</div>
-                `;
-
-                if (match.groups.length > 0 && match.groups.some(g => g !== undefined)) {
-                    html += '<div class="captured-groups"><div class="label">Captured Groups:</div>';
-                    match.groups.forEach((group, gIndex) => {
-                        if (group !== undefined) {
-                            html += `<div class="group-item"><span class="group-label">Group ${gIndex + 1}:</span>${escapeHtml(group)}</div>`;
-                        }
-                    });
-                    html += '</div>';
+                if (match.text.length > 0) {
+                    result += '<mark>' + escapeHtml(match.text) + '<span class="match-badge">' + (index + 1) + '</span></mark>';
                 }
 
-                html += '</div>';
+                lastIndex = match.index + match.text.length;
             });
 
-            listDiv.innerHTML = html;
+            result += escapeHtml(text.substring(lastIndex));
+
+            testInput.innerHTML = result;
+            isHighlighted = true;
         }
 
-        function getMatchPosition(text, index, length) {
-            const beforeMatch = text.substring(0, index);
-            const lines = beforeMatch.split('\n');
-            const line = lines.length;
-            const start = index - beforeMatch.lastIndexOf('\n');
-            const end = start + length - 1;
+        function displaySummary() {
+            const summaryBar = document.getElementById('matchSummary');
+            const matchCount = document.getElementById('matchCount');
+            const matchPattern = document.getElementById('matchPattern');
 
-            return { line, start, end };
+            const flagsText = currentFlags || 'none';
+
+            if (matchesData.length > 0) {
+                matchCount.textContent = `Found ${matchesData.length} match${matchesData.length !== 1 ? 'es' : ''}`;
+                matchCount.classList.remove('no-matches');
+                summaryBar.classList.remove('no-matches');
+            } else {
+                matchCount.textContent = 'No matches found';
+                matchCount.classList.add('no-matches');
+                summaryBar.classList.add('no-matches');
+            }
+
+            matchPattern.textContent = `Pattern: /${currentPattern}/${flagsText}`;
+            summaryBar.classList.add('show');
         }
 
         function escapeHtml(text) {
@@ -852,50 +722,14 @@
             return div.innerHTML;
         }
 
-        function switchView(view) {
-            const highlightedView = document.getElementById('highlightedView');
-            const listView = document.getElementById('listView');
-            const buttons = document.querySelectorAll('.view-btn');
-
-            buttons.forEach(btn => btn.classList.remove('active'));
-
-            if (view === 'highlighted') {
-                highlightedView.style.display = 'block';
-                listView.style.display = 'none';
-                buttons[0].classList.add('active');
-            } else {
-                highlightedView.style.display = 'none';
-                listView.style.display = 'block';
-                buttons[1].classList.add('active');
-            }
-        }
-
-        function copyMatch(index) {
-            const match = matchesData[index];
-            navigator.clipboard.writeText(match.text).then(() => {
-                const btn = event.target;
-                const originalText = btn.textContent;
-                btn.textContent = 'Copied!';
-                btn.classList.add('copied');
-
-                setTimeout(() => {
-                    btn.textContent = originalText;
-                    btn.classList.remove('copied');
-                }, 2000);
-            });
-        }
-
         function exportCSV() {
             if (matchesData.length === 0) return;
 
-            let csv = 'Match #,Text,Line,Start,End,Captured Groups\n';
+            let csv = '';
 
-            matchesData.forEach((match, index) => {
-                const position = getMatchPosition(testString, match.index, match.text.length);
-                const groups = match.groups.filter(g => g !== undefined).join('; ');
-                const text = match.text.replace(/"/g, '""').replace(/\n/g, ' ');
-
-                csv += `${index + 1},"${text}",${position.line},${position.start},${position.end},"${groups}"\n`;
+            matchesData.forEach((match) => {
+                const text = match.text.replace(/"/g, '""');
+                csv += `"${text}"\n`;
             });
 
             downloadFile(csv, 'regex-matches.csv', 'text/csv');
@@ -904,13 +738,10 @@
         function exportTXT() {
             if (matchesData.length === 0) return;
 
-            let txt = `Regex Pattern: /${currentPattern}/${currentFlags}\n`;
-            txt += `Total Matches: ${matchesData.length}\n\n`;
+            let txt = '';
 
-            matchesData.forEach((match, index) => {
-                const position = getMatchPosition(testString, match.index, match.text.length);
-                txt += `Match #${index + 1} (Line ${position.line}, Chars ${position.start}-${position.end}):\n`;
-                txt += match.text + '\n\n';
+            matchesData.forEach((match) => {
+                txt += match.text + '\n';
             });
 
             downloadFile(txt, 'regex-matches.txt', 'text/plain');
@@ -949,7 +780,9 @@ Routing Table:
 172.16.0.0/12 via 192.168.1.254
 192.168.0.0/16 is directly connected`;
 
-            document.getElementById('testString').value = sample;
+            testInput.textContent = sample;
+            clearHighlights();
+            updateCharCounter();
         }
     </script>
 </body>
