@@ -348,6 +348,41 @@
             font-size: 0.75rem;
             margin-left: 10px;
         }
+
+        /* Export Button Styles */
+        .export-btn {
+            background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 15px;
+        }
+
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 187, 106, 0.4);
+        }
+
+        .export-btn:active {
+            transform: translateY(0);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-header h2 {
+            margin-bottom: 0;
+        }
     </style>
 </head>
 <body>
@@ -413,7 +448,10 @@
         </div>
 
         <div class="results" id="results">
-            <h2>Subnet Details</h2>
+            <div class="section-header">
+                <h2>Subnet Details</h2>
+                <button class="export-btn" onclick="exportSubnetDetailsToCSV()">Export to CSV</button>
+            </div>
             <div class="results-grid">
                 <div class="result-item">
                     <div class="label">Network Address</div>
@@ -475,7 +513,10 @@
         </div>
 
         <div class="subnet-list" id="subnetList">
-            <h2>All Subnets in Network</h2>
+            <div class="section-header">
+                <h2>All Subnets in Network</h2>
+                <button class="export-btn" onclick="exportSubnetListToCSV()">Export to CSV</button>
+            </div>
             <div class="subnet-list-info" id="subnetListInfo"></div>
             <div class="subnet-table-container">
                 <table class="subnet-table">
@@ -724,6 +765,105 @@
             const ip = document.getElementById('ipAddress').value.trim();
             if (isValidIP(ip)) calculate();
         });
+
+        // CSV Export Functions
+        function downloadCSV(filename, csvContent) {
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+
+            link.setAttribute('href', url);
+            link.setAttribute('download', filename);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function exportSubnetDetailsToCSV() {
+            // Get all the values from the subnet details
+            const networkAddress = document.getElementById('networkAddress').textContent;
+            const broadcastAddress = document.getElementById('broadcastAddress').textContent;
+            const firstHost = document.getElementById('firstHost').textContent;
+            const lastHost = document.getElementById('lastHost').textContent;
+            const subnetMask = document.getElementById('subnetMask').textContent;
+            const wildcardMask = document.getElementById('wildcardMask').textContent;
+            const cidrNotation = document.getElementById('cidrNotation').textContent;
+            const totalHosts = document.getElementById('totalHosts').textContent;
+            const usableHosts = document.getElementById('usableHosts').textContent;
+            const ipClass = document.getElementById('ipClass').textContent;
+
+            // Create CSV content
+            const csvRows = [
+                ['Field', 'Value'],
+                ['Network Address', networkAddress],
+                ['Broadcast Address', broadcastAddress],
+                ['First Usable Host', firstHost],
+                ['Last Usable Host', lastHost],
+                ['Subnet Mask', subnetMask],
+                ['Wildcard Mask', wildcardMask],
+                ['CIDR Notation', cidrNotation],
+                ['Total Hosts', totalHosts],
+                ['Usable Hosts', usableHosts],
+                ['IP Class', ipClass]
+            ];
+
+            const csvContent = csvRows.map(row => row.join(',')).join('\n');
+            const filename = `subnet-details-${networkAddress.replace(/\./g, '-')}${cidrNotation}.csv`;
+
+            downloadCSV(filename, csvContent);
+        }
+
+        function exportSubnetListToCSV() {
+            const tableBody = document.getElementById('subnetTableBody');
+            const rows = tableBody.querySelectorAll('tr');
+
+            if (rows.length === 0) {
+                alert('No subnet list to export');
+                return;
+            }
+
+            // Create CSV header
+            const csvRows = [
+                ['Subnet #', 'Network Address', 'First Host', 'Last Host', 'Broadcast', 'Usable Hosts']
+            ];
+
+            // Add data rows
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                // Extract subnet number (remove badge if present)
+                const subnetNum = cells[0].querySelector('.subnet-number').textContent;
+                const networkAddr = cells[1].textContent;
+                const hostRange = cells[2].textContent.split(' - ');
+                const firstHost = hostRange[0];
+                const lastHost = hostRange[1];
+                const broadcast = cells[3].textContent;
+                const usableHosts = cells[4].textContent;
+
+                csvRows.push([
+                    subnetNum,
+                    networkAddr,
+                    firstHost,
+                    lastHost,
+                    broadcast,
+                    usableHosts
+                ]);
+            });
+
+            const csvContent = csvRows.map(row => row.map(cell => {
+                // Escape cells containing commas or quotes
+                if (cell.includes(',') || cell.includes('"')) {
+                    return `"${cell.replace(/"/g, '""')}"`;
+                }
+                return cell;
+            }).join(',')).join('\n');
+
+            // Generate filename based on network info
+            const infoText = document.getElementById('subnetListInfo').textContent;
+            const filename = `subnet-list-${new Date().toISOString().split('T')[0]}.csv`;
+
+            downloadCSV(filename, csvContent);
+        }
     </script>
 </body>
 </html>
