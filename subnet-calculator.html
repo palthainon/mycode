@@ -245,6 +245,109 @@
             color: rgba(255, 255, 255, 0.4);
             font-size: 0.85rem;
         }
+
+        /* Subnet List Styles */
+        .subnet-list {
+            display: none;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 30px;
+        }
+
+        .subnet-list.show {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .subnet-list h2 {
+            color: #4fc3f7;
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+
+        .subnet-list-info {
+            color: #90caf9;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        .subnet-table-container {
+            max-height: 400px;
+            overflow-y: auto;
+            border-radius: 8px;
+        }
+
+        .subnet-table-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .subnet-table-container::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+        }
+
+        .subnet-table-container::-webkit-scrollbar-thumb {
+            background: rgba(79, 195, 247, 0.5);
+            border-radius: 4px;
+        }
+
+        .subnet-table-container::-webkit-scrollbar-thumb:hover {
+            background: rgba(79, 195, 247, 0.7);
+        }
+
+        .subnet-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+        }
+
+        .subnet-table th {
+            background: rgba(79, 195, 247, 0.2);
+            color: #4fc3f7;
+            padding: 12px 15px;
+            text-align: left;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        .subnet-table td {
+            padding: 10px 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: #fff;
+        }
+
+        .subnet-table tr:hover {
+            background: rgba(79, 195, 247, 0.1);
+        }
+
+        .subnet-table tr.current-subnet {
+            background: rgba(76, 175, 80, 0.2);
+            border-left: 4px solid #4caf50;
+        }
+
+        .subnet-table tr.current-subnet td {
+            color: #a5d6a7;
+        }
+
+        .subnet-number {
+            color: #90caf9;
+            font-weight: 600;
+        }
+
+        .subnet-badge {
+            display: inline-block;
+            background: #4caf50;
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            margin-left: 10px;
+        }
     </style>
 </head>
 <body>
@@ -371,6 +474,26 @@
             </div>
         </div>
 
+        <div class="subnet-list" id="subnetList">
+            <h2>All Subnets in Network</h2>
+            <div class="subnet-list-info" id="subnetListInfo"></div>
+            <div class="subnet-table-container">
+                <table class="subnet-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Network Address</th>
+                            <th>Host Range</th>
+                            <th>Broadcast</th>
+                            <th>Usable Hosts</th>
+                        </tr>
+                    </thead>
+                    <tbody id="subnetTableBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
         <footer>
             Subnet Calculator - Works offline, no installation required
         </footer>
@@ -434,6 +557,85 @@
             return 'Class E (Reserved)';
         }
 
+        // Get parent network CIDR (for subnet listing)
+        function getParentCidr(cidr) {
+            if (cidr >= 25) return 24;      // /25-/32 -> show within /24
+            if (cidr >= 17) return 16;      // /17-/24 -> show within /16
+            if (cidr >= 9) return 8;        // /9-/16 -> show within /8
+            return 0;                        // /1-/8 -> show within /0
+        }
+
+        // Generate subnet list
+        function generateSubnetList(ipInt, cidr, currentNetworkInt) {
+            const subnetListDiv = document.getElementById('subnetList');
+            const tableBody = document.getElementById('subnetTableBody');
+            const infoDiv = document.getElementById('subnetListInfo');
+
+            // Clear previous content
+            tableBody.innerHTML = '';
+
+            // Get parent network
+            const parentCidr = getParentCidr(cidr);
+            const parentMask = cidrToMask(parentCidr);
+            const parentNetwork = (ipInt & parentMask) >>> 0;
+
+            // Calculate number of subnets
+            const numSubnets = Math.pow(2, cidr - parentCidr);
+            const subnetSize = Math.pow(2, 32 - cidr);
+
+            // Limit display to max 256 subnets for performance
+            const maxDisplay = 256;
+            const displayCount = Math.min(numSubnets, maxDisplay);
+
+            // Update info text
+            infoDiv.innerHTML = `Showing <strong>${displayCount.toLocaleString()}</strong> of <strong>${numSubnets.toLocaleString()}</strong> possible /${cidr} subnets within <strong>${intToIP(parentNetwork)}/${parentCidr}</strong>`;
+
+            if (numSubnets > maxDisplay) {
+                infoDiv.innerHTML += ` <em>(limited to first ${maxDisplay} for performance)</em>`;
+            }
+
+            // Calculate usable hosts per subnet
+            let usableHostsPerSubnet = subnetSize - 2;
+            if (cidr === 31) usableHostsPerSubnet = 2;
+            if (cidr === 32) usableHostsPerSubnet = 1;
+
+            // Generate subnet rows
+            for (let i = 0; i < displayCount; i++) {
+                const subnetNetwork = (parentNetwork + (i * subnetSize)) >>> 0;
+                const subnetBroadcast = (subnetNetwork + subnetSize - 1) >>> 0;
+                const firstHost = cidr >= 31 ? subnetNetwork : subnetNetwork + 1;
+                const lastHost = cidr >= 31 ? subnetBroadcast : subnetBroadcast - 1;
+
+                const isCurrent = subnetNetwork === currentNetworkInt;
+
+                const row = document.createElement('tr');
+                if (isCurrent) {
+                    row.className = 'current-subnet';
+                }
+
+                row.innerHTML = `
+                    <td><span class="subnet-number">${i + 1}</span>${isCurrent ? '<span class="subnet-badge">Current</span>' : ''}</td>
+                    <td>${intToIP(subnetNetwork)}/${cidr}</td>
+                    <td>${intToIP(firstHost)} - ${intToIP(lastHost)}</td>
+                    <td>${cidr === 32 ? 'N/A' : intToIP(subnetBroadcast)}</td>
+                    <td>${usableHostsPerSubnet.toLocaleString()}</td>
+                `;
+
+                tableBody.appendChild(row);
+            }
+
+            // Show the subnet list
+            subnetListDiv.classList.add('show');
+
+            // Scroll to current subnet if not visible
+            setTimeout(() => {
+                const currentRow = tableBody.querySelector('.current-subnet');
+                if (currentRow) {
+                    currentRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }, 100);
+        }
+
         // Format binary with network/host coloring
         function formatBinaryWithColors(binary, cidr) {
             const bits = binary.replace(/\./g, '');
@@ -464,6 +666,7 @@
             // Hide previous results
             resultsDiv.classList.remove('show');
             errorDiv.classList.remove('show');
+            document.getElementById('subnetList').classList.remove('show');
 
             // Validate IP
             if (!isValidIP(ipInput)) {
@@ -506,6 +709,9 @@
 
             // Show results
             resultsDiv.classList.add('show');
+
+            // Generate subnet list
+            generateSubnetList(ipInt, cidr, networkInt);
         }
 
         // Allow Enter key to calculate
