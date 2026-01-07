@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Network & SysAdmin Tools</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .ascii-logo {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.65rem;
+            line-height: 1.1;
+            color: #4fc3f7;
+            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
+            opacity: 0.8;
+            white-space: pre;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 2.5rem;
+            color: #4fc3f7;
+            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #90caf9;
+            font-size: 1.1rem;
+            margin-bottom: 50px;
+            opacity: 0.9;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .tool-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(79, 195, 247, 0.3);
+            border-color: rgba(79, 195, 247, 0.5);
+        }
+
+        .tool-card h2 {
+            color: #4fc3f7;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .tool-card p {
+            color: #90caf9;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .tool-link {
+            display: inline-block;
+            color: #4fc3f7;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .tool-link:hover {
+            color: #2196f3;
+        }
+
+        .tool-link::after {
+            content: ' →';
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85rem;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Navigation Bar */
+        .nav-bar {
+            position: absolute;
+            top: 20px;
+            left: 40px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .nav-link {
+            color: #4fc3f7;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: color 0.2s, text-shadow 0.2s;
+        }
+
+        .nav-link:hover {
+            color: #2196f3;
+            text-shadow: 0 0 10px rgba(79, 195, 247, 0.5);
+        }
+
+        .nav-link.current {
+            color: #66bb6a;
+            border-bottom: 2px solid #66bb6a;
+        }
+
+        .nav-separator {
+            color: rgba(79, 195, 247, 0.3);
+            user-select: none;
+        }
+
+        @media (max-width: 768px) {
+            .nav-bar {
+                position: static;
+                justify-content: center;
+                flex-wrap: wrap;
+                margin-bottom: 20px;
+                gap: 10px;
+            }
+
+            .nav-bar + .container {
+                margin-top: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .ascii-logo {
+                position: static;
+                text-align: center;
+                margin-bottom: 20px;
+                font-size: 0.5rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .tools-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .tool-card {
+                padding: 25px;
+            }
+
+            .tool-card h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav-bar">
+        <a href="index.html" class="nav-link current">Home</a>
+        <span class="nav-separator">|</span>
+        <a href="subnet-calculator.html" class="nav-link">Subnet Calc</a>
+        <span class="nav-separator">|</span>
+        <a href="bit-calculator.html" class="nav-link">Bit Calc</a>
+        <span class="nav-separator">|</span>
+        <a href="data-rate-calculator.html" class="nav-link">Data Rate</a>
+        <span class="nav-separator">|</span>
+        <a href="regex-tester.html" class="nav-link">Regex</a>
+    </nav>
+    <div class="ascii-logo">  ___  _    _  __        __   _
+ / _ \| | _| | \ \      / /__| |__
+| | | | |/ _` | \ \ /\ / / _ \ '_ \
+| |_| | | (_| |  \ V  V /  __/ |_) |
+ \___/|_|\__,_|   \_/\_/ \___|_.__/
+</div>
+    <div class="container">
+        <h1>Network & SysAdmin Tools</h1>
+        <p class="subtitle">Fast, simple, offline-ready utilities for network engineers and system administrators</p>
+
+        <div class="tools-grid">
+            <a href="subnet-calculator.html" class="tool-card">
+                <h2>Subnet Calculator</h2>
+                <p>Calculate network addresses, broadcast addresses, host ranges, and subnet details from IP/CIDR notation. Includes binary representation and subnet list visualization.</p>
+                <span class="tool-link">Open Calculator</span>
+            </a>
+
+            <a href="bit-calculator.html" class="tool-card">
+                <h2>Bit Calculator</h2>
+                <p>Convert between bits, bytes, and larger units (KB, MB, GB, TB, etc.) with support for both legacy and IEEE notation. Perfect for network bandwidth and storage calculations.</p>
+                <span class="tool-link">Open Calculator</span>
+            </a>
+
+            <a href="data-rate-calculator.html" class="tool-card">
+                <h2>Data Transfer Calculator</h2>
+                <p>Calculate how long it takes to transfer data based on file size and transfer rate. Supports various units and displays results in seconds, minutes, hours, days, and weeks.</p>
+                <span class="tool-link">Open Calculator</span>
+            </a>
+
+            <a href="regex-tester.html" class="tool-card">
+                <h2>Regex Tester</h2>
+                <p>Test regular expressions against multi-line text with real-time matching. Includes common network patterns for MAC addresses, IPs, VLANs, and interface names. View matches with highlighting or in list format.</p>
+                <span class="tool-link">Open Tester</span>
+            </a>
+        </div>
+
+        <footer>
+            Network & System Administration Tools - Works offline, no installation required
+        </footer>
+    </div>
+</body>
+</html>
