@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Transfer Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            color: #4fc3f7;
+            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
+        }
+
+        .calculator {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .input-field {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .input-field.small {
+            flex: 0 0 auto;
+            min-width: 120px;
+        }
+
+        .input-field label {
+            display: block;
+            margin-bottom: 8px;
+            color: #90caf9;
+            font-weight: 500;
+        }
+
+        .input-field input, .input-field select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            color: #fff;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .input-field input:focus, .input-field select:focus {
+            outline: none;
+            border-color: #4fc3f7;
+            box-shadow: 0 0 15px rgba(79, 195, 247, 0.2);
+        }
+
+        .input-field input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .unit-toggle {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .unit-toggle-label {
+            color: #90caf9;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .unit-toggle-buttons {
+            display: flex;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid rgba(79, 195, 247, 0.3);
+        }
+
+        .unit-toggle-btn {
+            padding: 8px 16px;
+            background: rgba(0, 0, 0, 0.3);
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .unit-toggle-btn:first-child {
+            border-right: 1px solid rgba(79, 195, 247, 0.3);
+        }
+
+        .unit-toggle-btn.active {
+            background: rgba(79, 195, 247, 0.2);
+            color: #4fc3f7;
+            font-weight: 600;
+        }
+
+        .unit-toggle-btn:hover:not(.active) {
+            background: rgba(79, 195, 247, 0.1);
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
+            color: #fff;
+            border: none;
+            padding: 14px 40px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+            display: block;
+            width: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(79, 195, 247, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .results {
+            display: none;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .results.show {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .results h2 {
+            color: #4fc3f7;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .result-item {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px 20px;
+            border-radius: 8px;
+            border-left: 4px solid #4fc3f7;
+        }
+
+        .result-item.highlight {
+            grid-column: 1 / -1;
+            border-left-color: #66bb6a;
+            background: rgba(102, 187, 106, 0.1);
+        }
+
+        .result-item .label {
+            color: #90caf9;
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .result-item .value {
+            font-size: 1.2rem;
+            font-family: 'Consolas', 'Monaco', monospace;
+            color: #fff;
+        }
+
+        .result-item.highlight .value {
+            font-size: 1.4rem;
+            color: #a5d6a7;
+        }
+
+        .error {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid #f44336;
+            color: #ff8a80;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .error.show {
+            display: block;
+        }
+
+        .quick-select {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .quick-select h3 {
+            color: #90caf9;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .quick-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .quick-btn {
+            background: rgba(79, 195, 247, 0.1);
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            color: #4fc3f7;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .quick-btn:hover {
+            background: rgba(79, 195, 247, 0.2);
+            border-color: #4fc3f7;
+        }
+
+        .quick-btn.rate {
+            border-color: rgba(255, 138, 101, 0.3);
+            color: #ff8a65;
+            background: rgba(255, 138, 101, 0.1);
+        }
+
+        .quick-btn.rate:hover {
+            background: rgba(255, 138, 101, 0.2);
+            border-color: #ff8a65;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85rem;
+        }
+
+        /* ASCII Logo */
+        .ascii-logo {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.65rem;
+            line-height: 1.1;
+            color: #4fc3f7;
+            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
+            opacity: 0.8;
+            white-space: pre;
+        }
+
+        @media (max-width: 768px) {
+            .ascii-logo {
+                position: static;
+                text-align: center;
+                margin-bottom: 20px;
+                font-size: 0.5rem;
+            }
+        }
+
+        /* Export Button Styles */
+        .export-btn {
+            background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 15px;
+        }
+
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 187, 106, 0.4);
+        }
+
+        .export-btn:active {
+            transform: translateY(0);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-header h2 {
+            margin-bottom: 0;
+        }
+
+        .info-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .info-section h3 {
+            color: #4fc3f7;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+        }
+
+        .info-item {
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+        }
+
+        .info-item .info-label {
+            color: #90caf9;
+            display: inline-block;
+            min-width: 120px;
+        }
+    </style>
+</head>
+<body>
+    <div class="ascii-logo">  ___  _    _  __        __   _
+ / _ \| | _| | \ \      / /__| |__
+| | | | |/ _` | \ \ /\ / / _ \ '_ \
+| |_| | | (_| |  \ V  V /  __/ |_) |
+ \___/|_|\__,_|   \_/\_/ \___|_.__/
+</div>
+    <div class="container">
+        <h1>Data Transfer Calculator</h1>
+
+        <div class="calculator">
+            <div class="input-group">
+                <div class="input-field">
+                    <label for="dataSize">Data Size</label>
+                    <input type="number" id="dataSize" placeholder="100" min="0" step="any">
+                </div>
+                <div class="input-field small">
+                    <label for="dataSizeUnit">Unit</label>
+                    <select id="dataSizeUnit">
+                        <option value="B">Bytes</option>
+                        <option value="KB">KB</option>
+                        <option value="MB">MB</option>
+                        <option value="GB" selected>GB</option>
+                        <option value="TB">TB</option>
+                        <option value="PB">PB</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <div class="input-field">
+                    <label for="transferRate">Transfer Rate</label>
+                    <input type="number" id="transferRate" placeholder="100" min="0" step="any">
+                </div>
+                <div class="input-field small">
+                    <label for="transferRateUnit">Unit</label>
+                    <select id="transferRateUnit">
+                        <option value="bps">bps</option>
+                        <option value="Kbps">Kbps</option>
+                        <option value="Mbps" selected>Mbps</option>
+                        <option value="Gbps">Gbps</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="unit-toggle">
+                <span class="unit-toggle-label">Data Size Units:</span>
+                <div class="unit-toggle-buttons">
+                    <button type="button" class="unit-toggle-btn active" id="binaryBtn" onclick="setUnitMode('binary')">Binary (1024)</button>
+                    <button type="button" class="unit-toggle-btn" id="decimalBtn" onclick="setUnitMode('decimal')">Decimal (1000)</button>
+                </div>
+            </div>
+
+            <button class="btn" onclick="calculate()">Calculate Transfer Time</button>
+
+            <div class="quick-select">
+                <h3>Quick Data Sizes:</h3>
+                <div class="quick-buttons">
+                    <button class="quick-btn" onclick="setDataSize(1, 'GB')">1 GB</button>
+                    <button class="quick-btn" onclick="setDataSize(10, 'GB')">10 GB</button>
+                    <button class="quick-btn" onclick="setDataSize(100, 'GB')">100 GB</button>
+                    <button class="quick-btn" onclick="setDataSize(1, 'TB')">1 TB</button>
+                    <button class="quick-btn" onclick="setDataSize(10, 'TB')">10 TB</button>
+                </div>
+                <h3>Quick Transfer Rates:</h3>
+                <div class="quick-buttons">
+                    <button class="quick-btn rate" onclick="setTransferRate(10, 'Mbps')">10 Mbps</button>
+                    <button class="quick-btn rate" onclick="setTransferRate(100, 'Mbps')">100 Mbps</button>
+                    <button class="quick-btn rate" onclick="setTransferRate(1, 'Gbps')">1 Gbps</button>
+                    <button class="quick-btn rate" onclick="setTransferRate(10, 'Gbps')">10 Gbps</button>
+                    <button class="quick-btn rate" onclick="setTransferRate(100, 'Gbps')">100 Gbps</button>
+                </div>
+            </div>
+
+            <div class="error" id="error"></div>
+        </div>
+
+        <div class="results" id="results">
+            <div class="section-header">
+                <h2>Transfer Time</h2>
+                <button class="export-btn" onclick="exportToCSV()">Export to CSV</button>
+            </div>
+            <div class="results-grid">
+                <div class="result-item highlight">
+                    <div class="label">Total Time</div>
+                    <div class="value" id="humanReadable">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="label">Seconds</div>
+                    <div class="value" id="seconds">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="label">Minutes</div>
+                    <div class="value" id="minutes">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="label">Hours</div>
+                    <div class="value" id="hours">-</div>
+                </div>
+                <div class="result-item" id="daysItem" style="display: none;">
+                    <div class="label">Days</div>
+                    <div class="value" id="days">-</div>
+                </div>
+                <div class="result-item" id="weeksItem" style="display: none;">
+                    <div class="label">Weeks</div>
+                    <div class="value" id="weeks">-</div>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <h3>Transfer Details</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">Data Size:</span>
+                        <span id="dataSizeInfo">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Data in Bits:</span>
+                        <span id="dataBitsInfo">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Transfer Rate:</span>
+                        <span id="transferRateInfo">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Unit Mode:</span>
+                        <span id="unitModeInfo">-</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            Data Transfer Calculator - Works offline, no installation required
+        </footer>
+    </div>
+
+    <script>
+        // Unit conversion multipliers
+        const binaryMultipliers = {
+            'B': 1,
+            'KB': 1024,
+            'MB': 1024 * 1024,
+            'GB': 1024 * 1024 * 1024,
+            'TB': 1024 * 1024 * 1024 * 1024,
+            'PB': 1024 * 1024 * 1024 * 1024 * 1024
+        };
+
+        const decimalMultipliers = {
+            'B': 1,
+            'KB': 1000,
+            'MB': 1000 * 1000,
+            'GB': 1000 * 1000 * 1000,
+            'TB': 1000 * 1000 * 1000 * 1000,
+            'PB': 1000 * 1000 * 1000 * 1000 * 1000
+        };
+
+        // Network rates always use decimal (1000)
+        const rateMultipliers = {
+            'bps': 1,
+            'Kbps': 1000,
+            'Mbps': 1000 * 1000,
+            'Gbps': 1000 * 1000 * 1000
+        };
+
+        // Store last calculation for CSV export
+        let lastCalculation = null;
+
+        // Track unit mode (false = binary, true = decimal)
+        let useDecimalUnits = false;
+
+        // Unit mode toggle handler
+        function setUnitMode(mode) {
+            const binaryBtn = document.getElementById('binaryBtn');
+            const decimalBtn = document.getElementById('decimalBtn');
+
+            if (mode === 'decimal') {
+                useDecimalUnits = true;
+                binaryBtn.classList.remove('active');
+                decimalBtn.classList.add('active');
+            } else {
+                useDecimalUnits = false;
+                binaryBtn.classList.add('active');
+                decimalBtn.classList.remove('active');
+            }
+
+            // Recalculate if we have valid inputs
+            const dataSize = document.getElementById('dataSize').value;
+            const transferRate = document.getElementById('transferRate').value;
+            if (dataSize && transferRate) {
+                calculate();
+            }
+        }
+
+        // Quick select functions
+        function setDataSize(value, unit) {
+            document.getElementById('dataSize').value = value;
+            document.getElementById('dataSizeUnit').value = unit;
+            autoCalculate();
+        }
+
+        function setTransferRate(value, unit) {
+            document.getElementById('transferRate').value = value;
+            document.getElementById('transferRateUnit').value = unit;
+            autoCalculate();
+        }
+
+        // Auto-calculate if both inputs are valid
+        function autoCalculate() {
+            const dataSize = document.getElementById('dataSize').value;
+            const transferRate = document.getElementById('transferRate').value;
+            if (dataSize && transferRate && parseFloat(dataSize) > 0 && parseFloat(transferRate) > 0) {
+                calculate();
+            }
+        }
+
+        // Convert data size to bytes
+        function parseDataSize(value, unit) {
+            const isDecimal = useDecimalUnits;
+            const multipliers = isDecimal ? decimalMultipliers : binaryMultipliers;
+            return value * multipliers[unit];
+        }
+
+        // Convert transfer rate to bits per second
+        function parseTransferRate(value, unit) {
+            return value * rateMultipliers[unit];
+        }
+
+        // Calculate transfer time in seconds
+        function calculateTransferTime(bytes, bitsPerSecond) {
+            const bits = bytes * 8;
+            return bits / bitsPerSecond;
+        }
+
+        // Format large numbers with commas
+        function formatNumber(num, decimals = 2) {
+            if (num < 0.01) {
+                return num.toExponential(2);
+            }
+            return num.toLocaleString(undefined, {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: decimals
+            });
+        }
+
+        // Format bytes for display
+        function formatBytes(bytes) {
+            const isDecimal = useDecimalUnits;
+            const base = isDecimal ? 1000 : 1024;
+            const units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
+
+            let unitIndex = 0;
+            let value = bytes;
+
+            while (value >= base && unitIndex < units.length - 1) {
+                value /= base;
+                unitIndex++;
+            }
+
+            return formatNumber(value) + ' ' + units[unitIndex];
+        }
+
+        // Format bits for display
+        function formatBits(bits) {
+            const units = ['bits', 'Kb', 'Mb', 'Gb', 'Tb', 'Pb'];
+            let unitIndex = 0;
+            let value = bits;
+
+            while (value >= 1000 && unitIndex < units.length - 1) {
+                value /= 1000;
+                unitIndex++;
+            }
+
+            return formatNumber(value) + ' ' + units[unitIndex];
+        }
+
+        // Format human-readable time
+        function formatHumanReadable(seconds) {
+            if (seconds < 0.001) {
+                return 'Less than 1 millisecond';
+            }
+
+            if (seconds < 1) {
+                return formatNumber(seconds * 1000) + ' milliseconds';
+            }
+
+            if (seconds < 60) {
+                return formatNumber(seconds) + ' seconds';
+            }
+
+            const weeks = Math.floor(seconds / (7 * 24 * 3600));
+            const days = Math.floor((seconds % (7 * 24 * 3600)) / (24 * 3600));
+            const hours = Math.floor((seconds % (24 * 3600)) / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            const secs = Math.floor(seconds % 60);
+
+            const parts = [];
+
+            if (weeks > 0) parts.push(weeks + (weeks === 1 ? ' week' : ' weeks'));
+            if (days > 0) parts.push(days + (days === 1 ? ' day' : ' days'));
+            if (hours > 0) parts.push(hours + (hours === 1 ? ' hour' : ' hours'));
+            if (minutes > 0) parts.push(minutes + (minutes === 1 ? ' minute' : ' minutes'));
+            if (secs > 0 && weeks === 0) parts.push(secs + (secs === 1 ? ' second' : ' seconds'));
+
+            return parts.join(', ');
+        }
+
+        // Main calculate function
+        function calculate() {
+            const dataSizeInput = parseFloat(document.getElementById('dataSize').value);
+            const dataSizeUnit = document.getElementById('dataSizeUnit').value;
+            const transferRateInput = parseFloat(document.getElementById('transferRate').value);
+            const transferRateUnit = document.getElementById('transferRateUnit').value;
+            const errorDiv = document.getElementById('error');
+            const resultsDiv = document.getElementById('results');
+
+            // Hide previous results and errors
+            resultsDiv.classList.remove('show');
+            errorDiv.classList.remove('show');
+
+            // Validate inputs
+            if (isNaN(dataSizeInput) || dataSizeInput <= 0) {
+                errorDiv.textContent = 'Please enter a valid data size greater than 0';
+                errorDiv.classList.add('show');
+                return;
+            }
+
+            if (isNaN(transferRateInput) || transferRateInput <= 0) {
+                errorDiv.textContent = 'Please enter a valid transfer rate greater than 0';
+                errorDiv.classList.add('show');
+                return;
+            }
+
+            // Calculate
+            const bytes = parseDataSize(dataSizeInput, dataSizeUnit);
+            const bitsPerSecond = parseTransferRate(transferRateInput, transferRateUnit);
+            const seconds = calculateTransferTime(bytes, bitsPerSecond);
+
+            // Update display
+            document.getElementById('humanReadable').textContent = formatHumanReadable(seconds);
+            document.getElementById('seconds').textContent = formatNumber(seconds, 3);
+            document.getElementById('minutes').textContent = formatNumber(seconds / 60, 3);
+            document.getElementById('hours').textContent = formatNumber(seconds / 3600, 3);
+
+            // Show/hide days
+            const daysItem = document.getElementById('daysItem');
+            if (seconds >= 24 * 3600) {
+                daysItem.style.display = 'block';
+                document.getElementById('days').textContent = formatNumber(seconds / (24 * 3600), 3);
+            } else {
+                daysItem.style.display = 'none';
+            }
+
+            // Show/hide weeks
+            const weeksItem = document.getElementById('weeksItem');
+            if (seconds >= 7 * 24 * 3600) {
+                weeksItem.style.display = 'block';
+                document.getElementById('weeks').textContent = formatNumber(seconds / (7 * 24 * 3600), 3);
+            } else {
+                weeksItem.style.display = 'none';
+            }
+
+            // Update info section
+            const isDecimal = useDecimalUnits;
+            document.getElementById('dataSizeInfo').textContent = formatBytes(bytes);
+            document.getElementById('dataBitsInfo').textContent = formatBits(bytes * 8);
+            document.getElementById('transferRateInfo').textContent = transferRateInput + ' ' + transferRateUnit;
+            document.getElementById('unitModeInfo').textContent = isDecimal ? 'Decimal (1000)' : 'Binary (1024)';
+
+            // Store for CSV export
+            lastCalculation = {
+                dataSize: dataSizeInput,
+                dataSizeUnit: dataSizeUnit,
+                dataBytes: bytes,
+                transferRate: transferRateInput,
+                transferRateUnit: transferRateUnit,
+                bitsPerSecond: bitsPerSecond,
+                seconds: seconds,
+                humanReadable: formatHumanReadable(seconds),
+                unitMode: isDecimal ? 'Decimal' : 'Binary'
+            };
+
+            // Show results
+            resultsDiv.classList.add('show');
+        }
+
+        // CSV Export
+        function downloadCSV(filename, csvContent) {
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+
+            link.setAttribute('href', url);
+            link.setAttribute('download', filename);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function exportToCSV() {
+            if (!lastCalculation) {
+                alert('No calculation to export');
+                return;
+            }
+
+            const csvRows = [
+                ['Field', 'Value'],
+                ['Data Size', lastCalculation.dataSize + ' ' + lastCalculation.dataSizeUnit],
+                ['Data Size (Bytes)', lastCalculation.dataBytes],
+                ['Data Size (Bits)', lastCalculation.dataBytes * 8],
+                ['Transfer Rate', lastCalculation.transferRate + ' ' + lastCalculation.transferRateUnit],
+                ['Transfer Rate (bps)', lastCalculation.bitsPerSecond],
+                ['Unit Mode', lastCalculation.unitMode],
+                ['Transfer Time', lastCalculation.humanReadable],
+                ['Seconds', lastCalculation.seconds],
+                ['Minutes', lastCalculation.seconds / 60],
+                ['Hours', lastCalculation.seconds / 3600],
+                ['Days', lastCalculation.seconds / (24 * 3600)],
+                ['Weeks', lastCalculation.seconds / (7 * 24 * 3600)]
+            ];
+
+            const csvContent = csvRows.map(row => row.map(cell => {
+                const str = String(cell);
+                if (str.includes(',') || str.includes('"')) {
+                    return `"${str.replace(/"/g, '""')}"`;
+                }
+                return str;
+            }).join(',')).join('\n');
+
+            const filename = `transfer-time-${new Date().toISOString().split('T')[0]}.csv`;
+            downloadCSV(filename, csvContent);
+        }
+
+        // Allow Enter key to calculate
+        document.getElementById('dataSize').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') calculate();
+        });
+
+        document.getElementById('transferRate').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') calculate();
+        });
+
+        // Auto-calculate on dropdown change
+        document.getElementById('dataSizeUnit').addEventListener('change', autoCalculate);
+        document.getElementById('transferRateUnit').addEventListener('change', autoCalculate);
+    </script>
+</body>
+</html>
