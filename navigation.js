@@ -10,7 +10,10 @@
         { name: 'Regex', file: 'regex-tester.html', id: 'regex' },
         { name: 'Timestamp', file: 'timestamp-converter.html', id: 'timestamp' },
         { name: 'Disk Tools', file: 'disk-tools.html', id: 'disk' },
-        { name: 'Password', file: 'password-generator.html', id: 'password' }
+        { name: 'Password', file: 'password-generator.html', id: 'password' },
+        { name: 'Cron', file: 'cron-builder.html', id: 'cron' },
+        { name: 'Chmod', file: 'chmod-calculator.html', id: 'chmod' },
+        { name: 'Base64/Hash', file: 'base64-hash.html', id: 'base64' }
     ];
 
     // Navigation CSS styles
