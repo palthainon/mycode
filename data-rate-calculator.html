@@ -307,6 +307,50 @@
             }
         }
 
+        /* Navigation Bar */
+        .nav-bar {
+            position: absolute;
+            top: 20px;
+            left: 40px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .nav-link {
+            color: #4fc3f7;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: color 0.2s, text-shadow 0.2s;
+        }
+
+        .nav-link:hover {
+            color: #2196f3;
+            text-shadow: 0 0 10px rgba(79, 195, 247, 0.5);
+        }
+
+        .nav-link.current {
+            color: #66bb6a;
+            border-bottom: 2px solid #66bb6a;
+        }
+
+        .nav-separator {
+            color: rgba(79, 195, 247, 0.3);
+            user-select: none;
+        }
+
+        @media (max-width: 768px) {
+            .nav-bar {
+                position: static;
+                justify-content: center;
+                flex-wrap: wrap;
+                margin-bottom: 20px;
+                gap: 10px;
+            }
+        }
+
         /* Export Button Styles */
         .export-btn {
             background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%);
@@ -376,6 +420,15 @@
     </style>
 </head>
 <body>
+    <nav class="nav-bar">
+        <a href="index.html" class="nav-link">Home</a>
+        <span class="nav-separator">|</span>
+        <a href="subnet-calculator.html" class="nav-link">Subnet Calc</a>
+        <span class="nav-separator">|</span>
+        <a href="bit-calculator.html" class="nav-link">Bit Calc</a>
+        <span class="nav-separator">|</span>
+        <a href="data-rate-calculator.html" class="nav-link current">Data Rate</a>
+    </nav>
     <div class="ascii-logo">  ___  _    _  __        __   _
  / _ \| | _| | \ \      / /__| |__
 | | | | |/ _` | \ \ /\ / / _ \ '_ \

@@ -25,6 +25,9 @@
 - Copy-to-clipboard functionality for all outputs
 - Support keyboard shortcuts for power users
 - Dark mode support (terminal users expect it)
+- Consistent navigation across all tools - users should be able to jump between tools without returning to home
+- Navigation should be minimal, unobtrusive, and positioned for quick access
+- Highlight current tool in navigation to show user location
 
 ### 5. **No Fluff**
 - No analytics, tracking, or unnecessary JavaScript
@@ -81,6 +84,7 @@
 3. **Optimize for speed** - Profile before optimizing, but be conscious from the start
 4. **Make it obvious** - UI should be self-explanatory, no documentation needed
 5. **Build for real use** - Every tool should solve an actual problem you've encountered
+6. **Maintain Navigation Consistency** - All tools must have identical navigation structure and styling
 
 ## Success Criteria
 

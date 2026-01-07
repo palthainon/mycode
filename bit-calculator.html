@@ -342,40 +342,61 @@
             }
         }
 
-        /* Home Navigation Link */
-        .home-link {
+        /* Navigation Bar */
+        .nav-bar {
             position: absolute;
             top: 20px;
             left: 40px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .nav-link {
             color: #4fc3f7;
             text-decoration: none;
             font-size: 0.9rem;
             font-weight: 600;
             transition: color 0.2s, text-shadow 0.2s;
-            z-index: 100;
         }
 
-        .home-link:hover {
+        .nav-link:hover {
             color: #2196f3;
             text-shadow: 0 0 10px rgba(79, 195, 247, 0.5);
         }
 
-        .home-link::before {
-            content: '← ';
+        .nav-link.current {
+            color: #66bb6a;
+            border-bottom: 2px solid #66bb6a;
+        }
+
+        .nav-separator {
+            color: rgba(79, 195, 247, 0.3);
+            user-select: none;
         }
 
         @media (max-width: 768px) {
-            .home-link {
+            .nav-bar {
                 position: static;
-                display: block;
-                text-align: center;
-                margin-bottom: 10px;
+                justify-content: center;
+                flex-wrap: wrap;
+                margin-bottom: 20px;
+                gap: 10px;
             }
         }
     </style>
 </head>
 <body>
-    <a href="index.html" class="home-link">Home</a>
+    <nav class="nav-bar">
+        <a href="index.html" class="nav-link">Home</a>
+        <span class="nav-separator">|</span>
+        <a href="subnet-calculator.html" class="nav-link">Subnet Calc</a>
+        <span class="nav-separator">|</span>
+        <a href="bit-calculator.html" class="nav-link current">Bit Calc</a>
+        <span class="nav-separator">|</span>
+        <a href="data-rate-calculator.html" class="nav-link">Data Rate</a>
+    </nav>
     <div class="ascii-logo">  ___  _    _  __        __   _
  / _ \| | _| | \ \      / /__| |__
 | | | | |/ _` | \ \ /\ / / _ \ '_ \
