@@ -191,6 +191,7 @@
 
             .nav-bar {
                 position: static;
+                transform: none;
                 flex-direction: column;
                 align-items: stretch;
                 gap: 10px;

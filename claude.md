@@ -42,6 +42,7 @@
 - Comments only where logic isn't self-evident
 - Consistent naming conventions across all tools
 - Pure functions where possible - easier to test and reason about
+- Always update sitemap.xml with new files.
 
 ### Architecture
 - Static HTML pages with embedded JavaScript for simple tools
