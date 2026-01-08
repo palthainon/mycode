@@ -6,29 +6,29 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Calculate IPv6 subnets with prefix notation. Determine network range, total addresses, and compressed notation. Fast IPv6 subnet calculation tool.">
-    <meta name="keywords" content="IPv6 subnet calculator, IPv6 CIDR, IPv6 prefix calculator, IPv6 network calculator, IPv6 address calculator">
+    <meta name="description" content="Calculate IPv4 subnets with CIDR notation. Get network address, broadcast address, usable host range, and subnet mask. Fast, accurate, and works offline.">
+    <meta name="keywords" content="IPv4 subnet calculator, CIDR calculator, subnet mask calculator, network calculator, IP address calculator, broadcast address">
     <meta name="author" content="OldWeb.tech">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://oldweb.tech/subnet-calculator-ipv6.html">
+    <link rel="canonical" href="https://oldweb.tech/subnet-calculator.html">
 
     <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="IPv6 Subnet Calculator - OldWeb.tech">
-    <meta property="og:description" content="Calculate IPv6 subnets with prefix notation. Determine network range, total addresses, and compressed notation. Fast IPv6 subnet calculation tool.">
+    <meta property="og:title" content="IPv4 Subnet Calculator - OldWeb.tech">
+    <meta property="og:description" content="Calculate IPv4 subnets with CIDR notation. Get network address, broadcast address, usable host range, and subnet mask. Fast, accurate, and works offline.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://oldweb.tech/subnet-calculator-ipv6.html">
+    <meta property="og:url" content="https://oldweb.tech/subnet-calculator.html">
     <meta property="og:site_name" content="OldWeb.tech">
 
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="IPv6 Subnet Calculator - OldWeb.tech">
-    <meta name="twitter:description" content="Calculate IPv6 subnets with prefix notation. Determine network range, total addresses, and compressed notation. Fast IPv6 subnet calculation tool.">
+    <meta name="twitter:title" content="IPv4 Subnet Calculator - OldWeb.tech">
+    <meta name="twitter:description" content="Calculate IPv4 subnets with CIDR notation. Get network address, broadcast address, usable host range, and subnet mask. Fast, accurate, and works offline.">
 
     <!-- Additional Meta Tags -->
     <meta name="theme-color" content="#1a1a2e">
 
-    <title>IPv6 Subnet Calculator - OldWeb.tech</title>
-    <script src="navigation.js"></script>
+    <title>IPv4 Subnet Calculator - OldWeb.tech</title>
+    <script src="../navigation.js"></script>
     <style>
         * {
             margin: 0;
@@ -45,7 +45,7 @@
         }
 
         .container {
-            max-width: 900px;
+            max-width: 800px;
             margin: 0 auto;
         }
 
@@ -176,10 +176,9 @@
         }
 
         .result-item .value {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-family: 'Consolas', 'Monaco', monospace;
             color: #fff;
-            word-break: break-all;
         }
 
         .error {
@@ -196,19 +195,19 @@
             display: block;
         }
 
-        .hex-display {
+        .binary-display {
             margin-top: 30px;
             padding-top: 20px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .hex-display h3 {
+        .binary-display h3 {
             color: #4fc3f7;
             margin-bottom: 15px;
             font-size: 1.2rem;
         }
 
-        .hex-item {
+        .binary-item {
             font-family: 'Consolas', 'Monaco', monospace;
             font-size: 0.9rem;
             margin-bottom: 10px;
@@ -217,17 +216,17 @@
             border-radius: 4px;
         }
 
-        .hex-item .hex-label {
+        .binary-item .bin-label {
             color: #90caf9;
             display: inline-block;
-            width: 180px;
+            width: 140px;
         }
 
-        .hex-item .network-bits {
+        .binary-item .network-bits {
             color: #4fc3f7;
         }
 
-        .hex-item .host-bits {
+        .binary-item .host-bits {
             color: #ff8a65;
         }
 
@@ -351,7 +350,7 @@
             width: 100%;
             border-collapse: collapse;
             font-family: 'Consolas', 'Monaco', monospace;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
         }
 
         .subnet-table th {
@@ -464,22 +463,7 @@
             background: rgba(79, 195, 247, 0.25);
             border-color: #4fc3f7;
             box-shadow: 0 0 15px rgba(79, 195, 247, 0.3);
-            transform: translateX(-3px);
-        }
-
-        .warning {
-            background: rgba(255, 152, 0, 0.2);
-            border: 1px solid #ff9800;
-            color: #ffb74d;
-            padding: 12px 16px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            font-size: 0.9rem;
-            display: none;
-        }
-
-        .warning.show {
-            display: block;
+            transform: translateX(3px);
         }
     </style>
 
@@ -488,9 +472,9 @@
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      "name": "IPv6 Subnet Calculator",
-      "description": "Calculate IPv6 subnets with prefix notation. Determine network range, total addresses, and compressed notation. Fast IPv6 subnet calculation tool.",
-      "url": "https://oldweb.tech/subnet-calculator-ipv6.html",
+      "name": "IPv4 Subnet Calculator",
+      "description": "Calculate IPv4 subnets with CIDR notation. Get network address, broadcast address, usable host range, and subnet mask. Fast, accurate, and works offline.",
+      "url": "https://oldweb.tech/subnet-calculator.html",
       "applicationCategory": "UtilitiesApplication",
       "operatingSystem": "Web Browser",
       "offers": {
@@ -514,29 +498,44 @@
 </div>
     <div class="container">
         <div class="protocol-toggle-container">
-            <h1>IPv6 Subnet Calculator</h1>
-            <a href="subnet-calculator.html" class="protocol-toggle-link">← Switch to IPv4</a>
+            <h1>IPv4 Subnet Calculator</h1>
+            <a href="subnet-calculator-ipv6.html" class="protocol-toggle-link">Switch to IPv6 →</a>
         </div>
 
         <div class="calculator">
             <div class="input-group">
                 <div class="input-field">
-                    <label for="ipv6Address">IPv6 Address</label>
-                    <input type="text" id="ipv6Address" placeholder="2001:db8::1">
+                    <label for="ipAddress">IP Address</label>
+                    <input type="text" id="ipAddress" placeholder="192.168.1.100">
                 </div>
                 <div class="input-field">
-                    <label for="cidr">Prefix Length</label>
+                    <label for="cidr">CIDR / Prefix Length</label>
                     <select id="cidr">
-                        <option value="32">/32 - ISP Allocation</option>
-                        <option value="48">/48 - Site Prefix</option>
-                        <option value="56">/56 - Small Site</option>
-                        <option value="64" selected>/64 - Single Subnet</option>
-                        <option value="80">/80</option>
-                        <option value="96">/96</option>
-                        <option value="112">/112</option>
-                        <option value="120">/120</option>
-                        <option value="127">/127 - Point-to-Point</option>
-                        <option value="128">/128 - Single Host</option>
+                        <option value="8">/8 - 255.0.0.0</option>
+                        <option value="9">/9 - 255.128.0.0</option>
+                        <option value="10">/10 - 255.192.0.0</option>
+                        <option value="11">/11 - 255.224.0.0</option>
+                        <option value="12">/12 - 255.240.0.0</option>
+                        <option value="13">/13 - 255.248.0.0</option>
+                        <option value="14">/14 - 255.252.0.0</option>
+                        <option value="15">/15 - 255.254.0.0</option>
+                        <option value="16">/16 - 255.255.0.0</option>
+                        <option value="17">/17 - 255.255.128.0</option>
+                        <option value="18">/18 - 255.255.192.0</option>
+                        <option value="19">/19 - 255.255.224.0</option>
+                        <option value="20">/20 - 255.255.240.0</option>
+                        <option value="21">/21 - 255.255.248.0</option>
+                        <option value="22">/22 - 255.255.252.0</option>
+                        <option value="23">/23 - 255.255.254.0</option>
+                        <option value="24" selected>/24 - 255.255.255.0</option>
+                        <option value="25">/25 - 255.255.255.128</option>
+                        <option value="26">/26 - 255.255.255.192</option>
+                        <option value="27">/27 - 255.255.255.224</option>
+                        <option value="28">/28 - 255.255.255.240</option>
+                        <option value="29">/29 - 255.255.255.248</option>
+                        <option value="30">/30 - 255.255.255.252</option>
+                        <option value="31">/31 - 255.255.255.254</option>
+                        <option value="32">/32 - 255.255.255.255</option>
                     </select>
                 </div>
             </div>
@@ -544,16 +543,17 @@
             <button class="btn" onclick="calculate()">Calculate Subnet</button>
 
             <div class="quick-masks">
-                <h3>Quick Select Common Prefixes:</h3>
+                <h3>Quick Select Common Masks:</h3>
                 <div class="mask-buttons">
-                    <button class="mask-btn" onclick="setMask(32)">/32 ISP</button>
-                    <button class="mask-btn" onclick="setMask(48)">/48 Site</button>
-                    <button class="mask-btn" onclick="setMask(56)">/56 Small Site</button>
-                    <button class="mask-btn" onclick="setMask(64)">/64 Subnet</button>
-                    <button class="mask-btn" onclick="setMask(80)">/80</button>
-                    <button class="mask-btn" onclick="setMask(96)">/96</button>
-                    <button class="mask-btn" onclick="setMask(112)">/112</button>
-                    <button class="mask-btn" onclick="setMask(128)">/128 Host</button>
+                    <button class="mask-btn" onclick="setMask(8)">/8 Class A</button>
+                    <button class="mask-btn" onclick="setMask(16)">/16 Class B</button>
+                    <button class="mask-btn" onclick="setMask(24)">/24 Class C</button>
+                    <button class="mask-btn" onclick="setMask(25)">/25 (128)</button>
+                    <button class="mask-btn" onclick="setMask(26)">/26 (64)</button>
+                    <button class="mask-btn" onclick="setMask(27)">/27 (32)</button>
+                    <button class="mask-btn" onclick="setMask(28)">/28 (16)</button>
+                    <button class="mask-btn" onclick="setMask(29)">/29 (8)</button>
+                    <button class="mask-btn" onclick="setMask(30)">/30 (4)</button>
                 </div>
             </div>
 
@@ -567,52 +567,60 @@
             </div>
             <div class="results-grid">
                 <div class="result-item">
-                    <div class="label">Network Address (Compressed)</div>
-                    <div class="value" id="networkCompressed">-</div>
+                    <div class="label">Network Address</div>
+                    <div class="value" id="networkAddress">-</div>
                 </div>
                 <div class="result-item">
-                    <div class="label">Network Address (Expanded)</div>
-                    <div class="value" id="networkExpanded">-</div>
+                    <div class="label">Broadcast Address</div>
+                    <div class="value" id="broadcastAddress">-</div>
                 </div>
                 <div class="result-item">
-                    <div class="label">First Address</div>
-                    <div class="value" id="firstAddress">-</div>
+                    <div class="label">First Usable Host</div>
+                    <div class="value" id="firstHost">-</div>
                 </div>
                 <div class="result-item">
-                    <div class="label">Last Address</div>
-                    <div class="value" id="lastAddress">-</div>
+                    <div class="label">Last Usable Host</div>
+                    <div class="value" id="lastHost">-</div>
                 </div>
                 <div class="result-item">
-                    <div class="label">Prefix</div>
-                    <div class="value" id="prefix">-</div>
+                    <div class="label">Subnet Mask</div>
+                    <div class="value" id="subnetMask">-</div>
                 </div>
                 <div class="result-item">
-                    <div class="label">Total Addresses</div>
-                    <div class="value" id="totalAddresses">-</div>
+                    <div class="label">Wildcard Mask</div>
+                    <div class="value" id="wildcardMask">-</div>
                 </div>
                 <div class="result-item">
-                    <div class="label">Address Type</div>
-                    <div class="value" id="addressType">-</div>
+                    <div class="label">CIDR Notation</div>
+                    <div class="value" id="cidrNotation">-</div>
                 </div>
                 <div class="result-item">
-                    <div class="label">Interface ID</div>
-                    <div class="value" id="interfaceId">-</div>
+                    <div class="label">Total Hosts</div>
+                    <div class="value" id="totalHosts">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="label">Usable Hosts</div>
+                    <div class="value" id="usableHosts">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="label">IP Class</div>
+                    <div class="value" id="ipClass">-</div>
                 </div>
             </div>
 
-            <div class="hex-display">
-                <h3>Hexadecimal Representation</h3>
-                <div class="hex-item">
-                    <span class="hex-label">IPv6 Address:</span>
-                    <span id="hexIP">-</span>
+            <div class="binary-display">
+                <h3>Binary Representation</h3>
+                <div class="binary-item">
+                    <span class="bin-label">IP Address:</span>
+                    <span id="binaryIP">-</span>
                 </div>
-                <div class="hex-item">
-                    <span class="hex-label">Prefix Mask:</span>
-                    <span id="hexMask">-</span>
+                <div class="binary-item">
+                    <span class="bin-label">Subnet Mask:</span>
+                    <span id="binaryMask">-</span>
                 </div>
-                <div class="hex-item">
-                    <span class="hex-label">Network (colored):</span>
-                    <span id="hexNetwork">-</span>
+                <div class="binary-item">
+                    <span class="bin-label">Network:</span>
+                    <span id="binaryNetwork">-</span>
                 </div>
             </div>
         </div>
@@ -622,7 +630,6 @@
                 <h2>All Subnets in Network</h2>
                 <button class="export-btn" onclick="exportSubnetListToCSV()">Export to CSV</button>
             </div>
-            <div class="warning" id="subnetWarning"></div>
             <div class="subnet-list-info" id="subnetListInfo"></div>
             <div class="subnet-table-container">
                 <table class="subnet-table">
@@ -630,8 +637,9 @@
                         <tr>
                             <th>#</th>
                             <th>Network Address</th>
-                            <th>Address Range</th>
-                            <th>Total Addresses</th>
+                            <th>Host Range</th>
+                            <th>Broadcast</th>
+                            <th>Usable Hosts</th>
                         </tr>
                     </thead>
                     <tbody id="subnetTableBody">
@@ -641,7 +649,7 @@
         </div>
 
         <footer>
-            IPv6 Subnet Calculator - Works offline, no installation required
+            Subnet Calculator - Works offline, no installation required
         </footer>
     </div>
 
@@ -651,199 +659,64 @@
             document.getElementById('cidr').value = cidr;
         }
 
-        // Validate IPv6 address
-        function isValidIPv6(addr) {
-            if (!addr || addr.length > 39) return false;
-
-            // Check for valid characters
-            if (!/^[0-9a-fA-F:]+$/.test(addr)) return false;
-
-            // Cannot start or end with single colon
-            if (/^:[^:]/.test(addr) || /[^:]:$/.test(addr)) return false;
-
-            // Only one :: allowed
-            if ((addr.match(/::/g) || []).length > 1) return false;
-
-            // Handle :: compression
-            if (addr.includes('::')) {
-                const parts = addr.split('::');
-                const left = parts[0] ? parts[0].split(':').filter(s => s) : [];
-                const right = parts[1] ? parts[1].split(':').filter(s => s) : [];
-                const totalSegments = left.length + right.length;
-                if (totalSegments > 7) return false;
-
-                // Validate each segment
-                const allSegments = [...left, ...right];
-                for (const seg of allSegments) {
-                    if (seg.length > 4) return false;
-                    const num = parseInt(seg, 16);
-                    if (isNaN(num) || num < 0 || num > 0xffff) return false;
-                }
-            } else {
-                const segments = addr.split(':');
-                if (segments.length !== 8) return false;
-
-                for (const seg of segments) {
-                    if (seg.length > 4 || seg.length === 0) return false;
-                    const num = parseInt(seg, 16);
-                    if (isNaN(num) || num < 0 || num > 0xffff) return false;
-                }
-            }
-
-            return true;
+        // Validate IP address
+        function isValidIP(ip) {
+            const parts = ip.split('.');
+            if (parts.length !== 4) return false;
+            return parts.every(part => {
+                const num = parseInt(part, 10);
+                return !isNaN(num) && num >= 0 && num <= 255 && part === num.toString();
+            });
         }
 
-        // Expand compressed IPv6 to full notation
-        function expandIPv6(addr) {
-            if (addr.includes('::')) {
-                const sides = addr.split('::');
-                const left = sides[0] ? sides[0].split(':') : [];
-                const right = sides[1] ? sides[1].split(':') : [];
-                const missing = 8 - (left.length + right.length);
-                const middle = Array(missing).fill('0000');
-                const full = [...left, ...middle, ...right];
-                return full.map(s => s.padStart(4, '0')).join(':');
-            }
-            return addr.split(':').map(s => s.padStart(4, '0')).join(':');
+        // Convert IP to integer
+        function ipToInt(ip) {
+            const parts = ip.split('.').map(Number);
+            return ((parts[0] << 24) | (parts[1] << 16) | (parts[2] << 8) | parts[3]) >>> 0;
         }
 
-        // Compress IPv6 to shortest notation
-        function compressIPv6(addr) {
-            const segments = expandIPv6(addr).split(':');
-
-            // Find longest run of zeros
-            let maxStart = -1, maxLen = 0;
-            let currStart = -1, currLen = 0;
-
-            for (let i = 0; i < segments.length; i++) {
-                if (segments[i] === '0000') {
-                    if (currStart === -1) currStart = i;
-                    currLen++;
-                } else {
-                    if (currLen > maxLen) {
-                        maxStart = currStart;
-                        maxLen = currLen;
-                    }
-                    currStart = -1;
-                    currLen = 0;
-                }
-            }
-            if (currLen > maxLen) {
-                maxStart = currStart;
-                maxLen = currLen;
-            }
-
-            // Replace longest run with ::
-            if (maxLen > 1) {
-                const before = segments.slice(0, maxStart).map(s => s.replace(/^0+/, '') || '0');
-                const after = segments.slice(maxStart + maxLen).map(s => s.replace(/^0+/, '') || '0');
-
-                if (before.length === 0 && after.length === 0) return '::';
-                if (before.length === 0) return '::' + after.join(':');
-                if (after.length === 0) return before.join(':') + '::';
-                return before.join(':') + '::' + after.join(':');
-            }
-
-            return segments.map(s => s.replace(/^0+/, '') || '0').join(':');
+        // Convert integer to IP
+        function intToIP(int) {
+            return [
+                (int >>> 24) & 255,
+                (int >>> 16) & 255,
+                (int >>> 8) & 255,
+                int & 255
+            ].join('.');
         }
 
-        // Convert IPv6 to BigInt
-        function ipv6ToInt(addr) {
-            const expanded = expandIPv6(addr);
-            const segments = expanded.split(':');
-            let result = 0n;
-
-            for (let i = 0; i < 8; i++) {
-                const val = BigInt(parseInt(segments[i], 16));
-                result = (result << 16n) | val;
-            }
-
-            return result;
+        // Convert integer to binary with dots
+        function intToBinary(int) {
+            return [
+                ((int >>> 24) & 255).toString(2).padStart(8, '0'),
+                ((int >>> 16) & 255).toString(2).padStart(8, '0'),
+                ((int >>> 8) & 255).toString(2).padStart(8, '0'),
+                (int & 255).toString(2).padStart(8, '0')
+            ].join('.');
         }
 
-        // Convert BigInt to IPv6
-        function intToIPv6(int) {
-            const segments = [];
-            let temp = int;
-
-            for (let i = 0; i < 8; i++) {
-                segments.unshift((temp & 0xffffn).toString(16).padStart(4, '0'));
-                temp = temp >> 16n;
-            }
-
-            return segments.join(':');
+        // Get subnet mask from CIDR
+        function cidrToMask(cidr) {
+            return cidr === 0 ? 0 : (0xFFFFFFFF << (32 - cidr)) >>> 0;
         }
 
-        // Calculate subnet mask from CIDR
-        function cidrToIPv6Mask(cidr) {
-            const mask = (0xffffffffffffffffffffffffffffffffn << (128n - BigInt(cidr))) &
-                         0xffffffffffffffffffffffffffffffffn;
-            return mask;
+        // Get IP class
+        function getIPClass(ip) {
+            const firstOctet = parseInt(ip.split('.')[0], 10);
+            if (firstOctet >= 1 && firstOctet <= 126) return 'Class A';
+            if (firstOctet === 127) return 'Loopback';
+            if (firstOctet >= 128 && firstOctet <= 191) return 'Class B';
+            if (firstOctet >= 192 && firstOctet <= 223) return 'Class C';
+            if (firstOctet >= 224 && firstOctet <= 239) return 'Class D (Multicast)';
+            return 'Class E (Reserved)';
         }
 
-        // Get IPv6 address type
-        function getIPv6AddressType(addr) {
-            const ipInt = ipv6ToInt(addr);
-
-            if (ipInt === 0n) return 'Unspecified (::)';
-            if (ipInt === 1n) return 'Loopback (::1)';
-
-            const firstSegment = (ipInt >> 112n) & 0xffffn;
-
-            // Link-local: fe80::/10
-            if ((firstSegment & 0xffc0n) === 0xfe80n) return 'Link-Local';
-
-            // Unique local: fc00::/7
-            if ((firstSegment & 0xfe00n) === 0xfc00n) return 'Unique Local Address (ULA)';
-
-            // Multicast: ff00::/8
-            if ((firstSegment & 0xff00n) === 0xff00n) return 'Multicast';
-
-            // IPv4-mapped: ::ffff:0:0/96
-            if ((ipInt >> 32n) === 0xffffn) return 'IPv4-Mapped';
-
-            return 'Global Unicast';
-        }
-
-        // Format IPv6 hex with colors
-        function formatIPv6HexWithColors(addr, cidr) {
-            const expanded = expandIPv6(addr);
-            const hex = expanded.replace(/:/g, '');
-
-            let result = '';
-            for (let i = 0; i < hex.length; i++) {
-                // Add colon every 4 hex digits
-                if (i > 0 && i % 4 === 0) result += ':';
-
-                // Color based on network vs host bits
-                const bitPosition = i * 4; // Each hex = 4 bits
-                if (bitPosition < cidr) {
-                    result += `<span class="network-bits">${hex[i]}</span>`;
-                } else {
-                    result += `<span class="host-bits">${hex[i]}</span>`;
-                }
-            }
-            return result;
-        }
-
-        // Get parent CIDR for subnet listing
-        function getParentCidrIPv6(cidr) {
-            if (cidr >= 65) return 64;
-            if (cidr >= 57) return 56;
-            if (cidr >= 49) return 48;
-            if (cidr >= 33) return 32;
-            return Math.max(0, cidr - 8);
-        }
-
-        // Format large number
-        function formatBigNumber(num) {
-            const numStr = num.toString();
-            if (numStr.length <= 15) return numStr.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-
-            // For very large numbers, use exponential notation
-            const magnitude = numStr.length - 1;
-            const base = numStr[0] + '.' + numStr.slice(1, 4);
-            return `${base} × 10^${magnitude}`;
+        // Get parent network CIDR (for subnet listing)
+        function getParentCidr(cidr) {
+            if (cidr >= 25) return 24;      // /25-/32 -> show within /24
+            if (cidr >= 17) return 16;      // /17-/24 -> show within /16
+            if (cidr >= 9) return 8;        // /9-/16 -> show within /8
+            return 0;                        // /1-/8 -> show within /0
         }
 
         // Generate subnet list
@@ -851,38 +724,41 @@
             const subnetListDiv = document.getElementById('subnetList');
             const tableBody = document.getElementById('subnetTableBody');
             const infoDiv = document.getElementById('subnetListInfo');
-            const warningDiv = document.getElementById('subnetWarning');
 
             // Clear previous content
             tableBody.innerHTML = '';
-            warningDiv.classList.remove('show');
 
             // Get parent network
-            const parentCidr = getParentCidrIPv6(cidr);
-            const parentMask = cidrToIPv6Mask(parentCidr);
-            const parentNetwork = ipInt & parentMask;
+            const parentCidr = getParentCidr(cidr);
+            const parentMask = cidrToMask(parentCidr);
+            const parentNetwork = (ipInt & parentMask) >>> 0;
 
             // Calculate number of subnets
-            const numSubnets = 2n ** BigInt(cidr - parentCidr);
-            const subnetSize = 2n ** BigInt(128 - cidr);
+            const numSubnets = Math.pow(2, cidr - parentCidr);
+            const subnetSize = Math.pow(2, 32 - cidr);
 
             // Limit display to max 256 subnets for performance
             const maxDisplay = 256;
-            const displayCount = Number(numSubnets > BigInt(maxDisplay) ? BigInt(maxDisplay) : numSubnets);
-
-            // Show warning if limiting
-            if (numSubnets > maxDisplay) {
-                warningDiv.textContent = `Performance limit: Showing first ${maxDisplay} of ${formatBigNumber(numSubnets)} possible subnets`;
-                warningDiv.classList.add('show');
-            }
+            const displayCount = Math.min(numSubnets, maxDisplay);
 
             // Update info text
-            infoDiv.innerHTML = `Showing <strong>${displayCount.toLocaleString()}</strong> of <strong>${formatBigNumber(numSubnets)}</strong> possible /${cidr} subnets within <strong>${compressIPv6(intToIPv6(parentNetwork))}/${parentCidr}</strong>`;
+            infoDiv.innerHTML = `Showing <strong>${displayCount.toLocaleString()}</strong> of <strong>${numSubnets.toLocaleString()}</strong> possible /${cidr} subnets within <strong>${intToIP(parentNetwork)}/${parentCidr}</strong>`;
+
+            if (numSubnets > maxDisplay) {
+                infoDiv.innerHTML += ` <em>(limited to first ${maxDisplay} for performance)</em>`;
+            }
+
+            // Calculate usable hosts per subnet
+            let usableHostsPerSubnet = subnetSize - 2;
+            if (cidr === 31) usableHostsPerSubnet = 2;
+            if (cidr === 32) usableHostsPerSubnet = 1;
 
             // Generate subnet rows
             for (let i = 0; i < displayCount; i++) {
-                const subnetNetwork = parentNetwork + (BigInt(i) * subnetSize);
-                const lastAddress = subnetNetwork + subnetSize - 1n;
+                const subnetNetwork = (parentNetwork + (i * subnetSize)) >>> 0;
+                const subnetBroadcast = (subnetNetwork + subnetSize - 1) >>> 0;
+                const firstHost = cidr >= 31 ? subnetNetwork : subnetNetwork + 1;
+                const lastHost = cidr >= 31 ? subnetBroadcast : subnetBroadcast - 1;
 
                 const isCurrent = subnetNetwork === currentNetworkInt;
 
@@ -893,9 +769,10 @@
 
                 row.innerHTML = `
                     <td><span class="subnet-number">${i + 1}</span>${isCurrent ? '<span class="subnet-badge">Current</span>' : ''}</td>
-                    <td>${compressIPv6(intToIPv6(subnetNetwork))}/${cidr}</td>
-                    <td>${compressIPv6(intToIPv6(subnetNetwork))} - ${compressIPv6(intToIPv6(lastAddress))}</td>
-                    <td>${formatBigNumber(subnetSize)}</td>
+                    <td>${intToIP(subnetNetwork)}/${cidr}</td>
+                    <td>${intToIP(firstHost)} - ${intToIP(lastHost)}</td>
+                    <td>${cidr === 32 ? 'N/A' : intToIP(subnetBroadcast)}</td>
+                    <td>${usableHostsPerSubnet.toLocaleString()}</td>
                 `;
 
                 tableBody.appendChild(row);
@@ -913,9 +790,29 @@
             }, 100);
         }
 
+        // Format binary with network/host coloring
+        function formatBinaryWithColors(binary, cidr) {
+            const bits = binary.replace(/\./g, '');
+            const networkBits = bits.substring(0, cidr);
+            const hostBits = bits.substring(cidr);
+
+            // Add dots back
+            let result = '';
+            let fullBits = networkBits + hostBits;
+            for (let i = 0; i < 32; i++) {
+                if (i > 0 && i % 8 === 0) result += '.';
+                if (i < cidr) {
+                    result += `<span class="network-bits">${fullBits[i]}</span>`;
+                } else {
+                    result += `<span class="host-bits">${fullBits[i]}</span>`;
+                }
+            }
+            return result;
+        }
+
         // Main calculate function
         function calculate() {
-            const ipInput = document.getElementById('ipv6Address').value.trim();
+            const ipInput = document.getElementById('ipAddress').value.trim();
             const cidr = parseInt(document.getElementById('cidr').value, 10);
             const errorDiv = document.getElementById('error');
             const resultsDiv = document.getElementById('results');
@@ -926,51 +823,43 @@
             document.getElementById('subnetList').classList.remove('show');
 
             // Validate IP
-            if (!isValidIPv6(ipInput)) {
-                errorDiv.textContent = 'Please enter a valid IPv6 address (e.g., 2001:db8::1 or 2001:0db8:0000:0000:0000:0000:0000:0001)';
+            if (!isValidIP(ipInput)) {
+                errorDiv.textContent = 'Please enter a valid IPv4 address (e.g., 192.168.1.100)';
                 errorDiv.classList.add('show');
                 return;
             }
 
             // Calculate values
-            const ipInt = ipv6ToInt(ipInput);
-            const maskInt = cidrToIPv6Mask(cidr);
-            const networkInt = ipInt & maskInt;
+            const ipInt = ipToInt(ipInput);
+            const maskInt = cidrToMask(cidr);
+            const wildcardInt = (~maskInt) >>> 0;
+            const networkInt = (ipInt & maskInt) >>> 0;
+            const broadcastInt = (networkInt | wildcardInt) >>> 0;
 
-            const hostBits = 128 - cidr;
-            const totalAddresses = 2n ** BigInt(hostBits);
-            const lastAddressInt = networkInt + totalAddresses - 1n;
+            const totalHosts = Math.pow(2, 32 - cidr);
+            let usableHosts = totalHosts - 2;
+            if (cidr === 31) usableHosts = 2; // Point-to-point link
+            if (cidr === 32) usableHosts = 1; // Single host
 
-            const networkCompressed = compressIPv6(intToIPv6(networkInt));
-            const networkExpanded = expandIPv6(intToIPv6(networkInt));
-            const firstAddress = compressIPv6(intToIPv6(networkInt));
-            const lastAddress = compressIPv6(intToIPv6(lastAddressInt));
-
-            // Get address type
-            const addressType = getIPv6AddressType(ipInput);
-
-            // Get interface ID for /64
-            let interfaceId = 'N/A';
-            if (cidr === 64) {
-                const interfaceIdInt = ipInt & 0xffffffffffffffffn;
-                interfaceId = interfaceIdInt.toString(16).padStart(16, '0');
-                interfaceId = interfaceId.match(/.{1,4}/g).join(':');
-            }
+            const firstHostInt = cidr >= 31 ? networkInt : networkInt + 1;
+            const lastHostInt = cidr >= 31 ? broadcastInt : broadcastInt - 1;
 
             // Update display
-            document.getElementById('networkCompressed').textContent = networkCompressed;
-            document.getElementById('networkExpanded').textContent = networkExpanded;
-            document.getElementById('firstAddress').textContent = firstAddress;
-            document.getElementById('lastAddress').textContent = lastAddress;
-            document.getElementById('prefix').textContent = '/' + cidr;
-            document.getElementById('totalAddresses').textContent = formatBigNumber(totalAddresses);
-            document.getElementById('addressType').textContent = addressType;
-            document.getElementById('interfaceId').textContent = interfaceId;
+            document.getElementById('networkAddress').textContent = intToIP(networkInt);
+            document.getElementById('broadcastAddress').textContent = cidr === 32 ? 'N/A' : intToIP(broadcastInt);
+            document.getElementById('firstHost').textContent = intToIP(firstHostInt);
+            document.getElementById('lastHost').textContent = cidr === 32 ? intToIP(firstHostInt) : intToIP(lastHostInt);
+            document.getElementById('subnetMask').textContent = intToIP(maskInt);
+            document.getElementById('wildcardMask').textContent = intToIP(wildcardInt);
+            document.getElementById('cidrNotation').textContent = '/' + cidr;
+            document.getElementById('totalHosts').textContent = totalHosts.toLocaleString();
+            document.getElementById('usableHosts').textContent = usableHosts.toLocaleString();
+            document.getElementById('ipClass').textContent = getIPClass(ipInput);
 
-            // Hex display
-            document.getElementById('hexIP').innerHTML = formatIPv6HexWithColors(ipInput, cidr);
-            document.getElementById('hexMask').textContent = expandIPv6(intToIPv6(maskInt));
-            document.getElementById('hexNetwork').innerHTML = formatIPv6HexWithColors(intToIPv6(networkInt), cidr);
+            // Binary display
+            document.getElementById('binaryIP').innerHTML = formatBinaryWithColors(intToBinary(ipInt), cidr);
+            document.getElementById('binaryMask').textContent = intToBinary(maskInt);
+            document.getElementById('binaryNetwork').innerHTML = formatBinaryWithColors(intToBinary(networkInt), cidr);
 
             // Show results
             resultsDiv.classList.add('show');
@@ -980,14 +869,14 @@
         }
 
         // Allow Enter key to calculate
-        document.getElementById('ipv6Address').addEventListener('keypress', function(e) {
+        document.getElementById('ipAddress').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') calculate();
         });
 
         // Auto-calculate on CIDR change if IP is valid
         document.getElementById('cidr').addEventListener('change', function() {
-            const ip = document.getElementById('ipv6Address').value.trim();
-            if (isValidIPv6(ip)) calculate();
+            const ip = document.getElementById('ipAddress').value.trim();
+            if (isValidIP(ip)) calculate();
         });
 
         // CSV Export Functions
@@ -1005,29 +894,35 @@
         }
 
         function exportSubnetDetailsToCSV() {
-            const networkCompressed = document.getElementById('networkCompressed').textContent;
-            const networkExpanded = document.getElementById('networkExpanded').textContent;
-            const firstAddress = document.getElementById('firstAddress').textContent;
-            const lastAddress = document.getElementById('lastAddress').textContent;
-            const prefix = document.getElementById('prefix').textContent;
-            const totalAddresses = document.getElementById('totalAddresses').textContent;
-            const addressType = document.getElementById('addressType').textContent;
-            const interfaceId = document.getElementById('interfaceId').textContent;
+            // Get all the values from the subnet details
+            const networkAddress = document.getElementById('networkAddress').textContent;
+            const broadcastAddress = document.getElementById('broadcastAddress').textContent;
+            const firstHost = document.getElementById('firstHost').textContent;
+            const lastHost = document.getElementById('lastHost').textContent;
+            const subnetMask = document.getElementById('subnetMask').textContent;
+            const wildcardMask = document.getElementById('wildcardMask').textContent;
+            const cidrNotation = document.getElementById('cidrNotation').textContent;
+            const totalHosts = document.getElementById('totalHosts').textContent;
+            const usableHosts = document.getElementById('usableHosts').textContent;
+            const ipClass = document.getElementById('ipClass').textContent;
 
+            // Create CSV content
             const csvRows = [
                 ['Field', 'Value'],
-                ['Network Address (Compressed)', networkCompressed],
-                ['Network Address (Expanded)', networkExpanded],
-                ['First Address', firstAddress],
-                ['Last Address', lastAddress],
-                ['Prefix', prefix],
-                ['Total Addresses', totalAddresses],
-                ['Address Type', addressType],
-                ['Interface ID', interfaceId]
+                ['Network Address', networkAddress],
+                ['Broadcast Address', broadcastAddress],
+                ['First Usable Host', firstHost],
+                ['Last Usable Host', lastHost],
+                ['Subnet Mask', subnetMask],
+                ['Wildcard Mask', wildcardMask],
+                ['CIDR Notation', cidrNotation],
+                ['Total Hosts', totalHosts],
+                ['Usable Hosts', usableHosts],
+                ['IP Class', ipClass]
             ];
 
             const csvContent = csvRows.map(row => row.join(',')).join('\n');
-            const filename = `ipv6-subnet-${networkCompressed.replace(/:/g, '-')}${prefix}.csv`;
+            const filename = `subnet-details-${networkAddress.replace(/\./g, '-')}${cidrNotation}.csv`;
 
             downloadCSV(filename, csvContent);
         }
@@ -1041,36 +936,44 @@
                 return;
             }
 
+            // Create CSV header
             const csvRows = [
-                ['Subnet #', 'Network Address', 'First Address', 'Last Address', 'Total Addresses']
+                ['Subnet #', 'Network Address', 'First Host', 'Last Host', 'Broadcast', 'Usable Hosts']
             ];
 
+            // Add data rows
             rows.forEach(row => {
                 const cells = row.querySelectorAll('td');
+                // Extract subnet number (remove badge if present)
                 const subnetNum = cells[0].querySelector('.subnet-number').textContent;
                 const networkAddr = cells[1].textContent;
-                const addressRange = cells[2].textContent.split(' - ');
-                const firstAddr = addressRange[0];
-                const lastAddr = addressRange[1];
-                const totalAddrs = cells[3].textContent;
+                const hostRange = cells[2].textContent.split(' - ');
+                const firstHost = hostRange[0];
+                const lastHost = hostRange[1];
+                const broadcast = cells[3].textContent;
+                const usableHosts = cells[4].textContent;
 
                 csvRows.push([
                     subnetNum,
                     networkAddr,
-                    firstAddr,
-                    lastAddr,
-                    totalAddrs
+                    firstHost,
+                    lastHost,
+                    broadcast,
+                    usableHosts
                 ]);
             });
 
             const csvContent = csvRows.map(row => row.map(cell => {
+                // Escape cells containing commas or quotes
                 if (cell.includes(',') || cell.includes('"')) {
                     return `"${cell.replace(/"/g, '""')}"`;
                 }
                 return cell;
             }).join(',')).join('\n');
 
-            const filename = `ipv6-subnet-list-${new Date().toISOString().split('T')[0]}.csv`;
+            // Generate filename based on network info
+            const infoText = document.getElementById('subnetListInfo').textContent;
+            const filename = `subnet-list-${new Date().toISOString().split('T')[0]}.csv`;
 
             downloadCSV(filename, csvContent);
         }
