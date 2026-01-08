@@ -7,8 +7,7 @@
             id: 'home'
         },
         network: [
-            { name: 'Subnet Calc (IPv4)', file: 'nettools/subnet-calculator.html', id: 'subnet' },
-            { name: 'Subnet Calc (IPv6)', file: 'nettools/subnet-calculator-ipv6.html', id: 'subnet-ipv6' },
+            { name: 'Subnet Calculator', file: 'nettools/subnet-calculator.html', id: 'subnet' },
             { name: 'Subnet Planner', file: 'nettools/subnet-planner.html', id: 'planner' },
             { name: 'CIDR Converter', file: 'nettools/cidr-converter.html', id: 'cidr' },
             { name: 'Bit Calc', file: 'nettools/bit-calculator.html', id: 'bit' },
@@ -180,11 +179,6 @@
             font-weight: 600;
         }
 
-        .nav-dropdown-link[aria-current="page"]::after {
-            content: " ✓";
-            font-size: 0.8rem;
-        }
-
         @media (max-width: 768px) {
             /* Reset h1 top margin on mobile since nav is in normal flow */
             .container h1,
@@ -251,6 +245,11 @@
         // Handle root home page (only if not in a subfolder)
         if (filename === '' || filename === '/' || filename === 'index.html') {
             return { id: 'home', category: null };
+        }
+
+        // Special case: IPv6 subnet calculator (not in nav but should highlight network category)
+        if (filename === 'subnet-calculator-ipv6.html') {
+            return { id: 'subnet-ipv6', category: 'network' };
         }
 
         // Search through categories

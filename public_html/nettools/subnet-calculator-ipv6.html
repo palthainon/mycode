@@ -540,7 +540,14 @@
                 </div>
             </div>
 
-            <button class="btn" onclick="calculate()">Calculate Subnet</button>
+            <div class="quick-masks">
+                <h3>Quick Select Common Addresses:</h3>
+                <div class="mask-buttons">
+                    <button class="mask-btn" onclick="setAddress('fe80::1')">fe80::1 - Local</button>
+                    <button class="mask-btn" onclick="setAddress('2001:db8::1')">2001:db8::1 - Internet</button>
+                    <button class="mask-btn" onclick="setAddress('fd00::1')">fd00::1 - Private</button>
+                </div>
+            </div>
 
             <div class="quick-masks">
                 <h3>Quick Select Common Prefixes:</h3>
@@ -555,6 +562,8 @@
                     <button class="mask-btn" onclick="setMask(128)">/128 Host</button>
                 </div>
             </div>
+
+            <button class="btn" onclick="calculate()" style="margin-top: 25px;">Calculate Subnet</button>
 
             <div class="error" id="error"></div>
         </div>
@@ -645,6 +654,13 @@
     </div>
 
     <script>
+        // Set quick address selection
+        function setAddress(addr) {
+            document.getElementById('ipv6Address').value = addr;
+            // Auto-calculate if valid
+            if (isValidIPv6(addr)) calculate();
+        }
+
         // Set quick mask selection
         function setMask(cidr) {
             document.getElementById('cidr').value = cidr;
@@ -1025,7 +1041,7 @@
                 ['Interface ID', interfaceId]
             ];
 
-            const csvContent = csvRows.map(row => row.join(',')).join('\n');
+            const csvContent = csvRows.map(row => row.map(cell => `"${cell.replace(/"/g, '""')}"`).join(',')).join('\n');
             const filename = `ipv6-subnet-${networkCompressed.replace(/:/g, '-')}${prefix}.csv`;
 
             downloadCSV(filename, csvContent);
@@ -1062,12 +1078,7 @@
                 ]);
             });
 
-            const csvContent = csvRows.map(row => row.map(cell => {
-                if (cell.includes(',') || cell.includes('"')) {
-                    return `"${cell.replace(/"/g, '""')}"`;
-                }
-                return cell;
-            }).join(',')).join('\n');
+            const csvContent = csvRows.map(row => row.map(cell => `"${cell.replace(/"/g, '""')}"`).join(',')).join('\n');
 
             const filename = `ipv6-subnet-list-${new Date().toISOString().split('T')[0]}.csv`;
 
