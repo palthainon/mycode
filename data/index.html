@@ -6,29 +6,29 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Fast, simple, offline-ready utilities organized into Network Tools, System Tools, and Data Tools. For network engineers and system administrators.">
-    <meta name="keywords" content="network tools, subnet calculator, CIDR converter, sysadmin utilities, network utilities, IPv4 calculator, IPv6 calculator, regex tester, password generator, free tools">
+    <meta name="description" content="Data encoding and hashing tools including Base64 encoder/decoder, hash generators (MD5, SHA), URL encoding, and hex conversion.">
+    <meta name="keywords" content="base64 encoder, hash generator, MD5, SHA256, URL encoder, hex converter, data tools">
     <meta name="author" content="OldWeb.tech">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://oldweb.tech/">
+    <link rel="canonical" href="https://oldweb.tech/data/">
 
     <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Network Tools - OldWeb.tech">
-    <meta property="og:description" content="Free offline network tools including subnet calculators, CIDR converters, password generators, and more. No installation, no tracking, fast and reliable.">
+    <meta property="og:title" content="Data Tools - OldWeb.tech">
+    <meta property="og:description" content="Data encoding and hashing tools including Base64 encoder/decoder, hash generators (MD5, SHA), URL encoding, and hex conversion.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://oldweb.tech/">
+    <meta property="og:url" content="https://oldweb.tech/data/">
     <meta property="og:site_name" content="OldWeb.tech">
 
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Network Tools - OldWeb.tech">
-    <meta name="twitter:description" content="Free offline network tools including subnet calculators, CIDR converters, password generators, and more. No installation, no tracking, fast and reliable.">
+    <meta name="twitter:title" content="Data Tools - OldWeb.tech">
+    <meta name="twitter:description" content="Data encoding and hashing tools including Base64 encoder/decoder, hash generators (MD5, SHA), URL encoding, and hex conversion.">
 
     <!-- Additional Meta Tags -->
     <meta name="theme-color" content="#1a1a2e">
 
-    <title>Network Tools - OldWeb.tech</title>
-    <script src="navigation.js"></script>
+    <title>Data Tools - OldWeb.tech</title>
+    <script src="../navigation.js"></script>
     <style>
         * {
             margin: 0;
@@ -133,15 +133,6 @@
             content: ' →';
         }
 
-        .tool-card .tool-list {
-            color: rgba(144, 202, 249, 0.7);
-            font-size: 0.85rem;
-            line-height: 1.8;
-            margin-top: 12px;
-            padding-top: 12px;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
         footer {
             text-align: center;
             margin-top: 50px;
@@ -186,20 +177,14 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "Network Tools",
-      "description": "Free offline network tools including subnet calculators, CIDR converters, password generators, and more. No installation, no tracking, fast and reliable.",
-      "url": "https://oldweb.tech/",
-      "applicationCategory": "UtilitiesApplication",
-      "operatingSystem": "Web Browser",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
-      "creator": {
-        "@type": "Organization",
-        "name": "OldWeb.tech"
+      "@type": "CollectionPage",
+      "name": "Data Tools",
+      "description": "Data encoding and hashing tools including Base64 encoder/decoder, hash generators (MD5, SHA), URL encoding, and hex conversion.",
+      "url": "https://oldweb.tech/data/",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "OldWeb.tech",
+        "url": "https://oldweb.tech/"
       }
     }
     </script>
@@ -212,34 +197,19 @@
  \___/|_|\__,_|   \_/\_/ \___|_.__/
 </div>
     <div class="container">
-        <h1>Network Tools</h1>
-        <p class="subtitle">Fast, simple, offline-ready utilities for network engineers and system administrators</p>
+        <h1>Data Tools</h1>
+        <p class="subtitle">Encoding, hashing, and data format conversion utilities</p>
 
         <div class="tools-grid">
-            <a href="nettools/index.html" class="tool-card">
-                <h2>Network Tools</h2>
-                <p>IP and subnet calculators, CIDR converters, and network planning utilities for network engineers.</p>
-                <div class="tool-list">Subnet Calculator • IPv6 Subnet Calculator • Subnet Planner • CIDR Converter • Bit Calculator • Data Transfer Calculator</div>
-                <span class="tool-link">Explore Network Tools</span>
-            </a>
-
-            <a href="system/index.html" class="tool-card">
-                <h2>System Tools</h2>
-                <p>Unix/Linux system administration utilities including permissions, cron scheduling, disk planning, and log analysis.</p>
-                <div class="tool-list">Chmod Calculator • Cron Builder • DISK Tools • Password Generator • Regex Tester • Log Timestamp Converter</div>
-                <span class="tool-link">Explore System Tools</span>
-            </a>
-
-            <a href="data/index.html" class="tool-card">
-                <h2>Data Tools</h2>
-                <p>Data encoding, hashing, and format conversion utilities for developers and security professionals.</p>
-                <div class="tool-list">Base64 & Hash Tools</div>
-                <span class="tool-link">Explore Data Tools</span>
+            <a href="base64-hash.html" class="tool-card">
+                <h2>Base64 & Hash Tools</h2>
+                <p>Encode/decode Base64, generate hashes (MD5, SHA-1, SHA-256, SHA-512), URL encode/decode, and hex conversion. Essential encoding utilities for API testing, certificates, and passwords.</p>
+                <span class="tool-link">Open Tools</span>
             </a>
         </div>
 
         <footer>
-            Network Tools - Works offline, no installation required
+            Data Tools - Works offline, no installation required
         </footer>
     </div>
 </body>

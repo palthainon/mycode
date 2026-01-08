@@ -7,7 +7,8 @@
             id: 'home'
         },
         network: [
-            { name: 'Subnet Calc', file: 'nettools/subnet-calculator.html', id: 'subnet' },
+            { name: 'Subnet Calc (IPv4)', file: 'nettools/subnet-calculator.html', id: 'subnet' },
+            { name: 'Subnet Calc (IPv6)', file: 'nettools/subnet-calculator-ipv6.html', id: 'subnet-ipv6' },
             { name: 'Subnet Planner', file: 'nettools/subnet-planner.html', id: 'planner' },
             { name: 'CIDR Converter', file: 'nettools/cidr-converter.html', id: 'cidr' },
             { name: 'Bit Calc', file: 'nettools/bit-calculator.html', id: 'bit' },
@@ -31,10 +32,17 @@
 
     // Navigation CSS styles
     const navStyles = `
+        /* Add spacing between navigation and page heading */
+        body > .container > h1,
+        body > h1 {
+            margin-top: 80px;
+        }
+
         .nav-bar {
             position: absolute;
             top: 20px;
-            left: 40px;
+            left: 50%;
+            transform: translateX(-50%);
             display: flex;
             gap: 15px;
             align-items: center;
@@ -178,6 +186,12 @@
         }
 
         @media (max-width: 768px) {
+            /* Reset h1 top margin on mobile since nav is in normal flow */
+            body > .container > h1,
+            body > h1 {
+                margin-top: 30px;
+            }
+
             .nav-bar {
                 position: static;
                 flex-direction: column;
@@ -223,7 +237,18 @@
         const pathname = window.location.pathname;
         const filename = pathname.split('/').pop() || 'index.html';
 
-        // Handle home page
+        // Check for category index pages first (before generic index.html check)
+        if (pathname.includes('/nettools/') && (filename === 'index.html' || filename === '')) {
+            return { id: 'network-home', category: 'network' };
+        }
+        if (pathname.includes('/system/') && (filename === 'index.html' || filename === '')) {
+            return { id: 'system-home', category: 'system' };
+        }
+        if (pathname.includes('/data/') && (filename === 'index.html' || filename === '')) {
+            return { id: 'data-home', category: 'data' };
+        }
+
+        // Handle root home page (only if not in a subfolder)
         if (filename === '' || filename === '/' || filename === 'index.html') {
             return { id: 'home', category: null };
         }
@@ -245,11 +270,10 @@
     function generateNavHTML(currentPage) {
         const homeCurrentAttr = currentPage.id === 'home' ? ' aria-current="page"' : '';
 
-        // Detect if we're in a subfolder and adjust home link accordingly
-        const pathname = window.location.pathname;
-        const pathParts = pathname.split('/').filter(p => p && p !== 'index.html');
-        const isInSubfolder = pathParts.length > 0 && !pathParts[pathParts.length - 1].endsWith('.html') === false;
-        const homeLink = (currentPage.category !== null) ? '../index.html' : 'index.html';
+        // Determine if we're in a subfolder to adjust all links accordingly
+        const inSubfolder = currentPage.category !== null;
+        const pathPrefix = inSubfolder ? '../' : '';
+        const homeLink = pathPrefix + 'index.html';
 
         let html = `<nav class="nav-bar" role="navigation" aria-label="Main navigation">
         <a href="${homeLink}" class="nav-home"${homeCurrentAttr}>Home</a>
@@ -275,12 +299,14 @@
                 </button>
                 <div class="nav-dropdown" id="dropdown-${category}" role="menu" hidden>`;
 
-            // Generate tool links
+            // Generate tool links with adjusted paths
             tools.forEach(tool => {
                 const isCurrentTool = tool.id === currentPage.id;
                 const currentAttr = isCurrentTool ? ' aria-current="page"' : '';
+                // Adjust tool link based on current location
+                const toolLink = pathPrefix + tool.file;
                 html += `
-                    <a href="${tool.file}" class="nav-dropdown-link" role="menuitem"${currentAttr}>${tool.name}</a>`;
+                    <a href="${toolLink}" class="nav-dropdown-link" role="menuitem"${currentAttr}>${tool.name}</a>`;
             });
 
             html += `

@@ -6,29 +6,29 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Fast, simple, offline-ready utilities organized into Network Tools, System Tools, and Data Tools. For network engineers and system administrators.">
-    <meta name="keywords" content="network tools, subnet calculator, CIDR converter, sysadmin utilities, network utilities, IPv4 calculator, IPv6 calculator, regex tester, password generator, free tools">
+    <meta name="description" content="Network tools including IPv4/IPv6 subnet calculators, CIDR converters, and bandwidth calculators. Fast, accurate, offline-ready utilities for network engineers.">
+    <meta name="keywords" content="network tools, subnet calculator, IPv6 calculator, CIDR converter, network planning, bandwidth calculator">
     <meta name="author" content="OldWeb.tech">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://oldweb.tech/">
+    <link rel="canonical" href="https://oldweb.tech/nettools/">
 
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="Network Tools - OldWeb.tech">
-    <meta property="og:description" content="Free offline network tools including subnet calculators, CIDR converters, password generators, and more. No installation, no tracking, fast and reliable.">
+    <meta property="og:description" content="Network tools including IPv4/IPv6 subnet calculators, CIDR converters, and bandwidth calculators. Fast, accurate, offline-ready utilities for network engineers.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://oldweb.tech/">
+    <meta property="og:url" content="https://oldweb.tech/nettools/">
     <meta property="og:site_name" content="OldWeb.tech">
 
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Network Tools - OldWeb.tech">
-    <meta name="twitter:description" content="Free offline network tools including subnet calculators, CIDR converters, password generators, and more. No installation, no tracking, fast and reliable.">
+    <meta name="twitter:description" content="Network tools including IPv4/IPv6 subnet calculators, CIDR converters, and bandwidth calculators. Fast, accurate, offline-ready utilities for network engineers.">
 
     <!-- Additional Meta Tags -->
     <meta name="theme-color" content="#1a1a2e">
 
     <title>Network Tools - OldWeb.tech</title>
-    <script src="navigation.js"></script>
+    <script src="../navigation.js"></script>
     <style>
         * {
             margin: 0;
@@ -133,15 +133,6 @@
             content: ' →';
         }
 
-        .tool-card .tool-list {
-            color: rgba(144, 202, 249, 0.7);
-            font-size: 0.85rem;
-            line-height: 1.8;
-            margin-top: 12px;
-            padding-top: 12px;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
         footer {
             text-align: center;
             margin-top: 50px;
@@ -186,20 +177,14 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "WebApplication",
+      "@type": "CollectionPage",
       "name": "Network Tools",
-      "description": "Free offline network tools including subnet calculators, CIDR converters, password generators, and more. No installation, no tracking, fast and reliable.",
-      "url": "https://oldweb.tech/",
-      "applicationCategory": "UtilitiesApplication",
-      "operatingSystem": "Web Browser",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
-      "creator": {
-        "@type": "Organization",
-        "name": "OldWeb.tech"
+      "description": "Network tools including IPv4/IPv6 subnet calculators, CIDR converters, and bandwidth calculators. Fast, accurate, offline-ready utilities for network engineers.",
+      "url": "https://oldweb.tech/nettools/",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "OldWeb.tech",
+        "url": "https://oldweb.tech/"
       }
     }
     </script>
@@ -213,28 +198,43 @@
 </div>
     <div class="container">
         <h1>Network Tools</h1>
-        <p class="subtitle">Fast, simple, offline-ready utilities for network engineers and system administrators</p>
+        <p class="subtitle">Fast, reliable networking utilities for planning, calculation, and troubleshooting</p>
 
         <div class="tools-grid">
-            <a href="nettools/index.html" class="tool-card">
-                <h2>Network Tools</h2>
-                <p>IP and subnet calculators, CIDR converters, and network planning utilities for network engineers.</p>
-                <div class="tool-list">Subnet Calculator • IPv6 Subnet Calculator • Subnet Planner • CIDR Converter • Bit Calculator • Data Transfer Calculator</div>
-                <span class="tool-link">Explore Network Tools</span>
+            <a href="subnet-calculator.html" class="tool-card">
+                <h2>Subnet Calculator</h2>
+                <p>Calculate IPv4 network addresses, broadcast addresses, host ranges, and subnet details from IP/CIDR notation. Includes binary representation and subnet list visualization.</p>
+                <span class="tool-link">Open Calculator</span>
             </a>
 
-            <a href="system/index.html" class="tool-card">
-                <h2>System Tools</h2>
-                <p>Unix/Linux system administration utilities including permissions, cron scheduling, disk planning, and log analysis.</p>
-                <div class="tool-list">Chmod Calculator • Cron Builder • DISK Tools • Password Generator • Regex Tester • Log Timestamp Converter</div>
-                <span class="tool-link">Explore System Tools</span>
+            <a href="subnet-calculator-ipv6.html" class="tool-card">
+                <h2>IPv6 Subnet Calculator</h2>
+                <p>Calculate IPv6 network addresses, prefix information, and address ranges. Full support for IPv6 CIDR notation and address compression.</p>
+                <span class="tool-link">Open Calculator</span>
             </a>
 
-            <a href="data/index.html" class="tool-card">
-                <h2>Data Tools</h2>
-                <p>Data encoding, hashing, and format conversion utilities for developers and security professionals.</p>
-                <div class="tool-list">Base64 & Hash Tools</div>
-                <span class="tool-link">Explore Data Tools</span>
+            <a href="subnet-planner.html" class="tool-card">
+                <h2>Subnet Planner</h2>
+                <p>Plan and visualize subnetting schemes for IPv4 networks. Design hierarchical subnets, calculate required subnet sizes, and generate subnet lists with detailed information.</p>
+                <span class="tool-link">Open Planner</span>
+            </a>
+
+            <a href="cidr-converter.html" class="tool-card">
+                <h2>CIDR Notation Converter</h2>
+                <p>Convert CIDR notation to IP ranges, detect overlaps between multiple networks, and convert IP ranges back to CIDR notation. Supports standard CIDR, subnet mask, and Cisco wildcard formats. Essential for firewall rules and ACL planning.</p>
+                <span class="tool-link">Open Converter</span>
+            </a>
+
+            <a href="bit-calculator.html" class="tool-card">
+                <h2>Bit Calculator</h2>
+                <p>Convert between bits, bytes, and larger units (KB, MB, GB, TB, etc.) with support for both legacy and IEEE notation. Perfect for network bandwidth and storage calculations.</p>
+                <span class="tool-link">Open Calculator</span>
+            </a>
+
+            <a href="data-rate-calculator.html" class="tool-card">
+                <h2>Data Transfer Calculator</h2>
+                <p>Calculate how long it takes to transfer data based on file size and transfer rate. Supports various units and displays results in seconds, minutes, hours, days, and weeks.</p>
+                <span class="tool-link">Open Calculator</span>
             </a>
         </div>
 
