@@ -1,4 +1,4 @@
-## SEO Optimization Plan for Network Tools Website
+## SEO Optimization Plan for OldWeb Tools Website
 
 Please review the website structure and create an SEO plan for better visibility in searches.
 ### Current State
