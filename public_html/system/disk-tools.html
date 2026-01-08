@@ -343,10 +343,12 @@
             <!-- RAID Calculator -->
             <div class="calculator">
                 <h2>RAID Calculator</h2>
+                <form aria-label="RAID capacity calculator form">
                 <div class="input-group">
                     <div class="input-field">
                         <label for="raidLevel">RAID Level</label>
-                        <select id="raidLevel" onchange="updateRaidInfo()">
+                        <select id="raidLevel" onchange="updateRaidInfo()" aria-describedby="raid-help">
+                        <span id="raid-help" class="sr-only">Select RAID level to calculate capacity and performance characteristics</span>
                             <option value="0">RAID 0 - Striping (No Redundancy)</option>
                             <option value="1">RAID 1 - Mirroring</option>
                             <option value="5" selected>RAID 5 - Distributed Parity</option>
@@ -357,29 +359,32 @@
                     <div class="input-row">
                         <div class="input-field">
                             <label for="numDisks">Number of Disks</label>
-                            <input type="number" id="numDisks" value="4" min="2" placeholder="4">
+                            <input type="number" id="numDisks" value="4" min="2" placeholder="4" aria-required="true" aria-describedby="num-disks-help">
+                            <span id="num-disks-help" class="sr-only">Enter the number of physical disks in the RAID array</span>
                         </div>
                         <div class="input-field">
                             <label for="diskSize">Disk Size (TB)</label>
-                            <input type="number" id="diskSize" value="2" min="0.001" step="0.001" placeholder="2">
+                            <input type="number" id="diskSize" value="2" min="0.001" step="0.001" placeholder="2" aria-required="true" aria-describedby="disk-size-help">
+                            <span id="disk-size-help" class="sr-only">Enter the capacity of each disk in terabytes</span>
                         </div>
                     </div>
                     <div class="input-row">
                         <div class="input-field">
                             <label for="rebuildSpeed">Rebuild Speed (MB/s)</label>
-                            <input type="number" id="rebuildSpeed" value="100" min="1" placeholder="100">
-                            <div class="help-text">Typical: 50-150 MB/s</div>
+                            <input type="number" id="rebuildSpeed" value="100" min="1" placeholder="100" aria-describedby="rebuild-help">
+                            <div class="help-text" id="rebuild-help">Typical: 50-150 MB/s</div>
                         </div>
                         <div class="input-field">
                             <label for="stripeSize">Stripe Size (KB)</label>
-                            <input type="number" id="stripeSize" value="64" min="4" placeholder="64">
-                            <div class="help-text">Common: 64, 128, 256</div>
+                            <input type="number" id="stripeSize" value="64" min="4" placeholder="64" aria-describedby="stripe-help">
+                            <div class="help-text" id="stripe-help">Common: 64, 128, 256</div>
                         </div>
                     </div>
                 </div>
-                <button class="btn" onclick="calculateRAID()">Calculate RAID</button>
+                <button type="button" class="btn" onclick="calculateRAID()" aria-label="Calculate RAID array capacity, rebuild time, and efficiency">Calculate RAID</button>
+                </form>
 
-                <div class="results" id="raidResults">
+                <div class="results" id="raidResults" role="region" aria-live="polite" aria-label="RAID configuration results">
                     <h3>RAID Configuration Results</h3>
                     <div class="result-item">
                         <div class="label">Usable Capacity</div>
@@ -416,14 +421,17 @@
             <!-- Disk Space Calculator -->
             <div class="calculator">
                 <h2>Disk Space Calculator</h2>
+                <form aria-label="Disk space unit converter form">
                 <div class="input-group">
                     <div class="input-field">
                         <label for="diskValue">Value</label>
-                        <input type="number" id="diskValue" value="1000" min="0" step="0.001" placeholder="1000">
+                        <input type="number" id="diskValue" value="1000" min="0" step="0.001" placeholder="1000" aria-required="true" aria-describedby="value-help">
+                        <span id="value-help" class="sr-only">Enter numeric value to convert between storage units</span>
                     </div>
                     <div class="input-field">
                         <label for="diskUnit">From Unit</label>
-                        <select id="diskUnit">
+                        <select id="diskUnit" aria-describedby="unit-help">
+                        <span id="unit-help" class="sr-only">Select source unit for conversion</span>
                             <option value="B">Bytes (B)</option>
                             <option value="KB">Kilobytes (KB - 1000)</option>
                             <option value="MB">Megabytes (MB - 1000)</option>
@@ -438,9 +446,10 @@
                         </select>
                     </div>
                 </div>
-                <button class="btn" onclick="calculateDiskSpace()">Convert Units</button>
+                <button type="button" class="btn" onclick="calculateDiskSpace()" aria-label="Convert storage value to all common units">Convert Units</button>
+                </form>
 
-                <div class="results" id="diskResults">
+                <div class="results" id="diskResults" role="region" aria-live="polite" aria-label="Storage unit conversion results">
                     <h3>Unit Conversions</h3>
                     <table class="conversion-table">
                         <thead>
@@ -457,21 +466,25 @@
                 <!-- Percentage Calculator -->
                 <div style="margin-top: 30px;">
                     <h2 style="color: #4fc3f7; font-size: 1.3rem; margin-bottom: 15px;">Percentage & Space Calculator</h2>
+                    <form aria-label="Storage percentage calculator form">
                     <div class="input-group">
                         <div class="input-row">
                             <div class="input-field">
                                 <label for="totalSpace">Total Space (GB)</label>
-                                <input type="number" id="totalSpace" value="1000" min="0" step="0.001">
+                                <input type="number" id="totalSpace" value="1000" min="0" step="0.001" aria-required="true" aria-describedby="total-help">
+                                <span id="total-help" class="sr-only">Enter total storage capacity in gigabytes</span>
                             </div>
                             <div class="input-field">
                                 <label for="usedSpace">Used Space (GB)</label>
-                                <input type="number" id="usedSpace" value="650" min="0" step="0.001">
+                                <input type="number" id="usedSpace" value="650" min="0" step="0.001" aria-required="true" aria-describedby="used-help">
+                                <span id="used-help" class="sr-only">Enter used storage space in gigabytes</span>
                             </div>
                         </div>
                     </div>
-                    <button class="btn" onclick="calculatePercentage()">Calculate</button>
+                    <button type="button" class="btn" onclick="calculatePercentage()" aria-label="Calculate storage usage percentage and free space">Calculate</button>
+                    </form>
 
-                    <div class="results" id="percentageResults">
+                    <div class="results" id="percentageResults" role="region" aria-live="polite" aria-label="Storage percentage results">
                         <h3>Space Analysis</h3>
                         <div class="result-item">
                             <div class="label">Used Percentage</div>
@@ -488,10 +501,12 @@
                 <!-- IOPS Calculator -->
                 <div style="margin-top: 30px;">
                     <h2 style="color: #4fc3f7; font-size: 1.3rem; margin-bottom: 15px;">IOPS Calculator</h2>
+                    <form aria-label="IOPS performance calculator form">
                     <div class="input-group">
                         <div class="input-field">
                             <label for="diskType">Disk Type</label>
-                            <select id="diskType" onchange="updateIOPSDefaults()">
+                            <select id="diskType" onchange="updateIOPSDefaults()" aria-describedby="disk-type-help">
+                            <span id="disk-type-help" class="sr-only">Select disk type to set typical IOPS values</span>
                                 <option value="ssd">SSD (Solid State Drive)</option>
                                 <option value="sas15k">SAS 15K RPM</option>
                                 <option value="sas10k">SAS 10K RPM</option>
@@ -503,21 +518,25 @@
                         <div class="input-row">
                             <div class="input-field">
                                 <label for="iopsPerDisk">IOPS per Disk</label>
-                                <input type="number" id="iopsPerDisk" value="80" min="1">
+                                <input type="number" id="iopsPerDisk" value="80" min="1" aria-required="true" aria-describedby="iops-disk-help">
+                                <span id="iops-disk-help" class="sr-only">Enter input/output operations per second for each disk</span>
                             </div>
                             <div class="input-field">
                                 <label for="numDrivesIOPS">Number of Drives</label>
-                                <input type="number" id="numDrivesIOPS" value="4" min="1">
+                                <input type="number" id="numDrivesIOPS" value="4" min="1" aria-required="true" aria-describedby="drives-help">
+                                <span id="drives-help" class="sr-only">Enter number of drives in the array</span>
                             </div>
                         </div>
                         <div class="input-row">
                             <div class="input-field">
                                 <label for="readPercent">Read % (0-100)</label>
-                                <input type="number" id="readPercent" value="70" min="0" max="100">
+                                <input type="number" id="readPercent" value="70" min="0" max="100" aria-required="true" aria-describedby="read-help">
+                                <span id="read-help" class="sr-only">Enter percentage of operations that are reads, 0 to 100</span>
                             </div>
                             <div class="input-field">
                                 <label for="raidLevelIOPS">RAID Level</label>
-                                <select id="raidLevelIOPS">
+                                <select id="raidLevelIOPS" aria-describedby="raid-iops-help">
+                                <span id="raid-iops-help" class="sr-only">Select RAID level for IOPS calculation</span>
                                     <option value="0">RAID 0</option>
                                     <option value="1">RAID 1</option>
                                     <option value="5" selected>RAID 5</option>
@@ -527,9 +546,10 @@
                             </div>
                         </div>
                     </div>
-                    <button class="btn" onclick="calculateIOPS()">Calculate IOPS</button>
+                    <button type="button" class="btn" onclick="calculateIOPS()" aria-label="Calculate total IOPS performance for the disk array">Calculate IOPS</button>
+                    </form>
 
-                    <div class="results" id="iopsResults">
+                    <div class="results" id="iopsResults" role="region" aria-live="polite" aria-label="IOPS performance results">
                         <h3>IOPS Performance</h3>
                         <div class="result-item">
                             <div class="label">Total Read IOPS</div>
@@ -773,6 +793,7 @@
             });
 
             document.getElementById('diskResults').classList.add('show');
+            A11yUtils.announce(`Converted ${value} ${unit} to all storage units`, 'polite');
         }
 
         // Percentage Calculator
@@ -799,6 +820,7 @@
             document.getElementById('freePercent').textContent = `${freePercent.toFixed(2)}% free`;
 
             document.getElementById('percentageResults').classList.add('show');
+            A11yUtils.announce(`Storage analysis complete. Using ${usedPercent.toFixed(2)}% of total space. ${freeGb.toFixed(2)} GB free.`, 'polite');
         }
 
         // IOPS Calculator
@@ -864,6 +886,7 @@
                 `Based on ${(readPercent * 100).toFixed(0)}% read / ${(writePercent * 100).toFixed(0)}% write workload`;
 
             document.getElementById('iopsResults').classList.add('show');
+            A11yUtils.announce(`IOPS calculation complete. Total effective IOPS: ${Math.round(effectiveTotal).toLocaleString()}`, 'polite');
         }
 
         // Initialize RAID info on page load

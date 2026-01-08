@@ -431,34 +431,37 @@
         <p class="subtitle">Encode, decode, and hash text data</p>
 
         <div class="calculator">
-            <div class="tabs">
-                <button class="tab-btn active" onclick="switchTab('base64')">Base64</button>
-                <button class="tab-btn" onclick="switchTab('hash')">Hash</button>
-                <button class="tab-btn" onclick="switchTab('url')">URL Encode</button>
-                <button class="tab-btn" onclick="switchTab('hex')">Hex</button>
+            <div class="tabs" role="tablist" aria-label="Data encoding tool tabs">
+                <button type="button" class="tab-btn active" onclick="switchTab('base64')" role="tab" aria-selected="true" aria-controls="base64-tab" id="tab-base64" aria-label="Switch to Base64 encoding and decoding">Base64</button>
+                <button type="button" class="tab-btn" onclick="switchTab('hash')" role="tab" aria-selected="false" aria-controls="hash-tab" id="tab-hash" aria-label="Switch to cryptographic hash generation">Hash</button>
+                <button type="button" class="tab-btn" onclick="switchTab('url')" role="tab" aria-selected="false" aria-controls="url-tab" id="tab-url" aria-label="Switch to URL encoding and decoding">URL Encode</button>
+                <button type="button" class="tab-btn" onclick="switchTab('hex')" role="tab" aria-selected="false" aria-controls="hex-tab" id="tab-hex" aria-label="Switch to hexadecimal encoding and decoding">Hex</button>
             </div>
 
             <!-- Base64 Tab -->
-            <div id="base64-tab" class="tab-content active">
+            <div id="base64-tab" class="tab-content active" role="tabpanel" aria-labelledby="tab-base64">
+                <form aria-label="Base64 encode and decode form">
                 <div class="input-area">
                     <h3 class="section-title">Input</h3>
-                    <textarea id="base64Input" placeholder="Enter text to encode or Base64 to decode..."></textarea>
+                    <textarea id="base64Input" placeholder="Enter text to encode or Base64 to decode..." aria-label="Input text for Base64 encoding or decoding" aria-describedby="base64-help"></textarea>
+                    <span id="base64-help" class="sr-only">Enter plain text to encode as Base64, or enter Base64 encoded text to decode</span>
                 </div>
 
                 <div class="button-row">
-                    <button class="action-btn" onclick="encodeBase64()">Encode to Base64</button>
-                    <button class="action-btn secondary" onclick="decodeBase64()">Decode from Base64</button>
+                    <button type="button" class="action-btn" onclick="encodeBase64()" aria-label="Encode input text to Base64 format">Encode to Base64</button>
+                    <button type="button" class="action-btn secondary" onclick="decodeBase64()" aria-label="Decode Base64 input to plain text">Decode from Base64</button>
                 </div>
 
-                <div class="error" id="base64Error"></div>
+                <div class="error" id="base64Error" role="alert" aria-live="assertive" aria-atomic="true"></div>
 
-                <div class="output-area">
+                <div class="output-area" role="region" aria-live="polite" aria-label="Base64 operation result">
                     <h3 class="section-title">Output</h3>
                     <div class="output-box">
-                        <textarea id="base64Output" readonly placeholder="Result will appear here..."></textarea>
-                        <button class="copy-btn" onclick="copyOutput('base64Output', this)">Copy</button>
+                        <textarea id="base64Output" readonly placeholder="Result will appear here..." aria-label="Base64 operation output"></textarea>
+                        <button type="button" class="copy-btn" onclick="copyOutput('base64Output', this)" aria-label="Copy Base64 output to clipboard">Copy</button>
                     </div>
                 </div>
+                </form>
 
                 <div class="info-box">
                     Supports UTF-8 characters. Base64 encoding increases size by approximately 33%.
@@ -466,45 +469,48 @@
             </div>
 
             <!-- Hash Tab -->
-            <div id="hash-tab" class="tab-content">
+            <div id="hash-tab" class="tab-content" role="tabpanel" aria-labelledby="tab-hash">
+                <form aria-label="Cryptographic hash generation form">
                 <div class="input-area">
                     <h3 class="section-title">Input Text</h3>
-                    <textarea id="hashInput" placeholder="Enter text to hash..."></textarea>
+                    <textarea id="hashInput" placeholder="Enter text to hash..." aria-label="Input text for hash generation" aria-describedby="hash-help"></textarea>
+                    <span id="hash-help" class="sr-only">Enter text to generate MD5, SHA-1, SHA-256, and SHA-512 cryptographic hashes</span>
                 </div>
 
                 <div class="button-row">
-                    <button class="action-btn" onclick="generateHashes()">Generate Hashes</button>
+                    <button type="button" class="action-btn" onclick="generateHashes()" aria-label="Generate MD5, SHA-1, SHA-256, and SHA-512 hashes">Generate Hashes</button>
                 </div>
 
-                <div class="error" id="hashError"></div>
+                <div class="error" id="hashError" role="alert" aria-live="assertive" aria-atomic="true"></div>
+                </form>
 
-                <div class="hash-results" id="hashResults">
+                <div class="hash-results" id="hashResults" role="region" aria-live="polite" aria-label="Generated hash results">
                     <div class="hash-item">
                         <h4>MD5</h4>
                         <div class="hash-value">
                             <code id="hashMd5">-</code>
-                            <button class="copy-btn" onclick="copyHash('hashMd5', this)">Copy</button>
+                            <button type="button" class="copy-btn" onclick="copyHash('hashMd5', this)" aria-label="Copy MD5 hash to clipboard">Copy</button>
                         </div>
                     </div>
                     <div class="hash-item">
                         <h4>SHA-1</h4>
                         <div class="hash-value">
                             <code id="hashSha1">-</code>
-                            <button class="copy-btn" onclick="copyHash('hashSha1', this)">Copy</button>
+                            <button type="button" class="copy-btn" onclick="copyHash('hashSha1', this)" aria-label="Copy SHA-1 hash to clipboard">Copy</button>
                         </div>
                     </div>
                     <div class="hash-item">
                         <h4>SHA-256</h4>
                         <div class="hash-value">
                             <code id="hashSha256">-</code>
-                            <button class="copy-btn" onclick="copyHash('hashSha256', this)">Copy</button>
+                            <button type="button" class="copy-btn" onclick="copyHash('hashSha256', this)" aria-label="Copy SHA-256 hash to clipboard">Copy</button>
                         </div>
                     </div>
                     <div class="hash-item">
                         <h4>SHA-512</h4>
                         <div class="hash-value">
                             <code id="hashSha512">-</code>
-                            <button class="copy-btn" onclick="copyHash('hashSha512', this)">Copy</button>
+                            <button type="button" class="copy-btn" onclick="copyHash('hashSha512', this)" aria-label="Copy SHA-512 hash to clipboard">Copy</button>
                         </div>
                     </div>
                 </div>
@@ -515,26 +521,29 @@
             </div>
 
             <!-- URL Encode Tab -->
-            <div id="url-tab" class="tab-content">
+            <div id="url-tab" class="tab-content" role="tabpanel" aria-labelledby="tab-url">
+                <form aria-label="URL encode and decode form">
                 <div class="input-area">
                     <h3 class="section-title">Input</h3>
-                    <textarea id="urlInput" placeholder="Enter text to URL encode or encoded text to decode..."></textarea>
+                    <textarea id="urlInput" placeholder="Enter text to URL encode or encoded text to decode..." aria-label="Input text for URL encoding or decoding" aria-describedby="url-help"></textarea>
+                    <span id="url-help" class="sr-only">Enter plain text to URL encode, or enter URL encoded text to decode</span>
                 </div>
 
                 <div class="button-row">
-                    <button class="action-btn" onclick="urlEncode()">URL Encode</button>
-                    <button class="action-btn secondary" onclick="urlDecode()">URL Decode</button>
+                    <button type="button" class="action-btn" onclick="urlEncode()" aria-label="Encode input text for use in URLs">URL Encode</button>
+                    <button type="button" class="action-btn secondary" onclick="urlDecode()" aria-label="Decode URL encoded text to plain text">URL Decode</button>
                 </div>
 
-                <div class="error" id="urlError"></div>
+                <div class="error" id="urlError" role="alert" aria-live="assertive" aria-atomic="true"></div>
 
-                <div class="output-area">
+                <div class="output-area" role="region" aria-live="polite" aria-label="URL operation result">
                     <h3 class="section-title">Output</h3>
                     <div class="output-box">
-                        <textarea id="urlOutput" readonly placeholder="Result will appear here..."></textarea>
-                        <button class="copy-btn" onclick="copyOutput('urlOutput', this)">Copy</button>
+                        <textarea id="urlOutput" readonly placeholder="Result will appear here..." aria-label="URL operation output"></textarea>
+                        <button type="button" class="copy-btn" onclick="copyOutput('urlOutput', this)" aria-label="Copy URL output to clipboard">Copy</button>
                     </div>
                 </div>
+                </form>
 
                 <div class="info-box">
                     Uses encodeURIComponent/decodeURIComponent for proper URI component encoding.
@@ -542,37 +551,40 @@
             </div>
 
             <!-- Hex Tab -->
-            <div id="hex-tab" class="tab-content">
+            <div id="hex-tab" class="tab-content" role="tabpanel" aria-labelledby="tab-hex">
+                <form aria-label="Hexadecimal encode and decode form">
                 <div class="input-area">
                     <h3 class="section-title">Input</h3>
-                    <textarea id="hexInput" placeholder="Enter text to convert to hex or hex string to decode..."></textarea>
+                    <textarea id="hexInput" placeholder="Enter text to convert to hex or hex string to decode..." aria-label="Input text for hexadecimal encoding or decoding" aria-describedby="hex-help"></textarea>
+                    <span id="hex-help" class="sr-only">Enter plain text to convert to hexadecimal, or enter hex string to decode to text</span>
                 </div>
 
-                <div class="options-row">
+                <div class="options-row" role="group" aria-label="Hex encoding options">
                     <label class="option-item">
-                        <input type="checkbox" id="hexUppercase">
+                        <input type="checkbox" id="hexUppercase" aria-label="Use uppercase letters for hexadecimal output">
                         Uppercase hex
                     </label>
                     <label class="option-item">
-                        <input type="checkbox" id="hexSpaced" checked>
+                        <input type="checkbox" id="hexSpaced" checked aria-label="Add space between each byte in hex output">
                         Space between bytes
                     </label>
                 </div>
 
                 <div class="button-row">
-                    <button class="action-btn" onclick="textToHex()">Text to Hex</button>
-                    <button class="action-btn secondary" onclick="hexToText()">Hex to Text</button>
+                    <button type="button" class="action-btn" onclick="textToHex()" aria-label="Convert input text to hexadecimal representation">Text to Hex</button>
+                    <button type="button" class="action-btn secondary" onclick="hexToText()" aria-label="Convert hexadecimal input to plain text">Hex to Text</button>
                 </div>
 
-                <div class="error" id="hexError"></div>
+                <div class="error" id="hexError" role="alert" aria-live="assertive" aria-atomic="true"></div>
 
-                <div class="output-area">
+                <div class="output-area" role="region" aria-live="polite" aria-label="Hex operation result">
                     <h3 class="section-title">Output</h3>
                     <div class="output-box">
-                        <textarea id="hexOutput" readonly placeholder="Result will appear here..."></textarea>
-                        <button class="copy-btn" onclick="copyOutput('hexOutput', this)">Copy</button>
+                        <textarea id="hexOutput" readonly placeholder="Result will appear here..." aria-label="Hex operation output"></textarea>
+                        <button type="button" class="copy-btn" onclick="copyOutput('hexOutput', this)" aria-label="Copy hex output to clipboard">Copy</button>
                     </div>
                 </div>
+                </form>
 
                 <div class="info-box">
                     Hex encoding converts each byte to its two-character hexadecimal representation.
@@ -588,11 +600,26 @@
     <script>
         // Tab switching
         function switchTab(tabName) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            // Update aria-selected attributes
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+                btn.setAttribute('aria-selected', 'false');
+            });
             document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
 
-            document.querySelector(`[onclick="switchTab('${tabName}')"]`).classList.add('active');
+            const activeBtn = document.querySelector(`[onclick="switchTab('${tabName}')"]`);
+            activeBtn.classList.add('active');
+            activeBtn.setAttribute('aria-selected', 'true');
             document.getElementById(`${tabName}-tab`).classList.add('active');
+
+            // Announce tab change
+            const tabNames = {
+                'base64': 'Base64 encoding and decoding',
+                'hash': 'Cryptographic hash generation',
+                'url': 'URL encoding and decoding',
+                'hex': 'Hexadecimal encoding and decoding'
+            };
+            A11yUtils.announce(`Switched to ${tabNames[tabName]} tab`, 'polite');
         }
 
         // Base64 functions
@@ -603,6 +630,7 @@
             try {
                 const encoded = utf8ToBase64(input);
                 document.getElementById('base64Output').value = encoded;
+                A11yUtils.announce('Text encoded to Base64 successfully', 'polite');
             } catch (e) {
                 showError('base64Error', 'Error encoding: ' + e.message);
             }
@@ -620,6 +648,7 @@
             try {
                 const decoded = base64ToUtf8(input);
                 document.getElementById('base64Output').value = decoded;
+                A11yUtils.announce('Base64 decoded to text successfully', 'polite');
             } catch (e) {
                 showError('base64Error', 'Invalid Base64 string: ' + e.message);
             }
@@ -658,6 +687,7 @@
                 document.getElementById('hashSha1').textContent = sha1Hash;
                 document.getElementById('hashSha256').textContent = sha256Hash;
                 document.getElementById('hashSha512').textContent = sha512Hash;
+                A11yUtils.announce('Generated MD5, SHA-1, SHA-256, and SHA-512 hashes successfully', 'polite');
             } catch (e) {
                 showError('hashError', 'Error generating hashes: ' + e.message);
             }
@@ -834,6 +864,7 @@
             try {
                 const encoded = encodeURIComponent(input);
                 document.getElementById('urlOutput').value = encoded;
+                A11yUtils.announce('Text URL encoded successfully', 'polite');
             } catch (e) {
                 showError('urlError', 'Error encoding: ' + e.message);
             }
@@ -846,6 +877,7 @@
             try {
                 const decoded = decodeURIComponent(input);
                 document.getElementById('urlOutput').value = decoded;
+                A11yUtils.announce('URL decoded to text successfully', 'polite');
             } catch (e) {
                 showError('urlError', 'Invalid URL-encoded string: ' + e.message);
             }
@@ -867,6 +899,7 @@
 
                 if (uppercase) hex = hex.toUpperCase();
                 document.getElementById('hexOutput').value = hex;
+                A11yUtils.announce('Text converted to hexadecimal successfully', 'polite');
             } catch (e) {
                 showError('hexError', 'Error converting: ' + e.message);
             }
@@ -901,6 +934,7 @@
 
                 const decoded = new TextDecoder().decode(bytes);
                 document.getElementById('hexOutput').value = decoded;
+                A11yUtils.announce('Hexadecimal converted to text successfully', 'polite');
             } catch (e) {
                 showError('hexError', 'Error decoding: ' + e.message);
             }
@@ -924,6 +958,7 @@
             navigator.clipboard.writeText(value).then(() => {
                 button.textContent = 'Copied!';
                 button.classList.add('copied');
+                A11yUtils.announce('Output copied to clipboard', 'polite');
                 setTimeout(() => {
                     button.textContent = 'Copy';
                     button.classList.remove('copied');
@@ -938,6 +973,9 @@
             navigator.clipboard.writeText(value).then(() => {
                 button.textContent = 'Copied!';
                 button.classList.add('copied');
+                // Get hash type from element ID
+                const hashType = elementId.replace('hash', '').toUpperCase();
+                A11yUtils.announce(`Copied ${hashType} hash to clipboard`, 'polite');
                 setTimeout(() => {
                     button.textContent = 'Copy';
                     button.classList.remove('copied');

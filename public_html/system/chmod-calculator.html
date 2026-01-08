@@ -570,81 +570,81 @@
 
                 <div class="perm-label">Owner</div>
                 <div class="perm-cell">
-                    <input type="checkbox" id="owner-r" checked onchange="updateFromCheckboxes()">
+                    <input type="checkbox" id="owner-r" checked onchange="updateFromCheckboxes()" aria-label="Owner read permission (value 4)">
                     <span class="perm-bit">4</span>
                 </div>
                 <div class="perm-cell">
-                    <input type="checkbox" id="owner-w" checked onchange="updateFromCheckboxes()">
+                    <input type="checkbox" id="owner-w" checked onchange="updateFromCheckboxes()" aria-label="Owner write permission (value 2)">
                     <span class="perm-bit">2</span>
                 </div>
                 <div class="perm-cell">
-                    <input type="checkbox" id="owner-x" checked onchange="updateFromCheckboxes()">
+                    <input type="checkbox" id="owner-x" checked onchange="updateFromCheckboxes()" aria-label="Owner execute permission (value 1)">
                     <span class="perm-bit">1</span>
                 </div>
 
                 <div class="perm-label">Group</div>
                 <div class="perm-cell">
-                    <input type="checkbox" id="group-r" checked onchange="updateFromCheckboxes()">
+                    <input type="checkbox" id="group-r" checked onchange="updateFromCheckboxes()" aria-label="Group read permission (value 4)">
                     <span class="perm-bit">4</span>
                 </div>
                 <div class="perm-cell">
-                    <input type="checkbox" id="group-w" onchange="updateFromCheckboxes()">
+                    <input type="checkbox" id="group-w" onchange="updateFromCheckboxes()" aria-label="Group write permission (value 2)">
                     <span class="perm-bit">2</span>
                 </div>
                 <div class="perm-cell">
-                    <input type="checkbox" id="group-x" checked onchange="updateFromCheckboxes()">
+                    <input type="checkbox" id="group-x" checked onchange="updateFromCheckboxes()" aria-label="Group execute permission (value 1)">
                     <span class="perm-bit">1</span>
                 </div>
 
                 <div class="perm-label">Other</div>
                 <div class="perm-cell">
-                    <input type="checkbox" id="other-r" checked onchange="updateFromCheckboxes()">
+                    <input type="checkbox" id="other-r" checked onchange="updateFromCheckboxes()" aria-label="Other read permission (value 4)">
                     <span class="perm-bit">4</span>
                 </div>
                 <div class="perm-cell">
-                    <input type="checkbox" id="other-w" onchange="updateFromCheckboxes()">
+                    <input type="checkbox" id="other-w" onchange="updateFromCheckboxes()" aria-label="Other write permission (value 2)">
                     <span class="perm-bit">2</span>
                 </div>
                 <div class="perm-cell">
-                    <input type="checkbox" id="other-x" checked onchange="updateFromCheckboxes()">
+                    <input type="checkbox" id="other-x" checked onchange="updateFromCheckboxes()" aria-label="Other execute permission (value 1)">
                     <span class="perm-bit">1</span>
                 </div>
             </div>
 
             <div class="presets-section">
                 <h3 class="section-title">Common Presets</h3>
-                <div class="presets-grid">
-                    <button class="preset-btn" onclick="applyPreset(755)">755<span class="preset-desc">Executables</span></button>
-                    <button class="preset-btn" onclick="applyPreset(644)">644<span class="preset-desc">Files</span></button>
-                    <button class="preset-btn" onclick="applyPreset(777)">777<span class="preset-desc">Full access</span></button>
-                    <button class="preset-btn" onclick="applyPreset(600)">600<span class="preset-desc">Private</span></button>
-                    <button class="preset-btn" onclick="applyPreset(700)">700<span class="preset-desc">Private exec</span></button>
-                    <button class="preset-btn" onclick="applyPreset(750)">750<span class="preset-desc">Group exec</span></button>
-                    <button class="preset-btn" onclick="applyPreset(664)">664<span class="preset-desc">Group write</span></button>
-                    <button class="preset-btn" onclick="applyPreset(640)">640<span class="preset-desc">Config</span></button>
-                    <button class="preset-btn" onclick="applyPreset(400)">400<span class="preset-desc">Read-only</span></button>
+                <div class="presets-grid" role="group" aria-label="Common permission presets">
+                    <button type="button" class="preset-btn" onclick="applyPreset(755)" aria-label="Apply 755 permissions for executables - owner read write execute, group and other read execute">755<span class="preset-desc">Executables</span></button>
+                    <button type="button" class="preset-btn" onclick="applyPreset(644)" aria-label="Apply 644 permissions for files - owner read write, group and other read only">644<span class="preset-desc">Files</span></button>
+                    <button type="button" class="preset-btn" onclick="applyPreset(777)" aria-label="Apply 777 permissions for full access - all users read write execute">777<span class="preset-desc">Full access</span></button>
+                    <button type="button" class="preset-btn" onclick="applyPreset(600)" aria-label="Apply 600 permissions for private files - owner read write only">600<span class="preset-desc">Private</span></button>
+                    <button type="button" class="preset-btn" onclick="applyPreset(700)" aria-label="Apply 700 permissions for private executables - owner read write execute only">700<span class="preset-desc">Private exec</span></button>
+                    <button type="button" class="preset-btn" onclick="applyPreset(750)" aria-label="Apply 750 permissions for group executables - owner read write execute, group read execute">750<span class="preset-desc">Group exec</span></button>
+                    <button type="button" class="preset-btn" onclick="applyPreset(664)" aria-label="Apply 664 permissions for group writable files - owner and group read write, other read only">664<span class="preset-desc">Group write</span></button>
+                    <button type="button" class="preset-btn" onclick="applyPreset(640)" aria-label="Apply 640 permissions for config files - owner read write, group read only">640<span class="preset-desc">Config</span></button>
+                    <button type="button" class="preset-btn" onclick="applyPreset(400)" aria-label="Apply 400 permissions for read-only files - owner read only">400<span class="preset-desc">Read-only</span></button>
                 </div>
             </div>
 
             <div class="special-perms">
                 <h3 class="section-title">Special Permissions</h3>
-                <div class="special-grid">
+                <div class="special-grid" role="group" aria-label="Special permission bits">
                     <div class="special-item">
-                        <input type="checkbox" id="setuid" onchange="updateFromCheckboxes()">
+                        <input type="checkbox" id="setuid" onchange="updateFromCheckboxes()" aria-label="Setuid bit (value 4) - run file as file owner">
                         <div class="special-info">
                             <div class="special-name">Setuid (4)</div>
                             <div class="special-desc">Run as file owner</div>
                         </div>
                     </div>
                     <div class="special-item">
-                        <input type="checkbox" id="setgid" onchange="updateFromCheckboxes()">
+                        <input type="checkbox" id="setgid" onchange="updateFromCheckboxes()" aria-label="Setgid bit (value 2) - run file as file group">
                         <div class="special-info">
                             <div class="special-name">Setgid (2)</div>
                             <div class="special-desc">Run as file group</div>
                         </div>
                     </div>
                     <div class="special-item">
-                        <input type="checkbox" id="sticky" onchange="updateFromCheckboxes()">
+                        <input type="checkbox" id="sticky" onchange="updateFromCheckboxes()" aria-label="Sticky bit (value 1) - restrict deletion to file owner only">
                         <div class="special-info">
                             <div class="special-name">Sticky (1)</div>
                             <div class="special-desc">Restrict deletion</div>
@@ -653,51 +653,62 @@
                 </div>
             </div>
 
-            <div class="error" id="error"></div>
+            <div class="error" id="error" role="alert" aria-live="assertive" aria-atomic="true"></div>
 
-            <div class="results-grid">
+            <div class="results-grid" role="region" aria-live="polite" aria-label="Permission calculation results">
                 <div class="result-card">
                     <h4>Octal Notation</h4>
                     <div class="value">
                         <code id="octalOutput">755</code>
-                        <button class="copy-btn" onclick="copyValue('octalOutput', this)">Copy</button>
+                        <button type="button" class="copy-btn" onclick="copyValue('octalOutput', this)" aria-label="Copy octal notation to clipboard">Copy</button>
                     </div>
                 </div>
                 <div class="result-card">
                     <h4>Symbolic Notation</h4>
                     <div class="value">
                         <code id="symbolicOutput">-rwxr-xr-x</code>
-                        <button class="copy-btn" onclick="copyValue('symbolicOutput', this)">Copy</button>
+                        <button type="button" class="copy-btn" onclick="copyValue('symbolicOutput', this)" aria-label="Copy symbolic notation to clipboard">Copy</button>
                     </div>
                 </div>
                 <div class="result-card">
                     <h4>chmod Command</h4>
                     <div class="value">
                         <code id="commandOutput">chmod 755 filename</code>
-                        <button class="copy-btn" onclick="copyValue('commandOutput', this)">Copy</button>
+                        <button type="button" class="copy-btn" onclick="copyValue('commandOutput', this)" aria-label="Copy chmod command to clipboard">Copy</button>
                     </div>
                 </div>
             </div>
 
             <div class="input-section">
                 <h3 class="section-title">Convert from Octal or Symbolic</h3>
+                <form aria-label="Convert permissions form" onsubmit="event.preventDefault(); convertInput();">
                 <div class="input-row">
                     <div class="input-group">
-                        <label>Enter octal (e.g., 755) or symbolic (e.g., -rwxr-xr-x)</label>
-                        <input type="text" id="convertInput" placeholder="755 or -rwxr-xr-x">
+                        <label for="convertInput">Enter octal (e.g., 755) or symbolic (e.g., -rwxr-xr-x)</label>
+                        <input type="text"
+                               id="convertInput"
+                               placeholder="755 or -rwxr-xr-x"
+                               aria-describedby="convert-help">
+                        <span id="convert-help" class="sr-only">Enter either an octal permission value like 755 or a symbolic notation like -rwxr-xr-x to convert to checkboxes</span>
                     </div>
-                    <button class="convert-btn" onclick="convertInput()">Convert</button>
+                    <button type="submit" class="convert-btn" aria-label="Convert entered permission notation to checkboxes">Convert</button>
                 </div>
+                </form>
             </div>
 
             <div class="umask-section">
                 <h3>Umask Calculator</h3>
                 <div class="umask-row">
                     <div class="umask-input-group">
-                        <label>Umask Value</label>
-                        <input type="text" id="umaskInput" value="022" oninput="calculateUmask()">
+                        <label for="umaskInput">Umask Value</label>
+                        <input type="text"
+                               id="umaskInput"
+                               value="022"
+                               oninput="calculateUmask()"
+                               aria-describedby="umask-help">
+                        <span id="umask-help" class="sr-only">Enter a umask value in octal notation to calculate default file and directory permissions</span>
                     </div>
-                    <div class="umask-results">
+                    <div class="umask-results" role="region" aria-live="polite" aria-label="Umask calculation results">
                         <div class="umask-result">
                             <h5>Default File Permissions</h5>
                             <div class="umask-value" id="filePerms">644</div>
@@ -843,6 +854,7 @@
         function updateFromCheckboxes() {
             const { owner, group, other, special } = getPermissionsFromCheckboxes();
             updateDisplay(owner, group, other, special);
+            announcePermissionsChange();
         }
 
         function updateDisplay(owner, group, other, special = 0) {
@@ -859,16 +871,37 @@
             hideError();
         }
 
+        let lastAnnouncedPermissions = null;
+        function announcePermissionsChange() {
+            const octal = document.getElementById('octalOutput').textContent;
+            const symbolic = document.getElementById('symbolicOutput').textContent;
+
+            // Only announce if permissions actually changed
+            if (lastAnnouncedPermissions !== octal) {
+                A11yUtils.announce(`Permissions updated to ${octal}, ${symbolic}`, 'polite');
+                lastAnnouncedPermissions = octal;
+            }
+        }
+
         function applyPreset(octal) {
             setCheckboxesFromOctal(octal);
             updateFromCheckboxes();
+            A11yUtils.announce(`Applied preset permissions ${octal}`, 'polite');
         }
 
         function convertInput() {
             const input = document.getElementById('convertInput').value.trim();
+            const convertInputField = document.getElementById('convertInput');
+
+            // Clear previous errors
+            A11yUtils.clearError(convertInputField);
+            hideError();
 
             if (!input) {
-                showError('Please enter a value to convert');
+                const errorMsg = 'Please enter a value to convert';
+                showError(errorMsg);
+                A11yUtils.showError(convertInputField, errorMsg);
+                convertInputField.focus();
                 return;
             }
 
@@ -876,11 +909,15 @@
             if (/^[0-7]{3,4}$/.test(input)) {
                 const cleaned = input.replace(/^0+/, '') || '0';
                 if (!/^[0-7]+$/.test(cleaned)) {
-                    showError('Invalid octal value. Use digits 0-7 only.');
+                    const errorMsg = 'Invalid octal value. Use digits 0-7 only.';
+                    showError(errorMsg);
+                    A11yUtils.showError(convertInputField, errorMsg);
+                    convertInputField.focus();
                     return;
                 }
                 setCheckboxesFromOctal(input);
                 updateFromCheckboxes();
+                A11yUtils.announce(`Converted ${input} to permission checkboxes`, 'polite');
                 return;
             }
 
@@ -893,12 +930,17 @@
                         : `${result.owner}${result.group}${result.other}`
                 );
                 updateFromCheckboxes();
+                A11yUtils.announce(`Converted ${input} to permission checkboxes`, 'polite');
                 return;
             }
 
-            showError('Invalid format. Enter octal (e.g., 755) or symbolic (e.g., -rwxr-xr-x)');
+            const errorMsg = 'Invalid format. Enter octal (e.g., 755) or symbolic (e.g., -rwxr-xr-x)';
+            showError(errorMsg);
+            A11yUtils.showError(convertInputField, errorMsg);
+            convertInputField.focus();
         }
 
+        let lastUmaskValue = null;
         function calculateUmask() {
             const input = document.getElementById('umaskInput').value.trim();
 
@@ -932,6 +974,12 @@
 
             document.getElementById('dirPerms').textContent = dirOctal;
             document.getElementById('dirSymbolic').textContent = octalToSymbolic(dirOwner, dirGroup, dirOther, 0, true);
+
+            // Only announce if umask value actually changed
+            if (lastUmaskValue !== input) {
+                A11yUtils.announce(`Umask ${input} results in file permissions ${fileOctal} and directory permissions ${dirOctal}`, 'polite');
+                lastUmaskValue = input;
+            }
         }
 
         function copyValue(elementId, button) {
@@ -939,6 +987,7 @@
             navigator.clipboard.writeText(value).then(() => {
                 button.textContent = 'Copied!';
                 button.classList.add('copied');
+                A11yUtils.announce(`Copied ${value} to clipboard`, 'polite');
                 setTimeout(() => {
                     button.textContent = 'Copy';
                     button.classList.remove('copied');

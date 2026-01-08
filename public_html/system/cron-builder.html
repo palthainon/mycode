@@ -504,84 +504,118 @@
         <p class="subtitle">Build and parse cron expressions with human-readable explanations</p>
 
         <div class="calculator">
-            <div class="mode-toggle">
-                <button class="mode-btn active" onclick="setMode('build')">Build Expression</button>
-                <button class="mode-btn" onclick="setMode('parse')">Parse Expression</button>
+            <div class="mode-toggle" role="group" aria-label="Mode selection">
+                <button type="button" class="mode-btn active" onclick="setMode('build')" aria-label="Switch to build mode to create cron expressions using fields">Build Expression</button>
+                <button type="button" class="mode-btn" onclick="setMode('parse')" aria-label="Switch to parse mode to decode existing cron expressions">Parse Expression</button>
             </div>
 
             <div class="build-section active">
+                <form aria-label="Cron expression builder form">
                 <div class="cron-fields">
                     <div class="field-group">
-                        <label>Minute</label>
-                        <input type="text" id="minute" value="*" onchange="updateExpression()" oninput="updateExpression()">
-                        <div class="range-hint">0-59 or *</div>
+                        <label for="minute">Minute</label>
+                        <input type="text"
+                               id="minute"
+                               value="*"
+                               onchange="updateExpression()"
+                               oninput="updateExpression()"
+                               aria-describedby="minute-help">
+                        <div class="range-hint" id="minute-help">0-59 or *</div>
                     </div>
                     <div class="field-group">
-                        <label>Hour</label>
-                        <input type="text" id="hour" value="*" onchange="updateExpression()" oninput="updateExpression()">
-                        <div class="range-hint">0-23 or *</div>
+                        <label for="hour">Hour</label>
+                        <input type="text"
+                               id="hour"
+                               value="*"
+                               onchange="updateExpression()"
+                               oninput="updateExpression()"
+                               aria-describedby="hour-help">
+                        <div class="range-hint" id="hour-help">0-23 or *</div>
                     </div>
                     <div class="field-group">
-                        <label>Day of Month</label>
-                        <input type="text" id="day" value="*" onchange="updateExpression()" oninput="updateExpression()">
-                        <div class="range-hint">1-31 or *</div>
+                        <label for="day">Day of Month</label>
+                        <input type="text"
+                               id="day"
+                               value="*"
+                               onchange="updateExpression()"
+                               oninput="updateExpression()"
+                               aria-describedby="day-help">
+                        <div class="range-hint" id="day-help">1-31 or *</div>
                     </div>
                     <div class="field-group">
-                        <label>Month</label>
-                        <input type="text" id="month" value="*" onchange="updateExpression()" oninput="updateExpression()">
-                        <div class="range-hint">1-12 or JAN-DEC</div>
+                        <label for="month">Month</label>
+                        <input type="text"
+                               id="month"
+                               value="*"
+                               onchange="updateExpression()"
+                               oninput="updateExpression()"
+                               aria-describedby="month-help">
+                        <div class="range-hint" id="month-help">1-12 or JAN-DEC</div>
                     </div>
                     <div class="field-group">
-                        <label>Day of Week</label>
-                        <input type="text" id="weekday" value="*" onchange="updateExpression()" oninput="updateExpression()">
-                        <div class="range-hint">0-6 (Sun-Sat)</div>
+                        <label for="weekday">Day of Week</label>
+                        <input type="text"
+                               id="weekday"
+                               value="*"
+                               onchange="updateExpression()"
+                               oninput="updateExpression()"
+                               aria-describedby="weekday-help">
+                        <div class="range-hint" id="weekday-help">0-6 (Sun-Sat)</div>
                     </div>
                 </div>
 
                 <div class="presets-section">
                     <h3>Common Presets</h3>
-                    <div class="presets-grid">
-                        <button class="preset-btn" onclick="applyPreset('* * * * *')">Every minute</button>
-                        <button class="preset-btn" onclick="applyPreset('*/5 * * * *')">Every 5 min</button>
-                        <button class="preset-btn" onclick="applyPreset('*/15 * * * *')">Every 15 min</button>
-                        <button class="preset-btn" onclick="applyPreset('0 * * * *')">Hourly</button>
-                        <button class="preset-btn" onclick="applyPreset('0 */6 * * *')">Every 6 hours</button>
-                        <button class="preset-btn" onclick="applyPreset('0 0 * * *')">Daily midnight</button>
-                        <button class="preset-btn" onclick="applyPreset('0 6 * * *')">Daily 6am</button>
-                        <button class="preset-btn" onclick="applyPreset('0 0 * * 0')">Weekly Sunday</button>
-                        <button class="preset-btn" onclick="applyPreset('0 0 1 * *')">Monthly 1st</button>
-                        <button class="preset-btn" onclick="applyPreset('0 9 * * 1-5')">Weekdays 9am</button>
+                    <div class="presets-grid" role="group" aria-label="Common cron expression presets">
+                        <button type="button" class="preset-btn" onclick="applyPreset('* * * * *')" aria-label="Apply preset for every minute: * * * * *">Every minute</button>
+                        <button type="button" class="preset-btn" onclick="applyPreset('*/5 * * * *')" aria-label="Apply preset for every 5 minutes: */5 * * * *">Every 5 min</button>
+                        <button type="button" class="preset-btn" onclick="applyPreset('*/15 * * * *')" aria-label="Apply preset for every 15 minutes: */15 * * * *">Every 15 min</button>
+                        <button type="button" class="preset-btn" onclick="applyPreset('0 * * * *')" aria-label="Apply preset for hourly at minute 0: 0 * * * *">Hourly</button>
+                        <button type="button" class="preset-btn" onclick="applyPreset('0 */6 * * *')" aria-label="Apply preset for every 6 hours: 0 */6 * * *">Every 6 hours</button>
+                        <button type="button" class="preset-btn" onclick="applyPreset('0 0 * * *')" aria-label="Apply preset for daily at midnight: 0 0 * * *">Daily midnight</button>
+                        <button type="button" class="preset-btn" onclick="applyPreset('0 6 * * *')" aria-label="Apply preset for daily at 6 AM: 0 6 * * *">Daily 6am</button>
+                        <button type="button" class="preset-btn" onclick="applyPreset('0 0 * * 0')" aria-label="Apply preset for weekly on Sunday: 0 0 * * 0">Weekly Sunday</button>
+                        <button type="button" class="preset-btn" onclick="applyPreset('0 0 1 * *')" aria-label="Apply preset for monthly on the 1st: 0 0 1 * *">Monthly 1st</button>
+                        <button type="button" class="preset-btn" onclick="applyPreset('0 9 * * 1-5')" aria-label="Apply preset for weekdays at 9 AM: 0 9 * * 1-5">Weekdays 9am</button>
                     </div>
                 </div>
+                </form>
             </div>
 
             <div class="parse-section">
+                <form aria-label="Parse cron expression form" onsubmit="event.preventDefault(); parseExpression();">
                 <div class="parse-input">
-                    <input type="text" id="parseInput" placeholder="Enter cron expression (e.g., */5 * * * *)">
-                    <button class="parse-btn" onclick="parseExpression()">Parse</button>
+                    <label for="parseInput" class="sr-only">Cron expression to parse</label>
+                    <input type="text"
+                           id="parseInput"
+                           placeholder="Enter cron expression (e.g., */5 * * * *)"
+                           aria-describedby="parse-help">
+                    <span id="parse-help" class="sr-only">Enter a 5-field cron expression to parse and analyze</span>
+                    <button type="submit" class="parse-btn" aria-label="Parse and analyze the entered cron expression">Parse</button>
                 </div>
+                </form>
             </div>
 
-            <div class="error" id="error"></div>
+            <div class="error" id="error" role="alert" aria-live="assertive" aria-atomic="true"></div>
 
-            <div class="expression-output">
+            <div class="expression-output" role="region" aria-live="polite" aria-label="Generated cron expression">
                 <h3>Cron Expression</h3>
                 <div class="expression-value">
                     <code id="expressionOutput">* * * * *</code>
-                    <button class="copy-btn" onclick="copyExpression()">Copy</button>
+                    <button type="button" class="copy-btn" onclick="copyExpression()" aria-label="Copy cron expression to clipboard">Copy</button>
                 </div>
             </div>
 
-            <div class="field-breakdown" id="breakdown">
+            <div class="field-breakdown" id="breakdown" role="region" aria-label="Field breakdown">
                 <div class="breakdown-grid" id="breakdownGrid"></div>
             </div>
 
-            <div class="human-readable" id="humanReadable">
+            <div class="human-readable" id="humanReadable" role="region" aria-label="Human readable description">
                 <h3>Human Readable</h3>
                 <p id="humanText">Runs every minute</p>
             </div>
 
-            <div class="next-runs" id="nextRuns">
+            <div class="next-runs" id="nextRuns" role="region" aria-label="Next execution times">
                 <h3>Next 10 Execution Times</h3>
                 <div class="runs-list" id="runsList"></div>
             </div>
@@ -609,6 +643,8 @@
             document.querySelector('.build-section').classList.toggle('active', mode === 'build');
             document.querySelector('.parse-section').classList.toggle('active', mode === 'parse');
 
+            A11yUtils.announce(`Switched to ${mode} mode`, 'polite');
+
             if (mode === 'build') {
                 updateExpression();
             }
@@ -623,6 +659,8 @@
                 document.getElementById('month').value = parts[3];
                 document.getElementById('weekday').value = parts[4];
                 updateExpression();
+                const humanText = document.getElementById('humanText').textContent;
+                A11yUtils.announce(`Applied preset: ${humanText}`, 'polite');
             }
         }
 
@@ -639,8 +677,17 @@
 
         function parseExpression() {
             const input = document.getElementById('parseInput').value.trim();
+            const parseInputField = document.getElementById('parseInput');
+
+            // Clear previous errors
+            A11yUtils.clearError(parseInputField);
+            document.getElementById('error').classList.remove('show');
+
             if (!input) {
-                showError('Please enter a cron expression');
+                const errorMsg = 'Please enter a cron expression';
+                showError(errorMsg);
+                A11yUtils.showError(parseInputField, errorMsg);
+                parseInputField.focus();
                 return;
             }
             displayResult(input);
@@ -653,14 +700,22 @@
             const validation = validateCron(expression);
             if (!validation.valid) {
                 showError(validation.error);
+                if (currentMode === 'parse') {
+                    const parseInputField = document.getElementById('parseInput');
+                    A11yUtils.showError(parseInputField, validation.error);
+                    parseInputField.focus();
+                }
                 return;
             }
 
             document.getElementById('expressionOutput').textContent = expression;
-            document.getElementById('humanText').textContent = cronToHuman(expression);
+            const humanText = cronToHuman(expression);
+            document.getElementById('humanText').textContent = humanText;
 
             showBreakdown(expression);
             calculateNextRuns(expression);
+
+            A11yUtils.announce(`Expression generated: ${humanText}`, 'polite');
         }
 
         function validateCron(expression) {
@@ -1027,6 +1082,7 @@
                 const btn = document.querySelector('.copy-btn');
                 btn.textContent = 'Copied!';
                 btn.classList.add('copied');
+                A11yUtils.announce(`Copied cron expression ${expression} to clipboard`, 'polite');
                 setTimeout(() => {
                     btn.textContent = 'Copy';
                     btn.classList.remove('copied');

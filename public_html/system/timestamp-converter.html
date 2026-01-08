@@ -488,21 +488,25 @@
         <h1>Log Timestamp Converter</h1>
 
         <div class="calculator">
-            <div class="error" id="errorMsg"></div>
+            <div class="error" id="errorMsg" role="alert" aria-live="assertive" aria-atomic="true"></div>
 
+            <form aria-label="Timestamp converter form">
             <div class="input-group">
                 <label for="timestampInput">Paste timestamps (one per line):</label>
                 <textarea
                     id="timestampInput"
                     class="timestamp-input"
-                    placeholder="2024-01-07T15:30:00Z&#10;Jan  7 15:30:00 router1 kernel: eth0 link up&#10;07/Jan/2024:15:30:00 +0000&#10;1704641400&#10;1/7/2024 3:30:00 PM"></textarea>
-                <div class="char-counter" id="charCounter">0 lines | 0 characters</div>
+                    placeholder="2024-01-07T15:30:00Z&#10;Jan  7 15:30:00 router1 kernel: eth0 link up&#10;07/Jan/2024:15:30:00 +0000&#10;1704641400&#10;1/7/2024 3:30:00 PM"
+                    aria-required="true"
+                    aria-describedby="timestamp-help char-counter"></textarea>
+                <span id="timestamp-help" class="sr-only">Enter log timestamps in any format, one per line. Supports ISO 8601, Unix epoch, syslog, Apache, and custom formats</span>
+                <div class="char-counter" id="charCounter" aria-live="polite">0 lines | 0 characters</div>
             </div>
 
             <div class="input-group">
-                <label>Additional Timezones (optional):</label>
-                <div class="timezone-selectors">
-                    <select id="tz1">
+                <label id="timezone-label">Additional Timezones (optional):</label>
+                <div class="timezone-selectors" role="group" aria-labelledby="timezone-label">
+                    <select id="tz1" aria-label="Additional timezone 1 for conversion">
                         <option value="">-- Timezone 1 --</option>
                         <option value="America/New_York">US Eastern</option>
                         <option value="America/Chicago">US Central</option>
@@ -518,7 +522,7 @@
                         <option value="Australia/Sydney">Sydney (AEDT/AEST)</option>
                         <option value="Pacific/Auckland">Auckland (NZDT/NZST)</option>
                     </select>
-                    <select id="tz2">
+                    <select id="tz2" aria-label="Additional timezone 2 for conversion">
                         <option value="">-- Timezone 2 --</option>
                         <option value="America/New_York">US Eastern</option>
                         <option value="America/Chicago">US Central</option>
@@ -534,7 +538,7 @@
                         <option value="Australia/Sydney">Sydney (AEDT/AEST)</option>
                         <option value="Pacific/Auckland">Auckland (NZDT/NZST)</option>
                     </select>
-                    <select id="tz3">
+                    <select id="tz3" aria-label="Additional timezone 3 for conversion">
                         <option value="">-- Timezone 3 --</option>
                         <option value="America/New_York">US Eastern</option>
                         <option value="America/Chicago">US Central</option>
@@ -554,16 +558,17 @@
             </div>
 
             <div class="button-group">
-                <button class="btn" onclick="convertTimestamps()">Convert Timestamps</button>
-                <button class="btn btn-secondary" onclick="loadSampleData()">Load Sample Data</button>
+                <button type="button" class="btn" onclick="convertTimestamps()" aria-label="Convert all entered timestamps to multiple timezone formats">Convert Timestamps</button>
+                <button type="button" class="btn btn-secondary" onclick="loadSampleData()" aria-label="Load sample log timestamps for testing">Load Sample Data</button>
             </div>
+            </form>
         </div>
 
-        <div class="results" id="results">
+        <div class="results" id="results" role="region" aria-live="polite" aria-label="Timestamp conversion results">
             <div class="calculator">
                 <div class="results-header">
                     <div class="results-summary" id="resultsSummary"></div>
-                    <button class="export-btn" onclick="exportToCSV()">Export to CSV</button>
+                    <button type="button" class="export-btn" onclick="exportToCSV()" aria-label="Export timestamp conversions to CSV file">Export to CSV</button>
                 </div>
                 <div class="results-table-container">
                     <table class="results-table">
@@ -861,6 +866,15 @@
             const resultsDiv = document.getElementById('results');
             resultsDiv.classList.add('show');
             resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+            // Announce results
+            const validCount = resultsData.filter(r => !r.error).length;
+            const errorCount = resultsData.filter(r => r.error).length;
+            let announcement = `Conversion complete. ${validCount} timestamp${validCount !== 1 ? 's' : ''} converted successfully`;
+            if (errorCount > 0) {
+                announcement += `, ${errorCount} error${errorCount !== 1 ? 's' : ''}`;
+            }
+            A11yUtils.announce(announcement, 'polite');
         }
 
         function createConversionRow(label, value) {
@@ -900,6 +914,7 @@
             navigator.clipboard.writeText(unescaped).then(() => {
                 button.textContent = 'Copied!';
                 button.classList.add('copied');
+                A11yUtils.announce('Copied timestamp to clipboard', 'polite');
                 setTimeout(() => {
                     button.textContent = 'Copy';
                     button.classList.remove('copied');
@@ -970,6 +985,7 @@
             const csv = rows.map(row => row.join(',')).join('\n');
             const filename = `timestamp-conversions-${new Date().toISOString().split('T')[0]}.csv`;
             downloadFile(csv, filename, 'text/csv;charset=utf-8;');
+            A11yUtils.announce(`Exported ${resultsData.length} timestamp conversions to CSV file`, 'polite');
         }
 
         function escapeCSV(str) {
@@ -1008,6 +1024,7 @@ Mon Jan 07 15:30:00 2024
 
             document.getElementById('timestampInput').value = sample;
             updateCharCounter();
+            A11yUtils.announce('Loaded sample log timestamps', 'polite');
         }
 
         function showError(message) {

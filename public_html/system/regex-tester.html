@@ -477,73 +477,76 @@
         <h1>Regex Tester</h1>
 
         <div class="calculator">
+            <form aria-label="Regular expression tester form">
             <div class="input-group">
                 <label for="pattern">Regular Expression Pattern</label>
-                <input type="text" id="pattern" placeholder="Enter regex pattern or select from presets...">
+                <input type="text" id="pattern" placeholder="Enter regex pattern or select from presets..." aria-required="true" aria-describedby="pattern-help">
+                <span id="pattern-help" class="sr-only">Enter a JavaScript regular expression pattern to test</span>
             </div>
 
             <div class="input-group">
-                <label class="presets-label">Regex Flags</label>
-                <div class="flags-group">
+                <label class="presets-label" id="flags-label">Regex Flags</label>
+                <div class="flags-group" role="group" aria-labelledby="flags-label">
                     <div class="flag-item">
-                        <input type="checkbox" id="flagG" checked>
+                        <input type="checkbox" id="flagG" checked aria-label="Enable global flag to find all matches instead of just the first">
                         <label for="flagG">g - Global (find all)</label>
                     </div>
                     <div class="flag-item">
-                        <input type="checkbox" id="flagI">
+                        <input type="checkbox" id="flagI" aria-label="Enable case insensitive flag to ignore letter case">
                         <label for="flagI">i - Case insensitive</label>
                     </div>
                     <div class="flag-item">
-                        <input type="checkbox" id="flagM">
+                        <input type="checkbox" id="flagM" aria-label="Enable multiline flag for anchors to match line breaks">
                         <label for="flagM">m - Multiline</label>
                     </div>
                     <div class="flag-item">
-                        <input type="checkbox" id="flagS">
+                        <input type="checkbox" id="flagS" aria-label="Enable dotall flag so dot matches newline characters">
                         <label for="flagS">s - Dotall</label>
                     </div>
                 </div>
             </div>
 
             <div class="presets-section">
-                <label class="presets-label">Common Network Patterns</label>
-                <div class="presets-grid">
-                    <button class="preset-btn" data-pattern="^.*$" data-flags="">Entire Line</button>
-                    <button class="preset-btn" data-pattern="([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}" data-flags="g">MAC (colon)</button>
-                    <button class="preset-btn" data-pattern="([0-9A-Fa-f]{2}-){5}[0-9A-Fa-f]{2}" data-flags="g">MAC (dash)</button>
-                    <button class="preset-btn" data-pattern="([0-9A-Fa-f]{4}\.){2}[0-9A-Fa-f]{4}" data-flags="g">MAC (dot)</button>
-                    <button class="preset-btn" data-pattern="([0-9A-Fa-f]{4}:){2}[0-9A-Fa-f]{4}" data-flags="g">MAC (4-digit)</button>
-                    <button class="preset-btn" data-pattern="([0-9A-Fa-f]{2}[:-]){5}[0-9A-Fa-f]{2}|([0-9A-Fa-f]{4}\.){2}[0-9A-Fa-f]{4}" data-flags="g">MAC (any)</button>
-                    <button class="preset-btn" data-pattern="\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b" data-flags="g">IPv4</button>
-                    <button class="preset-btn" data-pattern="\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\/(?:[0-9]|[12][0-9]|3[0-2])\b" data-flags="g">IPv4 CIDR</button>
-                    <button class="preset-btn" data-pattern="\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\s+(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b" data-flags="g">IP + Mask</button>
-                    <button class="preset-btn" data-pattern="\bvlan\s*(\d{1,4})\b" data-flags="gi">VLAN ID</button>
-                    <button class="preset-btn" data-pattern="\b(?:Ethernet|FastEthernet|GigabitEthernet|eth|ge|fe)\s*[\d/]+" data-flags="gi">Interface</button>
-                    <button class="preset-btn" data-pattern="\s+" data-flags="g">All Spaces</button>
-                    <button class="preset-btn" data-pattern="^\s*$" data-flags="gm">Blank Lines</button>
+                <label class="presets-label" id="presets-label">Common Network Patterns</label>
+                <div class="presets-grid" role="group" aria-labelledby="presets-label">
+                    <button type="button" class="preset-btn" data-pattern="^.*$" data-flags="" aria-label="Apply pattern to match entire line">Entire Line</button>
+                    <button type="button" class="preset-btn" data-pattern="([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}" data-flags="g" aria-label="Apply pattern to match MAC addresses with colon separators">MAC (colon)</button>
+                    <button type="button" class="preset-btn" data-pattern="([0-9A-Fa-f]{2}-){5}[0-9A-Fa-f]{2}" data-flags="g">MAC (dash)</button>
+                    <button type="button" class="preset-btn" data-pattern="([0-9A-Fa-f]{4}\.){2}[0-9A-Fa-f]{4}" data-flags="g">MAC (dot)</button>
+                    <button type="button" class="preset-btn" data-pattern="([0-9A-Fa-f]{4}:){2}[0-9A-Fa-f]{4}" data-flags="g">MAC (4-digit)</button>
+                    <button type="button" class="preset-btn" data-pattern="([0-9A-Fa-f]{2}[:-]){5}[0-9A-Fa-f]{2}|([0-9A-Fa-f]{4}\.){2}[0-9A-Fa-f]{4}" data-flags="g">MAC (any)</button>
+                    <button type="button" class="preset-btn" data-pattern="\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b" data-flags="g">IPv4</button>
+                    <button type="button" class="preset-btn" data-pattern="\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\/(?:[0-9]|[12][0-9]|3[0-2])\b" data-flags="g">IPv4 CIDR</button>
+                    <button type="button" class="preset-btn" data-pattern="\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\s+(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b" data-flags="g">IP + Mask</button>
+                    <button type="button" class="preset-btn" data-pattern="\bvlan\s*(\d{1,4})\b" data-flags="gi">VLAN ID</button>
+                    <button type="button" class="preset-btn" data-pattern="\b(?:Ethernet|FastEthernet|GigabitEthernet|eth|ge|fe)\s*[\d/]+" data-flags="gi">Interface</button>
+                    <button type="button" class="preset-btn" data-pattern="\s+" data-flags="g">All Spaces</button>
+                    <button type="button" class="preset-btn" data-pattern="^\s*$" data-flags="gm">Blank Lines</button>
                 </div>
             </div>
 
-            <div class="match-summary-bar" id="matchSummary">
+            <div class="match-summary-bar" id="matchSummary" role="region" aria-live="polite" aria-label="Pattern match summary">
                 <div class="match-info">
                     <div class="match-count" id="matchCount">Found 0 matches</div>
                     <div class="match-pattern" id="matchPattern"></div>
                 </div>
                 <div class="export-buttons">
-                    <button class="export-btn" onclick="exportCSV()">Export CSV</button>
-                    <button class="export-btn" onclick="exportTXT()">Export TXT</button>
+                    <button type="button" class="export-btn" onclick="exportCSV()" aria-label="Export matches to CSV file">Export CSV</button>
+                    <button type="button" class="export-btn" onclick="exportTXT()" aria-label="Export matches to text file">Export TXT</button>
                 </div>
             </div>
 
             <div class="input-group">
                 <label for="testString">Test String</label>
-                <div id="testString" contenteditable="true" class="test-input" data-placeholder="Enter text to test against your regex pattern..."></div>
-                <div class="char-counter" id="charCounter">0 / 100,000 characters</div>
+                <div id="testString" contenteditable="true" class="test-input" data-placeholder="Enter text to test against your regex pattern..." aria-label="Test string input" aria-describedby="charCounter" role="textbox" aria-multiline="true"></div>
+                <div class="char-counter" id="charCounter" aria-live="polite">0 / 100,000 characters</div>
             </div>
 
-            <div class="error" id="errorMsg"></div>
+            <div class="error" id="errorMsg" role="alert" aria-live="assertive" aria-atomic="true"></div>
 
-            <button class="btn" onclick="testPattern()">Test Pattern</button>
-            <button class="btn secondary" onclick="loadSample()">Load Sample Data</button>
+            <button type="button" class="btn" onclick="testPattern()" aria-label="Test regex pattern against entered text">Test Pattern</button>
+            <button type="button" class="btn secondary" onclick="loadSample()" aria-label="Load sample network configuration data for testing">Load Sample Data</button>
+            </form>
         </div>
 
         <footer role="contentinfo">
@@ -756,6 +759,10 @@
 
             matchPattern.textContent = `Pattern: /${currentPattern}/${flagsText}`;
             summaryBar.classList.add('show');
+
+            // Announce results
+            const matchText = matchesData.length === 1 ? '1 match' : `${matchesData.length} matches`;
+            A11yUtils.announce(`Pattern test complete. Found ${matchText}`, 'polite');
         }
 
         function escapeHtml(text) {
@@ -775,6 +782,7 @@
             });
 
             downloadFile(csv, 'regex-matches.csv', 'text/csv');
+            A11yUtils.announce(`Exported ${matchesData.length} matches to CSV file`, 'polite');
         }
 
         function exportTXT() {
@@ -787,6 +795,7 @@
             });
 
             downloadFile(txt, 'regex-matches.txt', 'text/plain');
+            A11yUtils.announce(`Exported ${matchesData.length} matches to text file`, 'polite');
         }
 
         function downloadFile(content, filename, mimeType) {
@@ -825,6 +834,7 @@ Routing Table:
             testInput.textContent = sample;
             clearHighlights();
             updateCharCounter();
+            A11yUtils.announce('Loaded sample network configuration data', 'polite');
         }
     </script>
     <script>
