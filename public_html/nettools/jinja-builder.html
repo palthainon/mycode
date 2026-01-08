@@ -1,0 +1,1491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Build and test Jinja2 templates with syntax highlighting. Pre-built templates for network configs, Ansible playbooks, and system configurations. Fast, offline-capable template editor.">
+    <meta name="keywords" content="Jinja template builder, Jinja2 editor, template generator, network config template, Ansible template, configuration management">
+    <meta name="author" content="OldWeb LLC">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://oldweb.tech/nettools/jinja-builder.html">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Jinja Template Builder - OldWeb.tech">
+    <meta property="og:description" content="Build and test Jinja2 templates with syntax highlighting. Pre-built templates for network configs, Ansible playbooks, and system configurations.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oldweb.tech/nettools/jinja-builder.html">
+    <meta property="og:site_name" content="OldWeb.tech">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Jinja Template Builder - OldWeb.tech">
+    <meta name="twitter:description" content="Build and test Jinja2 templates with syntax highlighting. Pre-built templates for network configs, Ansible playbooks, and system configurations.">
+
+    <!-- Additional Meta Tags -->
+    <meta name="theme-color" content="#1a1a2e">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
+
+    <title>Jinja Template Builder - OldWeb.tech</title>
+
+    <!-- Accessibility -->
+    <link rel="stylesheet" href="../a11y.css">
+    <script src="../a11y-utils.js"></script>
+
+    <script src="../navigationv2.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 2.5rem;
+            color: #4fc3f7;
+            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #90caf9;
+            margin-bottom: 30px;
+            font-size: 1rem;
+        }
+
+        .tool-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .controls-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            align-items: flex-end;
+        }
+
+        .control-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .control-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #90caf9;
+            font-weight: 500;
+        }
+
+        .control-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: #0f1419;
+            color: #fff;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .control-group select:focus {
+            outline: none;
+            border-color: #4fc3f7;
+            box-shadow: 0 0 15px rgba(79, 195, 247, 0.2);
+        }
+
+        .control-group select option {
+            background: #0f1419;
+            color: #fff;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            font-size: 0.95rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(79, 195, 247, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%);
+        }
+
+        .btn-secondary:hover {
+            box-shadow: 0 5px 20px rgba(102, 187, 106, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid rgba(79, 195, 247, 0.5);
+            color: #4fc3f7;
+        }
+
+        .btn-outline:hover {
+            background: rgba(79, 195, 247, 0.1);
+            border-color: #4fc3f7;
+            box-shadow: 0 5px 20px rgba(79, 195, 247, 0.2);
+        }
+
+        /* Editor Container */
+        .editor-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .editor-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .editor-label span {
+            color: #90caf9;
+            font-weight: 500;
+        }
+
+        .char-count {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85rem;
+        }
+
+        /* Syntax Highlighted Editor */
+        .editor-wrapper {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transition: border-color 0.3s;
+        }
+
+        .editor-wrapper:focus-within {
+            border-color: #4fc3f7;
+        }
+
+        .editor-highlight {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            padding: 16px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow: auto;
+            pointer-events: none;
+            color: transparent;
+            background: #0f1419;
+        }
+
+        .editor-textarea {
+            width: 100%;
+            min-height: 400px;
+            padding: 16px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            border: none;
+            background: transparent;
+            color: #e6e6e6;
+            resize: vertical;
+            position: relative;
+            z-index: 1;
+            caret-color: #4fc3f7;
+        }
+
+        .editor-textarea:focus {
+            outline: none;
+        }
+
+        .editor-textarea::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Syntax Highlighting Colors */
+        .hl-statement {
+            color: #4fc3f7;
+            font-weight: 600;
+        }
+
+        .hl-expression {
+            color: #66bb6a;
+        }
+
+        .hl-comment {
+            color: #6a737d;
+            font-style: italic;
+        }
+
+        .hl-filter {
+            color: #ff8a65;
+        }
+
+        .hl-keyword {
+            color: #ce93d8;
+            font-weight: 600;
+        }
+
+        .hl-string {
+            color: #ffcc80;
+        }
+
+        /* Legend */
+        .syntax-legend {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+            font-family: monospace;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+        }
+
+        .legend-color.statement { background: rgba(79, 195, 247, 0.3); color: #4fc3f7; }
+        .legend-color.expression { background: rgba(102, 187, 106, 0.3); color: #66bb6a; }
+        .legend-color.comment { background: rgba(106, 115, 125, 0.3); color: #6a737d; }
+        .legend-color.filter { background: rgba(255, 138, 101, 0.3); color: #ff8a65; }
+
+        /* Quick Reference */
+        .quick-ref {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .quick-ref h3 {
+            color: #4fc3f7;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .ref-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .ref-item {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 3px solid #4fc3f7;
+        }
+
+        .ref-item code {
+            color: #4fc3f7;
+            background: rgba(79, 195, 247, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .ref-item p {
+            color: #90caf9;
+            font-size: 0.85rem;
+            margin-top: 5px;
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%);
+            color: #fff;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s, transform 0.3s;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ASCII Logo */
+        .ascii-logo {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.65rem;
+            line-height: 1.1;
+            color: #4fc3f7;
+            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
+            opacity: 0.8;
+            white-space: pre;
+        }
+
+        @media (max-width: 768px) {
+            .ascii-logo {
+                position: static;
+                text-align: center;
+                margin-bottom: 20px;
+                font-size: 0.5rem;
+            }
+
+            .controls-row {
+                flex-direction: column;
+            }
+
+            .control-group {
+                min-width: 100%;
+            }
+
+            .btn-group {
+                width: 100%;
+            }
+
+            .btn {
+                flex: 1;
+                text-align: center;
+            }
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85rem;
+        }
+
+        footer a {
+            color: #4fc3f7;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Jinja Template Builder",
+      "description": "Build and test Jinja2 templates with syntax highlighting. Pre-built templates for network configs, Ansible playbooks, and system configurations.",
+      "url": "https://oldweb.tech/nettools/jinja-builder.html",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Web Browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "creator": {
+        "@type": "Organization",
+        "name": "OldWeb.tech"
+      }
+    }
+    </script>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <div class="ascii-logo" aria-hidden="true">  ___  _    _  __        __   _
+ / _ \| | _| | \ \      / /__| |__
+| | | | |/ _` | \ \ /\ / / _ \ '_ \
+| |_| | | (_| |  \ V  V /  __/ |_) |
+ \___/|_|\__,_|   \_/\_/ \___|_.__/
+</div>
+    <main id="main-content" class="container">
+        <h1>Jinja Template Builder</h1>
+        <p class="subtitle">Build configuration templates with Jinja2 syntax highlighting</p>
+
+        <div class="tool-section">
+            <div class="controls-row">
+                <div class="control-group">
+                    <label for="templateSelect">Load Template</label>
+                    <select id="templateSelect" aria-describedby="template-help">
+                        <option value="">-- Select a template --</option>
+                        <optgroup label="Network Configurations">
+                            <option value="cisco-interface">Cisco Interface Config</option>
+                            <option value="cisco-acl">Cisco ACL</option>
+                            <option value="vlan-config">VLAN Configuration</option>
+                            <option value="bgp-neighbor">BGP Neighbor</option>
+                            <option value="firewall-rules">Firewall Rules</option>
+                        </optgroup>
+                        <optgroup label="Server Configurations">
+                            <option value="nginx-vhost">Nginx Virtual Host</option>
+                            <option value="apache-vhost">Apache Virtual Host</option>
+                            <option value="dns-zone">DNS Zone File</option>
+                            <option value="hosts-file">Hosts File</option>
+                        </optgroup>
+                        <optgroup label="Automation">
+                            <option value="ansible-playbook">Ansible Playbook</option>
+                            <option value="ansible-vars">Ansible Variables</option>
+                            <option value="docker-compose">Docker Compose</option>
+                        </optgroup>
+                        <optgroup label="Basic Examples">
+                            <option value="for-loop">For Loop Example</option>
+                            <option value="conditionals">Conditionals Example</option>
+                            <option value="filters">Filters Example</option>
+                            <option value="inheritance">Template Inheritance</option>
+                        </optgroup>
+                    </select>
+                    <span id="template-help" class="sr-only">Select a pre-built template to load into the editor</span>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn" onclick="copyToClipboard()" aria-label="Copy template to clipboard">Copy</button>
+                    <button type="button" class="btn btn-secondary" onclick="downloadTemplate()" aria-label="Download template as file">Download</button>
+                    <button type="button" class="btn btn-outline" onclick="clearEditor()" aria-label="Clear the editor">Clear</button>
+                </div>
+            </div>
+
+            <div class="syntax-legend" role="region" aria-label="Syntax highlighting legend">
+                <div class="legend-item">
+                    <span class="legend-color statement">{%</span>
+                    <span>Statements</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color expression">{{</span>
+                    <span>Expressions</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color comment">{#</span>
+                    <span>Comments</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color filter">|</span>
+                    <span>Filters</span>
+                </div>
+            </div>
+
+            <div class="editor-container">
+                <div class="editor-label">
+                    <span>Template Editor</span>
+                    <span class="char-count" id="charCount">0 characters</span>
+                </div>
+                <div class="editor-wrapper">
+                    <div class="editor-highlight" id="editorHighlight" aria-hidden="true"></div>
+                    <textarea
+                        id="editorTextarea"
+                        class="editor-textarea"
+                        placeholder="Enter your Jinja2 template here...
+
+Examples:
+{% for item in items %}
+  {{ item.name | upper }}
+{% endfor %}
+
+{# This is a comment #}"
+                        spellcheck="false"
+                        aria-label="Jinja template editor"
+                    ></textarea>
+                </div>
+            </div>
+
+            <div class="quick-ref">
+                <h3>Quick Reference</h3>
+                <div class="ref-grid">
+                    <div class="ref-item">
+                        <code>{% for item in list %}</code>
+                        <p>Loop over items in a sequence</p>
+                    </div>
+                    <div class="ref-item">
+                        <code>{% if condition %}</code>
+                        <p>Conditional statement</p>
+                    </div>
+                    <div class="ref-item">
+                        <code>{{ variable }}</code>
+                        <p>Output a variable value</p>
+                    </div>
+                    <div class="ref-item">
+                        <code>{{ var | filter }}</code>
+                        <p>Apply a filter to value</p>
+                    </div>
+                    <div class="ref-item">
+                        <code>{% set x = value %}</code>
+                        <p>Assign a variable</p>
+                    </div>
+                    <div class="ref-item">
+                        <code>{% include 'file' %}</code>
+                        <p>Include another template</p>
+                    </div>
+                    <div class="ref-item">
+                        <code>{% macro name() %}</code>
+                        <p>Define a reusable macro</p>
+                    </div>
+                    <div class="ref-item">
+                        <code>{{ loop.index }}</code>
+                        <p>Current loop iteration (1-based)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer role="contentinfo">
+            Jinja Template Builder - <a href="jinjaguide.md" target="_blank">View Full Jinja Guide</a>
+        </footer>
+    </main>
+
+    <div class="toast" id="toast" role="alert" aria-live="polite"></div>
+
+    <script>
+        // Template definitions
+        const templates = {
+            'cisco-interface': `{# Cisco Interface Configuration Template #}
+{% for interface in interfaces %}
+interface {{ interface.name }}
+ description {{ interface.description | default('No description') }}
+{% if interface.ip_address %}
+ ip address {{ interface.ip_address }} {{ interface.subnet_mask }}
+{% else %}
+ no ip address
+{% endif %}
+{% if interface.vlan is defined %}
+ switchport access vlan {{ interface.vlan }}
+ switchport mode access
+{% endif %}
+{% if interface.shutdown | default(false) %}
+ shutdown
+{% else %}
+ no shutdown
+{% endif %}
+!
+{% endfor %}`,
+
+            'cisco-acl': `{# Cisco ACL Configuration Template #}
+{% set acl_name = acl.name | default('ACL_' ~ range(1000, 9999) | random) %}
+ip access-list extended {{ acl_name }}
+{% for rule in acl.rules %}
+ {{ rule.action }} {{ rule.protocol }} {{ rule.source }} {{ rule.source_wildcard | default('0.0.0.0') }} {{ rule.destination }} {{ rule.dest_wildcard | default('0.0.0.0') }}{% if rule.port is defined %} eq {{ rule.port }}{% endif %}
+
+{% endfor %}
+!
+{# Apply to interface #}
+{% if acl.interface is defined %}
+interface {{ acl.interface }}
+ ip access-group {{ acl_name }} {{ acl.direction | default('in') }}
+{% endif %}`,
+
+            'vlan-config': `{# VLAN Configuration Template #}
+{% for vlan in vlans %}
+vlan {{ vlan.id }}
+ name {{ vlan.name | replace(' ', '_') | upper }}
+{% if vlan.description is defined %}
+ ! Description: {{ vlan.description }}
+{% endif %}
+!
+{% endfor %}
+
+{# SVI Configuration #}
+{% for vlan in vlans if vlan.svi is defined %}
+interface Vlan{{ vlan.id }}
+ description {{ vlan.name }} Gateway
+ ip address {{ vlan.svi.ip }} {{ vlan.svi.mask }}
+{% if vlan.svi.helper is defined %}
+{% for helper in vlan.svi.helper %}
+ ip helper-address {{ helper }}
+{% endfor %}
+{% endif %}
+ no shutdown
+!
+{% endfor %}`,
+
+            'bgp-neighbor': `{# BGP Neighbor Configuration Template #}
+router bgp {{ bgp.local_as }}
+ bgp router-id {{ bgp.router_id }}
+ bgp log-neighbor-changes
+!
+{% for neighbor in bgp.neighbors %}
+ neighbor {{ neighbor.ip }} remote-as {{ neighbor.remote_as }}
+{% if neighbor.description is defined %}
+ neighbor {{ neighbor.ip }} description {{ neighbor.description }}
+{% endif %}
+{% if neighbor.password is defined %}
+ neighbor {{ neighbor.ip }} password {{ neighbor.password }}
+{% endif %}
+{% if neighbor.update_source is defined %}
+ neighbor {{ neighbor.ip }} update-source {{ neighbor.update_source }}
+{% endif %}
+{% if neighbor.ebgp_multihop is defined %}
+ neighbor {{ neighbor.ip }} ebgp-multihop {{ neighbor.ebgp_multihop }}
+{% endif %}
+!
+{% endfor %}
+!
+ address-family ipv4 unicast
+{% for neighbor in bgp.neighbors %}
+  neighbor {{ neighbor.ip }} activate
+{% if neighbor.route_map_in is defined %}
+  neighbor {{ neighbor.ip }} route-map {{ neighbor.route_map_in }} in
+{% endif %}
+{% if neighbor.route_map_out is defined %}
+  neighbor {{ neighbor.ip }} route-map {{ neighbor.route_map_out }} out
+{% endif %}
+{% if neighbor.prefix_list_in is defined %}
+  neighbor {{ neighbor.ip }} prefix-list {{ neighbor.prefix_list_in }} in
+{% endif %}
+{% endfor %}
+ exit-address-family`,
+
+            'firewall-rules': `{# Firewall Rules Template #}
+{% for rule in firewall_rules %}
+{# Rule {{ loop.index }}: {{ rule.name | default('Unnamed') }} #}
+{% if rule.enabled | default(true) %}
+iptables -A {{ rule.chain | default('INPUT') }} \\
+{% if rule.protocol is defined %}
+  -p {{ rule.protocol }} \\
+{% endif %}
+{% if rule.source is defined %}
+  -s {{ rule.source }} \\
+{% endif %}
+{% if rule.destination is defined %}
+  -d {{ rule.destination }} \\
+{% endif %}
+{% if rule.dport is defined %}
+  --dport {{ rule.dport }} \\
+{% endif %}
+{% if rule.sport is defined %}
+  --sport {{ rule.sport }} \\
+{% endif %}
+{% if rule.state is defined %}
+  -m state --state {{ rule.state | join(',') }} \\
+{% endif %}
+  -j {{ rule.action | upper }}{% if rule.log | default(false) %} --log-prefix "[{{ rule.name | default('FW') }}] "{% endif %}
+
+{% else %}
+# Rule disabled: {{ rule.name | default('Unnamed') }}
+{% endif %}
+{% endfor %}`,
+
+            'nginx-vhost': `{# Nginx Virtual Host Configuration #}
+{% for site in sites %}
+server {
+    listen {{ site.listen | default('80') }};
+    listen [::]:{{ site.listen | default('80') }};
+
+    server_name {{ site.domains | join(' ') }};
+
+{% if site.ssl | default(false) %}
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+
+    ssl_certificate {{ site.ssl_cert }};
+    ssl_certificate_key {{ site.ssl_key }};
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256;
+    ssl_prefer_server_ciphers off;
+
+{% endif %}
+    root {{ site.root }};
+    index {{ site.index | default('index.html index.htm') }};
+
+    access_log /var/log/nginx/{{ site.domains | first }}.access.log;
+    error_log /var/log/nginx/{{ site.domains | first }}.error.log;
+
+{% if site.locations is defined %}
+{% for loc in site.locations %}
+    location {{ loc.path }} {
+{% if loc.proxy_pass is defined %}
+        proxy_pass {{ loc.proxy_pass }};
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+{% elif loc.root is defined %}
+        root {{ loc.root }};
+{% endif %}
+{% if loc.try_files is defined %}
+        try_files {{ loc.try_files }};
+{% endif %}
+    }
+
+{% endfor %}
+{% endif %}
+}
+
+{% endfor %}`,
+
+            'apache-vhost': `{# Apache Virtual Host Configuration #}
+{% for site in sites %}
+<VirtualHost *:{{ site.port | default('80') }}>
+    ServerName {{ site.domains | first }}
+{% if site.domains | length > 1 %}
+    ServerAlias {{ site.domains[1:] | join(' ') }}
+{% endif %}
+
+    DocumentRoot {{ site.root }}
+
+    <Directory {{ site.root }}>
+        Options {{ site.options | default('Indexes FollowSymLinks') }}
+        AllowOverride {{ site.allow_override | default('All') }}
+        Require all granted
+    </Directory>
+
+    ErrorLog \${APACHE_LOG_DIR}/{{ site.domains | first }}-error.log
+    CustomLog \${APACHE_LOG_DIR}/{{ site.domains | first }}-access.log combined
+
+{% if site.ssl | default(false) %}
+    SSLEngine on
+    SSLCertificateFile {{ site.ssl_cert }}
+    SSLCertificateKeyFile {{ site.ssl_key }}
+{% if site.ssl_chain is defined %}
+    SSLCertificateChainFile {{ site.ssl_chain }}
+{% endif %}
+{% endif %}
+{% if site.rewrite_rules is defined %}
+
+    RewriteEngine On
+{% for rule in site.rewrite_rules %}
+    RewriteRule {{ rule.pattern }} {{ rule.substitution }} [{{ rule.flags | default('L,R=301') }}]
+{% endfor %}
+{% endif %}
+</VirtualHost>
+
+{% endfor %}`,
+
+            'dns-zone': `{# DNS Zone File Template #}
+; Zone file for {{ zone.domain }}
+; Generated by Jinja Template Builder
+$TTL {{ zone.ttl | default('86400') }}
+$ORIGIN {{ zone.domain }}.
+
+@       IN      SOA     {{ zone.primary_ns }}. {{ zone.admin_email | replace('@', '.') }}. (
+                        {{ zone.serial | default(lookup('pipe', 'date +%Y%m%d01')) }}  ; Serial
+                        {{ zone.refresh | default('3600') }}       ; Refresh
+                        {{ zone.retry | default('1800') }}         ; Retry
+                        {{ zone.expire | default('604800') }}      ; Expire
+                        {{ zone.minimum | default('86400') }} )    ; Minimum TTL
+
+; Name Servers
+{% for ns in zone.nameservers %}
+@       IN      NS      {{ ns }}.
+{% endfor %}
+
+; Mail Servers
+{% for mx in zone.mx_records | default([]) %}
+@       IN      MX      {{ mx.priority }}   {{ mx.server }}.
+{% endfor %}
+
+; A Records
+{% for record in zone.a_records | default([]) %}
+{{ record.name | default('@') }}       IN      A       {{ record.ip }}
+{% endfor %}
+
+; AAAA Records
+{% for record in zone.aaaa_records | default([]) %}
+{{ record.name | default('@') }}       IN      AAAA    {{ record.ip }}
+{% endfor %}
+
+; CNAME Records
+{% for record in zone.cname_records | default([]) %}
+{{ record.name }}       IN      CNAME   {{ record.target }}.
+{% endfor %}
+
+; TXT Records
+{% for record in zone.txt_records | default([]) %}
+{{ record.name | default('@') }}       IN      TXT     "{{ record.value }}"
+{% endfor %}`,
+
+            'hosts-file': `{# Hosts File Template #}
+# /etc/hosts - Generated by Jinja Template Builder
+# {{ ansible_date_time.date | default('Generated') }}
+
+# Loopback
+127.0.0.1       localhost
+::1             localhost ip6-localhost ip6-loopback
+
+# Hostname
+{{ ansible_default_ipv4.address | default('127.0.1.1') }}       {{ inventory_hostname }}{% if inventory_hostname_short is defined %} {{ inventory_hostname_short }}{% endif %}
+
+
+{% if host_entries is defined %}
+# Custom Entries
+{% for entry in host_entries %}
+{{ entry.ip }}       {{ entry.hostnames | join(' ') }}{% if entry.comment is defined %}  # {{ entry.comment }}{% endif %}
+
+{% endfor %}
+{% endif %}
+
+{% if groups is defined %}
+# Cluster Hosts
+{% for group_name, hosts in groups.items() %}
+{% if hosts | length > 0 %}
+# {{ group_name }}
+{% for host in hosts %}
+{{ hostvars[host].ansible_host | default(hostvars[host].ansible_default_ipv4.address) }}       {{ host }}
+{% endfor %}
+
+{% endif %}
+{% endfor %}
+{% endif %}`,
+
+            'ansible-playbook': `---
+{# Ansible Playbook Template #}
+- name: {{ playbook_name | default('Configure servers') }}
+  hosts: {{ target_hosts | default('all') }}
+  become: {{ become | default('yes') }}
+  gather_facts: {{ gather_facts | default('yes') }}
+
+  vars:
+{% for var in vars | default([]) %}
+    {{ var.name }}: {{ var.value | to_nice_yaml | indent(6) }}
+{% endfor %}
+
+  tasks:
+{% for task in tasks %}
+    - name: {{ task.name }}
+      {{ task.module }}:
+{% for key, value in task.args.items() %}
+        {{ key }}: {{ value }}
+{% endfor %}
+{% if task.when is defined %}
+      when: {{ task.when }}
+{% endif %}
+{% if task.notify is defined %}
+      notify: {{ task.notify }}
+{% endif %}
+{% if task.register is defined %}
+      register: {{ task.register }}
+{% endif %}
+{% if task.loop is defined %}
+      loop: {{ task.loop }}
+{% endif %}
+{% if task.tags is defined %}
+      tags: {{ task.tags }}
+{% endif %}
+
+{% endfor %}
+{% if handlers is defined %}
+  handlers:
+{% for handler in handlers %}
+    - name: {{ handler.name }}
+      {{ handler.module }}:
+{% for key, value in handler.args.items() %}
+        {{ key }}: {{ value }}
+{% endfor %}
+
+{% endfor %}
+{% endif %}`,
+
+            'ansible-vars': `---
+{# Ansible Variables Template #}
+# Host/Group Variables File
+# Generated for: {{ inventory_hostname | default('group_vars') }}
+
+{% for category, vars in variables.items() %}
+# {{ category | title }}
+{% for var in vars %}
+{% if var.comment is defined %}
+# {{ var.comment }}
+{% endif %}
+{{ var.name }}: {% if var.value is mapping or var.value is iterable and var.value is not string %}
+
+{{ var.value | to_nice_yaml | indent(2) }}
+{% else %}
+{{ var.value }}
+{% endif %}
+{% endfor %}
+
+{% endfor %}`,
+
+            'docker-compose': `{# Docker Compose Template #}
+version: '{{ compose_version | default("3.8") }}'
+
+services:
+{% for service in services %}
+  {{ service.name }}:
+    image: {{ service.image }}
+{% if service.build is defined %}
+    build:
+      context: {{ service.build.context | default('.') }}
+{% if service.build.dockerfile is defined %}
+      dockerfile: {{ service.build.dockerfile }}
+{% endif %}
+{% if service.build.args is defined %}
+      args:
+{% for arg, value in service.build.args.items() %}
+        - {{ arg }}={{ value }}
+{% endfor %}
+{% endif %}
+{% endif %}
+{% if service.container_name is defined %}
+    container_name: {{ service.container_name }}
+{% endif %}
+{% if service.restart is defined %}
+    restart: {{ service.restart }}
+{% endif %}
+{% if service.ports is defined %}
+    ports:
+{% for port in service.ports %}
+      - "{{ port }}"
+{% endfor %}
+{% endif %}
+{% if service.volumes is defined %}
+    volumes:
+{% for volume in service.volumes %}
+      - {{ volume }}
+{% endfor %}
+{% endif %}
+{% if service.environment is defined %}
+    environment:
+{% for env_var, value in service.environment.items() %}
+      {{ env_var }}: {{ value }}
+{% endfor %}
+{% endif %}
+{% if service.env_file is defined %}
+    env_file:
+{% for file in service.env_file %}
+      - {{ file }}
+{% endfor %}
+{% endif %}
+{% if service.depends_on is defined %}
+    depends_on:
+{% for dep in service.depends_on %}
+      - {{ dep }}
+{% endfor %}
+{% endif %}
+{% if service.networks is defined %}
+    networks:
+{% for network in service.networks %}
+      - {{ network }}
+{% endfor %}
+{% endif %}
+{% if service.healthcheck is defined %}
+    healthcheck:
+      test: {{ service.healthcheck.test }}
+      interval: {{ service.healthcheck.interval | default('30s') }}
+      timeout: {{ service.healthcheck.timeout | default('10s') }}
+      retries: {{ service.healthcheck.retries | default(3) }}
+{% endif %}
+
+{% endfor %}
+{% if networks is defined %}
+networks:
+{% for network in networks %}
+  {{ network.name }}:
+{% if network.driver is defined %}
+    driver: {{ network.driver }}
+{% endif %}
+{% if network.external is defined %}
+    external: {{ network.external }}
+{% endif %}
+{% endfor %}
+{% endif %}
+
+{% if volumes is defined %}
+volumes:
+{% for volume in volumes %}
+  {{ volume.name }}:
+{% if volume.driver is defined %}
+    driver: {{ volume.driver }}
+{% endif %}
+{% if volume.external is defined %}
+    external: {{ volume.external }}
+{% endif %}
+{% endfor %}
+{% endif %}`,
+
+            'for-loop': `{# For Loop Examples #}
+
+{# Basic loop #}
+{% for item in items %}
+  {{ item }}
+{% endfor %}
+
+{# Loop with index (1-based) #}
+{% for user in users %}
+  {{ loop.index }}. {{ user.name }}
+{% endfor %}
+
+{# Loop with index0 (0-based) #}
+{% for item in items %}
+  Index: {{ loop.index0 }}, Value: {{ item }}
+{% endfor %}
+
+{# Loop with first/last detection #}
+{% for item in items %}
+{% if loop.first %}First item: {% endif %}
+{% if loop.last %}Last item: {% endif %}
+{{ item }}
+{% endfor %}
+
+{# Loop over dictionary #}
+{% for key, value in my_dict.items() %}
+  {{ key }}: {{ value }}
+{% endfor %}
+
+{# Loop with else (when list is empty) #}
+{% for item in items %}
+  {{ item }}
+{% else %}
+  No items found!
+{% endfor %}
+
+{# Nested loops #}
+{% for category in categories %}
+  {{ category.name }}:
+  {% for item in category.items %}
+    - {{ item }}
+  {% endfor %}
+{% endfor %}
+
+{# Loop with conditional filtering #}
+{% for user in users if user.active %}
+  {{ user.name }} is active
+{% endfor %}
+
+{# Cycling through values #}
+{% for item in items %}
+  <div class="{{ loop.cycle('odd', 'even') }}">{{ item }}</div>
+{% endfor %}`,
+
+            'conditionals': `{# Conditionals Examples #}
+
+{# Basic if #}
+{% if user.is_admin %}
+  Welcome, Administrator!
+{% endif %}
+
+{# If-else #}
+{% if user.age >= 18 %}
+  Adult content allowed
+{% else %}
+  Restricted content
+{% endif %}
+
+{# If-elif-else #}
+{% if user.role == 'admin' %}
+  Full access granted
+{% elif user.role == 'moderator' %}
+  Moderation access granted
+{% elif user.role == 'user' %}
+  Standard access granted
+{% else %}
+  Guest access only
+{% endif %}
+
+{# Check if variable is defined #}
+{% if description is defined %}
+  Description: {{ description }}
+{% endif %}
+
+{# Check if variable is not defined #}
+{% if config is not defined %}
+  Using default configuration
+{% endif %}
+
+{# Check for truthy value #}
+{% if items %}
+  There are {{ items | length }} items
+{% endif %}
+
+{# Inline if expression (ternary) #}
+{{ 'Active' if user.active else 'Inactive' }}
+
+{# Multiple conditions with and/or #}
+{% if user.is_admin and user.is_active %}
+  Active admin user
+{% endif %}
+
+{% if error or warning %}
+  There are issues to review
+{% endif %}
+
+{# Negation #}
+{% if not user.is_banned %}
+  User can access the site
+{% endif %}
+
+{# Testing values #}
+{% if number is divisibleby 2 %}
+  {{ number }} is even
+{% endif %}
+
+{% if name is defined and name %}
+  Hello, {{ name }}!
+{% endif %}
+
+{# Check membership #}
+{% if 'admin' in user.roles %}
+  Has admin role
+{% endif %}`,
+
+            'filters': `{# Jinja Filters Examples #}
+
+{# String filters #}
+{{ name | upper }}              {# JOHN #}
+{{ name | lower }}              {# john #}
+{{ name | capitalize }}         {# John #}
+{{ name | title }}              {# John Doe #}
+{{ text | trim }}               {# removes whitespace #}
+{{ text | truncate(50) }}       {# truncate to 50 chars #}
+{{ text | wordwrap(80) }}       {# wrap at 80 chars #}
+{{ text | replace('old', 'new') }}
+
+{# Default value #}
+{{ undefined_var | default('fallback') }}
+{{ '' | default('empty', true) }}  {# true = treat empty as undefined #}
+
+{# List/Array filters #}
+{{ items | length }}            {# count items #}
+{{ items | first }}             {# first item #}
+{{ items | last }}              {# last item #}
+{{ items | join(', ') }}        {# join with comma #}
+{{ items | sort }}              {# sort alphabetically #}
+{{ items | sort(reverse=true) }} {# reverse sort #}
+{{ items | unique }}            {# remove duplicates #}
+{{ items | reverse }}           {# reverse order #}
+{{ items | random }}            {# random item #}
+
+{# Number filters #}
+{{ price | round(2) }}          {# round to 2 decimals #}
+{{ number | abs }}              {# absolute value #}
+{{ bytes | filesizeformat }}    {# human readable size #}
+
+{# Dictionary filters #}
+{{ dict | dictsort }}           {# sort by key #}
+{{ dict | dictsort(by='value') }}
+
+{# Chaining filters #}
+{{ names | sort | join(', ') | upper }}
+
+{# Map filter (apply to each item) #}
+{{ users | map(attribute='name') | join(', ') }}
+
+{# Select/Reject filters #}
+{{ numbers | select('odd') | list }}
+{{ users | selectattr('active') | list }}
+{{ users | rejectattr('banned') | list }}
+
+{# JSON output #}
+{{ data | tojson }}
+{{ data | tojson(indent=2) }}
+
+{# Escaping #}
+{{ html_content | e }}          {# escape HTML #}
+{{ html_content | safe }}       {# mark as safe (no escape) #}
+
+{# Batch processing #}
+{% for row in items | batch(3) %}
+  <div class="row">
+  {% for item in row %}
+    <div class="col">{{ item }}</div>
+  {% endfor %}
+  </div>
+{% endfor %}`,
+
+            'inheritance': `{# Template Inheritance Example #}
+
+{# ========== BASE TEMPLATE (base.html) ========== #}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Default Title{% endblock %} - My Site</title>
+    {% block head %}
+    <link rel="stylesheet" href="style.css">
+    {% endblock %}
+</head>
+<body>
+    <header>
+        {% block header %}
+        <nav>
+            <a href="/">Home</a>
+            <a href="/about">About</a>
+        </nav>
+        {% endblock %}
+    </header>
+
+    <main>
+        {% block content %}
+        {# Child templates override this block #}
+        {% endblock %}
+    </main>
+
+    <footer>
+        {% block footer %}
+        <p>&copy; {{ year }} My Company</p>
+        {% endblock %}
+    </footer>
+</body>
+</html>
+
+
+{# ========== CHILD TEMPLATE (page.html) ========== #}
+{% extends "base.html" %}
+
+{% block title %}My Page{% endblock %}
+
+{% block head %}
+    {{ super() }}  {# Include parent's head block #}
+    <link rel="stylesheet" href="page-specific.css">
+{% endblock %}
+
+{% block content %}
+    <h1>Welcome to My Page</h1>
+    <p>This content replaces the parent's content block.</p>
+
+    {% block sidebar %}
+    <aside>
+        <h2>Sidebar</h2>
+        <p>Additional content area</p>
+    </aside>
+    {% endblock %}
+{% endblock %}
+
+{# Footer block is not overridden, so parent's version is used #}
+
+
+{# ========== INCLUDE EXAMPLE ========== #}
+{# Including another template #}
+{% include 'partials/navigation.html' %}
+
+{# Include with ignore missing #}
+{% include 'partials/optional.html' ignore missing %}
+
+{# Include with different context #}
+{% include 'partials/item.html' with context %}
+{% include 'partials/item.html' without context %}
+
+
+{# ========== MACRO EXAMPLE ========== #}
+{# Define reusable macros (like functions) #}
+{% macro input(name, value='', type='text', label='') %}
+    <div class="form-group">
+        {% if label %}
+        <label for="{{ name }}">{{ label }}</label>
+        {% endif %}
+        <input type="{{ type }}" name="{{ name }}" id="{{ name }}"
+               value="{{ value }}" class="form-control">
+    </div>
+{% endmacro %}
+
+{# Use the macro #}
+{{ input('username', label='Username') }}
+{{ input('email', type='email', label='Email Address') }}
+{{ input('password', type='password', label='Password') }}`
+        };
+
+        const textarea = document.getElementById('editorTextarea');
+        const highlight = document.getElementById('editorHighlight');
+        const templateSelect = document.getElementById('templateSelect');
+        const charCount = document.getElementById('charCount');
+
+        // Syntax highlighting function
+        function highlightSyntax(text) {
+            // Escape HTML first
+            let html = text
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+
+            // Highlight comments first (so they don't get double-processed)
+            html = html.replace(/(\{#[\s\S]*?#\})/g, '<span class="hl-comment">$1</span>');
+
+            // Highlight statements {% ... %}
+            html = html.replace(/(\{%-?\s*)((?:end)?(?:for|if|elif|else|block|macro|call|filter|set|include|import|from|extends|with|autoescape|raw|trans|pluralize))/gi,
+                '$1<span class="hl-keyword">$2</span>');
+            html = html.replace(/(\{%-?[\s\S]*?-?%\})/g, function(match) {
+                if (match.includes('hl-keyword')) return '<span class="hl-statement">' + match + '</span>';
+                return '<span class="hl-statement">' + match + '</span>';
+            });
+
+            // Highlight expressions {{ ... }}
+            html = html.replace(/(\{\{[\s\S]*?\}\})/g, function(match) {
+                // Highlight filters within expressions
+                let processed = match.replace(/(\|\s*)(\w+)/g, '$1<span class="hl-filter">$2</span>');
+                return '<span class="hl-expression">' + processed + '</span>';
+            });
+
+            return html;
+        }
+
+        // Update highlight layer
+        function updateHighlight() {
+            const text = textarea.value;
+            highlight.innerHTML = highlightSyntax(text) + '\n';
+            charCount.textContent = text.length + ' characters';
+
+            // Sync scroll
+            highlight.scrollTop = textarea.scrollTop;
+            highlight.scrollLeft = textarea.scrollLeft;
+        }
+
+        // Event listeners
+        textarea.addEventListener('input', updateHighlight);
+        textarea.addEventListener('scroll', function() {
+            highlight.scrollTop = textarea.scrollTop;
+            highlight.scrollLeft = textarea.scrollLeft;
+        });
+
+        // Load template
+        templateSelect.addEventListener('change', function() {
+            const templateKey = this.value;
+            if (templateKey && templates[templateKey]) {
+                textarea.value = templates[templateKey];
+                updateHighlight();
+                showToast('Template loaded');
+            }
+        });
+
+        // Copy to clipboard
+        function copyToClipboard() {
+            const text = textarea.value;
+            if (!text) {
+                showToast('Nothing to copy');
+                return;
+            }
+
+            navigator.clipboard.writeText(text).then(function() {
+                showToast('Copied to clipboard!');
+            }).catch(function() {
+                // Fallback for older browsers
+                textarea.select();
+                document.execCommand('copy');
+                showToast('Copied to clipboard!');
+            });
+        }
+
+        // Download template
+        function downloadTemplate() {
+            const text = textarea.value;
+            if (!text) {
+                showToast('Nothing to download');
+                return;
+            }
+
+            const blob = new Blob([text], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'template.j2';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showToast('Template downloaded');
+        }
+
+        // Clear editor
+        function clearEditor() {
+            textarea.value = '';
+            templateSelect.value = '';
+            updateHighlight();
+            textarea.focus();
+            showToast('Editor cleared');
+        }
+
+        // Toast notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+
+            setTimeout(function() {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+
+        // Make functions globally available
+        window.copyToClipboard = copyToClipboard;
+        window.downloadTemplate = downloadTemplate;
+        window.clearEditor = clearEditor;
+
+        // Initial update
+        updateHighlight();
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Ctrl/Cmd + S to download
+            if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+                e.preventDefault();
+                downloadTemplate();
+            }
+            // Ctrl/Cmd + Shift + C to copy
+            if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'C') {
+                e.preventDefault();
+                copyToClipboard();
+            }
+        });
+
+        // Tab key support in textarea
+        textarea.addEventListener('keydown', function(e) {
+            if (e.key === 'Tab') {
+                e.preventDefault();
+                const start = this.selectionStart;
+                const end = this.selectionEnd;
+
+                // Insert 2 spaces for tab
+                this.value = this.value.substring(0, start) + '  ' + this.value.substring(end);
+                this.selectionStart = this.selectionEnd = start + 2;
+                updateHighlight();
+            }
+        });
+    </script>
+</body>
+</html>

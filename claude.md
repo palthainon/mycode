@@ -49,6 +49,7 @@
 - Progressive enhancement - basic functionality without JS
 - Local storage for user preferences only
 - No backend unless tool requires it (APIs, databases, etc.)
+- Build for americans with disability compliance. Users with disabilities need tools too.
 
 ### Testing Philosophy
 - Test with actual network data formats (routing tables, config files, logs)
@@ -78,6 +79,9 @@
 - Regex testers
 - Hash generators
 
+### Financials
+- amortization calculator
+
 ## Development Guidelines
 
 1. **Start with HTML** - Build the structure first, add interactivity after
@@ -86,7 +90,7 @@
 4. **Make it obvious** - UI should be self-explanatory, no documentation needed
 5. **Build for real use** - Every tool should solve an actual problem you've encountered
 6. **Maintain Navigation Consistency** - All tools must have identical navigation structure and styling
-
+7. ##Always check for ADA compliance. Match subnet-calculator.html for reference.
 ## Success Criteria
 
 A tool is done when:

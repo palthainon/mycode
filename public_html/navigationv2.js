@@ -11,7 +11,8 @@
             { name: 'Subnet Planner', file: 'nettools/subnet-planner.html', id: 'planner' },
             { name: 'CIDR Converter', file: 'nettools/cidr-converter.html', id: 'cidr' },
             { name: 'Bit Calc', file: 'nettools/bit-calculator.html', id: 'bit' },
-            { name: 'Data Rate', file: 'nettools/data-rate-calculator.html', id: 'data-rate' }
+            { name: 'Data Rate', file: 'nettools/data-rate-calculator.html', id: 'data-rate' },
+            { name: 'Jinja Builder', file: 'nettools/jinja-builder.html', id: 'jinja' }
         ],
         system: [
             { name: 'Regex', file: 'system/regex-tester.html', id: 'regex' },
@@ -22,7 +23,8 @@
             { name: 'Password', file: 'system/password-generator.html', id: 'password' }
         ],
         data: [
-            { name: 'Base64/Hash', file: 'data/base64-hash.html', id: 'base64' }
+            { name: 'Base64/Hash', file: 'data/base64-hash.html', id: 'base64' },
+            { name: 'Text Diff', file: 'data/text-diff.html', id: 'text-diff' }
         ],
         financials: [
             { name: 'Amortization', file: 'financials/amortization-calculator.html', id: 'amortization' }
