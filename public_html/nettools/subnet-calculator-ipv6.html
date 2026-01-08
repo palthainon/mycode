@@ -521,14 +521,16 @@
         </div>
 
         <div class="calculator">
+            <form id="ipv6-subnet-form" aria-label="IPv6 Subnet Calculator Form">
             <div class="input-group">
                 <div class="input-field">
                     <label for="ipv6Address">IPv6 Address</label>
-                    <input type="text" id="ipv6Address" placeholder="2001:db8::1">
+                    <input type="text" id="ipv6Address" placeholder="2001:db8::1" aria-required="true" aria-describedby="ipv6-help" autocomplete="off">
+                    <span id="ipv6-help" class="sr-only">Enter an IPv6 address in standard or compressed notation, for example 2001:db8::1</span>
                 </div>
                 <div class="input-field">
                     <label for="cidr">Prefix Length</label>
-                    <select id="cidr">
+                    <select id="cidr" aria-describedby="cidr-ipv6-help">
                         <option value="32">/32 - ISP Allocation</option>
                         <option value="48">/48 - Site Prefix</option>
                         <option value="56">/56 - Small Site</option>
@@ -540,41 +542,43 @@
                         <option value="127">/127 - Point-to-Point</option>
                         <option value="128">/128 - Single Host</option>
                     </select>
+                    <span id="cidr-ipv6-help" class="sr-only">Select the IPv6 prefix length for your network</span>
                 </div>
             </div>
 
             <div class="quick-masks">
-                <h3>Quick Select Common Addresses:</h3>
-                <div class="mask-buttons">
-                    <button class="mask-btn" onclick="setAddress('fe80::1')">fe80::1 - Local</button>
-                    <button class="mask-btn" onclick="setAddress('2001:db8::1')">2001:db8::1 - Internet</button>
-                    <button class="mask-btn" onclick="setAddress('fd00::1')">fd00::1 - Private</button>
+                <h3 id="quick-addresses-label">Quick Select Common Addresses:</h3>
+                <div class="mask-buttons" role="group" aria-labelledby="quick-addresses-label">
+                    <button type="button" class="mask-btn" onclick="setAddress('fe80::1')" aria-label="Set address to fe80::1, link-local address">fe80::1 - Local</button>
+                    <button type="button" class="mask-btn" onclick="setAddress('2001:db8::1')" aria-label="Set address to 2001:db8::1, documentation and testing address">2001:db8::1 - Internet</button>
+                    <button type="button" class="mask-btn" onclick="setAddress('fd00::1')" aria-label="Set address to fd00::1, unique local address, private network">fd00::1 - Private</button>
                 </div>
             </div>
 
             <div class="quick-masks">
-                <h3>Quick Select Common Prefixes:</h3>
-                <div class="mask-buttons">
-                    <button class="mask-btn" onclick="setMask(32)">/32 ISP</button>
-                    <button class="mask-btn" onclick="setMask(48)">/48 Site</button>
-                    <button class="mask-btn" onclick="setMask(56)">/56 Small Site</button>
-                    <button class="mask-btn" onclick="setMask(64)">/64 Subnet</button>
-                    <button class="mask-btn" onclick="setMask(80)">/80</button>
-                    <button class="mask-btn" onclick="setMask(96)">/96</button>
-                    <button class="mask-btn" onclick="setMask(112)">/112</button>
-                    <button class="mask-btn" onclick="setMask(128)">/128 Host</button>
+                <h3 id="quick-prefixes-label">Quick Select Common Prefixes:</h3>
+                <div class="mask-buttons" role="group" aria-labelledby="quick-prefixes-label">
+                    <button type="button" class="mask-btn" onclick="setMask(32)" aria-label="Set prefix to /32, ISP allocation">/32 ISP</button>
+                    <button type="button" class="mask-btn" onclick="setMask(48)" aria-label="Set prefix to /48, site prefix">/48 Site</button>
+                    <button type="button" class="mask-btn" onclick="setMask(56)" aria-label="Set prefix to /56, small site prefix">/56 Small Site</button>
+                    <button type="button" class="mask-btn" onclick="setMask(64)" aria-label="Set prefix to /64, single subnet, standard for LANs">/64 Subnet</button>
+                    <button type="button" class="mask-btn" onclick="setMask(80)" aria-label="Set prefix to /80">/80</button>
+                    <button type="button" class="mask-btn" onclick="setMask(96)" aria-label="Set prefix to /96">/96</button>
+                    <button type="button" class="mask-btn" onclick="setMask(112)" aria-label="Set prefix to /112">/112</button>
+                    <button type="button" class="mask-btn" onclick="setMask(128)" aria-label="Set prefix to /128, single host address">/128 Host</button>
                 </div>
             </div>
 
-            <button class="btn" onclick="calculate()" style="margin-top: 25px;">Calculate Subnet</button>
+            <button type="button" class="btn" onclick="calculate()" style="margin-top: 25px;" aria-label="Calculate IPv6 subnet details for the entered address and prefix">Calculate Subnet</button>
 
-            <div class="error" id="error"></div>
+            <div class="error" id="error" role="alert" aria-live="assertive" aria-atomic="true"></div>
+            </form>
         </div>
 
-        <div class="results" id="results">
+        <div class="results" id="results" role="region" aria-live="polite" aria-label="IPv6 subnet calculation results">
             <div class="section-header">
                 <h2>Subnet Details</h2>
-                <button class="export-btn" onclick="exportSubnetDetailsToCSV()">Export to CSV</button>
+                <button type="button" class="export-btn" onclick="exportSubnetDetailsToCSV()" aria-label="Export IPv6 subnet details to CSV file">Export to CSV</button>
             </div>
             <div class="results-grid">
                 <div class="result-item">
@@ -628,10 +632,10 @@
             </div>
         </div>
 
-        <div class="subnet-list" id="subnetList">
+        <div class="subnet-list" id="subnetList" role="region" aria-label="All IPv6 subnets in network">
             <div class="section-header">
                 <h2>All Subnets in Network</h2>
-                <button class="export-btn" onclick="exportSubnetListToCSV()">Export to CSV</button>
+                <button type="button" class="export-btn" onclick="exportSubnetListToCSV()" aria-label="Export IPv6 subnet list to CSV file">Export to CSV</button>
             </div>
             <div class="warning" id="subnetWarning"></div>
             <div class="subnet-list-info" id="subnetListInfo"></div>
@@ -947,6 +951,7 @@
         // Main calculate function
         function calculate() {
             const ipInput = document.getElementById('ipv6Address').value.trim();
+            const ipv6AddressField = document.getElementById('ipv6Address');
             const cidr = parseInt(document.getElementById('cidr').value, 10);
             const errorDiv = document.getElementById('error');
             const resultsDiv = document.getElementById('results');
@@ -954,12 +959,19 @@
             // Hide previous results
             resultsDiv.classList.remove('show');
             errorDiv.classList.remove('show');
+            errorDiv.textContent = '';
             document.getElementById('subnetList').classList.remove('show');
+
+            // Clear any previous errors
+            A11yUtils.clearError(ipv6AddressField);
 
             // Validate IP
             if (!isValidIPv6(ipInput)) {
-                errorDiv.textContent = 'Please enter a valid IPv6 address (e.g., 2001:db8::1 or 2001:0db8:0000:0000:0000:0000:0000:0001)';
+                const errorMsg = 'Please enter a valid IPv6 address (e.g., 2001:db8::1 or 2001:0db8:0000:0000:0000:0000:0000:0001)';
+                errorDiv.textContent = errorMsg;
                 errorDiv.classList.add('show');
+                A11yUtils.showError(ipv6AddressField, errorMsg);
+                ipv6AddressField.focus();
                 return;
             }
 
@@ -1005,6 +1017,9 @@
 
             // Show results
             resultsDiv.classList.add('show');
+
+            // Announce results to screen readers
+            A11yUtils.announce(`IPv6 subnet calculation complete. Network address is ${networkCompressed} slash ${cidr}. Address type is ${addressType}.`, 'polite');
 
             // Generate subnet list
             generateSubnetList(ipInt, cidr, networkInt);
@@ -1061,6 +1076,7 @@
             const filename = `ipv6-subnet-${networkCompressed.replace(/:/g, '-')}${prefix}.csv`;
 
             downloadCSV(filename, csvContent);
+            A11yUtils.announce('IPv6 subnet details exported to CSV file', 'polite');
         }
 
         function exportSubnetListToCSV() {
@@ -1099,6 +1115,7 @@
             const filename = `ipv6-subnet-list-${new Date().toISOString().split('T')[0]}.csv`;
 
             downloadCSV(filename, csvContent);
+            A11yUtils.announce(`IPv6 subnet list exported to CSV file. ${rows.length} subnets exported.`, 'polite');
         }
     </script>
 </body>
