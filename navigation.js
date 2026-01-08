@@ -33,9 +33,9 @@
     // Navigation CSS styles
     const navStyles = `
         /* Add spacing between navigation and page heading */
-        body > .container > h1,
+        .container h1,
         body > h1 {
-            margin-top: 80px;
+            margin-top: 30px !important;
         }
 
         .nav-bar {
@@ -187,9 +187,9 @@
 
         @media (max-width: 768px) {
             /* Reset h1 top margin on mobile since nav is in normal flow */
-            body > .container > h1,
+            .container h1,
             body > h1 {
-                margin-top: 30px;
+                margin-top: 30px !important;
             }
 
             .nav-bar {

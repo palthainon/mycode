@@ -51,7 +51,7 @@
 
         h1 {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 15px;
             font-size: 2.5rem;
             color: #4fc3f7;
             text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
@@ -434,23 +434,13 @@
 
         /* Protocol Toggle Styles */
         .protocol-toggle-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
+            text-align: center;
             margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-
-        .protocol-toggle-container h1 {
-            margin-bottom: 0;
         }
 
         .protocol-toggle-link {
-            background: rgba(79, 195, 247, 0.15);
-            border: 2px solid rgba(79, 195, 247, 0.4);
-            color: #4fc3f7;
-            padding: 10px 20px;
+            display: inline-block;
+            padding: 10px 24px;
             border-radius: 8px;
             text-decoration: none;
             font-size: 0.9rem;
@@ -459,11 +449,17 @@
             white-space: nowrap;
         }
 
-        .protocol-toggle-link:hover {
-            background: rgba(79, 195, 247, 0.25);
-            border-color: #4fc3f7;
-            box-shadow: 0 0 15px rgba(79, 195, 247, 0.3);
-            transform: translateX(3px);
+        .protocol-toggle-ipv6 {
+            background: rgba(244, 67, 54, 0.2);
+            border: 2px solid rgba(244, 67, 54, 0.5);
+            color: #ff6b6b;
+        }
+
+        .protocol-toggle-ipv6:hover {
+            background: rgba(244, 67, 54, 0.3);
+            border-color: #f44336;
+            box-shadow: 0 0 15px rgba(244, 67, 54, 0.3);
+            transform: translateY(-2px);
         }
     </style>
 
@@ -497,9 +493,9 @@
  \___/|_|\__,_|   \_/\_/ \___|_.__/
 </div>
     <div class="container">
+        <h1>IPv4 Subnet Calculator</h1>
         <div class="protocol-toggle-container">
-            <h1>IPv4 Subnet Calculator</h1>
-            <a href="subnet-calculator-ipv6.html" class="protocol-toggle-link">Switch to IPv6 →</a>
+            <a href="subnet-calculator-ipv6.html" class="protocol-toggle-link protocol-toggle-ipv6">Switch to IPv6 →</a>
         </div>
 
         <div class="calculator">
