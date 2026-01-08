@@ -451,14 +451,16 @@
         <h1>Bit Calculator</h1>
 
         <div class="calculator">
+            <form id="bit-calc-form" aria-label="Bit Calculator Form">
             <div class="input-group">
                 <div class="input-field">
                     <label for="amount">Amount</label>
-                    <input type="text" id="amount" placeholder="1" value="1">
+                    <input type="text" id="amount" placeholder="1" value="1" aria-required="true" aria-describedby="amount-help">
+                    <span id="amount-help" class="sr-only">Enter a numeric value to convert between different units</span>
                 </div>
                 <div class="input-field">
                     <label for="units">Units</label>
-                    <select id="units">
+                    <select id="units" aria-describedby="units-help">
                         <option value="bits">bits</option>
                         <option value="bytes">bytes</option>
                         <option value="kilobits">kilobits</option>
@@ -472,44 +474,46 @@
                         <option value="petabits">petabits</option>
                         <option value="petabytes">petabytes</option>
                     </select>
+                    <span id="unit-help" class="sr-only">Select the unit of measurement for the value</span>
                 </div>
             </div>
 
             <div class="notation-toggle">
-                <label style="color: #90caf9; font-weight: 500; margin-bottom: 8px; display: block;">Notation</label>
-                <div class="notation-buttons">
-                    <button class="notation-btn active" data-notation="legacy" onclick="setNotation('legacy')">
+                <label id="notation-label" style="color: #90caf9; font-weight: 500; margin-bottom: 8px; display: block;">Notation</label>
+                <div class="notation-buttons" role="group" aria-labelledby="notation-label">
+                    <button type="button" class="notation-btn active" data-notation="legacy" onclick="setNotation('legacy')" aria-label="Use legacy notation where 1 kilobyte equals 1024 bytes">
                         Legacy (1 KB = 1024 bytes)
                     </button>
-                    <button class="notation-btn" data-notation="ieee" onclick="setNotation('ieee')">
+                    <button type="button" class="notation-btn" data-notation="ieee" onclick="setNotation('ieee')" aria-label="Use IEEE notation where 1 kilobyte equals 1000 bytes">
                         IEEE (1 KB = 1000 bytes)
                     </button>
                 </div>
-                <div class="notation-info" id="notationInfo">
+                <div class="notation-info" id="notationInfo" aria-live="polite">
                     Using legacy notation: 1 kilobyte = 1024 bytes
                 </div>
             </div>
 
-            <button class="btn" onclick="calculate()">Calculate</button>
+            <button type="button" class="btn" onclick="calculate()" aria-label="Calculate conversions for entered value and unit">Calculate</button>
 
             <div class="quick-conversions">
-                <h3>Quick Conversions:</h3>
-                <div class="quick-buttons">
-                    <button class="quick-btn" onclick="quickCalc(1, 'gigabytes')">1 GB</button>
-                    <button class="quick-btn" onclick="quickCalc(1, 'terabytes')">1 TB</button>
-                    <button class="quick-btn" onclick="quickCalc(100, 'megabits')">100 Mbps</button>
-                    <button class="quick-btn" onclick="quickCalc(1, 'gigabits')">1 Gbps</button>
-                    <button class="quick-btn" onclick="quickCalc(10, 'gigabits')">10 Gbps</button>
+                <h3 id="quick-conv-label">Quick Conversions:</h3>
+                <div class="quick-buttons" role="group" aria-labelledby="quick-conv-label">
+                    <button type="button" class="quick-btn" onclick="quickCalc(1, 'gigabytes')" aria-label="Quick calculate 1 gigabyte">1 GB</button>
+                    <button type="button" class="quick-btn" onclick="quickCalc(1, 'terabytes')" aria-label="Quick calculate 1 terabyte">1 TB</button>
+                    <button type="button" class="quick-btn" onclick="quickCalc(100, 'megabits')" aria-label="Quick calculate 100 megabits per second">100 Mbps</button>
+                    <button type="button" class="quick-btn" onclick="quickCalc(1, 'gigabits')" aria-label="Quick calculate 1 gigabit per second">1 Gbps</button>
+                    <button type="button" class="quick-btn" onclick="quickCalc(10, 'gigabits')" aria-label="Quick calculate 10 gigabits per second">10 Gbps</button>
                 </div>
             </div>
 
-            <div class="error" id="error"></div>
+            <div class="error" id="error" role="alert" aria-live="assertive" aria-atomic="true"></div>
+            </form>
         </div>
 
-        <div class="results" id="results">
+        <div class="results" id="results" role="region" aria-live="polite" aria-label="Conversion results">
             <div class="section-header">
                 <h2>Conversion Results</h2>
-                <button class="export-btn" onclick="exportToCSV()">Export to CSV</button>
+                <button type="button" class="export-btn" onclick="exportToCSV()" aria-label="Export conversion results to CSV file">Export to CSV</button>
             </div>
             <div class="results-grid" id="resultsGrid">
                 <!-- Results will be inserted here -->
@@ -640,6 +644,7 @@
 
         function calculate() {
             const amountInput = document.getElementById('amount').value.trim();
+            const amountField = document.getElementById('amount');
             const unit = document.getElementById('units').value;
             const errorDiv = document.getElementById('error');
             const resultsDiv = document.getElementById('results');
@@ -648,12 +653,17 @@
             // Hide previous results
             resultsDiv.classList.remove('show');
             errorDiv.classList.remove('show');
+            errorDiv.textContent = '';
+            A11yUtils.clearError(amountField);
 
             // Validate input
             const amount = validateInput(amountInput);
             if (amount === null) {
-                errorDiv.textContent = 'Please enter a valid positive number';
+                const errorMsg = 'Please enter a valid positive number';
+                errorDiv.textContent = errorMsg;
                 errorDiv.classList.add('show');
+                A11yUtils.showError(amountField, errorMsg);
+                amountField.focus();
                 return;
             }
 
@@ -728,6 +738,7 @@
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+            A11yUtils.announce('Conversion results exported to CSV file', 'polite');
         }
 
         // Allow Enter key to calculate

@@ -603,80 +603,141 @@
     <main id="main-content" class="container">
         <h1>CIDR Notation Converter</h1>
 
-        <div class="mode-toggle">
-            <button class="mode-btn active" onclick="switchMode('single')">Single CIDR</button>
-            <button class="mode-btn" onclick="switchMode('multiple')">Multiple CIDRs</button>
-            <button class="mode-btn" onclick="switchMode('reverse')">Range to CIDR</button>
+        <div class="mode-toggle" role="group" aria-label="Conversion mode selection">
+            <button type="button"
+                    class="mode-btn active"
+                    onclick="switchMode('single')"
+                    aria-pressed="true"
+                    aria-label="Convert single CIDR notation to subnet details">Single CIDR</button>
+            <button type="button"
+                    class="mode-btn"
+                    onclick="switchMode('multiple')"
+                    aria-pressed="false"
+                    aria-label="Analyze multiple CIDR notations and detect overlaps">Multiple CIDRs</button>
+            <button type="button"
+                    class="mode-btn"
+                    onclick="switchMode('reverse')"
+                    aria-pressed="false"
+                    aria-label="Convert IP address range to CIDR notation">Range to CIDR</button>
         </div>
 
         <div class="calculator">
             <!-- Single CIDR Mode -->
             <div id="single-mode" class="mode-section active">
-                <div class="input-group">
-                    <div class="input-field">
-                        <label for="singleIP">IP Address</label>
-                        <input type="text" id="singleIP" placeholder="192.168.1.0">
+                <form id="single-form" aria-label="Single CIDR Converter Form">
+                    <div class="input-group">
+                        <div class="input-field">
+                            <label for="singleIP">IP Address</label>
+                            <input type="text"
+                                   id="singleIP"
+                                   placeholder="192.168.1.0"
+                                   aria-required="true"
+                                   aria-describedby="single-ip-help">
+                            <span id="single-ip-help" class="sr-only">Enter an IPv4 address for CIDR conversion, for example 192.168.1.0</span>
+                        </div>
+                        <div class="input-field">
+                            <label for="singleCIDR">CIDR Prefix</label>
+                            <input type="number"
+                                   id="singleCIDR"
+                                   placeholder="24"
+                                   min="0"
+                                   max="32"
+                                   aria-required="true"
+                                   aria-describedby="single-cidr-help">
+                            <span id="single-cidr-help" class="sr-only">Enter CIDR prefix from 0 to 32, for example 24</span>
+                        </div>
                     </div>
-                    <div class="input-field">
-                        <label for="singleCIDR">CIDR Prefix</label>
-                        <input type="number" id="singleCIDR" placeholder="24" min="0" max="32">
-                    </div>
-                </div>
 
-                <div class="quick-masks">
-                    <h3>Quick Select:</h3>
-                    <div class="mask-buttons">
-                        <button class="mask-btn" onclick="setQuickCIDR(8)">/8</button>
-                        <button class="mask-btn" onclick="setQuickCIDR(16)">/16</button>
-                        <button class="mask-btn" onclick="setQuickCIDR(24)">/24</button>
-                        <button class="mask-btn" onclick="setQuickCIDR(25)">/25</button>
-                        <button class="mask-btn" onclick="setQuickCIDR(26)">/26</button>
-                        <button class="mask-btn" onclick="setQuickCIDR(27)">/27</button>
-                        <button class="mask-btn" onclick="setQuickCIDR(28)">/28</button>
-                        <button class="mask-btn" onclick="setQuickCIDR(29)">/29</button>
-                        <button class="mask-btn" onclick="setQuickCIDR(30)">/30</button>
-                        <button class="mask-btn" onclick="setQuickCIDR(31)">/31</button>
-                        <button class="mask-btn" onclick="setQuickCIDR(32)">/32</button>
+                    <div class="quick-masks">
+                        <h3>Quick Select:</h3>
+                        <div class="mask-buttons">
+                            <button type="button" class="mask-btn" onclick="setQuickCIDR(8)" aria-label="Set CIDR to /8">/8</button>
+                            <button type="button" class="mask-btn" onclick="setQuickCIDR(16)" aria-label="Set CIDR to /16">/16</button>
+                            <button type="button" class="mask-btn" onclick="setQuickCIDR(24)" aria-label="Set CIDR to /24">/24</button>
+                            <button type="button" class="mask-btn" onclick="setQuickCIDR(25)" aria-label="Set CIDR to /25">/25</button>
+                            <button type="button" class="mask-btn" onclick="setQuickCIDR(26)" aria-label="Set CIDR to /26">/26</button>
+                            <button type="button" class="mask-btn" onclick="setQuickCIDR(27)" aria-label="Set CIDR to /27">/27</button>
+                            <button type="button" class="mask-btn" onclick="setQuickCIDR(28)" aria-label="Set CIDR to /28">/28</button>
+                            <button type="button" class="mask-btn" onclick="setQuickCIDR(29)" aria-label="Set CIDR to /29">/29</button>
+                            <button type="button" class="mask-btn" onclick="setQuickCIDR(30)" aria-label="Set CIDR to /30">/30</button>
+                            <button type="button" class="mask-btn" onclick="setQuickCIDR(31)" aria-label="Set CIDR to /31">/31</button>
+                            <button type="button" class="mask-btn" onclick="setQuickCIDR(32)" aria-label="Set CIDR to /32">/32</button>
+                        </div>
                     </div>
-                </div>
 
-                <button class="btn" onclick="calculateSingle()">Convert CIDR</button>
+                    <button type="button"
+                            class="btn"
+                            onclick="calculateSingle()"
+                            aria-label="Convert CIDR notation to network details">Convert CIDR</button>
+                </form>
             </div>
 
             <!-- Multiple CIDR Mode -->
             <div id="multiple-mode" class="mode-section">
-                <div class="input-field">
-                    <label for="multipleInput">Enter CIDRs (one per line)</label>
-                    <textarea id="multipleInput" placeholder="192.168.1.0/24
+                <form id="multiple-form" aria-label="Multiple CIDR Analyzer Form">
+                    <div class="input-field">
+                        <label for="multipleInput">Enter CIDRs (one per line)</label>
+                        <textarea id="multipleInput"
+                                  aria-required="true"
+                                  aria-describedby="multiple-help"
+                                  placeholder="192.168.1.0/24
 10.0.0.0/8
 172.16.0.0/12
 192.168.1.0 255.255.255.0
 permit ip 192.168.100.0 0.0.0.255"></textarea>
-                </div>
+                        <span id="multiple-help" class="sr-only">Enter one CIDR notation per line. Supports CIDR, subnet mask, wildcard mask, and ACL formats</span>
+                    </div>
 
-                <button class="btn" onclick="calculateMultiple()">Analyze CIDRs & Detect Overlaps</button>
+                    <button type="button"
+                            class="btn"
+                            onclick="calculateMultiple()"
+                            aria-label="Analyze multiple CIDR notations and detect overlapping networks">Analyze CIDRs & Detect Overlaps</button>
+                </form>
             </div>
 
             <!-- Reverse Mode -->
             <div id="reverse-mode" class="mode-section">
-                <div class="input-group">
-                    <div class="input-field">
-                        <label for="reverseStart">Start IP Address</label>
-                        <input type="text" id="reverseStart" placeholder="192.168.1.0">
+                <form id="reverse-form" aria-label="IP Range to CIDR Converter Form">
+                    <div class="input-group">
+                        <div class="input-field">
+                            <label for="reverseStart">Start IP Address</label>
+                            <input type="text"
+                                   id="reverseStart"
+                                   placeholder="192.168.1.0"
+                                   aria-required="true"
+                                   aria-describedby="reverse-start-help">
+                            <span id="reverse-start-help" class="sr-only">Enter the first IP address in the range, for example 192.168.1.0</span>
+                        </div>
+                        <div class="input-field">
+                            <label for="reverseEnd">End IP Address</label>
+                            <input type="text"
+                                   id="reverseEnd"
+                                   placeholder="192.168.1.255"
+                                   aria-required="true"
+                                   aria-describedby="reverse-end-help">
+                            <span id="reverse-end-help" class="sr-only">Enter the last IP address in the range, for example 192.168.1.255</span>
+                        </div>
                     </div>
-                    <div class="input-field">
-                        <label for="reverseEnd">End IP Address</label>
-                        <input type="text" id="reverseEnd" placeholder="192.168.1.255">
-                    </div>
-                </div>
 
-                <button class="btn" onclick="calculateReverse()">Convert to CIDR</button>
+                    <button type="button"
+                            class="btn"
+                            onclick="calculateReverse()"
+                            aria-label="Convert IP address range to CIDR notation">Convert to CIDR</button>
+                </form>
             </div>
 
-            <div class="error" id="error"></div>
+            <div class="error"
+                 id="error"
+                 role="alert"
+                 aria-live="assertive"
+                 aria-atomic="true"></div>
         </div>
 
-        <div class="results" id="results"></div>
+        <div class="results"
+             id="results"
+             role="region"
+             aria-live="polite"
+             aria-label="CIDR conversion results"></div>
 
         <footer role="contentinfo">
             CIDR Converter - Works offline, no installation required
@@ -741,10 +802,14 @@ permit ip 192.168.100.0 0.0.0.255"></textarea>
         // Mode Switching
         function switchMode(mode) {
             currentMode = mode;
-            document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.mode-btn').forEach(btn => {
+                btn.classList.remove('active');
+                btn.setAttribute('aria-pressed', 'false');
+            });
             document.querySelectorAll('.mode-section').forEach(section => section.classList.remove('active'));
 
             event.target.classList.add('active');
+            event.target.setAttribute('aria-pressed', 'true');
             document.getElementById(`${mode}-mode`).classList.add('active');
 
             document.getElementById('results').classList.remove('show');
@@ -862,30 +927,49 @@ permit ip 192.168.100.0 0.0.0.255"></textarea>
 
         // Single CIDR Mode
         function calculateSingle() {
-            const ipInput = document.getElementById('singleIP').value.trim();
-            const cidrInput = document.getElementById('singleCIDR').value.trim();
+            const ipField = document.getElementById('singleIP');
+            const cidrField = document.getElementById('singleCIDR');
+            const ipInput = ipField.value.trim();
+            const cidrInput = cidrField.value.trim();
             const errorDiv = document.getElementById('error');
             const resultsDiv = document.getElementById('results');
 
+            // Clear previous errors
+            A11yUtils.clearError(ipField);
+            A11yUtils.clearError(cidrField);
             errorDiv.classList.remove('show');
             resultsDiv.classList.remove('show');
 
             if (!ipInput || !cidrInput) {
-                errorDiv.textContent = 'Please enter both IP address and CIDR prefix';
+                const errorMsg = 'Please enter both IP address and CIDR prefix';
+                errorDiv.textContent = errorMsg;
                 errorDiv.classList.add('show');
+                if (!ipInput) {
+                    A11yUtils.showError(ipField, errorMsg);
+                    ipField.focus();
+                } else {
+                    A11yUtils.showError(cidrField, errorMsg);
+                    cidrField.focus();
+                }
                 return;
             }
 
             if (!isValidIP(ipInput)) {
-                errorDiv.textContent = 'Please enter a valid IPv4 address';
+                const errorMsg = 'Please enter a valid IPv4 address';
+                errorDiv.textContent = errorMsg;
                 errorDiv.classList.add('show');
+                A11yUtils.showError(ipField, errorMsg);
+                ipField.focus();
                 return;
             }
 
             const cidr = parseInt(cidrInput, 10);
             if (isNaN(cidr) || cidr < 0 || cidr > 32) {
-                errorDiv.textContent = 'CIDR prefix must be between 0 and 32';
+                const errorMsg = 'CIDR prefix must be between 0 and 32';
+                errorDiv.textContent = errorMsg;
                 errorDiv.classList.add('show');
+                A11yUtils.showError(cidrField, errorMsg);
+                cidrField.focus();
                 return;
             }
 
@@ -900,8 +984,8 @@ permit ip 192.168.100.0 0.0.0.255"></textarea>
             resultsDiv.innerHTML = `
                 <h2>Network Details</h2>
                 <div class="export-section">
-                    <button class="export-btn" onclick="exportSingleCSV()">Export CSV</button>
-                    <button class="export-btn json" onclick="exportSingleJSON()">Export JSON</button>
+                    <button type="button" class="export-btn" onclick="exportSingleCSV()" aria-label="Export network details to CSV file">Export CSV</button>
+                    <button type="button" class="export-btn json" onclick="exportSingleJSON()" aria-label="Export network details to JSON file">Export JSON</button>
                 </div>
                 <div class="results-grid">
                     <div class="result-item">
@@ -964,14 +1048,20 @@ permit ip 192.168.100.0 0.0.0.255"></textarea>
             `;
 
             resultsDiv.classList.add('show');
+
+            // Announce completion to screen readers
+            A11yUtils.announce(`CIDR conversion complete. Network ${intToIP(range.network)} slash ${cidr} has ${range.usableHosts.toLocaleString()} usable hosts.`, 'polite');
         }
 
         // Multiple CIDR Mode
         function calculateMultiple() {
-            const input = document.getElementById('multipleInput').value;
+            const multipleField = document.getElementById('multipleInput');
+            const input = multipleField.value;
             const errorDiv = document.getElementById('error');
             const resultsDiv = document.getElementById('results');
 
+            // Clear previous errors
+            A11yUtils.clearError(multipleField);
             errorDiv.classList.remove('show');
             resultsDiv.classList.remove('show');
 
@@ -998,8 +1088,11 @@ permit ip 192.168.100.0 0.0.0.255"></textarea>
             });
 
             if (networks.length === 0) {
-                errorDiv.textContent = errors.length > 0 ? errors.join('\n') : 'No valid CIDR notations found';
+                const errorMsg = errors.length > 0 ? errors.join('\n') : 'No valid CIDR notations found';
+                errorDiv.textContent = errorMsg;
                 errorDiv.classList.add('show');
+                A11yUtils.showError(multipleField, errorMsg);
+                multipleField.focus();
                 return;
             }
 
@@ -1137,34 +1230,58 @@ permit ip 192.168.100.0 0.0.0.255"></textarea>
                 </div>
 
                 <div class="export-section">
-                    <button class="export-btn" onclick="exportMultipleCSV()">Export CSV</button>
-                    <button class="export-btn json" onclick="exportMultipleJSON()">Export JSON</button>
+                    <button type="button" class="export-btn" onclick="exportMultipleCSV()" aria-label="Export multiple CIDR analysis to CSV file">Export CSV</button>
+                    <button type="button" class="export-btn json" onclick="exportMultipleJSON()" aria-label="Export multiple CIDR analysis to JSON file">Export JSON</button>
                 </div>
             `;
 
             resultsDiv.innerHTML = html;
             resultsDiv.classList.add('show');
+
+            // Announce completion to screen readers
+            A11yUtils.announce(`Analysis complete. Found ${networks.length} networks with ${overlaps.length} overlap pairs.`, 'polite');
         }
 
         // Reverse Conversion (IP Range to CIDR)
         function calculateReverse() {
-            const startIP = document.getElementById('reverseStart').value.trim();
-            const endIP = document.getElementById('reverseEnd').value.trim();
+            const startField = document.getElementById('reverseStart');
+            const endField = document.getElementById('reverseEnd');
+            const startIP = startField.value.trim();
+            const endIP = endField.value.trim();
             const errorDiv = document.getElementById('error');
             const resultsDiv = document.getElementById('results');
 
+            // Clear previous errors
+            A11yUtils.clearError(startField);
+            A11yUtils.clearError(endField);
             errorDiv.classList.remove('show');
             resultsDiv.classList.remove('show');
 
             if (!startIP || !endIP) {
-                errorDiv.textContent = 'Please enter both start and end IP addresses';
+                const errorMsg = 'Please enter both start and end IP addresses';
+                errorDiv.textContent = errorMsg;
                 errorDiv.classList.add('show');
+                if (!startIP) {
+                    A11yUtils.showError(startField, errorMsg);
+                    startField.focus();
+                } else {
+                    A11yUtils.showError(endField, errorMsg);
+                    endField.focus();
+                }
                 return;
             }
 
             if (!isValidIP(startIP) || !isValidIP(endIP)) {
-                errorDiv.textContent = 'Please enter valid IPv4 addresses';
+                const errorMsg = 'Please enter valid IPv4 addresses';
+                errorDiv.textContent = errorMsg;
                 errorDiv.classList.add('show');
+                if (!isValidIP(startIP)) {
+                    A11yUtils.showError(startField, errorMsg);
+                    startField.focus();
+                } else {
+                    A11yUtils.showError(endField, errorMsg);
+                    endField.focus();
+                }
                 return;
             }
 
@@ -1172,8 +1289,11 @@ permit ip 192.168.100.0 0.0.0.255"></textarea>
             const endInt = ipToInt(endIP);
 
             if (startInt > endInt) {
-                errorDiv.textContent = 'Start IP must be less than or equal to End IP';
+                const errorMsg = 'Start IP must be less than or equal to End IP';
+                errorDiv.textContent = errorMsg;
                 errorDiv.classList.add('show');
+                A11yUtils.showError(startField, errorMsg);
+                startField.focus();
                 return;
             }
 
@@ -1225,11 +1345,14 @@ permit ip 192.168.100.0 0.0.0.255"></textarea>
                         </div>
 
                         <div class="export-section">
-                            <button class="export-btn" onclick="exportReverseCSV()">Export CSV</button>
-                            <button class="export-btn json" onclick="exportReverseJSON()">Export JSON</button>
+                            <button type="button" class="export-btn" onclick="exportReverseCSV()" aria-label="Export range to CIDR conversion to CSV file">Export CSV</button>
+                            <button type="button" class="export-btn json" onclick="exportReverseJSON()" aria-label="Export range to CIDR conversion to JSON file">Export JSON</button>
                         </div>
                     `;
                     resultsDiv.classList.add('show');
+
+                    // Announce completion to screen readers
+                    A11yUtils.announce(`Range converted to exact CIDR match ${intToIP(range.network)} slash ${cidr} with ${range.usableHosts.toLocaleString()} usable hosts.`, 'polite');
                     return;
                 }
             }
@@ -1266,11 +1389,14 @@ permit ip 192.168.100.0 0.0.0.255"></textarea>
                 </div>
 
                 <div class="export-section">
-                    <button class="export-btn" onclick="exportReverseCSV()">Export CSV</button>
-                    <button class="export-btn json" onclick="exportReverseJSON()">Export JSON</button>
+                    <button type="button" class="export-btn" onclick="exportReverseCSV()" aria-label="Export range to CIDR blocks to CSV file">Export CSV</button>
+                    <button type="button" class="export-btn json" onclick="exportReverseJSON()" aria-label="Export range to CIDR blocks to JSON file">Export JSON</button>
                 </div>
             `;
             resultsDiv.classList.add('show');
+
+            // Announce completion to screen readers
+            A11yUtils.announce(`Range converted to ${blocks.length} CIDR blocks to cover IP range from ${startIP} to ${endIP}.`, 'polite');
         }
 
         function rangeToCIDRBlocks(startInt, endInt) {
@@ -1330,6 +1456,7 @@ permit ip 192.168.100.0 0.0.0.255"></textarea>
             const csv = rows.map(row => row.join(',')).join('\n');
             const date = new Date().toISOString().split('T')[0];
             downloadFile(`cidr-single-${date}.csv`, csv, 'text/csv');
+            A11yUtils.announce('Network details exported to CSV file', 'polite');
         }
 
         function exportSingleJSON() {
@@ -1346,6 +1473,7 @@ permit ip 192.168.100.0 0.0.0.255"></textarea>
             const json = JSON.stringify({ exportDate: new Date().toISOString(), network: data }, null, 2);
             const date = new Date().toISOString().split('T')[0];
             downloadFile(`cidr-single-${date}.json`, json, 'application/json');
+            A11yUtils.announce('Network details exported to JSON file', 'polite');
         }
 
         function exportMultipleCSV() {
@@ -1368,6 +1496,7 @@ permit ip 192.168.100.0 0.0.0.255"></textarea>
             const csv = rows.map(row => row.join(',')).join('\n');
             const date = new Date().toISOString().split('T')[0];
             downloadFile(`cidr-analysis-${date}.csv`, csv, 'text/csv');
+            A11yUtils.announce('CIDR analysis exported to CSV file', 'polite');
         }
 
         function exportMultipleJSON() {
@@ -1397,6 +1526,7 @@ permit ip 192.168.100.0 0.0.0.255"></textarea>
 
             const date = new Date().toISOString().split('T')[0];
             downloadFile(`cidr-analysis-${date}.json`, json, 'application/json');
+            A11yUtils.announce('CIDR analysis exported to JSON file', 'polite');
         }
 
         function exportReverseCSV() {
@@ -1413,6 +1543,7 @@ permit ip 192.168.100.0 0.0.0.255"></textarea>
                 const csv = rows.map(row => row.join(',')).join('\n');
                 const date = new Date().toISOString().split('T')[0];
                 downloadFile(`range-to-cidr-${date}.csv`, csv, 'text/csv');
+                A11yUtils.announce('Range to CIDR conversion exported to CSV file', 'polite');
             } else {
                 exportSingleCSV();
             }
@@ -1441,6 +1572,7 @@ permit ip 192.168.100.0 0.0.0.255"></textarea>
 
                 const date = new Date().toISOString().split('T')[0];
                 downloadFile(`range-to-cidr-${date}.json`, json, 'application/json');
+                A11yUtils.announce('Range to CIDR conversion exported to JSON file', 'polite');
             } else {
                 exportSingleJSON();
             }

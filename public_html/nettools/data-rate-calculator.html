@@ -483,76 +483,148 @@
         <h1>Data Transfer Calculator</h1>
 
         <div class="calculator">
-            <div class="input-group">
-                <div class="input-field">
-                    <label for="dataSize">Data Size</label>
-                    <input type="number" id="dataSize" placeholder="100" min="0" step="any">
+            <form id="transfer-form" aria-label="Data Transfer Calculator Form">
+                <div class="input-group">
+                    <div class="input-field">
+                        <label for="dataSize">Data Size</label>
+                        <input type="number"
+                               id="dataSize"
+                               placeholder="100"
+                               min="0"
+                               step="any"
+                               aria-required="true"
+                               aria-describedby="datasize-help">
+                        <span id="datasize-help" class="sr-only">Enter the size of data to transfer, for example 100</span>
+                    </div>
+                    <div class="input-field small">
+                        <label for="dataSizeUnit">Unit</label>
+                        <select id="dataSizeUnit" aria-describedby="datasize-unit-help">
+                            <option value="B">Bytes</option>
+                            <option value="KB">KB</option>
+                            <option value="MB">MB</option>
+                            <option value="GB" selected>GB</option>
+                            <option value="TB">TB</option>
+                            <option value="PB">PB</option>
+                        </select>
+                        <span id="datasize-unit-help" class="sr-only">Select the unit for data size</span>
+                    </div>
                 </div>
-                <div class="input-field small">
-                    <label for="dataSizeUnit">Unit</label>
-                    <select id="dataSizeUnit">
-                        <option value="B">Bytes</option>
-                        <option value="KB">KB</option>
-                        <option value="MB">MB</option>
-                        <option value="GB" selected>GB</option>
-                        <option value="TB">TB</option>
-                        <option value="PB">PB</option>
-                    </select>
-                </div>
-            </div>
 
-            <div class="input-group">
-                <div class="input-field">
-                    <label for="transferRate">Transfer Rate</label>
-                    <input type="number" id="transferRate" placeholder="100" min="0" step="any">
+                <div class="input-group">
+                    <div class="input-field">
+                        <label for="transferRate">Transfer Rate</label>
+                        <input type="number"
+                               id="transferRate"
+                               placeholder="100"
+                               min="0"
+                               step="any"
+                               aria-required="true"
+                               aria-describedby="rate-help">
+                        <span id="rate-help" class="sr-only">Enter the transfer rate or bandwidth, for example 100</span>
+                    </div>
+                    <div class="input-field small">
+                        <label for="transferRateUnit">Unit</label>
+                        <select id="transferRateUnit" aria-describedby="rate-unit-help">
+                            <option value="bps">bps</option>
+                            <option value="Kbps">Kbps</option>
+                            <option value="Mbps" selected>Mbps</option>
+                            <option value="Gbps">Gbps</option>
+                        </select>
+                        <span id="rate-unit-help" class="sr-only">Select the unit for transfer rate</span>
+                    </div>
                 </div>
-                <div class="input-field small">
-                    <label for="transferRateUnit">Unit</label>
-                    <select id="transferRateUnit">
-                        <option value="bps">bps</option>
-                        <option value="Kbps">Kbps</option>
-                        <option value="Mbps" selected>Mbps</option>
-                        <option value="Gbps">Gbps</option>
-                    </select>
-                </div>
-            </div>
 
-            <div class="unit-toggle">
-                <span class="unit-toggle-label">Data Size Units:</span>
-                <div class="unit-toggle-buttons">
-                    <button type="button" class="unit-toggle-btn active" id="binaryBtn" onclick="setUnitMode('binary')">Binary (1024)</button>
-                    <button type="button" class="unit-toggle-btn" id="decimalBtn" onclick="setUnitMode('decimal')">Decimal (1000)</button>
+                <div class="unit-toggle" role="group" aria-labelledby="unit-mode-label">
+                    <span class="unit-toggle-label" id="unit-mode-label">Data Size Units:</span>
+                    <div class="unit-toggle-buttons">
+                        <button type="button"
+                                class="unit-toggle-btn active"
+                                id="binaryBtn"
+                                onclick="setUnitMode('binary')"
+                                aria-label="Use binary notation where 1 kilobyte equals 1024 bytes"
+                                aria-pressed="true">Binary (1024)</button>
+                        <button type="button"
+                                class="unit-toggle-btn"
+                                id="decimalBtn"
+                                onclick="setUnitMode('decimal')"
+                                aria-label="Use decimal notation where 1 kilobyte equals 1000 bytes"
+                                aria-pressed="false">Decimal (1000)</button>
+                    </div>
                 </div>
-            </div>
 
-            <button class="btn" onclick="calculate()">Calculate Transfer Time</button>
+                <button type="button"
+                        class="btn"
+                        onclick="calculate()"
+                        aria-label="Calculate data transfer time based on size and rate">Calculate Transfer Time</button>
+            </form>
 
             <div class="quick-select">
                 <h3>Quick Data Sizes:</h3>
                 <div class="quick-buttons">
-                    <button class="quick-btn" onclick="setDataSize(1, 'GB')">1 GB</button>
-                    <button class="quick-btn" onclick="setDataSize(10, 'GB')">10 GB</button>
-                    <button class="quick-btn" onclick="setDataSize(100, 'GB')">100 GB</button>
-                    <button class="quick-btn" onclick="setDataSize(1, 'TB')">1 TB</button>
-                    <button class="quick-btn" onclick="setDataSize(10, 'TB')">10 TB</button>
+                    <button type="button"
+                            class="quick-btn"
+                            onclick="setDataSize(1, 'GB')"
+                            aria-label="Set data size to 1 gigabyte">1 GB</button>
+                    <button type="button"
+                            class="quick-btn"
+                            onclick="setDataSize(10, 'GB')"
+                            aria-label="Set data size to 10 gigabytes">10 GB</button>
+                    <button type="button"
+                            class="quick-btn"
+                            onclick="setDataSize(100, 'GB')"
+                            aria-label="Set data size to 100 gigabytes">100 GB</button>
+                    <button type="button"
+                            class="quick-btn"
+                            onclick="setDataSize(1, 'TB')"
+                            aria-label="Set data size to 1 terabyte">1 TB</button>
+                    <button type="button"
+                            class="quick-btn"
+                            onclick="setDataSize(10, 'TB')"
+                            aria-label="Set data size to 10 terabytes">10 TB</button>
                 </div>
                 <h3>Quick Transfer Rates:</h3>
                 <div class="quick-buttons">
-                    <button class="quick-btn rate" onclick="setTransferRate(10, 'Mbps')">10 Mbps</button>
-                    <button class="quick-btn rate" onclick="setTransferRate(100, 'Mbps')">100 Mbps</button>
-                    <button class="quick-btn rate" onclick="setTransferRate(1, 'Gbps')">1 Gbps</button>
-                    <button class="quick-btn rate" onclick="setTransferRate(10, 'Gbps')">10 Gbps</button>
-                    <button class="quick-btn rate" onclick="setTransferRate(100, 'Gbps')">100 Gbps</button>
+                    <button type="button"
+                            class="quick-btn rate"
+                            onclick="setTransferRate(10, 'Mbps')"
+                            aria-label="Set transfer rate to 10 megabits per second">10 Mbps</button>
+                    <button type="button"
+                            class="quick-btn rate"
+                            onclick="setTransferRate(100, 'Mbps')"
+                            aria-label="Set transfer rate to 100 megabits per second">100 Mbps</button>
+                    <button type="button"
+                            class="quick-btn rate"
+                            onclick="setTransferRate(1, 'Gbps')"
+                            aria-label="Set transfer rate to 1 gigabit per second">1 Gbps</button>
+                    <button type="button"
+                            class="quick-btn rate"
+                            onclick="setTransferRate(10, 'Gbps')"
+                            aria-label="Set transfer rate to 10 gigabits per second">10 Gbps</button>
+                    <button type="button"
+                            class="quick-btn rate"
+                            onclick="setTransferRate(100, 'Gbps')"
+                            aria-label="Set transfer rate to 100 gigabits per second">100 Gbps</button>
                 </div>
             </div>
 
-            <div class="error" id="error"></div>
+            <div class="error"
+                 id="error"
+                 role="alert"
+                 aria-live="assertive"
+                 aria-atomic="true"></div>
         </div>
 
-        <div class="results" id="results">
+        <div class="results"
+             id="results"
+             role="region"
+             aria-live="polite"
+             aria-label="Transfer time calculation results">
             <div class="section-header">
                 <h2>Transfer Time</h2>
-                <button class="export-btn" onclick="exportToCSV()">Export to CSV</button>
+                <button type="button"
+                        class="export-btn"
+                        onclick="exportToCSV()"
+                        aria-label="Export transfer time calculation results to CSV file">Export to CSV</button>
             </div>
             <div class="results-grid">
                 <div class="result-item highlight">
@@ -651,11 +723,15 @@
             if (mode === 'decimal') {
                 useDecimalUnits = true;
                 binaryBtn.classList.remove('active');
+                binaryBtn.setAttribute('aria-pressed', 'false');
                 decimalBtn.classList.add('active');
+                decimalBtn.setAttribute('aria-pressed', 'true');
             } else {
                 useDecimalUnits = false;
                 binaryBtn.classList.add('active');
+                binaryBtn.setAttribute('aria-pressed', 'true');
                 decimalBtn.classList.remove('active');
+                decimalBtn.setAttribute('aria-pressed', 'false');
             }
 
             // Recalculate if we have valid inputs
@@ -781,12 +857,18 @@
 
         // Main calculate function
         function calculate() {
-            const dataSizeInput = parseFloat(document.getElementById('dataSize').value);
+            const dataSizeField = document.getElementById('dataSize');
+            const transferRateField = document.getElementById('transferRate');
+            const dataSizeInput = parseFloat(dataSizeField.value);
             const dataSizeUnit = document.getElementById('dataSizeUnit').value;
-            const transferRateInput = parseFloat(document.getElementById('transferRate').value);
+            const transferRateInput = parseFloat(transferRateField.value);
             const transferRateUnit = document.getElementById('transferRateUnit').value;
             const errorDiv = document.getElementById('error');
             const resultsDiv = document.getElementById('results');
+
+            // Clear previous errors
+            A11yUtils.clearError(dataSizeField);
+            A11yUtils.clearError(transferRateField);
 
             // Hide previous results and errors
             resultsDiv.classList.remove('show');
@@ -794,14 +876,20 @@
 
             // Validate inputs
             if (isNaN(dataSizeInput) || dataSizeInput <= 0) {
-                errorDiv.textContent = 'Please enter a valid data size greater than 0';
+                const errorMsg = 'Please enter a valid data size greater than 0';
+                errorDiv.textContent = errorMsg;
                 errorDiv.classList.add('show');
+                A11yUtils.showError(dataSizeField, errorMsg);
+                dataSizeField.focus();
                 return;
             }
 
             if (isNaN(transferRateInput) || transferRateInput <= 0) {
-                errorDiv.textContent = 'Please enter a valid transfer rate greater than 0';
+                const errorMsg = 'Please enter a valid transfer rate greater than 0';
+                errorDiv.textContent = errorMsg;
                 errorDiv.classList.add('show');
+                A11yUtils.showError(transferRateField, errorMsg);
+                transferRateField.focus();
                 return;
             }
 
@@ -856,6 +944,9 @@
 
             // Show results
             resultsDiv.classList.add('show');
+
+            // Announce completion to screen readers
+            A11yUtils.announce(`Transfer time calculation complete. ${dataSizeInput} ${dataSizeUnit} at ${transferRateInput} ${transferRateUnit} will take ${formatHumanReadable(seconds)}.`, 'polite');
         }
 
         // CSV Export
@@ -904,6 +995,7 @@
 
             const filename = `transfer-time-${new Date().toISOString().split('T')[0]}.csv`;
             downloadCSV(filename, csvContent);
+            A11yUtils.announce('Transfer time results exported to CSV file', 'polite');
         }
 
         // Allow Enter key to calculate

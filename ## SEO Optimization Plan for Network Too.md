@@ -30,7 +30,7 @@ I propose adding the following to **all HTML files**:
 - Enhanced appearance when shared on Twitter/X
 
 #### 4. **Structured Data (JSON-LD)**
-- Schema.org markup for WebApplication/SoftwareApplication
+- Schema.org markup for WebApplication/SoftwareApplications
 - Helps search engines understand your tools
 - Improves rich snippet potential
 

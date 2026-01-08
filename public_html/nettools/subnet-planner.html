@@ -694,14 +694,22 @@
 
         <!-- Parent Network Input -->
         <div class="calculator">
-            <div class="input-group">
-                <div class="input-field">
-                    <label for="parentIP">Parent Network IP Address</label>
-                    <input type="text" id="parentIP" placeholder="10.0.0.0">
-                </div>
-                <div class="input-field">
-                    <label for="parentCIDR">CIDR Prefix</label>
-                    <select id="parentCIDR">
+            <form id="planner-form" aria-label="Subnet Planner Configuration Form">
+                <div class="input-group">
+                    <div class="input-field">
+                        <label for="parentIP">Parent Network IP Address</label>
+                        <input type="text"
+                               id="parentIP"
+                               placeholder="10.0.0.0"
+                               aria-required="true"
+                               aria-describedby="parent-ip-help">
+                        <span id="parent-ip-help" class="sr-only">Enter the parent network IP address for subnet planning, for example 10.0.0.0</span>
+                    </div>
+                    <div class="input-field">
+                        <label for="parentCIDR">CIDR Prefix</label>
+                        <select id="parentCIDR"
+                                aria-required="true"
+                                aria-describedby="parent-cidr-help">
                         <option value="8">/8 - 255.0.0.0</option>
                         <option value="9">/9 - 255.128.0.0</option>
                         <option value="10">/10 - 255.192.0.0</option>
@@ -726,27 +734,58 @@
                         <option value="29">/29 - 255.255.255.248</option>
                         <option value="30">/30 - 255.255.255.252</option>
                     </select>
+                    <span id="parent-cidr-help" class="sr-only">Select the CIDR prefix for the parent network</span>
                 </div>
             </div>
-            <button class="btn" onclick="initializePlanner()">Initialize Planner</button>
-            <div class="error" id="initError"></div>
+            <button type="button"
+                    class="btn"
+                    onclick="initializePlanner()"
+                    aria-label="Initialize subnet planner with parent network configuration">Initialize Planner</button>
+            </form>
+            <div class="error"
+                 id="initError"
+                 role="alert"
+                 aria-live="assertive"
+                 aria-atomic="true"></div>
         </div>
 
         <!-- Planner Section -->
         <div class="planner-section" id="plannerSection">
             <div class="section-header">
                 <h2>Subnet Allocations</h2>
-                <div class="view-toggle">
-                    <button class="toggle-btn active" data-view="table" onclick="switchView('table')">Table View</button>
-                    <button class="toggle-btn" data-view="bar" onclick="switchView('bar')">Bar Chart</button>
-                    <button class="toggle-btn" data-view="tree" onclick="switchView('tree')">Tree View</button>
+                <div class="view-toggle" role="group" aria-label="Visualization view selection">
+                    <button type="button"
+                            class="toggle-btn active"
+                            data-view="table"
+                            onclick="switchView('table')"
+                            aria-pressed="true"
+                            aria-label="View subnet allocations in table format">Table View</button>
+                    <button type="button"
+                            class="toggle-btn"
+                            data-view="bar"
+                            onclick="switchView('bar')"
+                            aria-pressed="false"
+                            aria-label="View subnet allocations in bar chart format">Bar Chart</button>
+                    <button type="button"
+                            class="toggle-btn"
+                            data-view="tree"
+                            onclick="switchView('tree')"
+                            aria-pressed="false"
+                            aria-label="View subnet allocations in tree hierarchy format">Tree View</button>
                 </div>
             </div>
 
             <!-- Table View -->
-            <div class="view-container active" id="tableView">
+            <div class="view-container active"
+                 id="tableView"
+                 role="region"
+                 aria-live="polite"
+                 aria-label="Table view of subnet allocations">
                 <div class="table-controls">
-                    <button class="btn-small" onclick="addAllocation()">+ Add Subnet</button>
+                    <button type="button"
+                            class="btn-small"
+                            onclick="addAllocation()"
+                            aria-label="Add a new subnet allocation to the plan">+ Add Subnet</button>
                 </div>
                 <div class="table-container">
                     <table class="allocation-table">
@@ -769,25 +808,43 @@
             </div>
 
             <!-- Bar Chart View -->
-            <div class="view-container" id="barView">
+            <div class="view-container"
+                 id="barView"
+                 role="region"
+                 aria-live="polite"
+                 aria-label="Bar chart view of subnet allocations">
                 <div class="bar-chart-container">
-                    <div class="bar-chart" id="barChart"></div>
+                    <div class="bar-chart" id="barChart" role="img" aria-label="Visual bar chart showing subnet allocation distribution"></div>
                 </div>
-                <div id="barChartLegend" class="chart-legend"></div>
+                <div id="barChartLegend" class="chart-legend" aria-label="Bar chart legend"></div>
             </div>
 
             <!-- Tree View -->
-            <div class="view-container" id="treeView">
+            <div class="view-container"
+                 id="treeView"
+                 role="region"
+                 aria-live="polite"
+                 aria-label="Tree hierarchy view of subnet allocations">
                 <div class="tree-container" id="treeContainer"></div>
             </div>
 
             <!-- Validation Messages -->
-            <div class="validation-messages" id="validationMessages"></div>
+            <div class="validation-messages"
+                 id="validationMessages"
+                 role="alert"
+                 aria-live="assertive"
+                 aria-atomic="true"></div>
 
             <!-- Export Section -->
             <div class="export-section">
-                <button class="export-btn" onclick="exportCSV()">Export CSV</button>
-                <button class="export-btn json" onclick="exportJSON()">Export JSON</button>
+                <button type="button"
+                        class="export-btn"
+                        onclick="exportCSV()"
+                        aria-label="Export subnet allocation plan to CSV file">Export CSV</button>
+                <button type="button"
+                        class="export-btn json"
+                        onclick="exportJSON()"
+                        aria-label="Export subnet allocation plan to JSON file">Export JSON</button>
             </div>
         </div>
 
@@ -844,17 +901,23 @@
         // ===== Initialization =====
 
         function initializePlanner() {
-            const ipInput = document.getElementById('parentIP').value.trim();
-            const cidr = parseInt(document.getElementById('parentCIDR').value, 10);
+            const ipField = document.getElementById('parentIP');
+            const cidrField = document.getElementById('parentCIDR');
+            const ipInput = ipField.value.trim();
+            const cidr = parseInt(cidrField.value, 10);
             const errorDiv = document.getElementById('initError');
 
-            // Hide previous error
+            // Clear previous errors
+            A11yUtils.clearError(ipField);
             errorDiv.classList.remove('show');
 
             // Validate IP
             if (!isValidIP(ipInput)) {
-                errorDiv.textContent = 'Please enter a valid IPv4 address (e.g., 10.0.0.0)';
+                const errorMsg = 'Please enter a valid IPv4 address (e.g., 10.0.0.0)';
+                errorDiv.textContent = errorMsg;
                 errorDiv.classList.add('show');
+                A11yUtils.showError(ipField, errorMsg);
+                ipField.focus();
                 return;
             }
 
@@ -881,6 +944,9 @@
 
             // Add first empty allocation
             addAllocation();
+
+            // Announce initialization to screen readers
+            A11yUtils.announce(`Subnet planner initialized for parent network ${state.parentNetwork.ip} slash ${cidr}`, 'polite');
         }
 
         // ===== Table Management =====
@@ -1426,7 +1492,9 @@
 
             // Update toggle buttons
             document.querySelectorAll('.toggle-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.view === viewName);
+                const isActive = btn.dataset.view === viewName;
+                btn.classList.toggle('active', isActive);
+                btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
             });
 
             // Hide all view containers
@@ -1509,6 +1577,7 @@
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+            A11yUtils.announce('Subnet allocation plan exported to CSV file', 'polite');
         }
 
         function exportJSON() {
@@ -1548,6 +1617,7 @@
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+            A11yUtils.announce('Subnet allocation plan exported to JSON file', 'polite');
         }
 
         // Allow Enter key to initialize
