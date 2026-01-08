@@ -283,13 +283,15 @@
         .option-item input[type="number"],
         .option-item input[type="text"],
         .option-item select {
-            padding: 8px 12px;
-            border: 1px solid rgba(79, 195, 247, 0.3);
-            border-radius: 6px;
-            background: rgba(0, 0, 0, 0.3);
+            padding: 12px 16px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: #0f1419;
             color: #fff;
-            font-size: 0.9rem;
+            font-size: 1rem;
             width: auto;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            cursor: pointer;
         }
 
         .option-item input[type="number"] {
@@ -304,10 +306,24 @@
             min-width: 120px;
         }
 
+        .option-item select option {
+            background: #0f1419;
+            color: #fff;
+        }
+
         .option-item input:focus,
         .option-item select:focus {
             outline: none;
             border-color: #4fc3f7;
+            box-shadow: 0 0 15px rgba(79, 195, 247, 0.2);
+        }
+
+        /* Enhanced focus visibility for accessibility */
+        .action-btn:focus,
+        .copy-btn:focus,
+        .tab-btn:focus {
+            outline: 2px solid #4fc3f7;
+            outline-offset: 2px;
         }
 
         .error {
@@ -618,8 +634,8 @@
 
                     <div class="options-row" role="group" aria-label="Escape format selection">
                         <label class="option-item">
-                            <span>Format:</span>
-                            <select id="escapeFormat" aria-label="Select escape format">
+                            <span id="format-label">Format:</span>
+                            <select id="escapeFormat" aria-labelledby="format-label" aria-describedby="format-help">
                                 <option value="html">HTML Entities</option>
                                 <option value="json">JSON String</option>
                                 <option value="url">URL Encoding</option>
@@ -629,6 +645,7 @@
                                 <option value="csv">CSV Field</option>
                                 <option value="xml">XML Entities</option>
                             </select>
+                            <span id="format-help" class="sr-only">Select the format for escaping or unescaping text</span>
                         </label>
                     </div>
 

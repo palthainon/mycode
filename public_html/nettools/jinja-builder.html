@@ -222,7 +222,7 @@
             word-wrap: break-word;
             overflow: auto;
             pointer-events: none;
-            color: transparent;
+            color: #e6e6e6;
             background: #0f1419;
         }
 
@@ -235,7 +235,7 @@
             line-height: 1.6;
             border: none;
             background: transparent;
-            color: #e6e6e6;
+            color: transparent;
             resize: vertical;
             position: relative;
             z-index: 1;
@@ -247,7 +247,8 @@
         }
 
         .editor-textarea::placeholder {
-            color: rgba(255, 255, 255, 0.3);
+            color: rgba(255, 255, 255, 0.4);
+            opacity: 1;
         }
 
         /* Syntax Highlighting Colors */
@@ -465,11 +466,12 @@
         <h1>Jinja Template Builder</h1>
         <p class="subtitle">Build configuration templates with Jinja2 syntax highlighting</p>
 
-        <div class="tool-section">
+        <div class="tool-section" role="region" aria-label="Jinja template editor">
+            <form id="template-form" aria-label="Template selection and actions">
             <div class="controls-row">
                 <div class="control-group">
                     <label for="templateSelect">Load Template</label>
-                    <select id="templateSelect" aria-describedby="template-help">
+                    <select id="templateSelect" aria-describedby="template-help" aria-required="false">
                         <option value="">-- Select a template --</option>
                         <optgroup label="Network Configurations">
                             <option value="cisco-interface">Cisco Interface Config</option>
@@ -498,36 +500,37 @@
                     </select>
                     <span id="template-help" class="sr-only">Select a pre-built template to load into the editor</span>
                 </div>
-                <div class="btn-group">
+                <div class="btn-group" role="group" aria-label="Template actions">
                     <button type="button" class="btn" onclick="copyToClipboard()" aria-label="Copy template to clipboard">Copy</button>
-                    <button type="button" class="btn btn-secondary" onclick="downloadTemplate()" aria-label="Download template as file">Download</button>
-                    <button type="button" class="btn btn-outline" onclick="clearEditor()" aria-label="Clear the editor">Clear</button>
+                    <button type="button" class="btn btn-secondary" onclick="downloadTemplate()" aria-label="Download template as .j2 file">Download</button>
+                    <button type="button" class="btn btn-outline" onclick="clearEditor()" aria-label="Clear the editor content">Clear</button>
                 </div>
             </div>
+            </form>
 
-            <div class="syntax-legend" role="region" aria-label="Syntax highlighting legend">
-                <div class="legend-item">
-                    <span class="legend-color statement">{%</span>
+            <div class="syntax-legend" role="list" aria-label="Syntax highlighting legend">
+                <div class="legend-item" role="listitem">
+                    <span class="legend-color statement" aria-hidden="true">{%</span>
                     <span>Statements</span>
                 </div>
-                <div class="legend-item">
-                    <span class="legend-color expression">{{</span>
+                <div class="legend-item" role="listitem">
+                    <span class="legend-color expression" aria-hidden="true">{{</span>
                     <span>Expressions</span>
                 </div>
-                <div class="legend-item">
-                    <span class="legend-color comment">{#</span>
+                <div class="legend-item" role="listitem">
+                    <span class="legend-color comment" aria-hidden="true">{#</span>
                     <span>Comments</span>
                 </div>
-                <div class="legend-item">
-                    <span class="legend-color filter">|</span>
+                <div class="legend-item" role="listitem">
+                    <span class="legend-color filter" aria-hidden="true">|</span>
                     <span>Filters</span>
                 </div>
             </div>
 
-            <div class="editor-container">
+            <div class="editor-container" role="region" aria-live="polite" aria-atomic="false">
                 <div class="editor-label">
                     <span>Template Editor</span>
-                    <span class="char-count" id="charCount">0 characters</span>
+                    <span class="char-count" id="charCount" aria-live="polite" aria-atomic="true">0 characters</span>
                 </div>
                 <div class="editor-wrapper">
                     <div class="editor-highlight" id="editorHighlight" aria-hidden="true"></div>
@@ -548,38 +551,39 @@ Examples:
                 </div>
             </div>
 
-            <div class="quick-ref">
-                <h3>Quick Reference</h3>
-                <div class="ref-grid">
-                    <div class="ref-item">
+            <div class="quick-ref" role="region" aria-labelledby="quick-ref-heading" aria-describedby="quick-ref-description">
+                <h3 id="quick-ref-heading">Quick Reference</h3>
+                <p id="quick-ref-description" class="sr-only">Common Jinja2 syntax patterns and their usage</p>
+                <div class="ref-grid" role="list">
+                    <div class="ref-item" role="listitem">
                         <code>{% for item in list %}</code>
                         <p>Loop over items in a sequence</p>
                     </div>
-                    <div class="ref-item">
+                    <div class="ref-item" role="listitem">
                         <code>{% if condition %}</code>
                         <p>Conditional statement</p>
                     </div>
-                    <div class="ref-item">
+                    <div class="ref-item" role="listitem">
                         <code>{{ variable }}</code>
                         <p>Output a variable value</p>
                     </div>
-                    <div class="ref-item">
+                    <div class="ref-item" role="listitem">
                         <code>{{ var | filter }}</code>
                         <p>Apply a filter to value</p>
                     </div>
-                    <div class="ref-item">
+                    <div class="ref-item" role="listitem">
                         <code>{% set x = value %}</code>
                         <p>Assign a variable</p>
                     </div>
-                    <div class="ref-item">
+                    <div class="ref-item" role="listitem">
                         <code>{% include 'file' %}</code>
                         <p>Include another template</p>
                     </div>
-                    <div class="ref-item">
+                    <div class="ref-item" role="listitem">
                         <code>{% macro name() %}</code>
                         <p>Define a reusable macro</p>
                     </div>
-                    <div class="ref-item">
+                    <div class="ref-item" role="listitem">
                         <code>{{ loop.index }}</code>
                         <p>Current loop iteration (1-based)</p>
                     </div>
@@ -1446,6 +1450,11 @@ volumes:
             toast.textContent = message;
             toast.classList.add('show');
 
+            // Also announce for screen readers
+            if (typeof A11yUtils !== 'undefined' && A11yUtils.announce) {
+                A11yUtils.announce(message, 'polite');
+            }
+
             setTimeout(function() {
                 toast.classList.remove('show');
             }, 2000);
@@ -1484,6 +1493,17 @@ volumes:
                 this.value = this.value.substring(0, start) + '  ' + this.value.substring(end);
                 this.selectionStart = this.selectionEnd = start + 2;
                 updateHighlight();
+            }
+        });
+
+        // Skip link handler for accessibility
+        document.querySelector('.skip-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.getElementById('main-content');
+            if (target) {
+                target.setAttribute('tabindex', '-1');
+                target.focus();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         });
     </script>

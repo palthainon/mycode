@@ -10,13 +10,13 @@
     <meta name="keywords" content="text diff, file compare, diff tool, text comparison, side by side diff, unified diff, text difference finder">
     <meta name="author" content="OldWeb LLC">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://oldweb.tech/nettools/text-diff.html">
+    <link rel="canonical" href="https://oldweb.tech/data/text-diff.html">
 
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="Text Diff Tool - OldWeb.tech">
     <meta property="og:description" content="Compare text files and find differences. Side-by-side and unified diff views with line-by-line comparison. Free online text diff tool for developers and sysadmins.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://oldweb.tech/nettools/text-diff.html">
+    <meta property="og:url" content="https://oldweb.tech/data/text-diff.html">
     <meta property="og:site_name" content="OldWeb.tech">
 
     <!-- Twitter Card Meta Tags -->
@@ -82,8 +82,8 @@
             white-space: pre;
         }
 
-        /* Input Section */
-        .input-section {
+        /* Main Section */
+        .diff-section {
             background: rgba(255, 255, 255, 0.05);
             border-radius: 16px;
             padding: 30px;
@@ -92,29 +92,42 @@
             margin-bottom: 30px;
         }
 
-        .text-inputs {
+        /* Text Panels Container */
+        .text-panels {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
             margin-bottom: 20px;
         }
 
-        .text-input-group {
+        .panel-group {
             display: flex;
             flex-direction: column;
         }
 
-        .text-input-group label {
-            display: block;
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 8px;
+        }
+
+        .panel-header label {
             color: #90caf9;
             font-weight: 600;
             font-size: 1.1rem;
         }
 
-        .text-input-group textarea {
+        .panel-status {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5);
+            font-style: italic;
+        }
+
+        /* Unified Input/Output Panel */
+        .text-panel {
             width: 100%;
-            height: 300px;
+            height: 400px;
             padding: 16px;
             border: 2px solid rgba(255, 255, 255, 0.1);
             border-radius: 8px;
@@ -122,19 +135,72 @@
             color: #fff;
             font-size: 0.9rem;
             font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            line-height: 1.6;
+            overflow-y: auto;
+            overflow-x: hidden;
+            white-space: pre-wrap;
+            word-wrap: break-word;
             transition: border-color 0.3s, box-shadow 0.3s;
-            resize: vertical;
-            line-height: 1.5;
         }
 
-        .text-input-group textarea:focus {
+        .text-panel:focus {
             outline: none;
             border-color: #4fc3f7;
             box-shadow: 0 0 15px rgba(79, 195, 247, 0.2);
         }
 
-        .text-input-group textarea::placeholder {
+        .text-panel[data-placeholder]:empty::before {
+            content: attr(data-placeholder);
             color: rgba(255, 255, 255, 0.4);
+            pointer-events: none;
+        }
+
+        .text-panel.diff-mode {
+            cursor: default;
+        }
+
+        /* Diff Line Styling */
+        .diff-line {
+            display: block;
+            padding: 2px 8px;
+            margin: 0 -8px;
+            border-left: 3px solid transparent;
+        }
+
+        .diff-line.added {
+            background: rgba(102, 187, 106, 0.2);
+            border-left-color: #66bb6a;
+            color: #a5d6a7;
+        }
+
+        .diff-line.removed {
+            background: rgba(244, 67, 54, 0.2);
+            border-left-color: #f44336;
+            color: #ef9a9a;
+        }
+
+        .diff-line.modified {
+            background: rgba(255, 235, 59, 0.2);
+            border-left-color: #ffeb3b;
+            color: #fff9c4;
+        }
+
+        .diff-line.unchanged {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .diff-line.empty-placeholder {
+            color: rgba(255, 255, 255, 0.2);
+            font-style: italic;
+        }
+
+        .line-number {
+            display: inline-block;
+            width: 40px;
+            color: rgba(255, 255, 255, 0.3);
+            text-align: right;
+            margin-right: 12px;
+            user-select: none;
         }
 
         /* Options */
@@ -226,7 +292,7 @@
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 20px;
         }
 
@@ -261,193 +327,6 @@
             color: rgba(255, 255, 255, 0.7);
             text-transform: uppercase;
             letter-spacing: 0.5px;
-        }
-
-        /* Results Section */
-        .results-section {
-            display: none;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 30px;
-        }
-
-        .results-section.show {
-            display: block;
-        }
-
-        .results-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        /* View Toggle */
-        .view-toggle {
-            display: flex;
-            gap: 10px;
-        }
-
-        .toggle-btn {
-            background: rgba(79, 195, 247, 0.1);
-            border: 1px solid rgba(79, 195, 247, 0.3);
-            color: #4fc3f7;
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-weight: 500;
-        }
-
-        .toggle-btn:hover {
-            background: rgba(79, 195, 247, 0.2);
-        }
-
-        .toggle-btn.active {
-            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
-            color: #fff;
-            border-color: transparent;
-        }
-
-        /* Diff Views */
-        .diff-view {
-            display: none;
-        }
-
-        .diff-view.active {
-            display: block;
-        }
-
-        /* Side by Side View */
-        .side-by-side {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .diff-panel {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 8px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .diff-panel-header {
-            background: rgba(79, 195, 247, 0.1);
-            padding: 12px 16px;
-            font-weight: 600;
-            color: #4fc3f7;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .diff-content {
-            padding: 16px;
-            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-            font-size: 0.85rem;
-            line-height: 1.6;
-            max-height: 600px;
-            overflow-y: auto;
-        }
-
-        .diff-line {
-            padding: 2px 8px;
-            margin: 0 -8px;
-            white-space: pre-wrap;
-            word-break: break-all;
-        }
-
-        .diff-line.added {
-            background: rgba(102, 187, 106, 0.2);
-            border-left: 3px solid #66bb6a;
-            color: #a5d6a7;
-        }
-
-        .diff-line.removed {
-            background: rgba(244, 67, 54, 0.2);
-            border-left: 3px solid #f44336;
-            color: #ef9a9a;
-        }
-
-        .diff-line.modified {
-            background: rgba(255, 235, 59, 0.2);
-            border-left: 3px solid #ffeb3b;
-            color: #fff9c4;
-        }
-
-        .diff-line.unchanged {
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .line-number {
-            display: inline-block;
-            width: 40px;
-            color: rgba(255, 255, 255, 0.3);
-            text-align: right;
-            margin-right: 12px;
-            user-select: none;
-        }
-
-        /* Unified View */
-        .unified-view {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 8px;
-            padding: 16px;
-            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-            font-size: 0.85rem;
-            line-height: 1.6;
-            max-height: 600px;
-            overflow-y: auto;
-        }
-
-        .unified-line {
-            padding: 2px 8px;
-            margin: 0 -8px;
-            white-space: pre-wrap;
-            word-break: break-all;
-        }
-
-        .unified-line.added {
-            background: rgba(102, 187, 106, 0.2);
-            color: #a5d6a7;
-        }
-
-        .unified-line.added::before {
-            content: '+ ';
-            color: #66bb6a;
-            font-weight: bold;
-        }
-
-        .unified-line.removed {
-            background: rgba(244, 67, 54, 0.2);
-            color: #ef9a9a;
-        }
-
-        .unified-line.removed::before {
-            content: '- ';
-            color: #f44336;
-            font-weight: bold;
-        }
-
-        .unified-line.unchanged {
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .unified-line.unchanged::before {
-            content: '  ';
-        }
-
-        .diff-separator {
-            color: #4fc3f7;
-            padding: 10px 0;
-            margin: 10px 0;
-            border-top: 1px solid rgba(79, 195, 247, 0.3);
-            border-bottom: 1px solid rgba(79, 195, 247, 0.3);
-            font-weight: 600;
         }
 
         .home-btn {
@@ -508,12 +387,12 @@
                 display: none;
             }
 
-            .text-inputs {
+            .text-panels {
                 grid-template-columns: 1fr;
             }
 
-            .side-by-side {
-                grid-template-columns: 1fr;
+            .text-panel {
+                height: 250px;
             }
 
             .options {
@@ -532,25 +411,21 @@
         }
 
         /* Scrollbar Styling */
-        .diff-content::-webkit-scrollbar,
-        .unified-view::-webkit-scrollbar {
+        .text-panel::-webkit-scrollbar {
             width: 10px;
         }
 
-        .diff-content::-webkit-scrollbar-track,
-        .unified-view::-webkit-scrollbar-track {
+        .text-panel::-webkit-scrollbar-track {
             background: rgba(0, 0, 0, 0.2);
             border-radius: 4px;
         }
 
-        .diff-content::-webkit-scrollbar-thumb,
-        .unified-view::-webkit-scrollbar-thumb {
+        .text-panel::-webkit-scrollbar-thumb {
             background: rgba(79, 195, 247, 0.3);
             border-radius: 4px;
         }
 
-        .diff-content::-webkit-scrollbar-thumb:hover,
-        .unified-view::-webkit-scrollbar-thumb:hover {
+        .text-panel::-webkit-scrollbar-thumb:hover {
             background: rgba(79, 195, 247, 0.5);
         }
     </style>
@@ -562,7 +437,7 @@
       "@type": "WebApplication",
       "name": "Text Diff Tool",
       "description": "Compare text files and find differences. Side-by-side and unified diff views with line-by-line comparison. Free online text diff tool for developers and sysadmins.",
-      "url": "https://oldweb.tech/nettools/text-diff.html",
+      "url": "https://oldweb.tech/data/text-diff.html",
       "applicationCategory": "UtilitiesApplication",
       "operatingSystem": "Web Browser",
       "offers": {
@@ -591,121 +466,102 @@
     <main id="main-content" class="container">
         <h1>Text Diff Tool</h1>
 
-        <!-- Input Section -->
-        <div class="input-section">
+        <!-- Stats Section -->
+        <div class="stats-section" id="statsSection" role="region" aria-label="Comparison statistics" aria-live="polite">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-value added" id="linesAdded">0</div>
+                    <div class="stat-label">Added</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value removed" id="linesRemoved">0</div>
+                    <div class="stat-label">Removed</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value modified" id="linesModified">0</div>
+                    <div class="stat-label">Modified</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="linesUnchanged">0</div>
+                    <div class="stat-label">Unchanged</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Diff Section -->
+        <div class="diff-section">
             <form id="diff-form" aria-label="Text Comparison Form">
-                <div class="text-inputs">
-                    <div class="text-input-group">
-                        <label for="text1">Original Text (Left)</label>
-                        <textarea
-                            id="text1"
-                            placeholder="Paste or type your original text here..."
-                            aria-describedby="text1-help"></textarea>
-                        <span id="text1-help" class="sr-only">Enter the original text to compare</span>
+                <div class="text-panels">
+                    <div class="panel-group">
+                        <div class="panel-header">
+                            <label for="leftPanel">Original Text</label>
+                            <span class="panel-status" id="leftStatus" role="status" aria-live="polite"></span>
+                        </div>
+                        <div class="text-panel"
+                             id="leftPanel"
+                             contenteditable="true"
+                             data-placeholder="Paste or type your original text here..."
+                             role="textbox"
+                             aria-label="Original text input"
+                             aria-multiline="true"
+                             aria-describedby="leftPanel-help"></div>
+                        <span id="leftPanel-help" class="sr-only">Enter or paste the original text you want to compare. After clicking Compare, differences will be highlighted in this panel.</span>
                     </div>
-                    <div class="text-input-group">
-                        <label for="text2">Modified Text (Right)</label>
-                        <textarea
-                            id="text2"
-                            placeholder="Paste or type your modified text here..."
-                            aria-describedby="text2-help"></textarea>
-                        <span id="text2-help" class="sr-only">Enter the modified text to compare against the original</span>
+                    <div class="panel-group">
+                        <div class="panel-header">
+                            <label for="rightPanel">Modified Text</label>
+                            <span class="panel-status" id="rightStatus" role="status" aria-live="polite"></span>
+                        </div>
+                        <div class="text-panel"
+                             id="rightPanel"
+                             contenteditable="true"
+                             data-placeholder="Paste or type your modified text here..."
+                             role="textbox"
+                             aria-label="Modified text input"
+                             aria-multiline="true"
+                             aria-describedby="rightPanel-help"></div>
+                        <span id="rightPanel-help" class="sr-only">Enter or paste the modified text you want to compare against the original. After clicking Compare, differences will be highlighted in this panel.</span>
                     </div>
                 </div>
 
-                <div class="options">
+                <div class="options" role="group" aria-label="Comparison options">
                     <div class="option-group">
-                        <input type="checkbox" id="ignoreWhitespace" name="ignoreWhitespace">
+                        <input type="checkbox" id="syncScroll" name="syncScroll" checked aria-describedby="syncScroll-help">
+                        <label for="syncScroll">Sync Scroll</label>
+                        <span id="syncScroll-help" class="sr-only">When enabled, both panels scroll together</span>
+                    </div>
+                    <div class="option-group">
+                        <input type="checkbox" id="ignoreWhitespace" name="ignoreWhitespace" aria-describedby="ignoreWhitespace-help">
                         <label for="ignoreWhitespace">Ignore Whitespace</label>
+                        <span id="ignoreWhitespace-help" class="sr-only">When enabled, whitespace differences are ignored during comparison</span>
                     </div>
                     <div class="option-group">
-                        <input type="checkbox" id="ignoreCase" name="ignoreCase">
+                        <input type="checkbox" id="ignoreCase" name="ignoreCase" aria-describedby="ignoreCase-help">
                         <label for="ignoreCase">Ignore Case</label>
+                        <span id="ignoreCase-help" class="sr-only">When enabled, uppercase and lowercase differences are ignored</span>
                     </div>
                     <div class="option-group">
-                        <input type="checkbox" id="trimLines" name="trimLines">
-                        <label for="trimLines">Trim Line Ends</label>
+                        <input type="checkbox" id="trimLines" name="trimLines" aria-describedby="trimLines-help">
+                        <label for="trimLines">Trim Lines</label>
+                        <span id="trimLines-help" class="sr-only">When enabled, leading and trailing whitespace on each line is removed before comparison</span>
                     </div>
                 </div>
 
-                <div class="button-group">
+                <div class="button-group" role="group" aria-label="Actions">
                     <button type="button" class="btn" onclick="compareDiff()" aria-label="Compare the two texts and show differences">
                         Compare
                     </button>
                     <button type="button" class="btn secondary" onclick="copyResults()" id="copyBtn" style="display: none;" aria-label="Copy diff results to clipboard">
                         Copy Results
                     </button>
-                    <button type="button" class="btn tertiary" onclick="clearAll()" aria-label="Clear all text inputs and results">
+                    <button type="button" class="btn tertiary" onclick="editMode()" id="editBtn" style="display: none;" aria-label="Return to edit mode to make changes">
+                        Edit
+                    </button>
+                    <button type="button" class="btn tertiary" onclick="clearAll()" aria-label="Clear all text inputs and comparison results">
                         Clear All
                     </button>
                 </div>
             </form>
-        </div>
-
-        <!-- Stats Section -->
-        <div class="stats-section" id="statsSection">
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <div class="stat-value added" id="linesAdded">0</div>
-                    <div class="stat-label">Lines Added</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value removed" id="linesRemoved">0</div>
-                    <div class="stat-label">Lines Removed</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value modified" id="linesModified">0</div>
-                    <div class="stat-label">Lines Modified</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value" id="linesUnchanged">0</div>
-                    <div class="stat-label">Lines Unchanged</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Results Section -->
-        <div class="results-section" id="resultsSection">
-            <div class="results-header">
-                <h2>Comparison Results</h2>
-                <div class="view-toggle" role="group" aria-label="Diff view selection">
-                    <button type="button"
-                            class="toggle-btn active"
-                            data-view="side-by-side"
-                            onclick="switchView('side-by-side')"
-                            aria-pressed="true"
-                            aria-label="View differences side by side">
-                        Side by Side
-                    </button>
-                    <button type="button"
-                            class="toggle-btn"
-                            data-view="unified"
-                            onclick="switchView('unified')"
-                            aria-pressed="false"
-                            aria-label="View differences in unified format">
-                        Unified
-                    </button>
-                </div>
-            </div>
-
-            <!-- Side by Side View -->
-            <div class="diff-view active" id="sideBySideView" role="region" aria-label="Side by side diff view">
-                <div class="side-by-side">
-                    <div class="diff-panel">
-                        <div class="diff-panel-header">Original</div>
-                        <div class="diff-content" id="leftPanel"></div>
-                    </div>
-                    <div class="diff-panel">
-                        <div class="diff-panel-header">Modified</div>
-                        <div class="diff-content" id="rightPanel"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Unified View -->
-            <div class="diff-view" id="unifiedView" role="region" aria-label="Unified diff view">
-                <div class="unified-view" id="unifiedContent"></div>
-            </div>
         </div>
 
         <footer role="contentinfo">
@@ -717,8 +573,83 @@
         // Global state
         const state = {
             diffResult: null,
-            currentView: 'side-by-side'
+            mode: 'edit', // 'edit' or 'diff'
+            originalText: { left: '', right: '' },
+            isScrolling: false
         };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            setupScrollSync();
+            setupEditTracking();
+        });
+
+        // Setup synchronized scrolling
+        function setupScrollSync() {
+            const leftPanel = document.getElementById('leftPanel');
+            const rightPanel = document.getElementById('rightPanel');
+
+            leftPanel.addEventListener('scroll', function() {
+                if (state.isScrolling) return;
+                if (!document.getElementById('syncScroll').checked) return;
+                state.isScrolling = true;
+                rightPanel.scrollTop = leftPanel.scrollTop;
+                setTimeout(() => state.isScrolling = false, 50);
+            });
+
+            rightPanel.addEventListener('scroll', function() {
+                if (state.isScrolling) return;
+                if (!document.getElementById('syncScroll').checked) return;
+                state.isScrolling = true;
+                leftPanel.scrollTop = rightPanel.scrollTop;
+                setTimeout(() => state.isScrolling = false, 50);
+            });
+        }
+
+        // Track edits to return to edit mode if user types while in diff mode
+        function setupEditTracking() {
+            const leftPanel = document.getElementById('leftPanel');
+            const rightPanel = document.getElementById('rightPanel');
+
+            leftPanel.addEventListener('input', handleEdit);
+            rightPanel.addEventListener('input', handleEdit);
+
+            // Handle paste to strip formatting
+            leftPanel.addEventListener('paste', handlePaste);
+            rightPanel.addEventListener('paste', handlePaste);
+        }
+
+        function handleEdit() {
+            if (state.mode === 'diff') {
+                // User started editing, switch back to edit mode
+                editMode();
+            }
+        }
+
+        function handlePaste(e) {
+            e.preventDefault();
+            const text = e.clipboardData.getData('text/plain');
+            document.execCommand('insertText', false, text);
+        }
+
+        // Get plain text from contenteditable
+        function getTextContent(element) {
+            // Clone the element to avoid modifying the original
+            const clone = element.cloneNode(true);
+
+            // Replace <br> and block elements with newlines
+            const brs = clone.querySelectorAll('br');
+            brs.forEach(br => br.replaceWith('\n'));
+
+            const blocks = clone.querySelectorAll('div, p');
+            blocks.forEach(block => {
+                if (block.previousSibling) {
+                    block.insertAdjacentText('beforebegin', '\n');
+                }
+            });
+
+            return clone.textContent || '';
+        }
 
         // Diff algorithm - Line-based comparison using LCS
         function computeDiff(text1, text2, options = {}) {
@@ -730,7 +661,7 @@
             let lines1 = text1.split('\n');
             let lines2 = text2.split('\n');
 
-            // Apply options
+            // Apply options for comparison
             const processLine = (line) => {
                 let processed = line;
                 if (trimLines) processed = processed.trim();
@@ -850,10 +781,14 @@
 
         // Compare and display diff
         function compareDiff() {
-            const text1 = document.getElementById('text1').value;
-            const text2 = document.getElementById('text2').value;
+            const leftPanel = document.getElementById('leftPanel');
+            const rightPanel = document.getElementById('rightPanel');
 
-            if (!text1 && !text2) {
+            // Store original text before switching to diff mode
+            state.originalText.left = getTextContent(leftPanel);
+            state.originalText.right = getTextContent(rightPanel);
+
+            if (!state.originalText.left && !state.originalText.right) {
                 alert('Please enter text to compare.');
                 return;
             }
@@ -865,19 +800,33 @@
             };
 
             // Compute diff
-            state.diffResult = computeDiff(text1, text2, options);
+            state.diffResult = computeDiff(state.originalText.left, state.originalText.right, options);
 
             // Update stats
             updateStats(state.diffResult.stats);
 
-            // Render views
-            renderSideBySide(state.diffResult);
-            renderUnified(state.diffResult);
+            // Render diff inline
+            renderInlineDiff(state.diffResult);
+
+            // Switch to diff mode
+            state.mode = 'diff';
+            leftPanel.contentEditable = 'false';
+            rightPanel.contentEditable = 'false';
+            leftPanel.classList.add('diff-mode');
+            rightPanel.classList.add('diff-mode');
+
+            // Update status
+            document.getElementById('leftStatus').textContent = 'Diff view';
+            document.getElementById('rightStatus').textContent = 'Diff view';
 
             // Show results
             document.getElementById('statsSection').classList.add('show');
-            document.getElementById('resultsSection').classList.add('show');
             document.getElementById('copyBtn').style.display = 'inline-block';
+            document.getElementById('editBtn').style.display = 'inline-block';
+
+            // Scroll to top
+            leftPanel.scrollTop = 0;
+            rightPanel.scrollTop = 0;
 
             // Announce to screen readers
             A11yUtils.announce(`Comparison complete. ${state.diffResult.stats.added} lines added, ${state.diffResult.stats.removed} lines removed, ${state.diffResult.stats.modified} lines modified`, 'polite');
@@ -891,8 +840,8 @@
             document.getElementById('linesUnchanged').textContent = stats.unchanged;
         }
 
-        // Render side-by-side view
-        function renderSideBySide(diffResult) {
+        // Render diff inline in the panels
+        function renderInlineDiff(diffResult) {
             const leftPanel = document.getElementById('leftPanel');
             const rightPanel = document.getElementById('rightPanel');
 
@@ -901,142 +850,57 @@
 
             diffResult.lines.forEach(item => {
                 // Left panel
+                const leftLine = document.createElement('span');
+                leftLine.className = 'diff-line';
+
                 if (item.left) {
-                    const leftLine = document.createElement('div');
-                    leftLine.className = `diff-line ${item.type === 'unchanged' ? 'unchanged' : item.type === 'modified' ? 'modified' : 'removed'}`;
-                    leftLine.innerHTML = `<span class="line-number">${item.left.number}</span>${escapeHtml(item.left.line)}`;
-                    leftPanel.appendChild(leftLine);
+                    leftLine.classList.add(item.type === 'unchanged' ? 'unchanged' : item.type === 'modified' ? 'modified' : 'removed');
+                    leftLine.innerHTML = `<span class="line-number">${item.left.number}</span>${escapeHtml(item.left.line)}\n`;
                 } else {
-                    const leftLine = document.createElement('div');
-                    leftLine.className = 'diff-line';
-                    leftLine.innerHTML = '<span class="line-number"></span>';
-                    leftPanel.appendChild(leftLine);
+                    leftLine.classList.add('empty-placeholder');
+                    leftLine.innerHTML = `<span class="line-number"></span>\n`;
                 }
+                leftPanel.appendChild(leftLine);
 
                 // Right panel
+                const rightLine = document.createElement('span');
+                rightLine.className = 'diff-line';
+
                 if (item.right) {
-                    const rightLine = document.createElement('div');
-                    rightLine.className = `diff-line ${item.type === 'unchanged' ? 'unchanged' : item.type === 'modified' ? 'modified' : 'added'}`;
-                    rightLine.innerHTML = `<span class="line-number">${item.right.number}</span>${escapeHtml(item.right.line)}`;
-                    rightPanel.appendChild(rightLine);
+                    rightLine.classList.add(item.type === 'unchanged' ? 'unchanged' : item.type === 'modified' ? 'modified' : 'added');
+                    rightLine.innerHTML = `<span class="line-number">${item.right.number}</span>${escapeHtml(item.right.line)}\n`;
                 } else {
-                    const rightLine = document.createElement('div');
-                    rightLine.className = 'diff-line';
-                    rightLine.innerHTML = '<span class="line-number"></span>';
-                    rightPanel.appendChild(rightLine);
+                    rightLine.classList.add('empty-placeholder');
+                    rightLine.innerHTML = `<span class="line-number"></span>\n`;
                 }
+                rightPanel.appendChild(rightLine);
             });
         }
 
-        // Render unified view
-        function renderUnified(diffResult) {
-            const content = document.getElementById('unifiedContent');
-            content.innerHTML = '';
+        // Return to edit mode
+        function editMode() {
+            const leftPanel = document.getElementById('leftPanel');
+            const rightPanel = document.getElementById('rightPanel');
 
-            let currentChunk = [];
-            let chunkStartLeft = null;
-            let chunkStartRight = null;
+            // Restore original text
+            leftPanel.textContent = state.originalText.left;
+            rightPanel.textContent = state.originalText.right;
 
-            diffResult.lines.forEach((item, index) => {
-                if (item.type !== 'unchanged') {
-                    if (currentChunk.length === 0) {
-                        chunkStartLeft = item.left ? item.left.number : null;
-                        chunkStartRight = item.right ? item.right.number : null;
-                    }
-                    currentChunk.push(item);
-                } else {
-                    // Include context lines (up to 3 before and after changes)
-                    if (currentChunk.length > 0 && currentChunk.length < 100) {
-                        currentChunk.push(item);
-                        // Check if we should flush the chunk
-                        const nextItems = diffResult.lines.slice(index + 1, index + 4);
-                        const hasMoreChanges = nextItems.some(i => i.type !== 'unchanged');
-                        if (!hasMoreChanges || index === diffResult.lines.length - 1) {
-                            renderChunk(content, currentChunk, chunkStartLeft, chunkStartRight);
-                            currentChunk = [];
-                        }
-                    } else if (currentChunk.length === 0) {
-                        // Check if changes are coming soon
-                        const nextItems = diffResult.lines.slice(index + 1, index + 4);
-                        const hasChanges = nextItems.some(i => i.type !== 'unchanged');
-                        if (hasChanges) {
-                            currentChunk.push(item);
-                            chunkStartLeft = item.left.number;
-                            chunkStartRight = item.right.number;
-                        }
-                    } else {
-                        // Flush current chunk
-                        renderChunk(content, currentChunk, chunkStartLeft, chunkStartRight);
-                        currentChunk = [];
-                    }
-                }
-            });
+            // Switch to edit mode
+            state.mode = 'edit';
+            leftPanel.contentEditable = 'true';
+            rightPanel.contentEditable = 'true';
+            leftPanel.classList.remove('diff-mode');
+            rightPanel.classList.remove('diff-mode');
 
-            // Flush remaining chunk
-            if (currentChunk.length > 0) {
-                renderChunk(content, currentChunk, chunkStartLeft, chunkStartRight);
-            }
-        }
+            // Update status
+            document.getElementById('leftStatus').textContent = '';
+            document.getElementById('rightStatus').textContent = '';
 
-        function renderChunk(container, chunk, startLeft, startRight) {
-            // Add separator
-            const separator = document.createElement('div');
-            separator.className = 'diff-separator';
-            separator.textContent = `@@ -${startLeft || '?'},${chunk.length} +${startRight || '?'},${chunk.length} @@`;
-            container.appendChild(separator);
+            // Hide edit button
+            document.getElementById('editBtn').style.display = 'none';
 
-            // Add chunk lines
-            chunk.forEach(item => {
-                if (item.type === 'removed') {
-                    const line = document.createElement('div');
-                    line.className = 'unified-line removed';
-                    line.textContent = item.left.line;
-                    container.appendChild(line);
-                } else if (item.type === 'added') {
-                    const line = document.createElement('div');
-                    line.className = 'unified-line added';
-                    line.textContent = item.right.line;
-                    container.appendChild(line);
-                } else if (item.type === 'modified') {
-                    const removedLine = document.createElement('div');
-                    removedLine.className = 'unified-line removed';
-                    removedLine.textContent = item.left.line;
-                    container.appendChild(removedLine);
-
-                    const addedLine = document.createElement('div');
-                    addedLine.className = 'unified-line added';
-                    addedLine.textContent = item.right.line;
-                    container.appendChild(addedLine);
-                } else {
-                    const line = document.createElement('div');
-                    line.className = 'unified-line unchanged';
-                    line.textContent = item.left.line;
-                    container.appendChild(line);
-                }
-            });
-        }
-
-        // Switch view
-        function switchView(viewName) {
-            state.currentView = viewName;
-
-            // Update toggle buttons
-            document.querySelectorAll('.toggle-btn').forEach(btn => {
-                const isActive = btn.dataset.view === viewName;
-                btn.classList.toggle('active', isActive);
-                btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
-            });
-
-            // Update view visibility
-            document.querySelectorAll('.diff-view').forEach(view => {
-                view.classList.remove('active');
-            });
-
-            if (viewName === 'side-by-side') {
-                document.getElementById('sideBySideView').classList.add('active');
-            } else {
-                document.getElementById('unifiedView').classList.add('active');
-            }
+            A11yUtils.announce('Returned to edit mode', 'polite');
         }
 
         // Copy results to clipboard
@@ -1049,31 +913,19 @@
             output += `Lines Modified: ${state.diffResult.stats.modified}\n`;
             output += `Lines Unchanged: ${state.diffResult.stats.unchanged}\n\n`;
 
-            if (state.currentView === 'unified') {
-                output += '=== UNIFIED DIFF ===\n\n';
-                state.diffResult.lines.forEach(item => {
-                    if (item.type === 'removed') {
-                        output += `- ${item.left.line}\n`;
-                    } else if (item.type === 'added') {
-                        output += `+ ${item.right.line}\n`;
-                    } else if (item.type === 'modified') {
-                        output += `- ${item.left.line}\n`;
-                        output += `+ ${item.right.line}\n`;
-                    } else {
-                        output += `  ${item.left.line}\n`;
-                    }
-                });
-            } else {
-                output += '=== SIDE BY SIDE ===\n\n';
-                output += 'ORIGINAL | MODIFIED\n';
-                output += '---------|----------\n';
-                state.diffResult.lines.forEach(item => {
-                    const left = item.left ? item.left.line : '';
-                    const right = item.right ? item.right.line : '';
-                    const marker = item.type === 'removed' ? '[-]' : item.type === 'added' ? '[+]' : item.type === 'modified' ? '[~]' : '[ ]';
-                    output += `${marker} ${left} | ${right}\n`;
-                });
-            }
+            output += '=== UNIFIED DIFF ===\n\n';
+            state.diffResult.lines.forEach(item => {
+                if (item.type === 'removed') {
+                    output += `- ${item.left.line}\n`;
+                } else if (item.type === 'added') {
+                    output += `+ ${item.right.line}\n`;
+                } else if (item.type === 'modified') {
+                    output += `- ${item.left.line}\n`;
+                    output += `+ ${item.right.line}\n`;
+                } else {
+                    output += `  ${item.left.line}\n`;
+                }
+            });
 
             navigator.clipboard.writeText(output).then(() => {
                 A11yUtils.announce('Diff results copied to clipboard', 'polite');
@@ -1092,17 +944,30 @@
 
         // Clear all inputs and results
         function clearAll() {
-            document.getElementById('text1').value = '';
-            document.getElementById('text2').value = '';
+            const leftPanel = document.getElementById('leftPanel');
+            const rightPanel = document.getElementById('rightPanel');
+
+            leftPanel.textContent = '';
+            rightPanel.textContent = '';
+            leftPanel.contentEditable = 'true';
+            rightPanel.contentEditable = 'true';
+            leftPanel.classList.remove('diff-mode');
+            rightPanel.classList.remove('diff-mode');
+
             document.getElementById('ignoreWhitespace').checked = false;
             document.getElementById('ignoreCase').checked = false;
             document.getElementById('trimLines').checked = false;
 
             document.getElementById('statsSection').classList.remove('show');
-            document.getElementById('resultsSection').classList.remove('show');
             document.getElementById('copyBtn').style.display = 'none';
+            document.getElementById('editBtn').style.display = 'none';
+
+            document.getElementById('leftStatus').textContent = '';
+            document.getElementById('rightStatus').textContent = '';
 
             state.diffResult = null;
+            state.mode = 'edit';
+            state.originalText = { left: '', right: '' };
 
             A11yUtils.announce('All fields cleared', 'polite');
         }
@@ -1126,6 +991,12 @@
             if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
                 e.preventDefault();
                 clearAll();
+            }
+
+            // Escape to return to edit mode
+            if (e.key === 'Escape' && state.mode === 'diff') {
+                e.preventDefault();
+                editMode();
             }
         });
     </script>

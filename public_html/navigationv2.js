@@ -24,6 +24,7 @@
         ],
         data: [
             { name: 'Base64/Hash', file: 'data/base64-hash.html', id: 'base64' },
+            { name: 'String Tools', file: 'data/string-tools.html', id: 'string-tools' },
             { name: 'Text Diff', file: 'data/text-diff.html', id: 'text-diff' }
         ],
         financials: [
