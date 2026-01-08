@@ -31,6 +31,8 @@
     <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
 
     <title>Subnet Planner - OldWeb.tech</title>
+    <link rel="stylesheet" href="../a11y.css">
+    <script src="../a11y-utils.js"></script>
     <script src="../navigationv2.js"></script>
     <style>
         * {
@@ -676,15 +678,18 @@
     </script>
 </head>
 <body>
-    <a href="index.html" class="home-btn">Home</a>
-    <div class="ascii-logo">  _____ _   _ ____  _   _ _____ _____
- / ____| | | |  _ \| \ | |  ___|_   _|
-| (___ | | | | |_) |  \| | |__   | |
- \___ \| | | |  _ <| . ` |  __|  | |
- ____) | |_| | |_) | |\  | |___  | |
-|_____/ \___/|____/|_| \_|_____| |_|  </div>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
 
-    <div class="container">
+        
+    <a href="index.html" class="home-btn">Home</a>
+    <div class="ascii-logo" aria-hidden="true">  ___  _     _  __        __   _
+ / _ \| | __| | \ \      / /__| |__
+| | | | |/ _` |  \ \ /\ / / _ \ '_ \
+| |_| | | (_| |   \ V  V /  __/ |_) |
+ \___/|_|\__,_|    \_/\_/ \___|_.__/
+</div>
+
+    <main id="main-content" class="container">
         <h1>IPv4 Subnet Planner</h1>
 
         <!-- Parent Network Input -->
@@ -786,10 +791,10 @@
             </div>
         </div>
 
-        <footer>
+        <footer role="contentinfo">
             Subnet Planner - Works offline, no installation required
         </footer>
-    </div>
+    </main>
 
     <script>
         // Global state
@@ -1548,6 +1553,17 @@
         // Allow Enter key to initialize
         document.getElementById('parentIP').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') initializePlanner();
+        });
+    </script>
+    <script>
+        document.querySelector('.skip-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.getElementById('main-content');
+            if (target) {
+                target.setAttribute('tabindex', '-1');
+                target.focus();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
         });
     </script>
 </body>

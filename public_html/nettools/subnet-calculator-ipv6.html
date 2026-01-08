@@ -31,6 +31,8 @@
     <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
 
     <title>IPv6 Subnet Calculator - OldWeb.tech</title>
+    <link rel="stylesheet" href="../a11y.css">
+    <script src="../a11y-utils.js"></script>
     <script src="../navigationv2.js"></script>
     <style>
         * {
@@ -505,13 +507,14 @@
     </script>
 </head>
 <body>
-    <div class="ascii-logo">  ___  _    _  __        __   _
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <div class="ascii-logo" aria-hidden="true">  ___  _    _  __        __   _
  / _ \| | _| | \ \      / /__| |__
 | | | | |/ _` | \ \ /\ / / _ \ '_ \
 | |_| | | (_| |  \ V  V /  __/ |_) |
  \___/|_|\__,_|   \_/\_/ \___|_.__/
 </div>
-    <div class="container">
+    <main id="main-content" class="container">
         <h1>IPv6 Subnet Calculator</h1>
         <div class="protocol-toggle-container">
             <a href="subnet-calculator.html" class="protocol-toggle-link protocol-toggle-ipv4">← Switch to IPv4</a>
@@ -648,10 +651,23 @@
             </div>
         </div>
 
-        <footer>
+        <footer role="contentinfo">
             IPv6 Subnet Calculator - Works offline, no installation required
         </footer>
-    </div>
+    </main>
+
+    <script>
+        // Initialize accessibility - handle skip link
+        document.querySelector('.skip-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.getElementById('main-content');
+            if (target) {
+                target.setAttribute('tabindex', '-1');
+                target.focus();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    </script>
 
     <script>
         // Set quick address selection

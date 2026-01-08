@@ -1,0 +1,420 @@
+/**
+ * Accessibility Styles for OldWeb.tech
+ * WCAG 2.1 Level AA compliant styles
+ * Includes: skip links, screen reader utilities, focus indicators, high contrast support
+ */
+
+/* ============================================
+   Screen Reader Only Content
+   ============================================ */
+
+/**
+ * Hide content visually but keep it accessible to screen readers
+ * Used for: live regions, additional context, skip links when not focused
+ */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border-width: 0 !important;
+}
+
+/**
+ * Allow .sr-only content to be focusable when accessed via keyboard
+ * Used for: skip links
+ */
+.sr-only-focusable:focus,
+.sr-only-focusable:active {
+  position: static !important;
+  width: auto !important;
+  height: auto !important;
+  overflow: visible !important;
+  clip: auto !important;
+  white-space: normal !important;
+}
+
+/* ============================================
+   Skip Links
+   ============================================ */
+
+/**
+ * Skip to main content link
+ * Hidden by default, appears on focus at top of page
+ */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  z-index: 10000;
+  padding: 12px 24px;
+  background: #4fc3f7;
+  color: #1a1a2e;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 0 0 4px 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: 0;
+  outline: 3px solid #fff;
+  outline-offset: 2px;
+}
+
+.skip-link:hover {
+  background: #81d4fa;
+  color: #1a1a2e;
+}
+
+/* ============================================
+   Enhanced Focus Indicators
+   ============================================ */
+
+/**
+ * Remove default outline for mouse users while preserving for keyboard
+ * Uses :focus-visible for better UX
+ */
+*:focus {
+  outline: none;
+}
+
+/**
+ * Enhanced focus indicator for keyboard navigation
+ * WCAG 2.4.7 Focus Visible - Level AA
+ * Minimum 2px, high contrast color
+ */
+*:focus-visible {
+  outline: 3px solid #4fc3f7;
+  outline-offset: 2px;
+}
+
+/**
+ * Focus styles for interactive elements on dark background
+ */
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+a:focus-visible {
+  outline: 3px solid #4fc3f7;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(79, 195, 247, 0.2);
+}
+
+/**
+ * Focus styles for navigation elements
+ */
+.nav-category-btn:focus-visible,
+.nav-dropdown a:focus-visible {
+  outline: 3px solid #4fc3f7;
+  outline-offset: 2px;
+}
+
+/* ============================================
+   Form Error Handling
+   ============================================ */
+
+/**
+ * Error message styling
+ * role="alert" for immediate announcement
+ */
+.error-message {
+  display: block;
+  color: #ff5252;
+  font-size: 0.875rem;
+  margin-top: 4px;
+  padding: 4px 8px;
+  background: rgba(244, 67, 54, 0.1);
+  border-left: 3px solid #ff5252;
+  border-radius: 2px;
+}
+
+/**
+ * Error state for inputs
+ * Combines color, border, and icon for non-color-dependent indication
+ */
+input.error,
+select.error,
+textarea.error {
+  border-color: #ff5252 !important;
+  background-color: rgba(244, 67, 54, 0.05);
+  box-shadow: 0 0 0 1px rgba(244, 67, 54, 0.2);
+}
+
+/**
+ * Add visual error indicator icon (using CSS)
+ */
+input.error::after {
+  content: ' ⚠';
+  color: #ff5252;
+  font-weight: bold;
+}
+
+/* ============================================
+   Loading and Busy States
+   ============================================ */
+
+/**
+ * Busy state for elements during async operations
+ * aria-busy="true"
+ */
+[aria-busy="true"] {
+  opacity: 0.6;
+  cursor: wait;
+  pointer-events: none;
+}
+
+[aria-busy="true"]::after {
+  content: '...';
+  animation: ellipsis 1.5s infinite;
+}
+
+@keyframes ellipsis {
+  0%, 20% { content: '.'; }
+  40% { content: '..'; }
+  60%, 100% { content: '...'; }
+}
+
+/* ============================================
+   High Contrast Mode Support
+   ============================================ */
+
+/**
+ * Enhanced contrast for users with prefers-contrast: high
+ * WCAG 1.4.3 Contrast (Minimum) - Level AA
+ */
+@media (prefers-contrast: high) {
+  :root {
+    --color-text: #ffffff;
+    --color-text-secondary: #ffffff;
+    --color-border: #ffffff;
+  }
+
+  .skip-link {
+    background: #ffffff;
+    color: #000000;
+    border: 3px solid #000000;
+  }
+
+  *:focus-visible {
+    outline: 4px solid #ffffff;
+    outline-offset: 3px;
+  }
+
+  .error-message {
+    background: #ff0000;
+    color: #ffffff;
+  }
+}
+
+/* ============================================
+   Reduced Motion Support
+   ============================================ */
+
+/**
+ * Respect user preference for reduced motion
+ * WCAG 2.3.3 Animation from Interactions - Level AAA
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .skip-link {
+    transition: none;
+  }
+}
+
+/* ============================================
+   ARIA Live Region Visibility
+   ============================================ */
+
+/**
+ * Ensure live regions are accessible but not visible
+ */
+#a11y-live-region {
+  /* Will use .sr-only class from JavaScript */
+}
+
+/* ============================================
+   Touch Target Sizing (Mobile)
+   ============================================ */
+
+/**
+ * Ensure minimum 44x44px touch targets on mobile
+ * WCAG 2.5.5 Target Size - Level AAA (recommended for mobile)
+ */
+@media (max-width: 768px) {
+  button,
+  a,
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"],
+  .copy-btn,
+  .mask-btn,
+  .nav-category-btn {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 12px 16px;
+  }
+
+  /* Ensure spacing between interactive elements */
+  button + button,
+  .mask-btn + .mask-btn {
+    margin-left: 8px;
+  }
+
+  /* Input fields should be easily tappable */
+  input[type="text"],
+  input[type="number"],
+  input[type="email"],
+  input[type="password"],
+  input[type="url"],
+  select,
+  textarea {
+    min-height: 44px;
+    padding: 12px;
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+}
+
+/* ============================================
+   Required Field Indicators
+   ============================================ */
+
+/**
+ * Visual indicator for required fields
+ * Combines with aria-required="true"
+ */
+[aria-required="true"]::after,
+.required::after {
+  content: ' *';
+  color: #ff5252;
+  font-weight: bold;
+  margin-left: 4px;
+}
+
+/* For labels associated with required inputs */
+label:has(+ [aria-required="true"])::after,
+label.required::after {
+  content: ' *';
+  color: #ff5252;
+  font-weight: bold;
+}
+
+/* ============================================
+   Disabled State
+   ============================================ */
+
+/**
+ * Clear disabled state styling
+ * Ensures 4.5:1 contrast ratio even for disabled elements
+ */
+button:disabled,
+input:disabled,
+select:disabled,
+textarea:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ============================================
+   Landmark Role Enhancements
+   ============================================ */
+
+/**
+ * Ensure main content area is clearly defined
+ */
+main,
+[role="main"] {
+  display: block;
+  position: relative;
+}
+
+/**
+ * Skip to content target styling
+ * Makes focus visible when skip link is used
+ */
+main:focus,
+[role="main"]:focus {
+  outline: none; /* Remove focus ring */
+}
+
+main:focus::before,
+[role="main"]:focus::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border: 3px solid #4fc3f7;
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+/* ============================================
+   Custom Checkbox/Radio Accessibility
+   ============================================ */
+
+/**
+ * Ensure custom controls maintain keyboard focus indicators
+ */
+input[type="checkbox"]:focus-visible + label,
+input[type="radio"]:focus-visible + label {
+  outline: 3px solid #4fc3f7;
+  outline-offset: 2px;
+}
+
+/* ============================================
+   Utility Classes
+   ============================================ */
+
+/**
+ * Force focus visibility (for debugging)
+ */
+.force-focus-visible:focus {
+  outline: 3px solid #ff0000 !important;
+  outline-offset: 2px !important;
+}
+
+/**
+ * Accessible hidden (display:none but preserves semantics)
+ */
+.a11y-hidden {
+  display: none !important;
+}
+
+[aria-hidden="true"] {
+  /* Already hidden from assistive tech, no additional styles needed */
+}
+
+/* ============================================
+   Print Styles
+   ============================================ */
+
+@media print {
+  .skip-link,
+  #a11y-live-region {
+    display: none !important;
+  }
+}

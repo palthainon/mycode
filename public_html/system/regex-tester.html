@@ -31,6 +31,8 @@
     <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
 
     <title>Regex Tester - OldWeb.tech</title>
+    <link rel="stylesheet" href="../a11y.css">
+    <script src="../a11y-utils.js"></script>
     <script src="../navigationv2.js"></script>
     <style>
         * {
@@ -464,13 +466,14 @@
     </script>
 </head>
 <body>
-    <div class="ascii-logo">  ___  _    _  __        __   _
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <div class="ascii-logo" aria-hidden="true">  ___  _    _  __        __   _
  / _ \| | _| | \ \      / /__| |__
 | | | | |/ _` | \ \ /\ / / _ \ '_ \
 | |_| | | (_| |  \ V  V /  __/ |_) |
  \___/|_|\__,_|   \_/\_/ \___|_.__/
 </div>
-    <div class="container">
+    <main id="main-content" class="container">
         <h1>Regex Tester</h1>
 
         <div class="calculator">
@@ -543,10 +546,10 @@
             <button class="btn secondary" onclick="loadSample()">Load Sample Data</button>
         </div>
 
-        <footer>
+        <footer role="contentinfo">
             Regex Tester - Works offline, no installation required
         </footer>
-    </div>
+    </main>
 
     <script>
         let matchesData = [];
@@ -823,6 +826,17 @@ Routing Table:
             clearHighlights();
             updateCharCounter();
         }
+    </script>
+    <script>
+        document.querySelector('.skip-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.getElementById('main-content');
+            if (target) {
+                target.setAttribute('tabindex', '-1');
+                target.focus();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
     </script>
 </body>
 </html>

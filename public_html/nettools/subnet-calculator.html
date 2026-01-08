@@ -31,6 +31,11 @@
     <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
 
     <title>IPv4 Subnet Calculator - OldWeb.tech</title>
+
+    <!-- Accessibility -->
+    <link rel="stylesheet" href="../a11y.css">
+    <script src="../a11y-utils.js"></script>
+
     <script src="../navigationv2.js"></script>
     <style>
         * {
@@ -489,27 +494,36 @@
     </script>
 </head>
 <body>
-    <div class="ascii-logo">  ___  _    _  __        __   _
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <div class="ascii-logo" aria-hidden="true">  ___  _    _  __        __   _
  / _ \| | _| | \ \      / /__| |__
 | | | | |/ _` | \ \ /\ / / _ \ '_ \
 | |_| | | (_| |  \ V  V /  __/ |_) |
  \___/|_|\__,_|   \_/\_/ \___|_.__/
 </div>
-    <div class="container">
+    <main id="main-content" class="container">
         <h1>IPv4 Subnet Calculator</h1>
         <div class="protocol-toggle-container">
             <a href="subnet-calculator-ipv6.html" class="protocol-toggle-link protocol-toggle-ipv6">Switch to IPv6 →</a>
         </div>
 
         <div class="calculator">
+            <form id="subnet-form" aria-label="Subnet Calculator Form">
             <div class="input-group">
                 <div class="input-field">
                     <label for="ipAddress">IP Address</label>
-                    <input type="text" id="ipAddress" placeholder="192.168.1.100">
+                    <input type="text"
+                           id="ipAddress"
+                           placeholder="192.168.1.100"
+                           aria-required="true"
+                           aria-describedby="ip-help"
+                           autocomplete="off">
+                    <span id="ip-help" class="sr-only">Enter an IPv4 address in dotted decimal notation, for example 192.168.1.100</span>
                 </div>
                 <div class="input-field">
                     <label for="cidr">CIDR / Prefix Length</label>
-                    <select id="cidr">
+                    <select id="cidr"
+                            aria-describedby="cidr-help">
                         <option value="8">/8 - 255.0.0.0</option>
                         <option value="9">/9 - 255.128.0.0</option>
                         <option value="10">/10 - 255.192.0.0</option>
@@ -536,33 +550,35 @@
                         <option value="31">/31 - 255.255.255.254</option>
                         <option value="32">/32 - 255.255.255.255</option>
                     </select>
+                    <span id="cidr-help" class="sr-only">Select the CIDR prefix length or subnet mask for your network</span>
                 </div>
             </div>
 
-            <button class="btn" onclick="calculate()">Calculate Subnet</button>
+            <button type="button" class="btn" onclick="calculate()" aria-label="Calculate subnet details for the entered IP address and CIDR">Calculate Subnet</button>
 
             <div class="quick-masks">
-                <h3>Quick Select Common Masks:</h3>
-                <div class="mask-buttons">
-                    <button class="mask-btn" onclick="setMask(8)">/8 Class A</button>
-                    <button class="mask-btn" onclick="setMask(16)">/16 Class B</button>
-                    <button class="mask-btn" onclick="setMask(24)">/24 Class C</button>
-                    <button class="mask-btn" onclick="setMask(25)">/25 (128)</button>
-                    <button class="mask-btn" onclick="setMask(26)">/26 (64)</button>
-                    <button class="mask-btn" onclick="setMask(27)">/27 (32)</button>
-                    <button class="mask-btn" onclick="setMask(28)">/28 (16)</button>
-                    <button class="mask-btn" onclick="setMask(29)">/29 (8)</button>
-                    <button class="mask-btn" onclick="setMask(30)">/30 (4)</button>
+                <h3 id="quick-masks-label">Quick Select Common Masks:</h3>
+                <div class="mask-buttons" role="group" aria-labelledby="quick-masks-label">
+                    <button type="button" class="mask-btn" onclick="setMask(8)" aria-label="Set CIDR to /8, Class A network with 255.0.0.0 subnet mask, 16 million hosts">/8 Class A</button>
+                    <button type="button" class="mask-btn" onclick="setMask(16)" aria-label="Set CIDR to /16, Class B network with 255.255.0.0 subnet mask, 65 thousand hosts">/16 Class B</button>
+                    <button type="button" class="mask-btn" onclick="setMask(24)" aria-label="Set CIDR to /24, Class C network with 255.255.255.0 subnet mask, 254 hosts">/24 Class C</button>
+                    <button type="button" class="mask-btn" onclick="setMask(25)" aria-label="Set CIDR to /25, 128 total addresses, 126 usable hosts">/25 (128)</button>
+                    <button type="button" class="mask-btn" onclick="setMask(26)" aria-label="Set CIDR to /26, 64 total addresses, 62 usable hosts">/26 (64)</button>
+                    <button type="button" class="mask-btn" onclick="setMask(27)" aria-label="Set CIDR to /27, 32 total addresses, 30 usable hosts">/27 (32)</button>
+                    <button type="button" class="mask-btn" onclick="setMask(28)" aria-label="Set CIDR to /28, 16 total addresses, 14 usable hosts">/28 (16)</button>
+                    <button type="button" class="mask-btn" onclick="setMask(29)" aria-label="Set CIDR to /29, 8 total addresses, 6 usable hosts">/29 (8)</button>
+                    <button type="button" class="mask-btn" onclick="setMask(30)" aria-label="Set CIDR to /30, 4 total addresses, 2 usable hosts, point-to-point links">/30 (4)</button>
                 </div>
             </div>
 
-            <div class="error" id="error"></div>
+            <div class="error" id="error" role="alert" aria-live="assertive" aria-atomic="true"></div>
+            </form>
         </div>
 
-        <div class="results" id="results">
+        <div class="results" id="results" role="region" aria-live="polite" aria-label="Subnet calculation results">
             <div class="section-header">
                 <h2>Subnet Details</h2>
-                <button class="export-btn" onclick="exportSubnetDetailsToCSV()">Export to CSV</button>
+                <button type="button" class="export-btn" onclick="exportSubnetDetailsToCSV()" aria-label="Export subnet details to CSV file">Export to CSV</button>
             </div>
             <div class="results-grid">
                 <div class="result-item">
@@ -624,10 +640,10 @@
             </div>
         </div>
 
-        <div class="subnet-list" id="subnetList">
+        <div class="subnet-list" id="subnetList" role="region" aria-label="All subnets in network">
             <div class="section-header">
                 <h2>All Subnets in Network</h2>
-                <button class="export-btn" onclick="exportSubnetListToCSV()">Export to CSV</button>
+                <button type="button" class="export-btn" onclick="exportSubnetListToCSV()" aria-label="Export subnet list to CSV file">Export to CSV</button>
             </div>
             <div class="subnet-list-info" id="subnetListInfo"></div>
             <div class="subnet-table-container">
@@ -647,10 +663,10 @@
             </div>
         </div>
 
-        <footer>
+        <footer role="contentinfo">
             Subnet Calculator - Works offline, no installation required
         </footer>
-    </div>
+    </main>
 
     <script>
         // Set quick mask selection
@@ -812,6 +828,7 @@
         // Main calculate function
         function calculate() {
             const ipInput = document.getElementById('ipAddress').value.trim();
+            const ipAddressField = document.getElementById('ipAddress');
             const cidr = parseInt(document.getElementById('cidr').value, 10);
             const errorDiv = document.getElementById('error');
             const resultsDiv = document.getElementById('results');
@@ -819,12 +836,19 @@
             // Hide previous results
             resultsDiv.classList.remove('show');
             errorDiv.classList.remove('show');
+            errorDiv.textContent = '';
             document.getElementById('subnetList').classList.remove('show');
+
+            // Clear any previous errors
+            A11yUtils.clearError(ipAddressField);
 
             // Validate IP
             if (!isValidIP(ipInput)) {
-                errorDiv.textContent = 'Please enter a valid IPv4 address (e.g., 192.168.1.100)';
+                const errorMsg = 'Please enter a valid IPv4 address (e.g., 192.168.1.100)';
+                errorDiv.textContent = errorMsg;
                 errorDiv.classList.add('show');
+                A11yUtils.showError(ipAddressField, errorMsg);
+                ipAddressField.focus();
                 return;
             }
 
@@ -863,9 +887,23 @@
             // Show results
             resultsDiv.classList.add('show');
 
+            // Announce results to screen readers
+            A11yUtils.announce(`Subnet calculation complete. Network address is ${intToIP(networkInt)} slash ${cidr}. ${usableHosts.toLocaleString()} usable hosts.`, 'polite');
+
             // Generate subnet list
             generateSubnetList(ipInt, cidr, networkInt);
         }
+
+        // Initialize accessibility - announce when skip link is used
+        document.querySelector('.skip-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.getElementById('main-content');
+            if (target) {
+                target.setAttribute('tabindex', '-1');
+                target.focus();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
 
         // Allow Enter key to calculate
         document.getElementById('ipAddress').addEventListener('keypress', function(e) {
@@ -924,6 +962,7 @@
             const filename = `subnet-details-${networkAddress.replace(/\./g, '-')}${cidrNotation}.csv`;
 
             downloadCSV(filename, csvContent);
+            A11yUtils.announce('Subnet details exported to CSV file', 'polite');
         }
 
         function exportSubnetListToCSV() {
@@ -975,6 +1014,7 @@
             const filename = `subnet-list-${new Date().toISOString().split('T')[0]}.csv`;
 
             downloadCSV(filename, csvContent);
+            A11yUtils.announce(`Subnet list exported to CSV file. ${rows.length} subnets exported.`, 'polite');
         }
     </script>
 </body>

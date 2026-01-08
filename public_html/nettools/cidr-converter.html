@@ -31,6 +31,8 @@
     <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
 
     <title>CIDR Notation Converter - OldWeb.tech</title>
+    <link rel="stylesheet" href="../a11y.css">
+    <script src="../a11y-utils.js"></script>
     <script src="../navigationv2.js"></script>
     <style>
         * {
@@ -590,14 +592,15 @@
     </script>
 </head>
 <body>
-    <div class="ascii-logo">  ___  _     _  __        __   _
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <div class="ascii-logo" aria-hidden="true">  ___  _     _  __        __   _
  / _ \| | __| | \ \      / /__| |__
 | | | | |/ _` |  \ \ /\ / / _ \ '_ \
 | |_| | | (_| |   \ V  V /  __/ |_) |
  \___/|_|\__,_|    \_/\_/ \___|_.__/
 </div>
 
-    <div class="container">
+    <main id="main-content" class="container">
         <h1>CIDR Notation Converter</h1>
 
         <div class="mode-toggle">
@@ -675,10 +678,10 @@ permit ip 192.168.100.0 0.0.0.255"></textarea>
 
         <div class="results" id="results"></div>
 
-        <footer>
+        <footer role="contentinfo">
             CIDR Converter - Works offline, no installation required
         </footer>
-    </div>
+    </main>
 
     <script>
         let currentMode = 'single';
@@ -1458,6 +1461,17 @@ permit ip 192.168.100.0 0.0.0.255"></textarea>
 
         document.getElementById('reverseEnd').addEventListener('keypress', e => {
             if (e.key === 'Enter') calculateReverse();
+        });
+    </script>
+    <script>
+        document.querySelector('.skip-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.getElementById('main-content');
+            if (target) {
+                target.setAttribute('tabindex', '-1');
+                target.focus();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
         });
     </script>
 </body>
