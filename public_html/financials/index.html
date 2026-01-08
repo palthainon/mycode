@@ -6,37 +6,37 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Fast, simple, offline-ready utilities organized into Network Tools, System Tools, and Data Tools. For network engineers and system administrators.">
-    <meta name="keywords" content="network tools, subnet calculator, CIDR converter, sysadmin utilities, network utilities, IPv4 calculator, IPv6 calculator, regex tester, password generator, free tools">
+    <meta name="description" content="Financial calculators including loan amortization, mortgage payment calculators, and interest calculations. Fast, accurate, offline-ready utilities for financial planning.">
+    <meta name="keywords" content="financial tools, amortization calculator, mortgage calculator, loan calculator, interest calculator, payment schedule">
     <meta name="author" content="OldWeb LLC">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://oldweb.tech/">
+    <link rel="canonical" href="https://oldweb.tech/financials/">
 
     <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Network Tools - OldWeb.tech">
-    <meta property="og:description" content="Free offline network tools including subnet calculators, CIDR converters, password generators, and more. No installation, no tracking, fast and reliable.">
+    <meta property="og:title" content="Financial Tools - OldWeb.tech">
+    <meta property="og:description" content="Financial calculators including loan amortization, mortgage payment calculators, and interest calculations. Fast, accurate, offline-ready utilities for financial planning.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://oldweb.tech/">
+    <meta property="og:url" content="https://oldweb.tech/financials/">
     <meta property="og:site_name" content="OldWeb.tech">
 
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Network Tools - OldWeb.tech">
-    <meta name="twitter:description" content="Free offline network tools including subnet calculators, CIDR converters, password generators, and more. No installation, no tracking, fast and reliable.">
+    <meta name="twitter:title" content="Financial Tools - OldWeb.tech">
+    <meta name="twitter:description" content="Financial calculators including loan amortization, mortgage payment calculators, and interest calculations. Fast, accurate, offline-ready utilities for financial planning.">
 
     <!-- Additional Meta Tags -->
     <meta name="theme-color" content="#1a1a2e">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="32x32" href="logo/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
 
-    <title>Network Tools - OldWeb.tech</title>
+    <title>Financial Tools - OldWeb.tech</title>
 
     <!-- Accessibility -->
-    <link rel="stylesheet" href="a11y.css">
-    <script src="a11y-utils.js"></script>
+    <link rel="stylesheet" href="../a11y.css">
+    <script src="../a11y-utils.js"></script>
 
-    <script src="navigationv2.js"></script>
+    <script src="../navigationv2.js"></script>
     <style>
         * {
             margin: 0;
@@ -138,16 +138,7 @@
         }
 
         .tool-link::after {
-            content: ' →';
-        }
-
-        .tool-card .tool-list {
-            color: rgba(144, 202, 249, 0.7);
-            font-size: 0.85rem;
-            line-height: 1.8;
-            margin-top: 12px;
-            padding-top: 12px;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            content: ' \2192';
         }
 
         footer {
@@ -194,20 +185,14 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "Network Tools",
-      "description": "Free offline network tools including subnet calculators, CIDR converters, password generators, and more. No installation, no tracking, fast and reliable.",
-      "url": "https://oldweb.tech/",
-      "applicationCategory": "UtilitiesApplication",
-      "operatingSystem": "Web Browser",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
-      "creator": {
-        "@type": "Organization",
-        "name": "OldWeb.tech"
+      "@type": "CollectionPage",
+      "name": "Financial Tools",
+      "description": "Financial calculators including loan amortization, mortgage payment calculators, and interest calculations. Fast, accurate, offline-ready utilities for financial planning.",
+      "url": "https://oldweb.tech/financials/",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "OldWeb.tech",
+        "url": "https://oldweb.tech/"
       }
     }
     </script>
@@ -221,41 +206,19 @@
  \___/|_|\__,_|   \_/\_/ \___|_.__/
 </div>
     <main id="main-content" class="container">
-        <h1>Network Tools</h1>
-        <p class="subtitle">Fast, simple, offline-ready utilities for network engineers and system administrators</p>
+        <h1>Financial Tools</h1>
+        <p class="subtitle">Loan and mortgage calculators for financial planning and analysis</p>
 
         <div class="tools-grid">
-            <a href="nettools/index.html" class="tool-card">
-                <h2>Network Tools</h2>
-                <p>IP and subnet calculators, CIDR converters, and network planning utilities for network engineers.</p>
-                <div class="tool-list">Subnet Calculator • IPv6 Subnet Calculator • Subnet Planner • CIDR Converter • Bit Calculator • Data Transfer Calculator</div>
-                <span class="tool-link">Explore Network Tools</span>
-            </a>
-
-            <a href="system/index.html" class="tool-card">
-                <h2>System Tools</h2>
-                <p>Unix/Linux system administration utilities including permissions, cron scheduling, disk planning, and log analysis.</p>
-                <div class="tool-list">Chmod Calculator • Cron Builder • DISK Tools • Password Generator • Regex Tester • Log Timestamp Converter</div>
-                <span class="tool-link">Explore System Tools</span>
-            </a>
-
-            <a href="data/index.html" class="tool-card">
-                <h2>Data Tools</h2>
-                <p>Data encoding, hashing, and format conversion utilities for developers and security professionals.</p>
-                <div class="tool-list">Base64 & Hash Tools</div>
-                <span class="tool-link">Explore Data Tools</span>
-            </a>
-
-            <a href="financials/index.html" class="tool-card">
-                <h2>Financial Tools</h2>
-                <p>Loan and mortgage calculators for financial planning, payment schedules, and interest analysis.</p>
-                <div class="tool-list">Amortization Calculator</div>
-                <span class="tool-link">Explore Financial Tools</span>
+            <a href="amortization-calculator.html" class="tool-card">
+                <h2>Amortization Calculator</h2>
+                <p>Calculate monthly payments, total interest, and generate complete amortization schedules for fixed-rate mortgages and loans. View payment-by-payment breakdown of principal and interest.</p>
+                <span class="tool-link">Open Calculator</span>
             </a>
         </div>
 
         <footer role="contentinfo">
-            Network Tools - Works offline, no installation required
+            Financial Tools - Works offline, no installation required
         </footer>
     </main>
 

@@ -23,6 +23,9 @@
         ],
         data: [
             { name: 'Base64/Hash', file: 'data/base64-hash.html', id: 'base64' }
+        ],
+        financials: [
+            { name: 'Amortization', file: 'financials/amortization-calculator.html', id: 'amortization' }
         ]
     };
 
@@ -240,6 +243,9 @@
         }
         if (pathname.includes('/data/') && (filename === 'index.html' || filename === '')) {
             return { id: 'data-home', category: 'data' };
+        }
+        if (pathname.includes('/financials/') && (filename === 'index.html' || filename === '')) {
+            return { id: 'financials-home', category: 'financials' };
         }
 
         // Handle root home page (only if not in a subfolder)
