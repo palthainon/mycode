@@ -9,19 +9,20 @@
         network: [
             { name: 'Subnet Calculator', file: 'nettools/subnet-calculator.html', id: 'subnet' },
             { name: 'Subnet Planner', file: 'nettools/subnet-planner.html', id: 'planner' },
-            { name: 'CIDR Converter', file: 'nettools/cidr-converter.html', id: 'cidr' },
+            { name: 'CIDR Convert', file: 'nettools/cidr-converter.html', id: 'cidr' },
             { name: 'Bit Calc', file: 'nettools/bit-calculator.html', id: 'bit' },
-            { name: 'Data Rate', file: 'nettools/data-rate-calculator.html', id: 'data-rate' },
+            { name: 'Data-Rate Calc', file: 'nettools/data-rate-calculator.html', id: 'data-rate' },
+            { name: 'MTU Calculator', file: 'nettools/mtu-calculator.html', id: 'mtu' },
             { name: 'Jinja Builder', file: 'nettools/jinja-builder.html', id: 'jinja' }
         ],
         system: [
             { name: 'Regex', file: 'system/regex-tester.html', id: 'regex' },
-            { name: 'Timestamp', file: 'system/timestamp-converter.html', id: 'timestamp' },
+            { name: 'Timestamp Convert', file: 'system/timestamp-converter.html', id: 'timestamp' },
             { name: 'Disk Tools', file: 'system/disk-tools.html', id: 'disk' },
             { name: 'Cron', file: 'system/cron-builder.html', id: 'cron' },
             { name: 'Chmod', file: 'system/chmod-calculator.html', id: 'chmod' },
-            { name: 'Password', file: 'system/password-generator.html', id: 'password' },
-            { name: 'Cert Parser', file: 'system/certificate-parser.html', id: 'cert-parser' }
+            { name: 'Password Gen', file: 'system/password-generator.html', id: 'password' },
+            { name: 'Certificate Parse', file: 'system/certificate-parser.html', id: 'cert-parser' }
         ],
         data: [
             { name: 'Base64/Hash', file: 'data/base64-hash.html', id: 'base64' },

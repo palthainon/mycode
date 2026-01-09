@@ -690,12 +690,7 @@
                     class="mode-btn active"
                     onclick="switchMode('basic')"
                     aria-pressed="true"
-                    aria-label="Basic MTU calculator with protocol selection">Basic Calculator</button>
-            <button type="button"
-                    class="mode-btn"
-                    onclick="switchMode('vpn')"
-                    aria-pressed="false"
-                    aria-label="VPN encryption overhead calculator">VPN Overhead</button>
+                    aria-label="MTU calculator with protocol and VPN overhead selection">MTU Calculator</button>
             <button type="button"
                     class="mode-btn"
                     onclick="switchMode('stack')"
@@ -763,7 +758,7 @@
                     </div>
 
                     <div class="checkbox-group">
-                        <h3 id="additional-label">Additional Overhead</h3>
+                        <h3 id="additional-label">Layer 2 Overhead</h3>
                         <div class="checkbox-options" role="group" aria-labelledby="additional-label">
                             <div class="checkbox-item">
                                 <input type="checkbox" id="basicPppoe">
@@ -777,9 +772,39 @@
                                 <input type="checkbox" id="basicQinq">
                                 <label for="basicQinq">QinQ Double Tag <span class="overhead-info">(8 bytes)</span></label>
                             </div>
+                        </div>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <h3 id="tunnel-label">Tunnel / VPN Overhead</h3>
+                        <div class="checkbox-options" role="radiogroup" aria-labelledby="tunnel-label" style="flex-direction: column; gap: 10px;">
                             <div class="checkbox-item">
-                                <input type="checkbox" id="basicGre">
-                                <label for="basicGre">GRE Tunnel <span class="overhead-info">(24 bytes)</span></label>
+                                <input type="radio" id="tunnelNone" name="basicTunnel" value="none" checked>
+                                <label for="tunnelNone">None</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="radio" id="tunnelGre" name="basicTunnel" value="gre">
+                                <label for="tunnelGre">GRE Tunnel <span class="overhead-info">(24 bytes)</span></label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="radio" id="tunnelIpsecTunnel" name="basicTunnel" value="ipsec-tunnel">
+                                <label for="tunnelIpsecTunnel">IPsec ESP Tunnel Mode <span class="overhead-info">(~73 bytes)</span></label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="radio" id="tunnelIpsecTransport" name="basicTunnel" value="ipsec-transport">
+                                <label for="tunnelIpsecTransport">IPsec ESP Transport Mode <span class="overhead-info">(~53 bytes)</span></label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="radio" id="tunnelOpenvpnUdp" name="basicTunnel" value="openvpn-udp">
+                                <label for="tunnelOpenvpnUdp">OpenVPN UDP <span class="overhead-info">(~29 bytes)</span></label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="radio" id="tunnelOpenvpnTcp" name="basicTunnel" value="openvpn-tcp">
+                                <label for="tunnelOpenvpnTcp">OpenVPN TCP <span class="overhead-info">(~41 bytes)</span></label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="radio" id="tunnelWireguard" name="basicTunnel" value="wireguard">
+                                <label for="tunnelWireguard">WireGuard <span class="overhead-info">(~32 bytes)</span></label>
                             </div>
                         </div>
                     </div>
@@ -800,65 +825,6 @@
                             class="btn"
                             onclick="calculateBasic()"
                             aria-label="Calculate MTU with selected options">Calculate MTU</button>
-                </form>
-            </div>
-
-            <!-- VPN Overhead Mode -->
-            <div id="vpn-mode" class="mode-section">
-                <form id="vpn-form" aria-label="VPN Overhead Calculator Form">
-                    <div class="input-group">
-                        <div class="input-field">
-                            <label for="vpnMtu">Interface MTU (bytes)</label>
-                            <input type="number"
-                                   id="vpnMtu"
-                                   value="1500"
-                                   min="68"
-                                   max="9000"
-                                   aria-required="true"
-                                   aria-describedby="vpn-mtu-help">
-                            <span id="vpn-mtu-help" class="sr-only">Enter the physical interface MTU before VPN encapsulation</span>
-                        </div>
-                        <div class="input-field">
-                            <label for="vpnType">VPN Type</label>
-                            <select id="vpnType" aria-describedby="vpn-type-help">
-                                <option value="ipsec-tunnel">IPsec ESP Tunnel Mode (~73 bytes)</option>
-                                <option value="ipsec-transport">IPsec ESP Transport Mode (~53 bytes)</option>
-                                <option value="openvpn-udp">OpenVPN UDP (~29 bytes)</option>
-                                <option value="openvpn-tcp">OpenVPN TCP (~41 bytes)</option>
-                                <option value="wireguard">WireGuard (~32 bytes)</option>
-                            </select>
-                            <span id="vpn-type-help" class="sr-only">Select the VPN protocol to calculate its overhead</span>
-                        </div>
-                    </div>
-
-                    <div class="checkbox-group">
-                        <h3 id="vpn-ip-label">Inner IP Version (Tunneled Traffic)</h3>
-                        <div class="checkbox-options" role="radiogroup" aria-labelledby="vpn-ip-label">
-                            <div class="checkbox-item">
-                                <input type="radio" id="vpnIpv4" name="vpnIpVersion" value="ipv4" checked>
-                                <label for="vpnIpv4">IPv4 <span class="overhead-info">(20 bytes)</span></label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="radio" id="vpnIpv6" name="vpnIpVersion" value="ipv6">
-                                <label for="vpnIpv6">IPv6 <span class="overhead-info">(40 bytes)</span></label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="checkbox-group">
-                        <h3 id="vpn-additional-label">Additional Overhead</h3>
-                        <div class="checkbox-options" role="group" aria-labelledby="vpn-additional-label">
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="vpnPppoe">
-                                <label for="vpnPppoe">PPPoE <span class="overhead-info">(8 bytes)</span></label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button type="button"
-                            class="btn"
-                            onclick="calculateVpn()"
-                            aria-label="Calculate VPN overhead and effective MTU">Calculate VPN Overhead</button>
                 </form>
             </div>
 
@@ -1088,6 +1054,44 @@
                     </tr>
                 </tbody>
             </table>
+
+            <h3>VPN/Tunnel Overhead</h3>
+            <table class="reference-table">
+                <thead>
+                    <tr>
+                        <th>VPN Type</th>
+                        <th>Overhead</th>
+                        <th>Components</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>IPsec ESP Tunnel</td>
+                        <td>~73 bytes</td>
+                        <td>Outer IP (20) + ESP header (8) + IV (16) + trailer (2) + padding (~15) + ICV (12)</td>
+                    </tr>
+                    <tr>
+                        <td>IPsec ESP Transport</td>
+                        <td>~53 bytes</td>
+                        <td>ESP header (8) + IV (16) + trailer (2) + padding (~15) + ICV (12)</td>
+                    </tr>
+                    <tr>
+                        <td>OpenVPN UDP</td>
+                        <td>~29 bytes</td>
+                        <td>UDP header (8) + OpenVPN header (1) + HMAC (20)</td>
+                    </tr>
+                    <tr>
+                        <td>OpenVPN TCP</td>
+                        <td>~41 bytes</td>
+                        <td>TCP header (20) + OpenVPN header (1) + HMAC (20)</td>
+                    </tr>
+                    <tr>
+                        <td>WireGuard</td>
+                        <td>~32 bytes</td>
+                        <td>UDP header (8) + WG header (16) + Poly1305 auth (16)</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
 
         <footer role="contentinfo">
@@ -1222,11 +1226,11 @@
             const ipv4Radio = document.getElementById('basicIpv4');
             const ipv6Radio = document.getElementById('basicIpv6');
 
-            // Reset checkboxes
+            // Reset checkboxes and tunnel radio
             document.getElementById('basicPppoe').checked = false;
             document.getElementById('basicVlan').checked = false;
             document.getElementById('basicQinq').checked = false;
-            document.getElementById('basicGre').checked = false;
+            document.getElementById('tunnelNone').checked = true;
 
             switch (preset) {
                 case 'standard':
@@ -1245,6 +1249,7 @@
                 case 'vpn':
                     mtuField.value = 1400;
                     ipv4Radio.checked = true;
+                    document.getElementById('tunnelWireguard').checked = true;
                     break;
                 case 'ipv4min':
                     mtuField.value = 576;
@@ -1266,26 +1271,44 @@
 
             const ipVersion = document.querySelector('input[name="basicIpVersion"]:checked').value;
             const transport = document.querySelector('input[name="basicTransport"]:checked').value;
+            const tunnelType = document.querySelector('input[name="basicTunnel"]:checked').value;
 
             const layers = [];
             let totalOverhead = 0;
+            let l2Overhead = 0;
+            let tunnelOverhead = 0;
+            let vpnComponents = null;
 
             // Layer 2 overhead (reduces available MTU)
             if (document.getElementById('basicPppoe').checked) {
                 layers.push({ name: 'PPPoE', bytes: OVERHEAD.pppoe, type: 'l2' });
                 totalOverhead += OVERHEAD.pppoe;
+                l2Overhead += OVERHEAD.pppoe;
             }
             if (document.getElementById('basicVlan').checked && !document.getElementById('basicQinq').checked) {
                 layers.push({ name: 'VLAN 802.1Q', bytes: OVERHEAD.vlan, type: 'l2' });
                 totalOverhead += OVERHEAD.vlan;
+                l2Overhead += OVERHEAD.vlan;
             }
             if (document.getElementById('basicQinq').checked) {
                 layers.push({ name: 'QinQ Double Tag', bytes: OVERHEAD.qinq, type: 'l2' });
                 totalOverhead += OVERHEAD.qinq;
+                l2Overhead += OVERHEAD.qinq;
             }
-            if (document.getElementById('basicGre').checked) {
-                layers.push({ name: 'GRE Tunnel', bytes: OVERHEAD.gre, type: 'tunnel' });
-                totalOverhead += OVERHEAD.gre;
+
+            // Tunnel/VPN overhead
+            if (tunnelType !== 'none') {
+                if (tunnelType === 'gre') {
+                    layers.push({ name: 'GRE Tunnel', bytes: OVERHEAD.gre, type: 'tunnel' });
+                    totalOverhead += OVERHEAD.gre;
+                    tunnelOverhead = OVERHEAD.gre;
+                } else if (VPN_DETAILS[tunnelType]) {
+                    const vpnInfo = VPN_DETAILS[tunnelType];
+                    layers.push({ name: vpnInfo.name, bytes: vpnInfo.overhead, type: 'tunnel' });
+                    totalOverhead += vpnInfo.overhead;
+                    tunnelOverhead = vpnInfo.overhead;
+                    vpnComponents = vpnInfo.components;
+                }
             }
 
             // IP Layer
@@ -1294,31 +1317,32 @@
             totalOverhead += ipOverhead;
 
             // Transport Layer
+            let transportOverhead = 0;
             if (transport !== 'none') {
-                const transportOverhead = OVERHEAD[transport];
+                transportOverhead = OVERHEAD[transport];
                 const transportName = transport.toUpperCase() + ' Header';
                 layers.push({ name: transportName, bytes: transportOverhead, type: 'transport' });
                 totalOverhead += transportOverhead;
             }
 
-            const effectiveMtu = mtu - (document.getElementById('basicPppoe').checked ? OVERHEAD.pppoe : 0) -
-                                 (document.getElementById('basicVlan').checked && !document.getElementById('basicQinq').checked ? OVERHEAD.vlan : 0) -
-                                 (document.getElementById('basicQinq').checked ? OVERHEAD.qinq : 0);
-
-            const payload = effectiveMtu - ipOverhead - (transport !== 'none' ? OVERHEAD[transport] : 0) -
-                           (document.getElementById('basicGre').checked ? OVERHEAD.gre : 0);
-
+            const effectiveMtu = mtu - l2Overhead;
+            const tunnelMtu = effectiveMtu - tunnelOverhead;
+            const payload = tunnelMtu - ipOverhead - transportOverhead;
             const mss = transport === 'tcp' ? payload : null;
 
             lastResults = {
                 baseMtu: mtu,
                 effectiveMtu: effectiveMtu,
+                tunnelMtu: tunnelOverhead > 0 ? tunnelMtu : null,
                 payload: payload,
                 mss: mss,
                 totalOverhead: totalOverhead,
+                tunnelOverhead: tunnelOverhead,
                 layers: layers,
                 ipVersion: ipVersion,
-                transport: transport
+                transport: transport,
+                tunnelType: tunnelType,
+                vpnComponents: vpnComponents
             };
 
             displayBasicResults(lastResults);
@@ -1331,6 +1355,8 @@
             // Check for warnings
             if (results.payload < 0) {
                 warningHtml = `<div class="warning-badge">Negative payload! MTU is too small for selected protocols.</div>`;
+            } else if (results.tunnelMtu !== null && results.tunnelMtu < 1280) {
+                warningHtml = `<div class="warning-badge">Tunnel MTU is below 1280 bytes. Consider adjusting your base MTU or tunnel settings.</div>`;
             } else if (results.effectiveMtu < 576 && results.ipVersion === 'ipv4') {
                 warningHtml = `<div class="warning-badge">Effective MTU is below IPv4 minimum (576 bytes). Fragmentation may occur.</div>`;
             } else if (results.effectiveMtu < 1280 && results.ipVersion === 'ipv6') {
@@ -1353,6 +1379,23 @@
                 `;
             }
 
+            // VPN component breakdown
+            let vpnBreakdownHtml = '';
+            if (results.vpnComponents) {
+                const vpnName = VPN_DETAILS[results.tunnelType]?.name || 'VPN';
+                vpnBreakdownHtml = `
+                    <div class="overhead-breakdown" style="margin-top: 15px;">
+                        <h3>${vpnName} Component Breakdown</h3>
+                        ${results.vpnComponents.map(c => `
+                            <div class="layer-item overhead">
+                                <span class="layer-name">${c.name}</span>
+                                <span class="layer-bytes">${c.bytes} bytes</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
             resultsDiv.innerHTML = `
                 <h2>MTU Calculation Results</h2>
                 <div class="summary-grid">
@@ -1364,6 +1407,12 @@
                         <div class="stat-value">${results.effectiveMtu}</div>
                         <div class="stat-label">Effective MTU</div>
                     </div>
+                    ${results.tunnelMtu !== null ? `
+                    <div class="summary-card ${results.tunnelMtu < 1280 ? 'warning' : ''}">
+                        <div class="stat-value">${results.tunnelMtu}</div>
+                        <div class="stat-label">Tunnel MTU</div>
+                    </div>
+                    ` : ''}
                     <div class="summary-card ${results.payload < 0 ? 'error' : ''}">
                         <div class="stat-value">${results.payload}</div>
                         <div class="stat-label">Payload</div>
@@ -1372,6 +1421,12 @@
                     <div class="summary-card">
                         <div class="stat-value">${results.mss}</div>
                         <div class="stat-label">TCP MSS</div>
+                    </div>
+                    ` : ''}
+                    ${results.tunnelOverhead > 0 ? `
+                    <div class="summary-card">
+                        <div class="stat-value">${results.tunnelOverhead}</div>
+                        <div class="stat-label">Tunnel Overhead</div>
                     </div>
                     ` : ''}
                     <div class="summary-card">
@@ -1387,104 +1442,7 @@
                     ${layersHtml}
                 </div>
 
-                <div class="export-section">
-                    <button type="button" class="export-btn" onclick="exportCSV()" aria-label="Export results to CSV file">Export CSV</button>
-                    <button type="button" class="export-btn json" onclick="exportJSON()" aria-label="Export results to JSON file">Export JSON</button>
-                </div>
-            `;
-
-            resultsDiv.classList.add('show');
-            A11yUtils.announce(`MTU calculation complete. Effective MTU is ${results.effectiveMtu} bytes with ${results.payload} bytes available payload.`, 'polite');
-        }
-
-        // VPN Calculator
-        function calculateVpn() {
-            const mtu = parseInt(document.getElementById('vpnMtu').value, 10);
-            if (!validateMtu(mtu, 'vpnMtu')) return;
-
-            const vpnType = document.getElementById('vpnType').value;
-            const ipVersion = document.querySelector('input[name="vpnIpVersion"]:checked').value;
-            const hasPppoe = document.getElementById('vpnPppoe').checked;
-
-            const vpnInfo = VPN_DETAILS[vpnType];
-            const ipOverhead = ipVersion === 'ipv4' ? OVERHEAD.ipv4 : OVERHEAD.ipv6;
-            const pppoeOverhead = hasPppoe ? OVERHEAD.pppoe : 0;
-
-            const effectiveMtu = mtu - pppoeOverhead;
-            const tunnelMtu = effectiveMtu - vpnInfo.overhead;
-            const payload = tunnelMtu - ipOverhead - OVERHEAD.tcp;
-            const mss = payload;
-
-            const layers = [];
-            if (hasPppoe) {
-                layers.push({ name: 'PPPoE', bytes: OVERHEAD.pppoe });
-            }
-            vpnInfo.components.forEach(c => layers.push(c));
-            layers.push({ name: ipVersion === 'ipv4' ? 'Inner IPv4' : 'Inner IPv6', bytes: ipOverhead });
-            layers.push({ name: 'TCP Header', bytes: OVERHEAD.tcp });
-
-            lastResults = {
-                baseMtu: mtu,
-                effectiveMtu: effectiveMtu,
-                vpnType: vpnInfo.name,
-                vpnOverhead: vpnInfo.overhead,
-                tunnelMtu: tunnelMtu,
-                payload: payload,
-                mss: mss,
-                ipVersion: ipVersion,
-                layers: layers,
-                totalOverhead: vpnInfo.overhead + ipOverhead + OVERHEAD.tcp + pppoeOverhead
-            };
-
-            displayVpnResults(lastResults);
-        }
-
-        function displayVpnResults(results) {
-            const resultsDiv = document.getElementById('results');
-            let warningHtml = '';
-
-            if (results.tunnelMtu < 1280) {
-                warningHtml = `<div class="warning-badge">Tunnel MTU is below 1280 bytes. Consider adjusting your base MTU or VPN settings.</div>`;
-            }
-
-            const layersHtml = results.layers.map(layer => `
-                <div class="layer-item overhead">
-                    <span class="layer-name">${layer.name}</span>
-                    <span class="layer-bytes">-${layer.bytes} bytes</span>
-                </div>
-            `).join('');
-
-            resultsDiv.innerHTML = `
-                <h2>VPN Overhead Results</h2>
-                <div class="summary-grid">
-                    <div class="summary-card">
-                        <div class="stat-value">${results.baseMtu}</div>
-                        <div class="stat-label">Interface MTU</div>
-                    </div>
-                    <div class="summary-card">
-                        <div class="stat-value">${results.vpnOverhead}</div>
-                        <div class="stat-label">VPN Overhead</div>
-                    </div>
-                    <div class="summary-card ${results.tunnelMtu < 1280 ? 'warning' : ''}">
-                        <div class="stat-value">${results.tunnelMtu}</div>
-                        <div class="stat-label">Tunnel MTU</div>
-                    </div>
-                    <div class="summary-card">
-                        <div class="stat-value">${results.mss}</div>
-                        <div class="stat-label">TCP MSS</div>
-                    </div>
-                </div>
-
-                ${warningHtml}
-
-                <div class="overhead-breakdown">
-                    <h3>${results.vpnType} Overhead Breakdown</h3>
-                    ${layersHtml}
-                    <div class="layer-item payload">
-                        <span class="layer-name">Available Payload</span>
-                        <span class="layer-bytes">${results.payload} bytes</span>
-                    </div>
-                </div>
+                ${vpnBreakdownHtml}
 
                 <div class="export-section">
                     <button type="button" class="export-btn" onclick="exportCSV()" aria-label="Export results to CSV file">Export CSV</button>
@@ -1493,7 +1451,8 @@
             `;
 
             resultsDiv.classList.add('show');
-            A11yUtils.announce(`VPN calculation complete. ${results.vpnType} has ${results.vpnOverhead} bytes overhead. Tunnel MTU is ${results.tunnelMtu} bytes.`, 'polite');
+            const tunnelInfo = results.tunnelMtu !== null ? ` Tunnel MTU is ${results.tunnelMtu} bytes.` : '';
+            A11yUtils.announce(`MTU calculation complete. Effective MTU is ${results.effectiveMtu} bytes with ${results.payload} bytes available payload.${tunnelInfo}`, 'polite');
         }
 
         // Protocol Stack Builder
@@ -1767,18 +1726,14 @@
 
             if (currentMode === 'basic' || currentMode === 'stack') {
                 rows.push(['Base MTU', lastResults.baseMtu]);
+                rows.push(['Effective MTU', lastResults.effectiveMtu]);
+                if (lastResults.tunnelMtu !== null) {
+                    rows.push(['Tunnel MTU', lastResults.tunnelMtu]);
+                    rows.push(['Tunnel Overhead', lastResults.tunnelOverhead]);
+                }
                 rows.push(['Total Overhead', lastResults.totalOverhead]);
                 rows.push(['Available Payload', lastResults.payload]);
                 if (lastResults.mss) rows.push(['TCP MSS', lastResults.mss]);
-                rows.push(['']);
-                rows.push(['Protocol Layer', 'Bytes']);
-                lastResults.layers.forEach(l => rows.push([l.name, l.bytes]));
-            } else if (currentMode === 'vpn') {
-                rows.push(['Interface MTU', lastResults.baseMtu]);
-                rows.push(['VPN Type', lastResults.vpnType]);
-                rows.push(['VPN Overhead', lastResults.vpnOverhead]);
-                rows.push(['Tunnel MTU', lastResults.tunnelMtu]);
-                rows.push(['TCP MSS', lastResults.mss]);
                 rows.push(['']);
                 rows.push(['Protocol Layer', 'Bytes']);
                 lastResults.layers.forEach(l => rows.push([l.name, l.bytes]));
@@ -1820,10 +1775,6 @@
             if (e.key === 'Enter') calculateBasic();
         });
 
-        document.getElementById('vpnMtu').addEventListener('keypress', e => {
-            if (e.key === 'Enter') calculateVpn();
-        });
-
         document.getElementById('stackMtu').addEventListener('keypress', e => {
             if (e.key === 'Enter') calculateStack();
         });
@@ -1852,14 +1803,6 @@
             input.addEventListener('change', () => {
                 if (document.getElementById('basicMtu').value) {
                     calculateBasic();
-                }
-            });
-        });
-
-        document.querySelectorAll('#vpn-mode input, #vpn-mode select').forEach(input => {
-            input.addEventListener('change', () => {
-                if (document.getElementById('vpnMtu').value) {
-                    calculateVpn();
                 }
             });
         });
