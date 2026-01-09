@@ -12,7 +12,7 @@
             { name: 'CIDR Convert', file: 'nettools/cidr-converter.html', id: 'cidr' },
             { name: 'Bit Calc', file: 'nettools/bit-calculator.html', id: 'bit' },
             { name: 'Data-Rate Calc', file: 'nettools/data-rate-calculator.html', id: 'data-rate' },
-            { name: 'MTU Calculator', file: 'nettools/mtu-calculator.html', id: 'mtu' },
+            { name: 'MTU Calc', file: 'nettools/mtu-calculator.html', id: 'mtu' },
             { name: 'Jinja Builder', file: 'nettools/jinja-builder.html', id: 'jinja' }
         ],
         system: [
