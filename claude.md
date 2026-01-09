@@ -91,10 +91,21 @@
 4. **Make it obvious** - UI should be self-explanatory, no documentation needed
 5. **Build for real use** - Every tool should solve an actual problem you've encountered
 6. **Maintain Navigation Consistency** - All tools must have identical navigation structure and styling
-7. **Always check for ADA compliance** - Match subnet-calculator.html for reference
+- Tab through all controls with keyboard
+- Test with screen reader (announcements work)
+- Verify skip-link functionality
+- Check focus indicators visible
+- Validate ARIA attributes
+7. **Cross-browser testing:**
+- Chrome, Firefox, Safari minimum
+8. **Navigation verification:**
+- Confirm tool appears in Data dropdown
+- Verify current page highlighting works
+- Test navigation from other pages
+9. **Offline capability:**
+- Verify tool works without network after first load
 
 ## Success Criteria
-
 A tool is done when:
 - It loads in under 1 second on a 3G connection
 - It handles malformed input without breaking
@@ -112,3 +123,8 @@ A tool is done when:
 ## What This Project IS
 
 A collection of fast, reliable, no-nonsense utilities that solve actual problems encountered by network engineers and systems administrators in their daily work.
+
+
+
+ Verification Plan
+
