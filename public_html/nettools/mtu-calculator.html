@@ -1,0 +1,1876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Calculate MTU (Maximum Transmission Unit) and MSS (Maximum Segment Size) with protocol overhead analysis. Includes VPN encryption overhead, PPPoE, VLAN tagging, and generates Path MTU Discovery commands.">
+    <meta name="keywords" content="MTU calculator, MSS calculator, Maximum Transmission Unit, packet size, VPN overhead, IPsec, OpenVPN, WireGuard, PPPoE, PMTUD, path MTU discovery">
+    <meta name="author" content="OldWeb LLC">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://oldweb.tech/nettools/mtu-calculator.html">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="MTU Calculator - OldWeb.tech">
+    <meta property="og:description" content="Calculate MTU and MSS with protocol overhead analysis. Includes VPN encryption overhead, PPPoE, VLAN tagging, and generates Path MTU Discovery commands.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oldweb.tech/nettools/mtu-calculator.html">
+    <meta property="og:site_name" content="OldWeb.tech">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="MTU Calculator - OldWeb.tech">
+    <meta name="twitter:description" content="Calculate MTU and MSS with protocol overhead analysis. Includes VPN encryption overhead, PPPoE, VLAN tagging, and generates Path MTU Discovery commands.">
+
+    <!-- Additional Meta Tags -->
+    <meta name="theme-color" content="#1a1a2e">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
+
+    <title>MTU Calculator - OldWeb.tech</title>
+    <link rel="stylesheet" href="../a11y.css">
+    <script src="../a11y-utils.js"></script>
+    <script src="../navigationv2.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 2.5rem;
+            color: #4fc3f7;
+            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #90caf9;
+            font-size: 1rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        /* ASCII Logo */
+        .ascii-logo {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.65rem;
+            line-height: 1.1;
+            color: #4fc3f7;
+            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
+            opacity: 0.8;
+            white-space: pre;
+        }
+
+        /* Mode Toggle */
+        .mode-toggle {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 10px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .mode-btn {
+            background: rgba(79, 195, 247, 0.1);
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            color: #4fc3f7;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            font-weight: 600;
+        }
+
+        .mode-btn:hover {
+            background: rgba(79, 195, 247, 0.2);
+            border-color: #4fc3f7;
+        }
+
+        .mode-btn.active {
+            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
+            color: #fff;
+            border-color: #4fc3f7;
+        }
+
+        /* Calculator Container */
+        .calculator {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .input-field {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .input-field.full-width {
+            flex: 100%;
+            min-width: 100%;
+        }
+
+        .input-field label {
+            display: block;
+            margin-bottom: 8px;
+            color: #90caf9;
+            font-weight: 500;
+        }
+
+        .input-field input, .input-field select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: #0f1419;
+            color: #fff;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        .input-field select option {
+            background: #0f1419;
+            color: #fff;
+        }
+
+        .input-field input:focus, .input-field select:focus {
+            outline: none;
+            border-color: #4fc3f7;
+            box-shadow: 0 0 15px rgba(79, 195, 247, 0.2);
+        }
+
+        .input-field input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* Checkbox Group */
+        .checkbox-group {
+            margin-bottom: 20px;
+        }
+
+        .checkbox-group h3 {
+            color: #90caf9;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+        }
+
+        .checkbox-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .checkbox-item input[type="checkbox"],
+        .checkbox-item input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #4fc3f7;
+        }
+
+        .checkbox-item label {
+            color: #fff;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .checkbox-item .overhead-info {
+            color: #90caf9;
+            font-size: 0.8rem;
+            margin-left: 4px;
+        }
+
+        /* Quick Presets */
+        .quick-presets {
+            margin-bottom: 25px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .quick-presets h3 {
+            color: #90caf9;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .preset-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .preset-btn {
+            background: rgba(102, 187, 106, 0.15);
+            border: 1px solid rgba(102, 187, 106, 0.4);
+            color: #66bb6a;
+            padding: 8px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .preset-btn:hover {
+            background: rgba(102, 187, 106, 0.25);
+            border-color: #66bb6a;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
+            color: #fff;
+            border: none;
+            padding: 14px 40px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+            display: block;
+            width: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(79, 195, 247, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .error {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid #f44336;
+            color: #ff8a80;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .error.show {
+            display: block;
+        }
+
+        /* Results Section */
+        .results {
+            display: none;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .results.show {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .results h2 {
+            color: #4fc3f7;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        /* Summary Cards */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .summary-card {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #4fc3f7;
+            text-align: center;
+        }
+
+        .summary-card.warning {
+            border-left-color: #ff9800;
+        }
+
+        .summary-card.error {
+            border-left-color: #f44336;
+            display: block;
+        }
+
+        .summary-card .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #4fc3f7;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        .summary-card.warning .stat-value {
+            color: #ff9800;
+        }
+
+        .summary-card.error .stat-value {
+            color: #f44336;
+        }
+
+        .summary-card .stat-label {
+            color: #90caf9;
+            font-size: 0.85rem;
+            margin-top: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Overhead Breakdown */
+        .overhead-breakdown {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .overhead-breakdown h3 {
+            color: #4fc3f7;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .layer-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 6px;
+            margin-bottom: 8px;
+            border-left: 3px solid #4fc3f7;
+        }
+
+        .layer-item .layer-name {
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .layer-item .layer-bytes {
+            color: #90caf9;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.95rem;
+        }
+
+        .layer-item.overhead {
+            border-left-color: #ff9800;
+        }
+
+        .layer-item.payload {
+            border-left-color: #66bb6a;
+        }
+
+        /* Warning Badge */
+        .warning-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 152, 0, 0.2);
+            border: 1px solid #ff9800;
+            color: #ff9800;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-size: 0.9rem;
+        }
+
+        .warning-badge::before {
+            content: "!";
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            background: #ff9800;
+            color: #000;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+
+        /* ICMP Commands Section */
+        .icmp-commands {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .icmp-commands h3 {
+            color: #4fc3f7;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .command-box {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 12px;
+            position: relative;
+        }
+
+        .command-box .os-label {
+            color: #90caf9;
+            font-size: 0.8rem;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .command-box code {
+            display: block;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.95rem;
+            color: #66bb6a;
+            word-break: break-all;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(79, 195, 247, 0.2);
+            border: 1px solid rgba(79, 195, 247, 0.4);
+            color: #4fc3f7;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+        }
+
+        .copy-btn:hover {
+            background: rgba(79, 195, 247, 0.3);
+            border-color: #4fc3f7;
+        }
+
+        .copy-btn.copied {
+            background: rgba(102, 187, 106, 0.3);
+            border-color: #66bb6a;
+            color: #66bb6a;
+        }
+
+        /* Export Section */
+        .export-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .export-btn {
+            background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+        }
+
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 187, 106, 0.4);
+        }
+
+        .export-btn.json {
+            background: linear-gradient(135deg, #42a5f5 0%, #1976d2 100%);
+        }
+
+        .export-btn.json:hover {
+            box-shadow: 0 4px 15px rgba(66, 165, 245, 0.4);
+        }
+
+        /* Reference Section */
+        .reference-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .reference-section h2 {
+            color: #4fc3f7;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .reference-section h3 {
+            color: #90caf9;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            font-size: 1rem;
+        }
+
+        .reference-section p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .reference-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        .reference-table th {
+            background: rgba(79, 195, 247, 0.2);
+            color: #4fc3f7;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .reference-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: #fff;
+        }
+
+        .reference-table tr:hover {
+            background: rgba(79, 195, 247, 0.05);
+        }
+
+        /* Mode Sections */
+        .mode-section {
+            display: none;
+        }
+
+        .mode-section.active {
+            display: block;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .ascii-logo {
+                position: static;
+                text-align: center;
+                margin-bottom: 20px;
+                font-size: 0.5rem;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .mode-toggle {
+                flex-direction: column;
+            }
+
+            .mode-btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .checkbox-options {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .input-group {
+                flex-direction: column;
+            }
+
+            .input-field {
+                min-width: 100%;
+            }
+        }
+    </style>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "MTU Calculator",
+      "description": "Calculate MTU and MSS with protocol overhead analysis. Includes VPN encryption overhead, PPPoE, VLAN tagging, and generates Path MTU Discovery commands.",
+      "url": "https://oldweb.tech/nettools/mtu-calculator.html",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Web Browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "creator": {
+        "@type": "Organization",
+        "name": "OldWeb.tech"
+      }
+    }
+    </script>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <div class="ascii-logo" aria-hidden="true">  ___  _     _  __        __   _
+ / _ \| | __| | \ \      / /__| |__
+| | | | |/ _` |  \ \ /\ / / _ \ '_ \
+| |_| | | (_| |   \ V  V /  __/ |_) |
+ \___/|_|\__,_|    \_/\_/ \___|_.__/
+</div>
+
+    <main id="main-content" class="container">
+        <h1>MTU Calculator</h1>
+        <p class="subtitle">Calculate Maximum Transmission Unit with protocol overhead analysis</p>
+
+        <div class="mode-toggle" role="group" aria-label="Calculator mode selection">
+            <button type="button"
+                    class="mode-btn active"
+                    onclick="switchMode('basic')"
+                    aria-pressed="true"
+                    aria-label="Basic MTU calculator with protocol selection">Basic Calculator</button>
+            <button type="button"
+                    class="mode-btn"
+                    onclick="switchMode('vpn')"
+                    aria-pressed="false"
+                    aria-label="VPN encryption overhead calculator">VPN Overhead</button>
+            <button type="button"
+                    class="mode-btn"
+                    onclick="switchMode('stack')"
+                    aria-pressed="false"
+                    aria-label="Protocol stack builder with visual layers">Protocol Stack</button>
+            <button type="button"
+                    class="mode-btn"
+                    onclick="switchMode('pmtud')"
+                    aria-pressed="false"
+                    aria-label="Path MTU Discovery test command generator">Path MTU Discovery</button>
+        </div>
+
+        <div class="calculator">
+            <!-- Basic Calculator Mode -->
+            <div id="basic-mode" class="mode-section active">
+                <form id="basic-form" aria-label="Basic MTU Calculator Form">
+                    <div class="input-group">
+                        <div class="input-field">
+                            <label for="basicMtu">Base MTU (bytes)</label>
+                            <input type="number"
+                                   id="basicMtu"
+                                   value="1500"
+                                   min="68"
+                                   max="9000"
+                                   aria-required="true"
+                                   aria-describedby="basic-mtu-help">
+                            <span id="basic-mtu-help" class="sr-only">Enter the base MTU in bytes, typically 1500 for Ethernet</span>
+                        </div>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <h3 id="ip-version-label">IP Version</h3>
+                        <div class="checkbox-options" role="radiogroup" aria-labelledby="ip-version-label">
+                            <div class="checkbox-item">
+                                <input type="radio" id="basicIpv4" name="basicIpVersion" value="ipv4" checked>
+                                <label for="basicIpv4">IPv4 <span class="overhead-info">(20 bytes)</span></label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="radio" id="basicIpv6" name="basicIpVersion" value="ipv6">
+                                <label for="basicIpv6">IPv6 <span class="overhead-info">(40 bytes)</span></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <h3 id="transport-label">Transport Protocol</h3>
+                        <div class="checkbox-options" role="radiogroup" aria-labelledby="transport-label">
+                            <div class="checkbox-item">
+                                <input type="radio" id="basicTcp" name="basicTransport" value="tcp" checked>
+                                <label for="basicTcp">TCP <span class="overhead-info">(20 bytes)</span></label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="radio" id="basicUdp" name="basicTransport" value="udp">
+                                <label for="basicUdp">UDP <span class="overhead-info">(8 bytes)</span></label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="radio" id="basicIcmp" name="basicTransport" value="icmp">
+                                <label for="basicIcmp">ICMP <span class="overhead-info">(8 bytes)</span></label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="radio" id="basicNone" name="basicTransport" value="none">
+                                <label for="basicNone">None <span class="overhead-info">(IP only)</span></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <h3 id="additional-label">Additional Overhead</h3>
+                        <div class="checkbox-options" role="group" aria-labelledby="additional-label">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="basicPppoe">
+                                <label for="basicPppoe">PPPoE <span class="overhead-info">(8 bytes)</span></label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="basicVlan">
+                                <label for="basicVlan">VLAN 802.1Q <span class="overhead-info">(4 bytes)</span></label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="basicQinq">
+                                <label for="basicQinq">QinQ Double Tag <span class="overhead-info">(8 bytes)</span></label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="basicGre">
+                                <label for="basicGre">GRE Tunnel <span class="overhead-info">(24 bytes)</span></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="quick-presets">
+                        <h3 id="presets-label">Quick Presets</h3>
+                        <div class="preset-buttons" role="group" aria-labelledby="presets-label">
+                            <button type="button" class="preset-btn" onclick="applyPreset('standard')" aria-label="Standard Ethernet 1500 MTU">Standard (1500)</button>
+                            <button type="button" class="preset-btn" onclick="applyPreset('pppoe')" aria-label="PPPoE DSL connection 1492 MTU">PPPoE/DSL (1492)</button>
+                            <button type="button" class="preset-btn" onclick="applyPreset('jumbo')" aria-label="Jumbo frames 9000 MTU">Jumbo (9000)</button>
+                            <button type="button" class="preset-btn" onclick="applyPreset('vpn')" aria-label="VPN safe 1400 MTU">VPN Safe (1400)</button>
+                            <button type="button" class="preset-btn" onclick="applyPreset('ipv4min')" aria-label="IPv4 minimum 576 MTU">IPv4 Min (576)</button>
+                            <button type="button" class="preset-btn" onclick="applyPreset('ipv6min')" aria-label="IPv6 minimum 1280 MTU">IPv6 Min (1280)</button>
+                        </div>
+                    </div>
+
+                    <button type="button"
+                            class="btn"
+                            onclick="calculateBasic()"
+                            aria-label="Calculate MTU with selected options">Calculate MTU</button>
+                </form>
+            </div>
+
+            <!-- VPN Overhead Mode -->
+            <div id="vpn-mode" class="mode-section">
+                <form id="vpn-form" aria-label="VPN Overhead Calculator Form">
+                    <div class="input-group">
+                        <div class="input-field">
+                            <label for="vpnMtu">Interface MTU (bytes)</label>
+                            <input type="number"
+                                   id="vpnMtu"
+                                   value="1500"
+                                   min="68"
+                                   max="9000"
+                                   aria-required="true"
+                                   aria-describedby="vpn-mtu-help">
+                            <span id="vpn-mtu-help" class="sr-only">Enter the physical interface MTU before VPN encapsulation</span>
+                        </div>
+                        <div class="input-field">
+                            <label for="vpnType">VPN Type</label>
+                            <select id="vpnType" aria-describedby="vpn-type-help">
+                                <option value="ipsec-tunnel">IPsec ESP Tunnel Mode (~73 bytes)</option>
+                                <option value="ipsec-transport">IPsec ESP Transport Mode (~53 bytes)</option>
+                                <option value="openvpn-udp">OpenVPN UDP (~29 bytes)</option>
+                                <option value="openvpn-tcp">OpenVPN TCP (~41 bytes)</option>
+                                <option value="wireguard">WireGuard (~32 bytes)</option>
+                            </select>
+                            <span id="vpn-type-help" class="sr-only">Select the VPN protocol to calculate its overhead</span>
+                        </div>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <h3 id="vpn-ip-label">Inner IP Version (Tunneled Traffic)</h3>
+                        <div class="checkbox-options" role="radiogroup" aria-labelledby="vpn-ip-label">
+                            <div class="checkbox-item">
+                                <input type="radio" id="vpnIpv4" name="vpnIpVersion" value="ipv4" checked>
+                                <label for="vpnIpv4">IPv4 <span class="overhead-info">(20 bytes)</span></label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="radio" id="vpnIpv6" name="vpnIpVersion" value="ipv6">
+                                <label for="vpnIpv6">IPv6 <span class="overhead-info">(40 bytes)</span></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <h3 id="vpn-additional-label">Additional Overhead</h3>
+                        <div class="checkbox-options" role="group" aria-labelledby="vpn-additional-label">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="vpnPppoe">
+                                <label for="vpnPppoe">PPPoE <span class="overhead-info">(8 bytes)</span></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button"
+                            class="btn"
+                            onclick="calculateVpn()"
+                            aria-label="Calculate VPN overhead and effective MTU">Calculate VPN Overhead</button>
+                </form>
+            </div>
+
+            <!-- Protocol Stack Builder Mode -->
+            <div id="stack-mode" class="mode-section">
+                <form id="stack-form" aria-label="Protocol Stack Builder Form">
+                    <div class="input-group">
+                        <div class="input-field">
+                            <label for="stackMtu">Physical MTU (bytes)</label>
+                            <input type="number"
+                                   id="stackMtu"
+                                   value="1500"
+                                   min="68"
+                                   max="9000"
+                                   aria-required="true"
+                                   aria-describedby="stack-mtu-help">
+                            <span id="stack-mtu-help" class="sr-only">Enter the physical layer MTU</span>
+                        </div>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <h3 id="stack-layers-label">Select Protocol Layers (in order of encapsulation)</h3>
+                        <div class="checkbox-options" role="group" aria-labelledby="stack-layers-label" style="flex-direction: column; gap: 10px;">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="stackPppoe">
+                                <label for="stackPppoe">PPPoE <span class="overhead-info">(8 bytes)</span></label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="stackVlan">
+                                <label for="stackVlan">VLAN 802.1Q <span class="overhead-info">(4 bytes)</span></label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="stackGre">
+                                <label for="stackGre">GRE Tunnel <span class="overhead-info">(24 bytes)</span></label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="stackIpsec">
+                                <label for="stackIpsec">IPsec ESP Tunnel <span class="overhead-info">(~73 bytes)</span></label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="stackIpv4" checked>
+                                <label for="stackIpv4">IPv4 Header <span class="overhead-info">(20 bytes)</span></label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="stackIpv6">
+                                <label for="stackIpv6">IPv6 Header <span class="overhead-info">(40 bytes)</span></label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="stackTcp" checked>
+                                <label for="stackTcp">TCP Header <span class="overhead-info">(20 bytes)</span></label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="stackUdp">
+                                <label for="stackUdp">UDP Header <span class="overhead-info">(8 bytes)</span></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button"
+                            class="btn"
+                            onclick="calculateStack()"
+                            aria-label="Build protocol stack and calculate payload">Build Protocol Stack</button>
+                </form>
+            </div>
+
+            <!-- Path MTU Discovery Mode -->
+            <div id="pmtud-mode" class="mode-section">
+                <form id="pmtud-form" aria-label="Path MTU Discovery Form">
+                    <div class="input-group">
+                        <div class="input-field">
+                            <label for="pmtudMtu">MTU to Test (bytes)</label>
+                            <input type="number"
+                                   id="pmtudMtu"
+                                   value="1500"
+                                   min="68"
+                                   max="9000"
+                                   aria-required="true"
+                                   aria-describedby="pmtud-mtu-help">
+                            <span id="pmtud-mtu-help" class="sr-only">Enter the MTU value you want to test</span>
+                        </div>
+                        <div class="input-field">
+                            <label for="pmtudHost">Target Host</label>
+                            <input type="text"
+                                   id="pmtudHost"
+                                   value="8.8.8.8"
+                                   placeholder="example.com or IP address"
+                                   aria-required="true"
+                                   aria-describedby="pmtud-host-help">
+                            <span id="pmtud-host-help" class="sr-only">Enter a hostname or IP address to test path MTU against</span>
+                        </div>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <h3 id="pmtud-ip-label">IP Version</h3>
+                        <div class="checkbox-options" role="radiogroup" aria-labelledby="pmtud-ip-label">
+                            <div class="checkbox-item">
+                                <input type="radio" id="pmtudIpv4" name="pmtudIpVersion" value="ipv4" checked>
+                                <label for="pmtudIpv4">IPv4</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="radio" id="pmtudIpv6" name="pmtudIpVersion" value="ipv6">
+                                <label for="pmtudIpv6">IPv6</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button"
+                            class="btn"
+                            onclick="calculatePmtud()"
+                            aria-label="Generate Path MTU Discovery test commands">Generate PMTUD Commands</button>
+                </form>
+            </div>
+
+            <div class="error"
+                 id="error"
+                 role="alert"
+                 aria-live="assertive"
+                 aria-atomic="true"></div>
+        </div>
+
+        <div class="results"
+             id="results"
+             role="region"
+             aria-live="polite"
+             aria-label="MTU calculation results"></div>
+
+        <div class="reference-section">
+            <h2>MTU Reference</h2>
+
+            <h3>Common MTU Values</h3>
+            <table class="reference-table">
+                <thead>
+                    <tr>
+                        <th>Network Type</th>
+                        <th>MTU</th>
+                        <th>Use Case</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Ethernet Standard</td>
+                        <td>1500</td>
+                        <td>Default for most networks</td>
+                    </tr>
+                    <tr>
+                        <td>PPPoE/DSL</td>
+                        <td>1492</td>
+                        <td>DSL/fiber with PPPoE (8-byte overhead)</td>
+                    </tr>
+                    <tr>
+                        <td>IPv4 Minimum</td>
+                        <td>576</td>
+                        <td>Minimum guaranteed non-fragmented</td>
+                    </tr>
+                    <tr>
+                        <td>IPv6 Minimum</td>
+                        <td>1280</td>
+                        <td>Minimum required for IPv6</td>
+                    </tr>
+                    <tr>
+                        <td>Ethernet Jumbo</td>
+                        <td>9000</td>
+                        <td>High-performance LANs/datacenter</td>
+                    </tr>
+                    <tr>
+                        <td>VPN Typical</td>
+                        <td>1400</td>
+                        <td>Common safe value for VPN tunnels</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>MTU vs MSS</h3>
+            <p><strong>MTU (Maximum Transmission Unit)</strong> is the maximum packet size including all headers at Layer 3 and above.</p>
+            <p><strong>MSS (Maximum Segment Size)</strong> is the maximum TCP payload only, calculated as: MTU - IP header - TCP header.</p>
+            <p>Example: With 1500 MTU and IPv4/TCP: MSS = 1500 - 20 (IPv4) - 20 (TCP) = <strong>1460 bytes</strong></p>
+
+            <h3>Protocol Header Sizes</h3>
+            <table class="reference-table">
+                <thead>
+                    <tr>
+                        <th>Protocol</th>
+                        <th>Header Size</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>IPv4</td>
+                        <td>20 bytes</td>
+                        <td>Without options (up to 60 with options)</td>
+                    </tr>
+                    <tr>
+                        <td>IPv6</td>
+                        <td>40 bytes</td>
+                        <td>Fixed header size</td>
+                    </tr>
+                    <tr>
+                        <td>TCP</td>
+                        <td>20 bytes</td>
+                        <td>Without options (up to 60 with options)</td>
+                    </tr>
+                    <tr>
+                        <td>UDP</td>
+                        <td>8 bytes</td>
+                        <td>Fixed header size</td>
+                    </tr>
+                    <tr>
+                        <td>ICMP</td>
+                        <td>8 bytes</td>
+                        <td>Echo request/reply</td>
+                    </tr>
+                    <tr>
+                        <td>GRE</td>
+                        <td>24 bytes</td>
+                        <td>4 GRE + 20 inner IP header</td>
+                    </tr>
+                    <tr>
+                        <td>PPPoE</td>
+                        <td>8 bytes</td>
+                        <td>6 PPPoE + 2 PPP</td>
+                    </tr>
+                    <tr>
+                        <td>VLAN 802.1Q</td>
+                        <td>4 bytes</td>
+                        <td>Single VLAN tag</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <footer role="contentinfo">
+            MTU Calculator - Works offline, no installation required
+        </footer>
+    </main>
+
+    <script>
+        // Protocol overhead constants (in bytes)
+        const OVERHEAD = {
+            ipv4: 20,
+            ipv6: 40,
+            tcp: 20,
+            udp: 8,
+            icmp: 8,
+            pppoe: 8,
+            vlan: 4,
+            qinq: 8,
+            gre: 24,
+            ipsecTunnel: 73,
+            ipsecTransport: 53,
+            openvpnUdp: 29,
+            openvpnTcp: 41,
+            wireguard: 32
+        };
+
+        // VPN overhead details
+        const VPN_DETAILS = {
+            'ipsec-tunnel': {
+                name: 'IPsec ESP Tunnel Mode',
+                overhead: 73,
+                components: [
+                    { name: 'Outer IP Header', bytes: 20 },
+                    { name: 'ESP Header', bytes: 8 },
+                    { name: 'IV (AES)', bytes: 16 },
+                    { name: 'ESP Trailer', bytes: 2 },
+                    { name: 'Padding (avg)', bytes: 15 },
+                    { name: 'ICV (Auth)', bytes: 12 }
+                ]
+            },
+            'ipsec-transport': {
+                name: 'IPsec ESP Transport Mode',
+                overhead: 53,
+                components: [
+                    { name: 'ESP Header', bytes: 8 },
+                    { name: 'IV (AES)', bytes: 16 },
+                    { name: 'ESP Trailer', bytes: 2 },
+                    { name: 'Padding (avg)', bytes: 15 },
+                    { name: 'ICV (Auth)', bytes: 12 }
+                ]
+            },
+            'openvpn-udp': {
+                name: 'OpenVPN UDP',
+                overhead: 29,
+                components: [
+                    { name: 'UDP Header', bytes: 8 },
+                    { name: 'OpenVPN Header', bytes: 1 },
+                    { name: 'HMAC', bytes: 20 }
+                ]
+            },
+            'openvpn-tcp': {
+                name: 'OpenVPN TCP',
+                overhead: 41,
+                components: [
+                    { name: 'TCP Header', bytes: 20 },
+                    { name: 'OpenVPN Header', bytes: 1 },
+                    { name: 'HMAC', bytes: 20 }
+                ]
+            },
+            'wireguard': {
+                name: 'WireGuard',
+                overhead: 32,
+                components: [
+                    { name: 'UDP Header', bytes: 8 },
+                    { name: 'WG Header', bytes: 16 },
+                    { name: 'Poly1305 Auth', bytes: 16 }
+                ]
+            }
+        };
+
+        let currentMode = 'basic';
+        let lastResults = null;
+
+        // Mode switching
+        function switchMode(mode) {
+            currentMode = mode;
+            document.querySelectorAll('.mode-btn').forEach(btn => {
+                btn.classList.remove('active');
+                btn.setAttribute('aria-pressed', 'false');
+            });
+            document.querySelectorAll('.mode-section').forEach(section => section.classList.remove('active'));
+
+            event.target.classList.add('active');
+            event.target.setAttribute('aria-pressed', 'true');
+            document.getElementById(`${mode}-mode`).classList.add('active');
+
+            document.getElementById('results').classList.remove('show');
+            document.getElementById('error').classList.remove('show');
+        }
+
+        // Validate MTU
+        function validateMtu(mtu, fieldId) {
+            const field = document.getElementById(fieldId);
+            const errorDiv = document.getElementById('error');
+
+            A11yUtils.clearError(field);
+            errorDiv.classList.remove('show');
+
+            if (isNaN(mtu) || mtu < 68) {
+                const msg = 'MTU must be at least 68 bytes (IPv4 minimum)';
+                A11yUtils.showError(field, msg);
+                errorDiv.textContent = msg;
+                errorDiv.classList.add('show');
+                return false;
+            }
+
+            if (mtu > 9000) {
+                const msg = 'MTU cannot exceed 9000 bytes (Jumbo frame maximum)';
+                A11yUtils.showError(field, msg);
+                errorDiv.textContent = msg;
+                errorDiv.classList.add('show');
+                return false;
+            }
+
+            return true;
+        }
+
+        // Apply presets
+        function applyPreset(preset) {
+            const mtuField = document.getElementById('basicMtu');
+            const pppoeCheck = document.getElementById('basicPppoe');
+            const ipv4Radio = document.getElementById('basicIpv4');
+            const ipv6Radio = document.getElementById('basicIpv6');
+
+            // Reset checkboxes
+            document.getElementById('basicPppoe').checked = false;
+            document.getElementById('basicVlan').checked = false;
+            document.getElementById('basicQinq').checked = false;
+            document.getElementById('basicGre').checked = false;
+
+            switch (preset) {
+                case 'standard':
+                    mtuField.value = 1500;
+                    ipv4Radio.checked = true;
+                    break;
+                case 'pppoe':
+                    mtuField.value = 1492;
+                    pppoeCheck.checked = true;
+                    ipv4Radio.checked = true;
+                    break;
+                case 'jumbo':
+                    mtuField.value = 9000;
+                    ipv4Radio.checked = true;
+                    break;
+                case 'vpn':
+                    mtuField.value = 1400;
+                    ipv4Radio.checked = true;
+                    break;
+                case 'ipv4min':
+                    mtuField.value = 576;
+                    ipv4Radio.checked = true;
+                    break;
+                case 'ipv6min':
+                    mtuField.value = 1280;
+                    ipv6Radio.checked = true;
+                    break;
+            }
+
+            calculateBasic();
+        }
+
+        // Basic Calculator
+        function calculateBasic() {
+            const mtu = parseInt(document.getElementById('basicMtu').value, 10);
+            if (!validateMtu(mtu, 'basicMtu')) return;
+
+            const ipVersion = document.querySelector('input[name="basicIpVersion"]:checked').value;
+            const transport = document.querySelector('input[name="basicTransport"]:checked').value;
+
+            const layers = [];
+            let totalOverhead = 0;
+
+            // Layer 2 overhead (reduces available MTU)
+            if (document.getElementById('basicPppoe').checked) {
+                layers.push({ name: 'PPPoE', bytes: OVERHEAD.pppoe, type: 'l2' });
+                totalOverhead += OVERHEAD.pppoe;
+            }
+            if (document.getElementById('basicVlan').checked && !document.getElementById('basicQinq').checked) {
+                layers.push({ name: 'VLAN 802.1Q', bytes: OVERHEAD.vlan, type: 'l2' });
+                totalOverhead += OVERHEAD.vlan;
+            }
+            if (document.getElementById('basicQinq').checked) {
+                layers.push({ name: 'QinQ Double Tag', bytes: OVERHEAD.qinq, type: 'l2' });
+                totalOverhead += OVERHEAD.qinq;
+            }
+            if (document.getElementById('basicGre').checked) {
+                layers.push({ name: 'GRE Tunnel', bytes: OVERHEAD.gre, type: 'tunnel' });
+                totalOverhead += OVERHEAD.gre;
+            }
+
+            // IP Layer
+            const ipOverhead = ipVersion === 'ipv4' ? OVERHEAD.ipv4 : OVERHEAD.ipv6;
+            layers.push({ name: ipVersion === 'ipv4' ? 'IPv4 Header' : 'IPv6 Header', bytes: ipOverhead, type: 'ip' });
+            totalOverhead += ipOverhead;
+
+            // Transport Layer
+            if (transport !== 'none') {
+                const transportOverhead = OVERHEAD[transport];
+                const transportName = transport.toUpperCase() + ' Header';
+                layers.push({ name: transportName, bytes: transportOverhead, type: 'transport' });
+                totalOverhead += transportOverhead;
+            }
+
+            const effectiveMtu = mtu - (document.getElementById('basicPppoe').checked ? OVERHEAD.pppoe : 0) -
+                                 (document.getElementById('basicVlan').checked && !document.getElementById('basicQinq').checked ? OVERHEAD.vlan : 0) -
+                                 (document.getElementById('basicQinq').checked ? OVERHEAD.qinq : 0);
+
+            const payload = effectiveMtu - ipOverhead - (transport !== 'none' ? OVERHEAD[transport] : 0) -
+                           (document.getElementById('basicGre').checked ? OVERHEAD.gre : 0);
+
+            const mss = transport === 'tcp' ? payload : null;
+
+            lastResults = {
+                baseMtu: mtu,
+                effectiveMtu: effectiveMtu,
+                payload: payload,
+                mss: mss,
+                totalOverhead: totalOverhead,
+                layers: layers,
+                ipVersion: ipVersion,
+                transport: transport
+            };
+
+            displayBasicResults(lastResults);
+        }
+
+        function displayBasicResults(results) {
+            const resultsDiv = document.getElementById('results');
+            let warningHtml = '';
+
+            // Check for warnings
+            if (results.payload < 0) {
+                warningHtml = `<div class="warning-badge">Negative payload! MTU is too small for selected protocols.</div>`;
+            } else if (results.effectiveMtu < 576 && results.ipVersion === 'ipv4') {
+                warningHtml = `<div class="warning-badge">Effective MTU is below IPv4 minimum (576 bytes). Fragmentation may occur.</div>`;
+            } else if (results.effectiveMtu < 1280 && results.ipVersion === 'ipv6') {
+                warningHtml = `<div class="warning-badge">Effective MTU is below IPv6 minimum (1280 bytes). Connection issues may occur.</div>`;
+            }
+
+            let layersHtml = results.layers.map(layer => `
+                <div class="layer-item overhead">
+                    <span class="layer-name">${layer.name}</span>
+                    <span class="layer-bytes">-${layer.bytes} bytes</span>
+                </div>
+            `).join('');
+
+            if (results.payload > 0) {
+                layersHtml += `
+                    <div class="layer-item payload">
+                        <span class="layer-name">Available Payload</span>
+                        <span class="layer-bytes">${results.payload} bytes</span>
+                    </div>
+                `;
+            }
+
+            resultsDiv.innerHTML = `
+                <h2>MTU Calculation Results</h2>
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <div class="stat-value">${results.baseMtu}</div>
+                        <div class="stat-label">Base MTU</div>
+                    </div>
+                    <div class="summary-card ${results.effectiveMtu < 576 ? 'warning' : ''}">
+                        <div class="stat-value">${results.effectiveMtu}</div>
+                        <div class="stat-label">Effective MTU</div>
+                    </div>
+                    <div class="summary-card ${results.payload < 0 ? 'error' : ''}">
+                        <div class="stat-value">${results.payload}</div>
+                        <div class="stat-label">Payload</div>
+                    </div>
+                    ${results.mss !== null ? `
+                    <div class="summary-card">
+                        <div class="stat-value">${results.mss}</div>
+                        <div class="stat-label">TCP MSS</div>
+                    </div>
+                    ` : ''}
+                    <div class="summary-card">
+                        <div class="stat-value">${results.totalOverhead}</div>
+                        <div class="stat-label">Total Overhead</div>
+                    </div>
+                </div>
+
+                ${warningHtml}
+
+                <div class="overhead-breakdown">
+                    <h3>Protocol Overhead Breakdown</h3>
+                    ${layersHtml}
+                </div>
+
+                <div class="export-section">
+                    <button type="button" class="export-btn" onclick="exportCSV()" aria-label="Export results to CSV file">Export CSV</button>
+                    <button type="button" class="export-btn json" onclick="exportJSON()" aria-label="Export results to JSON file">Export JSON</button>
+                </div>
+            `;
+
+            resultsDiv.classList.add('show');
+            A11yUtils.announce(`MTU calculation complete. Effective MTU is ${results.effectiveMtu} bytes with ${results.payload} bytes available payload.`, 'polite');
+        }
+
+        // VPN Calculator
+        function calculateVpn() {
+            const mtu = parseInt(document.getElementById('vpnMtu').value, 10);
+            if (!validateMtu(mtu, 'vpnMtu')) return;
+
+            const vpnType = document.getElementById('vpnType').value;
+            const ipVersion = document.querySelector('input[name="vpnIpVersion"]:checked').value;
+            const hasPppoe = document.getElementById('vpnPppoe').checked;
+
+            const vpnInfo = VPN_DETAILS[vpnType];
+            const ipOverhead = ipVersion === 'ipv4' ? OVERHEAD.ipv4 : OVERHEAD.ipv6;
+            const pppoeOverhead = hasPppoe ? OVERHEAD.pppoe : 0;
+
+            const effectiveMtu = mtu - pppoeOverhead;
+            const tunnelMtu = effectiveMtu - vpnInfo.overhead;
+            const payload = tunnelMtu - ipOverhead - OVERHEAD.tcp;
+            const mss = payload;
+
+            const layers = [];
+            if (hasPppoe) {
+                layers.push({ name: 'PPPoE', bytes: OVERHEAD.pppoe });
+            }
+            vpnInfo.components.forEach(c => layers.push(c));
+            layers.push({ name: ipVersion === 'ipv4' ? 'Inner IPv4' : 'Inner IPv6', bytes: ipOverhead });
+            layers.push({ name: 'TCP Header', bytes: OVERHEAD.tcp });
+
+            lastResults = {
+                baseMtu: mtu,
+                effectiveMtu: effectiveMtu,
+                vpnType: vpnInfo.name,
+                vpnOverhead: vpnInfo.overhead,
+                tunnelMtu: tunnelMtu,
+                payload: payload,
+                mss: mss,
+                ipVersion: ipVersion,
+                layers: layers,
+                totalOverhead: vpnInfo.overhead + ipOverhead + OVERHEAD.tcp + pppoeOverhead
+            };
+
+            displayVpnResults(lastResults);
+        }
+
+        function displayVpnResults(results) {
+            const resultsDiv = document.getElementById('results');
+            let warningHtml = '';
+
+            if (results.tunnelMtu < 1280) {
+                warningHtml = `<div class="warning-badge">Tunnel MTU is below 1280 bytes. Consider adjusting your base MTU or VPN settings.</div>`;
+            }
+
+            const layersHtml = results.layers.map(layer => `
+                <div class="layer-item overhead">
+                    <span class="layer-name">${layer.name}</span>
+                    <span class="layer-bytes">-${layer.bytes} bytes</span>
+                </div>
+            `).join('');
+
+            resultsDiv.innerHTML = `
+                <h2>VPN Overhead Results</h2>
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <div class="stat-value">${results.baseMtu}</div>
+                        <div class="stat-label">Interface MTU</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="stat-value">${results.vpnOverhead}</div>
+                        <div class="stat-label">VPN Overhead</div>
+                    </div>
+                    <div class="summary-card ${results.tunnelMtu < 1280 ? 'warning' : ''}">
+                        <div class="stat-value">${results.tunnelMtu}</div>
+                        <div class="stat-label">Tunnel MTU</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="stat-value">${results.mss}</div>
+                        <div class="stat-label">TCP MSS</div>
+                    </div>
+                </div>
+
+                ${warningHtml}
+
+                <div class="overhead-breakdown">
+                    <h3>${results.vpnType} Overhead Breakdown</h3>
+                    ${layersHtml}
+                    <div class="layer-item payload">
+                        <span class="layer-name">Available Payload</span>
+                        <span class="layer-bytes">${results.payload} bytes</span>
+                    </div>
+                </div>
+
+                <div class="export-section">
+                    <button type="button" class="export-btn" onclick="exportCSV()" aria-label="Export results to CSV file">Export CSV</button>
+                    <button type="button" class="export-btn json" onclick="exportJSON()" aria-label="Export results to JSON file">Export JSON</button>
+                </div>
+            `;
+
+            resultsDiv.classList.add('show');
+            A11yUtils.announce(`VPN calculation complete. ${results.vpnType} has ${results.vpnOverhead} bytes overhead. Tunnel MTU is ${results.tunnelMtu} bytes.`, 'polite');
+        }
+
+        // Protocol Stack Builder
+        function calculateStack() {
+            const mtu = parseInt(document.getElementById('stackMtu').value, 10);
+            if (!validateMtu(mtu, 'stackMtu')) return;
+
+            const layers = [];
+            let totalOverhead = 0;
+
+            // Check each layer in order
+            if (document.getElementById('stackPppoe').checked) {
+                layers.push({ name: 'PPPoE', bytes: OVERHEAD.pppoe });
+                totalOverhead += OVERHEAD.pppoe;
+            }
+            if (document.getElementById('stackVlan').checked) {
+                layers.push({ name: 'VLAN 802.1Q', bytes: OVERHEAD.vlan });
+                totalOverhead += OVERHEAD.vlan;
+            }
+            if (document.getElementById('stackGre').checked) {
+                layers.push({ name: 'GRE Tunnel', bytes: OVERHEAD.gre });
+                totalOverhead += OVERHEAD.gre;
+            }
+            if (document.getElementById('stackIpsec').checked) {
+                layers.push({ name: 'IPsec ESP Tunnel', bytes: OVERHEAD.ipsecTunnel });
+                totalOverhead += OVERHEAD.ipsecTunnel;
+            }
+            if (document.getElementById('stackIpv4').checked) {
+                layers.push({ name: 'IPv4 Header', bytes: OVERHEAD.ipv4 });
+                totalOverhead += OVERHEAD.ipv4;
+            }
+            if (document.getElementById('stackIpv6').checked) {
+                layers.push({ name: 'IPv6 Header', bytes: OVERHEAD.ipv6 });
+                totalOverhead += OVERHEAD.ipv6;
+            }
+            if (document.getElementById('stackTcp').checked) {
+                layers.push({ name: 'TCP Header', bytes: OVERHEAD.tcp });
+                totalOverhead += OVERHEAD.tcp;
+            }
+            if (document.getElementById('stackUdp').checked) {
+                layers.push({ name: 'UDP Header', bytes: OVERHEAD.udp });
+                totalOverhead += OVERHEAD.udp;
+            }
+
+            const payload = mtu - totalOverhead;
+
+            lastResults = {
+                baseMtu: mtu,
+                totalOverhead: totalOverhead,
+                payload: payload,
+                layers: layers
+            };
+
+            displayStackResults(lastResults);
+        }
+
+        function displayStackResults(results) {
+            const resultsDiv = document.getElementById('results');
+            let warningHtml = '';
+
+            if (results.payload < 0) {
+                warningHtml = `<div class="warning-badge">Negative payload! Remove some layers or increase MTU.</div>`;
+            } else if (results.payload < 100) {
+                warningHtml = `<div class="warning-badge">Very small payload (${results.payload} bytes). Consider optimizing your stack.</div>`;
+            }
+
+            const layersHtml = results.layers.map(layer => `
+                <div class="layer-item overhead">
+                    <span class="layer-name">${layer.name}</span>
+                    <span class="layer-bytes">-${layer.bytes} bytes</span>
+                </div>
+            `).join('');
+
+            resultsDiv.innerHTML = `
+                <h2>Protocol Stack Analysis</h2>
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <div class="stat-value">${results.baseMtu}</div>
+                        <div class="stat-label">Physical MTU</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="stat-value">${results.totalOverhead}</div>
+                        <div class="stat-label">Total Overhead</div>
+                    </div>
+                    <div class="summary-card ${results.payload < 0 ? 'error' : results.payload < 100 ? 'warning' : ''}">
+                        <div class="stat-value">${results.payload}</div>
+                        <div class="stat-label">Available Payload</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="stat-value">${results.layers.length}</div>
+                        <div class="stat-label">Protocol Layers</div>
+                    </div>
+                </div>
+
+                ${warningHtml}
+
+                <div class="overhead-breakdown">
+                    <h3>Layer-by-Layer Breakdown</h3>
+                    <div class="layer-item" style="border-left-color: #4fc3f7;">
+                        <span class="layer-name">Physical MTU</span>
+                        <span class="layer-bytes">${results.baseMtu} bytes</span>
+                    </div>
+                    ${layersHtml}
+                    <div class="layer-item payload">
+                        <span class="layer-name">Available Payload</span>
+                        <span class="layer-bytes">${results.payload} bytes</span>
+                    </div>
+                </div>
+
+                <div class="export-section">
+                    <button type="button" class="export-btn" onclick="exportCSV()" aria-label="Export results to CSV file">Export CSV</button>
+                    <button type="button" class="export-btn json" onclick="exportJSON()" aria-label="Export results to JSON file">Export JSON</button>
+                </div>
+            `;
+
+            resultsDiv.classList.add('show');
+            A11yUtils.announce(`Protocol stack built with ${results.layers.length} layers. Total overhead is ${results.totalOverhead} bytes with ${results.payload} bytes payload.`, 'polite');
+        }
+
+        // Path MTU Discovery
+        function calculatePmtud() {
+            const mtu = parseInt(document.getElementById('pmtudMtu').value, 10);
+            if (!validateMtu(mtu, 'pmtudMtu')) return;
+
+            const host = document.getElementById('pmtudHost').value.trim();
+            const hostField = document.getElementById('pmtudHost');
+            const errorDiv = document.getElementById('error');
+
+            A11yUtils.clearError(hostField);
+
+            if (!host) {
+                const msg = 'Please enter a target host';
+                A11yUtils.showError(hostField, msg);
+                errorDiv.textContent = msg;
+                errorDiv.classList.add('show');
+                return;
+            }
+
+            const ipVersion = document.querySelector('input[name="pmtudIpVersion"]:checked').value;
+            const ipOverhead = ipVersion === 'ipv4' ? OVERHEAD.ipv4 : OVERHEAD.ipv6;
+            const icmpOverhead = OVERHEAD.icmp;
+            const payloadSize = mtu - ipOverhead - icmpOverhead;
+
+            // Generate commands for different OSes
+            const commands = {
+                linux: `ping -M do -s ${payloadSize} -c 4 ${host}`,
+                windows: `ping -f -l ${payloadSize} -n 4 ${host}`,
+                macos: `ping -D -s ${payloadSize} -c 4 ${host}`
+            };
+
+            if (ipVersion === 'ipv6') {
+                commands.linux = `ping6 -M do -s ${payloadSize} -c 4 ${host}`;
+                commands.windows = `ping -6 -f -l ${payloadSize} -n 4 ${host}`;
+                commands.macos = `ping6 -D -s ${payloadSize} -c 4 ${host}`;
+            }
+
+            lastResults = {
+                mtu: mtu,
+                host: host,
+                ipVersion: ipVersion,
+                payloadSize: payloadSize,
+                commands: commands
+            };
+
+            displayPmtudResults(lastResults);
+        }
+
+        function displayPmtudResults(results) {
+            const resultsDiv = document.getElementById('results');
+
+            resultsDiv.innerHTML = `
+                <h2>Path MTU Discovery Commands</h2>
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <div class="stat-value">${results.mtu}</div>
+                        <div class="stat-label">Test MTU</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="stat-value">${results.payloadSize}</div>
+                        <div class="stat-label">ICMP Payload</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="stat-value">${results.ipVersion.toUpperCase()}</div>
+                        <div class="stat-label">IP Version</div>
+                    </div>
+                </div>
+
+                <div class="icmp-commands">
+                    <h3>Test Commands (with Don't Fragment flag)</h3>
+                    <p style="color: #90caf9; margin-bottom: 15px; font-size: 0.9rem;">
+                        Run these commands to test if packets of this size can reach the target without fragmentation.
+                        If you receive "Packet needs to be fragmented" or similar errors, reduce the MTU and try again.
+                    </p>
+
+                    <div class="command-box">
+                        <div class="os-label">Linux</div>
+                        <code id="cmd-linux">${results.commands.linux}</code>
+                        <button type="button" class="copy-btn" onclick="copyCommand('linux')" aria-label="Copy Linux command">Copy</button>
+                    </div>
+
+                    <div class="command-box">
+                        <div class="os-label">Windows</div>
+                        <code id="cmd-windows">${results.commands.windows}</code>
+                        <button type="button" class="copy-btn" onclick="copyCommand('windows')" aria-label="Copy Windows command">Copy</button>
+                    </div>
+
+                    <div class="command-box">
+                        <div class="os-label">macOS</div>
+                        <code id="cmd-macos">${results.commands.macos}</code>
+                        <button type="button" class="copy-btn" onclick="copyCommand('macos')" aria-label="Copy macOS command">Copy</button>
+                    </div>
+                </div>
+
+                <div class="overhead-breakdown">
+                    <h3>How to Find Your Path MTU</h3>
+                    <ol style="color: #90caf9; padding-left: 20px; line-height: 1.8;">
+                        <li>Start with your current MTU (usually 1500)</li>
+                        <li>Run the command for your OS</li>
+                        <li>If packets get through, your path MTU is at least this size</li>
+                        <li>If you get fragmentation errors, reduce MTU by 10-20 bytes and retry</li>
+                        <li>The largest size that works is your path MTU</li>
+                    </ol>
+                </div>
+
+                <div class="export-section">
+                    <button type="button" class="export-btn" onclick="exportCSV()" aria-label="Export results to CSV file">Export CSV</button>
+                    <button type="button" class="export-btn json" onclick="exportJSON()" aria-label="Export results to JSON file">Export JSON</button>
+                </div>
+            `;
+
+            resultsDiv.classList.add('show');
+            A11yUtils.announce(`Path MTU Discovery commands generated for ${results.host}. ICMP payload size is ${results.payloadSize} bytes.`, 'polite');
+        }
+
+        // Copy command to clipboard
+        function copyCommand(os) {
+            const code = document.getElementById(`cmd-${os}`);
+            const btn = code.parentElement.querySelector('.copy-btn');
+
+            navigator.clipboard.writeText(code.textContent).then(() => {
+                btn.textContent = 'Copied!';
+                btn.classList.add('copied');
+                A11yUtils.announce(`${os} command copied to clipboard`, 'polite');
+
+                setTimeout(() => {
+                    btn.textContent = 'Copy';
+                    btn.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+            });
+        }
+
+        // Export functions
+        function downloadFile(filename, content, type) {
+            const blob = new Blob([content], { type: `${type};charset=utf-8;` });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', filename);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function exportCSV() {
+            if (!lastResults) return;
+
+            let rows = [['Field', 'Value']];
+
+            if (currentMode === 'basic' || currentMode === 'stack') {
+                rows.push(['Base MTU', lastResults.baseMtu]);
+                rows.push(['Total Overhead', lastResults.totalOverhead]);
+                rows.push(['Available Payload', lastResults.payload]);
+                if (lastResults.mss) rows.push(['TCP MSS', lastResults.mss]);
+                rows.push(['']);
+                rows.push(['Protocol Layer', 'Bytes']);
+                lastResults.layers.forEach(l => rows.push([l.name, l.bytes]));
+            } else if (currentMode === 'vpn') {
+                rows.push(['Interface MTU', lastResults.baseMtu]);
+                rows.push(['VPN Type', lastResults.vpnType]);
+                rows.push(['VPN Overhead', lastResults.vpnOverhead]);
+                rows.push(['Tunnel MTU', lastResults.tunnelMtu]);
+                rows.push(['TCP MSS', lastResults.mss]);
+                rows.push(['']);
+                rows.push(['Protocol Layer', 'Bytes']);
+                lastResults.layers.forEach(l => rows.push([l.name, l.bytes]));
+            } else if (currentMode === 'pmtud') {
+                rows.push(['Test MTU', lastResults.mtu]);
+                rows.push(['Target Host', lastResults.host]);
+                rows.push(['IP Version', lastResults.ipVersion]);
+                rows.push(['ICMP Payload Size', lastResults.payloadSize]);
+                rows.push(['']);
+                rows.push(['OS', 'Command']);
+                rows.push(['Linux', lastResults.commands.linux]);
+                rows.push(['Windows', lastResults.commands.windows]);
+                rows.push(['macOS', lastResults.commands.macos]);
+            }
+
+            const csv = rows.map(row => row.join(',')).join('\n');
+            const date = new Date().toISOString().split('T')[0];
+            downloadFile(`mtu-calculation-${date}.csv`, csv, 'text/csv');
+            A11yUtils.announce('Results exported to CSV file', 'polite');
+        }
+
+        function exportJSON() {
+            if (!lastResults) return;
+
+            const data = {
+                exportDate: new Date().toISOString(),
+                mode: currentMode,
+                ...lastResults
+            };
+
+            const json = JSON.stringify(data, null, 2);
+            const date = new Date().toISOString().split('T')[0];
+            downloadFile(`mtu-calculation-${date}.json`, json, 'application/json');
+            A11yUtils.announce('Results exported to JSON file', 'polite');
+        }
+
+        // Keyboard shortcuts
+        document.getElementById('basicMtu').addEventListener('keypress', e => {
+            if (e.key === 'Enter') calculateBasic();
+        });
+
+        document.getElementById('vpnMtu').addEventListener('keypress', e => {
+            if (e.key === 'Enter') calculateVpn();
+        });
+
+        document.getElementById('stackMtu').addEventListener('keypress', e => {
+            if (e.key === 'Enter') calculateStack();
+        });
+
+        document.getElementById('pmtudMtu').addEventListener('keypress', e => {
+            if (e.key === 'Enter') calculatePmtud();
+        });
+
+        document.getElementById('pmtudHost').addEventListener('keypress', e => {
+            if (e.key === 'Enter') calculatePmtud();
+        });
+
+        // Skip link handler
+        document.querySelector('.skip-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.getElementById('main-content');
+            if (target) {
+                target.setAttribute('tabindex', '-1');
+                target.focus();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+
+        // Auto-calculate on input change for real-time updates
+        document.querySelectorAll('#basic-mode input').forEach(input => {
+            input.addEventListener('change', () => {
+                if (document.getElementById('basicMtu').value) {
+                    calculateBasic();
+                }
+            });
+        });
+
+        document.querySelectorAll('#vpn-mode input, #vpn-mode select').forEach(input => {
+            input.addEventListener('change', () => {
+                if (document.getElementById('vpnMtu').value) {
+                    calculateVpn();
+                }
+            });
+        });
+
+        document.querySelectorAll('#stack-mode input').forEach(input => {
+            input.addEventListener('change', () => {
+                if (document.getElementById('stackMtu').value) {
+                    calculateStack();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
