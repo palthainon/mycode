@@ -226,14 +226,19 @@
                 left: 50%;
                 transform: translateX(-50%) translateY(-10px);
                 min-width: 200px;
+                z-index: 1001;
+                background: #16213e;
                 background-color: #16213e;
                 background-image: none;
                 backdrop-filter: none;
                 -webkit-backdrop-filter: none;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
             }
 
             .nav-dropdown:not([hidden]) {
+                opacity: 1;
                 transform: translateX(-50%) translateY(0);
+                pointer-events: auto;
             }
         }
     `;
