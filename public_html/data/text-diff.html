@@ -603,6 +603,10 @@
             // Handle paste to strip formatting
             leftPanel.addEventListener('paste', handlePaste);
             rightPanel.addEventListener('paste', handlePaste);
+
+            // Handle Ctrl+A to select only within panel
+            leftPanel.addEventListener('keydown', handleSelectAll);
+            rightPanel.addEventListener('keydown', handleSelectAll);
         }
 
         function handleEdit() {
@@ -616,6 +620,18 @@
             e.preventDefault();
             const text = e.clipboardData.getData('text/plain');
             document.execCommand('insertText', false, text);
+        }
+
+        // Handle Ctrl+A to select only within the focused panel
+        function handleSelectAll(e) {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'a') {
+                e.preventDefault();
+                const selection = window.getSelection();
+                const range = document.createRange();
+                range.selectNodeContents(e.target);
+                selection.removeAllRanges();
+                selection.addRange(range);
+            }
         }
 
         // Get plain text from contenteditable
