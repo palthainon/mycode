@@ -350,6 +350,14 @@
             display: block;
         }
 
+        .summary-card.success {
+            border-left-color: #66bb6a;
+        }
+
+        .summary-card.success .stat-value {
+            color: #66bb6a;
+        }
+
         .summary-card .stat-value {
             font-size: 2rem;
             font-weight: 700;
@@ -414,6 +422,11 @@
 
         .layer-item.payload {
             border-left-color: #66bb6a;
+        }
+
+        .layer-item.payload .layer-name,
+        .layer-item.payload .layer-bytes {
+            color: #66bb6a;
         }
 
         /* Warning Badge */
@@ -1413,7 +1426,7 @@
                         <div class="stat-label">Tunnel MTU</div>
                     </div>
                     ` : ''}
-                    <div class="summary-card ${results.payload < 0 ? 'error' : ''}">
+                    <div class="summary-card ${results.payload < 0 ? 'error' : 'success'}">
                         <div class="stat-value">${results.payload}</div>
                         <div class="stat-label">Payload</div>
                     </div>
@@ -1443,6 +1456,27 @@
                 </div>
 
                 ${vpnBreakdownHtml}
+
+                <div class="overhead-breakdown">
+                    <h3>Recommended Interface Settings</h3>
+                    <div class="layer-item" style="border-left-color: #66bb6a;">
+                        <span class="layer-name">Physical Interface MTU</span>
+                        <span class="layer-bytes">${results.effectiveMtu} bytes</span>
+                    </div>
+                    ${results.tunnelMtu !== null ? `
+                    <div class="layer-item" style="border-left-color: #66bb6a;">
+                        <span class="layer-name">VPN/Tunnel Interface MTU</span>
+                        <span class="layer-bytes">${results.tunnelMtu} bytes</span>
+                    </div>
+                    <div class="layer-item" style="border-left-color: #66bb6a;">
+                        <span class="layer-name">Client Device MTU</span>
+                        <span class="layer-bytes">${results.tunnelMtu} bytes</span>
+                    </div>
+                    <p style="color: #90caf9; font-size: 0.85rem; margin-top: 12px; line-height: 1.5;">
+                        <strong>Client Device MTU:</strong> Use this value for devices behind the VPN gateway when Path MTU Discovery (PMTUD) is blocked or unreliable. This prevents packet fragmentation and black-holing.
+                    </p>
+                    ` : ''}
+                </div>
 
                 <div class="export-section">
                     <button type="button" class="export-btn" onclick="exportCSV()" aria-label="Export results to CSV file">Export CSV</button>
@@ -1537,7 +1571,7 @@
                         <div class="stat-value">${results.totalOverhead}</div>
                         <div class="stat-label">Total Overhead</div>
                     </div>
-                    <div class="summary-card ${results.payload < 0 ? 'error' : results.payload < 100 ? 'warning' : ''}">
+                    <div class="summary-card ${results.payload < 0 ? 'error' : results.payload < 100 ? 'warning' : 'success'}">
                         <div class="stat-value">${results.payload}</div>
                         <div class="stat-label">Available Payload</div>
                     </div>
@@ -1559,6 +1593,14 @@
                     <div class="layer-item payload">
                         <span class="layer-name">Available Payload</span>
                         <span class="layer-bytes">${results.payload} bytes</span>
+                    </div>
+                </div>
+
+                <div class="overhead-breakdown">
+                    <h3>Recommended Interface Settings</h3>
+                    <div class="layer-item" style="border-left-color: #66bb6a;">
+                        <span class="layer-name">Interface MTU</span>
+                        <span class="layer-bytes">${results.baseMtu} bytes</span>
                     </div>
                 </div>
 
