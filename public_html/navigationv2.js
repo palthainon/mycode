@@ -226,6 +226,8 @@
                 left: 50%;
                 transform: translateX(-50%) translateY(-10px);
                 min-width: 200px;
+                backdrop-filter: none;
+                -webkit-backdrop-filter: none;
             }
 
             .nav-dropdown:not([hidden]) {
