@@ -28,7 +28,8 @@
             { name: 'Text Diff', file: 'data/text-diff.html', id: 'text-diff' }
         ],
         financials: [
-            { name: 'Amortization', file: 'financials/amortization-calculator.html', id: 'amortization' }
+            { name: 'Amortization', file: 'financials/amortization-calculator.html', id: 'amortization' },
+            { name: 'Compound Interest', file: 'financials/compound-interest-calculator.html', id: 'compound-interest' }
         ]
     };
 
@@ -138,7 +139,7 @@
             top: calc(100% + 8px);
             left: 0;
             min-width: 180px;
-            background: rgba(22, 33, 62, 0.95);
+            background: #16213e;
             backdrop-filter: blur(10px);
             border-radius: 8px;
             border: 1px solid rgba(79, 195, 247, 0.2);

@@ -6,23 +6,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Calculate monthly payments, total interest, and generate complete amortization schedules for fixed-rate mortgages and loans. Free, fast, offline-ready calculator.">
-    <meta name="keywords" content="amortization calculator, mortgage calculator, loan calculator, payment schedule, interest calculator, monthly payment, loan amortization">
+    <meta name="description" content="Calculate compound interest for savings and investments. See how your money grows with regular contributions and different compounding frequencies. Free, fast, offline-ready calculator.">
+    <meta name="keywords" content="compound interest calculator, savings calculator, investment calculator, interest calculator, savings growth, compound growth, retirement calculator">
     <meta name="author" content="OldWeb LLC">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://oldweb.tech/financials/amortization-calculator.html">
+    <link rel="canonical" href="https://oldweb.tech/financials/compound-interest-calculator.html">
 
     <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Amortization Calculator - OldWeb.tech">
-    <meta property="og:description" content="Calculate monthly payments, total interest, and generate complete amortization schedules for fixed-rate mortgages and loans.">
+    <meta property="og:title" content="Compound Interest Calculator - OldWeb.tech">
+    <meta property="og:description" content="Calculate compound interest for savings and investments. See how your money grows with regular contributions and different compounding frequencies.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://oldweb.tech/financials/amortization-calculator.html">
+    <meta property="og:url" content="https://oldweb.tech/financials/compound-interest-calculator.html">
     <meta property="og:site_name" content="OldWeb.tech">
 
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Amortization Calculator - OldWeb.tech">
-    <meta name="twitter:description" content="Calculate monthly payments, total interest, and generate complete amortization schedules for fixed-rate mortgages and loans.">
+    <meta name="twitter:title" content="Compound Interest Calculator - OldWeb.tech">
+    <meta name="twitter:description" content="Calculate compound interest for savings and investments. See how your money grows with regular contributions and different compounding frequencies.">
 
     <!-- Additional Meta Tags -->
     <meta name="theme-color" content="#1a1a2e">
@@ -30,7 +30,7 @@
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
 
-    <title>Amortization Calculator - OldWeb.tech</title>
+    <title>Compound Interest Calculator - OldWeb.tech</title>
     <link rel="stylesheet" href="../a11y.css">
     <script src="../a11y-utils.js"></script>
     <script src="../navigationv2.js"></script>
@@ -280,7 +280,18 @@
         }
 
         .breakdown-principal {
-            background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%);
+            background: linear-gradient(135deg, #42a5f5 0%, #1e88e5 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #fff;
+            min-width: 60px;
+        }
+
+        .breakdown-contributions {
+            background: linear-gradient(135deg, #7e57c2 0%, #5e35b1 100%);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -291,7 +302,7 @@
         }
 
         .breakdown-interest {
-            background: linear-gradient(135deg, #ff7043 0%, #f4511e 100%);
+            background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -305,6 +316,7 @@
             display: flex;
             gap: 20px;
             font-size: 0.9rem;
+            flex-wrap: wrap;
         }
 
         .legend-item {
@@ -320,11 +332,15 @@
         }
 
         .legend-dot.principal {
-            background: #66bb6a;
+            background: #42a5f5;
+        }
+
+        .legend-dot.contributions {
+            background: #7e57c2;
         }
 
         .legend-dot.interest {
-            background: #ff7043;
+            background: #66bb6a;
         }
 
         .schedule-section {
@@ -406,7 +422,7 @@
         .schedule-table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 700px;
+            min-width: 600px;
         }
 
         .schedule-table th {
@@ -426,11 +442,6 @@
         .schedule-table th:first-child,
         .schedule-table td:first-child {
             text-align: center;
-        }
-
-        .schedule-table th:nth-child(2),
-        .schedule-table td:nth-child(2) {
-            text-align: left;
         }
 
         .schedule-table td {
@@ -453,15 +464,6 @@
             background: rgba(79, 195, 247, 0.1);
         }
 
-        .schedule-table .year-row {
-            background: rgba(79, 195, 247, 0.15) !important;
-            font-weight: 600;
-        }
-
-        .schedule-table .year-row td {
-            color: #4fc3f7;
-        }
-
         .error {
             background: rgba(244, 67, 54, 0.2);
             border: 1px solid #f44336;
@@ -474,63 +476,6 @@
 
         .error.show {
             display: block;
-        }
-
-        .savings-section {
-            display: none;
-            background: rgba(102, 187, 106, 0.1);
-            border-radius: 16px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(102, 187, 106, 0.3);
-            margin-bottom: 30px;
-        }
-
-        .savings-section.show {
-            display: block;
-            animation: fadeIn 0.4s ease;
-        }
-
-        .savings-section h2 {
-            color: #66bb6a;
-            margin-bottom: 20px;
-            font-size: 1.5rem;
-        }
-
-        .savings-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-        }
-
-        .savings-item {
-            background: rgba(0, 0, 0, 0.2);
-            padding: 20px;
-            border-radius: 8px;
-            border-left: 4px solid #66bb6a;
-        }
-
-        .savings-item.highlight {
-            background: rgba(102, 187, 106, 0.15);
-        }
-
-        .savings-item .label {
-            color: #a5d6a7;
-            font-size: 0.85rem;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .savings-item .value {
-            font-size: 1.5rem;
-            font-family: 'Consolas', 'Monaco', monospace;
-            color: #fff;
-            font-weight: 600;
-        }
-
-        .savings-item .value.positive {
-            color: #66bb6a;
         }
 
         .quick-presets {
@@ -632,33 +577,12 @@
                 display: none !important;
             }
 
-            .results, .schedule-section, .savings-section {
+            .results, .schedule-section {
                 display: block !important;
                 background: #fff;
                 border: 1px solid #ccc;
                 box-shadow: none;
                 backdrop-filter: none;
-            }
-
-            .savings-section h2 {
-                color: #2e7d32;
-            }
-
-            .savings-item {
-                background: #f5f5f5;
-                border-left-color: #4caf50;
-            }
-
-            .savings-item .label {
-                color: #666;
-            }
-
-            .savings-item .value {
-                color: #000;
-            }
-
-            .savings-item .value.positive {
-                color: #2e7d32;
             }
 
             .results h2, .section-header h2 {
@@ -703,9 +627,9 @@
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      "name": "Amortization Calculator",
-      "description": "Calculate monthly payments, total interest, and generate complete amortization schedules for fixed-rate mortgages and loans.",
-      "url": "https://oldweb.tech/financials/amortization-calculator.html",
+      "name": "Compound Interest Calculator",
+      "description": "Calculate compound interest for savings and investments. See how your money grows with regular contributions and different compounding frequencies.",
+      "url": "https://oldweb.tech/financials/compound-interest-calculator.html",
       "applicationCategory": "FinanceApplication",
       "operatingSystem": "Web Browser",
       "offers": {
@@ -729,67 +653,73 @@
  \___/|_|\__,_|   \_/\_/ \___|_.__/
 </div>
     <main id="main-content" class="container">
-        <h1>Amortization Calculator</h1>
+        <h1>Compound Interest Calculator</h1>
 
         <div class="calculator">
-            <form id="amort-form" aria-label="Amortization Calculator Form">
+            <form id="compound-form" aria-label="Compound Interest Calculator Form">
                 <div class="input-group">
                     <div class="input-field">
-                        <label for="principal">Loan Amount</label>
+                        <label for="principal">Initial Investment</label>
                         <div class="input-prefix">
                             <span>$</span>
-                            <input type="text" id="principal" placeholder="200,000" aria-required="true" aria-describedby="principal-help" inputmode="decimal">
+                            <input type="text" id="principal" placeholder="10,000" aria-required="true" aria-describedby="principal-help" inputmode="decimal">
                         </div>
-                        <span id="principal-help" class="sr-only">Enter the total loan amount in dollars</span>
+                        <span id="principal-help" class="sr-only">Enter your initial investment amount in dollars</span>
                     </div>
                     <div class="input-field">
                         <label for="rate">Annual Interest Rate</label>
                         <div class="input-suffix">
-                            <input type="text" id="rate" placeholder="6.5" aria-required="true" aria-describedby="rate-help" inputmode="decimal">
+                            <input type="text" id="rate" placeholder="7" aria-required="true" aria-describedby="rate-help" inputmode="decimal">
                             <span>%</span>
                         </div>
                         <span id="rate-help" class="sr-only">Enter the annual interest rate as a percentage</span>
                     </div>
                     <div class="input-field">
-                        <label for="term">Loan Term</label>
-                        <input type="number" id="term" placeholder="30" value="30" min="1" max="50" aria-required="true" aria-describedby="term-help">
-                        <span id="term-help" class="sr-only">Enter the loan term in years</span>
-                    </div>
-                    <div class="input-field">
-                        <label for="term-unit">Term Unit</label>
-                        <select id="term-unit" aria-describedby="term-unit-help">
-                            <option value="years" selected>Years</option>
-                            <option value="months">Months</option>
-                        </select>
-                        <span id="term-unit-help" class="sr-only">Select whether the term is in years or months</span>
+                        <label for="years">Investment Period</label>
+                        <input type="number" id="years" placeholder="10" value="10" min="1" max="100" aria-required="true" aria-describedby="years-help">
+                        <span id="years-help" class="sr-only">Enter the investment period in years</span>
                     </div>
                 </div>
 
                 <div class="input-group">
                     <div class="input-field">
-                        <label for="start-date">Start Date (Optional)</label>
-                        <input type="month" id="start-date" aria-describedby="start-date-help">
-                        <span id="start-date-help" class="sr-only">Optional: Enter the loan start date to show payment dates in the schedule</span>
-                    </div>
-                    <div class="input-field">
-                        <label for="extra-payment">Extra Monthly Payment (Optional)</label>
+                        <label for="contribution">Monthly Contribution (Optional)</label>
                         <div class="input-prefix">
                             <span>$</span>
-                            <input type="text" id="extra-payment" placeholder="0" aria-describedby="extra-payment-help" inputmode="decimal">
+                            <input type="text" id="contribution" placeholder="500" aria-describedby="contribution-help" inputmode="decimal">
                         </div>
-                        <span id="extra-payment-help" class="sr-only">Optional: Enter additional monthly payment to pay off loan faster</span>
+                        <span id="contribution-help" class="sr-only">Optional: Enter a monthly contribution amount</span>
+                    </div>
+                    <div class="input-field">
+                        <label for="compound-frequency">Compounding Frequency</label>
+                        <select id="compound-frequency" aria-describedby="frequency-help">
+                            <option value="12" selected>Monthly</option>
+                            <option value="4">Quarterly</option>
+                            <option value="2">Semi-Annually</option>
+                            <option value="1">Annually</option>
+                            <option value="365">Daily</option>
+                        </select>
+                        <span id="frequency-help" class="sr-only">Select how often interest is compounded</span>
+                    </div>
+                    <div class="input-field">
+                        <label for="contribution-timing">Contribution Timing</label>
+                        <select id="contribution-timing" aria-describedby="timing-help">
+                            <option value="end" selected>End of Month</option>
+                            <option value="start">Beginning of Month</option>
+                        </select>
+                        <span id="timing-help" class="sr-only">Select when contributions are made each month</span>
                     </div>
                 </div>
 
-                <button type="button" class="btn" onclick="calculate()" aria-label="Calculate amortization schedule">Calculate</button>
+                <button type="button" class="btn" onclick="calculate()" aria-label="Calculate compound interest">Calculate</button>
 
                 <div class="quick-presets">
-                    <h3 id="presets-label">Common Loan Examples:</h3>
+                    <h3 id="presets-label">Common Savings Scenarios:</h3>
                     <div class="preset-buttons" role="group" aria-labelledby="presets-label">
-                        <button type="button" class="preset-btn" onclick="setPreset(200000, 6.5, 30)" aria-label="200 thousand dollar mortgage at 6.5 percent for 30 years">$200K @ 6.5% / 30yr</button>
-                        <button type="button" class="preset-btn" onclick="setPreset(300000, 7, 30)" aria-label="300 thousand dollar mortgage at 7 percent for 30 years">$300K @ 7% / 30yr</button>
-                        <button type="button" class="preset-btn" onclick="setPreset(400000, 6.75, 15)" aria-label="400 thousand dollar mortgage at 6.75 percent for 15 years">$400K @ 6.75% / 15yr</button>
-                        <button type="button" class="preset-btn" onclick="setPreset(25000, 8, 5)" aria-label="25 thousand dollar auto loan at 8 percent for 5 years">$25K Auto @ 8% / 5yr</button>
+                        <button type="button" class="preset-btn" onclick="setPreset(10000, 7, 30, 500)" aria-label="10 thousand initial with 500 monthly for 30 years at 7 percent">$10K + $500/mo @ 7% / 30yr</button>
+                        <button type="button" class="preset-btn" onclick="setPreset(5000, 6, 20, 200)" aria-label="5 thousand initial with 200 monthly for 20 years at 6 percent">$5K + $200/mo @ 6% / 20yr</button>
+                        <button type="button" class="preset-btn" onclick="setPreset(1000, 5, 10, 100)" aria-label="1 thousand initial with 100 monthly for 10 years at 5 percent">$1K + $100/mo @ 5% / 10yr</button>
+                        <button type="button" class="preset-btn" onclick="setPreset(50000, 8, 25, 0)" aria-label="50 thousand lump sum for 25 years at 8 percent">$50K lump sum @ 8% / 25yr</button>
                     </div>
                 </div>
 
@@ -797,8 +727,8 @@
             </form>
         </div>
 
-        <div class="results" id="results" role="region" aria-live="polite" aria-label="Loan summary">
-            <h2>Loan Summary</h2>
+        <div class="results" id="results" role="region" aria-live="polite" aria-label="Investment summary">
+            <h2>Investment Summary</h2>
             <div class="summary-grid" id="summaryGrid">
                 <!-- Summary will be inserted here -->
             </div>
@@ -807,30 +737,22 @@
             </div>
         </div>
 
-        <div class="savings-section" id="savings-section" role="region" aria-live="polite" aria-label="Early payoff savings">
-            <h2>Early Payoff Savings</h2>
-            <div class="savings-grid" id="savingsGrid">
-                <!-- Savings will be inserted here -->
-            </div>
-        </div>
-
-        <div class="schedule-section" id="schedule-section" role="region" aria-label="Amortization schedule">
+        <div class="schedule-section" id="schedule-section" role="region" aria-label="Yearly growth schedule">
             <div class="section-header">
-                <h2>Amortization Schedule</h2>
+                <h2>Yearly Growth Schedule</h2>
                 <div class="header-actions">
                     <button type="button" class="export-btn" onclick="exportToCSV()" aria-label="Export schedule to CSV file">Export CSV</button>
-                    <button type="button" class="print-btn" onclick="window.print()" aria-label="Print amortization schedule">Print</button>
+                    <button type="button" class="print-btn" onclick="window.print()" aria-label="Print growth schedule">Print</button>
                 </div>
             </div>
             <div class="schedule-table-wrapper">
-                <table class="schedule-table" id="scheduleTable" aria-label="Payment schedule">
+                <table class="schedule-table" id="scheduleTable" aria-label="Yearly growth schedule">
                     <thead>
                         <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Payment</th>
-                            <th scope="col">Principal</th>
-                            <th scope="col">Interest</th>
+                            <th scope="col">Year</th>
+                            <th scope="col">Contributions</th>
+                            <th scope="col">Interest Earned</th>
+                            <th scope="col">Total Interest</th>
                             <th scope="col">Balance</th>
                         </tr>
                     </thead>
@@ -842,7 +764,7 @@
         </div>
 
         <footer role="contentinfo">
-            Amortization Calculator - Works offline, no installation required
+            Compound Interest Calculator - Works offline, no installation required
         </footer>
     </main>
 
@@ -871,51 +793,41 @@
             if (!str) return null;
             const cleaned = str.replace(/[,$\s]/g, '');
             const num = parseFloat(cleaned);
-            return isNaN(num) || num <= 0 ? null : num;
+            return isNaN(num) || num < 0 ? null : num;
         }
 
-        function setPreset(principal, rate, years) {
+        function setPreset(principal, rate, years, contribution) {
             document.getElementById('principal').value = principal.toLocaleString();
             document.getElementById('rate').value = rate;
-            document.getElementById('term').value = years;
-            document.getElementById('term-unit').value = 'years';
+            document.getElementById('years').value = years;
+            document.getElementById('contribution').value = contribution > 0 ? contribution.toLocaleString() : '';
             calculate();
-        }
-
-        function calculateMonthlyPayment(principal, monthlyRate, totalPayments) {
-            if (monthlyRate === 0) {
-                return principal / totalPayments;
-            }
-            return principal * (monthlyRate * Math.pow(1 + monthlyRate, totalPayments)) /
-                   (Math.pow(1 + monthlyRate, totalPayments) - 1);
         }
 
         function calculate() {
             const principalInput = document.getElementById('principal');
             const rateInput = document.getElementById('rate');
-            const termInput = document.getElementById('term');
-            const termUnit = document.getElementById('term-unit').value;
-            const startDateInput = document.getElementById('start-date');
-            const extraPaymentInput = document.getElementById('extra-payment');
+            const yearsInput = document.getElementById('years');
+            const contributionInput = document.getElementById('contribution');
+            const compoundFrequency = parseInt(document.getElementById('compound-frequency').value);
+            const contributionTiming = document.getElementById('contribution-timing').value;
             const errorDiv = document.getElementById('error');
             const resultsDiv = document.getElementById('results');
             const scheduleSection = document.getElementById('schedule-section');
-            const savingsSection = document.getElementById('savings-section');
 
             // Clear previous state
             resultsDiv.classList.remove('show');
             scheduleSection.classList.remove('show');
-            savingsSection.classList.remove('show');
             errorDiv.classList.remove('show');
             errorDiv.textContent = '';
             A11yUtils.clearError(principalInput);
             A11yUtils.clearError(rateInput);
-            A11yUtils.clearError(termInput);
+            A11yUtils.clearError(yearsInput);
 
             // Validate principal
             const principal = parseNumber(principalInput.value);
             if (principal === null) {
-                const msg = 'Please enter a valid loan amount';
+                const msg = 'Please enter a valid initial investment amount';
                 errorDiv.textContent = msg;
                 errorDiv.classList.add('show');
                 A11yUtils.showError(principalInput, msg);
@@ -934,77 +846,78 @@
                 return;
             }
 
-            // Validate term
-            const termValue = parseInt(termInput.value);
-            if (isNaN(termValue) || termValue <= 0) {
-                const msg = 'Please enter a valid loan term';
+            // Validate years
+            const years = parseInt(yearsInput.value);
+            if (isNaN(years) || years <= 0) {
+                const msg = 'Please enter a valid investment period';
                 errorDiv.textContent = msg;
                 errorDiv.classList.add('show');
-                A11yUtils.showError(termInput, msg);
-                termInput.focus();
+                A11yUtils.showError(yearsInput, msg);
+                yearsInput.focus();
                 return;
             }
 
-            // Get extra payment (default to 0)
-            const extraPayment = parseNumber(extraPaymentInput.value) || 0;
+            // Get contribution (default to 0)
+            const monthlyContribution = parseNumber(contributionInput.value) || 0;
 
-            // Calculate months
-            const totalPayments = termUnit === 'years' ? termValue * 12 : termValue;
-            const monthlyRate = annualRate / 100 / 12;
+            // Calculate compound interest
+            const periodicRate = annualRate / 100 / compoundFrequency;
+            const totalPeriods = years * compoundFrequency;
+            const monthlyPeriods = 12;
 
-            // Calculate monthly payment (base payment without extra)
-            const baseMonthlyPayment = calculateMonthlyPayment(principal, monthlyRate, totalPayments);
-            const totalMonthlyPayment = baseMonthlyPayment + extraPayment;
-
-            // Calculate original totals (without extra payments)
-            const originalTotalPaid = baseMonthlyPayment * totalPayments;
-            const originalTotalInterest = originalTotalPaid - principal;
-
-            // Generate schedule with extra payments
+            // Generate yearly schedule
             scheduleData = [];
             let balance = principal;
-            let startDate = startDateInput.value ? new Date(startDateInput.value + '-01') : null;
-            let actualPayments = 0;
-            let actualTotalInterest = 0;
+            let totalContributions = principal;
+            let totalInterestEarned = 0;
 
-            while (balance > 0.01 && actualPayments < totalPayments * 2) { // Safety limit
-                actualPayments++;
-                const interestPayment = balance * monthlyRate;
-                actualTotalInterest += interestPayment;
+            for (let year = 1; year <= years; year++) {
+                let yearInterest = 0;
+                let yearContributions = 0;
 
-                // Calculate principal portion
-                let principalPayment = totalMonthlyPayment - interestPayment;
-                let payment = totalMonthlyPayment;
+                // Calculate month by month for this year
+                for (let month = 1; month <= 12; month++) {
+                    // Contribution at start of month
+                    if (contributionTiming === 'start' && monthlyContribution > 0) {
+                        balance += monthlyContribution;
+                        yearContributions += monthlyContribution;
+                    }
 
-                // Final payment adjustment
-                if (principalPayment >= balance) {
-                    principalPayment = balance;
-                    payment = principalPayment + interestPayment;
+                    // Apply compounding based on frequency
+                    // For monthly compounding, compound every month
+                    // For quarterly, compound every 3 months
+                    // etc.
+                    const monthsPerPeriod = 12 / compoundFrequency;
+                    if (month % monthsPerPeriod === 0 || compoundFrequency >= 12) {
+                        const periodsThisMonth = compoundFrequency >= 12 ? compoundFrequency / 12 : 1;
+                        for (let p = 0; p < periodsThisMonth; p++) {
+                            const interest = balance * periodicRate;
+                            yearInterest += interest;
+                            balance += interest;
+                        }
+                    }
+
+                    // Contribution at end of month
+                    if (contributionTiming === 'end' && monthlyContribution > 0) {
+                        balance += monthlyContribution;
+                        yearContributions += monthlyContribution;
+                    }
                 }
 
-                balance -= principalPayment;
-
-                let paymentDate = '';
-                if (startDate) {
-                    const date = new Date(startDate);
-                    date.setMonth(date.getMonth() + actualPayments);
-                    paymentDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
-                }
+                totalContributions += yearContributions;
+                totalInterestEarned += yearInterest;
 
                 scheduleData.push({
-                    number: actualPayments,
-                    date: paymentDate,
-                    payment: payment,
-                    principal: principalPayment,
-                    interest: interestPayment,
-                    balance: Math.max(0, balance)
+                    year: year,
+                    contributions: yearContributions,
+                    interestEarned: yearInterest,
+                    totalInterest: totalInterestEarned,
+                    balance: balance
                 });
             }
 
-            const actualTotalPaid = scheduleData.reduce((sum, row) => sum + row.payment, 0);
-
             // Display summary
-            displaySummary(totalMonthlyPayment, principal, actualTotalInterest, actualTotalPaid, actualPayments, annualRate, extraPayment > 0);
+            displaySummary(balance, principal, totalContributions - principal, totalInterestEarned, years, annualRate);
 
             // Display schedule
             displaySchedule();
@@ -1013,107 +926,69 @@
             resultsDiv.classList.add('show');
             scheduleSection.classList.add('show');
 
-            // Show savings section if extra payment is provided
-            if (extraPayment > 0) {
-                const interestSaved = originalTotalInterest - actualTotalInterest;
-                const paymentsSaved = totalPayments - actualPayments;
-                const yearsSaved = Math.floor(paymentsSaved / 12);
-                const monthsSaved = paymentsSaved % 12;
-
-                displaySavings(interestSaved, paymentsSaved, yearsSaved, monthsSaved, extraPayment, baseMonthlyPayment);
-                savingsSection.classList.add('show');
-
-                A11yUtils.announce(`Calculated: Monthly payment ${formatCurrency(totalMonthlyPayment)}, Interest saved ${formatCurrency(interestSaved)}, Payoff ${yearsSaved} years ${monthsSaved} months sooner`, 'polite');
-            } else {
-                A11yUtils.announce(`Calculated: Monthly payment ${formatCurrency(baseMonthlyPayment)}, Total interest ${formatCurrency(originalTotalInterest)}`, 'polite');
-            }
+            // Announce to screen readers
+            A11yUtils.announce(`Calculated: Final balance ${formatCurrency(balance)}, Total interest earned ${formatCurrency(totalInterestEarned)}`, 'polite');
         }
 
-        function displaySavings(interestSaved, paymentsSaved, yearsSaved, monthsSaved, extraPayment, basePayment) {
-            const savingsGrid = document.getElementById('savingsGrid');
-
-            let timeString = '';
-            if (yearsSaved > 0) {
-                timeString = `${yearsSaved} yr${yearsSaved !== 1 ? 's' : ''} ${monthsSaved} mo`;
-            } else {
-                timeString = `${monthsSaved} month${monthsSaved !== 1 ? 's' : ''}`;
-            }
-
-            const paymentIncrease = ((extraPayment / basePayment) * 100).toFixed(1);
-
-            savingsGrid.innerHTML = `
-                <div class="savings-item highlight">
-                    <div class="label">Interest Saved</div>
-                    <div class="value positive">${formatCurrency(interestSaved)}</div>
-                </div>
-                <div class="savings-item highlight">
-                    <div class="label">Time Saved</div>
-                    <div class="value positive">${timeString}</div>
-                </div>
-                <div class="savings-item">
-                    <div class="label">Payments Eliminated</div>
-                    <div class="value">${paymentsSaved}</div>
-                </div>
-                <div class="savings-item">
-                    <div class="label">Extra Payment</div>
-                    <div class="value">${formatCurrency(extraPayment)}/mo</div>
-                </div>
-                <div class="savings-item">
-                    <div class="label">Payment Increase</div>
-                    <div class="value">+${paymentIncrease}%</div>
-                </div>
-            `;
-        }
-
-        function displaySummary(monthlyPayment, principal, totalInterest, totalPaid, totalPayments, rate, hasExtraPayment = false) {
+        function displaySummary(finalBalance, principal, totalContributions, totalInterest, years, rate) {
             const summaryGrid = document.getElementById('summaryGrid');
             const breakdown = document.getElementById('breakdown');
 
-            const principalPercent = (principal / totalPaid * 100).toFixed(1);
-            const interestPercent = (totalInterest / totalPaid * 100).toFixed(1);
+            const totalInvested = principal + totalContributions;
+            const principalPercent = (principal / finalBalance * 100).toFixed(1);
+            const contributionsPercent = (totalContributions / finalBalance * 100).toFixed(1);
+            const interestPercent = (totalInterest / finalBalance * 100).toFixed(1);
+
+            const totalReturn = ((finalBalance - totalInvested) / totalInvested * 100).toFixed(1);
 
             summaryGrid.innerHTML = `
                 <div class="summary-item highlight">
-                    <div class="label">Monthly Payment</div>
-                    <div class="value" id="monthlyPaymentValue">${formatCurrency(monthlyPayment)}</div>
-                    <button class="copy-btn" onclick="copyValue('${monthlyPayment.toFixed(2)}', this)" aria-label="Copy monthly payment">Copy</button>
+                    <div class="label">Final Balance</div>
+                    <div class="value" id="finalBalanceValue">${formatCurrency(finalBalance)}</div>
+                    <button class="copy-btn" onclick="copyValue('${finalBalance.toFixed(2)}', this)" aria-label="Copy final balance">Copy</button>
                 </div>
                 <div class="summary-item">
-                    <div class="label">Total Principal</div>
+                    <div class="label">Initial Investment</div>
                     <div class="value">${formatCurrency(principal)}</div>
-                    <button class="copy-btn" onclick="copyValue('${principal.toFixed(2)}', this)" aria-label="Copy principal">Copy</button>
+                    <button class="copy-btn" onclick="copyValue('${principal.toFixed(2)}', this)" aria-label="Copy initial investment">Copy</button>
                 </div>
                 <div class="summary-item">
-                    <div class="label">Total Interest</div>
+                    <div class="label">Total Contributions</div>
+                    <div class="value">${formatCurrency(totalContributions)}</div>
+                    <button class="copy-btn" onclick="copyValue('${totalContributions.toFixed(2)}', this)" aria-label="Copy total contributions">Copy</button>
+                </div>
+                <div class="summary-item highlight">
+                    <div class="label">Total Interest Earned</div>
                     <div class="value">${formatCurrency(totalInterest)}</div>
                     <button class="copy-btn" onclick="copyValue('${totalInterest.toFixed(2)}', this)" aria-label="Copy total interest">Copy</button>
                 </div>
                 <div class="summary-item">
-                    <div class="label">Total Cost</div>
-                    <div class="value">${formatCurrency(totalPaid)}</div>
-                    <button class="copy-btn" onclick="copyValue('${totalPaid.toFixed(2)}', this)" aria-label="Copy total cost">Copy</button>
+                    <div class="label">Investment Period</div>
+                    <div class="value">${years} year${years !== 1 ? 's' : ''}</div>
                 </div>
                 <div class="summary-item">
-                    <div class="label">Total Payments</div>
-                    <div class="value">${totalPayments}</div>
-                </div>
-                <div class="summary-item">
-                    <div class="label">Interest Rate</div>
-                    <div class="value">${rate}%</div>
+                    <div class="label">Total Return</div>
+                    <div class="value">${totalReturn}%</div>
                 </div>
             `;
 
             breakdown.innerHTML = `
-                <h3>Principal vs Interest Breakdown</h3>
-                <div class="breakdown-bar" role="img" aria-label="Principal ${principalPercent}%, Interest ${interestPercent}%">
+                <h3>Balance Breakdown</h3>
+                <div class="breakdown-bar" role="img" aria-label="Initial ${principalPercent}%, Contributions ${contributionsPercent}%, Interest ${interestPercent}%">
                     <div class="breakdown-principal" style="width: ${principalPercent}%">${principalPercent}%</div>
+                    ${totalContributions > 0 ? `<div class="breakdown-contributions" style="width: ${contributionsPercent}%">${contributionsPercent}%</div>` : ''}
                     <div class="breakdown-interest" style="width: ${interestPercent}%">${interestPercent}%</div>
                 </div>
                 <div class="breakdown-legend">
                     <div class="legend-item">
                         <span class="legend-dot principal"></span>
-                        <span>Principal: ${formatCurrency(principal)}</span>
+                        <span>Initial: ${formatCurrency(principal)}</span>
                     </div>
+                    ${totalContributions > 0 ? `
+                    <div class="legend-item">
+                        <span class="legend-dot contributions"></span>
+                        <span>Contributions: ${formatCurrency(totalContributions)}</span>
+                    </div>` : ''}
                     <div class="legend-item">
                         <span class="legend-dot interest"></span>
                         <span>Interest: ${formatCurrency(totalInterest)}</span>
@@ -1126,24 +1001,13 @@
             const tbody = document.getElementById('scheduleBody');
             tbody.innerHTML = '';
 
-            let currentYear = null;
-
-            scheduleData.forEach((row, index) => {
-                // Add year separator rows
-                if (row.date) {
-                    const year = row.date.split(' ')[1];
-                    if (year !== currentYear && index > 0 && (index) % 12 === 0) {
-                        currentYear = year;
-                    }
-                }
-
+            scheduleData.forEach(row => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td>${row.number}</td>
-                    <td>${row.date || '-'}</td>
-                    <td>${formatCurrency(row.payment)}</td>
-                    <td>${formatCurrency(row.principal)}</td>
-                    <td>${formatCurrency(row.interest)}</td>
+                    <td>${row.year}</td>
+                    <td>${formatCurrency(row.contributions)}</td>
+                    <td>${formatCurrency(row.interestEarned)}</td>
+                    <td>${formatCurrency(row.totalInterest)}</td>
                     <td>${formatCurrency(row.balance)}</td>
                 `;
                 tbody.appendChild(tr);
@@ -1170,16 +1034,15 @@
                 return;
             }
 
-            const headers = ['Payment #', 'Date', 'Payment', 'Principal', 'Interest', 'Balance'];
+            const headers = ['Year', 'Contributions', 'Interest Earned', 'Total Interest', 'Balance'];
             const csvRows = [headers.join(',')];
 
             scheduleData.forEach(row => {
                 csvRows.push([
-                    row.number,
-                    row.date || '',
-                    row.payment.toFixed(2),
-                    row.principal.toFixed(2),
-                    row.interest.toFixed(2),
+                    row.year,
+                    row.contributions.toFixed(2),
+                    row.interestEarned.toFixed(2),
+                    row.totalInterest.toFixed(2),
                     row.balance.toFixed(2)
                 ].join(','));
             });
@@ -1190,7 +1053,8 @@
             const url = URL.createObjectURL(blob);
 
             const principal = document.getElementById('principal').value.replace(/[,$]/g, '');
-            const filename = `amortization-schedule-${principal}.csv`;
+            const years = document.getElementById('years').value;
+            const filename = `compound-interest-${principal}-${years}yr.csv`;
 
             link.setAttribute('href', url);
             link.setAttribute('download', filename);
@@ -1199,10 +1063,10 @@
             link.click();
             document.body.removeChild(link);
 
-            A11yUtils.announce('Amortization schedule exported to CSV file', 'polite');
+            A11yUtils.announce('Growth schedule exported to CSV file', 'polite');
         }
 
-        // Format principal input with commas
+        // Format currency inputs with commas
         document.getElementById('principal').addEventListener('input', function(e) {
             let value = e.target.value.replace(/[^\d.]/g, '');
             if (value) {
@@ -1212,8 +1076,7 @@
             }
         });
 
-        // Format extra payment input with commas
-        document.getElementById('extra-payment').addEventListener('input', function(e) {
+        document.getElementById('contribution').addEventListener('input', function(e) {
             let value = e.target.value.replace(/[^\d.]/g, '');
             if (value) {
                 const parts = value.split('.');
@@ -1223,21 +1086,13 @@
         });
 
         // Allow Enter key to calculate
-        document.querySelectorAll('#principal, #rate, #term, #extra-payment').forEach(input => {
+        document.querySelectorAll('#principal, #rate, #years, #contribution').forEach(input => {
             input.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
                     e.preventDefault();
                     calculate();
                 }
             });
-        });
-
-        // Set default start date to current month
-        document.addEventListener('DOMContentLoaded', function() {
-            const now = new Date();
-            const year = now.getFullYear();
-            const month = String(now.getMonth() + 1).padStart(2, '0');
-            document.getElementById('start-date').value = `${year}-${month}`;
         });
 
         // Skip link handler
