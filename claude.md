@@ -60,27 +60,28 @@
 ## Tool Categories
 
 ### Network Tools
-- IP/subnet calculators
+- IP/subnet calculators (IPv4 & IPv6)
 - CIDR notation converters
-- MAC address formatters
-- Port/protocol references
-- Packet size calculators
+- Subnet planners
+- Bit/byte calculators
+- Data rate calculators
+- Jinja template builders
 
 ### System Admin Tools
-- Log parsers/formatters
 - Timestamp converters
-- Base64/hex encoders
-- JSON/YAML validators
-- Certificate decoders
+- chmod calculators
+- Cron expression builders
+- Disk usage tools
+- Password generators
+- Regex testers
 
 ### Data Tools
-- Diff utilities
-- Format converters
-- Regex testers
-- Hash generators
+- Text diff utilities
+- String manipulation tools
+- Base64/hash encoders & generators
 
 ### Financials
-- amortization calculator
+- Amortization calculators
 
 ## Development Guidelines
 
@@ -90,7 +91,8 @@
 4. **Make it obvious** - UI should be self-explanatory, no documentation needed
 5. **Build for real use** - Every tool should solve an actual problem you've encountered
 6. **Maintain Navigation Consistency** - All tools must have identical navigation structure and styling
-7. ##Always check for ADA compliance. Match subnet-calculator.html for reference.
+7. **Always check for ADA compliance** - Match subnet-calculator.html for reference
+
 ## Success Criteria
 
 A tool is done when:
