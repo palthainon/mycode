@@ -246,63 +246,6 @@
             color: #1a1a2e;
         }
 
-        .input-section {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 25px;
-        }
-
-        .input-row {
-            display: flex;
-            gap: 15px;
-            align-items: flex-end;
-        }
-
-        .input-group {
-            flex: 1;
-        }
-
-        .input-group label {
-            display: block;
-            font-size: 0.85rem;
-            color: #90caf9;
-            margin-bottom: 8px;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 12px 16px;
-            border: 1px solid rgba(79, 195, 247, 0.3);
-            border-radius: 8px;
-            background: rgba(0, 0, 0, 0.3);
-            color: #fff;
-            font-family: 'Courier New', monospace;
-            font-size: 1.1rem;
-        }
-
-        .input-group input:focus {
-            outline: none;
-            border-color: #4fc3f7;
-            box-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
-        }
-
-        .convert-btn {
-            padding: 12px 24px;
-            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
-            border: none;
-            border-radius: 8px;
-            color: #1a1a2e;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .convert-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(79, 195, 247, 0.4);
-        }
-
         .special-perms {
             margin-bottom: 25px;
         }
@@ -470,6 +413,107 @@
             display: block;
         }
 
+        /* Tab Navigation */
+        .tab-navigation {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid rgba(79, 195, 247, 0.2);
+            padding-bottom: 0;
+        }
+
+        .tab-btn {
+            padding: 12px 24px;
+            border: none;
+            background: transparent;
+            color: #90caf9;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: 8px 8px 0 0;
+            transition: all 0.2s;
+            position: relative;
+            bottom: -2px;
+            border-bottom: 2px solid transparent;
+        }
+
+        .tab-btn:hover {
+            background: rgba(79, 195, 247, 0.1);
+            color: #4fc3f7;
+        }
+
+        .tab-btn.active {
+            background: rgba(79, 195, 247, 0.15);
+            color: #4fc3f7;
+            border-bottom: 2px solid #4fc3f7;
+        }
+
+        .tab-btn:focus {
+            outline: 2px solid #4fc3f7;
+            outline-offset: 2px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Live Permission Inputs */
+        .perm-input-section {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .perm-inputs-row {
+            display: flex;
+            gap: 20px;
+        }
+
+        .perm-input-group {
+            flex: 1;
+        }
+
+        .perm-input-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: #90caf9;
+            margin-bottom: 8px;
+        }
+
+        .perm-input-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            color: #4fc3f7;
+            font-family: 'Courier New', monospace;
+            font-size: 1.3rem;
+            text-align: center;
+        }
+
+        .perm-input-group input:focus {
+            outline: none;
+            border-color: #4fc3f7;
+            box-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
+        }
+
+        /* Clickable permission cells */
+        .perm-cell-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+        }
+
         footer {
             text-align: center;
             margin-top: 30px;
@@ -503,10 +547,6 @@
                 grid-template-columns: 1fr;
             }
 
-            .input-row {
-                flex-direction: column;
-            }
-
             .umask-row {
                 flex-direction: column;
             }
@@ -522,6 +562,26 @@
 
             .results-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .tab-navigation {
+                flex-wrap: wrap;
+            }
+
+            .tab-btn {
+                padding: 10px 16px;
+                font-size: 0.9rem;
+                flex: 1;
+                min-width: auto;
+            }
+
+            .perm-inputs-row {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .perm-input-group input {
+                font-size: 1.1rem;
             }
         }
     </style>
@@ -561,7 +621,38 @@
         <p class="subtitle">Visual Unix file permissions calculator</p>
 
         <div class="calculator">
-            <h3 class="section-title">Permission Checkboxes</h3>
+            <div class="tab-navigation" role="tablist" aria-label="Chmod calculator sections">
+                <button type="button" class="tab-btn active" id="tab-btn-permissions" data-tab="permissions" role="tab" aria-selected="true" aria-controls="tab-permissions">Permissions</button>
+                <button type="button" class="tab-btn" id="tab-btn-umask" data-tab="umask" role="tab" aria-selected="false" aria-controls="tab-umask">Umask</button>
+            </div>
+
+            <div class="tab-content active" id="tab-permissions" role="tabpanel" aria-labelledby="tab-btn-permissions">
+                <div class="perm-input-section">
+                    <div class="perm-inputs-row">
+                        <div class="perm-input-group">
+                            <label for="permInput">Octal</label>
+                            <input type="text"
+                                   id="permInput"
+                                   value="755"
+                                   maxlength="4"
+                                   oninput="updateFromOctalInput()"
+                                   aria-describedby="perm-input-help">
+                            <span id="perm-input-help" class="sr-only">Enter 3 or 4 digit octal permission value like 755 or 0755</span>
+                        </div>
+                        <div class="perm-input-group">
+                            <label for="symbolicInput">Symbolic</label>
+                            <input type="text"
+                                   id="symbolicInput"
+                                   value="-rwxr-xr-x"
+                                   maxlength="10"
+                                   oninput="updateFromSymbolicInput()"
+                                   aria-describedby="symbolic-input-help">
+                            <span id="symbolic-input-help" class="sr-only">Enter symbolic notation like -rwxr-xr-x</span>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="section-title">Permission Checkboxes</h3>
             <div class="permissions-grid">
                 <div class="perm-header"></div>
                 <div class="perm-header">Read (r)</div>
@@ -570,44 +661,62 @@
 
                 <div class="perm-label">Owner</div>
                 <div class="perm-cell">
-                    <input type="checkbox" id="owner-r" checked onchange="updateFromCheckboxes()" aria-label="Owner read permission (value 4)">
-                    <span class="perm-bit">4</span>
+                    <label for="owner-r" class="perm-cell-label">
+                        <input type="checkbox" id="owner-r" checked onchange="updateFromCheckboxes()" aria-label="Owner read permission (value 4)">
+                        <span class="perm-bit">4</span>
+                    </label>
                 </div>
                 <div class="perm-cell">
-                    <input type="checkbox" id="owner-w" checked onchange="updateFromCheckboxes()" aria-label="Owner write permission (value 2)">
-                    <span class="perm-bit">2</span>
+                    <label for="owner-w" class="perm-cell-label">
+                        <input type="checkbox" id="owner-w" checked onchange="updateFromCheckboxes()" aria-label="Owner write permission (value 2)">
+                        <span class="perm-bit">2</span>
+                    </label>
                 </div>
                 <div class="perm-cell">
-                    <input type="checkbox" id="owner-x" checked onchange="updateFromCheckboxes()" aria-label="Owner execute permission (value 1)">
-                    <span class="perm-bit">1</span>
+                    <label for="owner-x" class="perm-cell-label">
+                        <input type="checkbox" id="owner-x" checked onchange="updateFromCheckboxes()" aria-label="Owner execute permission (value 1)">
+                        <span class="perm-bit">1</span>
+                    </label>
                 </div>
 
                 <div class="perm-label">Group</div>
                 <div class="perm-cell">
-                    <input type="checkbox" id="group-r" checked onchange="updateFromCheckboxes()" aria-label="Group read permission (value 4)">
-                    <span class="perm-bit">4</span>
+                    <label for="group-r" class="perm-cell-label">
+                        <input type="checkbox" id="group-r" checked onchange="updateFromCheckboxes()" aria-label="Group read permission (value 4)">
+                        <span class="perm-bit">4</span>
+                    </label>
                 </div>
                 <div class="perm-cell">
-                    <input type="checkbox" id="group-w" onchange="updateFromCheckboxes()" aria-label="Group write permission (value 2)">
-                    <span class="perm-bit">2</span>
+                    <label for="group-w" class="perm-cell-label">
+                        <input type="checkbox" id="group-w" onchange="updateFromCheckboxes()" aria-label="Group write permission (value 2)">
+                        <span class="perm-bit">2</span>
+                    </label>
                 </div>
                 <div class="perm-cell">
-                    <input type="checkbox" id="group-x" checked onchange="updateFromCheckboxes()" aria-label="Group execute permission (value 1)">
-                    <span class="perm-bit">1</span>
+                    <label for="group-x" class="perm-cell-label">
+                        <input type="checkbox" id="group-x" checked onchange="updateFromCheckboxes()" aria-label="Group execute permission (value 1)">
+                        <span class="perm-bit">1</span>
+                    </label>
                 </div>
 
                 <div class="perm-label">Other</div>
                 <div class="perm-cell">
-                    <input type="checkbox" id="other-r" checked onchange="updateFromCheckboxes()" aria-label="Other read permission (value 4)">
-                    <span class="perm-bit">4</span>
+                    <label for="other-r" class="perm-cell-label">
+                        <input type="checkbox" id="other-r" checked onchange="updateFromCheckboxes()" aria-label="Other read permission (value 4)">
+                        <span class="perm-bit">4</span>
+                    </label>
                 </div>
                 <div class="perm-cell">
-                    <input type="checkbox" id="other-w" onchange="updateFromCheckboxes()" aria-label="Other write permission (value 2)">
-                    <span class="perm-bit">2</span>
+                    <label for="other-w" class="perm-cell-label">
+                        <input type="checkbox" id="other-w" onchange="updateFromCheckboxes()" aria-label="Other write permission (value 2)">
+                        <span class="perm-bit">2</span>
+                    </label>
                 </div>
                 <div class="perm-cell">
-                    <input type="checkbox" id="other-x" checked onchange="updateFromCheckboxes()" aria-label="Other execute permission (value 1)">
-                    <span class="perm-bit">1</span>
+                    <label for="other-x" class="perm-cell-label">
+                        <input type="checkbox" id="other-x" checked onchange="updateFromCheckboxes()" aria-label="Other execute permission (value 1)">
+                        <span class="perm-bit">1</span>
+                    </label>
                 </div>
             </div>
 
@@ -679,50 +788,6 @@
                 </div>
             </div>
 
-            <div class="input-section">
-                <h3 class="section-title">Convert from Octal or Symbolic</h3>
-                <form aria-label="Convert permissions form" onsubmit="event.preventDefault(); convertInput();">
-                <div class="input-row">
-                    <div class="input-group">
-                        <label for="convertInput">Enter octal (e.g., 755) or symbolic (e.g., -rwxr-xr-x)</label>
-                        <input type="text"
-                               id="convertInput"
-                               placeholder="755 or -rwxr-xr-x"
-                               aria-describedby="convert-help">
-                        <span id="convert-help" class="sr-only">Enter either an octal permission value like 755 or a symbolic notation like -rwxr-xr-x to convert to checkboxes</span>
-                    </div>
-                    <button type="submit" class="convert-btn" aria-label="Convert entered permission notation to checkboxes">Convert</button>
-                </div>
-                </form>
-            </div>
-
-            <div class="umask-section">
-                <h3>Umask Calculator</h3>
-                <div class="umask-row">
-                    <div class="umask-input-group">
-                        <label for="umaskInput">Umask Value</label>
-                        <input type="text"
-                               id="umaskInput"
-                               value="022"
-                               oninput="calculateUmask()"
-                               aria-describedby="umask-help">
-                        <span id="umask-help" class="sr-only">Enter a umask value in octal notation to calculate default file and directory permissions</span>
-                    </div>
-                    <div class="umask-results" role="region" aria-live="polite" aria-label="Umask calculation results">
-                        <div class="umask-result">
-                            <h5>Default File Permissions</h5>
-                            <div class="umask-value" id="filePerms">644</div>
-                            <div class="umask-symbolic" id="fileSymbolic">-rw-r--r--</div>
-                        </div>
-                        <div class="umask-result">
-                            <h5>Default Directory Permissions</h5>
-                            <div class="umask-value" id="dirPerms">755</div>
-                            <div class="umask-symbolic" id="dirSymbolic">drwxr-xr-x</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <div class="reference-table">
                 <h3>Octal Reference</h3>
                 <div class="ref-grid">
@@ -736,6 +801,37 @@
                     <div class="ref-item"><div class="ref-octal">7</div><div class="ref-perms">rwx</div></div>
                 </div>
             </div>
+            </div><!-- End tab-permissions -->
+
+            <div class="tab-content" id="tab-umask" role="tabpanel" aria-labelledby="tab-btn-umask">
+                <div class="umask-section" style="margin-top: 0;">
+                    <h3>Umask Calculator</h3>
+                    <p style="color: rgba(255, 255, 255, 0.7); margin-bottom: 15px; font-size: 0.9rem;">Calculate default file and directory permissions based on umask value.</p>
+                    <div class="umask-row">
+                        <div class="umask-input-group">
+                            <label for="umaskInput">Umask Value</label>
+                            <input type="text"
+                                   id="umaskInput"
+                                   value="022"
+                                   oninput="calculateUmask()"
+                                   aria-describedby="umask-help">
+                            <span id="umask-help" class="sr-only">Enter a umask value in octal notation to calculate default file and directory permissions</span>
+                        </div>
+                        <div class="umask-results" role="region" aria-live="polite" aria-label="Umask calculation results">
+                            <div class="umask-result">
+                                <h5>Default File Permissions</h5>
+                                <div class="umask-value" id="filePerms">644</div>
+                                <div class="umask-symbolic" id="fileSymbolic">-rw-r--r--</div>
+                            </div>
+                            <div class="umask-result">
+                                <h5>Default Directory Permissions</h5>
+                                <div class="umask-value" id="dirPerms">755</div>
+                                <div class="umask-symbolic" id="dirSymbolic">drwxr-xr-x</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- End tab-umask -->
         </div>
 
         <footer role="contentinfo">
@@ -744,6 +840,88 @@
     </main>
 
     <script>
+        // Tab Navigation
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                const isActive = btn.dataset.tab === tabName;
+                btn.classList.toggle('active', isActive);
+                btn.setAttribute('aria-selected', isActive);
+            });
+
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.toggle('active', content.id === `tab-${tabName}`);
+            });
+
+            // Announce tab change for screen readers
+            const tabLabel = document.querySelector(`[data-tab="${tabName}"]`).textContent;
+            A11yUtils.announce(`${tabLabel} tab selected`, 'polite');
+        }
+
+        // Initialize tab click handlers
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+            });
+
+            // Keyboard navigation for tabs
+            const tabList = document.querySelector('.tab-navigation');
+            tabList.addEventListener('keydown', function(e) {
+                const tabs = Array.from(document.querySelectorAll('.tab-btn'));
+                const currentIndex = tabs.findIndex(tab => tab === document.activeElement);
+
+                if (currentIndex === -1) return;
+
+                let newIndex = currentIndex;
+                if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                    newIndex = (currentIndex + 1) % tabs.length;
+                    e.preventDefault();
+                } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                    newIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+                    e.preventDefault();
+                } else if (e.key === 'Home') {
+                    newIndex = 0;
+                    e.preventDefault();
+                } else if (e.key === 'End') {
+                    newIndex = tabs.length - 1;
+                    e.preventDefault();
+                }
+
+                if (newIndex !== currentIndex) {
+                    tabs[newIndex].focus();
+                    switchTab(tabs[newIndex].dataset.tab);
+                }
+            });
+        });
+
+        // Live octal input handler
+        function updateFromOctalInput() {
+            const input = document.getElementById('permInput').value.trim();
+
+            // Only process if it looks like a valid octal (3-4 digits, 0-7)
+            if (/^[0-7]{3,4}$/.test(input)) {
+                setCheckboxesFromOctal(input);
+                const { owner, group, other, special } = getPermissionsFromCheckboxes();
+                updateDisplay(owner, group, other, special);
+            }
+        }
+
+        // Live symbolic input handler
+        function updateFromSymbolicInput() {
+            const input = document.getElementById('symbolicInput').value.trim();
+            const result = symbolicToOctal(input);
+
+            if (result) {
+                const octal = result.special > 0
+                    ? `${result.special}${result.owner}${result.group}${result.other}`
+                    : `${result.owner}${result.group}${result.other}`;
+                setCheckboxesFromOctal(octal);
+                const { owner, group, other, special } = getPermissionsFromCheckboxes();
+                updateDisplay(owner, group, other, special);
+            }
+        }
+
         function getPermissionsFromCheckboxes() {
             const owner =
                 (document.getElementById('owner-r').checked ? 4 : 0) +
@@ -868,6 +1046,17 @@
             document.getElementById('symbolicOutput').textContent = symbolic;
             document.getElementById('commandOutput').textContent = `chmod ${octal} filename`;
 
+            // Sync the live inputs (only if not currently focused to avoid cursor issues)
+            const permInput = document.getElementById('permInput');
+            if (permInput && document.activeElement !== permInput) {
+                permInput.value = octal;
+            }
+
+            const symbolicInput = document.getElementById('symbolicInput');
+            if (symbolicInput && document.activeElement !== symbolicInput) {
+                symbolicInput.value = symbolic;
+            }
+
             hideError();
         }
 
@@ -887,57 +1076,6 @@
             setCheckboxesFromOctal(octal);
             updateFromCheckboxes();
             A11yUtils.announce(`Applied preset permissions ${octal}`, 'polite');
-        }
-
-        function convertInput() {
-            const input = document.getElementById('convertInput').value.trim();
-            const convertInputField = document.getElementById('convertInput');
-
-            // Clear previous errors
-            A11yUtils.clearError(convertInputField);
-            hideError();
-
-            if (!input) {
-                const errorMsg = 'Please enter a value to convert';
-                showError(errorMsg);
-                A11yUtils.showError(convertInputField, errorMsg);
-                convertInputField.focus();
-                return;
-            }
-
-            // Check if it's octal
-            if (/^[0-7]{3,4}$/.test(input)) {
-                const cleaned = input.replace(/^0+/, '') || '0';
-                if (!/^[0-7]+$/.test(cleaned)) {
-                    const errorMsg = 'Invalid octal value. Use digits 0-7 only.';
-                    showError(errorMsg);
-                    A11yUtils.showError(convertInputField, errorMsg);
-                    convertInputField.focus();
-                    return;
-                }
-                setCheckboxesFromOctal(input);
-                updateFromCheckboxes();
-                A11yUtils.announce(`Converted ${input} to permission checkboxes`, 'polite');
-                return;
-            }
-
-            // Check if it's symbolic
-            const result = symbolicToOctal(input);
-            if (result) {
-                setCheckboxesFromOctal(
-                    result.special > 0
-                        ? `${result.special}${result.owner}${result.group}${result.other}`
-                        : `${result.owner}${result.group}${result.other}`
-                );
-                updateFromCheckboxes();
-                A11yUtils.announce(`Converted ${input} to permission checkboxes`, 'polite');
-                return;
-            }
-
-            const errorMsg = 'Invalid format. Enter octal (e.g., 755) or symbolic (e.g., -rwxr-xr-x)';
-            showError(errorMsg);
-            A11yUtils.showError(convertInputField, errorMsg);
-            convertInputField.focus();
         }
 
         let lastUmaskValue = null;
@@ -1006,12 +1144,6 @@
         }
 
         // Initialize
-        document.getElementById('convertInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                convertInput();
-            }
-        });
-
         updateFromCheckboxes();
         calculateUmask();
     </script>

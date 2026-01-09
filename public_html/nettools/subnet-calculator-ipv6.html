@@ -192,7 +192,7 @@
             word-break: break-all;
         }
 
-        .error {
+        .error-alert {
             background: rgba(244, 67, 54, 0.2);
             border: 1px solid #f44336;
             color: #ff8a80;
@@ -202,7 +202,7 @@
             display: none;
         }
 
-        .error.show {
+        .error-alert.show {
             display: block;
         }
 
@@ -576,7 +576,7 @@
 
             <button type="button" class="btn" onclick="calculate()" style="margin-top: 25px;" aria-label="Calculate IPv6 subnet details for the entered address and prefix">Calculate Subnet</button>
 
-            <div class="error" id="error" role="alert" aria-live="assertive" aria-atomic="true"></div>
+            <div class="error-alert" id="error" role="alert" aria-live="assertive" aria-atomic="true"></div>
             </form>
         </div>
 

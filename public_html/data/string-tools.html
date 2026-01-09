@@ -410,6 +410,86 @@
             font-size: 0.85rem;
         }
 
+        /* Reference Sections */
+        .reference-section {
+            margin-top: 20px;
+            border: 1px solid rgba(79, 195, 247, 0.2);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .reference-header {
+            padding: 12px 16px;
+            background: rgba(79, 195, 247, 0.1);
+            color: #90caf9;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .reference-content {
+            padding: 16px;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .reference-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+        }
+
+        .reference-table th,
+        .reference-table td {
+            padding: 8px 10px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .reference-table th {
+            color: #4fc3f7;
+            font-weight: 600;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .reference-table td {
+            color: #b0bec5;
+        }
+
+        .reference-table code {
+            background: rgba(79, 195, 247, 0.15);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #4fc3f7;
+            font-size: 0.85em;
+        }
+
+        .reference-tip {
+            background: rgba(102, 187, 106, 0.1);
+            border-left: 3px solid #66bb6a;
+            padding: 10px 12px;
+            margin-top: 12px;
+            border-radius: 0 6px 6px 0;
+            font-size: 0.85rem;
+            color: #a5d6a7;
+        }
+
+        .reference-warning {
+            background: rgba(255, 183, 77, 0.1);
+            border-left: 3px solid #ffb74d;
+            padding: 10px 12px;
+            margin-top: 12px;
+            border-radius: 0 6px 6px 0;
+            font-size: 0.85rem;
+            color: #ffe0b2;
+        }
+
+        .reference-tip strong,
+        .reference-warning strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
         @media (max-width: 768px) {
             .ascii-logo {
                 position: static;
@@ -498,15 +578,15 @@
                     </div>
 
                     <div class="button-row">
-                        <button type="button" class="action-btn" onclick="convertCase('upper')" aria-label="Convert to uppercase">UPPERCASE</button>
-                        <button type="button" class="action-btn" onclick="convertCase('lower')" aria-label="Convert to lowercase">lowercase</button>
-                        <button type="button" class="action-btn secondary" onclick="convertCase('title')" aria-label="Convert to title case">Title Case</button>
+                        <button type="button" class="action-btn" onclick="convertCase('upper')" aria-label="Convert to uppercase" title="UPPERCASE: All letters capitalized. Common for constants and emphasis.">UPPERCASE</button>
+                        <button type="button" class="action-btn" onclick="convertCase('lower')" aria-label="Convert to lowercase" title="lowercase: All letters in lower case. Useful for normalization and comparisons.">lowercase</button>
+                        <button type="button" class="action-btn secondary" onclick="convertCase('title')" aria-label="Convert to title case" title="Title Case: First letter of each word capitalized. Used for headings and proper names.">Title Case</button>
                     </div>
                     <div class="button-row">
-                        <button type="button" class="action-btn tertiary" onclick="convertCase('camel')" aria-label="Convert to camelCase">camelCase</button>
-                        <button type="button" class="action-btn tertiary" onclick="convertCase('pascal')" aria-label="Convert to PascalCase">PascalCase</button>
-                        <button type="button" class="action-btn tertiary" onclick="convertCase('snake')" aria-label="Convert to snake_case">snake_case</button>
-                        <button type="button" class="action-btn tertiary" onclick="convertCase('kebab')" aria-label="Convert to kebab-case">kebab-case</button>
+                        <button type="button" class="action-btn tertiary" onclick="convertCase('camel')" aria-label="Convert to camelCase" title="camelCase: First word lowercase, subsequent words capitalized, no separators. Standard in JavaScript, TypeScript, Java for variables and functions.">camelCase</button>
+                        <button type="button" class="action-btn tertiary" onclick="convertCase('pascal')" aria-label="Convert to PascalCase" title="PascalCase: Every word capitalized, no separators. Used for classes and types in C#, TypeScript, Java.">PascalCase</button>
+                        <button type="button" class="action-btn tertiary" onclick="convertCase('snake')" aria-label="Convert to snake_case" title="snake_case: Words separated by underscores, all lowercase. Standard in Python, Ruby, SQL, and database columns.">snake_case</button>
+                        <button type="button" class="action-btn tertiary" onclick="convertCase('kebab')" aria-label="Convert to kebab-case" title="kebab-case: Words separated by hyphens, all lowercase. Used in CSS classes, URLs, and CLI flags.">kebab-case</button>
                     </div>
 
                     <div class="error" id="caseError" role="alert" aria-live="assertive" aria-atomic="true"></div>
@@ -520,8 +600,49 @@
                     </div>
                 </form>
 
-                <div class="info-box">
-                    camelCase/PascalCase/snake_case/kebab-case conversions work best with space-separated or already-formatted text.
+                <div class="reference-section">
+                    <div class="reference-header">Quick Reference: Case Conventions</div>
+                    <div class="reference-content">
+                            <table class="reference-table" role="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Case Style</th>
+                                        <th scope="col">Languages</th>
+                                        <th scope="col">Common Usage</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>camelCase</code></td>
+                                        <td>JavaScript, TypeScript, Java</td>
+                                        <td>Variables, functions, methods</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>PascalCase</code></td>
+                                        <td>C#, TypeScript, Java</td>
+                                        <td>Classes, interfaces, types</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>snake_case</code></td>
+                                        <td>Python, Ruby, SQL, C</td>
+                                        <td>Variables, database columns</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>kebab-case</code></td>
+                                        <td>HTML, CSS, URLs</td>
+                                        <td>CSS classes, URL slugs, CLI flags</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>SCREAMING_SNAKE</code></td>
+                                        <td>Most languages</td>
+                                        <td>Constants, env variables</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        <div class="reference-tip">
+                            <strong>Tip:</strong> Follow your language's conventions (PEP 8 for Python, Airbnb Style Guide for JS). snake_case is generally more readable; camelCase is more compact.
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -535,15 +656,15 @@
                     </div>
 
                     <div class="options-row" role="group" aria-label="Line operation options">
-                        <label class="option-item">
+                        <label class="option-item" title="The character used to fill the padding. Default is space. Use '0' for zero-padding numbers, '-' for visual separators.">
                             <span>Pad character:</span>
                             <input type="text" id="padChar" value=" " maxlength="1" aria-label="Character to use for padding">
                         </label>
-                        <label class="option-item">
+                        <label class="option-item" title="Target length for each line after padding. Lines longer than this value are left unchanged.">
                             <span>Pad length:</span>
                             <input type="number" id="padLength" value="20" min="1" max="1000" aria-label="Total length after padding">
                         </label>
-                        <label class="option-item">
+                        <label class="option-item" title="Where to add padding: Left (right-align text), Right (left-align text), or Both (center text).">
                             <select id="padSide" aria-label="Padding side">
                                 <option value="left">Pad Left</option>
                                 <option value="right">Pad Right</option>
@@ -553,19 +674,19 @@
                     </div>
 
                     <div class="button-row">
-                        <button type="button" class="action-btn" onclick="lineOp('trim')" aria-label="Trim whitespace from each line">Trim Lines</button>
-                        <button type="button" class="action-btn" onclick="lineOp('pad')" aria-label="Pad each line to specified length">Pad Lines</button>
-                        <button type="button" class="action-btn secondary" onclick="lineOp('reverse')" aria-label="Reverse order of lines">Reverse Lines</button>
+                        <button type="button" class="action-btn" onclick="lineOp('trim')" aria-label="Trim whitespace from each line" title="Trim Lines: Remove leading and trailing whitespace from each line. Useful for cleaning copy-pasted data.">Trim Lines</button>
+                        <button type="button" class="action-btn" onclick="lineOp('pad')" aria-label="Pad each line to specified length" title="Pad Lines: Add padding characters to reach specified length. Useful for aligning columns in fixed-width formats.">Pad Lines</button>
+                        <button type="button" class="action-btn secondary" onclick="lineOp('reverse')" aria-label="Reverse order of lines" title="Reverse Lines: Flip the order of all lines (last becomes first). Useful for inverting chronological data or stack traces.">Reverse Lines</button>
                     </div>
                     <div class="button-row">
-                        <button type="button" class="action-btn tertiary" onclick="lineOp('sort')" aria-label="Sort lines alphabetically">Sort A-Z</button>
-                        <button type="button" class="action-btn tertiary" onclick="lineOp('sortDesc')" aria-label="Sort lines reverse alphabetically">Sort Z-A</button>
-                        <button type="button" class="action-btn tertiary" onclick="lineOp('sortNum')" aria-label="Sort lines numerically">Sort Numeric</button>
-                        <button type="button" class="action-btn tertiary" onclick="lineOp('shuffle')" aria-label="Randomly shuffle lines">Shuffle</button>
+                        <button type="button" class="action-btn tertiary" onclick="lineOp('sort')" aria-label="Sort lines alphabetically" title="Sort A-Z: Alphabetically sort lines in ascending order. Useful for organizing imports, hosts files, or config entries.">Sort A-Z</button>
+                        <button type="button" class="action-btn tertiary" onclick="lineOp('sortDesc')" aria-label="Sort lines reverse alphabetically" title="Sort Z-A: Alphabetically sort lines in descending order (reverse alphabetical).">Sort Z-A</button>
+                        <button type="button" class="action-btn tertiary" onclick="lineOp('sortNum')" aria-label="Sort lines numerically" title="Sort Numeric: Sort by the leading number in each line. Works with IPs, version numbers, counts, and mixed text like '192.168.1.1 - server'.">Sort Numeric</button>
+                        <button type="button" class="action-btn tertiary" onclick="lineOp('shuffle')" aria-label="Randomly shuffle lines" title="Shuffle: Randomly reorder all lines. Useful for randomizing test data or generating sample sets.">Shuffle</button>
                     </div>
                     <div class="button-row">
-                        <button type="button" class="action-btn" onclick="lineOp('removeEmpty')" aria-label="Remove empty lines">Remove Empty</button>
-                        <button type="button" class="action-btn" onclick="lineOp('reverseChars')" aria-label="Reverse characters in each line">Reverse Chars</button>
+                        <button type="button" class="action-btn" onclick="lineOp('removeEmpty')" aria-label="Remove empty lines" title="Remove Empty: Delete all blank lines (lines with only whitespace). Useful for cleaning up configs and data files.">Remove Empty</button>
+                        <button type="button" class="action-btn" onclick="lineOp('reverseChars')" aria-label="Reverse characters in each line" title="Reverse Chars: Reverse the characters within each line (not the line order). 'hello' becomes 'olleh'.">Reverse Chars</button>
                     </div>
 
                     <div class="error" id="linesError" role="alert" aria-live="assertive" aria-atomic="true"></div>
@@ -580,6 +701,53 @@
                 </form>
 
                 <div id="linesStats" class="stats-box" style="display: none;" role="status" aria-live="polite"></div>
+
+                <div class="reference-section">
+                    <div class="reference-header">Quick Reference: Line Operations</div>
+                    <div class="reference-content">
+                            <table class="reference-table" role="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Operation</th>
+                                        <th scope="col">Common Use Cases</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Trim Lines</strong></td>
+                                        <td>Clean copy-pasted data, remove trailing whitespace before commits</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Pad Lines</strong></td>
+                                        <td>Align columns in fixed-width formats, format tables</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Sort A-Z / Z-A</strong></td>
+                                        <td>Organize imports, hosts files, config entries, DNS records</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Sort Numeric</strong></td>
+                                        <td>Order version numbers, IP addresses, port lists, log counts</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Reverse Lines</strong></td>
+                                        <td>Invert chronological logs, reverse stack traces</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Remove Empty</strong></td>
+                                        <td>Clean up multi-line configs, sanitize user lists</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Shuffle</strong></td>
+                                        <td>Randomize test data, generate sample sets</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        <div class="reference-tip">
+                            <strong>Tip:</strong> Numeric sort extracts the leading number from each line, useful for lines like "192.168.1.1 - server1" or "v2.1.0 - release".
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Duplicates Tab -->
@@ -592,20 +760,20 @@
                     </div>
 
                     <div class="options-row" role="group" aria-label="Duplicate options">
-                        <label class="option-item">
+                        <label class="option-item" title="When checked, 'Apple' and 'apple' are treated as different values. Uncheck for case-insensitive comparison.">
                             <input type="checkbox" id="dupCaseSensitive" checked aria-label="Case sensitive comparison">
                             Case sensitive
                         </label>
-                        <label class="option-item">
+                        <label class="option-item" title="When checked, leading/trailing whitespace is ignored. '  hello  ' and 'hello' will be considered duplicates.">
                             <input type="checkbox" id="dupTrimLines" checked aria-label="Trim whitespace before comparing">
                             Trim before compare
                         </label>
                     </div>
 
                     <div class="button-row">
-                        <button type="button" class="action-btn" onclick="dupOp('remove')" aria-label="Remove duplicate lines keeping first occurrence">Remove Duplicates</button>
-                        <button type="button" class="action-btn secondary" onclick="dupOp('keepDups')" aria-label="Show only lines that appear more than once">Show Only Duplicates</button>
-                        <button type="button" class="action-btn tertiary" onclick="dupOp('count')" aria-label="Count occurrences of each unique line">Count Occurrences</button>
+                        <button type="button" class="action-btn" onclick="dupOp('remove')" aria-label="Remove duplicate lines keeping first occurrence" title="Remove Duplicates: Keep only the first occurrence of each unique line. Useful for deduping email lists, hostnames, or IP addresses.">Remove Duplicates</button>
+                        <button type="button" class="action-btn secondary" onclick="dupOp('keepDups')" aria-label="Show only lines that appear more than once" title="Show Only Duplicates: Display only lines that appear more than once. Useful for finding repeated entries in logs or identifying conflicts.">Show Only Duplicates</button>
+                        <button type="button" class="action-btn tertiary" onclick="dupOp('count')" aria-label="Count occurrences of each unique line" title="Count Occurrences: Show each unique value with its count, sorted by frequency. Great for log analysis - find most common IPs, errors, or user agents.">Count Occurrences</button>
                     </div>
 
                     <div class="error" id="dupError" role="alert" aria-live="assertive" aria-atomic="true"></div>
@@ -621,6 +789,55 @@
                 </form>
 
                 <div id="dupStats" class="stats-box" style="display: none;" role="status" aria-live="polite"></div>
+
+                <div class="reference-section">
+                    <div class="reference-header">Quick Reference: Duplicate Handling</div>
+                    <div class="reference-content">
+                            <table class="reference-table" role="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Option</th>
+                                        <th scope="col">Behavior</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Case sensitive</strong></td>
+                                        <td><code>Apple</code> and <code>apple</code> are treated as different values</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Trim before compare</strong></td>
+                                        <td>Ignores leading/trailing whitespace (<code>  hello  </code> = <code>hello</code>)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="reference-table" role="table" style="margin-top: 12px;">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Operation</th>
+                                        <th scope="col">Use Cases</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Remove Duplicates</strong></td>
+                                        <td>Clean email lists, dedupe hostnames, sanitize IP lists</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Show Only Duplicates</strong></td>
+                                        <td>Find repeated entries in logs, identify conflicts</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Count Occurrences</strong></td>
+                                        <td>Analyze log frequency, find most common errors/IPs</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        <div class="reference-tip">
+                            <strong>Tip:</strong> Use "Count Occurrences" on server logs to quickly identify the most frequent IP addresses, error codes, or user agents.
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Escape/Unescape Tab -->
@@ -635,23 +852,23 @@
                     <div class="options-row" role="group" aria-label="Escape format selection">
                         <label class="option-item">
                             <span id="format-label">Format:</span>
-                            <select id="escapeFormat" aria-labelledby="format-label" aria-describedby="format-help">
-                                <option value="html">HTML Entities</option>
-                                <option value="json">JSON String</option>
-                                <option value="url">URL Encoding</option>
-                                <option value="sql">SQL String</option>
-                                <option value="regex">Regex Special Chars</option>
-                                <option value="shell">Shell/Bash</option>
-                                <option value="csv">CSV Field</option>
-                                <option value="xml">XML Entities</option>
+                            <select id="escapeFormat" aria-labelledby="format-label" aria-describedby="format-help" title="Select the encoding format for your target context">
+                                <option value="html" title="Escapes & < > \" ' for safe HTML display">HTML Entities</option>
+                                <option value="json" title="Escapes quotes, backslashes, and control characters for JSON strings">JSON String</option>
+                                <option value="url" title="Percent-encodes special characters for URLs and query parameters">URL Encoding</option>
+                                <option value="sql" title="Doubles single quotes for SQL string literals. Note: Use parameterized queries for security!">SQL String</option>
+                                <option value="regex" title="Escapes . * + ? ^ $ { } ( ) [ ] \\ | for literal regex matching">Regex Special Chars</option>
+                                <option value="shell" title="Wraps in single quotes and escapes for safe shell/bash arguments">Shell/Bash</option>
+                                <option value="csv" title="Quotes fields and doubles internal quotes for CSV compatibility">CSV Field</option>
+                                <option value="xml" title="Escapes & < > \" ' using XML entity references">XML Entities</option>
                             </select>
                             <span id="format-help" class="sr-only">Select the format for escaping or unescaping text</span>
                         </label>
                     </div>
 
                     <div class="button-row">
-                        <button type="button" class="action-btn" onclick="escapeOp('escape')" aria-label="Escape special characters">Escape</button>
-                        <button type="button" class="action-btn secondary" onclick="escapeOp('unescape')" aria-label="Unescape special characters">Unescape</button>
+                        <button type="button" class="action-btn" onclick="escapeOp('escape')" aria-label="Escape special characters" title="Escape: Convert special characters to their escaped form for the selected format. Use when embedding user input or data into code/markup.">Escape</button>
+                        <button type="button" class="action-btn secondary" onclick="escapeOp('unescape')" aria-label="Unescape special characters" title="Unescape: Convert escaped sequences back to their original characters. Use when decoding data from APIs, logs, or encoded sources.">Unescape</button>
                     </div>
 
                     <div class="error" id="escapeError" role="alert" aria-live="assertive" aria-atomic="true"></div>
@@ -665,8 +882,67 @@
                     </div>
                 </form>
 
-                <div class="info-box">
-                    HTML: &amp; &lt; &gt; &quot; | JSON: quotes, backslashes, control chars | SQL: single quotes | Regex: special metacharacters | Shell: quotes and special chars
+                <div class="reference-section">
+                    <div class="reference-header">Quick Reference: Escape Formats &amp; Security</div>
+                    <div class="reference-content">
+                            <table class="reference-table" role="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Format</th>
+                                        <th scope="col">Characters Escaped</th>
+                                        <th scope="col">Use Case</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>HTML</strong></td>
+                                        <td><code>&amp; &lt; &gt; " '</code></td>
+                                        <td>Display user content, prevent XSS</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>JSON</strong></td>
+                                        <td><code>" \ /</code> + control chars</td>
+                                        <td>API payloads, config files</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>URL</strong></td>
+                                        <td>Non-alphanumeric chars</td>
+                                        <td>Query params, path segments</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>SQL</strong></td>
+                                        <td><code>'</code> (doubled to <code>''</code>)</td>
+                                        <td>String literals in queries*</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Regex</strong></td>
+                                        <td><code>. * + ? ^ $ { } ( ) [ ] \ |</code></td>
+                                        <td>Literal matching in patterns</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Shell</strong></td>
+                                        <td>Wrapped in single quotes</td>
+                                        <td>Safe command arguments</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>CSV</strong></td>
+                                        <td><code>"</code> doubled, field quoted</td>
+                                        <td>Spreadsheet data export</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>XML</strong></td>
+                                        <td><code>&amp; &lt; &gt; " '</code></td>
+                                        <td>XML/SOAP payloads</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        <div class="reference-warning">
+                            <strong>Security Note (SQL):</strong> Escaping single quotes helps but is <strong>not sufficient</strong> for SQL injection prevention. Always use parameterized queries/prepared statements in production code.
+                        </div>
+                        <div class="reference-tip">
+                            <strong>Best Practice:</strong> HTML entity encoding prevents basic XSS but is context-dependent. For full protection, encode on output (not input), use Content Security Policy (CSP), and leverage your framework's built-in protections.
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

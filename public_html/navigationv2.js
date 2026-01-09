@@ -27,12 +27,13 @@
         data: [
             { name: 'Base64/Hash', file: 'data/base64-hash.html', id: 'base64' },
             { name: 'String Tools', file: 'data/string-tools.html', id: 'string-tools' },
-            { name: 'Text Diff', file: 'data/text-diff.html', id: 'text-diff' },
+            { name: 'Text Diff(Compare)', file: 'data/text-diff.html', id: 'text-diff' },
             { name: 'UUID Gen', file: 'data/uuid-generator.html', id: 'uuid' }
         ],
         financials: [
             { name: 'Amortization', file: 'financials/amortization-calculator.html', id: 'amortization' },
-            { name: 'Compound Interest', file: 'financials/compound-interest-calculator.html', id: 'compound-interest' }
+            { name: 'Compound Interest', file: 'financials/compound-interest-calculator.html', id: 'compound-interest' },
+            { name: 'Debt Payoff', file: 'financials/debt-payoff-comparison.html', id: 'debt-payoff' }
         ]
     };
 
