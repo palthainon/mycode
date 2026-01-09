@@ -91,18 +91,19 @@
 4. **Make it obvious** - UI should be self-explanatory, no documentation needed
 5. **Build for real use** - Every tool should solve an actual problem you've encountered
 6. **Maintain Navigation Consistency** - All tools must have identical navigation structure and styling
+7. **ADA Compalince requirement** 
 - Tab through all controls with keyboard
-- Test with screen reader (announcements work)
+- Validate compatibility with screen reader (announcements work)
 - Verify skip-link functionality
 - Check focus indicators visible
 - Validate ARIA attributes
-7. **Cross-browser testing:**
+8. **Cross-browser testing:**
 - Chrome, Firefox, Safari minimum
-8. **Navigation verification:**
+9. **Navigation verification:**
 - Confirm tool appears in Data dropdown
 - Verify current page highlighting works
 - Test navigation from other pages
-9. **Offline capability:**
+10. **Offline capability:**
 - Verify tool works without network after first load
 
 ## Success Criteria
