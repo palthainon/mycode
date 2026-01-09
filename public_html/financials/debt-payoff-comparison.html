@@ -312,6 +312,49 @@
             font-weight: 500;
         }
 
+        .preset-checkboxes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .preset-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(79, 195, 247, 0.1);
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            color: #4fc3f7;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .preset-checkbox:hover {
+            background: rgba(79, 195, 247, 0.2);
+            border-color: #4fc3f7;
+        }
+
+        .preset-checkbox:has(input:checked) {
+            background: rgba(79, 195, 247, 0.25);
+            border-color: #4fc3f7;
+            box-shadow: 0 0 8px rgba(79, 195, 247, 0.3);
+        }
+
+        .preset-checkbox input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: #4fc3f7;
+            cursor: pointer;
+        }
+
+        .preset-checkbox span {
+            cursor: pointer;
+        }
+
         .preset-buttons {
             display: flex;
             flex-wrap: wrap;
@@ -1264,10 +1307,19 @@
 
                 <div class="quick-presets">
                     <h3 id="presets-label">Quick Examples:</h3>
-                    <div class="preset-buttons" role="group" aria-labelledby="presets-label">
-                        <button type="button" class="preset-btn" onclick="loadPreset('typical')" aria-label="Load typical debt example">Typical 3-Debt Example</button>
-                        <button type="button" class="preset-btn" onclick="loadPreset('credit-cards')" aria-label="Load credit card heavy example">Credit Card Heavy</button>
-                        <button type="button" class="preset-btn" onclick="loadPreset('mixed')" aria-label="Load mixed debt example">Mixed Debt Types</button>
+                    <div class="preset-checkboxes" role="group" aria-labelledby="presets-label">
+                        <label class="preset-checkbox">
+                            <input type="checkbox" id="preset-typical" onchange="toggleDebtPreset('typical', this.checked)">
+                            <span>Typical 3-Debt</span>
+                        </label>
+                        <label class="preset-checkbox">
+                            <input type="checkbox" id="preset-credit-cards" onchange="toggleDebtPreset('credit-cards', this.checked)">
+                            <span>Credit Cards</span>
+                        </label>
+                        <label class="preset-checkbox">
+                            <input type="checkbox" id="preset-mixed" onchange="toggleDebtPreset('mixed', this.checked)">
+                            <span>Mixed Types</span>
+                        </label>
                     </div>
                 </div>
 
@@ -1697,8 +1749,20 @@
 
         function removeDebt(id) {
             if (debts.length <= 1) return;
+
+            // Check if this debt was from a preset
+            const debtToRemove = debts.find(d => d.id === id);
+            const presetSource = debtToRemove?.presetSource;
+
             debts = debts.filter(d => d.id !== id);
             document.getElementById(`debt-${id}`).remove();
+
+            // If this was the last debt from a preset, uncheck that preset
+            if (presetSource && !debts.some(d => d.presetSource === presetSource)) {
+                const checkbox = document.getElementById(`preset-${presetSource}`);
+                if (checkbox) checkbox.checked = false;
+            }
+
             updateRemoveButtons();
             updateTotalMinimum();
         }
@@ -1715,6 +1779,44 @@
             document.getElementById('totalMinimum').textContent = formatCurrency(total);
         }
 
+        function toggleDebtPreset(presetName, isChecked) {
+            const preset = presets[presetName];
+            if (!preset) return;
+
+            if (isChecked) {
+                // Remove empty debt rows first (no name and no balance)
+                const emptyDebts = debts.filter(d => !d.name && !d.balance && !d.presetSource);
+                emptyDebts.forEach(debt => {
+                    const element = document.getElementById(`debt-${debt.id}`);
+                    if (element) element.remove();
+                });
+                debts = debts.filter(d => d.name || d.balance || d.presetSource);
+
+                // Add preset debts
+                preset.forEach(debtData => {
+                    addDebt({ ...debtData, presetSource: presetName });
+                });
+                A11yUtils.announce(`Added ${preset.length} debts from ${presetName.replace('-', ' ')} example`, 'polite');
+            } else {
+                // Remove debts from this preset
+                const debtsToRemove = debts.filter(d => d.presetSource === presetName);
+                debtsToRemove.forEach(debt => {
+                    const element = document.getElementById(`debt-${debt.id}`);
+                    if (element) element.remove();
+                });
+                debts = debts.filter(d => d.presetSource !== presetName);
+                A11yUtils.announce(`Removed ${debtsToRemove.length} debts from ${presetName.replace('-', ' ')} example`, 'polite');
+            }
+
+            // Ensure at least one empty debt row if all removed
+            if (debts.length === 0) {
+                addDebt();
+            }
+
+            updateRemoveButtons();
+            updateTotalMinimum();
+        }
+
         function loadPreset(presetName) {
             const preset = presets[presetName];
             if (!preset) return;
@@ -1723,6 +1825,9 @@
             debts = [];
             nextDebtId = 1;
             document.getElementById('debtList').innerHTML = '';
+
+            // Uncheck all preset checkboxes
+            document.querySelectorAll('.preset-checkbox input').forEach(cb => cb.checked = false);
 
             // Add preset debts
             preset.forEach(debtData => {
