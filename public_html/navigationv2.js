@@ -20,7 +20,8 @@
             { name: 'Disk Tools', file: 'system/disk-tools.html', id: 'disk' },
             { name: 'Cron', file: 'system/cron-builder.html', id: 'cron' },
             { name: 'Chmod', file: 'system/chmod-calculator.html', id: 'chmod' },
-            { name: 'Password', file: 'system/password-generator.html', id: 'password' }
+            { name: 'Password', file: 'system/password-generator.html', id: 'password' },
+            { name: 'Cert Parser', file: 'system/certificate-parser.html', id: 'cert-parser' }
         ],
         data: [
             { name: 'Base64/Hash', file: 'data/base64-hash.html', id: 'base64' },
