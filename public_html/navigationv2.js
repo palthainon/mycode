@@ -226,6 +226,8 @@
                 left: 50%;
                 transform: translateX(-50%) translateY(-10px);
                 min-width: 200px;
+                background-color: #16213e;
+                background-image: none;
                 backdrop-filter: none;
                 -webkit-backdrop-filter: none;
             }
