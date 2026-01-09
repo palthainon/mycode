@@ -302,15 +302,14 @@
         }
 
         .quick-presets {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
         }
 
         .quick-presets h3 {
             color: #90caf9;
-            font-size: 0.9rem;
-            margin-bottom: 10px;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+            font-weight: 500;
         }
 
         .preset-buttons {
@@ -809,13 +808,19 @@
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.2s;
+            border: 2px solid transparent;
         }
 
         .quiz-question:hover {
             background: rgba(0, 0, 0, 0.3);
         }
 
-        .quiz-question input {
+        .quiz-question.selected {
+            border-color: rgba(156, 39, 176, 0.5);
+            background: rgba(156, 39, 176, 0.15);
+        }
+
+        .quiz-question input[type="radio"] {
             width: 18px;
             height: 18px;
             accent-color: #9c27b0;
@@ -825,6 +830,7 @@
             cursor: pointer;
             color: #fff;
             font-size: 0.95rem;
+            flex: 1;
         }
 
         .quiz-result {
@@ -836,6 +842,7 @@
 
         .quiz-result.show {
             display: block;
+            animation: fadeIn 0.3s ease;
         }
 
         .quiz-result.snowball {
@@ -858,6 +865,235 @@
 
         .quiz-result.avalanche h4 {
             color: #81c784;
+        }
+
+        /* Expense Tracking Section */
+        .expense-section {
+            background: rgba(255, 152, 0, 0.1);
+            border: 1px solid rgba(255, 152, 0, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .expense-section .section-title {
+            color: #ffb74d;
+        }
+
+        .expense-section .section-subtitle {
+            color: #90caf9;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+
+        .expense-list {
+            margin-bottom: 15px;
+        }
+
+        .expense-item {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: grid;
+            grid-template-columns: 1fr 120px 100px 120px 40px;
+            gap: 10px;
+            align-items: end;
+        }
+
+        .expense-item .input-field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .expense-item .input-field label {
+            display: block;
+            margin-bottom: 5px;
+            color: #ffb74d;
+            font-weight: 500;
+            font-size: 0.8rem;
+        }
+
+        .expense-item .input-field input {
+            width: 100%;
+            padding: 8px 10px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            background: #0f1419;
+            color: #fff;
+            font-size: 0.9rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .expense-item .input-field input:focus {
+            outline: none;
+            border-color: #ffb74d;
+            box-shadow: 0 0 10px rgba(255, 152, 0, 0.2);
+        }
+
+        .expense-item .input-field input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .expense-item .input-field.monthly-total input {
+            background: rgba(255, 152, 0, 0.15);
+            color: #ffb74d;
+            font-weight: 600;
+        }
+
+        .expense-item .remove-expense-btn {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid rgba(244, 67, 54, 0.3);
+            color: #ff8a80;
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            align-self: end;
+            margin-bottom: 2px;
+        }
+
+        .expense-item .remove-expense-btn:hover {
+            background: rgba(244, 67, 54, 0.3);
+            border-color: #f44336;
+        }
+
+        .add-expense-btn {
+            background: rgba(255, 152, 0, 0.2);
+            border: 1px solid rgba(255, 152, 0, 0.3);
+            color: #ffb74d;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .add-expense-btn:hover {
+            background: rgba(255, 152, 0, 0.3);
+            border-color: #ff9800;
+        }
+
+        .expense-presets {
+            margin-bottom: 15px;
+        }
+
+        .expense-presets h3 {
+            color: #ffb74d;
+        }
+
+        .expense-presets .preset-btn {
+            background: rgba(255, 152, 0, 0.15);
+            border-color: rgba(255, 152, 0, 0.4);
+            color: #ffb74d;
+        }
+
+        .expense-presets .preset-btn:hover {
+            background: rgba(255, 152, 0, 0.25);
+            border-color: #ff9800;
+        }
+
+        .expense-summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 152, 0, 0.3);
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .expense-total {
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .expense-total strong {
+            color: #ffb74d;
+            font-size: 1.2rem;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        .apply-expense-btn {
+            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+            border: none;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .apply-expense-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(255, 152, 0, 0.4);
+        }
+
+        .apply-expense-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .export-expenses-btn {
+            background: rgba(255, 152, 0, 0.2);
+            border: 1px solid rgba(255, 152, 0, 0.3);
+            color: #ffb74d;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .export-expenses-btn:hover {
+            background: rgba(255, 152, 0, 0.3);
+        }
+
+        @media (max-width: 992px) {
+            .expense-item {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .expense-item .input-field:first-child {
+                grid-column: span 2;
+            }
+
+            .expense-item .remove-expense-btn {
+                grid-column: 2;
+                justify-self: end;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .expense-item {
+                grid-template-columns: 1fr;
+            }
+
+            .expense-item .input-field:first-child {
+                grid-column: 1;
+            }
+
+            .expense-item .remove-expense-btn {
+                grid-column: 1;
+                width: 100%;
+            }
+
+            .expense-summary {
+                flex-direction: column;
+                align-items: stretch;
+            }
         }
 
         /* Footer */
@@ -948,7 +1184,7 @@
                 padding: 20px;
             }
 
-            .calculator, .nav-bar, .ascii-logo, .skip-link, footer, .btn, .action-btn, .add-btn, .remove-btn, .preset-buttons, .quick-presets, .education-section, .schedule-tabs {
+            .calculator, .nav-bar, .ascii-logo, .skip-link, footer, .btn, .action-btn, .add-btn, .remove-btn, .preset-buttons, .quick-presets, .education-section, .schedule-tabs, .expense-section {
                 display: none !important;
             }
 
@@ -1026,8 +1262,51 @@
                     <button type="button" class="add-btn" onclick="addDebt()" aria-label="Add another debt">+ Add Debt</button>
                 </div>
 
+                <div class="quick-presets">
+                    <h3 id="presets-label">Quick Examples:</h3>
+                    <div class="preset-buttons" role="group" aria-labelledby="presets-label">
+                        <button type="button" class="preset-btn" onclick="loadPreset('typical')" aria-label="Load typical debt example">Typical 3-Debt Example</button>
+                        <button type="button" class="preset-btn" onclick="loadPreset('credit-cards')" aria-label="Load credit card heavy example">Credit Card Heavy</button>
+                        <button type="button" class="preset-btn" onclick="loadPreset('mixed')" aria-label="Load mixed debt example">Mixed Debt Types</button>
+                    </div>
+                </div>
+
                 <div class="debt-list" id="debtList" role="list" aria-label="List of debts">
                     <!-- Debt items will be added here -->
+                </div>
+
+                <!-- Expense Tracking Section -->
+                <div class="expense-section">
+                    <div class="section-title">
+                        <span>Expenses to Cut (Optional)</span>
+                        <button type="button" class="add-expense-btn" onclick="addExpense()" aria-label="Add an expense to cut">+ Add Expense</button>
+                    </div>
+                    <p class="section-subtitle">Track expenses you can eliminate to put toward debt. Americans waste ~$200/year on unused subscriptions alone.</p>
+
+                    <div class="quick-presets expense-presets">
+                        <h3 id="expense-presets-label">Common Cuts:</h3>
+                        <div class="preset-buttons" role="group" aria-labelledby="expense-presets-label">
+                            <button type="button" class="preset-btn" onclick="loadExpensePreset('subscriptions')" aria-label="Load subscription audit example">Subscription Audit</button>
+                            <button type="button" class="preset-btn" onclick="loadExpensePreset('daily')" aria-label="Load daily habits example">Daily Habits</button>
+                            <button type="button" class="preset-btn" onclick="loadExpensePreset('lifestyle')" aria-label="Load lifestyle cuts example">Lifestyle Cuts</button>
+                        </div>
+                    </div>
+
+                    <div class="expense-list" id="expenseList" role="list" aria-label="List of expenses to cut">
+                        <!-- Expense items will be added here -->
+                    </div>
+
+                    <div class="expense-summary">
+                        <div class="expense-total">
+                            <span>Total monthly savings:</span>
+                            <strong id="totalExpenseSavings">$0.00</strong>
+                        </div>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <button type="button" class="apply-expense-btn" onclick="applyExpensesToExtra()" id="applyExpenseBtn" disabled aria-label="Apply expense savings to extra payment">Apply to Extra Payment</button>
+                            <button type="button" class="export-expenses-btn" onclick="exportDebtsToCSV()" aria-label="Export debts to CSV">Export Debts</button>
+                            <button type="button" class="export-expenses-btn" onclick="exportExpensesToCSV()" aria-label="Export expenses to CSV">Export Expenses</button>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="extra-payment-section">
@@ -1047,15 +1326,6 @@
                 </div>
 
                 <button type="button" class="btn" onclick="calculate()" aria-label="Compare payoff methods">Compare Methods</button>
-
-                <div class="quick-presets">
-                    <h3 id="presets-label">Quick Examples:</h3>
-                    <div class="preset-buttons" role="group" aria-labelledby="presets-label">
-                        <button type="button" class="preset-btn" onclick="loadPreset('typical')" aria-label="Load typical debt example">Typical 3-Debt Example</button>
-                        <button type="button" class="preset-btn" onclick="loadPreset('credit-cards')" aria-label="Load credit card heavy example">Credit Card Heavy</button>
-                        <button type="button" class="preset-btn" onclick="loadPreset('mixed')" aria-label="Load mixed debt example">Mixed Debt Types</button>
-                    </div>
-                </div>
 
                 <div class="error" id="error" role="alert" aria-live="assertive" aria-atomic="true"></div>
             </form>
@@ -1147,32 +1417,32 @@
                 </div>
                 <div class="collapsible-content">
                     <div class="quiz-section">
-                        <h3>Answer these questions to find your best fit:</h3>
-                        <div class="quiz-questions" role="group" aria-label="Method selection quiz">
-                            <div class="quiz-question">
-                                <input type="checkbox" id="q1" onchange="updateQuiz()">
-                                <label for="q1">I need quick wins to stay motivated</label>
+                        <h3>Which statement best describes you?</h3>
+                        <div class="quiz-questions" role="radiogroup" aria-label="Method selection quiz">
+                            <div class="quiz-question" onclick="selectQuizOption('q1')">
+                                <input type="radio" id="q1" name="quiz" value="snowball" onchange="updateQuiz()">
+                                <label for="q1">I need quick wins to stay motivated - seeing progress keeps me going</label>
                             </div>
-                            <div class="quiz-question">
-                                <input type="checkbox" id="q2" onchange="updateQuiz()">
-                                <label for="q2">I've tried paying off debt before and gave up</label>
+                            <div class="quiz-question" onclick="selectQuizOption('q2')">
+                                <input type="radio" id="q2" name="quiz" value="snowball" onchange="updateQuiz()">
+                                <label for="q2">I've tried paying off debt before but lost motivation and gave up</label>
                             </div>
-                            <div class="quiz-question">
-                                <input type="checkbox" id="q3" onchange="updateQuiz()">
-                                <label for="q3">I'm more analytical and patient</label>
+                            <div class="quiz-question" onclick="selectQuizOption('q3')">
+                                <input type="radio" id="q3" name="quiz" value="avalanche" onchange="updateQuiz()">
+                                <label for="q3">I'm analytical and patient - I can stick to a plan even without quick rewards</label>
                             </div>
-                            <div class="quiz-question">
-                                <input type="checkbox" id="q4" onchange="updateQuiz()">
-                                <label for="q4">Saving every possible dollar is my priority</label>
+                            <div class="quiz-question" onclick="selectQuizOption('q4')">
+                                <input type="radio" id="q4" name="quiz" value="avalanche" onchange="updateQuiz()">
+                                <label for="q4">Saving every possible dollar is my priority - the math matters most to me</label>
                             </div>
                         </div>
                         <div class="quiz-result snowball" id="quizResultSnowball">
-                            <h4>The Snowball Method may be best for you!</h4>
-                            <p>You value motivation and quick wins. Seeing debts disappear fast will keep you on track.</p>
+                            <h4>The Snowball Method is recommended for you!</h4>
+                            <p>You value motivation and quick wins. Seeing debts disappear fast will keep you on track. The psychological boost of eliminating accounts quickly will help you stay committed to your debt-free journey.</p>
                         </div>
                         <div class="quiz-result avalanche" id="quizResultAvalanche">
-                            <h4>The Avalanche Method may be best for you!</h4>
-                            <p>You're focused on the math and willing to be patient for maximum savings.</p>
+                            <h4>The Avalanche Method is recommended for you!</h4>
+                            <p>You're focused on the math and can stay patient for maximum savings. You'll pay less in total interest and become debt-free sooner, even if you don't see quick wins early on.</p>
                         </div>
                     </div>
                 </div>
@@ -1267,6 +1537,10 @@
         let avalancheSchedule = [];
         let currentScheduleView = 'snowball';
 
+        // Expense tracking data structure
+        let expenses = [];
+        let nextExpenseId = 1;
+
         // Debt types with typical APRs for reference
         const debtTypes = {
             'credit-card': { label: 'Credit Card', typicalApr: 19.72 },
@@ -1295,6 +1569,30 @@
                 { name: 'Credit Card', type: 'credit-card', balance: 6000, apr: 19.99, minPayment: 150 },
                 { name: 'Student Loan', type: 'student-loan', balance: 15000, apr: 5.5, minPayment: 175 },
                 { name: 'Car Payment', type: 'auto-loan', balance: 8500, apr: 6.9, minPayment: 225 }
+            ]
+        };
+
+        // Expense preset examples (based on 2025 average costs)
+        const expensePresets = {
+            'subscriptions': [
+                { label: 'Netflix', amount: 15.49, timesPerMonth: 1 },
+                { label: 'Spotify/Apple Music', amount: 10.99, timesPerMonth: 1 },
+                { label: 'Disney+', amount: 9.99, timesPerMonth: 1 },
+                { label: 'HBO Max', amount: 15.99, timesPerMonth: 1 },
+                { label: 'Amazon Prime', amount: 14.99, timesPerMonth: 1 },
+                { label: 'Cloud Storage', amount: 2.99, timesPerMonth: 1 }
+            ],
+            'daily': [
+                { label: 'Morning Coffee', amount: 5.50, timesPerMonth: 20 },
+                { label: 'Lunch Out', amount: 15, timesPerMonth: 12 },
+                { label: 'Afternoon Snack/Drink', amount: 4, timesPerMonth: 15 },
+                { label: 'Vending Machine', amount: 2, timesPerMonth: 10 }
+            ],
+            'lifestyle': [
+                { label: 'Gym Membership', amount: 45, timesPerMonth: 1 },
+                { label: 'Food Delivery (DoorDash/Uber Eats)', amount: 35, timesPerMonth: 4 },
+                { label: 'Dining Out', amount: 60, timesPerMonth: 4 },
+                { label: 'Impulse Amazon Purchases', amount: 30, timesPerMonth: 2 }
             ]
         };
 
@@ -1439,6 +1737,28 @@
             updateTotalMinimum();
 
             A11yUtils.announce(`Loaded ${presetName.replace('-', ' ')} example with ${preset.length} debts`, 'polite');
+        }
+
+        function loadExpensePreset(presetName) {
+            const preset = expensePresets[presetName];
+            if (!preset) return;
+
+            // Clear existing expenses
+            expenses = [];
+            nextExpenseId = 1;
+            document.getElementById('expenseList').innerHTML = '';
+
+            // Add preset expenses
+            preset.forEach(expenseData => {
+                const expense = {
+                    ...expenseData,
+                    monthlyTotal: expenseData.amount * expenseData.timesPerMonth
+                };
+                addExpense(expense);
+            });
+
+            updateExpenseTotal();
+            A11yUtils.announce(`Loaded ${presetName} example with ${preset.length} expenses`, 'polite');
         }
 
         function validateDebts() {
@@ -1765,11 +2085,28 @@
             // Create CSV with both schedules
             let csv = 'Debt Payoff Comparison Export\n\n';
 
+            // Debts Summary
+            csv += 'YOUR DEBTS\n';
+            csv += 'Name,Type,Balance,APR,Minimum Payment\n';
+            debts.forEach(debt => {
+                csv += `"${debt.name}","${debtTypes[debt.type]?.label || debt.type}",${debt.balance.toFixed(2)},${debt.apr}%,${debt.minPayment.toFixed(2)}\n`;
+            });
+            csv += '\n';
+
+            // Expenses (if any)
+            if (expenses.length > 0) {
+                csv += 'EXPENSES TO CUT\n';
+                csv += 'Expense,Cost Each,Times Per Month,Monthly Total\n';
+                expenses.forEach(expense => {
+                    csv += `"${expense.label || 'Unnamed'}",${expense.amount.toFixed(2)},${expense.timesPerMonth},${expense.monthlyTotal.toFixed(2)}\n`;
+                });
+                const expenseTotal = expenses.reduce((sum, e) => sum + (e.monthlyTotal || 0), 0);
+                csv += `Total Monthly Savings,,,${expenseTotal.toFixed(2)}\n\n`;
+            }
+
             // Summary
-            csv += 'SUMMARY\n';
+            csv += 'COMPARISON SUMMARY\n';
             csv += 'Method,Months,Total Interest,Total Paid\n';
-            const snowballLast = snowball[snowball.length - 1];
-            const avalancheLast = avalanche[avalanche.length - 1];
             const snowballInterest = snowball.reduce((sum, r) => sum + r.interest, 0);
             const avalancheInterest = avalanche.reduce((sum, r) => sum + r.interest, 0);
             const totalDebt = debts.reduce((sum, d) => sum + d.balance, 0);
@@ -1811,14 +2148,20 @@
             header.setAttribute('aria-expanded', isOpen);
         }
 
-        function updateQuiz() {
-            const q1 = document.getElementById('q1').checked; // Need quick wins
-            const q2 = document.getElementById('q2').checked; // Tried before, gave up
-            const q3 = document.getElementById('q3').checked; // Analytical/patient
-            const q4 = document.getElementById('q4').checked; // Save every dollar
+        function selectQuizOption(id) {
+            const radio = document.getElementById(id);
+            radio.checked = true;
+            updateQuiz();
+        }
 
-            const snowballScore = (q1 ? 1 : 0) + (q2 ? 1 : 0);
-            const avalancheScore = (q3 ? 1 : 0) + (q4 ? 1 : 0);
+        function updateQuiz() {
+            const selectedRadio = document.querySelector('input[name="quiz"]:checked');
+
+            // Update visual selection
+            document.querySelectorAll('.quiz-question').forEach(q => q.classList.remove('selected'));
+            if (selectedRadio) {
+                selectedRadio.closest('.quiz-question').classList.add('selected');
+            }
 
             const snowballResult = document.getElementById('quizResultSnowball');
             const avalancheResult = document.getElementById('quizResultAvalanche');
@@ -1826,14 +2169,171 @@
             snowballResult.classList.remove('show');
             avalancheResult.classList.remove('show');
 
-            if (snowballScore > avalancheScore) {
-                snowballResult.classList.add('show');
-            } else if (avalancheScore > snowballScore) {
-                avalancheResult.classList.add('show');
-            } else if (snowballScore > 0 || avalancheScore > 0) {
-                // Tie with some answers - show both as options
-                snowballResult.classList.add('show');
+            if (selectedRadio) {
+                if (selectedRadio.value === 'snowball') {
+                    snowballResult.classList.add('show');
+                } else {
+                    avalancheResult.classList.add('show');
+                }
             }
+        }
+
+        // Expense tracking functions
+        function addExpense(data = null) {
+            const id = nextExpenseId++;
+            const expense = data || {
+                id: id,
+                label: '',
+                amount: 0,
+                timesPerMonth: 1,
+                monthlyTotal: 0
+            };
+            expense.id = id;
+            expenses.push(expense);
+            renderExpenseItem(expense);
+            updateExpenseTotal();
+        }
+
+        function renderExpenseItem(expense) {
+            const container = document.getElementById('expenseList');
+            const item = document.createElement('div');
+            item.className = 'expense-item';
+            item.id = `expense-${expense.id}`;
+            item.setAttribute('role', 'listitem');
+
+            item.innerHTML = `
+                <div class="input-field">
+                    <label for="expense-label-${expense.id}">Expense</label>
+                    <input type="text" id="expense-label-${expense.id}" placeholder="e.g., Morning coffee" value="${expense.label}" onchange="updateExpense(${expense.id}, 'label', this.value)">
+                </div>
+                <div class="input-field">
+                    <label for="expense-amount-${expense.id}">Cost Each</label>
+                    <div class="input-prefix">
+                        <span>$</span>
+                        <input type="text" id="expense-amount-${expense.id}" placeholder="0.00" value="${expense.amount || ''}" oninput="formatInput(this)" onchange="updateExpenseAmount(${expense.id})" inputmode="decimal">
+                    </div>
+                </div>
+                <div class="input-field">
+                    <label for="expense-times-${expense.id}">Times/Month</label>
+                    <input type="number" id="expense-times-${expense.id}" placeholder="1" value="${expense.timesPerMonth || 1}" min="1" onchange="updateExpenseAmount(${expense.id})" inputmode="numeric">
+                </div>
+                <div class="input-field monthly-total">
+                    <label for="expense-total-${expense.id}">Monthly</label>
+                    <div class="input-prefix">
+                        <span>$</span>
+                        <input type="text" id="expense-total-${expense.id}" value="${expense.monthlyTotal.toFixed(2)}" readonly tabindex="-1">
+                    </div>
+                </div>
+                <button type="button" class="remove-expense-btn" onclick="removeExpense(${expense.id})" aria-label="Remove this expense">&#10005;</button>
+            `;
+
+            container.appendChild(item);
+        }
+
+        function updateExpense(id, field, value) {
+            const expense = expenses.find(e => e.id === id);
+            if (expense) {
+                expense[field] = value;
+            }
+        }
+
+        function updateExpenseAmount(id) {
+            const expense = expenses.find(e => e.id === id);
+            if (expense) {
+                const amount = parseNumber(document.getElementById(`expense-amount-${id}`).value) || 0;
+                const times = parseInt(document.getElementById(`expense-times-${id}`).value) || 1;
+                expense.amount = amount;
+                expense.timesPerMonth = times;
+                expense.monthlyTotal = amount * times;
+                document.getElementById(`expense-total-${id}`).value = expense.monthlyTotal.toFixed(2);
+                updateExpenseTotal();
+            }
+        }
+
+        function removeExpense(id) {
+            expenses = expenses.filter(e => e.id !== id);
+            document.getElementById(`expense-${id}`).remove();
+            updateExpenseTotal();
+        }
+
+        function updateExpenseTotal() {
+            const total = expenses.reduce((sum, e) => sum + (e.monthlyTotal || 0), 0);
+            document.getElementById('totalExpenseSavings').textContent = formatCurrency(total);
+            document.getElementById('applyExpenseBtn').disabled = total <= 0;
+        }
+
+        function applyExpensesToExtra() {
+            const total = expenses.reduce((sum, e) => sum + (e.monthlyTotal || 0), 0);
+            if (total > 0) {
+                const currentExtra = parseNumber(document.getElementById('extraPayment').value) || 0;
+                document.getElementById('extraPayment').value = (currentExtra + total).toFixed(2);
+                A11yUtils.announce(`Added ${formatCurrency(total)} to extra payment. New total: ${formatCurrency(currentExtra + total)}`, 'polite');
+            }
+        }
+
+        function exportDebtsToCSV() {
+            if (debts.length === 0 || !debts.some(d => d.name && d.balance > 0)) {
+                A11yUtils.announce('No debts to export. Add some debts first.', 'polite');
+                return;
+            }
+
+            let csv = 'Debt Summary Export\n\n';
+            csv += 'Name,Type,Balance,APR,Minimum Payment\n';
+
+            debts.forEach(debt => {
+                if (debt.name && debt.balance > 0) {
+                    const debtType = debtTypes[debt.type]?.label || debt.type;
+                    csv += `"${debt.name}","${debtType}",${debt.balance.toFixed(2)},${debt.apr}%,${debt.minPayment.toFixed(2)}\n`;
+                }
+            });
+
+            const totalDebt = debts.reduce((sum, d) => sum + (d.balance || 0), 0);
+            const totalMinPayment = debts.reduce((sum, d) => sum + (d.minPayment || 0), 0);
+            csv += `\nTOTAL,,$${totalDebt.toFixed(2)},,$${totalMinPayment.toFixed(2)}\n`;
+
+            // Download
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', 'my-debts.csv');
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            A11yUtils.announce('Debts exported to CSV file', 'polite');
+        }
+
+        function exportExpensesToCSV() {
+            if (expenses.length === 0) {
+                A11yUtils.announce('No expenses to export. Add some expenses first.', 'polite');
+                return;
+            }
+
+            let csv = 'Expenses to Cut Export\n\n';
+            csv += 'Expense,Cost Each,Times Per Month,Monthly Total\n';
+
+            expenses.forEach(expense => {
+                csv += `"${expense.label || 'Unnamed'}",${expense.amount.toFixed(2)},${expense.timesPerMonth},${expense.monthlyTotal.toFixed(2)}\n`;
+            });
+
+            const total = expenses.reduce((sum, e) => sum + (e.monthlyTotal || 0), 0);
+            csv += `\nTOTAL MONTHLY SAVINGS,,,$${total.toFixed(2)}\n`;
+            csv += `ANNUAL SAVINGS,,,$${(total * 12).toFixed(2)}\n`;
+
+            // Download
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', 'expenses-to-cut.csv');
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            A11yUtils.announce('Expenses exported to CSV file', 'polite');
         }
 
         // Initialize with one empty debt
