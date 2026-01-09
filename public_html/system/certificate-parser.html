@@ -520,6 +520,49 @@
             font-size: 0.9rem;
         }
 
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-header .section-title {
+            margin-bottom: 0;
+        }
+
+        .export-btn {
+            background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 187, 106, 0.4);
+        }
+
+        .export-btn:active {
+            transform: translateY(0);
+        }
+
+        .export-btn:focus {
+            outline: 3px solid #4fc3f7;
+            outline-offset: 2px;
+        }
+
+        .tab-btn:focus {
+            outline: 3px solid #4fc3f7;
+            outline-offset: 2px;
+        }
+
         footer {
             text-align: center;
             margin-top: 30px;
@@ -617,10 +660,13 @@
                     <button type="button" class="secondary-btn" onclick="loadSampleCert()" aria-label="Load a sample certificate for testing">Load Sample</button>
                 </div>
 
-                <div class="error" id="certError" role="alert" aria-live="assertive"></div>
+                <div class="error" id="certError" role="alert" aria-live="assertive" aria-atomic="true"></div>
 
                 <div class="results-section" id="certResults" role="region" aria-live="polite" aria-label="Certificate parsing results">
-                    <h3 class="section-title">Certificate Information</h3>
+                    <div class="section-header">
+                        <h3 class="section-title">Certificate Information</h3>
+                        <button type="button" class="export-btn" onclick="exportCertToCSV()" aria-label="Export certificate details to CSV file">Export to CSV</button>
+                    </div>
 
                     <div class="results-grid">
                         <div class="result-card" id="statusCard">
@@ -726,10 +772,13 @@
                     <button type="button" class="secondary-btn" onclick="loadSampleCSR()" aria-label="Load a sample CSR for testing">Load Sample</button>
                 </div>
 
-                <div class="error" id="csrError" role="alert" aria-live="assertive"></div>
+                <div class="error" id="csrError" role="alert" aria-live="assertive" aria-atomic="true"></div>
 
                 <div class="results-section" id="csrResults" role="region" aria-live="polite" aria-label="CSR parsing results">
-                    <h3 class="section-title">CSR Information</h3>
+                    <div class="section-header">
+                        <h3 class="section-title">CSR Information</h3>
+                        <button type="button" class="export-btn" onclick="exportCSRToCSV()" aria-label="Export CSR details to CSV file">Export to CSV</button>
+                    </div>
 
                     <div class="result-card">
                         <h4>Subject (CN)</h4>
@@ -832,7 +881,7 @@
                     <button type="button" class="secondary-btn" onclick="clearCSRForm()" aria-label="Clear form">Clear Form</button>
                 </div>
 
-                <div class="error" id="genError" role="alert" aria-live="assertive"></div>
+                <div class="error" id="genError" role="alert" aria-live="assertive" aria-atomic="true"></div>
 
                 <div class="output-section" id="csrOutput">
                     <h4>Certificate Signing Request (CSR)</h4>
@@ -2116,6 +2165,119 @@ IWUFpcgPGm/6jH4LKv3d8SQBmEgApyvsCtoXCW6E
             A11yUtils.announce('Sample CSR loaded', 'polite');
         }
 
+        // CSV Export Functions
+        function downloadCSV(filename, csvContent) {
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+
+            link.setAttribute('href', url);
+            link.setAttribute('download', filename);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        }
+
+        function escapeCSV(value) {
+            if (value === null || value === undefined) return '';
+            const str = String(value);
+            if (str.includes(',') || str.includes('"') || str.includes('\n')) {
+                return '"' + str.replace(/"/g, '""') + '"';
+            }
+            return str;
+        }
+
+        function exportCertToCSV() {
+            const status = document.getElementById('certStatus').textContent;
+            const daysUntilExpiry = document.getElementById('certDays').textContent;
+            const subject = document.getElementById('certSubject').textContent;
+            const issuer = document.getElementById('certIssuer').textContent;
+            const notBefore = document.getElementById('certNotBefore').textContent;
+            const notAfter = document.getElementById('certNotAfter').textContent;
+            const serial = document.getElementById('certSerial').textContent;
+            const sigAlg = document.getElementById('certSigAlg').textContent;
+            const pubKey = document.getElementById('certPubKey').textContent;
+            const fingerprint = document.getElementById('certFingerprint').textContent;
+
+            // Get SANs
+            const sanElements = document.querySelectorAll('#certSANs li');
+            const sans = Array.from(sanElements).map(li => li.textContent).join('; ');
+
+            // Get full subject DN
+            const subjectDNItems = document.querySelectorAll('#subjectDN .dn-item');
+            const subjectDN = Array.from(subjectDNItems).map(item => {
+                const label = item.querySelector('.dn-label').textContent;
+                const value = item.querySelector('.dn-value').textContent;
+                return label + value;
+            }).join(', ');
+
+            // Get full issuer DN
+            const issuerDNItems = document.querySelectorAll('#issuerDN .dn-item');
+            const issuerDN = Array.from(issuerDNItems).map(item => {
+                const label = item.querySelector('.dn-label').textContent;
+                const value = item.querySelector('.dn-value').textContent;
+                return label + value;
+            }).join(', ');
+
+            const csvRows = [
+                ['Field', 'Value'],
+                ['Status', status],
+                ['Days Until Expiry', daysUntilExpiry],
+                ['Subject (CN)', subject],
+                ['Subject (Full DN)', subjectDN],
+                ['Issuer (CN)', issuer],
+                ['Issuer (Full DN)', issuerDN],
+                ['Valid From', notBefore],
+                ['Valid Until', notAfter],
+                ['Serial Number', serial],
+                ['Signature Algorithm', sigAlg],
+                ['Public Key', pubKey],
+                ['SHA-256 Fingerprint', fingerprint],
+                ['Subject Alternative Names', sans]
+            ];
+
+            const csvContent = csvRows.map(row => row.map(escapeCSV).join(',')).join('\n');
+            const filename = `certificate-${subject.replace(/[^a-zA-Z0-9.-]/g, '_')}-${new Date().toISOString().split('T')[0]}.csv`;
+
+            downloadCSV(filename, csvContent);
+            A11yUtils.announce('Certificate details exported to CSV file', 'polite');
+        }
+
+        function exportCSRToCSV() {
+            const subject = document.getElementById('csrSubject').textContent;
+            const sigAlg = document.getElementById('csrSigAlg').textContent;
+            const pubKey = document.getElementById('csrPubKey').textContent;
+
+            // Get SANs
+            const sanElements = document.querySelectorAll('#csrSANs li');
+            const sans = Array.from(sanElements).map(li => li.textContent).join('; ');
+
+            // Get full subject DN
+            const subjectDNItems = document.querySelectorAll('#csrSubjectDN .dn-item');
+            const subjectDN = Array.from(subjectDNItems).map(item => {
+                const label = item.querySelector('.dn-label').textContent;
+                const value = item.querySelector('.dn-value').textContent;
+                return label + value;
+            }).join(', ');
+
+            const csvRows = [
+                ['Field', 'Value'],
+                ['Subject (CN)', subject],
+                ['Subject (Full DN)', subjectDN],
+                ['Signature Algorithm', sigAlg],
+                ['Public Key', pubKey],
+                ['Subject Alternative Names', sans]
+            ];
+
+            const csvContent = csvRows.map(row => row.map(escapeCSV).join(',')).join('\n');
+            const filename = `csr-${subject.replace(/[^a-zA-Z0-9.-]/g, '_')}-${new Date().toISOString().split('T')[0]}.csv`;
+
+            downloadCSV(filename, csvContent);
+            A11yUtils.announce('CSR details exported to CSV file', 'polite');
+        }
+
         // Initialize skip link
         document.querySelector('.skip-link').addEventListener('click', function(e) {
             e.preventDefault();
@@ -2125,6 +2287,30 @@ IWUFpcgPGm/6jH4LKv3d8SQBmEgApyvsCtoXCW6E
                 target.focus();
                 target.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
+        });
+
+        // Keyboard navigation for tabs
+        document.querySelectorAll('.tab-btn').forEach((btn, index, btns) => {
+            btn.addEventListener('keydown', function(e) {
+                let targetIndex = index;
+                if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    targetIndex = (index + 1) % btns.length;
+                } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    targetIndex = (index - 1 + btns.length) % btns.length;
+                } else if (e.key === 'Home') {
+                    e.preventDefault();
+                    targetIndex = 0;
+                } else if (e.key === 'End') {
+                    e.preventDefault();
+                    targetIndex = btns.length - 1;
+                }
+                if (targetIndex !== index) {
+                    btns[targetIndex].focus();
+                    btns[targetIndex].click();
+                }
+            });
         });
     </script>
 </body>
