@@ -179,12 +179,6 @@
             color: #ef9a9a;
         }
 
-        .diff-line.modified {
-            background: rgba(255, 235, 59, 0.2);
-            border-left-color: #ffeb3b;
-            color: #fff9c4;
-        }
-
         .diff-line.unchanged {
             color: rgba(255, 255, 255, 0.7);
         }
@@ -316,10 +310,6 @@
 
         .stat-value.removed {
             color: #f44336;
-        }
-
-        .stat-value.modified {
-            color: #ffeb3b;
         }
 
         .stat-label {
@@ -476,10 +466,6 @@
                 <div class="stat-item">
                     <div class="stat-value removed" id="linesRemoved">0</div>
                     <div class="stat-label">Removed</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value modified" id="linesModified">0</div>
-                    <div class="stat-label">Modified</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-value" id="linesUnchanged">0</div>
@@ -682,7 +668,6 @@
                 stats: {
                     added: 0,
                     removed: 0,
-                    modified: 0,
                     unchanged: 0
                 }
             };
@@ -707,28 +692,14 @@
                     lcsIndex++;
                 } else if (i < lines1.length &&
                           (lcsIndex >= lcs.length || processed1[i] !== lcs[lcsIndex])) {
-                    // Check if there's a corresponding addition (modification)
-                    if (j < lines2.length &&
-                        (lcsIndex >= lcs.length || processed2[j] !== lcs[lcsIndex])) {
-                        // Modified line
-                        result.lines.push({
-                            type: 'modified',
-                            left: { line: lines1[i], number: i + 1 },
-                            right: { line: lines2[j], number: j + 1 }
-                        });
-                        result.stats.modified++;
-                        i++;
-                        j++;
-                    } else {
-                        // Removed line
-                        result.lines.push({
-                            type: 'removed',
-                            left: { line: lines1[i], number: i + 1 },
-                            right: null
-                        });
-                        result.stats.removed++;
-                        i++;
-                    }
+                    // Removed line
+                    result.lines.push({
+                        type: 'removed',
+                        left: { line: lines1[i], number: i + 1 },
+                        right: null
+                    });
+                    result.stats.removed++;
+                    i++;
                 } else if (j < lines2.length) {
                     // Added line
                     result.lines.push({
@@ -829,14 +800,13 @@
             rightPanel.scrollTop = 0;
 
             // Announce to screen readers
-            A11yUtils.announce(`Comparison complete. ${state.diffResult.stats.added} lines added, ${state.diffResult.stats.removed} lines removed, ${state.diffResult.stats.modified} lines modified`, 'polite');
+            A11yUtils.announce(`Comparison complete. ${state.diffResult.stats.added} lines added, ${state.diffResult.stats.removed} lines removed`, 'polite');
         }
 
         // Update statistics
         function updateStats(stats) {
             document.getElementById('linesAdded').textContent = stats.added;
             document.getElementById('linesRemoved').textContent = stats.removed;
-            document.getElementById('linesModified').textContent = stats.modified;
             document.getElementById('linesUnchanged').textContent = stats.unchanged;
         }
 
@@ -854,7 +824,7 @@
                 leftLine.className = 'diff-line';
 
                 if (item.left) {
-                    leftLine.classList.add(item.type === 'unchanged' ? 'unchanged' : item.type === 'modified' ? 'modified' : 'removed');
+                    leftLine.classList.add(item.type);
                     leftLine.innerHTML = `<span class="line-number">${item.left.number}</span>${escapeHtml(item.left.line)}\n`;
                 } else {
                     leftLine.classList.add('empty-placeholder');
@@ -867,7 +837,7 @@
                 rightLine.className = 'diff-line';
 
                 if (item.right) {
-                    rightLine.classList.add(item.type === 'unchanged' ? 'unchanged' : item.type === 'modified' ? 'modified' : 'added');
+                    rightLine.classList.add(item.type);
                     rightLine.innerHTML = `<span class="line-number">${item.right.number}</span>${escapeHtml(item.right.line)}\n`;
                 } else {
                     rightLine.classList.add('empty-placeholder');
@@ -910,7 +880,6 @@
             let output = '=== DIFF RESULTS ===\n\n';
             output += `Lines Added: ${state.diffResult.stats.added}\n`;
             output += `Lines Removed: ${state.diffResult.stats.removed}\n`;
-            output += `Lines Modified: ${state.diffResult.stats.modified}\n`;
             output += `Lines Unchanged: ${state.diffResult.stats.unchanged}\n\n`;
 
             output += '=== UNIFIED DIFF ===\n\n';
@@ -918,9 +887,6 @@
                 if (item.type === 'removed') {
                     output += `- ${item.left.line}\n`;
                 } else if (item.type === 'added') {
-                    output += `+ ${item.right.line}\n`;
-                } else if (item.type === 'modified') {
-                    output += `- ${item.left.line}\n`;
                     output += `+ ${item.right.line}\n`;
                 } else {
                     output += `  ${item.left.line}\n`;
