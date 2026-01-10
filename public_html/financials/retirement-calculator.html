@@ -556,6 +556,12 @@
             font-size: 0.85rem;
         }
 
+        .required-indicator {
+            color: #f44336;
+            margin-left: 3px;
+            font-weight: bold;
+        }
+
         .help-text {
             font-size: 0.75rem;
             color: rgba(255, 255, 255, 0.5);
@@ -809,18 +815,18 @@
                 <h3 class="section-title">Your Information</h3>
                 <div class="input-group">
                     <div class="input-field">
-                        <label for="current-age">Current Age</label>
+                        <label for="current-age">Current Age<span class="required-indicator">*</span></label>
                         <input type="number" id="current-age" placeholder="30" min="18" max="80" aria-required="true" aria-describedby="age-help">
                         <span id="age-help" class="sr-only">Enter your current age between 18 and 80</span>
                     </div>
                     <div class="input-field">
-                        <label for="retirement-age">Target Retirement Age</label>
+                        <label for="retirement-age">Target Retirement Age<span class="required-indicator">*</span></label>
                         <input type="number" id="retirement-age" placeholder="50" value="50" min="25" max="80" aria-required="true" aria-describedby="retire-help">
                         <span id="retire-help" class="sr-only">Enter your target retirement age, can be as early as 25</span>
                         <span class="help-text">Early retirement is achievable!</span>
                     </div>
                     <div class="input-field">
-                        <label for="life-expectancy">Life Expectancy</label>
+                        <label for="life-expectancy">Life Expectancy<span class="required-indicator">*</span></label>
                         <input type="number" id="life-expectancy" placeholder="90" value="90" min="60" max="120" aria-required="true" aria-describedby="life-help">
                         <span id="life-help" class="sr-only">Estimate how long you expect to live for withdrawal planning</span>
                     </div>
@@ -829,7 +835,7 @@
                 <h3 class="section-title">Income & Expenses</h3>
                 <div class="input-group">
                     <div class="input-field">
-                        <label for="annual-income">Annual Income (Pre-tax)</label>
+                        <label for="annual-income">Annual Income (Pre-tax)<span class="required-indicator">*</span></label>
                         <div class="input-prefix">
                             <span>$</span>
                             <input type="text" id="annual-income" placeholder="75,000" aria-required="true" aria-describedby="income-help" inputmode="decimal">
@@ -837,7 +843,7 @@
                         <span id="income-help" class="sr-only">Enter your annual pre-tax income</span>
                     </div>
                     <div class="input-field">
-                        <label for="annual-expenses">Annual Expenses</label>
+                        <label for="annual-expenses">Annual Expenses<span class="required-indicator">*</span></label>
                         <div class="input-prefix">
                             <span>$</span>
                             <input type="text" id="annual-expenses" placeholder="40,000" aria-required="true" aria-describedby="expenses-help" inputmode="decimal">
@@ -846,16 +852,16 @@
                         <span class="help-text">Key factor for your retirement target</span>
                     </div>
                     <div class="input-field">
-                        <label for="retirement-expenses">Post-Retirement Annual Expenses</label>
+                        <label for="retirement-expenses">Post-Retirement Annual Expenses<span class="required-indicator">*</span></label>
                         <div class="input-prefix">
                             <span>$</span>
-                            <input type="text" id="retirement-expenses" placeholder="35,000" aria-describedby="retirement-expenses-help" inputmode="decimal">
+                            <input type="text" id="retirement-expenses" placeholder="35,000" aria-required="true" aria-describedby="retirement-expenses-help" inputmode="decimal">
                         </div>
                         <span id="retirement-expenses-help" class="sr-only">Expected annual expenses in retirement (often 70-80% of current expenses)</span>
                         <span class="help-text">Often lower than working years - no commute, paid-off mortgage</span>
                     </div>
                     <div class="input-field">
-                        <label for="current-savings">Current Retirement Savings</label>
+                        <label for="current-savings">Current Retirement Savings<span class="required-indicator">*</span></label>
                         <div class="input-prefix">
                             <span>$</span>
                             <input type="text" id="current-savings" placeholder="50,000" aria-required="true" aria-describedby="savings-help" inputmode="decimal">
@@ -867,7 +873,7 @@
                 <h3 class="section-title">Savings & Returns</h3>
                 <div class="input-group">
                     <div class="input-field">
-                        <label for="monthly-contribution">Monthly Contribution</label>
+                        <label for="monthly-contribution">Monthly Contribution<span class="required-indicator">*</span></label>
                         <div class="input-prefix">
                             <span>$</span>
                             <input type="text" id="monthly-contribution" placeholder="1,500" aria-required="true" aria-describedby="contrib-help" inputmode="decimal">
@@ -875,7 +881,7 @@
                         <span id="contrib-help" class="sr-only">Enter how much you save monthly toward retirement</span>
                     </div>
                     <div class="input-field">
-                        <label for="expected-return">Expected Annual Return</label>
+                        <label for="expected-return">Expected Annual Return<span class="required-indicator">*</span></label>
                         <div class="input-suffix">
                             <input type="text" id="expected-return" placeholder="7" value="7" aria-required="true" aria-describedby="return-help" inputmode="decimal">
                             <span>%</span>
@@ -883,7 +889,7 @@
                         <span id="return-help" class="sr-only">Enter expected annual investment return, typically 7% for stocks</span>
                     </div>
                     <div class="input-field">
-                        <label for="inflation-rate">Inflation Rate</label>
+                        <label for="inflation-rate">Inflation Rate<span class="required-indicator">*</span></label>
                         <div class="input-suffix">
                             <input type="text" id="inflation-rate" placeholder="3" value="3" aria-required="true" aria-describedby="inflation-help" inputmode="decimal">
                             <span>%</span>
@@ -895,7 +901,7 @@
                 <h3 class="section-title">Withdrawal Settings</h3>
                 <div class="input-group">
                     <div class="input-field">
-                        <label for="withdrawal-rate">Safe Withdrawal Rate</label>
+                        <label for="withdrawal-rate">Safe Withdrawal Rate<span class="required-indicator">*</span></label>
                         <div class="input-suffix">
                             <input type="text" id="withdrawal-rate" placeholder="4" value="4" aria-required="true" aria-describedby="swr-help" inputmode="decimal">
                             <span>%</span>
@@ -1125,10 +1131,10 @@
                 return;
             }
 
-            // Parse retirement expenses (optional - defaults to current expenses)
-            const retirementExpenses = parseNumber(retirementExpensesInput.value) || annualExpenses;
-            if (retirementExpenses < 0) {
-                showError('Retirement expenses cannot be negative', retirementExpensesInput);
+            // Validate retirement expenses (required)
+            const retirementExpenses = parseNumber(retirementExpensesInput.value);
+            if (retirementExpenses === null || retirementExpenses <= 0) {
+                showError('Please enter valid post-retirement annual expenses', retirementExpensesInput);
                 return;
             }
 
