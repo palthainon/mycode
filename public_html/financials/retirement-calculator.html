@@ -816,7 +816,7 @@
                 <div class="input-group">
                     <div class="input-field">
                         <label for="current-age">Current Age<span class="required-indicator">*</span></label>
-                        <input type="number" id="current-age" placeholder="30" min="18" max="80" aria-required="true" aria-describedby="age-help">
+                        <input type="number" id="current-age" placeholder="30" value="30" min="18" max="80" aria-required="true" aria-describedby="age-help">
                         <span id="age-help" class="sr-only">Enter your current age between 18 and 80</span>
                     </div>
                     <div class="input-field">
@@ -838,7 +838,7 @@
                         <label for="annual-income">Annual Income (Pre-tax)<span class="required-indicator">*</span></label>
                         <div class="input-prefix">
                             <span>$</span>
-                            <input type="text" id="annual-income" placeholder="75,000" aria-required="true" aria-describedby="income-help" inputmode="decimal">
+                            <input type="text" id="annual-income" placeholder="75,000" value="75,000" aria-required="true" aria-describedby="income-help" inputmode="decimal">
                         </div>
                         <span id="income-help" class="sr-only">Enter your annual pre-tax income</span>
                     </div>
@@ -846,7 +846,7 @@
                         <label for="annual-expenses">Annual Expenses<span class="required-indicator">*</span></label>
                         <div class="input-prefix">
                             <span>$</span>
-                            <input type="text" id="annual-expenses" placeholder="40,000" aria-required="true" aria-describedby="expenses-help" inputmode="decimal">
+                            <input type="text" id="annual-expenses" placeholder="40,000" value="40,000" aria-required="true" aria-describedby="expenses-help" inputmode="decimal">
                         </div>
                         <span id="expenses-help" class="sr-only">Enter your total annual expenses, this helps determine your retirement target</span>
                         <span class="help-text">Key factor for your retirement target</span>
@@ -855,7 +855,7 @@
                         <label for="retirement-expenses">Post-Retirement Annual Expenses<span class="required-indicator">*</span></label>
                         <div class="input-prefix">
                             <span>$</span>
-                            <input type="text" id="retirement-expenses" placeholder="35,000" aria-required="true" aria-describedby="retirement-expenses-help" inputmode="decimal">
+                            <input type="text" id="retirement-expenses" placeholder="35,000" value="35,000" aria-required="true" aria-describedby="retirement-expenses-help" inputmode="decimal">
                         </div>
                         <span id="retirement-expenses-help" class="sr-only">Expected annual expenses in retirement (often 70-80% of current expenses)</span>
                         <span class="help-text">Often lower than working years - no commute, paid-off mortgage</span>
@@ -864,7 +864,7 @@
                         <label for="current-savings">Current Retirement Savings<span class="required-indicator">*</span></label>
                         <div class="input-prefix">
                             <span>$</span>
-                            <input type="text" id="current-savings" placeholder="50,000" aria-required="true" aria-describedby="savings-help" inputmode="decimal">
+                            <input type="text" id="current-savings" placeholder="50,000" value="50,000" aria-required="true" aria-describedby="savings-help" inputmode="decimal">
                         </div>
                         <span id="savings-help" class="sr-only">Enter your current total retirement savings and investments</span>
                     </div>
@@ -876,7 +876,7 @@
                         <label for="monthly-contribution">Monthly Contribution<span class="required-indicator">*</span></label>
                         <div class="input-prefix">
                             <span>$</span>
-                            <input type="text" id="monthly-contribution" placeholder="1,500" aria-required="true" aria-describedby="contrib-help" inputmode="decimal">
+                            <input type="text" id="monthly-contribution" placeholder="1,500" value="1,500" aria-required="true" aria-describedby="contrib-help" inputmode="decimal">
                         </div>
                         <span id="contrib-help" class="sr-only">Enter how much you save monthly toward retirement</span>
                     </div>
@@ -1557,6 +1557,13 @@
         document.addEventListener('DOMContentLoaded', function() {
             StorageUtils.loadFormInputs('retirement-calc', retirementCalcFields);
             StorageUtils.autoSaveFormInputs('retirement-calc', retirementCalcFields);
+        });
+
+        // Select all text on focus for all input fields
+        document.querySelectorAll('#retirement-form input').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.select();
+            });
         });
     </script>
 </body>
