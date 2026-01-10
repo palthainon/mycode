@@ -853,6 +853,68 @@
             margin-bottom: 20px;
         }
 
+        /* Education Link Cards */
+        .education-link-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .education-link-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(79, 195, 247, 0.2);
+            border-radius: 12px;
+            text-decoration: none;
+            color: #fff;
+            transition: all 0.2s;
+        }
+
+        .education-link-card:hover {
+            background: rgba(79, 195, 247, 0.1);
+            border-color: rgba(79, 195, 247, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(79, 195, 247, 0.2);
+        }
+
+        .education-link-card .card-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .education-link-card .card-content {
+            flex: 1;
+        }
+
+        .education-link-card .card-content h3 {
+            color: #4fc3f7;
+            font-size: 1.1rem;
+            margin-bottom: 6px;
+        }
+
+        .education-link-card .card-content p {
+            color: #90caf9;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .education-link-card .card-arrow {
+            color: #4fc3f7;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+            opacity: 0.6;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+
+        .education-link-card:hover .card-arrow {
+            opacity: 1;
+            transform: translateX(5px);
+        }
+
         .collapsible {
             margin-bottom: 12px;
         }
@@ -2361,483 +2423,29 @@
 
         </div><!-- End calculator-section -->
 
-        <!-- Educational Section -->
+        <!-- Educational Section - Links to separate pages -->
         <div id="learn-more-section" class="education-section main-tab-content" role="tabpanel" aria-labelledby="main-tab-learn-more" aria-label="Learn about debt payoff methods">
-            <h2>Understand Loans</h2>
+            <h2>Learn About Debt Payoff</h2>
+            <p style="color: #90caf9; margin-bottom: 25px;">Explore our educational guides to understand different payoff strategies and learn how to evaluate loan offers.</p>
 
-            <div class="education-tabs" role="tablist">
-                <button type="button" class="education-tab active" onclick="switchEducationTab('methods')" role="tab" aria-selected="true" aria-controls="methods-tab" id="tab-methods">Payoff Methods</button>
-                <button type="button" class="education-tab" onclick="switchEducationTab('loan-reference')" role="tab" aria-selected="false" aria-controls="loan-reference-tab" id="tab-loan-reference">Loan Reference</button>
-            </div>
-
-            <!-- Payoff Methods Tab -->
-            <div class="education-tab-content show" id="methods-tab" role="tabpanel" aria-labelledby="tab-methods">
-
-            <div class="visible-section" id="methods-comparison-section">
-                <h3>Debt Snowball vs Avalanche Methods</h3>
-                <p>Both methods work by paying minimums on all debts while putting extra money toward one "target" debt. The difference is how you choose which debt to target first.</p>
-
-                <div style="overflow-x: auto;">
-                    <table class="loan-comparison-table" role="table" aria-label="Comparison of Snowball and Avalanche methods">
-                        <thead>
-                            <tr>
-                                <th scope="col">Feature</th>
-                                <th scope="col">Snowball Method</th>
-                                <th scope="col">Avalanche Method</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>Strategy</strong></td>
-                                <td>Pay off smallest balance first</td>
-                                <td>Pay off highest interest rate first</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Order</strong></td>
-                                <td>Smallest to largest balance</td>
-                                <td>Highest to lowest APR</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Motivation</strong></td>
-                                <td>Quick wins early - debts disappear fast</td>
-                                <td>Maximum savings - math is on your side</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Total Interest Paid</strong></td>
-                                <td>Slightly more (varies by debt mix)</td>
-                                <td>Least possible interest</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Best For</strong></td>
-                                <td>People who need motivation, have given up before, or have many small debts</td>
-                                <td>Analytical people, those with high-interest debt, or anyone who can stay motivated without quick wins</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="best-for" style="margin-top: 20px;">
-                    <strong>Research Note:</strong> Studies from the Kellogg School of Management found that people using the snowball method are more likely to eliminate debt completely - small wins create momentum. However, avalanche saves about 1.3% more interest on average. The best method is the one you'll stick with.
-                </div>
-            </div>
-
-            <div class="visible-section" id="psychology-section">
-                <h3>The Psychology of Debt Payoff</h3>
-                <p>Research shows that <strong>personal finance is 80% behavior and only 20% head knowledge</strong>. Here's what behavioral economics tells us:</p>
-                <p><strong>Proportional Progress Matters:</strong> When you make a $150 payment on a $600 balance, you've wiped out 25%. On a $6,000 balance, it barely registers. Our brains respond more to proportion than absolute amount.</p>
-                <p><strong>Debt Account Aversion:</strong> We keep mental "accounts" for each debt. Closing an entire account feels like a complete win, even if it's small. This explains why eliminating one small debt can be more motivating than making equal progress on a large one.</p>
-                <p><strong>The Key Insight:</strong> The best debt payoff method is the one you'll actually stick with until completion. If the avalanche method causes you to give up after 6 months, the snowball method that you complete is better for you.</p>
-            </div>
-
-            <div class="visible-section" id="faq-section">
-                <h3>Common Questions</h3>
-                <p><strong>Should I include my mortgage?</strong><br>
-                Usually no. Focus on consumer debt first (credit cards, auto loans, personal loans). Mortgages are long-term, often have tax benefits, and the interest rate is typically lower than other debts.</p>
-
-                <p><strong>What about 0% promotional rates?</strong><br>
-                Be careful! Enter the post-promotional APR that will apply when the 0% period ends. If you can't pay it off before then, plan for the higher rate.</p>
-
-                <p><strong>What if I can only pay minimums?</strong><br>
-                Both methods produce the same result when you can only pay minimums. Focus on finding extra money through budgeting, side income, or reducing expenses. Even $50 extra per month makes a significant difference.</p>
-
-                <p><strong>Can I switch methods mid-way?</strong><br>
-                Absolutely! Some people start with snowball to get momentum, then switch to avalanche once they've built the habit. The important thing is to keep going.</p>
-            </div>
-
-            </div><!-- End Payoff Methods Tab -->
-
-            <!-- Loan Reference Tab -->
-            <div class="education-tab-content" id="loan-reference-tab" role="tabpanel" aria-labelledby="tab-loan-reference">
-
-            <!-- Understanding Different Types of Loans - Visible Section -->
-            <div class="visible-section" id="loan-types-section">
-                <h3>Understanding Different Types of Loans</h3>
-                <p>Not all loans are created equal. Here's a breakdown of common loan types and what to expect:</p>
-
-                <div class="analogy-box">
-                    <span class="analogy-icon" aria-hidden="true">&#128161;</span>
-                    <p><strong>Think of APR like a speed limit:</strong> Under 10% is cruising in a school zone (safe). 10-36% is highway speed (manageable). Over 36%? You're in a race car with no brakes - that's when things get dangerous.</p>
-                </div>
-
-                <div style="overflow-x: auto;">
-                    <table class="loan-comparison-table" role="table" aria-label="Comparison of loan types">
-                        <thead>
-                            <tr>
-                                <th scope="col">Loan Type</th>
-                                <th scope="col">Typical APR</th>
-                                <th scope="col">Term Length</th>
-                                <th scope="col">Risk Level</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="good-row">
-                                <td>Federal Student Loan</td>
-                                <td><span class="apr-pill good">5-7%</span></td>
-                                <td>10-25 years</td>
-                                <td>Low</td>
-                            </tr>
-                            <tr class="good-row">
-                                <td>Auto Loan (good credit)</td>
-                                <td><span class="apr-pill good">6-10%</span></td>
-                                <td>3-6 years</td>
-                                <td>Low</td>
-                            </tr>
-                            <tr>
-                                <td>Personal Loan</td>
-                                <td><span class="apr-pill caution">10-28%</span></td>
-                                <td>2-7 years</td>
-                                <td>Medium</td>
-                            </tr>
-                            <tr>
-                                <td>Credit Card</td>
-                                <td><span class="apr-pill caution">19-29%</span></td>
-                                <td>Revolving</td>
-                                <td>Medium-High</td>
-                            </tr>
-                            <tr class="danger-row">
-                                <td>Payday Loan</td>
-                                <td><span class="apr-pill danger">391-664%</span></td>
-                                <td>2-4 weeks</td>
-                                <td>EXTREME</td>
-                            </tr>
-                            <tr class="danger-row">
-                                <td>Title Loan</td>
-                                <td><span class="apr-pill danger">100-300%</span></td>
-                                <td>30 days</td>
-                                <td>EXTREME</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="best-for" style="border-color: #ffd54f;">
-                    <strong style="color: #ffd54f;">Key Takeaway:</strong> Any loan with APR over 36% is considered predatory by consumer protection groups. If you see triple-digit APR, run.
-                </div>
-            </div>
-
-            <!-- Predatory Lending - Visible Section -->
-            <div class="visible-section" id="predatory-lending-section">
-                <h3>Predatory Lending: Warning Signs to Watch For</h3>
-                <p>Predatory lenders target people who are desperate, inexperienced, or don't know better. <strong>They're counting on you not understanding what you're signing.</strong> Here's how to spot them:</p>
-
-                <div class="warning-box">
-                    <h4><span aria-hidden="true">&#9888;</span> Major Red Flags</h4>
-                    <ul>
-                        <li><strong>Sky-high interest rates</strong> - Anything over 36% APR is a warning sign. Over 100%? That's loan shark territory.</li>
-                        <li><strong>"No credit check needed!"</strong> - Sounds good, but it means they're not checking if you can afford to pay it back. They don't care.</li>
-                        <li><strong>Pressure to sign NOW</strong> - "This offer expires today!" or "Don't you need this money?" are manipulation tactics.</li>
-                        <li><strong>Hidden fees everywhere</strong> - Origination fees, processing fees, early payoff penalties. If they're hard to find, that's on purpose.</li>
-                        <li><strong>Balloon payments</strong> - Small payments for months, then suddenly you owe thousands. It's a trap.</li>
-                    </ul>
-                </div>
-
-                <div class="analogy-box">
-                    <span class="analogy-icon" aria-hidden="true">&#127920;</span>
-                    <p><strong>Think of it like a video game:</strong> Predatory lenders are like those "free-to-play" games that seem free but are designed to drain your wallet. The terms look simple until you're stuck paying $500 to unlock the next level (or in this case, to avoid destroying your credit).</p>
-                </div>
-
-                <div class="safe-box">
-                    <h4><span aria-hidden="true">&#10003;</span> Signs of a Legitimate Lender</h4>
-                    <ul>
-                        <li><strong>Licensed and regulated</strong> - Check for NMLS registration number</li>
-                        <li><strong>Clear disclosure</strong> - All terms, fees, and APR shown upfront BEFORE you sign</li>
-                        <li><strong>APR under 36%</strong> - Ideally much lower</li>
-                        <li><strong>No pressure</strong> - Gives you time to read, think, and compare</li>
-                        <li><strong>Right to cancel</strong> - 3 days to back out (federal law)</li>
-                        <li><strong>Reasonable repayment</strong> - Payments you can actually afford</li>
-                    </ul>
-                </div>
-
-                <div class="best-for">
-                    <strong>Remember:</strong> Legitimate lenders WANT you to understand the terms because they want you to pay them back. Predatory lenders profit when you CAN'T pay - that's when fees pile up.
-                </div>
-            </div>
-
-            <!-- Loan Calculator - Visible Section -->
-            <div class="visible-section" id="loan-calc-section">
-                <h3>See the Real Cost: Loan Calculator</h3>
-                <p>Enter a loan amount to see how much you'd actually pay back with different APRs. The difference is eye-opening.</p>
-
-                <div class="loan-cost-calculator">
-                    <h4>Compare Good Loan vs Predatory Loan</h4>
-                    <div class="calc-inputs">
-                        <div class="calc-input-group">
-                            <label for="eduLoanAmount">Amount to Borrow</label>
-                            <input type="text" id="eduLoanAmount" placeholder="1000" value="1000" oninput="formatInput(this); calculateEducationLoanCost()">
-                        </div>
-                        <div class="calc-input-group">
-                            <label for="goodApr">Good Loan APR</label>
-                            <select id="goodApr" onchange="calculateEducationLoanCost()">
-                                <option value="8">8% (Auto Loan)</option>
-                                <option value="12">12% (Personal Loan)</option>
-                                <option value="15" selected>15% (Credit Union)</option>
-                                <option value="20">20% (Credit Card)</option>
-                            </select>
-                        </div>
-                        <div class="calc-input-group">
-                            <label for="badApr">Predatory APR</label>
-                            <select id="badApr" onchange="calculateEducationLoanCost()">
-                                <option value="100">100% (Title Loan)</option>
-                                <option value="200">200% (Bad Title Loan)</option>
-                                <option value="400" selected>400% (Payday Loan)</option>
-                                <option value="600">600% (Worst Payday)</option>
-                            </select>
-                        </div>
-                        <div class="calc-input-group">
-                            <label for="eduLoanTerm">Repayment Period</label>
-                            <select id="eduLoanTerm" onchange="calculateEducationLoanCost()">
-                                <option value="6">6 months</option>
-                                <option value="12" selected>1 year</option>
-                                <option value="24">2 years</option>
-                                <option value="36">3 years</option>
-                                <option value="60">5 years</option>
-                                <option value="72">6 years</option>
-                                <option value="120">10 years</option>
-                            </select>
-                        </div>
+            <div class="education-link-cards">
+                <a href="loan-payoff-methods.html" class="education-link-card">
+                    <div class="card-icon" aria-hidden="true">&#10052;</div>
+                    <div class="card-content">
+                        <h3>Payoff Methods</h3>
+                        <p>Snowball vs Avalanche: Compare strategies, understand the psychology of debt payoff, and find the approach that works for you.</p>
                     </div>
-
-                    <div class="calc-results">
-                        <div class="calc-result-box good">
-                            <div class="result-label">Good Loan Total</div>
-                            <div class="result-value" id="goodLoanTotal">$1,083</div>
-                            <div class="result-detail" id="goodLoanDetail">Monthly: $90.25</div>
-                        </div>
-                        <div class="calc-result-box bad">
-                            <div class="result-label">Predatory Loan Total</div>
-                            <div class="result-value" id="badLoanTotal">$5,000</div>
-                            <div class="result-detail" id="badLoanDetail">Monthly: $416.67</div>
-                        </div>
+                    <span class="card-arrow" aria-hidden="true">&#8594;</span>
+                </a>
+                <a href="loan-reference.html" class="education-link-card">
+                    <div class="card-icon" aria-hidden="true">&#128218;</div>
+                    <div class="card-content">
+                        <h3>Loan Reference Guide</h3>
+                        <p>Learn about different loan types, spot predatory lending warning signs, and use our interactive tools to evaluate loan offers.</p>
                     </div>
-
-                    <div class="calc-savings">
-                        <p>By choosing the good loan, you save: <span class="savings-amount" id="loanSavings">$3,917</span></p>
-                    </div>
-                </div>
-
-                <div class="analogy-box">
-                    <span class="analogy-icon" aria-hidden="true">&#128176;</span>
-                    <p><strong>Put it in perspective:</strong> That savings could buy you <span id="savingsComparison">39 nice dinners out, or 1 year of streaming services, or a weekend road trip with friends</span>.</p>
-                </div>
+                    <span class="card-arrow" aria-hidden="true">&#8594;</span>
+                </a>
             </div>
-
-            <div class="collapsible" id="red-flag-checker">
-                <div class="collapsible-header" onclick="toggleCollapsible('red-flag-checker')" role="button" aria-expanded="false" tabindex="0">
-                    <h3>Interactive: Is This Loan Safe? (Red Flag Checker)</h3>
-                    <span class="collapsible-icon" aria-hidden="true">&#9660;</span>
-                </div>
-                <div class="collapsible-content">
-                    <p>Thinking about taking out a loan? Check off any red flags that apply to see if you should proceed:</p>
-
-                    <div class="red-flag-checker" role="group" aria-labelledby="checker-heading">
-                        <h4 id="checker-heading">Check All That Apply</h4>
-                        <div class="flag-checklist" id="flagChecklist">
-                            <div class="flag-item" onclick="toggleFlag(this)">
-                                <input type="checkbox" id="flag1" onchange="updateFlagResult()">
-                                <label for="flag1">
-                                    The APR is over 36%
-                                    <span class="flag-explanation">Consumer protection groups consider 36%+ APR to be predatory</span>
-                                </label>
-                            </div>
-                            <div class="flag-item" onclick="toggleFlag(this)">
-                                <input type="checkbox" id="flag2" onchange="updateFlagResult()">
-                                <label for="flag2">
-                                    They said "no credit check needed"
-                                    <span class="flag-explanation">Legitimate lenders check credit to ensure you can repay</span>
-                                </label>
-                            </div>
-                            <div class="flag-item" onclick="toggleFlag(this)">
-                                <input type="checkbox" id="flag3" onchange="updateFlagResult()">
-                                <label for="flag3">
-                                    They're pressuring me to sign today
-                                    <span class="flag-explanation">Good lenders give you time to think and compare options</span>
-                                </label>
-                            </div>
-                            <div class="flag-item" onclick="toggleFlag(this)">
-                                <input type="checkbox" id="flag4" onchange="updateFlagResult()">
-                                <label for="flag4">
-                                    The fees are hard to find or unclear
-                                    <span class="flag-explanation">Hidden fees are a major warning sign</span>
-                                </label>
-                            </div>
-                            <div class="flag-item" onclick="toggleFlag(this)">
-                                <input type="checkbox" id="flag5" onchange="updateFlagResult()">
-                                <label for="flag5">
-                                    There's a large "balloon payment" at the end
-                                    <span class="flag-explanation">Small payments followed by a huge lump sum is a trap</span>
-                                </label>
-                            </div>
-                            <div class="flag-item" onclick="toggleFlag(this)">
-                                <input type="checkbox" id="flag6" onchange="updateFlagResult()">
-                                <label for="flag6">
-                                    I can't easily find their license/registration info
-                                    <span class="flag-explanation">Legitimate lenders display their NMLS number</span>
-                                </label>
-                            </div>
-                            <div class="flag-item" onclick="toggleFlag(this)">
-                                <input type="checkbox" id="flag7" onchange="updateFlagResult()">
-                                <label for="flag7">
-                                    They want access to my bank account to auto-withdraw
-                                    <span class="flag-explanation">This gives them control over your money</span>
-                                </label>
-                            </div>
-                            <div class="flag-item" onclick="toggleFlag(this)">
-                                <input type="checkbox" id="flag8" onchange="updateFlagResult()">
-                                <label for="flag8">
-                                    My monthly payment would be more than 10% of my income
-                                    <span class="flag-explanation">Unaffordable payments lead to debt traps</span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="flag-result safe" id="flagResultSafe">
-                            <h5><span aria-hidden="true">&#10003;</span> Looking Good!</h5>
-                            <p>No major red flags detected. This loan might be reasonable - but still compare rates from at least 3 lenders before deciding.</p>
-                        </div>
-
-                        <div class="flag-result caution" id="flagResultCaution">
-                            <h5><span aria-hidden="true">&#9888;</span> Proceed With Caution</h5>
-                            <p>You've identified 1-2 warning signs. This doesn't automatically mean it's a bad loan, but you should investigate further and consider alternatives.</p>
-                        </div>
-
-                        <div class="flag-result danger" id="flagResultDanger">
-                            <h5><span aria-hidden="true">&#128680;</span> Warning: High Risk!</h5>
-                            <p>Multiple red flags detected. This loan has significant warning signs of predatory lending. Strongly consider walking away and exploring other options like credit unions, family loans, or saving up instead.</p>
-                        </div>
-
-                        <button type="button" class="btn secondary" onclick="resetFlagChecker()" style="margin-top: 15px;">
-                            Reset Checker
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="collapsible" id="scenario-quiz">
-                <div class="collapsible-header" onclick="toggleCollapsible('scenario-quiz')" role="button" aria-expanded="false" tabindex="0">
-                    <h3>Quiz: What Would You Do?</h3>
-                    <span class="collapsible-icon" aria-hidden="true">&#9660;</span>
-                </div>
-                <div class="collapsible-content">
-                    <p>Test your knowledge with these real-world scenarios. See if you can spot the best financial decision.</p>
-
-                    <div class="scenario-quiz" id="scenarioQuizContainer">
-                        <div class="scenario-progress">
-                            Question <span id="currentScenario">1</span> of <span id="totalScenarios">4</span>
-                        </div>
-
-                        <div class="scenario-card" id="scenario1" data-correct="b">
-                            <div class="scenario-text">
-                                <strong>Scenario:</strong> Your car breaks down and needs a $800 repair. You need your car to get to work. A payday lender offers you $800 today with "just $100 in fees" due in 2 weeks. Your credit union offers an emergency loan at 18% APR with $50/month payments over 18 months.
-                            </div>
-                            <div class="scenario-options" role="radiogroup" aria-label="Scenario 1 options">
-                                <div class="scenario-option" onclick="selectScenarioOption(1, 'a', this)">
-                                    <input type="radio" id="s1a" name="scenario1" value="a">
-                                    <label for="s1a">Take the payday loan - $100 fee sounds reasonable and I get the money today</label>
-                                </div>
-                                <div class="scenario-option" onclick="selectScenarioOption(1, 'b', this)">
-                                    <input type="radio" id="s1b" name="scenario1" value="b">
-                                    <label for="s1b">Take the credit union loan - lower total cost even though it takes longer</label>
-                                </div>
-                                <div class="scenario-option" onclick="selectScenarioOption(1, 'c', this)">
-                                    <input type="radio" id="s1c" name="scenario1" value="c">
-                                    <label for="s1c">Take both - use payday for now, credit union to pay it off</label>
-                                </div>
-                            </div>
-                            <div class="scenario-feedback" id="feedback1">
-                                <h5></h5>
-                                <p></p>
-                            </div>
-                        </div>
-
-                        <div class="scenario-card" id="scenario2" style="display: none;" data-correct="c">
-                            <div class="scenario-text">
-                                <strong>Scenario:</strong> You're 19 and want to build credit. A store offers you their credit card with 29.99% APR and a $500 limit. A secured credit card from a bank requires a $200 deposit but has 18% APR. Your parent offers to add you as an authorized user on their card.
-                            </div>
-                            <div class="scenario-options" role="radiogroup" aria-label="Scenario 2 options">
-                                <div class="scenario-option" onclick="selectScenarioOption(2, 'a', this)">
-                                    <input type="radio" id="s2a" name="scenario2" value="a">
-                                    <label for="s2a">Store card - higher limit and I can get rewards at that store</label>
-                                </div>
-                                <div class="scenario-option" onclick="selectScenarioOption(2, 'b', this)">
-                                    <input type="radio" id="s2b" name="scenario2" value="b">
-                                    <label for="s2b">Secured card - lower APR and it's from a real bank</label>
-                                </div>
-                                <div class="scenario-option" onclick="selectScenarioOption(2, 'c', this)">
-                                    <input type="radio" id="s2c" name="scenario2" value="c">
-                                    <label for="s2c">Authorized user first, then secured card - builds credit with less risk</label>
-                                </div>
-                            </div>
-                            <div class="scenario-feedback" id="feedback2">
-                                <h5></h5>
-                                <p></p>
-                            </div>
-                        </div>
-
-                        <div class="scenario-card" id="scenario3" style="display: none;" data-correct="b">
-                            <div class="scenario-text">
-                                <strong>Scenario:</strong> You owe $3,000 on a credit card at 24% APR. You receive a balance transfer offer: 0% APR for 12 months, then 26% APR. There's a 3% transfer fee ($90). You can afford to pay $275/month.
-                            </div>
-                            <div class="scenario-options" role="radiogroup" aria-label="Scenario 3 options">
-                                <div class="scenario-option" onclick="selectScenarioOption(3, 'a', this)">
-                                    <input type="radio" id="s3a" name="scenario3" value="a">
-                                    <label for="s3a">Don't transfer - the fee and higher eventual APR aren't worth it</label>
-                                </div>
-                                <div class="scenario-option" onclick="selectScenarioOption(3, 'b', this)">
-                                    <input type="radio" id="s3b" name="scenario3" value="b">
-                                    <label for="s3b">Transfer it - pay $275/month and finish in 11 months at 0%</label>
-                                </div>
-                                <div class="scenario-option" onclick="selectScenarioOption(3, 'c', this)">
-                                    <input type="radio" id="s3c" name="scenario3" value="c">
-                                    <label for="s3c">Transfer and pay minimums - save the extra money</label>
-                                </div>
-                            </div>
-                            <div class="scenario-feedback" id="feedback3">
-                                <h5></h5>
-                                <p></p>
-                            </div>
-                        </div>
-
-                        <div class="scenario-card" id="scenario4" style="display: none;" data-correct="a">
-                            <div class="scenario-text">
-                                <strong>Scenario:</strong> A "debt consolidation company" contacts you offering to combine all your debts into one "easy payment." They want you to stop paying creditors directly and pay them instead. They promise to negotiate lower balances.
-                            </div>
-                            <div class="scenario-options" role="radiogroup" aria-label="Scenario 4 options">
-                                <div class="scenario-option" onclick="selectScenarioOption(4, 'a', this)">
-                                    <input type="radio" id="s4a" name="scenario4" value="a">
-                                    <label for="s4a">Decline - this sounds like a debt settlement scam that could hurt my credit</label>
-                                </div>
-                                <div class="scenario-option" onclick="selectScenarioOption(4, 'b', this)">
-                                    <input type="radio" id="s4b" name="scenario4" value="b">
-                                    <label for="s4b">Sign up - one payment sounds easier to manage</label>
-                                </div>
-                                <div class="scenario-option" onclick="selectScenarioOption(4, 'c', this)">
-                                    <input type="radio" id="s4c" name="scenario4" value="c">
-                                    <label for="s4c">Try it for a few months - I can always quit if it doesn't work</label>
-                                </div>
-                            </div>
-                            <div class="scenario-feedback" id="feedback4">
-                                <h5></h5>
-                                <p></p>
-                            </div>
-                        </div>
-
-                        <div class="scenario-nav">
-                            <button type="button" class="prev-btn" onclick="navigateScenario(-1)" id="prevScenarioBtn" disabled>Previous</button>
-                            <button type="button" class="next-btn" onclick="navigateScenario(1)" id="nextScenarioBtn">Next Question</button>
-                        </div>
-
-                        <div id="scenarioFinalScore" style="display: none; text-align: center; padding: 20px;">
-                            <h4 style="color: #ce93d8; margin-bottom: 15px;">Quiz Complete!</h4>
-                            <p style="font-size: 1.2rem; margin-bottom: 10px;">You got <span id="scenarioScore" style="color: #81c784; font-weight: 600;">0</span> out of 4 correct!</p>
-                            <p id="scoreMessage" style="color: #b0bec5;"></p>
-                            <button type="button" class="btn secondary" onclick="resetScenarioQuiz()" style="margin-top: 15px;">Try Again</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            </div><!-- End Loan Reference Tab -->
-
         </div>
 
         <footer role="contentinfo">
