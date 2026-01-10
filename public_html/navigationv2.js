@@ -307,6 +307,21 @@
             }
         }
 
+        // Fallback: detect subdirectory from pathname even if file not in nav
+        // This ensures pages not in the menu (e.g., educational pages) still get correct path prefixes
+        if (pathname.includes('/financials/')) {
+            return { id: null, category: 'financials' };
+        }
+        if (pathname.includes('/nettools/')) {
+            return { id: null, category: 'network' };
+        }
+        if (pathname.includes('/system/')) {
+            return { id: null, category: 'system' };
+        }
+        if (pathname.includes('/data/')) {
+            return { id: null, category: 'data' };
+        }
+
         return { id: null, category: null };
     }
 
