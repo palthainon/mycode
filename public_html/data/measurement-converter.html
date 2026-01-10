@@ -361,6 +361,26 @@
             color: #90caf9;
         }
 
+        .weight-columns {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .weight-columns .reference-table {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .reference-table.compact {
+            font-size: 0.85rem;
+        }
+
+        .reference-table.compact td,
+        .reference-table.compact th {
+            padding: 6px 10px;
+        }
+
         .trig-results {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -537,6 +557,7 @@
                 <button type="button" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-cooking" id="btn-cooking" onclick="switchTab('cooking')">Cooking</button>
                 <button type="button" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-scientific" id="btn-scientific" onclick="switchTab('scientific')">Scientific</button>
                 <button type="button" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-trig" id="btn-trig" onclick="switchTab('trig')">Trigonometry</button>
+                <button type="button" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-engineering" id="btn-engineering" onclick="switchTab('engineering')">Engineering</button>
             </div>
 
             <!-- Basic Tab -->
@@ -784,28 +805,124 @@
                     <button type="button" class="quick-btn" onclick="quickCooking(0.25, 'cup', 'tbsp')">1/4 cup to tbsp</button>
                 </div>
 
-                <div class="info-box">
-                    <strong>Quick Reference:</strong> 3 tsp = 1 tbsp | 2 tbsp = 1 fl oz | 16 tbsp = 1 cup | 2 cups = 1 pint | 4 cups = 1 quart | 4 quarts = 1 gallon
-                </div>
-
                 <div class="subsection">
-                    <h3 class="subsection-title">Common Ingredient Weights</h3>
-                    <table class="reference-table" role="table" aria-label="Common ingredient weight conversions">
+                    <h3 class="subsection-title">Dry Measurements</h3>
+                    <table class="reference-table" role="table" aria-label="Dry measurement conversions">
                         <thead>
                             <tr>
-                                <th scope="col">Ingredient</th>
-                                <th scope="col">1 Cup</th>
-                                <th scope="col">1 Tablespoon</th>
+                                <th scope="col">TSP</th>
+                                <th scope="col">TBSP</th>
+                                <th scope="col">Cup</th>
+                                <th scope="col">Fl Oz</th>
+                                <th scope="col">Grams</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr><td>All-Purpose Flour</td><td>125 g</td><td>8 g</td></tr>
-                            <tr><td>Granulated Sugar</td><td>200 g</td><td>12.5 g</td></tr>
-                            <tr><td>Brown Sugar (packed)</td><td>220 g</td><td>14 g</td></tr>
-                            <tr><td>Butter</td><td>227 g (2 sticks)</td><td>14 g</td></tr>
-                            <tr><td>Honey</td><td>340 g</td><td>21 g</td></tr>
-                            <tr><td>Milk</td><td>245 g</td><td>15 g</td></tr>
-                            <tr><td>Vegetable Oil</td><td>218 g</td><td>14 g</td></tr>
+                            <tr><td>3 tsp</td><td>1 tbsp</td><td>1/16 C</td><td>1/2 oz</td><td>14 g</td></tr>
+                            <tr><td>6 tsp</td><td>2 tbsp</td><td>1/8 C</td><td>1 oz</td><td>28 g</td></tr>
+                            <tr><td>12 tsp</td><td>4 tbsp</td><td>1/4 C</td><td>2 oz</td><td>57 g</td></tr>
+                            <tr><td>16 tsp</td><td>5 tbsp + 1 tsp</td><td>1/3 C</td><td>2 2/3 oz</td><td>76 g</td></tr>
+                            <tr><td>24 tsp</td><td>8 tbsp</td><td>1/2 C</td><td>4 oz</td><td>113 g</td></tr>
+                            <tr><td>32 tsp</td><td>10 tbsp + 2 tsp</td><td>2/3 C</td><td>5 1/3 oz</td><td>151 g</td></tr>
+                            <tr><td>36 tsp</td><td>12 tbsp</td><td>3/4 C</td><td>6 oz</td><td>170 g</td></tr>
+                            <tr><td>48 tsp</td><td>16 tbsp</td><td>1 C</td><td>8 oz</td><td>227 g</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">Liquid Measurements</h3>
+                    <table class="reference-table" role="table" aria-label="Liquid measurement conversions">
+                        <thead>
+                            <tr>
+                                <th scope="col">Measure</th>
+                                <th scope="col">Fl Oz</th>
+                                <th scope="col">TBSP</th>
+                                <th scope="col">TSP</th>
+                                <th scope="col">Metric</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>1 gal</td><td>128 oz</td><td>256 tbsp</td><td>768 tsp</td><td>3.8 L</td></tr>
+                            <tr><td>1 quart</td><td>32 oz</td><td>64 tbsp</td><td>192 tsp</td><td>950 mL</td></tr>
+                            <tr><td>1 pint</td><td>16 oz</td><td>32 tbsp</td><td>96 tsp</td><td>473 mL</td></tr>
+                            <tr><td>1 cup</td><td>8 oz</td><td>16 tbsp</td><td>48 tsp</td><td>237 mL</td></tr>
+                            <tr><td>3/4 cup</td><td>6 oz</td><td>12 tbsp</td><td>36 tsp</td><td>177 mL</td></tr>
+                            <tr><td>1/2 cup</td><td>4 oz</td><td>8 tbsp</td><td>24 tsp</td><td>118 mL</td></tr>
+                            <tr><td>1/3 cup</td><td>2 2/3 oz</td><td>5 tbsp + 1 tsp</td><td>16 tsp</td><td>79 mL</td></tr>
+                            <tr><td>1/4 cup</td><td>2 oz</td><td>4 tbsp</td><td>12 tsp</td><td>59 mL</td></tr>
+                            <tr><td>1/8 cup</td><td>1 oz</td><td>2 tbsp</td><td>6 tsp</td><td>30 mL</td></tr>
+                            <tr><td>1/16 cup</td><td>1/2 oz</td><td>1 tbsp</td><td>3 tsp</td><td>15 mL</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">Weight Conversions</h3>
+                    <div class="weight-columns">
+                        <table class="reference-table compact" role="table" aria-label="Weight conversions grams to ounces">
+                            <thead>
+                                <tr><th scope="col">Grams</th><th scope="col">Ounces</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>14 g</td><td>1/2 oz</td></tr>
+                                <tr><td>28 g</td><td>1 oz</td></tr>
+                                <tr><td>57 g</td><td>2 oz</td></tr>
+                                <tr><td>85 g</td><td>3 oz</td></tr>
+                                <tr><td>113 g</td><td>4 oz</td></tr>
+                                <tr><td>141 g</td><td>5 oz</td></tr>
+                                <tr><td>170 g</td><td>6 oz</td></tr>
+                                <tr><td>198 g</td><td>7 oz</td></tr>
+                            </tbody>
+                        </table>
+                        <table class="reference-table compact" role="table" aria-label="Weight conversions grams to ounces continued">
+                            <thead>
+                                <tr><th scope="col">Grams</th><th scope="col">Ounces</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>227 g</td><td>8 oz</td></tr>
+                                <tr><td>255 g</td><td>9 oz</td></tr>
+                                <tr><td>283 g</td><td>10 oz</td></tr>
+                                <tr><td>312 g</td><td>11 oz</td></tr>
+                                <tr><td>340 g</td><td>12 oz</td></tr>
+                                <tr><td>369 g</td><td>13 oz</td></tr>
+                                <tr><td>397 g</td><td>14 oz</td></tr>
+                                <tr><td>425 g</td><td>15 oz</td></tr>
+                                <tr><td>454 g</td><td>1 lb</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">Oven Temperature</h3>
+                    <table class="reference-table compact" role="table" aria-label="Oven temperature conversions">
+                        <thead>
+                            <tr><th scope="col">Fahrenheit</th><th scope="col">Celsius</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>250°F</td><td>120°C</td></tr>
+                            <tr><td>300°F</td><td>150°C</td></tr>
+                            <tr><td>325°F</td><td>160°C</td></tr>
+                            <tr><td>350°F</td><td>180°C</td></tr>
+                            <tr><td>375°F</td><td>190°C</td></tr>
+                            <tr><td>400°F</td><td>200°C</td></tr>
+                            <tr><td>425°F</td><td>220°C</td></tr>
+                            <tr><td>450°F</td><td>230°C</td></tr>
+                            <tr><td>475°F</td><td>245°C</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">Miscellaneous</h3>
+                    <table class="reference-table" role="table" aria-label="Miscellaneous cooking measurements">
+                        <tbody>
+                            <tr><td>1 dash</td><td>6 drops</td></tr>
+                            <tr><td>1 pinch</td><td>1/16 tsp</td></tr>
+                            <tr><td>1 stick butter</td><td>1/4 lb / 113 g</td></tr>
+                            <tr><td>1 pound sugar</td><td>2 1/4 cups</td></tr>
+                            <tr><td>1 pound flour</td><td>3 1/3 cups</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -1161,6 +1278,171 @@
                 </div>
             </div>
 
+            <!-- Engineering Tab -->
+            <div class="tab-content" id="tab-engineering" role="tabpanel" aria-labelledby="btn-engineering">
+                <h2 class="section-title">Engineering Conversions</h2>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">Speed / Velocity</h3>
+                    <div class="converter-row">
+                        <div class="input-field">
+                            <label for="speed-value">Value</label>
+                            <input type="number" id="speed-value" placeholder="Enter value" step="any" aria-describedby="speed-result">
+                        </div>
+                        <div class="input-field">
+                            <label for="speed-from">From</label>
+                            <select id="speed-from">
+                                <option value="mps">Meters/second (m/s)</option>
+                                <option value="kmh">Kilometers/hour (km/h)</option>
+                                <option value="mph" selected>Miles/hour (mph)</option>
+                                <option value="fps">Feet/second (ft/s)</option>
+                                <option value="knot">Knots (kn)</option>
+                                <option value="mach">Mach</option>
+                            </select>
+                        </div>
+                        <button type="button" class="swap-btn" onclick="swapUnits('speed')" aria-label="Swap speed units">&#8644;</button>
+                        <div class="input-field">
+                            <label for="speed-to">To</label>
+                            <select id="speed-to">
+                                <option value="mps">Meters/second (m/s)</option>
+                                <option value="kmh" selected>Kilometers/hour (km/h)</option>
+                                <option value="mph">Miles/hour (mph)</option>
+                                <option value="fps">Feet/second (ft/s)</option>
+                                <option value="knot">Knots (kn)</option>
+                                <option value="mach">Mach</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="result-display" id="speed-result" aria-live="polite">
+                        <span class="label">Result</span>
+                        <span class="value" id="speed-result-value">--</span>
+                        <button type="button" class="copy-btn" onclick="copyResult('speed-result-value', this)">Copy</button>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">Time</h3>
+                    <div class="converter-row">
+                        <div class="input-field">
+                            <label for="time-value">Value</label>
+                            <input type="number" id="time-value" placeholder="Enter value" step="any" aria-describedby="time-result">
+                        </div>
+                        <div class="input-field">
+                            <label for="time-from">From</label>
+                            <select id="time-from">
+                                <option value="ns">Nanosecond (ns)</option>
+                                <option value="us">Microsecond (µs)</option>
+                                <option value="ms">Millisecond (ms)</option>
+                                <option value="s">Second (s)</option>
+                                <option value="min">Minute (min)</option>
+                                <option value="hr" selected>Hour (hr)</option>
+                                <option value="day">Day</option>
+                                <option value="wk">Week</option>
+                                <option value="yr">Year (365 days)</option>
+                            </select>
+                        </div>
+                        <button type="button" class="swap-btn" onclick="swapUnits('time')" aria-label="Swap time units">&#8644;</button>
+                        <div class="input-field">
+                            <label for="time-to">To</label>
+                            <select id="time-to">
+                                <option value="ns">Nanosecond (ns)</option>
+                                <option value="us">Microsecond (µs)</option>
+                                <option value="ms">Millisecond (ms)</option>
+                                <option value="s">Second (s)</option>
+                                <option value="min" selected>Minute (min)</option>
+                                <option value="hr">Hour (hr)</option>
+                                <option value="day">Day</option>
+                                <option value="wk">Week</option>
+                                <option value="yr">Year (365 days)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="result-display" id="time-result" aria-live="polite">
+                        <span class="label">Result</span>
+                        <span class="value" id="time-result-value">--</span>
+                        <button type="button" class="copy-btn" onclick="copyResult('time-result-value', this)">Copy</button>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">Power</h3>
+                    <div class="converter-row">
+                        <div class="input-field">
+                            <label for="power-value">Value</label>
+                            <input type="number" id="power-value" placeholder="Enter value" step="any" aria-describedby="power-result">
+                        </div>
+                        <div class="input-field">
+                            <label for="power-from">From</label>
+                            <select id="power-from">
+                                <option value="w">Watt (W)</option>
+                                <option value="kw" selected>Kilowatt (kW)</option>
+                                <option value="mw">Megawatt (MW)</option>
+                                <option value="hp">Horsepower (hp)</option>
+                                <option value="btuh">BTU/hour</option>
+                                <option value="rt">Ton of refrigeration (RT)</option>
+                                <option value="ftlbs">Foot-pound/sec (ft·lb/s)</option>
+                            </select>
+                        </div>
+                        <button type="button" class="swap-btn" onclick="swapUnits('power')" aria-label="Swap power units">&#8644;</button>
+                        <div class="input-field">
+                            <label for="power-to">To</label>
+                            <select id="power-to">
+                                <option value="w">Watt (W)</option>
+                                <option value="kw">Kilowatt (kW)</option>
+                                <option value="mw">Megawatt (MW)</option>
+                                <option value="hp" selected>Horsepower (hp)</option>
+                                <option value="btuh">BTU/hour</option>
+                                <option value="rt">Ton of refrigeration (RT)</option>
+                                <option value="ftlbs">Foot-pound/sec (ft·lb/s)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="result-display" id="power-result" aria-live="polite">
+                        <span class="label">Result</span>
+                        <span class="value" id="power-result-value">--</span>
+                        <button type="button" class="copy-btn" onclick="copyResult('power-result-value', this)">Copy</button>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">Frequency</h3>
+                    <div class="converter-row">
+                        <div class="input-field">
+                            <label for="freq-value">Value</label>
+                            <input type="number" id="freq-value" placeholder="Enter value" step="any" aria-describedby="freq-result">
+                        </div>
+                        <div class="input-field">
+                            <label for="freq-from">From</label>
+                            <select id="freq-from">
+                                <option value="hz">Hertz (Hz)</option>
+                                <option value="khz">Kilohertz (kHz)</option>
+                                <option value="mhz" selected>Megahertz (MHz)</option>
+                                <option value="ghz">Gigahertz (GHz)</option>
+                                <option value="rpm">RPM (rev/min)</option>
+                                <option value="rads">Radians/sec (rad/s)</option>
+                            </select>
+                        </div>
+                        <button type="button" class="swap-btn" onclick="swapUnits('freq')" aria-label="Swap frequency units">&#8644;</button>
+                        <div class="input-field">
+                            <label for="freq-to">To</label>
+                            <select id="freq-to">
+                                <option value="hz">Hertz (Hz)</option>
+                                <option value="khz">Kilohertz (kHz)</option>
+                                <option value="mhz">Megahertz (MHz)</option>
+                                <option value="ghz" selected>Gigahertz (GHz)</option>
+                                <option value="rpm">RPM (rev/min)</option>
+                                <option value="rads">Radians/sec (rad/s)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="result-display" id="freq-result" aria-live="polite">
+                        <span class="label">Result</span>
+                        <span class="value" id="freq-result-value">--</span>
+                        <button type="button" class="copy-btn" onclick="copyResult('freq-result-value', this)">Copy</button>
+                    </div>
+                </div>
+            </div>
+
             <div id="error" role="alert" aria-live="assertive" aria-atomic="true"></div>
 
             <div class="button-row">
@@ -1293,6 +1575,50 @@
             turn: 360
         };
 
+        // Speed: base = meters per second
+        const speedFactors = {
+            'mps': 1,
+            'kmh': 0.277778,
+            'mph': 0.44704,
+            'fps': 0.3048,
+            'knot': 0.514444,
+            'mach': 343
+        };
+
+        // Time: base = seconds
+        const timeFactors = {
+            ns: 1e-9,
+            us: 1e-6,
+            ms: 0.001,
+            s: 1,
+            min: 60,
+            hr: 3600,
+            day: 86400,
+            wk: 604800,
+            yr: 31536000
+        };
+
+        // Power: base = Watts
+        const powerFactors = {
+            w: 1,
+            kw: 1000,
+            mw: 1000000,
+            hp: 745.7,
+            btuh: 0.293071,
+            rt: 3516.85,
+            ftlbs: 1.35582
+        };
+
+        // Frequency: base = Hertz
+        const frequencyFactors = {
+            hz: 1,
+            khz: 1000,
+            mhz: 1000000,
+            ghz: 1000000000,
+            rpm: 0.0166667,
+            rads: 0.159155
+        };
+
         // ========== Unit Abbreviations ==========
         const unitAbbreviations = {
             // Length
@@ -1317,7 +1643,15 @@
             // Energy
             j: 'J', kj: 'kJ', cal: 'cal', kcal: 'kcal', ev: 'eV', btu: 'BTU', kwh: 'kWh',
             // Angle
-            deg: '°', rad: 'rad', grad: 'grad', turn: 'turn'
+            deg: '°', rad: 'rad', grad: 'grad', turn: 'turn',
+            // Speed
+            mps: 'm/s', kmh: 'km/h', mph: 'mph', fps: 'ft/s', knot: 'kn', mach: 'Mach',
+            // Time
+            ns: 'ns', us: 'µs', ms: 'ms', s: 's', min: 'min', hr: 'hr', day: 'day', wk: 'wk', yr: 'yr',
+            // Power
+            w: 'W', kw: 'kW', mw: 'MW', hp: 'hp', btuh: 'BTU/hr', rt: 'RT', ftlbs: 'ft·lb/s',
+            // Frequency
+            hz: 'Hz', khz: 'kHz', mhz: 'MHz', ghz: 'GHz', rpm: 'rpm', rads: 'rad/s'
         };
 
         // ========== Generic Conversion Function ==========
@@ -1630,7 +1964,11 @@
             'pressure-value', 'pressure-from', 'pressure-to',
             'energy-value', 'energy-from', 'energy-to',
             'angle-value', 'angle-from', 'angle-to',
-            'trig-angle', 'trig-unit'
+            'trig-angle', 'trig-unit',
+            'speed-value', 'speed-from', 'speed-to',
+            'time-value', 'time-from', 'time-to',
+            'power-value', 'power-from', 'power-to',
+            'freq-value', 'freq-from', 'freq-to'
         ];
 
         // ========== Initialize ==========
@@ -1646,6 +1984,10 @@
             setupConverter('pressure', pressureFactors);
             setupConverter('energy', energyFactors);
             setupConverter('angle', angleFactors);
+            setupConverter('speed', speedFactors);
+            setupConverter('time', timeFactors);
+            setupConverter('power', powerFactors);
+            setupConverter('freq', frequencyFactors);
 
             // Scientific notation listeners
             document.getElementById('sci-value').addEventListener('input', convertScientificNotation);
