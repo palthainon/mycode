@@ -2192,7 +2192,7 @@
             </button>
             <button type="button" class="main-tab" onclick="switchMainTab('learn-more')"
                     role="tab" aria-selected="false" aria-controls="learn-more-section" id="main-tab-learn-more">
-                Learn More
+                Understand Loans
             </button>
         </div>
 
@@ -2363,7 +2363,7 @@
 
         <!-- Educational Section -->
         <div id="learn-more-section" class="education-section main-tab-content" role="tabpanel" aria-labelledby="main-tab-learn-more" aria-label="Learn about debt payoff methods">
-            <h2>Learn More</h2>
+            <h2>Understand Loans</h2>
 
             <div class="education-tabs" role="tablist">
                 <button type="button" class="education-tab active" onclick="switchEducationTab('methods')" role="tab" aria-selected="true" aria-controls="methods-tab" id="tab-methods">Payoff Methods</button>
@@ -2373,117 +2373,75 @@
             <!-- Payoff Methods Tab -->
             <div class="education-tab-content show" id="methods-tab" role="tabpanel" aria-labelledby="tab-methods">
 
-            <div class="collapsible" id="quiz-collapsible">
-                <div class="collapsible-header" onclick="toggleCollapsible('quiz-collapsible')" role="button" aria-expanded="false" tabindex="0">
-                    <h3>Which Method Is Right for You?</h3>
-                    <span class="collapsible-icon" aria-hidden="true">&#9660;</span>
+            <div class="visible-section" id="methods-comparison-section">
+                <h3>Debt Snowball vs Avalanche Methods</h3>
+                <p>Both methods work by paying minimums on all debts while putting extra money toward one "target" debt. The difference is how you choose which debt to target first.</p>
+
+                <div style="overflow-x: auto;">
+                    <table class="loan-comparison-table" role="table" aria-label="Comparison of Snowball and Avalanche methods">
+                        <thead>
+                            <tr>
+                                <th scope="col">Feature</th>
+                                <th scope="col">Snowball Method</th>
+                                <th scope="col">Avalanche Method</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Strategy</strong></td>
+                                <td>Pay off smallest balance first</td>
+                                <td>Pay off highest interest rate first</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Order</strong></td>
+                                <td>Smallest to largest balance</td>
+                                <td>Highest to lowest APR</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Motivation</strong></td>
+                                <td>Quick wins early - debts disappear fast</td>
+                                <td>Maximum savings - math is on your side</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Total Interest Paid</strong></td>
+                                <td>Slightly more (varies by debt mix)</td>
+                                <td>Least possible interest</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Best For</strong></td>
+                                <td>People who need motivation, have given up before, or have many small debts</td>
+                                <td>Analytical people, those with high-interest debt, or anyone who can stay motivated without quick wins</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <div class="collapsible-content">
-                    <div class="quiz-section">
-                        <h3>Which statement best describes you?</h3>
-                        <div class="quiz-questions" role="radiogroup" aria-label="Method selection quiz">
-                            <div class="quiz-question" onclick="selectQuizOption('q1')">
-                                <input type="radio" id="q1" name="quiz" value="snowball" onchange="updateQuiz()">
-                                <label for="q1">I need quick wins to stay motivated - seeing progress keeps me going</label>
-                            </div>
-                            <div class="quiz-question" onclick="selectQuizOption('q2')">
-                                <input type="radio" id="q2" name="quiz" value="snowball" onchange="updateQuiz()">
-                                <label for="q2">I've tried paying off debt before but lost motivation and gave up</label>
-                            </div>
-                            <div class="quiz-question" onclick="selectQuizOption('q3')">
-                                <input type="radio" id="q3" name="quiz" value="avalanche" onchange="updateQuiz()">
-                                <label for="q3">I'm analytical and patient - I can stick to a plan even without quick rewards</label>
-                            </div>
-                            <div class="quiz-question" onclick="selectQuizOption('q4')">
-                                <input type="radio" id="q4" name="quiz" value="avalanche" onchange="updateQuiz()">
-                                <label for="q4">Saving every possible dollar is my priority - the math matters most to me</label>
-                            </div>
-                        </div>
-                        <div class="quiz-result snowball" id="quizResultSnowball">
-                            <h4>The Snowball Method is recommended for you!</h4>
-                            <p>You value motivation and quick wins. Seeing debts disappear fast will keep you on track. The psychological boost of eliminating accounts quickly will help you stay committed to your debt-free journey.</p>
-                        </div>
-                        <div class="quiz-result avalanche" id="quizResultAvalanche">
-                            <h4>The Avalanche Method is recommended for you!</h4>
-                            <p>You're focused on the math and can stay patient for maximum savings. You'll pay less in total interest and become debt-free sooner, even if you don't see quick wins early on.</p>
-                        </div>
-                    </div>
+
+                <div class="best-for" style="margin-top: 20px;">
+                    <strong>Research Note:</strong> Studies from the Kellogg School of Management found that people using the snowball method are more likely to eliminate debt completely - small wins create momentum. However, avalanche saves about 1.3% more interest on average. The best method is the one you'll stick with.
                 </div>
             </div>
 
-            <div class="collapsible" id="snowball-info">
-                <div class="collapsible-header" onclick="toggleCollapsible('snowball-info')" role="button" aria-expanded="false" tabindex="0">
-                    <h3>What is the Debt Snowball Method?</h3>
-                    <span class="collapsible-icon" aria-hidden="true">&#9660;</span>
-                </div>
-                <div class="collapsible-content">
-                    <p>The <strong>Debt Snowball Method</strong> focuses on paying off your smallest debt first, regardless of interest rate. Here's how it works:</p>
-                    <ul>
-                        <li>List all debts from smallest to largest balance</li>
-                        <li>Pay minimum payments on all debts except the smallest</li>
-                        <li>Put all extra money toward the smallest debt</li>
-                        <li>When the smallest is paid off, roll that payment to the next smallest</li>
-                        <li>Repeat until all debts are paid</li>
-                    </ul>
-                    <p>Research from the Kellogg School of Management found that people who use the snowball method are more likely to eliminate their debt completely. This is because small wins create momentum and motivation.</p>
-                    <div class="best-for">
-                        <strong>Best for:</strong> People who need motivation, have given up on debt before, or have many small debts.
-                    </div>
-                </div>
+            <div class="visible-section" id="psychology-section">
+                <h3>The Psychology of Debt Payoff</h3>
+                <p>Research shows that <strong>personal finance is 80% behavior and only 20% head knowledge</strong>. Here's what behavioral economics tells us:</p>
+                <p><strong>Proportional Progress Matters:</strong> When you make a $150 payment on a $600 balance, you've wiped out 25%. On a $6,000 balance, it barely registers. Our brains respond more to proportion than absolute amount.</p>
+                <p><strong>Debt Account Aversion:</strong> We keep mental "accounts" for each debt. Closing an entire account feels like a complete win, even if it's small. This explains why eliminating one small debt can be more motivating than making equal progress on a large one.</p>
+                <p><strong>The Key Insight:</strong> The best debt payoff method is the one you'll actually stick with until completion. If the avalanche method causes you to give up after 6 months, the snowball method that you complete is better for you.</p>
             </div>
 
-            <div class="collapsible" id="avalanche-info">
-                <div class="collapsible-header" onclick="toggleCollapsible('avalanche-info')" role="button" aria-expanded="false" tabindex="0">
-                    <h3>What is the Debt Avalanche Method?</h3>
-                    <span class="collapsible-icon" aria-hidden="true">&#9660;</span>
-                </div>
-                <div class="collapsible-content">
-                    <p>The <strong>Debt Avalanche Method</strong> prioritizes paying off debts with the highest interest rates first. Here's how it works:</p>
-                    <ul>
-                        <li>List all debts from highest to lowest interest rate (APR)</li>
-                        <li>Pay minimum payments on all debts except the highest APR</li>
-                        <li>Put all extra money toward the highest-interest debt</li>
-                        <li>When that debt is paid off, roll that payment to the next highest APR</li>
-                        <li>Repeat until all debts are paid</li>
-                    </ul>
-                    <p>Mathematically, this method always results in paying the least total interest. For a typical household with 3 debts, the avalanche method saves about 1.3% more interest on average.</p>
-                    <div class="best-for">
-                        <strong>Best for:</strong> Analytical people, those with high-interest credit card debt, or anyone who can stay motivated without quick wins.
-                    </div>
-                </div>
-            </div>
+            <div class="visible-section" id="faq-section">
+                <h3>Common Questions</h3>
+                <p><strong>Should I include my mortgage?</strong><br>
+                Usually no. Focus on consumer debt first (credit cards, auto loans, personal loans). Mortgages are long-term, often have tax benefits, and the interest rate is typically lower than other debts.</p>
 
-            <div class="collapsible" id="psychology-info">
-                <div class="collapsible-header" onclick="toggleCollapsible('psychology-info')" role="button" aria-expanded="false" tabindex="0">
-                    <h3>The Psychology of Debt Payoff</h3>
-                    <span class="collapsible-icon" aria-hidden="true">&#9660;</span>
-                </div>
-                <div class="collapsible-content">
-                    <p>Research shows that <strong>personal finance is 80% behavior and only 20% head knowledge</strong>. Here's what behavioral economics tells us:</p>
-                    <p><strong>Proportional Progress Matters:</strong> When you make a $150 payment on a $600 balance, you've wiped out 25%. On a $6,000 balance, it barely registers. Our brains respond more to proportion than absolute amount.</p>
-                    <p><strong>Debt Account Aversion:</strong> We keep mental "accounts" for each debt. Closing an entire account feels like a complete win, even if it's small. This explains why eliminating one small debt can be more motivating than making equal progress on a large one.</p>
-                    <p><strong>The Key Insight:</strong> The best debt payoff method is the one you'll actually stick with until completion. If the avalanche method causes you to give up after 6 months, the snowball method that you complete is better for you.</p>
-                </div>
-            </div>
+                <p><strong>What about 0% promotional rates?</strong><br>
+                Be careful! Enter the post-promotional APR that will apply when the 0% period ends. If you can't pay it off before then, plan for the higher rate.</p>
 
-            <div class="collapsible" id="faq-info">
-                <div class="collapsible-header" onclick="toggleCollapsible('faq-info')" role="button" aria-expanded="false" tabindex="0">
-                    <h3>Common Questions</h3>
-                    <span class="collapsible-icon" aria-hidden="true">&#9660;</span>
-                </div>
-                <div class="collapsible-content">
-                    <p><strong>Should I include my mortgage?</strong><br>
-                    Usually no. Focus on consumer debt first (credit cards, auto loans, personal loans). Mortgages are long-term, often have tax benefits, and the interest rate is typically lower than other debts.</p>
+                <p><strong>What if I can only pay minimums?</strong><br>
+                Both methods produce the same result when you can only pay minimums. Focus on finding extra money through budgeting, side income, or reducing expenses. Even $50 extra per month makes a significant difference.</p>
 
-                    <p><strong>What about 0% promotional rates?</strong><br>
-                    Be careful! Enter the post-promotional APR that will apply when the 0% period ends. If you can't pay it off before then, plan for the higher rate.</p>
-
-                    <p><strong>What if I can only pay minimums?</strong><br>
-                    Both methods produce the same result when you can only pay minimums. Focus on finding extra money through budgeting, side income, or reducing expenses. Even $50 extra per month makes a significant difference.</p>
-
-                    <p><strong>Can I switch methods mid-way?</strong><br>
-                    Absolutely! Some people start with snowball to get momentum, then switch to avalanche once they've built the habit. The important thing is to keep going.</p>
-                </div>
+                <p><strong>Can I switch methods mid-way?</strong><br>
+                Absolutely! Some people start with snowball to get momentum, then switch to avalanche once they've built the habit. The important thing is to keep going.</p>
             </div>
 
             </div><!-- End Payoff Methods Tab -->
@@ -3642,7 +3600,7 @@
             document.getElementById(`${tabName}-section`).classList.add('show');
 
             // Announce for screen readers
-            const label = tabName === 'calculator' ? 'Calculator' : 'Learn More';
+            const label = tabName === 'calculator' ? 'Calculator' : 'Understand Loans';
             A11yUtils.announce(`${label} section selected`, 'polite');
 
             // Initialize loan calculator if switching to Learn More
