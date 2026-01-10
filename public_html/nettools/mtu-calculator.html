@@ -284,7 +284,7 @@
             transform: translateY(0);
         }
 
-        .error {
+        #error {
             background: rgba(244, 67, 54, 0.2);
             border: 1px solid #f44336;
             color: #ff8a80;
@@ -294,8 +294,12 @@
             display: none;
         }
 
-        .error.show {
+        #error.show {
             display: block;
+        }
+
+        input.error {
+            border-color: #f44336 !important;
         }
 
         /* Results Section */

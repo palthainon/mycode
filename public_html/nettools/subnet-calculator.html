@@ -35,6 +35,7 @@
     <!-- Accessibility -->
     <link rel="stylesheet" href="../a11y.css">
     <script src="../a11y-utils.js"></script>
+    <script src="../storage-utils.js"></script>
 
     <script src="../navigationv2.js"></script>
     <style>
@@ -140,6 +141,19 @@
 
         .btn:active {
             transform: translateY(0);
+        }
+
+        .btn.secondary {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: #90caf9;
+            margin-top: 10px;
+        }
+        .btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: none;
+            transform: none;
         }
 
         .results {
@@ -560,6 +574,7 @@
             </div>
 
             <button type="button" class="btn" onclick="calculate()" aria-label="Calculate subnet details for the entered IP address and CIDR">Calculate Subnet</button>
+            <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page">Clear Saved Data</button>
 
             <div class="quick-masks">
                 <h3 id="quick-masks-label">Quick Select Common Masks:</h3>
@@ -1021,6 +1036,21 @@
             downloadCSV(filename, csvContent);
             A11yUtils.announce(`Subnet list exported to CSV file. ${rows.length} subnets exported.`, 'polite');
         }
+
+        // localStorage persistence
+        const subnetCalcFields = ['ipAddress', 'cidr'];
+
+        function clearAllSavedData() {
+            StorageUtils.remove('subnet-calc');
+            document.getElementById('ipAddress').value = '';
+            document.getElementById('cidr').value = '24';
+            A11yUtils.announce('All saved data has been cleared', 'polite');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            StorageUtils.loadFormInputs('subnet-calc', subnetCalcFields);
+            StorageUtils.autoSaveFormInputs('subnet-calc', subnetCalcFields);
+        });
     </script>
 </body>
 </html>

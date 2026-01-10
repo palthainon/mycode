@@ -35,6 +35,7 @@
     <!-- Accessibility -->
     <link rel="stylesheet" href="../a11y.css">
     <script src="../a11y-utils.js"></script>
+    <script src="../storage-utils.js"></script>
 
     <script src="../navigationv2.js"></script>
     <style>
@@ -158,6 +159,19 @@
 
         .btn-secondary:hover {
             box-shadow: 0 5px 20px rgba(102, 187, 106, 0.4);
+        }
+
+        .btn.secondary {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: #90caf9;
+            margin-top: 10px;
+        }
+        .btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: none;
+            transform: none;
         }
 
         .btn-outline {
@@ -627,6 +641,7 @@
                     <button type="button" class="btn" onclick="copyToClipboard()" aria-label="Copy template to clipboard">Copy</button>
                     <button type="button" class="btn btn-secondary" onclick="downloadTemplate()" aria-label="Download template as .j2 file">Download</button>
                     <button type="button" class="btn btn-outline" onclick="clearEditor()" aria-label="Clear the editor content">Clear</button>
+                    <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page">Clear Saved Data</button>
                 </div>
             </div>
             </form>
@@ -2071,6 +2086,25 @@ volumes:
                 btns[newIndex].focus();
                 switchTab(btns[newIndex].getAttribute('aria-controls'));
             }
+        });
+
+        // localStorage persistence
+        const jinjaBuilderFields = ['templateSelect', 'editorTextarea'];
+
+        function clearAllSavedData() {
+            StorageUtils.remove('jinja-builder');
+            document.getElementById('templateSelect').value = '';
+            document.getElementById('editorTextarea').value = '';
+            updateHighlight();
+            A11yUtils.announce('All saved data has been cleared', 'polite');
+        }
+        window.clearAllSavedData = clearAllSavedData;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            StorageUtils.loadFormInputs('jinja-builder', jinjaBuilderFields, function() {
+                updateHighlight();
+            });
+            StorageUtils.autoSaveFormInputs('jinja-builder', jinjaBuilderFields);
         });
     </script>
 </body>

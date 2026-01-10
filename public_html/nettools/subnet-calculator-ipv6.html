@@ -33,6 +33,7 @@
     <title>IPv6 Subnet Calculator - OldWeb.tech</title>
     <link rel="stylesheet" href="../a11y.css">
     <script src="../a11y-utils.js"></script>
+    <script src="../storage-utils.js"></script>
     <script src="../navigationv2.js"></script>
     <style>
         * {
@@ -137,6 +138,19 @@
 
         .btn:active {
             transform: translateY(0);
+        }
+
+        .btn.secondary {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: #90caf9;
+            margin-top: 10px;
+        }
+        .btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: none;
+            transform: none;
         }
 
         .results {
@@ -575,6 +589,7 @@
             </div>
 
             <button type="button" class="btn" onclick="calculate()" style="margin-top: 25px;" aria-label="Calculate IPv6 subnet details for the entered address and prefix">Calculate Subnet</button>
+            <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page">Clear Saved Data</button>
 
             <div class="error-alert" id="error" role="alert" aria-live="assertive" aria-atomic="true"></div>
             </form>
@@ -1122,6 +1137,21 @@
             downloadCSV(filename, csvContent);
             A11yUtils.announce(`IPv6 subnet list exported to CSV file. ${rows.length} subnets exported.`, 'polite');
         }
+
+        // localStorage persistence
+        const subnetCalcIPv6Fields = ['ipv6Address', 'cidr'];
+
+        function clearAllSavedData() {
+            StorageUtils.remove('subnet-calc-ipv6');
+            document.getElementById('ipv6Address').value = '';
+            document.getElementById('cidr').value = '64';
+            A11yUtils.announce('All saved data has been cleared', 'polite');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            StorageUtils.loadFormInputs('subnet-calc-ipv6', subnetCalcIPv6Fields);
+            StorageUtils.autoSaveFormInputs('subnet-calc-ipv6', subnetCalcIPv6Fields);
+        });
     </script>
 </body>
 </html>

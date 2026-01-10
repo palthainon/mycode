@@ -33,6 +33,7 @@
     <title>Retirement Calculator - OldWeb.tech</title>
     <link rel="stylesheet" href="../a11y.css">
     <script src="../a11y-utils.js"></script>
+    <script src="../storage-utils.js"></script>
     <script src="../navigationv2.js"></script>
     <style>
         * {
@@ -189,6 +190,20 @@
 
         .btn:active {
             transform: translateY(0);
+        }
+
+        .btn.secondary {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: #90caf9;
+            margin-top: 10px;
+        }
+
+        .btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: none;
+            transform: none;
         }
 
         .results {
@@ -891,6 +906,7 @@
                 </div>
 
                 <button type="button" class="btn" onclick="calculate()" aria-label="Calculate retirement projection">Calculate</button>
+                <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page">Clear Saved Data</button>
 
                 <div class="quick-presets">
                     <h3 id="presets-label">FIRE Strategy Presets:</h3>
@@ -1474,6 +1490,44 @@
                     day: 'numeric'
                 });
             }
+        });
+
+        // Form field IDs to persist
+        const retirementCalcFields = [
+            'current-age', 'retirement-age', 'life-expectancy',
+            'annual-income', 'annual-expenses', 'current-savings',
+            'monthly-contribution', 'expected-return', 'inflation-rate',
+            'withdrawal-rate', 'social-security'
+        ];
+
+        // Clear all saved data and reset form
+        function clearAllSavedData() {
+            StorageUtils.remove('retirement-calc');
+
+            retirementCalcFields.forEach(id => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                // Reset to default values or empty
+                if (id === 'retirement-age') el.value = '50';
+                else if (id === 'life-expectancy') el.value = '90';
+                else if (id === 'expected-return') el.value = '7';
+                else if (id === 'inflation-rate') el.value = '3';
+                else if (id === 'withdrawal-rate') el.value = '4';
+                else if (id === 'social-security') el.value = '0';
+                else el.value = '';
+            });
+
+            // Hide results sections
+            document.getElementById('results').classList.remove('show');
+            document.getElementById('schedule-section').classList.remove('show');
+
+            A11yUtils.announce('All saved data has been cleared', 'polite');
+        }
+
+        // Initialize localStorage persistence
+        document.addEventListener('DOMContentLoaded', function() {
+            StorageUtils.loadFormInputs('retirement-calc', retirementCalcFields);
+            StorageUtils.autoSaveFormInputs('retirement-calc', retirementCalcFields);
         });
     </script>
 </body>

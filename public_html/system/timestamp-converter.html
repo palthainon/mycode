@@ -33,6 +33,7 @@
     <title>Log Timestamp Converter - OldWeb.tech</title>
     <link rel="stylesheet" href="../a11y.css">
     <script src="../a11y-utils.js"></script>
+    <script src="../storage-utils.js"></script>
     <script src="../navigationv2.js"></script>
     <style>
         * {
@@ -382,6 +383,19 @@
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
+        .btn.secondary {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: #90caf9;
+            margin-top: 10px;
+        }
+        .btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: none;
+            transform: none;
+        }
+
         .nav-bar {
             position: absolute;
             top: 20px;
@@ -561,6 +575,8 @@
                 <button type="button" class="btn" onclick="convertTimestamps()" aria-label="Convert all entered timestamps to multiple timezone formats">Convert Timestamps</button>
                 <button type="button" class="btn btn-secondary" onclick="loadSampleData()" aria-label="Load sample log timestamps for testing">Load Sample Data</button>
             </div>
+
+            <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page">Clear Saved Data</button>
             </form>
         </div>
 
@@ -1037,6 +1053,30 @@ Mon Jan 07 15:30:00 2024
             const errorDiv = document.getElementById('errorMsg');
             errorDiv.classList.remove('show');
         }
+
+        // localStorage persistence
+        const timestampConverterFields = ['timestampInput', 'tz1', 'tz2', 'tz3'];
+
+        function clearAllSavedData() {
+            StorageUtils.remove('timestamp-converter');
+            // Reset to defaults
+            document.getElementById('timestampInput').value = '';
+            document.getElementById('tz1').selectedIndex = 0;
+            document.getElementById('tz2').selectedIndex = 0;
+            document.getElementById('tz3').selectedIndex = 0;
+            // Clear results
+            document.getElementById('results').classList.remove('show');
+            updateCharCounter();
+            A11yUtils.announce('All saved data has been cleared', 'polite');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            StorageUtils.loadFormInputs('timestamp-converter', timestampConverterFields, function() {
+                // After loading, update char counter
+                updateCharCounter();
+            });
+            StorageUtils.autoSaveFormInputs('timestamp-converter', timestampConverterFields);
+        });
     </script>
     <script>
         document.querySelector('.skip-link').addEventListener('click', function(e) {

@@ -33,6 +33,7 @@
     <title>DISK Tools - RAID & Storage Calculator - OldWeb.tech</title>
     <link rel="stylesheet" href="../a11y.css">
     <script src="../a11y-utils.js"></script>
+    <script src="../storage-utils.js"></script>
     <script src="../navigationv2.js"></script>
     <style>
         * {
@@ -302,6 +303,19 @@
             margin-top: 30px;
             color: rgba(255, 255, 255, 0.4);
             font-size: 0.85rem;
+        }
+
+        .btn.secondary {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: #90caf9;
+            margin-top: 10px;
+        }
+        .btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: none;
+            transform: none;
         }
 
         .help-text {
@@ -574,10 +588,12 @@
             </div>
         </div>
 
+        <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page" style="max-width: 300px; margin: 20px auto;">Clear Saved Data</button>
+
         <footer role="contentinfo">
             DISK Tools - RAID & Storage Calculator | Works offline, no installation required
         </footer>
-    </div>
+    </main>
 
     <script>
         // RAID Calculator Functions
@@ -893,6 +909,40 @@
             document.getElementById('iopsResults').classList.add('show');
             A11yUtils.announce(`IOPS calculation complete. Total effective IOPS: ${Math.round(effectiveTotal).toLocaleString()}`, 'polite');
         }
+
+        // localStorage persistence
+        const diskToolsFields = ['raidLevel', 'numDisks', 'diskSize', 'rebuildSpeed', 'stripeSize', 'diskValue', 'diskUnit', 'totalSpace', 'usedSpace', 'diskType', 'iopsPerDisk', 'numDrivesIOPS', 'readPercent', 'raidLevelIOPS'];
+
+        function clearAllSavedData() {
+            StorageUtils.remove('disk-tools');
+            // Reset to defaults
+            document.getElementById('raidLevel').value = '5';
+            document.getElementById('numDisks').value = '4';
+            document.getElementById('diskSize').value = '2';
+            document.getElementById('rebuildSpeed').value = '100';
+            document.getElementById('stripeSize').value = '64';
+            document.getElementById('diskValue').value = '1000';
+            document.getElementById('diskUnit').value = 'GB';
+            document.getElementById('totalSpace').value = '1000';
+            document.getElementById('usedSpace').value = '650';
+            document.getElementById('diskType').value = 'sata7k';
+            document.getElementById('iopsPerDisk').value = '80';
+            document.getElementById('numDrivesIOPS').value = '4';
+            document.getElementById('readPercent').value = '70';
+            document.getElementById('raidLevelIOPS').value = '5';
+            // Update display
+            updateRaidInfo();
+            A11yUtils.announce('All saved data has been cleared', 'polite');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            StorageUtils.loadFormInputs('disk-tools', diskToolsFields, function() {
+                // After loading, update display from loaded values
+                updateRaidInfo();
+                updateIOPSDefaults();
+            });
+            StorageUtils.autoSaveFormInputs('disk-tools', diskToolsFields);
+        });
 
         // Initialize RAID info on page load
         updateRaidInfo();

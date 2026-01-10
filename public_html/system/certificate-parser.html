@@ -33,6 +33,7 @@
     <title>Certificate Parser - OldWeb.tech</title>
     <link rel="stylesheet" href="../a11y.css">
     <script src="../a11y-utils.js"></script>
+    <script src="../storage-utils.js"></script>
     <script src="../navigationv2.js"></script>
     <style>
         * {
@@ -343,7 +344,7 @@
             margin-bottom: 20px;
         }
 
-        .error {
+        #certError, #csrError, #genError {
             background: rgba(244, 67, 54, 0.1);
             border: 1px solid #f44336;
             border-left: 4px solid #f44336;
@@ -354,8 +355,12 @@
             display: none;
         }
 
-        .error.show {
+        #certError.show, #csrError.show, #genError.show {
             display: block;
+        }
+
+        input.error, textarea.error {
+            border-color: #f44336 !important;
         }
 
         .csr-form-grid {
@@ -568,6 +573,26 @@
             margin-top: 30px;
             color: rgba(255, 255, 255, 0.4);
             font-size: 0.85rem;
+        }
+
+        .btn.secondary {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: #90caf9;
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: block;
+            width: 100%;
+        }
+        .btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: none;
+            transform: none;
         }
 
         @media (max-width: 768px) {
@@ -902,6 +927,8 @@
                 </div>
             </div>
         </div>
+
+        <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page" style="max-width: 300px; margin: 20px auto;">Clear Saved Data</button>
 
         <footer role="contentinfo">
             Certificate Parser - All processing done locally in your browser
@@ -2311,6 +2338,44 @@ IWUFpcgPGm/6jH4LKv3d8SQBmEgApyvsCtoXCW6E
                     btns[targetIndex].click();
                 }
             });
+        });
+
+        // localStorage persistence
+        const certParserFields = ['certInput', 'csrInput', 'csrCN', 'csrO', 'csrOU', 'csrL', 'csrST', 'csrC'];
+
+        function clearAllSavedData() {
+            StorageUtils.remove('cert-parser');
+            // Reset to defaults
+            document.getElementById('certInput').value = '';
+            document.getElementById('csrInput').value = '';
+            document.getElementById('csrCN').value = '';
+            document.getElementById('csrO').value = '';
+            document.getElementById('csrOU').value = '';
+            document.getElementById('csrL').value = '';
+            document.getElementById('csrST').value = '';
+            document.getElementById('csrC').value = '';
+            // Clear all SAN inputs except the first one
+            const sanInputs = document.getElementById('sanInputs');
+            const firstSanRow = sanInputs.querySelector('.san-row');
+            if (firstSanRow) {
+                firstSanRow.querySelector('input').value = '';
+                // Remove all other SAN rows
+                const allRows = sanInputs.querySelectorAll('.san-row');
+                allRows.forEach((row, index) => {
+                    if (index > 0) row.remove();
+                });
+            }
+            // Hide results sections
+            document.getElementById('certResults').classList.remove('show');
+            document.getElementById('csrResults').classList.remove('show');
+            document.getElementById('csrOutput').classList.remove('show');
+            document.getElementById('keyOutput').classList.remove('show');
+            A11yUtils.announce('All saved data has been cleared', 'polite');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            StorageUtils.loadFormInputs('cert-parser', certParserFields);
+            StorageUtils.autoSaveFormInputs('cert-parser', certParserFields);
         });
     </script>
 </body>

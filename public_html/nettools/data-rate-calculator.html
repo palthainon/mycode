@@ -33,6 +33,7 @@
     <title>Data Transfer Calculator - OldWeb.tech</title>
     <link rel="stylesheet" href="../a11y.css">
     <script src="../a11y-utils.js"></script>
+    <script src="../storage-utils.js"></script>
     <script src="../navigationv2.js"></script>
     <style>
         * {
@@ -189,6 +190,19 @@
             transform: translateY(0);
         }
 
+        .btn.secondary {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: #90caf9;
+            margin-top: 10px;
+        }
+        .btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: none;
+            transform: none;
+        }
+
         .results {
             display: none;
             background: rgba(255, 255, 255, 0.05);
@@ -252,7 +266,7 @@
             color: #a5d6a7;
         }
 
-        .error {
+        #error {
             background: rgba(244, 67, 54, 0.2);
             border: 1px solid #f44336;
             color: #ff8a80;
@@ -262,8 +276,12 @@
             display: none;
         }
 
-        .error.show {
+        #error.show {
             display: block;
+        }
+
+        input.error {
+            border-color: #f44336 !important;
         }
 
         .quick-select {
@@ -561,6 +579,10 @@
                         class="btn"
                         onclick="calculate()"
                         aria-label="Calculate data transfer time based on size and rate">Calculate Transfer Time</button>
+                <button type="button"
+                        class="btn secondary"
+                        onclick="clearAllSavedData()"
+                        aria-label="Clear all saved form data from this page">Clear Saved Data</button>
             </form>
 
             <div class="quick-select">
@@ -1015,6 +1037,25 @@
         // Auto-calculate on dropdown change
         document.getElementById('dataSizeUnit').addEventListener('change', autoCalculate);
         document.getElementById('transferRateUnit').addEventListener('change', autoCalculate);
+
+        // localStorage persistence
+        const dataRateCalcFields = ['dataSize', 'dataSizeUnit', 'transferRate', 'transferRateUnit'];
+
+        function clearAllSavedData() {
+            StorageUtils.remove('data-rate-calc');
+            document.getElementById('dataSize').value = '';
+            document.getElementById('dataSizeUnit').value = 'GB';
+            document.getElementById('transferRate').value = '';
+            document.getElementById('transferRateUnit').value = 'Mbps';
+            // Reset unit mode to binary
+            setUnitMode('binary');
+            A11yUtils.announce('All saved data has been cleared', 'polite');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            StorageUtils.loadFormInputs('data-rate-calc', dataRateCalcFields);
+            StorageUtils.autoSaveFormInputs('data-rate-calc', dataRateCalcFields);
+        });
     </script>
     <script>
         document.querySelector('.skip-link').addEventListener('click', function(e) {

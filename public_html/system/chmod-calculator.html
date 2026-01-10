@@ -33,6 +33,7 @@
     <title>Chmod Calculator - OldWeb.tech</title>
     <link rel="stylesheet" href="../a11y.css">
     <script src="../a11y-utils.js"></script>
+    <script src="../storage-utils.js"></script>
     <script src="../navigationv2.js"></script>
     <style>
         * {
@@ -521,6 +522,19 @@
             font-size: 0.85rem;
         }
 
+        .btn.secondary {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: #90caf9;
+            margin-top: 10px;
+        }
+        .btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: none;
+            transform: none;
+        }
+
         @media (max-width: 768px) {
             .ascii-logo {
                 position: static;
@@ -801,6 +815,8 @@
                     <div class="ref-item"><div class="ref-octal">7</div><div class="ref-perms">rwx</div></div>
                 </div>
             </div>
+
+            <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page">Clear Saved Data</button>
             </div><!-- End tab-permissions -->
 
             <div class="tab-content" id="tab-umask" role="tabpanel" aria-labelledby="tab-btn-umask">
@@ -1142,6 +1158,43 @@
         function hideError() {
             document.getElementById('error').classList.remove('show');
         }
+
+        // localStorage persistence
+        const chmodCalcFields = ['permInput', 'symbolicInput', 'owner-r', 'owner-w', 'owner-x', 'group-r', 'group-w', 'group-x', 'other-r', 'other-w', 'other-x', 'setuid', 'setgid', 'sticky', 'umaskInput'];
+
+        function clearAllSavedData() {
+            StorageUtils.remove('chmod-calc');
+            // Reset to defaults
+            document.getElementById('permInput').value = '755';
+            document.getElementById('symbolicInput').value = '-rwxr-xr-x';
+            document.getElementById('umaskInput').value = '022';
+            // Reset checkboxes to default states (755 = rwxr-xr-x)
+            document.getElementById('owner-r').checked = true;
+            document.getElementById('owner-w').checked = true;
+            document.getElementById('owner-x').checked = true;
+            document.getElementById('group-r').checked = true;
+            document.getElementById('group-w').checked = false;
+            document.getElementById('group-x').checked = true;
+            document.getElementById('other-r').checked = true;
+            document.getElementById('other-w').checked = false;
+            document.getElementById('other-x').checked = true;
+            document.getElementById('setuid').checked = false;
+            document.getElementById('setgid').checked = false;
+            document.getElementById('sticky').checked = false;
+            // Update display
+            updateFromCheckboxes();
+            calculateUmask();
+            A11yUtils.announce('All saved data has been cleared', 'polite');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            StorageUtils.loadFormInputs('chmod-calc', chmodCalcFields, function() {
+                // After loading, update display from loaded values
+                updateFromOctalInput();
+                calculateUmask();
+            });
+            StorageUtils.autoSaveFormInputs('chmod-calc', chmodCalcFields);
+        });
 
         // Initialize
         updateFromCheckboxes();
