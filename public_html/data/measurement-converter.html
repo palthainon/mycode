@@ -1293,6 +1293,33 @@
             turn: 360
         };
 
+        // ========== Unit Abbreviations ==========
+        const unitAbbreviations = {
+            // Length
+            mm: 'mm', cm: 'cm', m: 'm', km: 'km',
+            in: 'in', ft: 'ft', yd: 'yd', mi: 'mi',
+            // Weight
+            mg: 'mg', g: 'g', kg: 'kg',
+            oz: 'oz', lb: 'lb', st: 'st', ton: 'ton', tonne: 't',
+            // Volume
+            ml: 'mL', l: 'L', floz: 'fl oz', cup: 'cup', pt: 'pt', qt: 'qt', gal: 'gal', m3: 'm³',
+            // Area
+            mm2: 'mm²', cm2: 'cm²', m2: 'm²', km2: 'km²',
+            in2: 'in²', ft2: 'ft²', yd2: 'yd²', acre: 'acre', ha: 'ha', mi2: 'mi²',
+            // Cooking
+            tsp: 'tsp', tbsp: 'tbsp',
+            // Temperature
+            c: '°C', f: '°F', k: 'K',
+            // SI Prefixes
+            p: 'p', n: 'n', u: 'µ', m: 'm', base: '', k: 'k', M: 'M', G: 'G', T: 'T',
+            // Pressure
+            pa: 'Pa', kpa: 'kPa', atm: 'atm', bar: 'bar', mmhg: 'mmHg', psi: 'psi',
+            // Energy
+            j: 'J', kj: 'kJ', cal: 'cal', kcal: 'kcal', ev: 'eV', btu: 'BTU', kwh: 'kWh',
+            // Angle
+            deg: '°', rad: 'rad', grad: 'grad', turn: 'turn'
+        };
+
         // ========== Generic Conversion Function ==========
         function convert(value, fromUnit, toUnit, factors) {
             if (isNaN(value) || value === '') return null;
@@ -1552,7 +1579,9 @@
                     result = convert(value, fromSelect.value, toSelect.value, factors);
                 }
 
-                resultValue.textContent = formatNumber(result);
+                const formattedResult = formatNumber(result);
+                const unit = unitAbbreviations[toSelect.value] || '';
+                resultValue.textContent = formattedResult !== '--' ? formattedResult + ' ' + unit : '--';
             }
 
             valueInput.addEventListener('input', update);
