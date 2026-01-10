@@ -19,10 +19,11 @@
             { name: 'Regex', file: 'system/regex-tester.html', id: 'regex' },
             { name: 'Timestamp Convert', file: 'system/timestamp-converter.html', id: 'timestamp' },
             { name: 'Disk Tools', file: 'system/disk-tools.html', id: 'disk' },
-            { name: 'Cron', file: 'system/cron-builder.html', id: 'cron' },
-            { name: 'Chmod', file: 'system/chmod-calculator.html', id: 'chmod' },
             { name: 'Password Gen', file: 'system/password-generator.html', id: 'password' },
-            { name: 'Certificate Parse', file: 'system/certificate-parser.html', id: 'cert-parser' }
+            { name: 'Certificate Parse', file: 'system/certificate-parser.html', id: 'cert-parser' },
+            { separator: '(Linux)' },
+            { name: 'Cron', file: 'system/cron-builder.html', id: 'cron' },
+            { name: 'Chmod', file: 'system/chmod-calculator.html', id: 'chmod' }
         ],
         data: [
             { name: 'Base64/Hash', file: 'data/base64-hash.html', id: 'base64' },
@@ -192,6 +193,24 @@
             font-weight: 600;
         }
 
+        .nav-dropdown-separator {
+            color: rgba(79, 195, 247, 0.5);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            padding: 12px 20px 8px 20px;
+            margin-top: 8px;
+            border-top: 1px solid rgba(79, 195, 247, 0.1);
+            letter-spacing: 0.5px;
+            user-select: none;
+        }
+
+        .nav-dropdown-separator:first-child {
+            margin-top: 0;
+            border-top: none;
+            padding-top: 8px;
+        }
+
         @media (max-width: 768px) {
             /* Reset h1 top margin on mobile since nav is in normal flow */
             .container h1,
@@ -282,7 +301,7 @@
         for (const [category, tools] of Object.entries(toolsData)) {
             if (category === 'home') continue;
 
-            const tool = tools.find(t => t.file.endsWith(filename));
+            const tool = tools.find(t => t.file && t.file.endsWith(filename));
             if (tool) {
                 return { id: tool.id, category: category };
             }
@@ -326,12 +345,18 @@
 
             // Generate tool links with adjusted paths
             tools.forEach(tool => {
-                const isCurrentTool = tool.id === currentPage.id;
-                const currentAttr = isCurrentTool ? ' aria-current="page"' : '';
-                // Adjust tool link based on current location
-                const toolLink = pathPrefix + tool.file;
-                html += `
+                // Check if this is a separator
+                if (tool.separator) {
+                    html += `
+                    <div class="nav-dropdown-separator" role="separator">${tool.separator}</div>`;
+                } else {
+                    const isCurrentTool = tool.id === currentPage.id;
+                    const currentAttr = isCurrentTool ? ' aria-current="page"' : '';
+                    // Adjust tool link based on current location
+                    const toolLink = pathPrefix + tool.file;
+                    html += `
                     <a href="${toolLink}" class="nav-dropdown-link" role="menuitem"${currentAttr}>${tool.name}</a>`;
+                }
             });
 
             html += `
