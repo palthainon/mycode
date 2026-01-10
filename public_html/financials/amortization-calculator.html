@@ -477,7 +477,7 @@
             color: #4fc3f7;
         }
 
-        .error {
+        #error {
             background: rgba(244, 67, 54, 0.2);
             border: 1px solid #f44336;
             color: #ff8a80;
@@ -487,8 +487,12 @@
             display: none;
         }
 
-        .error.show {
+        #error.show {
             display: block;
+        }
+
+        input.error {
+            border-color: #f44336 !important;
         }
 
         .savings-section {
@@ -1025,9 +1029,10 @@
             savingsSection.classList.remove('show');
             errorDiv.classList.remove('show');
             errorDiv.textContent = '';
-            A11yUtils.clearError(principalInput);
-            A11yUtils.clearError(rateInput);
-            A11yUtils.clearError(termInput);
+            [principalInput, rateInput, termInput].forEach(input => {
+                input.classList.remove('error');
+                input.removeAttribute('aria-invalid');
+            });
 
             // Validate principal
             const principal = parseNumber(principalInput.value);
@@ -1035,8 +1040,10 @@
                 const msg = 'Please enter a valid loan amount';
                 errorDiv.textContent = msg;
                 errorDiv.classList.add('show');
-                A11yUtils.showError(principalInput, msg);
+                principalInput.classList.add('error');
+                principalInput.setAttribute('aria-invalid', 'true');
                 principalInput.focus();
+                A11yUtils.announce(msg, 'assertive');
                 return;
             }
 
@@ -1046,8 +1053,10 @@
                 const msg = 'Please enter a valid interest rate (0-100%)';
                 errorDiv.textContent = msg;
                 errorDiv.classList.add('show');
-                A11yUtils.showError(rateInput, msg);
+                rateInput.classList.add('error');
+                rateInput.setAttribute('aria-invalid', 'true');
                 rateInput.focus();
+                A11yUtils.announce(msg, 'assertive');
                 return;
             }
 
@@ -1057,8 +1066,10 @@
                 const msg = 'Please enter a valid loan term';
                 errorDiv.textContent = msg;
                 errorDiv.classList.add('show');
-                A11yUtils.showError(termInput, msg);
+                termInput.classList.add('error');
+                termInput.setAttribute('aria-invalid', 'true');
                 termInput.focus();
+                A11yUtils.announce(msg, 'assertive');
                 return;
             }
 

@@ -51,6 +51,110 @@
 - No backend unless tool requires it (APIs, databases, etc.)
 - Build for americans with disability compliance. Users with disabilities need tools too.
 
+### Error Handling Patterns
+When implementing form validation with error states:
+
+1. **Use specific CSS selectors for error containers**
+   - Use `#error` or `.error-container` for error message divs (with `display: none` default)
+   - Use `input.error` for input field error styling (red border only)
+   - NEVER use a generic `.error` class that applies `display: none` - it will hide inputs too
+
+2. **Avoid A11yUtils.showError() for wrapped inputs**
+   - `A11yUtils.showError()` appends error elements to `input.parentNode`
+   - This breaks layout for inputs inside `.input-prefix` or `.input-suffix` wrappers
+   - Instead, use this pattern for wrapped inputs:
+     ```javascript
+     function showError(message, input) {
+         document.getElementById('error').textContent = message;
+         document.getElementById('error').classList.add('show');
+         input.classList.add('error');
+         input.setAttribute('aria-invalid', 'true');
+         input.focus();
+         A11yUtils.announce(message, 'assertive');
+     }
+     ```
+
+3. **Clear errors properly**
+   ```javascript
+   inputs.forEach(input => {
+       input.classList.remove('error');
+       input.removeAttribute('aria-invalid');
+   });
+   document.getElementById('error').classList.remove('show');
+   ```
+
+4. **CSS pattern for error states**
+   ```css
+   #error { display: none; /* error message container */ }
+   #error.show { display: block; }
+   input.error { border-color: #f44336 !important; }
+   ```
+
+### localStorage Persistence Pattern
+When implementing form data persistence with localStorage:
+
+1. **Use storage-utils.js** - Located at `/public_html/storage-utils.js`
+   ```html
+   <script src="../storage-utils.js"></script>
+   ```
+
+2. **Storage API**
+   ```javascript
+   StorageUtils.save(key, value)              // Save JSON data
+   StorageUtils.load(key, defaultValue)       // Load with fallback
+   StorageUtils.remove(key)                   // Remove specific key
+   StorageUtils.saveFormInputs(key, inputIds) // Save multiple fields
+   StorageUtils.loadFormInputs(key, inputIds, callback) // Restore fields
+   StorageUtils.autoSaveFormInputs(key, inputIds)       // Auto-save on input (300ms debounce)
+   ```
+
+3. **Standard implementation**
+   ```javascript
+   const myToolFields = ['input1', 'input2', 'checkbox1'];
+
+   function clearAllSavedData() {
+       StorageUtils.remove('my-tool');
+       myToolFields.forEach(id => {
+           const el = document.getElementById(id);
+           if (el?.type === 'checkbox') el.checked = el.defaultChecked;
+           else el.value = '';
+       });
+       A11yUtils.announce('All saved data has been cleared', 'polite');
+   }
+
+   document.addEventListener('DOMContentLoaded', function() {
+       StorageUtils.loadFormInputs('my-tool', myToolFields);
+       StorageUtils.autoSaveFormInputs('my-tool', myToolFields);
+   });
+   ```
+
+4. **Required clear button** - Always provide a visible way to clear saved data
+   ```html
+   <button type="button" class="btn secondary"
+           onclick="clearAllSavedData()"
+           aria-label="Clear all saved form data from this page">
+       Clear Saved Data
+   </button>
+   ```
+
+5. **CSS for clear button** (if not using existing .btn.secondary)
+   ```css
+   .btn.secondary {
+       background: transparent;
+       border: 2px solid rgba(255, 255, 255, 0.3);
+       color: #90caf9;
+       margin-top: 10px;
+   }
+   .btn.secondary:hover {
+       background: rgba(255, 255, 255, 0.1);
+       border-color: rgba(255, 255, 255, 0.5);
+   }
+   ```
+
+6. **Key naming convention**: Use kebab-case tool name (e.g., `'amortization-calc'`)
+   - StorageUtils prefixes all keys with `owt_` automatically
+   - For tools with multiple data sets, use separate keys (e.g., `'debt-payoff-debts'`, `'debt-payoff-expenses'`)
+
 ### Testing Philosophy
 - Test with actual network data formats (routing tables, config files, logs)
 - Verify edge cases: empty inputs, malformed data, extreme values
