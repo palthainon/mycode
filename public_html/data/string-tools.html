@@ -34,6 +34,7 @@
     <link rel="stylesheet" href="../a11y.css">
     <script src="../a11y-utils.js"></script>
     <script src="../navigationv2.js"></script>
+    <script src="../storage-utils.js"></script>
     <style>
         * {
             margin: 0;
@@ -1365,6 +1366,17 @@
                 else if (activeTab.id === 'duplicates-tab') dupOp('remove');
                 else if (activeTab.id === 'escape-tab') escapeOp('escape');
             }
+        });
+
+        // Form field IDs to persist (all input textareas)
+        const stringToolsFields = ['caseInput', 'linesInput', 'dupInput', 'escapeInput'];
+
+        // Load saved data on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            StorageUtils.loadFormInputs('string-tools', stringToolsFields);
+
+            // Auto-save form inputs on change
+            StorageUtils.autoSaveFormInputs('string-tools', stringToolsFields);
         });
     </script>
     <script>

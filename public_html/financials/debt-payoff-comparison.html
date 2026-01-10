@@ -34,6 +34,7 @@
     <link rel="stylesheet" href="../a11y.css">
     <script src="../a11y-utils.js"></script>
     <script src="../navigationv2.js"></script>
+    <script src="../storage-utils.js"></script>
     <style>
         * {
             margin: 0;
@@ -1593,6 +1594,13 @@
         let expenses = [];
         let nextExpenseId = 1;
 
+        // Save all form data to localStorage
+        function saveFormData() {
+            StorageUtils.save('debt-payoff-debts', debts);
+            StorageUtils.save('debt-payoff-expenses', expenses);
+            StorageUtils.save('debt-payoff-extra', document.getElementById('extraPayment')?.value || '');
+        }
+
         // Debt types with typical APRs for reference
         const debtTypes = {
             'credit-card': { label: 'Credit Card', typicalApr: 19.72 },
@@ -1676,7 +1684,7 @@
             }
         }
 
-        function addDebt(data = null) {
+        function addDebt(data = null, skipSave = false) {
             const id = nextDebtId++;
             const debt = data || {
                 id: id,
@@ -1690,6 +1698,7 @@
             debts.push(debt);
             renderDebtItem(debt);
             updateTotalMinimum();
+            if (!skipSave) saveFormData();
         }
 
         function renderDebtItem(debt) {
@@ -1744,6 +1753,7 @@
             if (debt) {
                 debt[field] = value;
                 updateTotalMinimum();
+                saveFormData();
             }
         }
 
@@ -1765,6 +1775,7 @@
 
             updateRemoveButtons();
             updateTotalMinimum();
+            saveFormData();
         }
 
         function updateRemoveButtons() {
@@ -2284,7 +2295,7 @@
         }
 
         // Expense tracking functions
-        function addExpense(data = null) {
+        function addExpense(data = null, skipSave = false) {
             const id = nextExpenseId++;
             const expense = data || {
                 id: id,
@@ -2297,6 +2308,7 @@
             expenses.push(expense);
             renderExpenseItem(expense);
             updateExpenseTotal();
+            if (!skipSave) saveFormData();
         }
 
         function renderExpenseItem(expense) {
@@ -2339,6 +2351,7 @@
             const expense = expenses.find(e => e.id === id);
             if (expense) {
                 expense[field] = value;
+                saveFormData();
             }
         }
 
@@ -2352,6 +2365,7 @@
                 expense.monthlyTotal = amount * times;
                 document.getElementById(`expense-total-${id}`).value = expense.monthlyTotal.toFixed(2);
                 updateExpenseTotal();
+                saveFormData();
             }
         }
 
@@ -2359,6 +2373,7 @@
             expenses = expenses.filter(e => e.id !== id);
             document.getElementById(`expense-${id}`).remove();
             updateExpenseTotal();
+            saveFormData();
         }
 
         function updateExpenseTotal() {
@@ -2441,9 +2456,35 @@
             A11yUtils.announce('Expenses exported to CSV file', 'polite');
         }
 
-        // Initialize with one empty debt
+        // Initialize - load saved data or start with empty debt
         document.addEventListener('DOMContentLoaded', function() {
-            addDebt();
+            // Load saved debts or add empty one
+            const savedDebts = StorageUtils.load('debt-payoff-debts', []);
+            if (savedDebts.length > 0) {
+                savedDebts.forEach(debt => addDebt(debt, true));
+                // Update nextDebtId to be higher than any saved debt id
+                nextDebtId = Math.max(...savedDebts.map(d => d.id)) + 1;
+            } else {
+                addDebt(null, true);
+            }
+
+            // Load saved expenses
+            const savedExpenses = StorageUtils.load('debt-payoff-expenses', []);
+            if (savedExpenses.length > 0) {
+                savedExpenses.forEach(expense => addExpense(expense, true));
+                nextExpenseId = Math.max(...savedExpenses.map(e => e.id)) + 1;
+            }
+
+            // Load saved extra payment
+            const savedExtra = StorageUtils.load('debt-payoff-extra', '');
+            if (savedExtra) {
+                document.getElementById('extraPayment').value = savedExtra;
+            }
+
+            // Save extra payment when changed
+            const extraPaymentInput = document.getElementById('extraPayment');
+            extraPaymentInput.addEventListener('input', saveFormData);
+            extraPaymentInput.addEventListener('change', saveFormData);
 
             // Handle Enter key
             document.querySelectorAll('#debt-form input').forEach(input => {

@@ -34,6 +34,7 @@
     <link rel="stylesheet" href="../a11y.css">
     <script src="../a11y-utils.js"></script>
     <script src="../navigationv2.js"></script>
+    <script src="../storage-utils.js"></script>
     <style>
         * {
             margin: 0;
@@ -836,6 +837,19 @@ Routing Table:
             updateCharCounter();
             A11yUtils.announce('Loaded sample network configuration data', 'polite');
         }
+
+        // Form field IDs to persist
+        const regexFormFields = ['pattern', 'testString', 'flagG', 'flagI', 'flagM', 'flagS'];
+
+        // Load saved data on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            StorageUtils.loadFormInputs('regex-tester', regexFormFields, function() {
+                updateCharCounter();
+            });
+
+            // Auto-save form inputs on change
+            StorageUtils.autoSaveFormInputs('regex-tester', regexFormFields);
+        });
     </script>
     <script>
         document.querySelector('.skip-link').addEventListener('click', function(e) {

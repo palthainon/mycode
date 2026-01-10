@@ -34,6 +34,7 @@
     <link rel="stylesheet" href="../a11y.css">
     <script src="../a11y-utils.js"></script>
     <script src="../navigationv2.js"></script>
+    <script src="../storage-utils.js"></script>
     <style>
         * {
             margin: 0;
@@ -1232,12 +1233,27 @@
             });
         });
 
-        // Set default start date to current month
+        // Form field IDs to persist
+        const amortFormFields = ['principal', 'rate', 'term', 'term-unit', 'start-date', 'extra-payment'];
+
+        // Set default start date to current month and load saved data
         document.addEventListener('DOMContentLoaded', function() {
+            // Set default start date
             const now = new Date();
             const year = now.getFullYear();
             const month = String(now.getMonth() + 1).padStart(2, '0');
-            document.getElementById('start-date').value = `${year}-${month}`;
+            const defaultDate = `${year}-${month}`;
+
+            // Load saved form data (will override defaults if exists)
+            StorageUtils.loadFormInputs('amortization-calc', amortFormFields, function(data) {
+                // If start-date wasn't saved, use default
+                if (!data['start-date']) {
+                    document.getElementById('start-date').value = defaultDate;
+                }
+            });
+
+            // Auto-save form inputs on change
+            StorageUtils.autoSaveFormInputs('amortization-calc', amortFormFields);
         });
 
         // Skip link handler
