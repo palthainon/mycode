@@ -566,32 +566,95 @@
             }
         }
 
+        /* Print header - hidden on screen, shown only when printing */
+        .print-header {
+            display: none;
+        }
+
         @media print {
-            body {
-                background: #fff;
-                color: #000;
-                padding: 20px;
+            /* Page setup */
+            @page {
+                margin: 0.75in 0.5in;
+                size: letter portrait;
             }
 
-            .calculator, .nav-bar, .ascii-logo, .skip-link, footer, .btn, .export-btn, .print-btn, .copy-btn, .quick-presets {
+            @page :first {
+                margin-top: 0.5in;
+            }
+
+            /* Base print styles */
+            body {
+                background: #fff !important;
+                color: #000;
+                padding: 0;
+                margin: 0;
+                font-size: 11pt;
+                line-height: 1.4;
+            }
+
+            .container {
+                max-width: 100%;
+                padding: 0;
+            }
+
+            /* Hide non-print elements */
+            .calculator,
+            .nav-bar,
+            .ascii-logo,
+            .skip-link,
+            footer,
+            .btn,
+            .export-btn,
+            .print-btn,
+            .copy-btn,
+            .quick-presets {
                 display: none !important;
             }
 
-            .results, .schedule-section {
-                display: block !important;
-                background: #fff;
-                border: 1px solid #ccc;
-                box-shadow: none;
-                backdrop-filter: none;
+            /* Show print header */
+            .print-header {
+                display: block;
+                text-align: center;
+                margin-bottom: 20px;
+                padding-bottom: 15px;
+                border-bottom: 2px solid #333;
             }
 
-            .results h2, .section-header h2 {
+            .print-header h1 {
+                font-size: 18pt;
+                color: #000;
+                margin: 0 0 5px 0;
+            }
+
+            .print-header .print-date {
+                font-size: 10pt;
+                color: #666;
+                margin: 0;
+            }
+
+            /* Results sections */
+            .results,
+            .schedule-section {
+                display: block !important;
+                background: #fff !important;
+                border: none;
+                box-shadow: none;
+                backdrop-filter: none;
+                padding: 0;
+            }
+
+            .results h2,
+            .section-header h2 {
                 color: #333;
             }
 
             .summary-item {
-                background: #f5f5f5;
+                background: #f5f5f5 !important;
                 border-left-color: #333;
+                break-inside: avoid;
+                page-break-inside: avoid;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
             }
 
             .summary-item .label {
@@ -602,18 +665,46 @@
                 color: #000;
             }
 
+            /* Schedule table */
             .schedule-table-wrapper {
-                max-height: none;
-                overflow: visible;
+                max-height: none !important;
+                overflow: visible !important;
+                border: none;
+            }
+
+            .schedule-table {
+                width: 100%;
+                min-width: auto;
+                font-size: 9pt;
+                border-collapse: collapse;
+            }
+
+            .schedule-table thead {
+                display: table-header-group;
+            }
+
+            .schedule-table tbody {
+                display: table-row-group;
+            }
+
+            .schedule-table tr {
+                break-inside: avoid;
+                page-break-inside: avoid;
             }
 
             .schedule-table th {
-                background: #eee;
+                background: #f0f0f0 !important;
                 color: #333;
+                padding: 8px 10px;
+                border: 1px solid #ccc;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
             }
 
             .schedule-table td {
                 color: #000;
+                padding: 6px 10px;
+                border: 1px solid #ddd;
             }
 
             .breakdown-bar {
@@ -652,6 +743,11 @@
 | |_| | | (_| |  \ V  V /  __/ |_) |
  \___/|_|\__,_|   \_/\_/ \___|_.__/
 </div>
+    <div class="print-header" aria-hidden="true">
+        <h1>Compound Interest Report</h1>
+        <p class="print-date"></p>
+    </div>
+
     <main id="main-content" class="container">
         <h1>Compound Interest Calculator</h1>
 
@@ -1103,6 +1199,18 @@
                 target.setAttribute('tabindex', '-1');
                 target.focus();
                 target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+
+        // Print handler - populate date in print header
+        window.addEventListener('beforeprint', function() {
+            const printDate = document.querySelector('.print-date');
+            if (printDate) {
+                printDate.textContent = 'Generated: ' + new Date().toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
             }
         });
     </script>

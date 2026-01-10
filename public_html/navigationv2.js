@@ -33,7 +33,8 @@
         financials: [
             { name: 'Amortization', file: 'financials/amortization-calculator.html', id: 'amortization' },
             { name: 'Compound Interest', file: 'financials/compound-interest-calculator.html', id: 'compound-interest' },
-            { name: 'Debt Payoff', file: 'financials/debt-payoff-comparison.html', id: 'debt-payoff' }
+            { name: 'Debt Payoff', file: 'financials/debt-payoff-comparison.html', id: 'debt-payoff' },
+            { name: 'Retirement', file: 'financials/retirement-calculator.html', id: 'retirement' }
         ]
     };
 

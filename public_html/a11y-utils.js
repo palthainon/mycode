@@ -74,11 +74,18 @@ const A11yUtils = (function() {
       errorEl.id = errorId;
       errorEl.className = 'error-message';
       errorEl.setAttribute('role', 'alert');
-      input.parentNode.appendChild(errorEl);
+
+      // Find the correct parent - handle wrapper elements like .input-prefix, .input-suffix
+      let parent = input.parentNode;
+      if (parent.classList.contains('input-prefix') || parent.classList.contains('input-suffix')) {
+        parent = parent.parentNode;
+      }
+      parent.appendChild(errorEl);
     }
 
     // Set error message and ARIA attributes
     errorEl.textContent = message;
+    errorEl.style.display = ''; // Reset display in case clearError set it to 'none'
     input.setAttribute('aria-invalid', 'true');
     input.setAttribute('aria-describedby', errorId);
     input.classList.add('error');
