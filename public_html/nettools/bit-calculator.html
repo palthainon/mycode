@@ -560,6 +560,21 @@
             'petabytes': 'Petabytes'
         };
 
+        const unitAbbreviations = {
+            'bits': 'b',
+            'bytes': 'B',
+            'kilobits': 'Kb',
+            'kilobytes': 'KB',
+            'megabits': 'Mb',
+            'megabytes': 'MB',
+            'gigabits': 'Gb',
+            'gigabytes': 'GB',
+            'terabits': 'Tb',
+            'terabytes': 'TB',
+            'petabits': 'Pb',
+            'petabytes': 'PB'
+        };
+
         function setNotation(notation) {
             currentNotation = notation;
             kilo = notation === 'legacy' ? 1024 : 1000;
@@ -702,11 +717,14 @@
                 resultItem.dataset.rawValue = output[u]; // Store raw value for CSV export
 
                 const formattedValue = formatNumber(output[u]);
+                const abbrev = unitAbbreviations[u];
+                const displayValue = formattedValue + ' ' + abbrev;
+                const copyValue = output[u] + ' ' + abbrev;
 
                 resultItem.innerHTML = `
                     <div class="label">${unitLabels[u]}</div>
-                    <div class="value">${formattedValue}</div>
-                    <button class="copy-btn" onclick="copyToClipboard('${output[u]}', this)">Copy</button>
+                    <div class="value">${displayValue}</div>
+                    <button class="copy-btn" onclick="copyToClipboard('${copyValue}', this)">Copy</button>
                 `;
 
                 resultsGrid.appendChild(resultItem);
