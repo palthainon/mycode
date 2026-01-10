@@ -34,6 +34,7 @@
     <link rel="stylesheet" href="../a11y.css">
     <script src="../a11y-utils.js"></script>
     <script src="../navigationv2.js"></script>
+    <script src="../storage-utils.js"></script>
     <style>
         * {
             margin: 0;
@@ -206,6 +207,24 @@
 
         .action-btn.tertiary:hover {
             box-shadow: 0 5px 20px rgba(255, 183, 77, 0.4);
+        }
+
+        .clear-data-btn {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: #90caf9;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin: 20px auto 0;
+            display: block;
+        }
+
+        .clear-data-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
         }
 
         .output-area {
@@ -947,6 +966,8 @@
             </div>
         </div>
 
+        <button type="button" class="clear-data-btn" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page">Clear Saved Data</button>
+
         <footer role="contentinfo">
             String Manipulation Toolkit - Works offline, no installation required
         </footer>
@@ -1365,6 +1386,36 @@
                 else if (activeTab.id === 'duplicates-tab') dupOp('remove');
                 else if (activeTab.id === 'escape-tab') escapeOp('escape');
             }
+        });
+
+        // Form field IDs to persist (all input textareas)
+        const stringToolsFields = ['caseInput', 'linesInput', 'dupInput', 'escapeInput'];
+
+        // Clear all saved data and reset form
+        function clearAllSavedData() {
+            StorageUtils.remove('string-tools');
+
+            // Reset all input textareas
+            stringToolsFields.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.value = '';
+            });
+
+            // Also clear output textareas
+            ['caseOutput', 'linesOutput', 'dupOutput', 'escapeOutput'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.value = '';
+            });
+
+            A11yUtils.announce('All saved data has been cleared', 'polite');
+        }
+
+        // Load saved data on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            StorageUtils.loadFormInputs('string-tools', stringToolsFields);
+
+            // Auto-save form inputs on change
+            StorageUtils.autoSaveFormInputs('string-tools', stringToolsFields);
         });
     </script>
     <script>
