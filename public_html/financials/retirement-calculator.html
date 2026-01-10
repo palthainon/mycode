@@ -802,7 +802,7 @@
 
     <main id="main-content" class="container">
         <h1>Retirement Calculator</h1>
-        <p class="subtitle">Plan your path to financial independence - early retirement is possible</p>
+        <p class="subtitle">Plan your retirement with realistic projections</p>
 
         <div class="calculator">
             <form id="retirement-form" aria-label="Retirement Calculator Form">
@@ -842,8 +842,17 @@
                             <span>$</span>
                             <input type="text" id="annual-expenses" placeholder="40,000" aria-required="true" aria-describedby="expenses-help" inputmode="decimal">
                         </div>
-                        <span id="expenses-help" class="sr-only">Enter your total annual expenses, this determines your FIRE number</span>
-                        <span class="help-text">Key factor for your FIRE number</span>
+                        <span id="expenses-help" class="sr-only">Enter your total annual expenses, this helps determine your retirement target</span>
+                        <span class="help-text">Key factor for your retirement target</span>
+                    </div>
+                    <div class="input-field">
+                        <label for="retirement-expenses">Post-Retirement Annual Expenses</label>
+                        <div class="input-prefix">
+                            <span>$</span>
+                            <input type="text" id="retirement-expenses" placeholder="35,000" aria-describedby="retirement-expenses-help" inputmode="decimal">
+                        </div>
+                        <span id="retirement-expenses-help" class="sr-only">Expected annual expenses in retirement (often 70-80% of current expenses)</span>
+                        <span class="help-text">Often lower than working years - no commute, paid-off mortgage</span>
                     </div>
                     <div class="input-field">
                         <label for="current-savings">Current Retirement Savings</label>
@@ -901,7 +910,7 @@
                             <input type="text" id="social-security" placeholder="0" value="0" aria-describedby="ss-help" inputmode="decimal">
                         </div>
                         <span id="ss-help" class="sr-only">Optional: Enter expected monthly Social Security benefit at age 67</span>
-                        <span class="help-text">Optional - leave at $0 for pure FIRE</span>
+                        <span class="help-text">Optional - leave at $0 if not claiming benefits</span>
                     </div>
                 </div>
 
@@ -909,10 +918,10 @@
                 <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page">Clear Saved Data</button>
 
                 <div class="quick-presets">
-                    <h3 id="presets-label">FIRE Strategy Presets:</h3>
+                    <h3 id="presets-label">Savings Strategy Examples:</h3>
                     <div class="preset-buttons" role="group" aria-labelledby="presets-label">
-                        <button type="button" class="preset-btn fire" onclick="setPreset('aggressive')" aria-label="Aggressive FIRE: 50% savings rate, retire at 40">Aggressive FIRE (50% savings, retire at 40)</button>
-                        <button type="button" class="preset-btn fire" onclick="setPreset('moderate')" aria-label="Moderate FIRE: 35% savings rate, retire at 50">Moderate FIRE (35% savings, retire at 50)</button>
+                        <button type="button" class="preset-btn fire" onclick="setPreset('aggressive')" aria-label="Aggressive Saver: 50% savings rate, retire at 40">Aggressive Saver (50% savings, retire at 40)</button>
+                        <button type="button" class="preset-btn fire" onclick="setPreset('moderate')" aria-label="Moderate Saver: 35% savings rate, retire at 50">Moderate Saver (35% savings, retire at 50)</button>
                         <button type="button" class="preset-btn" onclick="setPreset('traditional')" aria-label="Traditional: 15% savings rate, retire at 65">Traditional (15% savings, retire at 65)</button>
                         <button type="button" class="preset-btn" onclick="setPreset('conservative')" aria-label="Conservative: 15% savings rate, retire at 65, 3.5% withdrawal">Conservative (3.5% withdrawal rate)</button>
                     </div>
@@ -949,7 +958,7 @@
                             <th scope="col">Contributions</th>
                             <th scope="col">Growth</th>
                             <th scope="col">Balance</th>
-                            <th scope="col">% of FIRE #</th>
+                            <th scope="col">% of Target</th>
                         </tr>
                     </thead>
                     <tbody id="scheduleBody">
@@ -1045,6 +1054,7 @@
             const lifeExpectancyInput = document.getElementById('life-expectancy');
             const annualIncomeInput = document.getElementById('annual-income');
             const annualExpensesInput = document.getElementById('annual-expenses');
+            const retirementExpensesInput = document.getElementById('retirement-expenses');
             const currentSavingsInput = document.getElementById('current-savings');
             const monthlyContributionInput = document.getElementById('monthly-contribution');
             const expectedReturnInput = document.getElementById('expected-return');
@@ -1064,9 +1074,9 @@
 
             // Clear all error states
             const inputs = [currentAgeInput, retirementAgeInput, lifeExpectancyInput,
-                           annualIncomeInput, annualExpensesInput, currentSavingsInput,
-                           monthlyContributionInput, expectedReturnInput, inflationRateInput,
-                           withdrawalRateInput];
+                           annualIncomeInput, annualExpensesInput, retirementExpensesInput,
+                           currentSavingsInput, monthlyContributionInput, expectedReturnInput,
+                           inflationRateInput, withdrawalRateInput];
             inputs.forEach(input => {
                 input.classList.remove('error');
                 input.removeAttribute('aria-invalid');
@@ -1115,6 +1125,13 @@
                 return;
             }
 
+            // Parse retirement expenses (optional - defaults to current expenses)
+            const retirementExpenses = parseNumber(retirementExpensesInput.value) || annualExpenses;
+            if (retirementExpenses < 0) {
+                showError('Retirement expenses cannot be negative', retirementExpensesInput);
+                return;
+            }
+
             // Validate current savings
             const currentSavings = parseNumber(currentSavingsInput.value);
             if (currentSavings === null) {
@@ -1153,8 +1170,8 @@
             // Get optional social security
             const socialSecurity = parseNumber(socialSecurityInput.value) || 0;
 
-            // Calculate FIRE number
-            fireNumber = annualExpenses / (withdrawalRate / 100);
+            // Calculate retirement target using post-retirement expenses
+            fireNumber = retirementExpenses / (withdrawalRate / 100);
 
             // Calculate savings rate
             const annualSavings = monthlyContribution * 12;
@@ -1196,8 +1213,8 @@
                         yearSS = socialSecurity * 12;
                     }
 
-                    // Withdraw based on expenses minus SS
-                    const expensesNeeded = annualExpenses - yearSS;
+                    // Withdraw based on retirement expenses minus SS
+                    const expensesNeeded = retirementExpenses - yearSS;
                     yearWithdrawals = Math.max(0, expensesNeeded);
 
                     // Growth happens on balance
@@ -1205,7 +1222,7 @@
                     balance = balance + yearGrowth - yearWithdrawals;
                 }
 
-                // Check if FIRE number reached
+                // Check if retirement target reached
                 if (yearsToFI === null && balance >= fireNumber) {
                     yearsToFI = year;
                     fiReachedAge = age;
@@ -1256,6 +1273,7 @@
                 retirementAge,
                 withdrawalRate,
                 annualExpenses,
+                retirementExpenses,
                 socialSecurity
             });
 
@@ -1264,11 +1282,16 @@
             resultsDiv.classList.add('show');
             scheduleSection.classList.add('show');
 
+            // Scroll to results
+            setTimeout(() => {
+                resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+
             // Announce to screen readers
             const status = gap >= 0 ? 'on track' : 'shortfall';
             A11yUtils.announce(
-                `Calculated: FIRE number ${formatCurrency(fireNumber)}, ` +
-                `${yearsToFI ? yearsToFI + ' years to financial independence' : 'FI not reached in projection'}, ` +
+                `Calculated: Retirement target ${formatCurrency(fireNumber)}, ` +
+                `${yearsToFI ? yearsToFI + ' years to reach goal' : 'Goal not reached in projection'}, ` +
                 `${status}`,
                 'polite'
             );
@@ -1298,9 +1321,9 @@
 
             summaryGrid.innerHTML = `
                 <div class="summary-item highlight">
-                    <div class="label">FIRE Number</div>
+                    <div class="label">Retirement Target</div>
                     <div class="value">${formatCurrency(data.fireNumber)}</div>
-                    <button class="copy-btn" onclick="copyValue('${Math.round(data.fireNumber)}', this)" aria-label="Copy FIRE number">Copy</button>
+                    <button class="copy-btn" onclick="copyValue('${Math.round(data.fireNumber)}', this)" aria-label="Copy retirement target">Copy</button>
                 </div>
                 <div class="summary-item ${data.savingsRate >= 50 ? 'highlight' : (data.savingsRate >= 25 ? '' : 'warning')}">
                     <div class="label">Your Savings Rate</div>
@@ -1308,11 +1331,11 @@
                     <button class="copy-btn" onclick="copyValue('${data.savingsRate.toFixed(1)}%', this)" aria-label="Copy savings rate">Copy</button>
                 </div>
                 <div class="summary-item ${data.yearsToFI && data.yearsToFI <= 15 ? 'highlight' : ''}">
-                    <div class="label">Years to FI</div>
+                    <div class="label">Years to Goal</div>
                     <div class="value">${data.yearsToFI ? data.yearsToFI + ' years' : 'N/A'}</div>
                 </div>
                 <div class="summary-item">
-                    <div class="label">FI Reached At Age</div>
+                    <div class="label">Target Reached At Age</div>
                     <div class="value">${data.fiReachedAge ? data.fiReachedAge : 'Not in projection'}</div>
                 </div>
                 <div class="summary-item">
@@ -1340,16 +1363,16 @@
             if (data.gap >= 0) {
                 statusClass = 'success';
                 if (data.fiReachedAge && data.fiReachedAge < data.retirementAge) {
-                    statusText = `You're on track to reach FI at age ${data.fiReachedAge}, ${data.retirementAge - data.fiReachedAge} years before your target retirement age! You'll have a ${formatCurrency(data.gap)} surplus.`;
+                    statusText = `You're on track to reach your goal at age ${data.fiReachedAge}, ${data.retirementAge - data.fiReachedAge} years before your target retirement age! You'll have a ${formatCurrency(data.gap)} surplus.`;
                 } else {
-                    statusText = `You're on track! You'll reach your FIRE number right around your target retirement age with a ${formatCurrency(data.gap)} surplus.`;
+                    statusText = `You're on track! You'll reach your retirement target right around your target retirement age with a ${formatCurrency(data.gap)} surplus.`;
                 }
             } else if (data.gapPercent > -20) {
                 statusClass = 'warning';
                 statusText = `You're close, but have a ${formatCurrency(Math.abs(data.gap))} shortfall. Consider increasing your savings rate by ${Math.ceil(Math.abs(data.gapPercent) / 5) * 2}% or delaying retirement by ${Math.ceil(Math.abs(data.gapPercent) / 10)} years.`;
             } else {
                 statusClass = 'danger';
-                statusText = `With current savings, you'll have a ${formatCurrency(Math.abs(data.gap))} shortfall. To reach FI: increase your savings rate significantly, reduce expenses, or adjust your retirement timeline.`;
+                statusText = `With current savings, you'll have a ${formatCurrency(Math.abs(data.gap))} shortfall. To reach your goal: increase your savings rate significantly, reduce expenses, or adjust your retirement timeline.`;
             }
 
             if (data.socialSecurity > 0) {
@@ -1388,7 +1411,7 @@
                     <td>${contribCell}</td>
                     <td>${formatCurrency(row.growth)}</td>
                     <td>${formatCurrency(row.balance)}</td>
-                    <td>${formatPercent(row.percentOfFire)}${row.isFIReached ? ' (FI!)' : ''}</td>
+                    <td>${formatPercent(row.percentOfFire)}${row.isFIReached ? ' (Goal!)' : ''}</td>
                 `;
                 tbody.appendChild(tr);
             });
@@ -1414,7 +1437,7 @@
                 return;
             }
 
-            const headers = ['Year', 'Age', 'Contributions', 'Withdrawals', 'Growth', 'Balance', '% of FIRE Number'];
+            const headers = ['Year', 'Age', 'Contributions', 'Withdrawals', 'Growth', 'Balance', '% of Target'];
             const csvRows = [headers.join(',')];
 
             scheduleData.forEach(row => {
@@ -1448,7 +1471,7 @@
         }
 
         // Format currency inputs with commas
-        ['annual-income', 'annual-expenses', 'current-savings', 'monthly-contribution', 'social-security'].forEach(id => {
+        ['annual-income', 'annual-expenses', 'retirement-expenses', 'current-savings', 'monthly-contribution', 'social-security'].forEach(id => {
             document.getElementById(id).addEventListener('input', function(e) {
                 let value = e.target.value.replace(/[^\d.]/g, '');
                 if (value) {
@@ -1495,9 +1518,9 @@
         // Form field IDs to persist
         const retirementCalcFields = [
             'current-age', 'retirement-age', 'life-expectancy',
-            'annual-income', 'annual-expenses', 'current-savings',
-            'monthly-contribution', 'expected-return', 'inflation-rate',
-            'withdrawal-rate', 'social-security'
+            'annual-income', 'annual-expenses', 'retirement-expenses',
+            'current-savings', 'monthly-contribution', 'expected-return',
+            'inflation-rate', 'withdrawal-rate', 'social-security'
         ];
 
         // Clear all saved data and reset form
