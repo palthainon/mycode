@@ -302,6 +302,20 @@
             transform: translateY(0);
         }
 
+        .btn.secondary {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: #90caf9;
+            margin-top: 10px;
+        }
+
+        .btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: none;
+            transform: none;
+        }
+
         .quick-presets {
             margin-bottom: 20px;
         }
@@ -1379,6 +1393,7 @@
                 </div>
 
                 <button type="button" class="btn" onclick="calculate()" aria-label="Compare payoff methods">Compare Methods</button>
+                <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page">Clear Saved Data</button>
 
                 <div class="error" id="error" role="alert" aria-live="assertive" aria-atomic="true"></div>
             </form>
@@ -1599,6 +1614,38 @@
             StorageUtils.save('debt-payoff-debts', debts);
             StorageUtils.save('debt-payoff-expenses', expenses);
             StorageUtils.save('debt-payoff-extra', document.getElementById('extraPayment')?.value || '');
+        }
+
+        // Clear all saved data and reset form
+        function clearAllSavedData() {
+            // Clear storage
+            StorageUtils.remove('debt-payoff-debts');
+            StorageUtils.remove('debt-payoff-expenses');
+            StorageUtils.remove('debt-payoff-extra');
+
+            // Clear UI - remove all debts and expenses
+            document.getElementById('debtList').innerHTML = '';
+            document.getElementById('expenseList').innerHTML = '';
+            document.getElementById('extraPayment').value = '';
+
+            // Uncheck all preset checkboxes
+            document.querySelectorAll('.preset-checkboxes input[type="checkbox"]').forEach(cb => cb.checked = false);
+
+            // Reset arrays and add one empty debt
+            debts = [];
+            expenses = [];
+            nextDebtId = 1;
+            nextExpenseId = 1;
+            addDebt(null, true);
+
+            // Update totals
+            updateTotalMinimum();
+            updateExpenseTotal();
+
+            // Hide results
+            document.getElementById('results').classList.remove('show');
+
+            A11yUtils.announce('All saved data has been cleared', 'polite');
         }
 
         // Debt types with typical APRs for reference

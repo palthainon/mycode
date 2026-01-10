@@ -174,6 +174,20 @@
             transform: translateY(0);
         }
 
+        .btn.secondary {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: #90caf9;
+            margin-top: 10px;
+        }
+
+        .btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: none;
+            transform: none;
+        }
+
         .results {
             display: none;
             background: rgba(255, 255, 255, 0.05);
@@ -783,6 +797,7 @@
                 </div>
 
                 <button type="button" class="btn" onclick="calculate()" aria-label="Calculate amortization schedule">Calculate</button>
+                <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page">Clear Saved Data</button>
 
                 <div class="quick-presets">
                     <h3 id="presets-label">Common Loan Examples:</h3>
@@ -1235,6 +1250,31 @@
 
         // Form field IDs to persist
         const amortFormFields = ['principal', 'rate', 'term', 'term-unit', 'start-date', 'extra-payment'];
+
+        // Clear all saved data and reset form
+        function clearAllSavedData() {
+            StorageUtils.remove('amortization-calc');
+
+            // Reset form fields to defaults
+            document.getElementById('principal').value = '';
+            document.getElementById('rate').value = '';
+            document.getElementById('term').value = '30';
+            document.getElementById('term-unit').selectedIndex = 0;
+            document.getElementById('extra-payment').value = '';
+
+            // Reset start date to current month
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            document.getElementById('start-date').value = `${year}-${month}`;
+
+            // Hide results
+            document.getElementById('results').classList.remove('show');
+            document.getElementById('savings-section').classList.remove('show');
+            document.getElementById('schedule-section').classList.remove('show');
+
+            A11yUtils.announce('All saved data has been cleared', 'polite');
+        }
 
         // Set default start date to current month and load saved data
         document.addEventListener('DOMContentLoaded', function() {

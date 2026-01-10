@@ -175,12 +175,47 @@ const StorageUtils = (function() {
         return load(listKey, defaultValue);
     }
 
+    /**
+     * Clear saved data for specific keys and reset form inputs
+     * @param {string[]} keys - Array of storage keys to clear
+     * @param {string[]} [inputIds] - Optional array of input IDs to reset
+     * @param {Function} [callback] - Optional callback after clearing
+     */
+    function clearSavedData(keys, inputIds, callback) {
+        // Remove all specified keys from storage
+        keys.forEach(key => remove(key));
+
+        // Reset form inputs if provided
+        if (inputIds && inputIds.length > 0) {
+            inputIds.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    if (el.type === 'checkbox') {
+                        // Reset to default (usually unchecked, except common defaults)
+                        el.checked = el.defaultChecked;
+                    } else if (el.tagName === 'SELECT') {
+                        el.selectedIndex = 0;
+                    } else if (el.isContentEditable) {
+                        el.textContent = '';
+                    } else {
+                        el.value = el.defaultValue || '';
+                    }
+                }
+            });
+        }
+
+        if (typeof callback === 'function') {
+            callback();
+        }
+    }
+
     // Public API
     return {
         save,
         load,
         remove,
         clearAll,
+        clearSavedData,
         saveFormInputs,
         loadFormInputs,
         autoSaveFormInputs,
