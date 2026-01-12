@@ -642,110 +642,118 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <main id="main-content" class="container" role="main" aria-label="Pomodoro Timer Application">
         <h1>Pomodoro Timer</h1>
 
         <!-- Notification Permission Banner -->
-        <div id="notificationBanner" class="notification-banner hidden">
-            <p>Enable notifications to get alerted when your timer ends</p>
-            <button class="btn btn-primary" onclick="requestNotificationPermission()">Enable</button>
+        <div id="notificationBanner" class="notification-banner hidden" role="alert">
+            <p id="notification-prompt">Enable notifications to get alerted when your timer ends</p>
+            <button class="btn btn-primary" onclick="requestNotificationPermission()" aria-describedby="notification-prompt">Enable Notifications</button>
         </div>
 
         <!-- Timer Card -->
-        <div class="timer-card">
+        <div class="timer-card" role="region" aria-label="Timer display and controls">
             <!-- Circular Timer -->
-            <div class="timer-container">
-                <svg class="timer-svg" viewBox="0 0 100 100">
+            <div class="timer-container" role="timer" aria-live="off" aria-atomic="true">
+                <svg class="timer-svg" viewBox="0 0 100 100" aria-hidden="true">
                     <circle class="timer-bg" cx="50" cy="50" r="45"></circle>
                     <circle id="timerProgress" class="timer-progress" cx="50" cy="50" r="45"
                             stroke-dasharray="282.74" stroke-dashoffset="0"></circle>
                 </svg>
                 <div class="timer-display">
-                    <div id="timerTarget" class="timer-target">of 25:00</div>
-                    <div id="timerTime" class="timer-time">00:00</div>
-                    <div id="timerPhase" class="timer-phase">Work</div>
-                    <div id="timerCycle" class="timer-cycle">Pomodoro 1 of 4</div>
+                    <div id="timerTarget" class="timer-target" aria-label="Target time">of 25:00</div>
+                    <div id="timerTime" class="timer-time" role="status" aria-live="polite" aria-label="Elapsed time" tabindex="0" aria-describedby="timer-edit-hint">00:00</div>
+                    <span id="timer-edit-hint" class="sr-only">Click or press Enter to edit the timer duration when stopped</span>
+                    <div id="timerPhase" class="timer-phase" aria-label="Current phase">Work</div>
+                    <div id="timerCycle" class="timer-cycle" aria-label="Cycle progress">Pomodoro 1 of 4</div>
                 </div>
             </div>
 
             <!-- Controls -->
-            <div class="controls">
-                <button id="startBtn" class="btn btn-primary" onclick="startTimer()">Start</button>
-                <button id="pauseBtn" class="btn btn-secondary" onclick="pauseTimer()" disabled>Pause</button>
-                <button id="resetBtn" class="btn btn-secondary" onclick="resetTimer()">Reset</button>
+            <div class="controls" role="group" aria-label="Timer controls">
+                <button id="startBtn" class="btn btn-primary" onclick="startTimer()" aria-label="Start timer">Start</button>
+                <button id="pauseBtn" class="btn btn-secondary" onclick="pauseTimer()" disabled aria-label="Pause timer">Pause</button>
+                <button id="resetBtn" class="btn btn-secondary" onclick="resetTimer()" aria-label="Reset timer to beginning">Reset</button>
             </div>
 
             <!-- Skip Break -->
             <div class="skip-container">
-                <button id="skipBtn" class="btn btn-skip" onclick="skipBreak()">Skip Break</button>
+                <button id="skipBtn" class="btn btn-skip" onclick="skipBreak()" aria-label="Skip current break and return to work">Skip Break</button>
             </div>
 
             <!-- Phase Selector -->
-            <div class="phase-selector">
-                <span class="phase-selector-label">Switch to:</span>
-                <button class="phase-btn active" data-phase="work" onclick="switchPhase('work')">Work</button>
-                <button class="phase-btn" data-phase="shortBreak" onclick="switchPhase('shortBreak')">Break</button>
-                <button class="phase-btn" data-phase="longBreak" onclick="switchPhase('longBreak')">Long Break</button>
+            <div class="phase-selector" role="group" aria-label="Phase selection">
+                <span class="phase-selector-label" id="phase-selector-label">Switch to:</span>
+                <button class="phase-btn active" data-phase="work" onclick="switchPhase('work')" aria-pressed="true" aria-describedby="phase-selector-label">Work</button>
+                <button class="phase-btn" data-phase="shortBreak" onclick="switchPhase('shortBreak')" aria-pressed="false" aria-describedby="phase-selector-label">Break</button>
+                <button class="phase-btn" data-phase="longBreak" onclick="switchPhase('longBreak')" aria-pressed="false" aria-describedby="phase-selector-label">Long Break</button>
             </div>
 
             <!-- Task Input -->
             <div class="task-input-container">
                 <label for="taskInput">Current Task</label>
-                <input type="text" id="taskInput" class="task-input" placeholder="Focus" value="Focus">
+                <input type="text" id="taskInput" class="task-input" placeholder="Focus" value="Focus" aria-describedby="task-help">
+                <span id="task-help" class="sr-only">Enter a name for your current task. This will be saved in your session history.</span>
             </div>
         </div>
 
         <!-- Settings -->
-        <div class="settings-card">
-            <h2>Settings</h2>
-            <div class="settings-grid">
+        <div class="settings-card" role="region" aria-labelledby="settings-heading">
+            <h2 id="settings-heading">Settings</h2>
+            <div class="settings-grid" role="group" aria-label="Duration settings">
                 <div class="setting-item">
                     <label for="workDuration">Work</label>
-                    <input type="number" id="workDuration" min="1" max="120" value="25">
-                    <div class="setting-unit">minutes</div>
+                    <input type="number" id="workDuration" min="1" max="120" value="25" aria-describedby="work-unit">
+                    <div class="setting-unit" id="work-unit">minutes</div>
                 </div>
                 <div class="setting-item">
                     <label for="shortBreakDuration">Short Break</label>
-                    <input type="number" id="shortBreakDuration" min="1" max="30" value="5">
-                    <div class="setting-unit">minutes</div>
+                    <input type="number" id="shortBreakDuration" min="1" max="30" value="5" aria-describedby="short-break-unit">
+                    <div class="setting-unit" id="short-break-unit">minutes</div>
                 </div>
                 <div class="setting-item">
                     <label for="longBreakDuration">Long Break</label>
-                    <input type="number" id="longBreakDuration" min="1" max="60" value="15">
-                    <div class="setting-unit">minutes</div>
+                    <input type="number" id="longBreakDuration" min="1" max="60" value="15" aria-describedby="long-break-unit">
+                    <div class="setting-unit" id="long-break-unit">minutes</div>
                 </div>
             </div>
             <div class="autostop-setting">
                 <label class="toggle-container">
-                    <input type="checkbox" id="autostopToggle" checked>
-                    <span class="toggle-slider"></span>
+                    <input type="checkbox" id="autostopToggle" checked aria-describedby="autostop-desc">
+                    <span class="toggle-slider" aria-hidden="true"></span>
                     <span class="toggle-label">Auto-stop at target time</span>
                 </label>
+                <span id="autostop-desc" class="sr-only">When enabled, the timer will automatically stop and transition to the next phase when the target time is reached</span>
             </div>
         </div>
 
         <!-- History -->
-        <div class="history-card">
-            <h2>
+        <div class="history-card" role="region" aria-labelledby="history-heading">
+            <h2 id="history-heading">
                 Today's Sessions
-                <button class="clear-history-btn" onclick="clearHistory()" title="Clear history">Clear</button>
+                <button class="clear-history-btn" onclick="clearHistory()" aria-label="Clear all session history">Clear</button>
             </h2>
-            <div class="history-stats">
+            <div class="history-stats" role="group" aria-label="Today's statistics">
                 <div class="stat-item">
-                    <div id="totalPomodoros" class="stat-value">0</div>
-                    <div class="stat-label">Pomodoros</div>
+                    <div id="totalPomodoros" class="stat-value" aria-live="polite">0</div>
+                    <div class="stat-label" id="pomodoros-label">Pomodoros</div>
                 </div>
                 <div class="stat-item">
-                    <div id="totalFocusTime" class="stat-value">0</div>
-                    <div class="stat-label">Minutes Focused</div>
+                    <div id="totalFocusTime" class="stat-value" aria-live="polite">0</div>
+                    <div class="stat-label" id="focus-label">Minutes Focused</div>
                 </div>
             </div>
-            <div id="historyList" class="history-list">
-                <div class="history-empty">No sessions yet. Start your first pomodoro!</div>
+            <div id="historyList" class="history-list" role="list" aria-label="Session history">
+                <div class="history-empty" role="listitem">No sessions yet. Start your first pomodoro!</div>
             </div>
-            <button id="exportCsvBtn" class="export-csv-btn" onclick="exportToCSV()" title="Export sessions to CSV">Export to CSV</button>
+            <button id="exportCsvBtn" class="export-csv-btn" onclick="exportToCSV()" aria-label="Export session history to CSV file">Export to CSV</button>
         </div>
-    </div>
+
+        <footer role="contentinfo">
+            Pomodoro Timer - Works offline, no installation required
+        </footer>
+    </main>
 
     <script>
         // Timer State
@@ -794,6 +802,20 @@
             checkNotificationPermission();
             updateDisplay();
 
+            // Initialize skip link
+            const skipLink = document.querySelector('.skip-link');
+            if (skipLink) {
+                skipLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.getElementById('main-content');
+                    if (target) {
+                        target.setAttribute('tabindex', '-1');
+                        target.focus();
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            }
+
             // Save settings on change
             ['workDuration', 'shortBreakDuration', 'longBreakDuration'].forEach(id => {
                 document.getElementById(id).addEventListener('change', saveSettings);
@@ -811,6 +833,14 @@
 
             // Make timer clickable to edit
             timerTime.addEventListener('click', makeTimerEditable);
+
+            // Keyboard support for timer editing
+            timerTime.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    makeTimerEditable();
+                }
+            });
         });
 
         // Timer Functions
@@ -818,10 +848,13 @@
             if (timerState.isPaused) {
                 // Resume - keep current timeElapsed
                 timerState.isPaused = false;
+                A11yUtils.announce('Timer resumed', 'polite');
             } else {
                 // Start fresh
                 timerState.timeElapsed = 0;
                 timerState.targetReachedSoundPlayed = false;
+                const phaseName = timerState.phase === 'shortBreak' ? 'Short break' : timerState.phase === 'longBreak' ? 'Long break' : 'Work session';
+                A11yUtils.announce(`${phaseName} started. Target: ${Math.floor(timerState.totalTime / 60)} minutes.`, 'polite');
             }
 
             timerState.isRunning = true;
@@ -839,7 +872,12 @@
 
             startBtn.disabled = false;
             startBtn.textContent = 'Resume';
+            startBtn.setAttribute('aria-label', 'Resume timer');
             pauseBtn.disabled = true;
+
+            const minutes = Math.floor(timerState.timeElapsed / 60);
+            const seconds = timerState.timeElapsed % 60;
+            A11yUtils.announce(`Timer paused at ${minutes} minutes ${seconds} seconds`, 'polite');
         }
 
         function stopTimer() {
@@ -898,9 +936,11 @@
 
             startBtn.disabled = false;
             startBtn.textContent = 'Start';
+            startBtn.setAttribute('aria-label', 'Start timer');
             pauseBtn.disabled = true;
 
             updateDisplay();
+            A11yUtils.announce('Timer reset. Ready to start work session.', 'polite');
         }
 
         function skipBreak() {
@@ -921,9 +961,11 @@
 
             startBtn.disabled = false;
             startBtn.textContent = 'Start';
+            startBtn.setAttribute('aria-label', 'Start timer');
             pauseBtn.disabled = true;
 
             updateDisplay();
+            A11yUtils.announce('Break skipped. Ready to start work session.', 'polite');
         }
 
         function switchPhase(phase) {
@@ -947,9 +989,12 @@
 
             startBtn.disabled = false;
             startBtn.textContent = 'Start';
+            startBtn.setAttribute('aria-label', 'Start timer');
             pauseBtn.disabled = true;
 
             updateDisplay();
+            const phaseName = phase === 'shortBreak' ? 'Short break' : phase === 'longBreak' ? 'Long break' : 'Work';
+            A11yUtils.announce(`Switched to ${phaseName}. Target: ${Math.floor(timerState.totalTime / 60)} minutes.`, 'polite');
         }
 
         function tick() {
@@ -988,6 +1033,8 @@
             // Show browser notification
             showNotification();
 
+            const completedPhase = timerState.phase;
+
             if (timerState.phase === 'work') {
                 // Save completed pomodoro to history
                 saveSession();
@@ -1018,9 +1065,18 @@
 
             startBtn.disabled = false;
             startBtn.textContent = 'Start';
+            startBtn.setAttribute('aria-label', 'Start timer');
             pauseBtn.disabled = true;
 
             updateDisplay();
+
+            // Announce phase completion
+            if (completedPhase === 'work') {
+                const nextPhase = timerState.phase === 'longBreak' ? 'long break' : 'short break';
+                A11yUtils.announce(`Work session complete! Time for a ${nextPhase}.`, 'assertive');
+            } else {
+                A11yUtils.announce('Break complete! Ready for next work session.', 'assertive');
+            }
         }
 
         function updateDisplay() {
@@ -1092,7 +1148,9 @@
             // Update phase selector buttons
             document.querySelectorAll('.phase-btn').forEach(btn => {
                 const phase = btn.dataset.phase;
-                btn.classList.toggle('active', phase === timerState.phase);
+                const isActive = phase === timerState.phase;
+                btn.classList.toggle('active', isActive);
+                btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
                 btn.disabled = timerState.isRunning;
             });
         }
@@ -1296,6 +1354,7 @@
                 history = [];
                 StorageUtils.remove('pomodoro_history');
                 renderHistory();
+                A11yUtils.announce('Session history cleared', 'polite');
             }
         }
 
@@ -1323,6 +1382,7 @@
             link.click();
 
             URL.revokeObjectURL(url);
+            A11yUtils.announce(`Exported ${history.length} sessions to CSV file`, 'polite');
         }
 
         // Notification Functions
