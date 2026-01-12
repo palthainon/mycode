@@ -217,15 +217,23 @@
             transform: none !important;
         }
 
+        .skip-container {
+            height: 44px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
         .btn-skip {
-            display: none;
+            visibility: hidden;
             background: rgba(102, 187, 106, 0.2);
             color: #66bb6a;
             border: 1px solid rgba(102, 187, 106, 0.3);
         }
 
         .btn-skip.show {
-            display: inline-block;
+            visibility: visible;
         }
 
         .btn-skip:hover {
@@ -665,6 +673,10 @@
                 <button id="startBtn" class="btn btn-primary" onclick="startTimer()">Start</button>
                 <button id="pauseBtn" class="btn btn-secondary" onclick="pauseTimer()" disabled>Pause</button>
                 <button id="resetBtn" class="btn btn-secondary" onclick="resetTimer()">Reset</button>
+            </div>
+
+            <!-- Skip Break -->
+            <div class="skip-container">
                 <button id="skipBtn" class="btn btn-skip" onclick="skipBreak()">Skip Break</button>
             </div>
 
@@ -744,7 +756,8 @@
             pomodoroCount: 1,
             timeElapsed: 0, // counts up from 0
             totalTime: 25 * 60,
-            intervalId: null
+            intervalId: null,
+            targetReachedSoundPlayed: false // track if sound played at target time
         };
 
         // Settings
@@ -808,6 +821,7 @@
             } else {
                 // Start fresh
                 timerState.timeElapsed = 0;
+                timerState.targetReachedSoundPlayed = false;
             }
 
             timerState.isRunning = true;
@@ -862,6 +876,7 @@
 
             timerState.timeElapsed = 0;
             timerState.isPaused = false;
+            timerState.targetReachedSoundPlayed = false;
 
             startBtn.disabled = false;
             startBtn.textContent = 'Start';
@@ -877,6 +892,7 @@
             timerState.pomodoroCount = 1;
             timerState.totalTime = settings.workDuration * 60;
             timerState.timeElapsed = 0;
+            timerState.targetReachedSoundPlayed = false;
 
             clearInterval(timerState.intervalId);
 
@@ -901,6 +917,7 @@
             timerState.phase = 'work';
             timerState.totalTime = settings.workDuration * 60;
             timerState.timeElapsed = 0;
+            timerState.targetReachedSoundPlayed = false;
 
             startBtn.disabled = false;
             startBtn.textContent = 'Start';
@@ -917,6 +934,7 @@
             timerState.isPaused = false;
             timerState.phase = phase;
             timerState.timeElapsed = 0;
+            timerState.targetReachedSoundPlayed = false;
 
             // Set total time based on phase
             if (phase === 'work') {
@@ -937,8 +955,24 @@
         function tick() {
             timerState.timeElapsed++;
 
-            if (settings.autostop && timerState.timeElapsed >= timerState.totalTime) {
-                completePhase();
+            // Check if we've just reached the target time
+            if (timerState.timeElapsed >= timerState.totalTime && !timerState.targetReachedSoundPlayed) {
+                timerState.targetReachedSoundPlayed = true;
+
+                if (settings.autostop) {
+                    // Autostop enabled: complete the phase (plays sound and transitions)
+                    completePhase();
+                    return;
+                } else {
+                    // Autostop disabled: play sound and notification but keep running
+                    playNotificationSound(timerState.phase);
+                    showNotification();
+
+                    // If work phase, save the session at target time
+                    if (timerState.phase === 'work') {
+                        saveSession();
+                    }
+                }
             }
 
             updateDisplay();
@@ -980,6 +1014,7 @@
 
             timerState.timeElapsed = 0;
             timerState.isPaused = false;
+            timerState.targetReachedSoundPlayed = false;
 
             startBtn.disabled = false;
             startBtn.textContent = 'Start';
@@ -1366,28 +1401,35 @@
                         });
                     }
                 } else {
-                    // Break complete: Gentle two-tone chime to signal back to work
+                    // Break complete: Gentle two-tone chime to signal back to work (3 times)
                     const frequencies = [392.00, 523.25]; // G4, C5 - simple interval
                     const noteDuration = 0.8;
+                    const repetitions = 3;
+                    const chimeDuration = noteDuration + 0.4; // Duration of one chime sequence
+                    const delayBetween = 0.3;
 
-                    frequencies.forEach((freq, index) => {
-                        const oscillator = audioContext.createOscillator();
-                        const gainNode = audioContext.createGain();
+                    for (let rep = 0; rep < repetitions; rep++) {
+                        const repOffset = rep * (chimeDuration + delayBetween);
 
-                        oscillator.connect(gainNode);
-                        gainNode.connect(audioContext.destination);
+                        frequencies.forEach((freq, index) => {
+                            const oscillator = audioContext.createOscillator();
+                            const gainNode = audioContext.createGain();
 
-                        oscillator.type = 'sine';
-                        oscillator.frequency.setValueAtTime(freq, audioContext.currentTime);
+                            oscillator.connect(gainNode);
+                            gainNode.connect(audioContext.destination);
 
-                        const startTime = audioContext.currentTime + (index * 0.4);
-                        gainNode.gain.setValueAtTime(0, startTime);
-                        gainNode.gain.linearRampToValueAtTime(0.12, startTime + 0.05);
-                        gainNode.gain.exponentialRampToValueAtTime(0.001, startTime + noteDuration);
+                            oscillator.type = 'sine';
+                            oscillator.frequency.setValueAtTime(freq, audioContext.currentTime);
 
-                        oscillator.start(startTime);
-                        oscillator.stop(startTime + noteDuration);
-                    });
+                            const startTime = audioContext.currentTime + repOffset + (index * 0.4);
+                            gainNode.gain.setValueAtTime(0, startTime);
+                            gainNode.gain.linearRampToValueAtTime(0.12, startTime + 0.05);
+                            gainNode.gain.exponentialRampToValueAtTime(0.001, startTime + noteDuration);
+
+                            oscillator.start(startTime);
+                            oscillator.stop(startTime + noteDuration);
+                        });
+                    }
                 }
             } catch (e) {
                 console.warn('Audio not available:', e);
