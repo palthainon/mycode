@@ -97,6 +97,28 @@
             margin-bottom: 25px;
         }
 
+        .section-group {
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .info-section {
+            background: rgba(79, 195, 247, 0.08);
+            border-left: 4px solid rgba(79, 195, 247, 0.5);
+        }
+
+        .income-section {
+            background: rgba(139, 195, 74, 0.08);
+            border-left: 4px solid rgba(139, 195, 74, 0.5);
+        }
+
+        .savings-section {
+            background: rgba(46, 125, 50, 0.08);
+            border-left: 4px solid rgba(46, 125, 50, 0.5);
+        }
+
         .input-field {
             display: flex;
             flex-direction: column;
@@ -812,111 +834,116 @@
 
         <div class="calculator">
             <form id="retirement-form" aria-label="Retirement Calculator Form">
-                <h3 class="section-title">Your Information</h3>
-                <div class="input-group">
-                    <div class="input-field">
-                        <label for="current-age">Current Age<span class="required-indicator">*</span></label>
-                        <input type="number" id="current-age" placeholder="30" value="30" min="18" max="80" aria-required="true" aria-describedby="age-help">
-                        <span id="age-help" class="sr-only">Enter your current age between 18 and 80</span>
-                    </div>
-                    <div class="input-field">
-                        <label for="retirement-age">Target Retirement Age<span class="required-indicator">*</span></label>
-                        <input type="number" id="retirement-age" placeholder="50" value="50" min="25" max="80" aria-required="true" aria-describedby="retire-help">
-                        <span id="retire-help" class="sr-only">Enter your target retirement age, can be as early as 25</span>
-                        <span class="help-text">Early retirement is achievable!</span>
-                    </div>
-                    <div class="input-field">
-                        <label for="life-expectancy">Life Expectancy<span class="required-indicator">*</span></label>
-                        <input type="number" id="life-expectancy" placeholder="90" value="90" min="60" max="120" aria-required="true" aria-describedby="life-help">
-                        <span id="life-help" class="sr-only">Estimate how long you expect to live for withdrawal planning</span>
+                <div class="section-group info-section">
+                    <h3 class="section-title">Your Information</h3>
+                    <div class="input-group">
+                        <div class="input-field">
+                            <label for="current-age">Current Age<span class="required-indicator">*</span></label>
+                            <input type="number" id="current-age" placeholder="30" value="30" min="18" max="80" aria-required="true" aria-describedby="age-help">
+                            <span id="age-help" class="sr-only">Enter your current age between 18 and 80</span>
+                        </div>
+                        <div class="input-field">
+                            <label for="retirement-age">Target Retirement Age<span class="required-indicator">*</span></label>
+                            <input type="number" id="retirement-age" placeholder="60" value="60" min="25" max="80" aria-required="true" aria-describedby="retire-help">
+                            <span id="retire-help" class="sr-only">Enter your target retirement age, can be as early as 25</span>
+                        </div>
+                        <div class="input-field">
+                            <label for="life-expectancy">Life Expectancy<span class="required-indicator">*</span></label>
+                            <input type="number" id="life-expectancy" placeholder="90" value="90" min="60" max="120" aria-required="true" aria-describedby="life-help">
+                            <span id="life-help" class="sr-only">Estimate how long you expect to live for withdrawal planning</span>
+                        </div>
                     </div>
                 </div>
 
-                <h3 class="section-title">Income & Expenses</h3>
-                <div class="input-group">
-                    <div class="input-field">
-                        <label for="annual-income">Annual Income (Pre-tax)<span class="required-indicator">*</span></label>
-                        <div class="input-prefix">
-                            <span>$</span>
-                            <input type="text" id="annual-income" placeholder="75,000" value="75,000" aria-required="true" aria-describedby="income-help" inputmode="decimal">
+                <div class="section-group income-section">
+                    <h3 class="section-title">Income & Expenses</h3>
+                    <div class="input-group">
+                        <div class="input-field">
+                            <label for="annual-income">Annual Income (Pre-tax)<span class="required-indicator">*</span></label>
+                            <div class="input-prefix">
+                                <span>$</span>
+                                <input type="text" id="annual-income" placeholder="75,000" value="75,000" aria-required="true" aria-describedby="income-help" inputmode="decimal">
+                            </div>
+                            <span id="income-help" class="sr-only">Enter your annual pre-tax income</span>
                         </div>
-                        <span id="income-help" class="sr-only">Enter your annual pre-tax income</span>
-                    </div>
-                    <div class="input-field">
-                        <label for="annual-expenses">Annual Expenses<span class="required-indicator">*</span></label>
-                        <div class="input-prefix">
-                            <span>$</span>
-                            <input type="text" id="annual-expenses" placeholder="40,000" value="40,000" aria-required="true" aria-describedby="expenses-help" inputmode="decimal">
+                        <div class="input-field">
+                            <label for="annual-expenses">Annual Expenses<span class="required-indicator">*</span></label>
+                            <div class="input-prefix">
+                                <span>$</span>
+                                <input type="text" id="annual-expenses" placeholder="40,000" value="40,000" aria-required="true" aria-describedby="expenses-help" inputmode="decimal">
+                            </div>
+                            <span id="expenses-help" class="sr-only">Enter your total annual expenses, this helps determine your retirement target</span>
+                            <span class="help-text">Key factor for your retirement target</span>
                         </div>
-                        <span id="expenses-help" class="sr-only">Enter your total annual expenses, this helps determine your retirement target</span>
-                        <span class="help-text">Key factor for your retirement target</span>
-                    </div>
-                    <div class="input-field">
-                        <label for="retirement-expenses">Post-Retirement Annual Expenses<span class="required-indicator">*</span></label>
-                        <div class="input-prefix">
-                            <span>$</span>
-                            <input type="text" id="retirement-expenses" placeholder="35,000" value="35,000" aria-required="true" aria-describedby="retirement-expenses-help" inputmode="decimal">
+                        <div class="input-field">
+                            <label for="retirement-expenses">Post-Retirement Annual Expenses<span class="required-indicator">*</span></label>
+                            <div class="input-prefix">
+                                <span>$</span>
+                                <input type="text" id="retirement-expenses" placeholder="35,000" value="35,000" aria-required="true" aria-describedby="retirement-expenses-help" inputmode="decimal">
+                            </div>
+                            <span id="retirement-expenses-help" class="sr-only">Expected annual expenses in retirement (often 70-80% of current expenses)</span>
+                            <span class="help-text">Often lower than working years - no commute, paid-off mortgage</span>
                         </div>
-                        <span id="retirement-expenses-help" class="sr-only">Expected annual expenses in retirement (often 70-80% of current expenses)</span>
-                        <span class="help-text">Often lower than working years - no commute, paid-off mortgage</span>
-                    </div>
-                    <div class="input-field">
-                        <label for="current-savings">Current Retirement Savings<span class="required-indicator">*</span></label>
-                        <div class="input-prefix">
-                            <span>$</span>
-                            <input type="text" id="current-savings" placeholder="50,000" value="50,000" aria-required="true" aria-describedby="savings-help" inputmode="decimal">
+                        <div class="input-field">
+                            <label for="current-savings">Current Retirement Savings<span class="required-indicator">*</span></label>
+                            <div class="input-prefix">
+                                <span>$</span>
+                                <input type="text" id="current-savings" placeholder="50,000" value="50,000" aria-required="true" aria-describedby="savings-help" inputmode="decimal">
+                            </div>
+                            <span id="savings-help" class="sr-only">Enter your current total retirement savings and investments</span>
                         </div>
-                        <span id="savings-help" class="sr-only">Enter your current total retirement savings and investments</span>
-                    </div>
-                </div>
-
-                <h3 class="section-title">Savings & Returns</h3>
-                <div class="input-group">
-                    <div class="input-field">
-                        <label for="monthly-contribution">Monthly Contribution<span class="required-indicator">*</span></label>
-                        <div class="input-prefix">
-                            <span>$</span>
-                            <input type="text" id="monthly-contribution" placeholder="1,500" value="1,500" aria-required="true" aria-describedby="contrib-help" inputmode="decimal">
-                        </div>
-                        <span id="contrib-help" class="sr-only">Enter how much you save monthly toward retirement</span>
-                    </div>
-                    <div class="input-field">
-                        <label for="expected-return">Expected Annual Return<span class="required-indicator">*</span></label>
-                        <div class="input-suffix">
-                            <input type="text" id="expected-return" placeholder="7" value="7" aria-required="true" aria-describedby="return-help" inputmode="decimal">
-                            <span>%</span>
-                        </div>
-                        <span id="return-help" class="sr-only">Enter expected annual investment return, typically 7% for stocks</span>
-                    </div>
-                    <div class="input-field">
-                        <label for="inflation-rate">Inflation Rate<span class="required-indicator">*</span></label>
-                        <div class="input-suffix">
-                            <input type="text" id="inflation-rate" placeholder="3" value="3" aria-required="true" aria-describedby="inflation-help" inputmode="decimal">
-                            <span>%</span>
-                        </div>
-                        <span id="inflation-help" class="sr-only">Enter expected inflation rate, typically around 3%</span>
                     </div>
                 </div>
 
-                <h3 class="section-title">Withdrawal Settings</h3>
-                <div class="input-group">
-                    <div class="input-field">
-                        <label for="withdrawal-rate">Safe Withdrawal Rate<span class="required-indicator">*</span></label>
-                        <div class="input-suffix">
-                            <input type="text" id="withdrawal-rate" placeholder="4" value="4" aria-required="true" aria-describedby="swr-help" inputmode="decimal">
-                            <span>%</span>
+                <div class="section-group savings-section">
+                    <h3 class="section-title">Savings & Returns</h3>
+                    <div class="input-group">
+                        <div class="input-field">
+                            <label for="monthly-contribution">Monthly Contribution<span class="required-indicator">*</span></label>
+                            <div class="input-prefix">
+                                <span>$</span>
+                                <input type="text" id="monthly-contribution" placeholder="1,500" value="1,500" aria-required="true" aria-describedby="contrib-help" inputmode="decimal">
+                            </div>
+                            <span id="contrib-help" class="sr-only">Enter how much you save monthly toward retirement</span>
                         </div>
-                        <span id="swr-help" class="sr-only">The 4% rule is standard, use 3.5% for longer retirements</span>
-                        <span class="help-text">4% rule is standard; use 3.5% for 40+ year retirements</span>
+                        <div class="input-field">
+                            <label for="expected-return">Expected Annual Return<span class="required-indicator">*</span></label>
+                            <div class="input-suffix">
+                                <input type="text" id="expected-return" placeholder="7" value="7" aria-required="true" aria-describedby="return-help" inputmode="decimal">
+                                <span>%</span>
+                            </div>
+                            <span id="return-help" class="sr-only">Enter expected annual investment return, typically 7% for stocks</span>
+                        </div>
+                        <div class="input-field">
+                            <label for="inflation-rate">Inflation Rate<span class="required-indicator">*</span></label>
+                            <div class="input-suffix">
+                                <input type="text" id="inflation-rate" placeholder="3" value="3" aria-required="true" aria-describedby="inflation-help" inputmode="decimal">
+                                <span>%</span>
+                            </div>
+                            <span id="inflation-help" class="sr-only">Enter expected inflation rate, typically around 3%</span>
+                        </div>
                     </div>
-                    <div class="input-field">
-                        <label for="social-security">Social Security (Monthly at 67)</label>
-                        <div class="input-prefix">
-                            <span>$</span>
-                            <input type="text" id="social-security" placeholder="0" value="0" aria-describedby="ss-help" inputmode="decimal">
+
+                    <h3 class="section-title">Withdrawal Settings</h3>
+                    <div class="input-group">
+                        <div class="input-field">
+                            <label for="withdrawal-rate">Safe Withdrawal Rate<span class="required-indicator">*</span></label>
+                            <div class="input-suffix">
+                                <input type="text" id="withdrawal-rate" placeholder="4" value="4" aria-required="true" aria-describedby="swr-help" inputmode="decimal">
+                                <span>%</span>
+                            </div>
+                            <span id="swr-help" class="sr-only">The 4% rule is standard, use 3.5% for longer retirements</span>
+                            <span class="help-text">4% rule is standard; use 3.5% for 40+ year retirements</span>
                         </div>
-                        <span id="ss-help" class="sr-only">Optional: Enter expected monthly Social Security benefit at age 67</span>
-                        <span class="help-text">Optional - leave at $0 if not claiming benefits</span>
+                        <div class="input-field">
+                            <label for="social-security">Social Security (Monthly at 67)</label>
+                            <div class="input-prefix">
+                                <span>$</span>
+                                <input type="text" id="social-security" placeholder="0" value="0" aria-describedby="ss-help" inputmode="decimal">
+                            </div>
+                            <span id="ss-help" class="sr-only">Optional: Enter expected monthly Social Security benefit at age 67</span>
+                            <span class="help-text">Optional - leave at $0 if not claiming benefits</span>
+                        </div>
                     </div>
                 </div>
 
@@ -1174,7 +1201,7 @@
             }
 
             // Get optional social security
-            const socialSecurity = parseNumber(socialSecurityInput.value) || 0;
+            const socialSecurity = parseNumber(socialSecurityInput.value) || 1000;
 
             // Calculate retirement target using post-retirement expenses
             fireNumber = retirementExpenses / (withdrawalRate / 100);

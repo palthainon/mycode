@@ -1363,6 +1363,11 @@
             };
 
             displayBasicResults(lastResults);
+
+            // Scroll to results
+            setTimeout(() => {
+                resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
         }
 
         function displayBasicResults(results) {
@@ -1545,6 +1550,11 @@
             };
 
             displayStackResults(lastResults);
+
+            // Scroll to results
+            setTimeout(() => {
+                resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
         }
 
         function displayStackResults(results) {
@@ -1664,6 +1674,11 @@
             };
 
             displayPmtudResults(lastResults);
+
+            // Scroll to results
+            setTimeout(() => {
+                resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
         }
 
         function displayPmtudResults(results) {
