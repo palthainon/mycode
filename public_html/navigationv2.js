@@ -37,6 +37,9 @@
             { name: 'Compound Interest', file: 'financials/compound-interest-calculator.html', id: 'compound-interest' },
             { name: 'Debt Payoff', file: 'financials/debt-payoff-comparison.html', id: 'debt-payoff' },
             { name: 'Retirement', file: 'financials/retirement-calculator.html', id: 'retirement' }
+        ],
+        productivity: [
+            { name: 'Pomodoro Timer', file: 'productivity/pomodoro.html', id: 'pomodoro' }
         ]
     };
 
@@ -286,6 +289,9 @@
         if (pathname.includes('/financials/') && (filename === 'index.html' || filename === '')) {
             return { id: 'financials-home', category: 'financials' };
         }
+        if (pathname.includes('/productivity/') && (filename === 'index.html' || filename === '')) {
+            return { id: 'productivity-home', category: 'productivity' };
+        }
 
         // Handle root home page (only if not in a subfolder)
         if (filename === '' || filename === '/' || filename === 'index.html') {
@@ -320,6 +326,9 @@
         }
         if (pathname.includes('/data/')) {
             return { id: null, category: 'data' };
+        }
+        if (pathname.includes('/productivity/')) {
+            return { id: null, category: 'productivity' };
         }
 
         return { id: null, category: null };
