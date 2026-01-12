@@ -606,6 +606,124 @@
             color: #4fc3f7;
         }
 
+        /* Focus Mode Toggle - Top Right Corner */
+        .timer-card {
+            position: relative;
+        }
+
+        .focus-toggle {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 8px 12px;
+            font-size: 1.1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+            color: rgba(255, 255, 255, 0.7);
+            z-index: 10;
+        }
+
+        .focus-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+            color: #fff;
+        }
+
+        /* Task Display for Focused Mode */
+        .focus-task-display {
+            display: none;
+            text-align: center;
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 10px;
+        }
+
+        /* Focused Mode Styles */
+        body.focused-mode {
+            overflow: hidden;
+        }
+
+        body.focused-mode nav,
+        body.focused-mode .skip-link,
+        body.focused-mode h1,
+        body.focused-mode .notification-banner,
+        body.focused-mode .phase-selector,
+        body.focused-mode .task-input-container,
+        body.focused-mode .settings-card,
+        body.focused-mode .history-card,
+        body.focused-mode footer {
+            display: none !important;
+        }
+
+        body.focused-mode .container {
+            max-width: 100vw;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        body.focused-mode .timer-card {
+            background: transparent;
+            box-shadow: none;
+            width: 100%;
+            max-width: none;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: none;
+        }
+
+        body.focused-mode .timer-container {
+            width: min(80vw, 80vh, 500px);
+            height: min(80vw, 80vh, 500px);
+        }
+
+        body.focused-mode .timer-container svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        body.focused-mode #timerTime {
+            font-size: clamp(3rem, 15vw, 6rem);
+        }
+
+        body.focused-mode #timerPhase {
+            font-size: clamp(1.2rem, 5vw, 2rem);
+        }
+
+        body.focused-mode #timerCycle {
+            font-size: clamp(0.9rem, 3vw, 1.2rem);
+        }
+
+        body.focused-mode .focus-task-display {
+            display: block;
+            font-size: clamp(1rem, 4vw, 1.5rem);
+            margin-top: 15px;
+        }
+
+        body.focused-mode .controls {
+            margin-top: 30px;
+        }
+
+        body.focused-mode .skip-container {
+            margin-bottom: 0;
+        }
+
+        body.focused-mode .focus-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+
         /* Responsive */
         @media (max-width: 480px) {
             h1 {
@@ -654,6 +772,14 @@
 
         <!-- Timer Card -->
         <div class="timer-card" role="region" aria-label="Timer display and controls">
+            <!-- Focus Mode Toggle -->
+            <button id="focusBtn" class="btn btn-icon focus-toggle"
+                    aria-label="Enter focused mode"
+                    aria-pressed="false"
+                    title="Focus mode (F)">
+                <span class="focus-icon">⛶</span>
+            </button>
+
             <!-- Circular Timer -->
             <div class="timer-container" role="timer" aria-live="off" aria-atomic="true">
                 <svg class="timer-svg" viewBox="0 0 100 100" aria-hidden="true">
@@ -669,6 +795,9 @@
                     <div id="timerCycle" class="timer-cycle" aria-label="Cycle progress">Pomodoro 1 of 4</div>
                 </div>
             </div>
+
+            <!-- Task Display for Focused Mode -->
+            <div id="focusTaskDisplay" class="focus-task-display" aria-live="polite"></div>
 
             <!-- Controls -->
             <div class="controls" role="group" aria-label="Timer controls">
@@ -726,6 +855,14 @@
                 </label>
                 <span id="autostop-desc" class="sr-only">When enabled, the timer will automatically stop and transition to the next phase when the target time is reached</span>
             </div>
+            <div class="autostop-setting">
+                <label class="toggle-container">
+                    <input type="checkbox" id="countdownToggle" aria-describedby="countdown-desc">
+                    <span class="toggle-slider" aria-hidden="true"></span>
+                    <span class="toggle-label">Countdown mode (show time remaining)</span>
+                </label>
+                <span id="countdown-desc" class="sr-only">When enabled, the timer counts down from the target time instead of counting up from zero</span>
+            </div>
         </div>
 
         <!-- History -->
@@ -773,7 +910,8 @@
             workDuration: 25,
             shortBreakDuration: 5,
             longBreakDuration: 15,
-            autostop: true
+            autostop: true,
+            countdownMode: false
         };
 
         // History
@@ -825,6 +963,10 @@
                 document.getElementById(id).addEventListener('change', saveSettings);
             });
             document.getElementById('autostopToggle').addEventListener('change', saveSettings);
+            document.getElementById('countdownToggle').addEventListener('change', function() {
+                saveSettings();
+                updateDisplay();
+            });
 
             // Save task on change
             taskInput.addEventListener('change', function() {
@@ -1087,19 +1229,45 @@
         }
 
         function updateDisplay() {
-            // Update time display (count-up)
+            // Update time display (count-up or countdown based on setting)
             const isOvertime = timerState.timeElapsed > timerState.totalTime;
-            const displayTime = isOvertime
-                ? timerState.timeElapsed - timerState.totalTime
-                : timerState.timeElapsed;
-            const minutes = Math.floor(displayTime / 60);
-            const seconds = displayTime % 60;
-            const timeStr = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            timerTime.textContent = isOvertime ? `+${timeStr}` : timeStr;
+            let displayTime, timeStr;
 
-            // Update progress ring (fills up as time elapses)
+            if (settings.countdownMode) {
+                // Countdown mode: show time remaining
+                if (isOvertime) {
+                    displayTime = timerState.timeElapsed - timerState.totalTime;
+                    const minutes = Math.floor(displayTime / 60);
+                    const seconds = displayTime % 60;
+                    timeStr = `-${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                } else {
+                    displayTime = timerState.totalTime - timerState.timeElapsed;
+                    const minutes = Math.floor(displayTime / 60);
+                    const seconds = displayTime % 60;
+                    timeStr = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                }
+            } else {
+                // Count-up mode (default): show elapsed time
+                displayTime = isOvertime
+                    ? timerState.timeElapsed - timerState.totalTime
+                    : timerState.timeElapsed;
+                const minutes = Math.floor(displayTime / 60);
+                const seconds = displayTime % 60;
+                timeStr = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                if (isOvertime) timeStr = `+${timeStr}`;
+            }
+            timerTime.textContent = timeStr;
+
+            // Update progress ring (fills up in count-up mode, empties in countdown mode)
             const progress = Math.min(timerState.timeElapsed / timerState.totalTime, 1);
-            const offset = CIRCUMFERENCE * (1 - progress);
+            let offset;
+            if (settings.countdownMode) {
+                // Countdown: ring starts full and empties
+                offset = CIRCUMFERENCE * progress;
+            } else {
+                // Count-up: ring starts empty and fills
+                offset = CIRCUMFERENCE * (1 - progress);
+            }
             timerProgress.style.strokeDashoffset = offset;
 
             // Update phase styling
@@ -1124,10 +1292,22 @@
             // Update cycle display
             timerCycle.textContent = `Pomodoro ${timerState.pomodoroCount} of 4`;
 
-            // Update target time display
+            // Update target time display and aria-labels based on countdown mode
             const targetMinutes = Math.floor(timerState.totalTime / 60);
             const targetSeconds = timerState.totalTime % 60;
-            timerTarget.textContent = `of ${targetMinutes.toString().padStart(2, '0')}:${targetSeconds.toString().padStart(2, '0')}`;
+            if (settings.countdownMode) {
+                // In countdown mode, show elapsed time in the smaller label
+                const elapsedMinutes = Math.floor(timerState.timeElapsed / 60);
+                const elapsedSeconds = timerState.timeElapsed % 60;
+                timerTarget.textContent = `${elapsedMinutes.toString().padStart(2, '0')}:${elapsedSeconds.toString().padStart(2, '0')} elapsed`;
+                timerTarget.setAttribute('aria-label', 'Elapsed time');
+                timerTime.setAttribute('aria-label', 'Time remaining');
+            } else {
+                // In count-up mode, show target time
+                timerTarget.textContent = `of ${targetMinutes.toString().padStart(2, '0')}:${targetSeconds.toString().padStart(2, '0')}`;
+                timerTarget.setAttribute('aria-label', 'Target time');
+                timerTime.setAttribute('aria-label', 'Elapsed time');
+            }
 
             // Update target time color based on phase
             if (timerState.phase === 'shortBreak') {
@@ -1234,6 +1414,7 @@
                 document.getElementById('shortBreakDuration').value = settings.shortBreakDuration;
                 document.getElementById('longBreakDuration').value = settings.longBreakDuration;
                 document.getElementById('autostopToggle').checked = settings.autostop !== false;
+                document.getElementById('countdownToggle').checked = settings.countdownMode === true;
             }
             timerState.totalTime = settings.workDuration * 60;
             timerState.timeElapsed = 0;
@@ -1245,6 +1426,7 @@
             settings.shortBreakDuration = parseInt(document.getElementById('shortBreakDuration').value) || 5;
             settings.longBreakDuration = parseInt(document.getElementById('longBreakDuration').value) || 15;
             settings.autostop = document.getElementById('autostopToggle').checked;
+            settings.countdownMode = document.getElementById('countdownToggle').checked;
 
             StorageUtils.save('pomodoro_settings', settings);
             updatePauseButton();
@@ -1553,6 +1735,52 @@
             div.textContent = text;
             return div.innerHTML;
         }
+
+        // Focus Mode
+        let focusedMode = false;
+
+        function updateFocusTaskDisplay() {
+            const focusTaskDisplay = document.getElementById('focusTaskDisplay');
+            const taskName = taskInput.value.trim() || 'Focus';
+            focusTaskDisplay.textContent = taskName;
+        }
+
+        function toggleFocusMode(enter = null) {
+            focusedMode = enter !== null ? enter : !focusedMode;
+            document.body.classList.toggle('focused-mode', focusedMode);
+
+            const btn = document.getElementById('focusBtn');
+            btn.setAttribute('aria-pressed', focusedMode);
+            btn.innerHTML = focusedMode ? '<span class="focus-icon">✕</span>' : '<span class="focus-icon">⛶</span>';
+            btn.setAttribute('aria-label', focusedMode ? 'Exit focused mode' : 'Enter focused mode');
+            btn.title = focusedMode ? 'Exit focus mode (Esc)' : 'Focus mode (F)';
+
+            if (focusedMode) {
+                updateFocusTaskDisplay();
+            }
+
+            A11yUtils.announce(focusedMode ? 'Focused mode enabled' : 'Focused mode disabled', 'polite');
+        }
+
+        // Focus mode event listeners
+        document.getElementById('focusBtn').addEventListener('click', () => toggleFocusMode());
+
+        // Update task display when task input changes (while in focused mode)
+        taskInput.addEventListener('input', () => {
+            if (focusedMode) updateFocusTaskDisplay();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            // 'F' to toggle focus mode (only when not typing in input)
+            if (e.key.toLowerCase() === 'f' && !e.target.matches('input, textarea')) {
+                e.preventDefault();
+                toggleFocusMode();
+            }
+            // Escape to exit focus mode
+            if (e.key === 'Escape' && focusedMode) {
+                toggleFocusMode(false);
+            }
+        });
     </script>
 </body>
 </html>
