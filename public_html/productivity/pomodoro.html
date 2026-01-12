@@ -117,12 +117,45 @@
             text-align: center;
         }
 
+        .timer-target {
+            font-size: 1rem;
+            color: #90caf9;
+            margin-bottom: 5px;
+            font-variant-numeric: tabular-nums;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
         .timer-time {
             font-size: 3.5rem;
             font-weight: 300;
             color: #fff;
             font-variant-numeric: tabular-nums;
             letter-spacing: 2px;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .timer-time:hover:not(.running) {
+            color: #4fc3f7;
+        }
+
+        .timer-time.running {
+            cursor: default;
+        }
+
+        .timer-time-input {
+            font-size: 3.5rem;
+            font-weight: 300;
+            color: #fff;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: 2px;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid #4fc3f7;
+            width: 120px;
+            text-align: center;
+            outline: none;
         }
 
         .timer-phase {
@@ -182,6 +215,33 @@
             opacity: 0.5;
             cursor: not-allowed;
             transform: none !important;
+        }
+
+        .btn-skip {
+            display: none;
+            background: rgba(102, 187, 106, 0.2);
+            color: #66bb6a;
+            border: 1px solid rgba(102, 187, 106, 0.3);
+        }
+
+        .btn-skip.show {
+            display: inline-block;
+        }
+
+        .btn-skip:hover {
+            background: rgba(102, 187, 106, 0.3);
+            border-color: rgba(102, 187, 106, 0.5);
+        }
+
+        .btn-danger {
+            background: rgba(244, 67, 54, 0.2);
+            color: #ef5350;
+            border: 1px solid rgba(244, 67, 54, 0.3);
+        }
+
+        .btn-danger:hover {
+            background: rgba(244, 67, 54, 0.3);
+            border-color: rgba(244, 67, 54, 0.5);
         }
 
         /* Task Input */
@@ -274,6 +334,123 @@
             font-size: 0.75rem;
             color: rgba(255, 255, 255, 0.5);
             margin-top: 4px;
+        }
+
+        /* Autostop Toggle */
+        .autostop-setting {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+
+        .toggle-container input {
+            display: none;
+        }
+
+        .toggle-slider {
+            width: 44px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            position: relative;
+            transition: background 0.3s;
+            flex-shrink: 0;
+        }
+
+        .toggle-slider::after {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            background: #fff;
+            border-radius: 50%;
+            top: 3px;
+            left: 3px;
+            transition: transform 0.3s;
+        }
+
+        .toggle-container input:checked + .toggle-slider {
+            background: #4fc3f7;
+        }
+
+        .toggle-container input:checked + .toggle-slider::after {
+            transform: translateX(20px);
+        }
+
+        .toggle-label {
+            color: #90caf9;
+            font-size: 0.9rem;
+        }
+
+        /* Phase Selector */
+        .phase-selector {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .phase-selector-label {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.85rem;
+        }
+
+        .phase-btn {
+            padding: 6px 14px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .phase-btn:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .phase-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .phase-btn.active {
+            background: rgba(79, 195, 247, 0.2);
+            border-color: rgba(79, 195, 247, 0.5);
+            color: #4fc3f7;
+        }
+
+        .phase-btn.active[data-phase="shortBreak"] {
+            background: rgba(102, 187, 106, 0.2);
+            border-color: rgba(102, 187, 106, 0.5);
+            color: #66bb6a;
+        }
+
+        .phase-btn.active[data-phase="longBreak"] {
+            background: rgba(255, 183, 77, 0.2);
+            border-color: rgba(255, 183, 77, 0.5);
+            color: #ffb74d;
+        }
+
+        /* Overtime styling */
+        .timer-progress.overtime {
+            stroke: #ff9800 !important;
+            animation: pulse-overtime 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse-overtime {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
         }
 
         /* Notification Permission */
@@ -386,7 +563,7 @@
         .clear-history-btn {
             background: transparent;
             border: none;
-            color: rgba(255, 255, 255, 0.4);
+            color: #b56b6b;
             font-size: 0.8rem;
             cursor: pointer;
             padding: 4px 8px;
@@ -395,6 +572,30 @@
 
         .clear-history-btn:hover {
             color: #ef5350;
+        }
+
+        .export-csv-btn {
+            display: none;
+            width: 100%;
+            margin-top: 15px;
+            padding: 10px 16px;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .export-csv-btn.show {
+            display: block;
+        }
+
+        .export-csv-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.3);
+            color: #4fc3f7;
         }
 
         /* Responsive */
@@ -452,7 +653,8 @@
                             stroke-dasharray="282.74" stroke-dashoffset="0"></circle>
                 </svg>
                 <div class="timer-display">
-                    <div id="timerTime" class="timer-time">25:00</div>
+                    <div id="timerTarget" class="timer-target">of 25:00</div>
+                    <div id="timerTime" class="timer-time">00:00</div>
                     <div id="timerPhase" class="timer-phase">Work</div>
                     <div id="timerCycle" class="timer-cycle">Pomodoro 1 of 4</div>
                 </div>
@@ -463,6 +665,15 @@
                 <button id="startBtn" class="btn btn-primary" onclick="startTimer()">Start</button>
                 <button id="pauseBtn" class="btn btn-secondary" onclick="pauseTimer()" disabled>Pause</button>
                 <button id="resetBtn" class="btn btn-secondary" onclick="resetTimer()">Reset</button>
+                <button id="skipBtn" class="btn btn-skip" onclick="skipBreak()">Skip Break</button>
+            </div>
+
+            <!-- Phase Selector -->
+            <div class="phase-selector">
+                <span class="phase-selector-label">Switch to:</span>
+                <button class="phase-btn active" data-phase="work" onclick="switchPhase('work')">Work</button>
+                <button class="phase-btn" data-phase="shortBreak" onclick="switchPhase('shortBreak')">Break</button>
+                <button class="phase-btn" data-phase="longBreak" onclick="switchPhase('longBreak')">Long Break</button>
             </div>
 
             <!-- Task Input -->
@@ -492,6 +703,13 @@
                     <div class="setting-unit">minutes</div>
                 </div>
             </div>
+            <div class="autostop-setting">
+                <label class="toggle-container">
+                    <input type="checkbox" id="autostopToggle" checked>
+                    <span class="toggle-slider"></span>
+                    <span class="toggle-label">Auto-stop at target time</span>
+                </label>
+            </div>
         </div>
 
         <!-- History -->
@@ -513,6 +731,7 @@
             <div id="historyList" class="history-list">
                 <div class="history-empty">No sessions yet. Start your first pomodoro!</div>
             </div>
+            <button id="exportCsvBtn" class="export-csv-btn" onclick="exportToCSV()" title="Export sessions to CSV">Export to CSV</button>
         </div>
     </div>
 
@@ -523,7 +742,7 @@
             isPaused: false,
             phase: 'work', // 'work', 'shortBreak', 'longBreak'
             pomodoroCount: 1,
-            timeRemaining: 25 * 60, // in seconds
+            timeElapsed: 0, // counts up from 0
             totalTime: 25 * 60,
             intervalId: null
         };
@@ -532,7 +751,8 @@
         let settings = {
             workDuration: 25,
             shortBreakDuration: 5,
-            longBreakDuration: 15
+            longBreakDuration: 15,
+            autostop: true
         };
 
         // History
@@ -540,12 +760,14 @@
 
         // DOM Elements
         const timerProgress = document.getElementById('timerProgress');
+        const timerTarget = document.getElementById('timerTarget');
         const timerTime = document.getElementById('timerTime');
         const timerPhase = document.getElementById('timerPhase');
         const timerCycle = document.getElementById('timerCycle');
         const startBtn = document.getElementById('startBtn');
         const pauseBtn = document.getElementById('pauseBtn');
         const resetBtn = document.getElementById('resetBtn');
+        const skipBtn = document.getElementById('skipBtn');
         const taskInput = document.getElementById('taskInput');
         const notificationBanner = document.getElementById('notificationBanner');
 
@@ -563,6 +785,7 @@
             ['workDuration', 'shortBreakDuration', 'longBreakDuration'].forEach(id => {
                 document.getElementById(id).addEventListener('change', saveSettings);
             });
+            document.getElementById('autostopToggle').addEventListener('change', saveSettings);
 
             // Save task on change
             taskInput.addEventListener('change', function() {
@@ -572,21 +795,25 @@
             // Load saved task
             const savedTask = StorageUtils.load('pomodoro_task', 'Focus');
             taskInput.value = savedTask;
+
+            // Make timer clickable to edit
+            timerTime.addEventListener('click', makeTimerEditable);
         });
 
         // Timer Functions
         function startTimer() {
             if (timerState.isPaused) {
-                // Resume
+                // Resume - keep current timeElapsed
                 timerState.isPaused = false;
             } else {
                 // Start fresh
-                timerState.timeRemaining = timerState.totalTime;
+                timerState.timeElapsed = 0;
             }
 
             timerState.isRunning = true;
             startBtn.disabled = true;
             pauseBtn.disabled = false;
+            updatePauseButton();
 
             timerState.intervalId = setInterval(tick, 1000);
         }
@@ -601,13 +828,55 @@
             pauseBtn.disabled = true;
         }
 
+        function stopTimer() {
+            // Manual stop - used when autostop is off and user wants to end session
+            clearInterval(timerState.intervalId);
+            timerState.isRunning = false;
+
+            // If in work phase and has elapsed time, save the session
+            if (timerState.phase === 'work' && timerState.timeElapsed > 0) {
+                const actualMinutes = Math.round(timerState.timeElapsed / 60);
+                saveSession(actualMinutes);
+
+                // Play sound and show notification
+                playNotificationSound('work');
+                showNotification();
+
+                // Transition to break
+                if (timerState.pomodoroCount >= 4) {
+                    timerState.phase = 'longBreak';
+                    timerState.totalTime = settings.longBreakDuration * 60;
+                    timerState.pomodoroCount = 1;
+                } else {
+                    timerState.phase = 'shortBreak';
+                    timerState.totalTime = settings.shortBreakDuration * 60;
+                }
+            } else if (timerState.phase !== 'work') {
+                // Break phase - just transition back to work
+                if (timerState.phase === 'shortBreak') {
+                    timerState.pomodoroCount++;
+                }
+                timerState.phase = 'work';
+                timerState.totalTime = settings.workDuration * 60;
+            }
+
+            timerState.timeElapsed = 0;
+            timerState.isPaused = false;
+
+            startBtn.disabled = false;
+            startBtn.textContent = 'Start';
+            pauseBtn.disabled = true;
+
+            updateDisplay();
+        }
+
         function resetTimer() {
             timerState.isRunning = false;
             timerState.isPaused = false;
             timerState.phase = 'work';
             timerState.pomodoroCount = 1;
             timerState.totalTime = settings.workDuration * 60;
-            timerState.timeRemaining = timerState.totalTime;
+            timerState.timeElapsed = 0;
 
             clearInterval(timerState.intervalId);
 
@@ -618,10 +887,57 @@
             updateDisplay();
         }
 
-        function tick() {
-            timerState.timeRemaining--;
+        function skipBreak() {
+            clearInterval(timerState.intervalId);
+            timerState.isRunning = false;
+            timerState.isPaused = false;
 
-            if (timerState.timeRemaining <= 0) {
+            // Increment pomodoro count if coming from short break
+            if (timerState.phase === 'shortBreak') {
+                timerState.pomodoroCount++;
+            }
+
+            // Move to work phase
+            timerState.phase = 'work';
+            timerState.totalTime = settings.workDuration * 60;
+            timerState.timeElapsed = 0;
+
+            startBtn.disabled = false;
+            startBtn.textContent = 'Start';
+            pauseBtn.disabled = true;
+
+            updateDisplay();
+        }
+
+        function switchPhase(phase) {
+            // Don't allow switching while timer is running
+            if (timerState.isRunning) return;
+
+            clearInterval(timerState.intervalId);
+            timerState.isPaused = false;
+            timerState.phase = phase;
+            timerState.timeElapsed = 0;
+
+            // Set total time based on phase
+            if (phase === 'work') {
+                timerState.totalTime = settings.workDuration * 60;
+            } else if (phase === 'shortBreak') {
+                timerState.totalTime = settings.shortBreakDuration * 60;
+            } else {
+                timerState.totalTime = settings.longBreakDuration * 60;
+            }
+
+            startBtn.disabled = false;
+            startBtn.textContent = 'Start';
+            pauseBtn.disabled = true;
+
+            updateDisplay();
+        }
+
+        function tick() {
+            timerState.timeElapsed++;
+
+            if (settings.autostop && timerState.timeElapsed >= timerState.totalTime) {
                 completePhase();
             }
 
@@ -632,8 +948,8 @@
             clearInterval(timerState.intervalId);
             timerState.isRunning = false;
 
-            // Play notification sound
-            playNotificationSound();
+            // Play notification sound (pass current phase before it changes)
+            playNotificationSound(timerState.phase);
 
             // Show browser notification
             showNotification();
@@ -662,7 +978,7 @@
                 timerState.totalTime = settings.workDuration * 60;
             }
 
-            timerState.timeRemaining = timerState.totalTime;
+            timerState.timeElapsed = 0;
             timerState.isPaused = false;
 
             startBtn.disabled = false;
@@ -673,51 +989,165 @@
         }
 
         function updateDisplay() {
-            // Update time display
-            const minutes = Math.floor(timerState.timeRemaining / 60);
-            const seconds = timerState.timeRemaining % 60;
-            timerTime.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            // Update time display (count-up)
+            const isOvertime = timerState.timeElapsed > timerState.totalTime;
+            const displayTime = isOvertime
+                ? timerState.timeElapsed - timerState.totalTime
+                : timerState.timeElapsed;
+            const minutes = Math.floor(displayTime / 60);
+            const seconds = displayTime % 60;
+            const timeStr = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            timerTime.textContent = isOvertime ? `+${timeStr}` : timeStr;
 
-            // Update progress ring
-            const progress = timerState.timeRemaining / timerState.totalTime;
+            // Update progress ring (fills up as time elapses)
+            const progress = Math.min(timerState.timeElapsed / timerState.totalTime, 1);
             const offset = CIRCUMFERENCE * (1 - progress);
             timerProgress.style.strokeDashoffset = offset;
 
             // Update phase styling
-            timerProgress.classList.remove('break', 'long-break');
-            if (timerState.phase === 'shortBreak') {
+            timerProgress.classList.remove('break', 'long-break', 'overtime');
+            if (isOvertime) {
+                timerProgress.classList.add('overtime');
+            } else if (timerState.phase === 'shortBreak') {
                 timerProgress.classList.add('break');
-                timerPhase.textContent = 'Short Break';
             } else if (timerState.phase === 'longBreak') {
                 timerProgress.classList.add('long-break');
+            }
+
+            // Update phase text
+            if (timerState.phase === 'shortBreak') {
+                timerPhase.textContent = 'Short Break';
+            } else if (timerState.phase === 'longBreak') {
                 timerPhase.textContent = 'Long Break';
             } else {
-                timerPhase.textContent = 'Work';
+                timerPhase.textContent = isOvertime ? 'Overtime' : 'Work';
             }
 
             // Update cycle display
             timerCycle.textContent = `Pomodoro ${timerState.pomodoroCount} of 4`;
+
+            // Update target time display
+            const targetMinutes = Math.floor(timerState.totalTime / 60);
+            const targetSeconds = timerState.totalTime % 60;
+            timerTarget.textContent = `of ${targetMinutes.toString().padStart(2, '0')}:${targetSeconds.toString().padStart(2, '0')}`;
+
+            // Update target time color based on phase
+            if (timerState.phase === 'shortBreak') {
+                timerTarget.style.color = '#66bb6a';
+            } else if (timerState.phase === 'longBreak') {
+                timerTarget.style.color = '#ffb74d';
+            } else {
+                timerTarget.style.color = '#90caf9';
+            }
+
+            // Show/hide skip break button
+            if (timerState.phase === 'shortBreak' || timerState.phase === 'longBreak') {
+                skipBtn.classList.add('show');
+            } else {
+                skipBtn.classList.remove('show');
+            }
+
+            // Update timer clickability state
+            if (timerState.isRunning) {
+                timerTime.classList.add('running');
+            } else {
+                timerTime.classList.remove('running');
+            }
+
+            // Update phase selector buttons
+            document.querySelectorAll('.phase-btn').forEach(btn => {
+                const phase = btn.dataset.phase;
+                btn.classList.toggle('active', phase === timerState.phase);
+                btn.disabled = timerState.isRunning;
+            });
+        }
+
+        // Editable Timer Functions
+        function makeTimerEditable() {
+            // Don't allow editing while timer is running
+            if (timerState.isRunning || timerState.isPaused) return;
+
+            const currentMinutes = Math.floor(timerState.totalTime / 60);
+
+            // Create input element
+            const input = document.createElement('input');
+            input.type = 'number';
+            input.className = 'timer-time-input';
+            input.value = currentMinutes;
+            input.min = 1;
+            input.max = 120;
+
+            // Store original display
+            const originalText = timerTime.textContent;
+
+            // Replace text with input
+            timerTime.textContent = '';
+            timerTime.appendChild(input);
+            input.focus();
+            input.select();
+
+            function finishEdit(save) {
+                if (save) {
+                    const newMinutes = parseInt(input.value) || currentMinutes;
+                    const clampedMinutes = Math.max(1, Math.min(120, newMinutes));
+
+                    // Update the appropriate setting based on current phase
+                    if (timerState.phase === 'work') {
+                        settings.workDuration = clampedMinutes;
+                        document.getElementById('workDuration').value = clampedMinutes;
+                    } else if (timerState.phase === 'shortBreak') {
+                        settings.shortBreakDuration = clampedMinutes;
+                        document.getElementById('shortBreakDuration').value = clampedMinutes;
+                    } else {
+                        settings.longBreakDuration = clampedMinutes;
+                        document.getElementById('longBreakDuration').value = clampedMinutes;
+                    }
+
+                    // Save settings and update timer
+                    StorageUtils.save('pomodoro_settings', settings);
+                    timerState.totalTime = clampedMinutes * 60;
+                    timerState.timeElapsed = 0;
+                }
+
+                // Restore display
+                updateDisplay();
+            }
+
+            input.addEventListener('blur', () => finishEdit(true));
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    finishEdit(true);
+                } else if (e.key === 'Escape') {
+                    e.preventDefault();
+                    finishEdit(false);
+                }
+            });
         }
 
         // Settings Functions
         function loadSettings() {
             const saved = StorageUtils.load('pomodoro_settings', null);
             if (saved) {
-                settings = saved;
+                settings = { ...settings, ...saved };
                 document.getElementById('workDuration').value = settings.workDuration;
                 document.getElementById('shortBreakDuration').value = settings.shortBreakDuration;
                 document.getElementById('longBreakDuration').value = settings.longBreakDuration;
+                document.getElementById('autostopToggle').checked = settings.autostop !== false;
             }
             timerState.totalTime = settings.workDuration * 60;
-            timerState.timeRemaining = timerState.totalTime;
+            timerState.timeElapsed = 0;
+            updatePauseButton();
         }
 
         function saveSettings() {
             settings.workDuration = parseInt(document.getElementById('workDuration').value) || 25;
             settings.shortBreakDuration = parseInt(document.getElementById('shortBreakDuration').value) || 5;
             settings.longBreakDuration = parseInt(document.getElementById('longBreakDuration').value) || 15;
+            settings.autostop = document.getElementById('autostopToggle').checked;
 
             StorageUtils.save('pomodoro_settings', settings);
+            updatePauseButton();
 
             // Update current timer if not running
             if (!timerState.isRunning && !timerState.isPaused) {
@@ -728,8 +1158,29 @@
                 } else {
                     timerState.totalTime = settings.longBreakDuration * 60;
                 }
-                timerState.timeRemaining = timerState.totalTime;
+                timerState.timeElapsed = 0;
                 updateDisplay();
+            }
+        }
+
+        function updatePauseButton() {
+            // Change button label and style based on autostop setting
+            if (!settings.autostop) {
+                pauseBtn.textContent = timerState.isRunning ? 'Stop' : 'Pause';
+                pauseBtn.onclick = timerState.isRunning && timerState.timeElapsed > 0 ? stopTimer : pauseTimer;
+                // Red stop button when autostop is off
+                if (timerState.isRunning) {
+                    pauseBtn.classList.add('btn-danger');
+                    pauseBtn.classList.remove('btn-secondary');
+                } else {
+                    pauseBtn.classList.remove('btn-danger');
+                    pauseBtn.classList.add('btn-secondary');
+                }
+            } else {
+                pauseBtn.textContent = 'Pause';
+                pauseBtn.onclick = pauseTimer;
+                pauseBtn.classList.remove('btn-danger');
+                pauseBtn.classList.add('btn-secondary');
             }
         }
 
@@ -747,10 +1198,10 @@
             renderHistory();
         }
 
-        function saveSession() {
+        function saveSession(actualMinutes) {
             const session = {
                 task: taskInput.value || 'Focus',
-                duration: settings.workDuration,
+                duration: actualMinutes || settings.workDuration,
                 timestamp: new Date().toISOString()
             };
 
@@ -773,6 +1224,7 @@
             const historyList = document.getElementById('historyList');
             const totalPomodoros = document.getElementById('totalPomodoros');
             const totalFocusTime = document.getElementById('totalFocusTime');
+            const exportBtn = document.getElementById('exportCsvBtn');
 
             // Calculate stats
             const pomodoroCount = history.length;
@@ -784,8 +1236,11 @@
             // Render list
             if (history.length === 0) {
                 historyList.innerHTML = '<div class="history-empty">No sessions yet. Start your first pomodoro!</div>';
+                exportBtn.classList.remove('show');
                 return;
             }
+
+            exportBtn.classList.add('show');
 
             historyList.innerHTML = history.slice().reverse().map(session => {
                 const time = new Date(session.timestamp).toLocaleTimeString([], {
@@ -809,6 +1264,32 @@
             }
         }
 
+        function exportToCSV() {
+            if (history.length === 0) return;
+
+            const headers = ['Date', 'Time', 'Task', 'Duration (min)'];
+            const rows = history.map(session => {
+                const date = new Date(session.timestamp);
+                return [
+                    date.toLocaleDateString(),
+                    date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                    `"${session.task.replace(/"/g, '""')}"`,
+                    session.duration
+                ].join(',');
+            });
+
+            const csv = [headers.join(','), ...rows].join('\n');
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `pomodoro-sessions-${new Date().toISOString().split('T')[0]}.csv`;
+            link.click();
+
+            URL.revokeObjectURL(url);
+        }
+
         // Notification Functions
         function checkNotificationPermission() {
             if (!('Notification' in window)) {
@@ -825,9 +1306,8 @@
 
         function requestNotificationPermission() {
             if ('Notification' in window) {
-                Notification.requestPermission().then(permission => {
-                    checkNotificationPermission();
-                });
+                notificationBanner.classList.add('hidden');
+                Notification.requestPermission();
             }
         }
 
@@ -852,32 +1332,63 @@
         }
 
         // Audio Functions
-        function playNotificationSound() {
+        function playNotificationSound(phase) {
             try {
                 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
-                // Create a pleasant bell-like chime
-                const frequencies = [523.25, 659.25, 783.99]; // C5, E5, G5 chord
+                if (phase === 'work') {
+                    // Work complete: Celebratory ascending C major chord (3 times)
+                    const frequencies = [523.25, 659.25, 783.99]; // C5, E5, G5
+                    const repetitions = 3;
+                    const chordDuration = 1.5;
+                    const delayBetween = 0.3;
 
-                frequencies.forEach((freq, index) => {
-                    const oscillator = audioContext.createOscillator();
-                    const gainNode = audioContext.createGain();
+                    for (let rep = 0; rep < repetitions; rep++) {
+                        const repOffset = rep * (chordDuration + delayBetween);
 
-                    oscillator.connect(gainNode);
-                    gainNode.connect(audioContext.destination);
+                        frequencies.forEach((freq, index) => {
+                            const oscillator = audioContext.createOscillator();
+                            const gainNode = audioContext.createGain();
 
-                    oscillator.type = 'sine';
-                    oscillator.frequency.setValueAtTime(freq, audioContext.currentTime);
+                            oscillator.connect(gainNode);
+                            gainNode.connect(audioContext.destination);
 
-                    // Soft attack and decay
-                    const startTime = audioContext.currentTime + (index * 0.1);
-                    gainNode.gain.setValueAtTime(0, startTime);
-                    gainNode.gain.linearRampToValueAtTime(0.15, startTime + 0.05);
-                    gainNode.gain.exponentialRampToValueAtTime(0.001, startTime + 1.5);
+                            oscillator.type = 'sine';
+                            oscillator.frequency.setValueAtTime(freq, audioContext.currentTime);
 
-                    oscillator.start(startTime);
-                    oscillator.stop(startTime + 1.5);
-                });
+                            const startTime = audioContext.currentTime + repOffset + (index * 0.1);
+                            gainNode.gain.setValueAtTime(0, startTime);
+                            gainNode.gain.linearRampToValueAtTime(0.15, startTime + 0.05);
+                            gainNode.gain.exponentialRampToValueAtTime(0.001, startTime + chordDuration);
+
+                            oscillator.start(startTime);
+                            oscillator.stop(startTime + chordDuration);
+                        });
+                    }
+                } else {
+                    // Break complete: Gentle two-tone chime to signal back to work
+                    const frequencies = [392.00, 523.25]; // G4, C5 - simple interval
+                    const noteDuration = 0.8;
+
+                    frequencies.forEach((freq, index) => {
+                        const oscillator = audioContext.createOscillator();
+                        const gainNode = audioContext.createGain();
+
+                        oscillator.connect(gainNode);
+                        gainNode.connect(audioContext.destination);
+
+                        oscillator.type = 'sine';
+                        oscillator.frequency.setValueAtTime(freq, audioContext.currentTime);
+
+                        const startTime = audioContext.currentTime + (index * 0.4);
+                        gainNode.gain.setValueAtTime(0, startTime);
+                        gainNode.gain.linearRampToValueAtTime(0.12, startTime + 0.05);
+                        gainNode.gain.exponentialRampToValueAtTime(0.001, startTime + noteDuration);
+
+                        oscillator.start(startTime);
+                        oscillator.stop(startTime + noteDuration);
+                    });
+                }
             } catch (e) {
                 console.warn('Audio not available:', e);
             }
