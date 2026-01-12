@@ -779,6 +779,10 @@
         // History
         let history = [];
 
+        // Audio state for iOS Safari compatibility
+        let audioUnlocked = false;
+        let audioContext = null;
+
         // DOM Elements
         const timerProgress = document.getElementById('timerProgress');
         const timerTarget = document.getElementById('timerTarget');
@@ -845,6 +849,9 @@
 
         // Timer Functions
         function startTimer() {
+            // Unlock audio on user interaction (required for iOS Safari)
+            unlockAudio();
+
             if (timerState.isPaused) {
                 // Resume - keep current timeElapsed
                 timerState.isPaused = false;
@@ -1427,9 +1434,53 @@
         }
 
         // Audio Functions
+        // iOS Safari requires user interaction to unlock AudioContext
+        function unlockAudio() {
+            if (audioUnlocked) return Promise.resolve();
+
+            try {
+                const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+                if (!AudioContextClass) return Promise.resolve();
+
+                if (!audioContext) {
+                    audioContext = new AudioContextClass();
+                }
+
+                // Resume if suspended (iOS Safari)
+                if (audioContext.state === 'suspended') {
+                    return audioContext.resume().then(() => {
+                        // Play silent buffer to fully unlock
+                        const buffer = audioContext.createBuffer(1, 1, 22050);
+                        const source = audioContext.createBufferSource();
+                        source.buffer = buffer;
+                        source.connect(audioContext.destination);
+                        source.start(0);
+                        audioUnlocked = true;
+                    });
+                }
+
+                audioUnlocked = true;
+                return Promise.resolve();
+            } catch (e) {
+                console.warn('Audio unlock failed:', e);
+                return Promise.resolve();
+            }
+        }
+
         function playNotificationSound(phase) {
             try {
-                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+                if (!AudioContextClass) return;
+
+                // Reuse or create global context
+                if (!audioContext) {
+                    audioContext = new AudioContextClass();
+                }
+
+                // Handle suspended state (iOS Safari)
+                if (audioContext.state === 'suspended') {
+                    audioContext.resume();
+                }
 
                 if (phase === 'work') {
                     // Work complete: Celebratory ascending C major chord (3 times)
