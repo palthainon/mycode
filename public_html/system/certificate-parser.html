@@ -1688,6 +1688,7 @@
                 }
 
                 resultsDiv.classList.add('show');
+                resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 A11yUtils.announce('Certificate parsed successfully', 'polite');
                 A11yUtils.clearError(document.getElementById('certInput'));
 
@@ -1738,6 +1739,7 @@
                 }
 
                 resultsDiv.classList.add('show');
+                resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 A11yUtils.announce('CSR parsed successfully', 'polite');
                 A11yUtils.clearError(document.getElementById('csrInput'));
 

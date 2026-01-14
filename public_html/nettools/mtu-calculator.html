@@ -1494,6 +1494,7 @@
             `;
 
             resultsDiv.classList.add('show');
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
             const tunnelInfo = results.tunnelMtu !== null ? ` Tunnel MTU is ${results.tunnelMtu} bytes.` : '';
             A11yUtils.announce(`MTU calculation complete. Effective MTU is ${results.effectiveMtu} bytes with ${results.payload} bytes available payload.${tunnelInfo}`, 'polite');
         }
@@ -1625,6 +1626,7 @@
             `;
 
             resultsDiv.classList.add('show');
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
             A11yUtils.announce(`Protocol stack built with ${results.layers.length} layers. Total overhead is ${results.totalOverhead} bytes with ${results.payload} bytes payload.`, 'polite');
         }
 
@@ -1745,6 +1747,7 @@
             `;
 
             resultsDiv.classList.add('show');
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
             A11yUtils.announce(`Path MTU Discovery commands generated for ${results.host}. ICMP payload size is ${results.payloadSize} bytes.`, 'polite');
         }
 

@@ -1075,6 +1075,7 @@ permit ip 192.168.100.0 0.0.0.255"></textarea>
             `;
 
             resultsDiv.classList.add('show');
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
             // Announce completion to screen readers
             A11yUtils.announce(`CIDR conversion complete. Network ${intToIP(range.network)} slash ${cidr} has ${range.usableHosts.toLocaleString()} usable hosts.`, 'polite');
@@ -1264,6 +1265,7 @@ permit ip 192.168.100.0 0.0.0.255"></textarea>
 
             resultsDiv.innerHTML = html;
             resultsDiv.classList.add('show');
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
             // Announce completion to screen readers
             A11yUtils.announce(`Analysis complete. Found ${networks.length} networks with ${overlaps.length} overlap pairs.`, 'polite');
@@ -1377,6 +1379,7 @@ permit ip 192.168.100.0 0.0.0.255"></textarea>
                         </div>
                     `;
                     resultsDiv.classList.add('show');
+                    resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
                     // Announce completion to screen readers
                     A11yUtils.announce(`Range converted to exact CIDR match ${intToIP(range.network)} slash ${cidr} with ${range.usableHosts.toLocaleString()} usable hosts.`, 'polite');
@@ -1421,6 +1424,7 @@ permit ip 192.168.100.0 0.0.0.255"></textarea>
                 </div>
             `;
             resultsDiv.classList.add('show');
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
             // Announce completion to screen readers
             A11yUtils.announce(`Range converted to ${blocks.length} CIDR blocks to cover IP range from ${startIP} to ${endIP}.`, 'polite');

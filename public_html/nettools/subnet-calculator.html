@@ -906,6 +906,7 @@
 
             // Show results
             resultsDiv.classList.add('show');
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
             // Announce results to screen readers
             A11yUtils.announce(`Subnet calculation complete. Network address is ${intToIP(networkInt)} slash ${cidr}. ${usableHosts.toLocaleString()} usable hosts.`, 'polite');

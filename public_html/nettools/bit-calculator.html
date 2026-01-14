@@ -589,11 +589,6 @@
                 ? 'Using legacy notation: 1 kilobyte = 1024 bytes'
                 : 'Using IEEE notation: 1 kilobyte = 1000 bytes';
             document.getElementById('notationInfo').textContent = infoText;
-
-            // Recalculate if we have results showing
-            if (document.getElementById('results').classList.contains('show')) {
-                calculate();
-            }
         }
 
         function quickCalc(amount, unit) {
@@ -731,6 +726,7 @@
             });
 
             resultsDiv.classList.add('show');
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         function exportToCSV() {
@@ -772,17 +768,6 @@
         document.getElementById('amount').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') calculate();
         });
-
-        // Auto-calculate on unit change if amount is valid
-        document.getElementById('units').addEventListener('change', function() {
-            const amount = document.getElementById('amount').value.trim();
-            if (validateInput(amount) !== null) {
-                calculate();
-            }
-        });
-
-        // Calculate on load with default values
-        window.addEventListener('load', calculate);
     </script>
     <script>
         document.querySelector('.skip-link').addEventListener('click', function(e) {

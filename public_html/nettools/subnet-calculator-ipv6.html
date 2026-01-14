@@ -1037,6 +1037,7 @@
 
             // Show results
             resultsDiv.classList.add('show');
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
             // Announce results to screen readers
             A11yUtils.announce(`IPv6 subnet calculation complete. Network address is ${networkCompressed} slash ${cidr}. Address type is ${addressType}.`, 'polite');
