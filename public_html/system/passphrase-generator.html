@@ -6,23 +6,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Generate secure random passwords with customizable length and character sets. Strong password generation for system administrators.">
-    <meta name="keywords" content="password generator, random password, secure password, strong password generator, password creator">
+    <meta name="description" content="Generate secure XKCD-style passphrases using random common words. Easy to remember, easy to type, and highly secure.">
+    <meta name="keywords" content="passphrase generator, xkcd password, diceware, random words password, secure passphrase, memorable password">
     <meta name="author" content="OldWeb LLC">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://oldweb.tech/system/password-generator.html">
+    <link rel="canonical" href="https://oldweb.tech/system/passphrase-generator.html">
 
     <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Password Generator - OldWeb.tech">
-    <meta property="og:description" content="Generate secure random passwords with customizable length and character sets. Strong password generation for system administrators.">
+    <meta property="og:title" content="Passphrase Generator (XKCD Style) - OldWeb.tech">
+    <meta property="og:description" content="Generate secure XKCD-style passphrases using random common words. Easy to remember, easy to type, and highly secure.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://oldweb.tech/system/password-generator.html">
+    <meta property="og:url" content="https://oldweb.tech/system/passphrase-generator.html">
     <meta property="og:site_name" content="OldWeb.tech">
 
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Password Generator - OldWeb.tech">
-    <meta name="twitter:description" content="Generate secure random passwords with customizable length and character sets. Strong password generation for system administrators.">
+    <meta name="twitter:title" content="Passphrase Generator (XKCD Style) - OldWeb.tech">
+    <meta name="twitter:description" content="Generate secure XKCD-style passphrases using random common words. Easy to remember, easy to type, and highly secure.">
 
     <!-- Additional Meta Tags -->
     <meta name="theme-color" content="#1a1a2e">
@@ -30,7 +30,7 @@
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
 
-    <title>Password Generator - OldWeb.tech</title>
+    <title>Passphrase Generator (XKCD Style) - OldWeb.tech</title>
     <link rel="stylesheet" href="../a11y.css">
     <script src="../a11y-utils.js"></script>
     <script src="../storage-utils.js"></script>
@@ -122,36 +122,6 @@
             color: rgba(255, 255, 255, 0.4);
         }
 
-        .slider-container {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .slider-container input[type="range"] {
-            flex: 1;
-            height: 8px;
-            border-radius: 4px;
-            background: rgba(79, 195, 247, 0.2);
-            -webkit-appearance: none;
-            appearance: none;
-        }
-
-        .slider-container input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
-            cursor: pointer;
-            box-shadow: 0 2px 8px rgba(79, 195, 247, 0.4);
-        }
-
-        .slider-container input[type="number"] {
-            width: 80px;
-            flex: none;
-        }
-
         .checkbox-group {
             display: flex;
             flex-wrap: wrap;
@@ -191,34 +161,6 @@
             color: #90caf9;
             cursor: pointer;
             user-select: none;
-        }
-
-        .policy-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .policy-btn {
-            padding: 8px 16px;
-            border: 1px solid rgba(79, 195, 247, 0.3);
-            border-radius: 6px;
-            background: rgba(79, 195, 247, 0.1);
-            color: #4fc3f7;
-            cursor: pointer;
-            font-size: 0.85rem;
-            transition: all 0.2s;
-        }
-
-        .policy-btn:hover {
-            background: rgba(79, 195, 247, 0.2);
-            border-color: #4fc3f7;
-        }
-
-        .policy-btn.active {
-            background: rgba(79, 195, 247, 0.3);
-            border-color: #4fc3f7;
         }
 
         .btn {
@@ -303,46 +245,12 @@
             gap: 15px;
         }
 
-        .result-item .index {
-            color: #90caf9;
-            font-size: 0.85rem;
-            min-width: 30px;
-        }
-
         .result-item .value {
             flex: 1;
             font-size: 1.1rem;
             font-family: 'Consolas', 'Monaco', monospace;
             color: #fff;
             word-break: break-all;
-        }
-
-        .result-item .strength {
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .strength.weak {
-            background: rgba(244, 67, 54, 0.3);
-            color: #ff8a80;
-        }
-
-        .strength.medium {
-            background: rgba(255, 152, 0, 0.3);
-            color: #ffcc80;
-        }
-
-        .strength.strong {
-            background: rgba(76, 175, 80, 0.3);
-            color: #a5d6a7;
-        }
-
-        .strength.very-strong {
-            background: rgba(33, 150, 243, 0.3);
-            color: #90caf9;
         }
 
         .copy-btn {
@@ -509,10 +417,6 @@
             .result-item {
                 flex-wrap: wrap;
             }
-
-            .result-item .index {
-                display: none;
-            }
         }
     </style>
 
@@ -521,9 +425,9 @@
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      "name": "Password Generator",
-      "description": "Generate secure random passwords with customizable length and character sets. Strong password generation for system administrators.",
-      "url": "https://oldweb.tech/password-generator.html",
+      "name": "Passphrase Generator (XKCD Style)",
+      "description": "Generate secure XKCD-style passphrases using random common words. Easy to remember, easy to type, and highly secure.",
+      "url": "https://oldweb.tech/system/passphrase-generator.html",
       "applicationCategory": "UtilitiesApplication",
       "operatingSystem": "Web Browser",
       "offers": {
@@ -547,89 +451,76 @@
  \___/|_|\__,_|   \_/\_/ \___|_.__/
 </div>
     <main id="main-content" class="container">
-        <h1>Password Generator</h1>
+        <h1>Passphrase Generator</h1>
 
         <div class="tool-links">
-            <a href="passphrase-generator.html" class="link-btn" aria-label="Switch to XKCD-style passphrase generator">Passphrase Generator (XKCD Style)</a>
+            <a href="password-generator.html" class="link-btn" aria-label="Switch to random password generator">Random Password Generator</a>
         </div>
 
         <div class="calculator">
-                <form aria-label="Password generation settings form">
-                <div class="input-group">
-                    <div class="input-field full-width">
-                        <label for="length">Password Length</label>
-                        <div class="slider-container">
-                            <input type="range" id="length" min="4" max="128" value="16" oninput="syncLength(this.value)" aria-label="Password length slider, 4 to 128 characters" aria-describedby="length-help">
-                            <input type="number" id="lengthNum" min="4" max="128" value="16" oninput="syncLength(this.value)" aria-label="Password length number input" aria-describedby="length-help">
-                            <span id="length-help" class="sr-only">Adjust password length from 4 to 128 characters</span>
-                        </div>
-                    </div>
+            <form aria-label="Passphrase generation settings form">
+            <div class="info-text" style="margin-bottom: 20px;">
+                XKCD-style passphrases use random common words. They're easier to remember and type while still being secure.
+            </div>
+            <div class="input-group">
+                <div class="input-field">
+                    <label for="wordCount">Number of Words</label>
+                    <input type="number" id="wordCount" min="3" max="12" value="4" aria-required="true" aria-describedby="word-count-help">
+                    <span id="word-count-help" class="sr-only">Enter number of words in passphrase, between 3 and 12</span>
                 </div>
+                <div class="input-field">
+                    <label for="separator">Word Separator</label>
+                    <select id="separator" aria-describedby="separator-help">
+                    <span id="separator-help" class="sr-only">Select character to separate words in passphrase</span>
+                        <option value="-">Hyphen (-)</option>
+                        <option value="_">Underscore (_)</option>
+                        <option value=".">Period (.)</option>
+                        <option value=" ">Space</option>
+                        <option value="">None</option>
+                    </select>
+                </div>
+            </div>
 
-                <div class="input-field" style="margin-bottom: 15px;">
-                    <label id="presets-label">Quick Presets (Password Policies)</label>
-                    <div class="policy-buttons" role="group" aria-labelledby="presets-label">
-                        <button type="button" class="policy-btn" onclick="applyPolicy('ad')" aria-label="Apply Active Directory password policy: 8 characters minimum with complexity requirements">Active Directory</button>
-                        <button type="button" class="policy-btn" onclick="applyPolicy('linux')" aria-label="Apply Linux PAM password policy: 12 characters with mixed case and numbers">Linux (PAM)</button>
-                        <button type="button" class="policy-btn" onclick="applyPolicy('strong')" aria-label="Apply strong password policy: 20+ characters with all character types">Strong (20+ mixed)</button>
-                        <button type="button" class="policy-btn" onclick="applyPolicy('pin')" aria-label="Generate numeric PIN: numbers only">PIN (numbers only)</button>
-                        <button type="button" class="policy-btn" onclick="applyPolicy('hex')" aria-label="Generate hexadecimal key: 0-9 and A-F characters">Hex Key</button>
-                    </div>
+            <div class="input-field" style="margin-bottom: 15px;">
+                <label id="word-style-label">Word Style</label>
+            </div>
+            <div class="checkbox-group" id="wordOptions" role="group" aria-labelledby="word-style-label">
+                <div class="checkbox-item checked" onclick="toggleCheckbox(this)">
+                    <input type="checkbox" id="capitalize" checked aria-label="Capitalize first letter of each word in passphrase">
+                    <label for="capitalize">Capitalize Words</label>
                 </div>
+                <div class="checkbox-item checked" onclick="toggleCheckbox(this)">
+                    <input type="checkbox" id="includeNumber" checked aria-label="Include a random number in the passphrase">
+                    <label for="includeNumber">Include Number</label>
+                </div>
+                <div class="checkbox-item checked" onclick="toggleCheckbox(this)">
+                    <input type="checkbox" id="includeSymbol" checked aria-label="Include a random symbol in the passphrase">
+                    <label for="includeSymbol">Include Symbol</label>
+                </div>
+            </div>
 
-                <div class="input-field" style="margin-bottom: 15px;">
-                    <label id="char-types-label">Character Types</label>
+            <div class="input-group">
+                <div class="input-field">
+                    <label for="quantity">Number of Passphrases</label>
+                    <input type="number" id="quantity" min="1" max="100" value="5" aria-required="true" aria-describedby="quantity-help">
+                    <span id="quantity-help" class="sr-only">Enter number of passphrases to generate, between 1 and 100</span>
                 </div>
-                <div class="checkbox-group" id="charTypes" role="group" aria-labelledby="char-types-label">
-                    <div class="checkbox-item checked" onclick="toggleCheckbox(this)">
-                        <input type="checkbox" id="uppercase" checked aria-label="Include uppercase letters A through Z in generated passwords">
-                        <label for="uppercase">Uppercase (A-Z)</label>
-                    </div>
-                    <div class="checkbox-item checked" onclick="toggleCheckbox(this)">
-                        <input type="checkbox" id="lowercase" checked aria-label="Include lowercase letters a through z in generated passwords">
-                        <label for="lowercase">Lowercase (a-z)</label>
-                    </div>
-                    <div class="checkbox-item checked" onclick="toggleCheckbox(this)">
-                        <input type="checkbox" id="numbers" checked aria-label="Include numbers 0 through 9 in generated passwords">
-                        <label for="numbers">Numbers (0-9)</label>
-                    </div>
-                    <div class="checkbox-item checked" onclick="toggleCheckbox(this)">
-                        <input type="checkbox" id="symbols" checked aria-label="Include special symbols like exclamation mark, at sign, hash, dollar sign in generated passwords">
-                        <label for="symbols">Symbols (!@#$...)</label>
-                    </div>
-                </div>
+            </div>
+            </form>
 
-                <div class="input-group">
-                    <div class="input-field">
-                        <label for="exclude">Exclude Characters</label>
-                        <input type="text" id="exclude" placeholder="e.g., 0O1lI" aria-describedby="exclude-help">
-                        <span id="exclude-help" class="sr-only">Enter characters to exclude from password generation, such as ambiguous characters like zero, capital O, one, lowercase L, capital I</span>
-                    </div>
-                    <div class="input-field">
-                        <label for="quantity">Number of Passwords</label>
-                        <input type="number" id="quantity" min="1" max="100" value="5" aria-required="true" aria-describedby="quantity-help">
-                        <span id="quantity-help" class="sr-only">Enter number of passwords to generate, between 1 and 100</span>
-                    </div>
-                </div>
-
-                <div class="info-text">
-                    Passwords are generated entirely in your browser using the Web Crypto API. Nothing is sent to any server.
-                </div>
-                </form>
-
-            <button type="button" class="btn" onclick="generate()" style="margin-top: 20px;" aria-label="Generate passwords based on selected settings">Generate</button>
+            <button type="button" class="btn" onclick="generate()" style="margin-top: 20px;" aria-label="Generate passphrases based on selected settings">Generate</button>
 
             <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page">Clear Saved Data</button>
 
             <div class="error" id="error" role="alert" aria-live="assertive" aria-atomic="true"></div>
         </div>
 
-        <div class="results" id="results" role="region" aria-live="polite" aria-label="Generated passwords">
+        <div class="results" id="results" role="region" aria-live="polite" aria-label="Generated passphrases">
             <div class="section-header">
-                <h2>Generated Passwords</h2>
+                <h2>Generated Passphrases</h2>
                 <div class="header-buttons">
-                    <button type="button" class="copy-all-btn" onclick="copyAll()" aria-label="Copy all generated passwords to clipboard">Copy All</button>
-                    <button type="button" class="export-btn" onclick="exportToCSV()" aria-label="Export generated passwords to CSV file">Export CSV</button>
+                    <button type="button" class="copy-all-btn" onclick="copyAll()" aria-label="Copy all generated passphrases to clipboard">Copy All</button>
+                    <button type="button" class="export-btn" onclick="exportToCSV()" aria-label="Export generated passphrases to CSV file">Export CSV</button>
                 </div>
             </div>
             <div class="results-grid" id="resultsGrid">
@@ -638,18 +529,76 @@
         </div>
 
         <footer role="contentinfo">
-            Password Generator - Works offline, no installation required
+            Passphrase Generator - Works offline, no installation required
         </footer>
     </main>
 
     <script>
-        // Character sets
-        const CHARS = {
-            uppercase: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
-            lowercase: 'abcdefghijklmnopqrstuvwxyz',
-            numbers: '0123456789',
-            symbols: '!@#$%^&*()_+-=[]{}|;:,.<>?'
-        };
+        // Common English words for passphrases (EFF short word list subset + additions)
+        const WORDS = [
+            'able', 'acid', 'aged', 'also', 'area', 'army', 'away', 'baby', 'back', 'ball',
+            'band', 'bank', 'base', 'bath', 'bear', 'beat', 'been', 'beer', 'bell', 'belt',
+            'best', 'bill', 'bird', 'blow', 'blue', 'boat', 'body', 'bomb', 'bond', 'bone',
+            'book', 'boom', 'born', 'boss', 'both', 'bowl', 'bulk', 'burn', 'bush', 'busy',
+            'call', 'calm', 'came', 'camp', 'card', 'care', 'case', 'cash', 'cast', 'cell',
+            'chat', 'chip', 'city', 'club', 'coal', 'coat', 'code', 'cold', 'come', 'cook',
+            'cool', 'cope', 'copy', 'core', 'cost', 'crew', 'crop', 'dark', 'data', 'date',
+            'dawn', 'days', 'dead', 'deal', 'dean', 'dear', 'debt', 'deep', 'deny', 'desk',
+            'dial', 'dice', 'diet', 'disc', 'disk', 'does', 'done', 'door', 'dose', 'down',
+            'draw', 'drew', 'drop', 'drug', 'dual', 'duke', 'dust', 'duty', 'each', 'earn',
+            'ease', 'east', 'easy', 'edge', 'else', 'even', 'ever', 'evil', 'exit', 'face',
+            'fact', 'fail', 'fair', 'fall', 'fame', 'farm', 'fast', 'fate', 'fear', 'feed',
+            'feel', 'feet', 'fell', 'felt', 'file', 'fill', 'film', 'find', 'fine', 'fire',
+            'firm', 'fish', 'five', 'flat', 'flew', 'flow', 'folk', 'food', 'foot', 'ford',
+            'form', 'fort', 'four', 'free', 'from', 'fuel', 'full', 'fund', 'gain', 'game',
+            'gang', 'gate', 'gave', 'gear', 'gene', 'gift', 'girl', 'give', 'glad', 'goal',
+            'goes', 'gold', 'golf', 'gone', 'good', 'gray', 'grew', 'grey', 'grid', 'grow',
+            'gulf', 'hair', 'half', 'hall', 'hand', 'hang', 'hard', 'harm', 'hate', 'have',
+            'head', 'hear', 'heat', 'held', 'hell', 'help', 'here', 'hero', 'high', 'hill',
+            'hint', 'hire', 'hold', 'hole', 'holy', 'home', 'hope', 'host', 'hour', 'huge',
+            'hung', 'hunt', 'hurt', 'idea', 'inch', 'iron', 'item', 'jack', 'jane', 'jean',
+            'jobs', 'john', 'join', 'jump', 'jury', 'just', 'keen', 'keep', 'kept', 'kick',
+            'kill', 'kind', 'king', 'knee', 'knew', 'know', 'lack', 'lady', 'laid', 'lake',
+            'land', 'lane', 'last', 'late', 'lead', 'left', 'less', 'life', 'lift', 'like',
+            'line', 'link', 'list', 'live', 'load', 'loan', 'lock', 'logo', 'long', 'look',
+            'lord', 'lose', 'loss', 'lost', 'love', 'luck', 'made', 'mail', 'main', 'make',
+            'male', 'many', 'mark', 'mass', 'matt', 'meal', 'mean', 'meat', 'meet', 'menu',
+            'mere', 'mike', 'mile', 'milk', 'mill', 'mind', 'mine', 'miss', 'mode', 'mood',
+            'moon', 'more', 'most', 'move', 'much', 'must', 'name', 'navy', 'near', 'neck',
+            'need', 'news', 'next', 'nice', 'nick', 'nine', 'none', 'nose', 'note', 'okay',
+            'once', 'only', 'onto', 'open', 'oral', 'over', 'pace', 'pack', 'page', 'paid',
+            'pain', 'pair', 'palm', 'park', 'part', 'pass', 'past', 'path', 'peak', 'pick',
+            'pine', 'pink', 'pipe', 'plan', 'play', 'plot', 'plug', 'plus', 'poll', 'pool',
+            'poor', 'port', 'post', 'pull', 'pure', 'push', 'race', 'rain', 'rank', 'rare',
+            'rate', 'read', 'real', 'rear', 'rely', 'rent', 'rest', 'rice', 'rich', 'ride',
+            'ring', 'rise', 'risk', 'road', 'rock', 'role', 'roll', 'roof', 'room', 'root',
+            'rose', 'rule', 'rush', 'safe', 'said', 'sake', 'sale', 'salt', 'same', 'sand',
+            'save', 'seat', 'seed', 'seek', 'seem', 'seen', 'self', 'sell', 'send', 'sent',
+            'sept', 'ship', 'shop', 'shot', 'show', 'shut', 'sick', 'side', 'sign', 'site',
+            'size', 'skin', 'slip', 'slow', 'snow', 'soft', 'soil', 'sold', 'sole', 'some',
+            'song', 'soon', 'sort', 'soul', 'spot', 'star', 'stay', 'step', 'stop', 'such',
+            'suit', 'sure', 'take', 'tale', 'talk', 'tall', 'tank', 'tape', 'task', 'team',
+            'tech', 'tell', 'tend', 'term', 'test', 'text', 'than', 'that', 'them', 'then',
+            'they', 'thin', 'this', 'thus', 'tide', 'till', 'time', 'tiny', 'told', 'toll',
+            'tone', 'took', 'tool', 'tour', 'town', 'tree', 'trip', 'true', 'tube', 'turn',
+            'twin', 'type', 'unit', 'upon', 'used', 'user', 'vast', 'very', 'vice', 'view',
+            'vote', 'wage', 'wait', 'wake', 'walk', 'wall', 'want', 'ward', 'warm', 'wash',
+            'wave', 'ways', 'weak', 'wear', 'week', 'well', 'went', 'were', 'west', 'what',
+            'when', 'wide', 'wife', 'wild', 'will', 'wind', 'wine', 'wing', 'wire', 'wise',
+            'wish', 'with', 'wood', 'word', 'wore', 'work', 'yard', 'yeah', 'year', 'your',
+            'zero', 'zone', 'zoom', 'apex', 'aqua', 'arch', 'barn', 'bash', 'beam', 'beta',
+            'bite', 'bold', 'bolt', 'cafe', 'cage', 'cape', 'cave', 'chef', 'claw', 'clay',
+            'cozy', 'cube', 'curl', 'dash', 'dime', 'dome', 'dove', 'drum', 'dusk', 'echo',
+            'epic', 'fern', 'fizz', 'foam', 'frog', 'gaze', 'glow', 'grim', 'grip', 'halo',
+            'harp', 'hawk', 'haze', 'helm', 'herb', 'hive', 'howl', 'iris', 'jazz', 'jest',
+            'kite', 'knob', 'lamp', 'lava', 'leaf', 'lens', 'lily', 'lime', 'lion', 'loft',
+            'lynx', 'maze', 'melt', 'mint', 'mist', 'moth', 'mule', 'myth', 'nest', 'nova',
+            'oaks', 'opal', 'orca', 'oval', 'owls', 'paws', 'pear', 'pier', 'plum', 'pond',
+            'pony', 'prom', 'quay', 'raft', 'ramp', 'reef', 'robe', 'ruby', 'sage', 'seal',
+            'silk', 'soar', 'spun', 'stem', 'surf', 'swan', 'taco', 'tame', 'tart', 'teak',
+            'twig', 'veil', 'vine', 'volt', 'wand', 'wasp', 'weld', 'whip', 'wick', 'wolf',
+            'wren', 'yawn', 'yoga', 'yolk', 'zeal', 'zest'
+        ];
 
         let generatedItems = [];
 
@@ -660,66 +609,35 @@
             return array[0] % max;
         }
 
-        function syncLength(value) {
-            value = Math.min(128, Math.max(4, parseInt(value) || 16));
-            document.getElementById('length').value = value;
-            document.getElementById('lengthNum').value = value;
-        }
-
         function toggleCheckbox(item) {
             const checkbox = item.querySelector('input[type="checkbox"]');
             checkbox.checked = !checkbox.checked;
             item.classList.toggle('checked', checkbox.checked);
         }
 
-        function applyPolicy(policy) {
-            // Reset all policy buttons
-            document.querySelectorAll('.policy-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-
-            const policies = {
-                'ad': { length: 14, upper: true, lower: true, numbers: true, symbols: true, exclude: '' },
-                'linux': { length: 12, upper: true, lower: true, numbers: true, symbols: true, exclude: '' },
-                'strong': { length: 24, upper: true, lower: true, numbers: true, symbols: true, exclude: '' },
-                'pin': { length: 6, upper: false, lower: false, numbers: true, symbols: false, exclude: '' },
-                'hex': { length: 32, upper: true, lower: true, numbers: true, symbols: false, exclude: 'ghijklmnopqrstuvwxyzGHIJKLMNOPQRSTUVWXYZ' }
-            };
-
-            const p = policies[policy];
-            if (!p) return;
-
-            syncLength(p.length);
-
-            setCheckbox('uppercase', p.upper);
-            setCheckbox('lowercase', p.lower);
-            setCheckbox('numbers', p.numbers);
-            setCheckbox('symbols', p.symbols);
-
-            document.getElementById('exclude').value = p.exclude;
-
-            // Announce policy application
-            const policyNames = {
-                'ad': 'Active Directory',
-                'linux': 'Linux PAM',
-                'strong': 'Strong',
-                'pin': 'PIN',
-                'hex': 'Hexadecimal'
-            };
-            A11yUtils.announce(`Applied ${policyNames[policy]} password policy`, 'polite');
-        }
-
-        function setCheckbox(id, checked) {
-            const checkbox = document.getElementById(id);
-            checkbox.checked = checked;
-            checkbox.closest('.checkbox-item').classList.toggle('checked', checked);
-        }
-
-        function generatePassword(length, charset) {
-            let password = '';
-            for (let i = 0; i < length; i++) {
-                password += charset[getSecureRandom(charset.length)];
+        function generatePassphrase(wordCount, separator, capitalize, includeNumber, includeSymbol) {
+            const words = [];
+            for (let i = 0; i < wordCount; i++) {
+                let word = WORDS[getSecureRandom(WORDS.length)];
+                if (capitalize) {
+                    word = word.charAt(0).toUpperCase() + word.slice(1);
+                }
+                words.push(word);
             }
-            return password;
+
+            let passphrase = words.join(separator);
+
+            if (includeNumber) {
+                const num = getSecureRandom(100);
+                passphrase += separator + num;
+            }
+
+            if (includeSymbol) {
+                const symbols = '!@#$%^&*';
+                passphrase += symbols[getSecureRandom(symbols.length)];
+            }
+
+            return passphrase;
         }
 
         function calculateStrength(password) {
@@ -762,31 +680,15 @@
             resultsDiv.classList.remove('show');
             generatedItems = [];
 
-            const length = parseInt(document.getElementById('lengthNum').value) || 16;
+            const wordCount = Math.min(12, Math.max(3, parseInt(document.getElementById('wordCount').value) || 4));
+            const separator = document.getElementById('separator').value;
+            const capitalize = document.getElementById('capitalize').checked;
+            const includeNumber = document.getElementById('includeNumber').checked;
+            const includeSymbol = document.getElementById('includeSymbol').checked;
             const quantity = Math.min(100, Math.max(1, parseInt(document.getElementById('quantity').value) || 5));
-            const exclude = document.getElementById('exclude').value;
-
-            // Build charset
-            let charset = '';
-            if (document.getElementById('uppercase').checked) charset += CHARS.uppercase;
-            if (document.getElementById('lowercase').checked) charset += CHARS.lowercase;
-            if (document.getElementById('numbers').checked) charset += CHARS.numbers;
-            if (document.getElementById('symbols').checked) charset += CHARS.symbols;
-
-            // Remove excluded characters
-            if (exclude) {
-                charset = charset.split('').filter(c => !exclude.includes(c)).join('');
-            }
-
-            // Display error if no characters available
-            if (charset.length === 0) {
-                errorDiv.textContent = 'Please select at least one character type';
-                errorDiv.classList.add('show');
-                return;
-            }
 
             for (let i = 0; i < quantity; i++) {
-                generatedItems.push(generatePassword(length, charset));
+                generatedItems.push(generatePassphrase(wordCount, separator, capitalize, includeNumber, includeSymbol));
             }
 
             resultsGrid.innerHTML = '';
@@ -803,7 +705,7 @@
             resultsDiv.classList.add('show');
 
             // Announce generation complete
-            A11yUtils.announce(`Generated ${generatedItems.length} passwords`, 'polite');
+            A11yUtils.announce(`Generated ${generatedItems.length} passphrases`, 'polite');
         }
 
         function escapeHtml(text) {
@@ -817,7 +719,7 @@
                 const originalText = button.textContent;
                 button.textContent = 'Copied!';
                 button.classList.add('copied');
-                A11yUtils.announce('Copied password to clipboard', 'polite');
+                A11yUtils.announce('Copied passphrase to clipboard', 'polite');
 
                 setTimeout(() => {
                     button.textContent = originalText;
@@ -834,7 +736,7 @@
                 const btn = document.querySelector('.copy-all-btn');
                 const originalText = btn.textContent;
                 btn.textContent = 'Copied!';
-                A11yUtils.announce(`Copied all ${generatedItems.length} passwords to clipboard`, 'polite');
+                A11yUtils.announce(`Copied all ${generatedItems.length} passphrases to clipboard`, 'polite');
                 setTimeout(() => {
                     btn.textContent = originalText;
                 }, 1500);
@@ -847,7 +749,7 @@
                 return;
             }
 
-            const csvRows = [['Password', 'Strength']];
+            const csvRows = [['Passphrase', 'Strength']];
 
             generatedItems.forEach(item => {
                 const strength = calculateStrength(item);
@@ -860,7 +762,7 @@
             const url = URL.createObjectURL(blob);
 
             const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
-            const filename = `passwords-${timestamp}.csv`;
+            const filename = `passphrases-${timestamp}.csv`;
 
             link.setAttribute('href', url);
             link.setAttribute('download', filename);
@@ -868,7 +770,7 @@
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-            A11yUtils.announce(`Exported ${generatedItems.length} passwords to CSV file ${filename}`, 'polite');
+            A11yUtils.announce(`Exported ${generatedItems.length} passphrases to CSV file ${filename}`, 'polite');
         }
 
         // Keyboard shortcut: Enter to generate
@@ -884,36 +786,35 @@
         });
 
         // localStorage persistence
-        const passwordGenFields = ['length', 'lengthNum', 'uppercase', 'lowercase', 'numbers', 'symbols', 'exclude', 'quantity'];
+        const passphraseFields = ['wordCount', 'separator', 'capitalize', 'includeNumber', 'includeSymbol', 'quantity'];
 
         function clearAllSavedData() {
-            StorageUtils.remove('password-generator');
+            StorageUtils.remove('passphrase-generator');
             // Reset to defaults
-            syncLength(16);
-            setCheckbox('uppercase', true);
-            setCheckbox('lowercase', true);
-            setCheckbox('numbers', true);
-            setCheckbox('symbols', true);
-            document.getElementById('exclude').value = '';
+            document.getElementById('wordCount').value = '4';
+            document.getElementById('separator').value = '-';
+            document.getElementById('capitalize').checked = true;
+            document.getElementById('includeNumber').checked = true;
+            document.getElementById('includeSymbol').checked = true;
             document.getElementById('quantity').value = '5';
+            // Update checkbox visual states
+            document.querySelectorAll('.checkbox-item input[type="checkbox"]').forEach(checkbox => {
+                checkbox.closest('.checkbox-item').classList.toggle('checked', checkbox.checked);
+            });
             // Clear results
             document.getElementById('results').classList.remove('show');
             generatedItems = [];
-            // Reset policy buttons
-            document.querySelectorAll('.policy-btn').forEach(btn => btn.classList.remove('active'));
             A11yUtils.announce('All saved data has been cleared', 'polite');
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            StorageUtils.loadFormInputs('password-generator', passwordGenFields, function() {
-                // After loading, sync visual states
-                syncLength(document.getElementById('lengthNum').value || 16);
-                // Update checkbox visual states
+            StorageUtils.loadFormInputs('passphrase-generator', passphraseFields, function() {
+                // After loading, update checkbox visual states
                 document.querySelectorAll('.checkbox-item input[type="checkbox"]').forEach(checkbox => {
                     checkbox.closest('.checkbox-item').classList.toggle('checked', checkbox.checked);
                 });
             });
-            StorageUtils.autoSaveFormInputs('password-generator', passwordGenFields);
+            StorageUtils.autoSaveFormInputs('passphrase-generator', passphraseFields);
         });
     </script>
     <script>
