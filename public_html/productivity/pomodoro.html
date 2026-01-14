@@ -1063,7 +1063,10 @@
                     timerState.totalTime = settings.shortBreakDuration * 60;
                 }
             } else if (timerState.phase !== 'work') {
-                // Break phase - just transition back to work
+                // Break phase - play sound and transition back to work
+                playNotificationSound(timerState.phase);
+                showNotification();
+
                 if (timerState.phase === 'shortBreak') {
                     timerState.pomodoroCount++;
                 }
