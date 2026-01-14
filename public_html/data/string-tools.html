@@ -92,6 +92,7 @@
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             margin-bottom: 20px;
+            position: relative;
         }
 
         .tabs {
@@ -579,11 +580,11 @@
  \___/|_|\__,_|   \_/\_/ \___|_.__/
 </div>
     <main id="main-content" class="container">
-        <button type="button" class="clear-data-btn" onclick="clearAllSavedData()" aria-label="Clear all saved form data">Clear</button>
         <h1>String Manipulation Toolkit</h1>
         <p class="subtitle">Case conversion, line operations, and text utilities</p>
 
         <div class="calculator">
+            <button type="button" class="clear-data-btn" onclick="clearAllSavedData()" aria-label="Clear all saved form data">Clear</button>
             <div class="tabs" role="tablist" aria-label="String manipulation tool tabs">
                 <button type="button" class="tab-btn active" onclick="switchTab('case')" role="tab" aria-selected="true" aria-controls="case-tab" id="tab-case">Case Convert</button>
                 <button type="button" class="tab-btn" onclick="switchTab('lines')" role="tab" aria-selected="false" aria-controls="lines-tab" id="tab-lines">Line Ops</button>
