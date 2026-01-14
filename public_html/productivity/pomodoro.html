@@ -76,8 +76,8 @@
         /* Circular Timer */
         .timer-container {
             position: relative;
-            width: 280px;
-            height: 280px;
+            width: clamp(200px, 45vw, 320px);
+            height: clamp(200px, 45vw, 320px);
             margin: 0 auto 30px;
         }
 
@@ -90,13 +90,13 @@
         .timer-bg {
             fill: none;
             stroke: rgba(255, 255, 255, 0.1);
-            stroke-width: 8;
+            stroke-width: 6;
         }
 
         .timer-progress {
             fill: none;
             stroke: #4fc3f7;
-            stroke-width: 8;
+            stroke-width: 6;
             stroke-linecap: round;
             transition: stroke-dashoffset 0.5s ease, stroke 0.3s ease;
         }
@@ -118,7 +118,7 @@
         }
 
         .timer-target {
-            font-size: 1rem;
+            font-size: clamp(0.8rem, 2.5vw, 1rem);
             color: #90caf9;
             margin-bottom: 5px;
             font-variant-numeric: tabular-nums;
@@ -127,7 +127,7 @@
         }
 
         .timer-time {
-            font-size: 3.5rem;
+            font-size: clamp(2rem, 10vw, 3.5rem);
             font-weight: 300;
             color: #fff;
             font-variant-numeric: tabular-nums;
@@ -145,7 +145,7 @@
         }
 
         .timer-time-input {
-            font-size: 3.5rem;
+            font-size: clamp(2rem, 10vw, 3.5rem);
             font-weight: 300;
             color: #fff;
             font-variant-numeric: tabular-nums;
@@ -153,13 +153,13 @@
             background: transparent;
             border: none;
             border-bottom: 2px solid #4fc3f7;
-            width: 120px;
+            width: clamp(80px, 25vw, 120px);
             text-align: center;
             outline: none;
         }
 
         .timer-phase {
-            font-size: 1rem;
+            font-size: clamp(0.8rem, 2.5vw, 1rem);
             color: #90caf9;
             margin-top: 5px;
             text-transform: uppercase;
@@ -167,9 +167,21 @@
         }
 
         .timer-cycle {
-            font-size: 0.85rem;
+            font-size: clamp(0.7rem, 2vw, 0.85rem);
             color: rgba(255, 255, 255, 0.5);
             margin-top: 5px;
+        }
+
+        /* Edit Mode Indicator */
+        .timer-display.editing {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 0 0 2px rgba(79, 195, 247, 0.4);
+        }
+
+        .timer-display.editing .timer-time {
+            color: #4fc3f7;
         }
 
         /* Controls */
@@ -218,22 +230,25 @@
         }
 
         .skip-container {
-            height: 44px;
             display: flex;
             justify-content: center;
             align-items: center;
             margin-bottom: 15px;
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+            transition: max-height 0.25s ease, opacity 0.2s ease, margin 0.25s ease;
+        }
+
+        .skip-container.visible {
+            max-height: 50px;
+            opacity: 1;
         }
 
         .btn-skip {
-            visibility: hidden;
             background: rgba(102, 187, 106, 0.2);
             color: #66bb6a;
             border: 1px solid rgba(102, 187, 106, 0.3);
-        }
-
-        .btn-skip.show {
-            visibility: visible;
         }
 
         .btn-skip:hover {
@@ -692,20 +707,24 @@
         }
 
         body.focused-mode #timerTime {
-            font-size: clamp(3rem, 15vw, 6rem);
+            font-size: clamp(1.8rem, min(15vw, 15vh), 6rem);
+        }
+
+        body.focused-mode #timerTarget {
+            font-size: clamp(0.7rem, min(4vw, 4vh), 1.2rem);
         }
 
         body.focused-mode #timerPhase {
-            font-size: clamp(1.2rem, 5vw, 2rem);
+            font-size: clamp(0.9rem, min(5vw, 5vh), 2rem);
         }
 
         body.focused-mode #timerCycle {
-            font-size: clamp(0.9rem, 3vw, 1.2rem);
+            font-size: clamp(0.7rem, min(3vw, 3vh), 1.2rem);
         }
 
         body.focused-mode .focus-task-display {
             display: block;
-            font-size: clamp(1rem, 4vw, 1.5rem);
+            font-size: clamp(0.85rem, min(4vw, 4vh), 1.5rem);
             margin-top: 15px;
         }
 
@@ -728,15 +747,6 @@
         @media (max-width: 480px) {
             h1 {
                 font-size: 1.8rem;
-            }
-
-            .timer-container {
-                width: 220px;
-                height: 220px;
-            }
-
-            .timer-time {
-                font-size: 2.5rem;
             }
 
             .settings-grid {
@@ -783,9 +793,9 @@
             <!-- Circular Timer -->
             <div class="timer-container" role="timer" aria-live="off" aria-atomic="true">
                 <svg class="timer-svg" viewBox="0 0 100 100" aria-hidden="true">
-                    <circle class="timer-bg" cx="50" cy="50" r="45"></circle>
-                    <circle id="timerProgress" class="timer-progress" cx="50" cy="50" r="45"
-                            stroke-dasharray="282.74" stroke-dashoffset="0"></circle>
+                    <circle class="timer-bg" cx="50" cy="50" r="44"></circle>
+                    <circle id="timerProgress" class="timer-progress" cx="50" cy="50" r="44"
+                            stroke-dasharray="276.46" stroke-dashoffset="0"></circle>
                 </svg>
                 <div class="timer-display">
                     <div id="timerTarget" class="timer-target" aria-label="Target time">of 25:00</div>
@@ -935,7 +945,7 @@
         const notificationBanner = document.getElementById('notificationBanner');
 
         // Circle circumference for progress
-        const CIRCUMFERENCE = 2 * Math.PI * 45; // r=45
+        const CIRCUMFERENCE = 2 * Math.PI * 44; // r=44
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
@@ -1318,11 +1328,12 @@
                 timerTarget.style.color = '#90caf9';
             }
 
-            // Show/hide skip break button
+            // Show/hide skip break button (animate container, not button)
+            const skipContainer = document.querySelector('.skip-container');
             if (timerState.phase === 'shortBreak' || timerState.phase === 'longBreak') {
-                skipBtn.classList.add('show');
+                skipContainer.classList.add('visible');
             } else {
-                skipBtn.classList.remove('show');
+                skipContainer.classList.remove('visible');
             }
 
             // Update timer clickability state
@@ -1348,6 +1359,7 @@
             if (timerState.isRunning || timerState.isPaused) return;
 
             const currentMinutes = Math.floor(timerState.totalTime / 60);
+            const timerDisplay = document.querySelector('.timer-display');
 
             // Create input element
             const input = document.createElement('input');
@@ -1360,6 +1372,9 @@
             // Store original display
             const originalText = timerTime.textContent;
 
+            // Add editing indicator
+            timerDisplay.classList.add('editing');
+
             // Replace text with input
             timerTime.textContent = '';
             timerTime.appendChild(input);
@@ -1367,6 +1382,9 @@
             input.select();
 
             function finishEdit(save) {
+                // Remove editing indicator
+                timerDisplay.classList.remove('editing');
+
                 if (save) {
                     const newMinutes = parseInt(input.value) || currentMinutes;
                     const clampedMinutes = Math.max(1, Math.min(120, newMinutes));
