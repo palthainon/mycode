@@ -53,6 +53,7 @@
         .container {
             max-width: 900px;
             margin: 0 auto;
+            position: relative;
         }
 
         .ascii-logo {
@@ -210,21 +211,23 @@
         }
 
         .clear-data-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
             background: transparent;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            color: #90caf9;
-            padding: 10px 20px;
-            font-size: 0.9rem;
-            border-radius: 6px;
+            border: 1px solid rgba(244, 67, 54, 0.4);
+            color: rgba(244, 67, 54, 0.7);
+            padding: 6px 14px;
+            font-size: 0.8rem;
+            border-radius: 4px;
             cursor: pointer;
             transition: all 0.2s;
-            margin: 20px auto 0;
-            display: block;
         }
 
         .clear-data-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.5);
+            background: rgba(244, 67, 54, 0.1);
+            border-color: rgba(244, 67, 54, 0.6);
+            color: rgba(244, 67, 54, 0.9);
         }
 
         .output-area {
@@ -576,6 +579,7 @@
  \___/|_|\__,_|   \_/\_/ \___|_.__/
 </div>
     <main id="main-content" class="container">
+        <button type="button" class="clear-data-btn" onclick="clearAllSavedData()" aria-label="Clear all saved form data">Clear</button>
         <h1>String Manipulation Toolkit</h1>
         <p class="subtitle">Case conversion, line operations, and text utilities</p>
 
@@ -592,7 +596,16 @@
                 <form aria-label="Case conversion form">
                     <div class="input-area">
                         <h3 class="section-title"><label for="caseInput">Input Text</label></h3>
-                        <textarea id="caseInput" placeholder="Enter text to convert..." aria-label="Input text for case conversion" aria-required="true" aria-describedby="case-input-help"></textarea>
+                        <textarea id="caseInput" placeholder="Enter text to convert..." aria-label="Input text for case conversion" aria-required="true" aria-describedby="case-input-help">database connection string
+max allowed connections
+server host name
+api endpoint url
+user auth token
+system environment path
+default timeout seconds
+enable debug mode
+primary dns server
+backup retention days</textarea>
                         <span id="case-input-help" class="sr-only">Enter text to convert between uppercase, lowercase, title case, camelCase, snake_case, or kebab-case</span>
                     </div>
 
@@ -670,7 +683,16 @@
                 <form aria-label="Line operations form">
                     <div class="input-area">
                         <h3 class="section-title"><label for="linesInput">Input Text (one item per line)</label></h3>
-                        <textarea id="linesInput" placeholder="Enter text with multiple lines..." aria-label="Input text for line operations" aria-required="true" aria-describedby="lines-input-help"></textarea>
+                        <textarea id="linesInput" placeholder="Enter text with multiple lines..." aria-label="Input text for line operations" aria-required="true" aria-describedby="lines-input-help">  web-server-01.prod.example.com
+db-master.prod.example.com
+  cache-redis-03.prod.example.com
+10.0.1.50 - load-balancer
+10.0.1.25 - app-server-02
+10.0.1.100 - monitoring
+  api-gateway.prod.example.com
+
+backup-nas.internal.local
+10.0.1.5 - dns-primary</textarea>
                         <span id="lines-input-help" class="sr-only">Enter text with multiple lines to trim, pad, reverse, sort, or remove empty lines</span>
                     </div>
 
@@ -774,7 +796,17 @@
                 <form aria-label="Duplicate handling form">
                     <div class="input-area">
                         <h3 class="section-title"><label for="dupInput">Input Text (one item per line)</label></h3>
-                        <textarea id="dupInput" placeholder="Enter text with multiple lines to find/remove duplicates..." aria-label="Input text for duplicate operations" aria-required="true" aria-describedby="dup-input-help"></textarea>
+                        <textarea id="dupInput" placeholder="Enter text with multiple lines to find/remove duplicates..." aria-label="Input text for duplicate operations" aria-required="true" aria-describedby="dup-input-help">192.168.1.100
+192.168.1.105
+192.168.1.100
+10.0.0.50
+192.168.1.105
+172.16.0.25
+192.168.1.100
+10.0.0.50
+192.168.1.200
+172.16.0.25
+192.168.1.100</textarea>
                         <span id="dup-input-help" class="sr-only">Enter text with multiple lines to remove duplicates, show only duplicates, or count occurrences</span>
                     </div>
 
@@ -864,7 +896,10 @@
                 <form aria-label="Escape and unescape form">
                     <div class="input-area">
                         <h3 class="section-title"><label for="escapeInput">Input Text</label></h3>
-                        <textarea id="escapeInput" placeholder="Enter text to escape or unescape..." aria-label="Input text for escape operations" aria-required="true" aria-describedby="escape-input-help"></textarea>
+                        <textarea id="escapeInput" placeholder="Enter text to escape or unescape..." aria-label="Input text for escape operations" aria-required="true" aria-describedby="escape-input-help"><script>alert("XSS Test");</script>
+User's input: "Hello & welcome!"
+Path: C:\Users\Admin\Documents
+Query: name=John Doe&status=active</textarea>
                         <span id="escape-input-help" class="sr-only">Enter text to escape or unescape for HTML, JSON, URL, SQL, regex, shell, CSV, or XML formats</span>
                     </div>
 
@@ -965,8 +1000,6 @@
                 </div>
             </div>
         </div>
-
-        <button type="button" class="clear-data-btn" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page">Clear Saved Data</button>
 
         <footer role="contentinfo">
             String Manipulation Toolkit - Works offline, no installation required
