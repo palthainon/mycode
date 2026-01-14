@@ -873,6 +873,14 @@
                 </label>
                 <span id="countdown-desc" class="sr-only">When enabled, the timer counts down from the target time instead of counting up from zero</span>
             </div>
+            <div class="autostop-setting">
+                <label class="toggle-container">
+                    <input type="checkbox" id="autoStartBreaksToggle" aria-describedby="autostart-desc">
+                    <span class="toggle-slider" aria-hidden="true"></span>
+                    <span class="toggle-label">Auto-start breaks after work</span>
+                </label>
+                <span id="autostart-desc" class="sr-only">When enabled, break timers start automatically after work sessions complete. Work sessions always require manual start.</span>
+            </div>
         </div>
 
         <!-- History -->
@@ -921,7 +929,8 @@
             shortBreakDuration: 5,
             longBreakDuration: 15,
             autostop: true,
-            countdownMode: false
+            countdownMode: false,
+            autoStartBreaks: false
         };
 
         // History
@@ -977,6 +986,7 @@
                 saveSettings();
                 updateDisplay();
             });
+            document.getElementById('autoStartBreaksToggle').addEventListener('change', saveSettings);
 
             // Save task on change
             taskInput.addEventListener('change', function() {
@@ -1225,17 +1235,33 @@
             timerState.isPaused = false;
             timerState.targetReachedSoundPlayed = false;
 
-            startBtn.disabled = false;
-            startBtn.textContent = 'Start';
-            startBtn.setAttribute('aria-label', 'Start timer');
-            pauseBtn.disabled = true;
+            // Auto-start breaks if setting is enabled (but not work sessions)
+            const shouldAutoStart = settings.autoStartBreaks && completedPhase === 'work';
+
+            if (shouldAutoStart) {
+                // Auto-start the break timer
+                timerState.isRunning = true;
+                startBtn.disabled = true;
+                pauseBtn.disabled = false;
+                updatePauseButton();
+                timerState.intervalId = setInterval(tick, 1000);
+            } else {
+                startBtn.disabled = false;
+                startBtn.textContent = 'Start';
+                startBtn.setAttribute('aria-label', 'Start timer');
+                pauseBtn.disabled = true;
+            }
 
             updateDisplay();
 
             // Announce phase completion
             if (completedPhase === 'work') {
                 const nextPhase = timerState.phase === 'longBreak' ? 'long break' : 'short break';
-                A11yUtils.announce(`Work session complete! Time for a ${nextPhase}.`, 'assertive');
+                if (shouldAutoStart) {
+                    A11yUtils.announce(`Work session complete! ${nextPhase} started automatically.`, 'assertive');
+                } else {
+                    A11yUtils.announce(`Work session complete! Time for a ${nextPhase}.`, 'assertive');
+                }
             } else {
                 A11yUtils.announce('Break complete! Ready for next work session.', 'assertive');
             }
@@ -1436,6 +1462,7 @@
                 document.getElementById('longBreakDuration').value = settings.longBreakDuration;
                 document.getElementById('autostopToggle').checked = settings.autostop !== false;
                 document.getElementById('countdownToggle').checked = settings.countdownMode === true;
+                document.getElementById('autoStartBreaksToggle').checked = settings.autoStartBreaks === true;
             }
             timerState.totalTime = settings.workDuration * 60;
             timerState.timeElapsed = 0;
@@ -1448,6 +1475,7 @@
             settings.longBreakDuration = parseInt(document.getElementById('longBreakDuration').value) || 15;
             settings.autostop = document.getElementById('autostopToggle').checked;
             settings.countdownMode = document.getElementById('countdownToggle').checked;
+            settings.autoStartBreaks = document.getElementById('autoStartBreaksToggle').checked;
 
             StorageUtils.save('pomodoro_settings', settings);
             updatePauseButton();
