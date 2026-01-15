@@ -215,10 +215,22 @@
         }
 
         .summary-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            display: flex;
+            flex-direction: column;
             gap: 15px;
             margin-bottom: 25px;
+        }
+
+        .summary-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        @media (max-width: 500px) {
+            .summary-row {
+                grid-template-columns: 1fr;
+            }
         }
 
         .summary-item {
@@ -328,6 +340,28 @@
             gap: 8px;
         }
 
+        .breakdown-total {
+            margin-top: 12px;
+            padding: 10px 15px;
+            background: rgba(79, 195, 247, 0.1);
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .breakdown-total .total-label {
+            color: #90caf9;
+            font-size: 0.9rem;
+        }
+
+        .breakdown-total .total-value {
+            color: #4fc3f7;
+            font-size: 1.1rem;
+            font-weight: 600;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
         .legend-dot {
             width: 12px;
             height: 12px;
@@ -370,6 +404,25 @@
 
         .legend-dot.hoa {
             background: #4dd0e1;
+        }
+
+        .breakdown-pi {
+            background: linear-gradient(135deg, #42a5f5 0%, #1e88e5 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #fff;
+            min-width: 40px;
+        }
+
+        .legend-dot.pi {
+            background: #42a5f5;
+        }
+
+        .breakdown-spacer {
+            height: 20px;
         }
 
         .breakdown-legend {
@@ -640,6 +693,102 @@
             font-size: 0.85rem;
         }
 
+        .formula-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .formula-section h2 {
+            color: #4fc3f7;
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+
+        .formula-intro {
+            color: #90caf9;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        .formula-card {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #4fc3f7;
+        }
+
+        .formula-card h3 {
+            color: #fff;
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+
+        .formula-card .formula-desc {
+            color: #90caf9;
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+        }
+
+        .formula-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #0f1419;
+            border-radius: 6px;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+        }
+
+        .formula-box code {
+            flex: 1;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.95rem;
+            color: #66bb6a;
+            word-break: break-all;
+        }
+
+        .formula-box .copy-btn {
+            background: rgba(79, 195, 247, 0.2);
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            color: #4fc3f7;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .formula-box .copy-btn:hover {
+            background: rgba(79, 195, 247, 0.3);
+            border-color: #4fc3f7;
+        }
+
+        .formula-box .copy-btn.copied {
+            background: rgba(76, 175, 80, 0.3);
+            border-color: #4caf50;
+            color: #4caf50;
+        }
+
+        .formula-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .formula-legend span {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
         @media (max-width: 768px) {
             .ascii-logo {
                 position: static;
@@ -653,10 +802,6 @@
             }
 
             .input-group {
-                grid-template-columns: 1fr;
-            }
-
-            .summary-grid {
                 grid-template-columns: 1fr;
             }
 
@@ -845,6 +990,57 @@
                 border: 1px solid #ccc;
             }
         }
+
+        /* Collapsible Section */
+        .collapsible {
+            margin-bottom: 12px;
+        }
+
+        .collapsible-header {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+        }
+
+        .collapsible-header:hover {
+            background: rgba(0, 0, 0, 0.3);
+            border-color: rgba(79, 195, 247, 0.3);
+        }
+
+        .collapsible-header h3 {
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .collapsible-icon {
+            color: #4fc3f7;
+            font-size: 1.2rem;
+            transition: transform 0.3s;
+        }
+
+        .collapsible.open .collapsible-icon {
+            transform: rotate(180deg);
+        }
+
+        .collapsible-content {
+            display: none;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .collapsible.open .collapsible-content {
+            display: block;
+        }
     </style>
 
     <!-- Structured Data -->
@@ -1012,6 +1208,74 @@
                         <!-- Schedule rows will be inserted here -->
                     </tbody>
                 </table>
+            </div>
+        </div>
+
+        <div class="formula-section" id="formula-section">
+            <div class="collapsible" id="formula-collapsible">
+                <div class="collapsible-header" onclick="toggleCollapsible('formula-collapsible')" tabindex="0" role="button" aria-expanded="false" aria-controls="formula-content">
+                    <h3>Excel Formulas for Loan Amortization</h3>
+                    <span class="collapsible-icon" aria-hidden="true">&#9660;</span>
+                </div>
+                <div class="collapsible-content" id="formula-content">
+                    <p class="formula-intro">Copy these formulas into Excel or Google Sheets. Replace cell references with your values.</p>
+
+                    <div class="formula-card">
+                        <h3>Monthly Payment (PMT)</h3>
+                        <p class="formula-desc">Calculate monthly principal and interest payment</p>
+                        <div class="formula-box">
+                            <code id="formula-pmt">=PMT(B2/12, B3*12, -B1)</code>
+                            <button class="copy-btn" onclick="copyFormula('formula-pmt', this)" aria-label="Copy formula">Copy</button>
+                        </div>
+                        <div class="formula-legend">
+                            <span>B1 = Loan Amount</span>
+                            <span>B2 = Annual Rate (decimal, e.g., 0.065)</span>
+                            <span>B3 = Term in Years</span>
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Total Interest Paid</h3>
+                        <p class="formula-desc">Calculate total interest over the life of the loan</p>
+                        <div class="formula-box">
+                            <code id="formula-total-interest">=(PMT(B2/12,B3*12,-B1)*B3*12)-B1</code>
+                            <button class="copy-btn" onclick="copyFormula('formula-total-interest', this)" aria-label="Copy formula">Copy</button>
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Remaining Balance After N Payments</h3>
+                        <p class="formula-desc">Calculate how much you still owe after a number of payments</p>
+                        <div class="formula-box">
+                            <code id="formula-balance">=FV(B2/12, B4, -PMT(B2/12,B3*12,-B1), B1)</code>
+                            <button class="copy-btn" onclick="copyFormula('formula-balance', this)" aria-label="Copy formula">Copy</button>
+                        </div>
+                        <div class="formula-legend">
+                            <span>B4 = Payments Made</span>
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Interest Portion of Payment N</h3>
+                        <p class="formula-desc">Calculate interest portion of a specific payment</p>
+                        <div class="formula-box">
+                            <code id="formula-ipmt">=IPMT(B2/12, B4, B3*12, -B1)</code>
+                            <button class="copy-btn" onclick="copyFormula('formula-ipmt', this)" aria-label="Copy formula">Copy</button>
+                        </div>
+                        <div class="formula-legend">
+                            <span>B4 = Payment Number</span>
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Principal Portion of Payment N</h3>
+                        <p class="formula-desc">Calculate principal portion of a specific payment</p>
+                        <div class="formula-box">
+                            <code id="formula-ppmt">=PPMT(B2/12, B4, B3*12, -B1)</code>
+                            <button class="copy-btn" onclick="copyFormula('formula-ppmt', this)" aria-label="Copy formula">Copy</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -1264,6 +1528,21 @@
             const totalMonthlyWithExtras = monthlyPayment + monthlyPropertyTax + hoaFee;
 
             let summaryHTML = `
+                <div class="summary-item">
+                    <div class="label">Total Principal</div>
+                    <div class="value">${formatCurrency(principal)}</div>
+                    <button class="copy-btn" onclick="copyValue('${principal.toFixed(2)}', this)" aria-label="Copy principal">Copy</button>
+                </div>
+                <div class="summary-item">
+                    <div class="label">Total Interest</div>
+                    <div class="value">${formatCurrency(totalInterest)}</div>
+                    <button class="copy-btn" onclick="copyValue('${totalInterest.toFixed(2)}', this)" aria-label="Copy total interest">Copy</button>
+                </div>
+                <div class="summary-item highlight">
+                    <div class="label">Total Cost</div>
+                    <div class="value">${formatCurrency(totalPaid)}</div>
+                    <button class="copy-btn" onclick="copyValue('${totalPaid.toFixed(2)}', this)" aria-label="Copy total cost">Copy</button>
+                </div>
                 <div class="summary-item highlight">
                     <div class="label">${hasExtras ? 'P&I Payment' : 'Monthly Payment'}</div>
                     <div class="value" id="monthlyPaymentValue">${formatCurrency(monthlyPayment)}</div>
@@ -1280,49 +1559,92 @@
             }
 
             summaryHTML += `
-                <div class="summary-item">
-                    <div class="label">Total Principal</div>
-                    <div class="value">${formatCurrency(principal)}</div>
-                    <button class="copy-btn" onclick="copyValue('${principal.toFixed(2)}', this)" aria-label="Copy principal">Copy</button>
-                </div>
-                <div class="summary-item">
-                    <div class="label">Total Interest</div>
-                    <div class="value">${formatCurrency(totalInterest)}</div>
-                    <button class="copy-btn" onclick="copyValue('${totalInterest.toFixed(2)}', this)" aria-label="Copy total interest">Copy</button>
-                </div>
-                <div class="summary-item">
-                    <div class="label">Total Cost</div>
-                    <div class="value">${formatCurrency(totalPaid)}</div>
-                    <button class="copy-btn" onclick="copyValue('${totalPaid.toFixed(2)}', this)" aria-label="Copy total cost">Copy</button>
-                </div>
-                <div class="summary-item">
-                    <div class="label">Total Payments</div>
-                    <div class="value">${numPayments}</div>
-                </div>
-                <div class="summary-item">
-                    <div class="label">Interest Rate</div>
-                    <div class="value">${rate}%</div>
+                <div class="summary-row">
+                    <div class="summary-item">
+                        <div class="label">Total Payments</div>
+                        <div class="value">${numPayments}</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="label">Interest Rate</div>
+                        <div class="value">${rate}%</div>
+                    </div>
                 </div>`;
 
-            if (monthlyPropertyTax > 0) {
-                summaryHTML += `
-                <div class="summary-item">
-                    <div class="label">Monthly Tax</div>
-                    <div class="value">${formatCurrency(monthlyPropertyTax)}</div>
-                </div>`;
-            }
-
-            if (hoaFee > 0) {
-                summaryHTML += `
-                <div class="summary-item">
-                    <div class="label">Monthly HOA</div>
-                    <div class="value">${formatCurrency(hoaFee)}</div>
-                </div>`;
+            if (monthlyPropertyTax > 0 || hoaFee > 0) {
+                summaryHTML += `<div class="summary-row">`;
+                if (monthlyPropertyTax > 0) {
+                    summaryHTML += `
+                    <div class="summary-item">
+                        <div class="label">Monthly Tax</div>
+                        <div class="value">${formatCurrency(monthlyPropertyTax)}</div>
+                    </div>`;
+                }
+                if (hoaFee > 0) {
+                    summaryHTML += `
+                    <div class="summary-item">
+                        <div class="label">Monthly HOA</div>
+                        <div class="value">${formatCurrency(hoaFee)}</div>
+                    </div>`;
+                }
+                summaryHTML += `</div>`;
             }
 
             summaryGrid.innerHTML = summaryHTML;
 
-            // Calculate breakdown including tax and HOA if present
+            // Build breakdown HTML
+            let breakdownHTML = '';
+
+            // Monthly cost breakdown (when extras are present)
+            if (hasExtras) {
+                const piPct = (monthlyPayment / totalMonthlyWithExtras * 100).toFixed(1);
+                const monthlyTaxPct = (monthlyPropertyTax / totalMonthlyWithExtras * 100).toFixed(1);
+                const monthlyHoaPct = (hoaFee / totalMonthlyWithExtras * 100).toFixed(1);
+
+                let monthlyBarHTML = `<div class="breakdown-pi" style="width: ${piPct}%">${piPct}%</div>`;
+                let monthlyLegendHTML = `
+                    <div class="legend-item">
+                        <span class="legend-dot pi"></span>
+                        <span>P&I: ${formatCurrency(monthlyPayment)}</span>
+                    </div>`;
+                let monthlyAriaLabel = `P&I ${piPct}%`;
+
+                if (monthlyPropertyTax > 0) {
+                    monthlyBarHTML += `<div class="breakdown-tax" style="width: ${monthlyTaxPct}%">${monthlyTaxPct}%</div>`;
+                    monthlyLegendHTML += `
+                    <div class="legend-item">
+                        <span class="legend-dot tax"></span>
+                        <span>Tax: ${formatCurrency(monthlyPropertyTax)}</span>
+                    </div>`;
+                    monthlyAriaLabel += `, Tax ${monthlyTaxPct}%`;
+                }
+
+                if (hoaFee > 0) {
+                    monthlyBarHTML += `<div class="breakdown-hoa" style="width: ${monthlyHoaPct}%">${monthlyHoaPct}%</div>`;
+                    monthlyLegendHTML += `
+                    <div class="legend-item">
+                        <span class="legend-dot hoa"></span>
+                        <span>HOA: ${formatCurrency(hoaFee)}</span>
+                    </div>`;
+                    monthlyAriaLabel += `, HOA ${monthlyHoaPct}%`;
+                }
+
+                breakdownHTML += `
+                    <h3>Monthly Payment Breakdown</h3>
+                    <div class="breakdown-bar" role="img" aria-label="${monthlyAriaLabel}">
+                        ${monthlyBarHTML}
+                    </div>
+                    <div class="breakdown-legend">
+                        ${monthlyLegendHTML}
+                    </div>
+                    <div class="breakdown-total">
+                        <span class="total-label">Total Monthly Payment:</span>
+                        <span class="total-value">${formatCurrency(totalMonthlyWithExtras)}</span>
+                    </div>
+                    <div class="breakdown-spacer"></div>
+                `;
+            }
+
+            // Lifetime cost breakdown
             if (hasExtras) {
                 // Calculate total lifetime cost including tax and HOA over loan term
                 const totalTax = monthlyPropertyTax * numPayments;
@@ -1370,7 +1692,7 @@
                     ariaLabel += `, HOA ${hoaPct}%`;
                 }
 
-                breakdown.innerHTML = `
+                breakdownHTML += `
                     <h3>Total Cost Breakdown (Over Loan Term)</h3>
                     <div class="breakdown-bar" role="img" aria-label="${ariaLabel}">
                         ${barHTML}
@@ -1378,9 +1700,13 @@
                     <div class="breakdown-legend">
                         ${legendHTML}
                     </div>
+                    <div class="breakdown-total">
+                        <span class="total-label">Total Cost:</span>
+                        <span class="total-value">${formatCurrency(grandTotal)}</span>
+                    </div>
                 `;
             } else {
-                breakdown.innerHTML = `
+                breakdownHTML += `
                     <h3>Principal vs Interest Breakdown</h3>
                     <div class="breakdown-bar" role="img" aria-label="Principal ${principalPercent}%, Interest ${interestPercent}%">
                         <div class="breakdown-principal" style="width: ${principalPercent}%">${principalPercent}%</div>
@@ -1396,8 +1722,14 @@
                             <span>Interest: ${formatCurrency(totalInterest)}</span>
                         </div>
                     </div>
+                    <div class="breakdown-total">
+                        <span class="total-label">Total Cost:</span>
+                        <span class="total-value">${formatCurrency(totalPaid)}</span>
+                    </div>
                 `;
             }
+
+            breakdown.innerHTML = breakdownHTML;
         }
 
         function displaySchedule() {
@@ -1434,6 +1766,28 @@
                 button.textContent = '\u2713';
                 button.classList.add('copied');
                 A11yUtils.announce('Value copied to clipboard', 'polite');
+
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.classList.remove('copied');
+                }, 1500);
+            });
+        }
+
+        function toggleCollapsible(id) {
+            const element = document.getElementById(id);
+            const header = element.querySelector('.collapsible-header');
+            const isOpen = element.classList.toggle('open');
+            header.setAttribute('aria-expanded', isOpen);
+        }
+
+        function copyFormula(elementId, button) {
+            const formula = document.getElementById(elementId).textContent;
+            navigator.clipboard.writeText(formula).then(() => {
+                const originalText = button.textContent;
+                button.textContent = '\u2713';
+                button.classList.add('copied');
+                A11yUtils.announce('Formula copied to clipboard', 'polite');
 
                 setTimeout(() => {
                     button.textContent = originalText;

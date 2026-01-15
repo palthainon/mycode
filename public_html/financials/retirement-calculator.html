@@ -436,7 +436,7 @@
         }
 
         .schedule-table th {
-            background: rgba(79, 195, 247, 0.2);
+            background: #1a3a5c;
             color: #4fc3f7;
             padding: 12px 15px;
             text-align: right;
@@ -576,6 +576,102 @@
             margin-top: 30px;
             color: rgba(255, 255, 255, 0.4);
             font-size: 0.85rem;
+        }
+
+        .formula-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .formula-section h2 {
+            color: #4fc3f7;
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+
+        .formula-intro {
+            color: #90caf9;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        .formula-card {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #4fc3f7;
+        }
+
+        .formula-card h3 {
+            color: #fff;
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+
+        .formula-card .formula-desc {
+            color: #90caf9;
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+        }
+
+        .formula-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #0f1419;
+            border-radius: 6px;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+        }
+
+        .formula-box code {
+            flex: 1;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.95rem;
+            color: #66bb6a;
+            word-break: break-all;
+        }
+
+        .formula-box .copy-btn {
+            background: rgba(79, 195, 247, 0.2);
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            color: #4fc3f7;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .formula-box .copy-btn:hover {
+            background: rgba(79, 195, 247, 0.3);
+            border-color: #4fc3f7;
+        }
+
+        .formula-box .copy-btn.copied {
+            background: rgba(76, 175, 80, 0.3);
+            border-color: #4caf50;
+            color: #4caf50;
+        }
+
+        .formula-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .formula-legend span {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px 8px;
+            border-radius: 4px;
         }
 
         .required-indicator {
@@ -791,6 +887,57 @@
                 font-weight: 600;
             }
         }
+
+        /* Collapsible Section */
+        .collapsible {
+            margin-bottom: 12px;
+        }
+
+        .collapsible-header {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+        }
+
+        .collapsible-header:hover {
+            background: rgba(0, 0, 0, 0.3);
+            border-color: rgba(79, 195, 247, 0.3);
+        }
+
+        .collapsible-header h3 {
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .collapsible-icon {
+            color: #4fc3f7;
+            font-size: 1.2rem;
+            transition: transform 0.3s;
+        }
+
+        .collapsible.open .collapsible-icon {
+            transform: rotate(180deg);
+        }
+
+        .collapsible-content {
+            display: none;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .collapsible.open .collapsible-content {
+            display: block;
+        }
     </style>
 
     <!-- Structured Data -->
@@ -998,6 +1145,87 @@
                         <!-- Schedule rows will be inserted here -->
                     </tbody>
                 </table>
+            </div>
+        </div>
+
+        <div class="formula-section" id="formula-section">
+            <div class="collapsible" id="formula-collapsible">
+                <div class="collapsible-header" onclick="toggleCollapsible('formula-collapsible')" tabindex="0" role="button" aria-expanded="false" aria-controls="formula-content">
+                    <h3>Excel Formulas for Retirement Planning</h3>
+                    <span class="collapsible-icon" aria-hidden="true">&#9660;</span>
+                </div>
+                <div class="collapsible-content" id="formula-content">
+                    <p class="formula-intro">Copy these formulas into Excel or Google Sheets. Replace cell references with your values.</p>
+
+                    <div class="formula-card">
+                        <h3>FIRE Number (Retirement Target)</h3>
+                        <p class="formula-desc">Calculate how much you need to retire based on the 4% rule</p>
+                        <div class="formula-box">
+                            <code id="formula-fire">=B1/B2</code>
+                            <button class="copy-btn" onclick="copyFormula('formula-fire', this)" aria-label="Copy formula">Copy</button>
+                        </div>
+                        <div class="formula-legend">
+                            <span>B1 = Annual Expenses</span>
+                            <span>B2 = Withdrawal Rate (decimal, e.g., 0.04)</span>
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Future Value of Savings</h3>
+                        <p class="formula-desc">Calculate portfolio value at retirement with monthly contributions</p>
+                        <div class="formula-box">
+                            <code id="formula-fv">=FV(B3/12, B4*12, -B2, -B1)</code>
+                            <button class="copy-btn" onclick="copyFormula('formula-fv', this)" aria-label="Copy formula">Copy</button>
+                        </div>
+                        <div class="formula-legend">
+                            <span>B1 = Current Savings</span>
+                            <span>B2 = Monthly Contribution</span>
+                            <span>B3 = Annual Return (decimal, e.g., 0.07)</span>
+                            <span>B4 = Years to Retirement</span>
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Years to FIRE</h3>
+                        <p class="formula-desc">Calculate how many years until you reach your FIRE number</p>
+                        <div class="formula-box">
+                            <code id="formula-nper">=NPER(B3/12, -B2, -B1, B4)/12</code>
+                            <button class="copy-btn" onclick="copyFormula('formula-nper', this)" aria-label="Copy formula">Copy</button>
+                        </div>
+                        <div class="formula-legend">
+                            <span>B1 = Current Savings</span>
+                            <span>B2 = Monthly Contribution</span>
+                            <span>B3 = Annual Return (decimal)</span>
+                            <span>B4 = FIRE Number (target)</span>
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Savings Rate</h3>
+                        <p class="formula-desc">Calculate your savings rate as a percentage of income</p>
+                        <div class="formula-box">
+                            <code id="formula-savingsrate">=(B1*12)/B2</code>
+                            <button class="copy-btn" onclick="copyFormula('formula-savingsrate', this)" aria-label="Copy formula">Copy</button>
+                        </div>
+                        <div class="formula-legend">
+                            <span>B1 = Monthly Contribution</span>
+                            <span>B2 = Annual Income</span>
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Safe Withdrawal Amount (Annual)</h3>
+                        <p class="formula-desc">Calculate how much you can withdraw annually in retirement</p>
+                        <div class="formula-box">
+                            <code id="formula-swr">=B1*B2</code>
+                            <button class="copy-btn" onclick="copyFormula('formula-swr', this)" aria-label="Copy formula">Copy</button>
+                        </div>
+                        <div class="formula-legend">
+                            <span>B1 = Portfolio Value</span>
+                            <span>B2 = Withdrawal Rate (decimal, e.g., 0.04)</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -1456,6 +1684,28 @@
                 button.textContent = '\u2713';
                 button.classList.add('copied');
                 A11yUtils.announce('Value copied to clipboard', 'polite');
+
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.classList.remove('copied');
+                }, 1500);
+            });
+        }
+
+        function toggleCollapsible(id) {
+            const element = document.getElementById(id);
+            const header = element.querySelector('.collapsible-header');
+            const isOpen = element.classList.toggle('open');
+            header.setAttribute('aria-expanded', isOpen);
+        }
+
+        function copyFormula(elementId, button) {
+            const formula = document.getElementById(elementId).textContent;
+            navigator.clipboard.writeText(formula).then(() => {
+                const originalText = button.textContent;
+                button.textContent = '\u2713';
+                button.classList.add('copied');
+                A11yUtils.announce('Formula copied to clipboard', 'polite');
 
                 setTimeout(() => {
                     button.textContent = originalText;
