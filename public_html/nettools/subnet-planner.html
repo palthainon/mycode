@@ -667,6 +667,101 @@
             box-shadow: 0 4px 12px rgba(102, 187, 106, 0.2);
         }
 
+        /* Reference Section */
+        .reference-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .reference-toggle {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .reference-toggle h2 {
+            margin: 0;
+        }
+
+        .toggle-icon {
+            font-size: 1.5rem;
+            color: #4fc3f7;
+            transition: transform 0.3s;
+        }
+
+        .toggle-icon.expanded {
+            transform: rotate(180deg);
+        }
+
+        .reference-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .reference-content.expanded {
+            max-height: 2000px;
+            margin-top: 20px;
+        }
+
+        .reference-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .reference-block {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 15px;
+            border-left: 4px solid #4fc3f7;
+        }
+
+        .reference-block h3 {
+            color: #4fc3f7;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .reference-item {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .reference-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .reference-network {
+            font-family: 'Consolas', 'Monaco', monospace;
+            color: #90caf9;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .reference-desc {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.85rem;
+            margin-top: 4px;
+        }
+
+        .reference-rfc {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.75rem;
+            font-style: italic;
+            margin-top: 2px;
+        }
+
         /* Mobile Responsive */
         @media (max-width: 768px) {
             .home-btn {
@@ -926,6 +1021,107 @@
                         class="export-btn json"
                         onclick="exportJSON()"
                         aria-label="Export subnet allocation plan to JSON file">Export JSON</button>
+            </div>
+        </div>
+
+        <!-- Reference Section -->
+        <div class="reference-section">
+            <div class="reference-toggle" onclick="toggleReference()" role="button" tabindex="0" aria-expanded="false" aria-controls="referenceContent">
+                <h2>IPv4 Reserved Address Reference</h2>
+                <span class="toggle-icon" aria-hidden="true">▼</span>
+            </div>
+            <div class="reference-content" id="referenceContent">
+                <div class="reference-grid">
+                    <div class="reference-block">
+                        <h3>Private Addresses (RFC 1918)</h3>
+                        <div class="reference-item">
+                            <div class="reference-network">10.0.0.0/8</div>
+                            <div class="reference-desc">Class A private network - 16,777,216 addresses</div>
+                            <div class="reference-rfc">10.0.0.0 - 10.255.255.255</div>
+                        </div>
+                        <div class="reference-item">
+                            <div class="reference-network">172.16.0.0/12</div>
+                            <div class="reference-desc">Class B private network - 1,048,576 addresses</div>
+                            <div class="reference-rfc">172.16.0.0 - 172.31.255.255</div>
+                        </div>
+                        <div class="reference-item">
+                            <div class="reference-network">192.168.0.0/16</div>
+                            <div class="reference-desc">Class C private network - 65,536 addresses</div>
+                            <div class="reference-rfc">192.168.0.0 - 192.168.255.255</div>
+                        </div>
+                    </div>
+
+                    <div class="reference-block">
+                        <h3>Special-Purpose Addresses</h3>
+                        <div class="reference-item">
+                            <div class="reference-network">127.0.0.0/8</div>
+                            <div class="reference-desc">Loopback addresses (localhost)</div>
+                            <div class="reference-rfc">RFC 1122 - Typically 127.0.0.1</div>
+                        </div>
+                        <div class="reference-item">
+                            <div class="reference-network">169.254.0.0/16</div>
+                            <div class="reference-desc">Link-Local / APIPA (Automatic Private IP Addressing)</div>
+                            <div class="reference-rfc">RFC 3927 - Used when DHCP unavailable</div>
+                        </div>
+                        <div class="reference-item">
+                            <div class="reference-network">100.64.0.0/10</div>
+                            <div class="reference-desc">Carrier-Grade NAT (CGN)</div>
+                            <div class="reference-rfc">RFC 6598 - Shared address space for ISPs</div>
+                        </div>
+                    </div>
+
+                    <div class="reference-block">
+                        <h3>Multicast & Broadcast</h3>
+                        <div class="reference-item">
+                            <div class="reference-network">224.0.0.0/4</div>
+                            <div class="reference-desc">Multicast addresses (former Class D)</div>
+                            <div class="reference-rfc">224.0.0.0 - 239.255.255.255</div>
+                        </div>
+                        <div class="reference-item">
+                            <div class="reference-network">255.255.255.255/32</div>
+                            <div class="reference-desc">Limited broadcast address</div>
+                            <div class="reference-rfc">RFC 919 - Broadcast to local subnet</div>
+                        </div>
+                    </div>
+
+                    <div class="reference-block">
+                        <h3>Documentation & Testing</h3>
+                        <div class="reference-item">
+                            <div class="reference-network">192.0.2.0/24</div>
+                            <div class="reference-desc">Documentation (TEST-NET-1)</div>
+                            <div class="reference-rfc">RFC 5737 - Examples and documentation</div>
+                        </div>
+                        <div class="reference-item">
+                            <div class="reference-network">198.51.100.0/24</div>
+                            <div class="reference-desc">Documentation (TEST-NET-2)</div>
+                            <div class="reference-rfc">RFC 5737 - Examples and documentation</div>
+                        </div>
+                        <div class="reference-item">
+                            <div class="reference-network">203.0.113.0/24</div>
+                            <div class="reference-desc">Documentation (TEST-NET-3)</div>
+                            <div class="reference-rfc">RFC 5737 - Examples and documentation</div>
+                        </div>
+                        <div class="reference-item">
+                            <div class="reference-network">198.18.0.0/15</div>
+                            <div class="reference-desc">Benchmarking and testing</div>
+                            <div class="reference-rfc">RFC 2544 - Network performance testing</div>
+                        </div>
+                    </div>
+
+                    <div class="reference-block">
+                        <h3>Reserved & Future Use</h3>
+                        <div class="reference-item">
+                            <div class="reference-network">0.0.0.0/8</div>
+                            <div class="reference-desc">Current network (only valid as source)</div>
+                            <div class="reference-rfc">RFC 1122 - This network</div>
+                        </div>
+                        <div class="reference-item">
+                            <div class="reference-network">240.0.0.0/4</div>
+                            <div class="reference-desc">Reserved for future use (former Class E)</div>
+                            <div class="reference-rfc">RFC 1112 - Experimental</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -1817,6 +2013,39 @@
             // Announce to screen readers
             A11yUtils.announce(`${template.name} template loaded with ${template.allocations.length} subnets`, 'polite');
         }
+
+        // ===== Reference Section Toggle =====
+
+        function toggleReference() {
+            const content = document.getElementById('referenceContent');
+            const toggle = document.querySelector('.reference-toggle');
+            const icon = document.querySelector('.toggle-icon');
+            const isExpanded = content.classList.contains('expanded');
+
+            if (isExpanded) {
+                content.classList.remove('expanded');
+                icon.classList.remove('expanded');
+                toggle.setAttribute('aria-expanded', 'false');
+            } else {
+                content.classList.add('expanded');
+                icon.classList.add('expanded');
+                toggle.setAttribute('aria-expanded', 'true');
+                A11yUtils.announce('IPv4 Reserved Address Reference expanded', 'polite');
+            }
+        }
+
+        // Add keyboard support for reference toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggle = document.querySelector('.reference-toggle');
+            if (toggle) {
+                toggle.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        toggleReference();
+                    }
+                });
+            }
+        });
     </script>
     <script>
         document.querySelector('.skip-link').addEventListener('click', function(e) {
