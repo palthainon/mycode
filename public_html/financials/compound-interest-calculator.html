@@ -1259,6 +1259,9 @@
 
             // Announce to screen readers
             A11yUtils.announce(`Calculated: Final balance ${formatCurrency(balance)}, Total interest earned ${formatCurrency(totalInterestEarned)}`, 'polite');
+
+            // Update Excel formulas with actual values
+            updateFormulasWithValues(principal, annualRate / 100, years, monthlyContribution, contributionTiming);
         }
 
         function displaySummary(finalBalance, principal, totalContributions, totalInterest, years, rate) {
@@ -1383,6 +1386,22 @@
                     button.classList.remove('copied');
                 }, 1500);
             });
+        }
+
+        function updateFormulasWithValues(principal, rateDecimal, years, contribution, timing) {
+            const timingValue = timing === 'start' ? 1 : 0;
+
+            // FV (Lump Sum Only)
+            document.getElementById('formula-fv').textContent =
+                `=FV(${rateDecimal}/12, ${years}*12, 0, -${principal})`;
+
+            // FV (With Monthly Contributions)
+            document.getElementById('formula-fv-pmt').textContent =
+                `=FV(${rateDecimal}/12, ${years}*12, -${contribution}, -${principal}, ${timingValue})`;
+
+            // Total Interest Earned
+            document.getElementById('formula-interest').textContent =
+                `=FV(${rateDecimal}/12,${years}*12,-${contribution},-${principal},${timingValue}) - ${principal} - (${contribution}*${years}*12)`;
         }
 
         function exportToCSV() {
