@@ -36,6 +36,8 @@
     <link rel="stylesheet" href="a11y.css">
     <script src="a11y-utils.js"></script>
 
+    <!-- Utilities -->
+    <script src="storage-utils.js"></script>
     <script src="navigationv2.js"></script>
     <style>
         * {
@@ -159,6 +161,293 @@
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
+        /* Quick Access Section */
+        .quick-access-section {
+            margin-bottom: 35px;
+        }
+
+        .quick-access-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .quick-access-header h2 {
+            color: #90caf9;
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin: 0;
+        }
+
+        .settings-btn {
+            background: transparent;
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            border-radius: 50%;
+            padding: 8px;
+            cursor: pointer;
+            color: #4fc3f7;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .settings-btn:hover {
+            background: rgba(79, 195, 247, 0.1);
+            border-color: rgba(79, 195, 247, 0.5);
+        }
+
+        .settings-btn:focus-visible {
+            outline: 3px solid #4fc3f7;
+            outline-offset: 2px;
+        }
+
+        .quick-access-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .quick-access-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 18px;
+            background: rgba(79, 195, 247, 0.1);
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            border-radius: 8px;
+            color: #4fc3f7;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .quick-access-btn:hover {
+            background: rgba(79, 195, 247, 0.2);
+            border-color: rgba(79, 195, 247, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(79, 195, 247, 0.2);
+        }
+
+        .quick-access-btn:focus-visible {
+            outline: 3px solid #4fc3f7;
+            outline-offset: 2px;
+        }
+
+        /* Modal Styles */
+        .quick-access-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 20px;
+        }
+
+        .quick-access-modal[hidden] {
+            display: none;
+        }
+
+        .modal-content {
+            background: #1a1a2e;
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            border-radius: 16px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-header h3 {
+            color: #4fc3f7;
+            font-size: 1.3rem;
+            margin: 0;
+        }
+
+        .modal-close-btn {
+            background: transparent;
+            border: none;
+            color: #90caf9;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 4px;
+            line-height: 1;
+        }
+
+        .modal-close-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-close-btn:focus-visible {
+            outline: 2px solid #4fc3f7;
+            outline-offset: 2px;
+        }
+
+        .modal-description {
+            padding: 12px 24px;
+            color: #90caf9;
+            font-size: 0.9rem;
+            margin: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        #selection-count {
+            background: rgba(79, 195, 247, 0.1);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+
+        .modal-body {
+            padding: 16px 24px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .tool-category-group {
+            margin-bottom: 20px;
+        }
+
+        .tool-category-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .tool-category-group h4 {
+            color: #4fc3f7;
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(79, 195, 247, 0.2);
+        }
+
+        .tool-checkbox-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 8px;
+        }
+
+        .tool-checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tool-checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #4fc3f7;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .tool-checkbox-item label {
+            color: #90caf9;
+            font-size: 0.85rem;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .tool-checkbox-item input:disabled + label {
+            color: rgba(144, 202, 249, 0.4);
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: space-between;
+            padding: 16px 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn:focus-visible {
+            outline: 2px solid #4fc3f7;
+            outline-offset: 2px;
+        }
+
+        .btn.primary {
+            background: #4fc3f7;
+            color: #1a1a2e;
+            border: none;
+        }
+
+        .btn.primary:hover {
+            background: #81d4fa;
+        }
+
+        .btn.secondary {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: #90caf9;
+        }
+
+        .btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Compact Category Cards */
+        .tools-grid {
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .tool-card {
+            padding: 20px;
+        }
+
+        .tool-card h2 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .tool-card p {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .tool-card .tool-list {
+            font-size: 0.8rem;
+            line-height: 1.6;
+            margin-top: 8px;
+            padding-top: 8px;
+        }
+
+        .tool-link {
+            font-size: 0.85rem;
+        }
+
         @media (max-width: 768px) {
             .ascii-logo {
                 position: static;
@@ -177,15 +466,42 @@
 
             .tools-grid {
                 grid-template-columns: 1fr;
-                gap: 20px;
+                gap: 15px;
             }
 
             .tool-card {
-                padding: 25px;
+                padding: 18px;
             }
 
             .tool-card h2 {
-                font-size: 1.5rem;
+                font-size: 1.2rem;
+            }
+
+            /* Quick Access mobile adjustments */
+            .quick-access-buttons {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .quick-access-btn {
+                justify-content: center;
+            }
+
+            .modal-content {
+                max-height: 90vh;
+            }
+
+            .tool-checkbox-list {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-footer {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .modal-footer .btn {
+                width: 100%;
             }
         }
     </style>
@@ -223,6 +539,26 @@
     <main id="main-content" class="container">
         <h1>OldWeb Tools</h1>
         <p class="subtitle">Fast, simple, offline-ready utilities for network engineers and system administrators</p>
+
+        <!-- Quick Access Section -->
+        <section id="quick-access-section" class="quick-access-section" aria-labelledby="quick-access-heading">
+            <div class="quick-access-header">
+                <h2 id="quick-access-heading">Quick Access</h2>
+                <button type="button"
+                        id="quick-access-settings-btn"
+                        class="settings-btn"
+                        aria-label="Customize quick access tools"
+                        aria-haspopup="dialog"
+                        aria-expanded="false">
+                    <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20">
+                        <path fill="currentColor" d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.07,0.94l-2.03,1.58c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/>
+                    </svg>
+                </button>
+            </div>
+            <div id="quick-access-buttons" class="quick-access-buttons" role="list">
+                <!-- Populated via JavaScript -->
+            </div>
+        </section>
 
         <div class="tools-grid">
             <a href="nettools/index.html" class="tool-card">
@@ -266,6 +602,40 @@
         </footer>
     </main>
 
+    <!-- Quick Access Settings Modal -->
+    <div id="quick-access-modal"
+         class="quick-access-modal"
+         role="dialog"
+         aria-labelledby="modal-title"
+         aria-describedby="modal-description"
+         aria-modal="true"
+         hidden>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Customize Quick Access</h3>
+                <button type="button"
+                        class="modal-close-btn"
+                        aria-label="Close settings"
+                        id="modal-close-btn">&times;</button>
+            </div>
+            <p id="modal-description" class="modal-description">
+                Select up to 8 tools to appear in your Quick Access section.
+                <span id="selection-count" aria-live="polite">0 of 8 selected</span>
+            </p>
+            <div class="modal-body" id="tool-selection-container">
+                <!-- Generated by JavaScript from toolsData -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn secondary" id="clear-quick-access-btn">
+                    Clear All
+                </button>
+                <button type="button" class="btn primary" id="save-quick-access-btn">
+                    Save & Close
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Initialize accessibility - handle skip link
         document.querySelector('.skip-link').addEventListener('click', function(e) {
@@ -277,6 +647,262 @@
                 target.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         });
+
+        // Quick Access Feature
+        (function() {
+            'use strict';
+
+            const STORAGE_KEY = 'quick-access-tools';
+            const MAX_TOOLS = 8;
+            const DEFAULT_TOOLS = ['subnet', 'password', 'regex', 'base64'];
+
+            // DOM Elements
+            let buttonsContainer, modal, selectionCount;
+            let settingsBtn, closeBtn, clearBtn, saveBtn;
+            let selectedTools = [];
+            let focusTrapHandler = null;
+
+            function init() {
+                // Get DOM references
+                buttonsContainer = document.getElementById('quick-access-buttons');
+                modal = document.getElementById('quick-access-modal');
+                selectionCount = document.getElementById('selection-count');
+                settingsBtn = document.getElementById('quick-access-settings-btn');
+                closeBtn = document.getElementById('modal-close-btn');
+                clearBtn = document.getElementById('clear-quick-access-btn');
+                saveBtn = document.getElementById('save-quick-access-btn');
+
+                // Load saved preferences or use defaults
+                const saved = StorageUtils.load(STORAGE_KEY, null);
+                selectedTools = saved !== null ? saved : [...DEFAULT_TOOLS];
+
+                // Render quick access buttons
+                renderQuickAccessButtons();
+
+                // Setup event listeners
+                setupEventListeners();
+            }
+
+            function generateToolSelection() {
+                const container = document.getElementById('tool-selection-container');
+                if (!container || !window.toolsData) return;
+
+                const categories = {
+                    network: 'Network Tools',
+                    system: 'System Tools',
+                    data: 'Data Tools',
+                    financials: 'Financial Tools',
+                    productivity: 'Productivity Tools'
+                };
+
+                let html = '';
+
+                for (const [category, displayName] of Object.entries(categories)) {
+                    const tools = window.toolsData[category];
+                    if (!tools || tools.length === 0) continue;
+
+                    html += `<div class="tool-category-group">
+                        <h4>${displayName}</h4>
+                        <div class="tool-checkbox-list">`;
+
+                    tools.forEach(tool => {
+                        // Skip separators
+                        if (tool.separator) return;
+
+                        const isChecked = selectedTools.includes(tool.id);
+                        const isDisabled = !isChecked && selectedTools.length >= MAX_TOOLS;
+
+                        html += `
+                            <div class="tool-checkbox-item">
+                                <input type="checkbox"
+                                       id="qa-${tool.id}"
+                                       value="${tool.id}"
+                                       data-name="${tool.name}"
+                                       data-file="${tool.file}"
+                                       ${isChecked ? 'checked' : ''}
+                                       ${isDisabled ? 'disabled' : ''}>
+                                <label for="qa-${tool.id}">${tool.name}</label>
+                            </div>`;
+                    });
+
+                    html += `</div></div>`;
+                }
+
+                container.innerHTML = html;
+                updateSelectionCount();
+            }
+
+            function renderQuickAccessButtons() {
+                if (!buttonsContainer || !window.toolsData) return;
+
+                if (selectedTools.length === 0) {
+                    buttonsContainer.innerHTML = '<p style="color: rgba(144, 202, 249, 0.6); font-style: italic;">Click the gear icon to add your favorite tools.</p>';
+                    return;
+                }
+
+                // Build tool lookup map
+                const toolMap = {};
+                for (const [category, tools] of Object.entries(window.toolsData)) {
+                    if (category === 'home' || !Array.isArray(tools)) continue;
+                    tools.forEach(tool => {
+                        if (tool.id) toolMap[tool.id] = tool;
+                    });
+                }
+
+                // Generate buttons in the order they were selected
+                let html = '';
+                selectedTools.forEach(toolId => {
+                    const tool = toolMap[toolId];
+                    if (!tool) return;
+
+                    html += `<a href="${tool.file}"
+                                class="quick-access-btn"
+                                role="listitem">${tool.name}</a>`;
+                });
+
+                buttonsContainer.innerHTML = html;
+            }
+
+            function updateSelectionCount() {
+                if (selectionCount) {
+                    selectionCount.textContent = `${selectedTools.length} of ${MAX_TOOLS} selected`;
+                }
+
+                // Enable/disable unchecked checkboxes based on limit
+                const checkboxes = document.querySelectorAll('#tool-selection-container input[type="checkbox"]');
+                checkboxes.forEach(cb => {
+                    if (!cb.checked) {
+                        cb.disabled = selectedTools.length >= MAX_TOOLS;
+                    }
+                });
+            }
+
+            function setupEventListeners() {
+                // Settings button - open modal
+                settingsBtn.addEventListener('click', openModal);
+
+                // Close button
+                closeBtn.addEventListener('click', closeModal);
+
+                // Click outside modal to close
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) closeModal();
+                });
+
+                // Escape key to close
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && !modal.hidden) {
+                        closeModal();
+                    }
+                });
+
+                // Checkbox changes
+                document.getElementById('tool-selection-container').addEventListener('change', (e) => {
+                    if (e.target.type !== 'checkbox') return;
+
+                    const toolId = e.target.value;
+
+                    if (e.target.checked) {
+                        if (selectedTools.length < MAX_TOOLS) {
+                            selectedTools.push(toolId);
+                        }
+                    } else {
+                        selectedTools = selectedTools.filter(id => id !== toolId);
+                    }
+
+                    updateSelectionCount();
+                });
+
+                // Clear all button
+                clearBtn.addEventListener('click', () => {
+                    selectedTools = [];
+                    const checkboxes = document.querySelectorAll('#tool-selection-container input[type="checkbox"]');
+                    checkboxes.forEach(cb => {
+                        cb.checked = false;
+                        cb.disabled = false;
+                    });
+                    updateSelectionCount();
+                    if (typeof A11yUtils !== 'undefined') {
+                        A11yUtils.announce('All quick access tools cleared', 'polite');
+                    }
+                });
+
+                // Save button
+                saveBtn.addEventListener('click', () => {
+                    StorageUtils.save(STORAGE_KEY, selectedTools);
+                    renderQuickAccessButtons();
+                    closeModal();
+                    if (typeof A11yUtils !== 'undefined') {
+                        A11yUtils.announce('Quick access tools saved', 'polite');
+                    }
+                });
+            }
+
+            function openModal() {
+                // Refresh the selection state
+                generateToolSelection();
+
+                modal.removeAttribute('hidden');
+                settingsBtn.setAttribute('aria-expanded', 'true');
+
+                // Focus first checkbox or close button
+                const firstCheckbox = modal.querySelector('input[type="checkbox"]');
+                if (firstCheckbox) {
+                    firstCheckbox.focus();
+                } else {
+                    closeBtn.focus();
+                }
+
+                // Trap focus within modal
+                trapFocus(modal);
+            }
+
+            function closeModal() {
+                modal.setAttribute('hidden', '');
+                settingsBtn.setAttribute('aria-expanded', 'false');
+                settingsBtn.focus();
+
+                // Remove focus trap
+                if (focusTrapHandler) {
+                    modal.removeEventListener('keydown', focusTrapHandler);
+                    focusTrapHandler = null;
+                }
+            }
+
+            // Focus trap utility
+            function trapFocus(element) {
+                const focusableElements = element.querySelectorAll(
+                    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+                );
+                const firstFocusable = focusableElements[0];
+                const lastFocusable = focusableElements[focusableElements.length - 1];
+
+                focusTrapHandler = function(e) {
+                    if (e.key !== 'Tab') return;
+
+                    if (e.shiftKey) {
+                        if (document.activeElement === firstFocusable) {
+                            lastFocusable.focus();
+                            e.preventDefault();
+                        }
+                    } else {
+                        if (document.activeElement === lastFocusable) {
+                            firstFocusable.focus();
+                            e.preventDefault();
+                        }
+                    }
+                };
+
+                element.addEventListener('keydown', focusTrapHandler);
+            }
+
+            // Initialize when DOM ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+        })();
     </script>
 </body>
 </html>
