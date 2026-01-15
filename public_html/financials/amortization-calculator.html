@@ -342,6 +342,40 @@
             background: #ff7043;
         }
 
+        .breakdown-tax {
+            background: linear-gradient(135deg, #9575cd 0%, #7e57c2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #fff;
+            min-width: 40px;
+        }
+
+        .breakdown-hoa {
+            background: linear-gradient(135deg, #4dd0e1 0%, #00acc1 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #fff;
+            min-width: 40px;
+        }
+
+        .legend-dot.tax {
+            background: #9575cd;
+        }
+
+        .legend-dot.hoa {
+            background: #4dd0e1;
+        }
+
+        .breakdown-legend {
+            flex-wrap: wrap;
+        }
+
         .schedule-section {
             display: none;
             background: rgba(255, 255, 255, 0.05);
@@ -425,7 +459,7 @@
         }
 
         .schedule-table th {
-            background: rgba(79, 195, 247, 0.2);
+            background: #1e3a5f;
             color: #4fc3f7;
             padding: 12px 15px;
             text-align: right;
@@ -901,6 +935,25 @@
                     </div>
                 </div>
 
+                <div class="input-group">
+                    <div class="input-field">
+                        <label for="property-tax">Annual Property Tax (Optional)</label>
+                        <div class="input-prefix">
+                            <span>$</span>
+                            <input type="text" id="property-tax" placeholder="0" aria-describedby="property-tax-help" inputmode="decimal">
+                        </div>
+                        <span id="property-tax-help" class="sr-only">Optional: Enter annual property tax to include in total monthly payment</span>
+                    </div>
+                    <div class="input-field">
+                        <label for="hoa-fee">Monthly HOA Fee (Optional)</label>
+                        <div class="input-prefix">
+                            <span>$</span>
+                            <input type="text" id="hoa-fee" placeholder="0" aria-describedby="hoa-fee-help" inputmode="decimal">
+                        </div>
+                        <span id="hoa-fee-help" class="sr-only">Optional: Enter monthly HOA fee to include in total monthly payment</span>
+                    </div>
+                </div>
+
                 <button type="button" class="btn" onclick="calculate()" aria-label="Calculate amortization schedule">Calculate</button>
                 <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page">Clear Saved Data</button>
 
@@ -1076,6 +1129,11 @@
             // Get extra payment (default to 0)
             const extraPayment = parseNumber(extraPaymentInput.value) || 0;
 
+            // Get property tax and HOA fee (optional)
+            const annualPropertyTax = parseNumber(document.getElementById('property-tax').value) || 0;
+            const monthlyPropertyTax = annualPropertyTax / 12;
+            const hoaFee = parseNumber(document.getElementById('hoa-fee').value) || 0;
+
             // Calculate months
             const totalPayments = termUnit === 'years' ? termValue * 12 : termValue;
             const monthlyRate = annualRate / 100 / 12;
@@ -1132,7 +1190,7 @@
             const actualTotalPaid = scheduleData.reduce((sum, row) => sum + row.payment, 0);
 
             // Display summary
-            displaySummary(totalMonthlyPayment, principal, actualTotalInterest, actualTotalPaid, actualPayments, annualRate, extraPayment > 0);
+            displaySummary(totalMonthlyPayment, principal, actualTotalInterest, actualTotalPaid, actualPayments, annualRate, extraPayment > 0, monthlyPropertyTax, hoaFee, totalPayments);
 
             // Display schedule
             displaySchedule();
@@ -1194,19 +1252,34 @@
             `;
         }
 
-        function displaySummary(monthlyPayment, principal, totalInterest, totalPaid, totalPayments, rate, hasExtraPayment = false) {
+        function displaySummary(monthlyPayment, principal, totalInterest, totalPaid, numPayments, rate, hasExtraPayment = false, monthlyPropertyTax = 0, hoaFee = 0, originalTermPayments = 0) {
             const summaryGrid = document.getElementById('summaryGrid');
             const breakdown = document.getElementById('breakdown');
 
             const principalPercent = (principal / totalPaid * 100).toFixed(1);
             const interestPercent = (totalInterest / totalPaid * 100).toFixed(1);
 
-            summaryGrid.innerHTML = `
+            // Calculate total monthly payment including tax and HOA
+            const hasExtras = monthlyPropertyTax > 0 || hoaFee > 0;
+            const totalMonthlyWithExtras = monthlyPayment + monthlyPropertyTax + hoaFee;
+
+            let summaryHTML = `
                 <div class="summary-item highlight">
-                    <div class="label">Monthly Payment</div>
+                    <div class="label">${hasExtras ? 'P&I Payment' : 'Monthly Payment'}</div>
                     <div class="value" id="monthlyPaymentValue">${formatCurrency(monthlyPayment)}</div>
                     <button class="copy-btn" onclick="copyValue('${monthlyPayment.toFixed(2)}', this)" aria-label="Copy monthly payment">Copy</button>
-                </div>
+                </div>`;
+
+            if (hasExtras) {
+                summaryHTML += `
+                <div class="summary-item highlight">
+                    <div class="label">Total Monthly Payment</div>
+                    <div class="value">${formatCurrency(totalMonthlyWithExtras)}</div>
+                    <button class="copy-btn" onclick="copyValue('${totalMonthlyWithExtras.toFixed(2)}', this)" aria-label="Copy total monthly payment">Copy</button>
+                </div>`;
+            }
+
+            summaryHTML += `
                 <div class="summary-item">
                     <div class="label">Total Principal</div>
                     <div class="value">${formatCurrency(principal)}</div>
@@ -1224,21 +1297,50 @@
                 </div>
                 <div class="summary-item">
                     <div class="label">Total Payments</div>
-                    <div class="value">${totalPayments}</div>
+                    <div class="value">${numPayments}</div>
                 </div>
                 <div class="summary-item">
                     <div class="label">Interest Rate</div>
                     <div class="value">${rate}%</div>
-                </div>
-            `;
+                </div>`;
 
-            breakdown.innerHTML = `
-                <h3>Principal vs Interest Breakdown</h3>
-                <div class="breakdown-bar" role="img" aria-label="Principal ${principalPercent}%, Interest ${interestPercent}%">
-                    <div class="breakdown-principal" style="width: ${principalPercent}%">${principalPercent}%</div>
-                    <div class="breakdown-interest" style="width: ${interestPercent}%">${interestPercent}%</div>
-                </div>
-                <div class="breakdown-legend">
+            if (monthlyPropertyTax > 0) {
+                summaryHTML += `
+                <div class="summary-item">
+                    <div class="label">Monthly Tax</div>
+                    <div class="value">${formatCurrency(monthlyPropertyTax)}</div>
+                </div>`;
+            }
+
+            if (hoaFee > 0) {
+                summaryHTML += `
+                <div class="summary-item">
+                    <div class="label">Monthly HOA</div>
+                    <div class="value">${formatCurrency(hoaFee)}</div>
+                </div>`;
+            }
+
+            summaryGrid.innerHTML = summaryHTML;
+
+            // Calculate breakdown including tax and HOA if present
+            if (hasExtras) {
+                // Calculate total lifetime cost including tax and HOA over loan term
+                const totalTax = monthlyPropertyTax * numPayments;
+                const totalHOA = hoaFee * numPayments;
+                const grandTotal = totalPaid + totalTax + totalHOA;
+
+                const principalPct = (principal / grandTotal * 100).toFixed(1);
+                const interestPct = (totalInterest / grandTotal * 100).toFixed(1);
+                const taxPct = (totalTax / grandTotal * 100).toFixed(1);
+                const hoaPct = (totalHOA / grandTotal * 100).toFixed(1);
+
+                let barHTML = '';
+                let legendHTML = '';
+                let ariaLabel = `Principal ${principalPct}%, Interest ${interestPct}%`;
+
+                barHTML += `<div class="breakdown-principal" style="width: ${principalPct}%">${principalPct}%</div>`;
+                barHTML += `<div class="breakdown-interest" style="width: ${interestPct}%">${interestPct}%</div>`;
+                legendHTML += `
                     <div class="legend-item">
                         <span class="legend-dot principal"></span>
                         <span>Principal: ${formatCurrency(principal)}</span>
@@ -1246,9 +1348,56 @@
                     <div class="legend-item">
                         <span class="legend-dot interest"></span>
                         <span>Interest: ${formatCurrency(totalInterest)}</span>
+                    </div>`;
+
+                if (monthlyPropertyTax > 0) {
+                    barHTML += `<div class="breakdown-tax" style="width: ${taxPct}%">${taxPct}%</div>`;
+                    legendHTML += `
+                    <div class="legend-item">
+                        <span class="legend-dot tax"></span>
+                        <span>Tax: ${formatCurrency(totalTax)}</span>
+                    </div>`;
+                    ariaLabel += `, Tax ${taxPct}%`;
+                }
+
+                if (hoaFee > 0) {
+                    barHTML += `<div class="breakdown-hoa" style="width: ${hoaPct}%">${hoaPct}%</div>`;
+                    legendHTML += `
+                    <div class="legend-item">
+                        <span class="legend-dot hoa"></span>
+                        <span>HOA: ${formatCurrency(totalHOA)}</span>
+                    </div>`;
+                    ariaLabel += `, HOA ${hoaPct}%`;
+                }
+
+                breakdown.innerHTML = `
+                    <h3>Total Cost Breakdown (Over Loan Term)</h3>
+                    <div class="breakdown-bar" role="img" aria-label="${ariaLabel}">
+                        ${barHTML}
                     </div>
-                </div>
-            `;
+                    <div class="breakdown-legend">
+                        ${legendHTML}
+                    </div>
+                `;
+            } else {
+                breakdown.innerHTML = `
+                    <h3>Principal vs Interest Breakdown</h3>
+                    <div class="breakdown-bar" role="img" aria-label="Principal ${principalPercent}%, Interest ${interestPercent}%">
+                        <div class="breakdown-principal" style="width: ${principalPercent}%">${principalPercent}%</div>
+                        <div class="breakdown-interest" style="width: ${interestPercent}%">${interestPercent}%</div>
+                    </div>
+                    <div class="breakdown-legend">
+                        <div class="legend-item">
+                            <span class="legend-dot principal"></span>
+                            <span>Principal: ${formatCurrency(principal)}</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-dot interest"></span>
+                            <span>Interest: ${formatCurrency(totalInterest)}</span>
+                        </div>
+                    </div>
+                `;
+            }
         }
 
         function displaySchedule() {
@@ -1351,8 +1500,28 @@
             }
         });
 
+        // Format property tax input with commas
+        document.getElementById('property-tax').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/[^\d.]/g, '');
+            if (value) {
+                const parts = value.split('.');
+                parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                e.target.value = parts.join('.');
+            }
+        });
+
+        // Format HOA fee input with commas
+        document.getElementById('hoa-fee').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/[^\d.]/g, '');
+            if (value) {
+                const parts = value.split('.');
+                parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                e.target.value = parts.join('.');
+            }
+        });
+
         // Allow Enter key to calculate
-        document.querySelectorAll('#principal, #rate, #term, #extra-payment').forEach(input => {
+        document.querySelectorAll('#principal, #rate, #term, #extra-payment, #property-tax, #hoa-fee').forEach(input => {
             input.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
                     e.preventDefault();
@@ -1362,18 +1531,20 @@
         });
 
         // Form field IDs to persist
-        const amortFormFields = ['principal', 'rate', 'term', 'term-unit', 'start-date', 'extra-payment'];
+        const amortFormFields = ['principal', 'rate', 'term', 'term-unit', 'start-date', 'extra-payment', 'property-tax', 'hoa-fee'];
 
         // Clear all saved data and reset form
         function clearAllSavedData() {
             StorageUtils.remove('amortization-calc');
 
             // Reset form fields to defaults
-            document.getElementById('principal').value = '';
-            document.getElementById('rate').value = '';
+            document.getElementById('principal').value = '200,000';
+            document.getElementById('rate').value = '6.5';
             document.getElementById('term').value = '30';
             document.getElementById('term-unit').selectedIndex = 0;
             document.getElementById('extra-payment').value = '';
+            document.getElementById('property-tax').value = '';
+            document.getElementById('hoa-fee').value = '';
 
             // Reset start date to current month
             const now = new Date();
@@ -1399,7 +1570,9 @@
 
             // Load saved form data (will override defaults if exists)
             StorageUtils.loadFormInputs('amortization-calc', amortFormFields, function(data) {
-                // If start-date wasn't saved, use default
+                // Set defaults if no saved data
+                if (!data['principal']) document.getElementById('principal').value = '200,000';
+                if (!data['rate']) document.getElementById('rate').value = '6.5';
                 if (!data['start-date']) {
                     document.getElementById('start-date').value = defaultDate;
                 }

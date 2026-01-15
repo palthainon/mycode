@@ -225,10 +225,9 @@
         }
 
         .extra-payment-section {
-            display: grid;
-            grid-template-columns: 200px 1fr;
-            gap: 20px;
-            align-items: end;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
             margin-bottom: 25px;
             padding: 20px;
             background: rgba(79, 195, 247, 0.1);
@@ -1808,6 +1807,30 @@
             font-family: 'Consolas', 'Monaco', monospace;
         }
 
+        .debt-summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding: 15px 20px;
+            background: rgba(79, 195, 247, 0.1);
+            border: 1px solid rgba(79, 195, 247, 0.2);
+            border-radius: 8px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .debt-total {
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .debt-total strong {
+            color: #4fc3f7;
+            font-size: 1.2rem;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
         .apply-expense-btn {
             background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
             border: none;
@@ -1955,7 +1978,7 @@
             }
 
             .extra-payment-section {
-                grid-template-columns: 1fr;
+                gap: 12px;
             }
 
             .action-buttons {
@@ -2289,6 +2312,17 @@
                     <!-- Debt items will be added here -->
                 </div>
 
+                <div class="debt-summary">
+                    <div class="debt-total">
+                        <span>Total debt balance:</span>
+                        <strong id="totalDebtBalance">$0.00</strong>
+                    </div>
+                    <div class="debt-total">
+                        <span>Total minimum payments:</span>
+                        <strong id="totalDebtMinimum">$0.00</strong>
+                    </div>
+                </div>
+
                 <!-- Expense Tracking Section -->
                 <div class="expense-section">
                     <div class="section-title">
@@ -2324,6 +2358,11 @@
                 </div>
 
                 <div class="extra-payment-section">
+                    <div class="minimum-summary">
+                        <span>Your minimum payments total:</span>
+                        <strong id="totalMinimum">$0.00</strong>
+                        <span>per month</span>
+                    </div>
                     <div class="input-field">
                         <label for="extraPayment">Extra Monthly Payment</label>
                         <div class="input-prefix">
@@ -2331,11 +2370,6 @@
                             <input type="text" id="extraPayment" placeholder="0" aria-describedby="extra-help" inputmode="decimal">
                         </div>
                         <span id="extra-help" class="sr-only">Enter additional monthly payment beyond minimums</span>
-                    </div>
-                    <div class="minimum-summary">
-                        <span>Your minimum payments total:</span>
-                        <strong id="totalMinimum">$0.00</strong>
-                        <span>per month</span>
                     </div>
                 </div>
 
@@ -2689,8 +2723,14 @@
         }
 
         function updateTotalMinimum() {
+            const totalBalance = debts.reduce((sum, d) => sum + (d.balance || 0), 0);
             const total = debts.reduce((sum, d) => sum + (d.minPayment || 0), 0);
             document.getElementById('totalMinimum').textContent = formatCurrency(total);
+            // Update debt summary elements
+            const balanceEl = document.getElementById('totalDebtBalance');
+            const minEl = document.getElementById('totalDebtMinimum');
+            if (balanceEl) balanceEl.textContent = formatCurrency(totalBalance);
+            if (minEl) minEl.textContent = formatCurrency(total);
         }
 
         function toggleDebtPreset(presetName, isChecked) {
