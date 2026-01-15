@@ -1,0 +1,1795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Plan and visualize IPv6 subnet allocations. Calculate optimal subnet distribution for IPv6 networks with interactive VLSM planning.">
+    <meta name="keywords" content="IPv6 subnet planner, IPv6 VLSM calculator, IPv6 subnet allocation, IPv6 network planning, IP address planning, subnet design">
+    <meta name="author" content="OldWeb LLC">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://oldweb.tech/nettools/subnet-planner-ipv6.html">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="IPv6 Subnet Planner - OldWeb.tech">
+    <meta property="og:description" content="Plan and visualize IPv6 subnet allocations. Calculate optimal subnet distribution for IPv6 networks with interactive VLSM planning.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oldweb.tech/nettools/subnet-planner-ipv6.html">
+    <meta property="og:site_name" content="OldWeb.tech">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="IPv6 Subnet Planner - OldWeb.tech">
+    <meta name="twitter:description" content="Plan and visualize IPv6 subnet allocations. Calculate optimal subnet distribution for IPv6 networks with interactive VLSM planning.">
+
+    <!-- Additional Meta Tags -->
+    <meta name="theme-color" content="#1a1a2e">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
+
+    <title>IPv6 Subnet Planner - OldWeb.tech</title>
+    <link rel="stylesheet" href="../a11y.css">
+    <script src="../a11y-utils.js"></script>
+    <script src="../storage-utils.js"></script>
+    <script src="../navigationv2.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            color: #4fc3f7;
+            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
+        }
+
+        h2 {
+            color: #4fc3f7;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        /* ASCII Logo */
+        .ascii-logo {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.65rem;
+            line-height: 1.1;
+            color: #4fc3f7;
+            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
+            opacity: 0.8;
+            white-space: pre;
+        }
+
+        /* Calculator Section */
+        .calculator {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .input-field {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .input-field label {
+            display: block;
+            margin-bottom: 8px;
+            color: #90caf9;
+            font-weight: 500;
+        }
+
+        .input-field input, .input-field select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: #0f1419;
+            color: #fff;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .input-field select option {
+            background: #0f1419;
+            color: #fff;
+        }
+
+        .input-field input:focus, .input-field select:focus {
+            outline: none;
+            border-color: #4fc3f7;
+            box-shadow: 0 0 15px rgba(79, 195, 247, 0.2);
+        }
+
+        .input-field input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
+            color: #fff;
+            border: none;
+            padding: 14px 40px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+            display: block;
+            width: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(79, 195, 247, 0.3);
+        }
+
+        .btn.secondary {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: #90caf9;
+            margin-top: 10px;
+        }
+        .btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: none;
+            transform: none;
+        }
+
+        #error {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid #f44336;
+            color: #ff8a80;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        #error.show {
+            display: block;
+        }
+
+        input.error {
+            border-color: #f44336 !important;
+        }
+
+        /* Planner Section */
+        .planner-section {
+            display: none;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .planner-section.show {
+            display: block;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        /* View Toggle */
+        .view-toggle {
+            display: flex;
+            gap: 10px;
+        }
+
+        .toggle-btn {
+            background: rgba(79, 195, 247, 0.1);
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            color: #4fc3f7;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .toggle-btn:hover {
+            background: rgba(79, 195, 247, 0.2);
+        }
+
+        .toggle-btn.active {
+            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
+            color: #fff;
+            border-color: transparent;
+        }
+
+        /* Table Controls */
+        .table-controls {
+            margin-bottom: 15px;
+        }
+
+        .btn-small {
+            background: linear-gradient(135deg, #66bb6a 0%, #4caf50 100%);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 0.95rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+        }
+
+        .btn-small:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 187, 106, 0.3);
+        }
+
+        /* Table Styles */
+        .table-container {
+            overflow-x: auto;
+            margin-bottom: 20px;
+        }
+
+        .allocation-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        .allocation-table thead {
+            background: rgba(79, 195, 247, 0.1);
+        }
+
+        .allocation-table th {
+            padding: 12px;
+            text-align: left;
+            color: #0f1419;
+            font-weight: 600;
+            background: rgba(79, 195, 247, 0.9);
+            border-bottom: 2px solid rgba(79, 195, 247, 0.3);
+            white-space: nowrap;
+        }
+
+        .allocation-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .allocation-table tbody tr {
+            transition: background 0.2s;
+        }
+
+        .allocation-table tbody tr:hover {
+            background: rgba(79, 195, 247, 0.05);
+        }
+
+        .allocation-table td[contenteditable="true"] {
+            cursor: text;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .allocation-table td[contenteditable="true"]:hover {
+            background: rgba(79, 195, 247, 0.1);
+            border-color: rgba(79, 195, 247, 0.3);
+        }
+
+        .allocation-table td[contenteditable="true"]:focus {
+            outline: none;
+            background: rgba(0, 0, 0, 0.4);
+            border-color: #4fc3f7;
+            box-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
+        }
+
+        .allocation-table td.calculated-field {
+            color: #90caf9;
+            font-family: 'Consolas', 'Monaco', monospace;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .allocation-table tr.error-row {
+            background: rgba(244, 67, 54, 0.1);
+        }
+
+        .allocation-table tr.warning-row {
+            background: rgba(255, 235, 59, 0.1);
+        }
+
+        /* Color Picker Cell */
+        .color-picker-cell {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .color-picker-cell input[type="color"] {
+            width: 50px;
+            height: 35px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            cursor: pointer;
+            background: transparent;
+        }
+
+        /* Action Buttons */
+        .action-btn {
+            background: transparent;
+            border: 1px solid rgba(244, 67, 54, 0.4);
+            color: #f44336;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .action-btn:hover {
+            background: rgba(244, 67, 54, 0.2);
+        }
+
+        /* View Containers */
+        .view-container {
+            display: none;
+        }
+
+        .view-container.active {
+            display: block;
+        }
+
+        /* Bar Chart */
+        .bar-chart-container {
+            margin-bottom: 30px;
+        }
+
+        .bar-chart {
+            display: flex;
+            width: 100%;
+            height: 60px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+        }
+
+        .bar-segment {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: opacity 0.2s;
+            position: relative;
+            cursor: pointer;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .bar-segment:hover {
+            opacity: 0.85;
+        }
+
+        .bar-segment.unallocated {
+            background: repeating-linear-gradient(
+                45deg,
+                rgba(255, 255, 255, 0.05),
+                rgba(255, 255, 255, 0.05) 10px,
+                rgba(255, 255, 255, 0.1) 10px,
+                rgba(255, 255, 255, 0.1) 20px
+            );
+            color: rgba(255, 255, 255, 0.5);
+            cursor: default;
+        }
+
+        /* Legend */
+        .chart-legend {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 12px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 6px;
+        }
+
+        .legend-color {
+            width: 30px;
+            height: 30px;
+            border-radius: 4px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            flex-shrink: 0;
+        }
+
+        .legend-label {
+            font-weight: 600;
+            color: #4fc3f7;
+            flex: 1;
+        }
+
+        .legend-cidr {
+            font-family: 'Consolas', 'Monaco', monospace;
+            color: #90caf9;
+            font-size: 0.85rem;
+        }
+
+        /* Tree View */
+        .tree-container {
+            padding: 20px;
+        }
+
+        .tree-node {
+            margin-left: 30px;
+            margin-bottom: 10px;
+        }
+
+        .tree-node.root {
+            margin-left: 0;
+        }
+
+        .tree-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 15px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            border-left: 4px solid #4fc3f7;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+
+        .tree-label {
+            font-weight: 600;
+            font-size: 1.1rem;
+            min-width: 150px;
+        }
+
+        .tree-network {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background: rgba(79, 195, 247, 0.1);
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .tree-vlan {
+            background: rgba(102, 187, 106, 0.2);
+            color: #66bb6a;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+
+        .tree-size {
+            color: #90caf9;
+            font-size: 0.9rem;
+        }
+
+        .tree-description {
+            width: 100%;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            margin-top: 8px;
+            font-style: italic;
+        }
+
+        .tree-connector {
+            border-left: 2px solid rgba(79, 195, 247, 0.3);
+            border-bottom: 2px solid rgba(79, 195, 247, 0.3);
+            width: 25px;
+            height: 20px;
+            margin-left: -15px;
+            margin-bottom: -20px;
+        }
+
+        /* Validation Messages */
+        .validation-messages {
+            margin-top: 20px;
+        }
+
+        .validation-message {
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .validation-message.error {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid #f44336;
+            color: #ff8a80;
+        }
+
+        .validation-message.warning {
+            background: rgba(255, 235, 59, 0.2);
+            border: 1px solid #ffeb3b;
+            color: #ffd54f;
+        }
+
+        .validation-message.info {
+            background: rgba(66, 165, 245, 0.2);
+            border: 1px solid #42a5f5;
+            color: #90caf9;
+        }
+
+        /* Export Section */
+        .export-section {
+            margin-top: 20px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .export-btn {
+            background: linear-gradient(135deg, #66bb6a 0%, #4caf50 100%);
+            color: #fff;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+        }
+
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 187, 106, 0.3);
+        }
+
+        .export-btn.json {
+            background: linear-gradient(135deg, #42a5f5 0%, #2196f3 100%);
+        }
+
+        .export-btn.json:hover {
+            box-shadow: 0 5px 15px rgba(66, 165, 245, 0.3);
+        }
+
+        footer {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 40px;
+            font-size: 0.9rem;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .home-btn {
+                top: 10px;
+                left: 10px;
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+
+            .container {
+                padding: 20px 10px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .ascii-logo {
+                display: none;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .view-toggle {
+                width: 100%;
+                justify-content: stretch;
+            }
+
+            .toggle-btn {
+                flex: 1;
+            }
+
+            .bar-chart {
+                height: 80px;
+            }
+
+            .allocation-table {
+                font-size: 0.8rem;
+            }
+
+            .allocation-table th,
+            .allocation-table td {
+                padding: 8px;
+            }
+        }
+    </style>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "IPv6 Subnet Planner",
+      "description": "Plan and visualize IPv6 subnet allocations. Calculate optimal subnet distribution for IPv6 networks with interactive VLSM planning.",
+      "url": "https://oldweb.tech/nettools/subnet-planner-ipv6.html",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Web Browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "creator": {
+        "@type": "Organization",
+        "name": "OldWeb.tech"
+      }
+    }
+    </script>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <div class="ascii-logo" aria-hidden="true">  ___  _     _  __        __   _
+ / _ \| | __| | \ \      / /__| |__
+| | | | |/ _` |  \ \ /\ / / _ \ '_ \
+| |_| | | (_| |   \ V  V /  __/ |_) |
+ \___/|_|\__,_|    \_/\_/ \___|_.__/
+</div>
+
+    <main id="main-content" class="container">
+        <h1>IPv6 Subnet Planner</h1>
+
+        <!-- Parent Network Input -->
+        <div class="calculator">
+            <form id="planner-form" aria-label="IPv6 Subnet Planner Configuration Form">
+                <div class="input-group">
+                    <div class="input-field">
+                        <label for="parentIP">Parent Network IPv6 Address</label>
+                        <input type="text"
+                               id="parentIP"
+                               placeholder="2001:db8::"
+                               aria-required="true"
+                               aria-describedby="parent-ip-help">
+                        <span id="parent-ip-help" class="sr-only">Enter the parent network IPv6 address for subnet planning, for example 2001:db8::</span>
+                    </div>
+                    <div class="input-field">
+                        <label for="parentCIDR">CIDR Prefix</label>
+                        <select id="parentCIDR"
+                                aria-required="true"
+                                aria-describedby="parent-cidr-help">
+                        <option value="32">/32 - ISP Allocation</option>
+                        <option value="36">/36</option>
+                        <option value="40">/40</option>
+                        <option value="44">/44</option>
+                        <option value="48" selected>/48 - Site Allocation</option>
+                        <option value="52">/52</option>
+                        <option value="56">/56 - Smaller Site</option>
+                        <option value="60">/60</option>
+                        <option value="64">/64 - Single Subnet</option>
+                    </select>
+                    <span id="parent-cidr-help" class="sr-only">Select the CIDR prefix for the parent network</span>
+                </div>
+            </div>
+            <button type="button"
+                    class="btn"
+                    onclick="initializePlanner()"
+                    aria-label="Initialize subnet planner with parent network configuration">Initialize Planner</button>
+            <button type="button"
+                    class="btn secondary"
+                    onclick="clearAllSavedData()"
+                    aria-label="Clear all saved form data from this page">Clear Saved Data</button>
+            </form>
+            <div id="error"
+                 role="alert"
+                 aria-live="assertive"
+                 aria-atomic="true"></div>
+        </div>
+
+        <!-- Planner Section -->
+        <div class="planner-section" id="plannerSection">
+            <div class="section-header">
+                <h2>Subnet Allocations</h2>
+                <div class="view-toggle" role="group" aria-label="Visualization view selection">
+                    <button type="button"
+                            class="toggle-btn active"
+                            data-view="table"
+                            onclick="switchView('table')"
+                            aria-pressed="true"
+                            aria-label="View subnet allocations in table format">Table View</button>
+                    <button type="button"
+                            class="toggle-btn"
+                            data-view="bar"
+                            onclick="switchView('bar')"
+                            aria-pressed="false"
+                            aria-label="View subnet allocations in bar chart format">Bar Chart</button>
+                    <button type="button"
+                            class="toggle-btn"
+                            data-view="tree"
+                            onclick="switchView('tree')"
+                            aria-pressed="false"
+                            aria-label="View subnet allocations in tree hierarchy format">Tree View</button>
+                </div>
+            </div>
+
+            <!-- Table View -->
+            <div class="view-container active"
+                 id="tableView"
+                 role="region"
+                 aria-live="polite"
+                 aria-label="Table view of subnet allocations">
+                <div class="table-controls">
+                    <button type="button"
+                            class="btn-small"
+                            onclick="addAllocation()"
+                            aria-label="Add a new subnet allocation to the plan">+ Add Subnet</button>
+                </div>
+                <div class="table-container">
+                    <table class="allocation-table">
+                        <thead>
+                            <tr>
+                                <th>Label</th>
+                                <th>CIDR</th>
+                                <th>Network Address</th>
+                                <th>Size (IPs)</th>
+                                <th>VLAN</th>
+                                <th>Description</th>
+                                <th>Color</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="allocationTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Bar Chart View -->
+            <div class="view-container"
+                 id="barView"
+                 role="region"
+                 aria-live="polite"
+                 aria-label="Bar chart view of subnet allocations">
+                <div class="bar-chart-container">
+                    <div class="bar-chart" id="barChart" role="img" aria-label="Visual bar chart showing subnet allocation distribution"></div>
+                </div>
+                <div id="barChartLegend" class="chart-legend" aria-label="Bar chart legend"></div>
+            </div>
+
+            <!-- Tree View -->
+            <div class="view-container"
+                 id="treeView"
+                 role="region"
+                 aria-live="polite"
+                 aria-label="Tree hierarchy view of subnet allocations">
+                <div class="tree-container" id="treeContainer"></div>
+            </div>
+
+            <!-- Validation Messages -->
+            <div class="validation-messages"
+                 id="validationMessages"
+                 role="alert"
+                 aria-live="assertive"
+                 aria-atomic="true"></div>
+
+            <!-- Export Section -->
+            <div class="export-section">
+                <button type="button"
+                        class="export-btn"
+                        onclick="exportCSV()"
+                        aria-label="Export subnet allocation plan to CSV file">Export CSV</button>
+                <button type="button"
+                        class="export-btn json"
+                        onclick="exportJSON()"
+                        aria-label="Export subnet allocation plan to JSON file">Export JSON</button>
+            </div>
+        </div>
+
+        <footer role="contentinfo">
+            IPv6 Subnet Planner - Works offline, no installation required
+        </footer>
+    </main>
+
+    <script>
+        // Global state
+        const state = {
+            parentNetwork: null,
+            allocations: [],
+            nextId: 1,
+            currentView: 'table'
+        };
+
+        // Default colors for allocations
+        const defaultColors = [
+            '#4fc3f7', '#66bb6a', '#ff8a65', '#ffeb3b',
+            '#9c27b0', '#f44336', '#42a5f5', '#26a69a',
+            '#ffa726', '#ec407a', '#ab47bc', '#7e57c2'
+        ];
+
+        // ===== IPv6 Utility Functions =====
+
+        // Validate IPv6 address
+        function isValidIPv6(addr) {
+            if (!addr || addr.length > 39) return false;
+
+            // Check for valid characters
+            if (!/^[0-9a-fA-F:]+$/.test(addr)) return false;
+
+            // Cannot start or end with single colon
+            if (/^:[^:]/.test(addr) || /[^:]:$/.test(addr)) return false;
+
+            // Only one :: allowed
+            if ((addr.match(/::/g) || []).length > 1) return false;
+
+            // Handle :: compression
+            if (addr.includes('::')) {
+                const parts = addr.split('::');
+                const left = parts[0] ? parts[0].split(':').filter(s => s) : [];
+                const right = parts[1] ? parts[1].split(':').filter(s => s) : [];
+                const totalSegments = left.length + right.length;
+                if (totalSegments > 7) return false;
+
+                // Validate each segment
+                const allSegments = [...left, ...right];
+                for (const seg of allSegments) {
+                    if (seg.length > 4) return false;
+                    const num = parseInt(seg, 16);
+                    if (isNaN(num) || num < 0 || num > 0xffff) return false;
+                }
+            } else {
+                const segments = addr.split(':');
+                if (segments.length !== 8) return false;
+
+                for (const seg of segments) {
+                    if (seg.length > 4 || seg.length === 0) return false;
+                    const num = parseInt(seg, 16);
+                    if (isNaN(num) || num < 0 || num > 0xffff) return false;
+                }
+            }
+
+            return true;
+        }
+
+        // Expand compressed IPv6 to full notation
+        function expandIPv6(addr) {
+            if (addr.includes('::')) {
+                const sides = addr.split('::');
+                const left = sides[0] ? sides[0].split(':') : [];
+                const right = sides[1] ? sides[1].split(':') : [];
+                const missing = 8 - (left.length + right.length);
+                const middle = Array(missing).fill('0000');
+                const full = [...left, ...middle, ...right];
+                return full.map(s => s.padStart(4, '0')).join(':');
+            }
+            return addr.split(':').map(s => s.padStart(4, '0')).join(':');
+        }
+
+        // Compress IPv6 to shortest notation
+        function compressIPv6(addr) {
+            const segments = expandIPv6(addr).split(':');
+
+            // Find longest run of zeros
+            let maxStart = -1, maxLen = 0;
+            let currStart = -1, currLen = 0;
+
+            for (let i = 0; i < segments.length; i++) {
+                if (segments[i] === '0000') {
+                    if (currStart === -1) currStart = i;
+                    currLen++;
+                } else {
+                    if (currLen > maxLen) {
+                        maxStart = currStart;
+                        maxLen = currLen;
+                    }
+                    currStart = -1;
+                    currLen = 0;
+                }
+            }
+            if (currLen > maxLen) {
+                maxStart = currStart;
+                maxLen = currLen;
+            }
+
+            // Replace longest run with ::
+            if (maxLen > 1) {
+                const before = segments.slice(0, maxStart).map(s => s.replace(/^0+/, '') || '0');
+                const after = segments.slice(maxStart + maxLen).map(s => s.replace(/^0+/, '') || '0');
+
+                if (before.length === 0 && after.length === 0) return '::';
+                if (before.length === 0) return '::' + after.join(':');
+                if (after.length === 0) return before.join(':') + '::';
+                return before.join(':') + '::' + after.join(':');
+            }
+
+            return segments.map(s => s.replace(/^0+/, '') || '0').join(':');
+        }
+
+        // Convert IPv6 to BigInt
+        function ipv6ToInt(addr) {
+            const expanded = expandIPv6(addr);
+            const segments = expanded.split(':');
+            let result = 0n;
+
+            for (let i = 0; i < 8; i++) {
+                const val = BigInt(parseInt(segments[i], 16));
+                result = (result << 16n) | val;
+            }
+
+            return result;
+        }
+
+        // Convert BigInt to IPv6
+        function intToIPv6(int) {
+            const segments = [];
+            let temp = int;
+
+            for (let i = 0; i < 8; i++) {
+                segments.unshift((temp & 0xffffn).toString(16).padStart(4, '0'));
+                temp = temp >> 16n;
+            }
+
+            return segments.join(':');
+        }
+
+        // Calculate subnet mask from CIDR
+        function cidrToIPv6Mask(cidr) {
+            const mask = (0xffffffffffffffffffffffffffffffffn << (128n - BigInt(cidr))) &
+                         0xffffffffffffffffffffffffffffffffn;
+            return mask;
+        }
+
+        // Get subnet size (number of addresses)
+        function getSubnetSize(cidr) {
+            return 2n ** (128n - BigInt(cidr));
+        }
+
+        // Format large BigInt numbers for display
+        function formatBigNumber(num) {
+            const numStr = num.toString();
+            if (numStr.length <= 15) return numStr.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+            // For very large numbers, use exponential notation
+            const magnitude = numStr.length - 1;
+            const significant = numStr[0] + '.' + numStr.substring(1, 4);
+            return `${significant} × 10^${magnitude}`;
+        }
+
+        // ===== Initialization =====
+
+        function initializePlanner() {
+            const ipField = document.getElementById('parentIP');
+            const cidrField = document.getElementById('parentCIDR');
+            const ipInput = ipField.value.trim();
+            const cidr = parseInt(cidrField.value, 10);
+            const errorDiv = document.getElementById('error');
+
+            // Clear previous errors
+            ipField.classList.remove('error');
+            ipField.removeAttribute('aria-invalid');
+            errorDiv.classList.remove('show');
+
+            // Validate IP
+            if (!isValidIPv6(ipInput)) {
+                const errorMsg = 'Please enter a valid IPv6 address (e.g., 2001:db8::)';
+                errorDiv.textContent = errorMsg;
+                errorDiv.classList.add('show');
+                ipField.classList.add('error');
+                ipField.setAttribute('aria-invalid', 'true');
+                ipField.focus();
+                A11yUtils.announce(errorMsg, 'assertive');
+                return;
+            }
+
+            // Calculate parent network
+            const ipInt = ipv6ToInt(ipInput);
+            const maskInt = cidrToIPv6Mask(cidr);
+            const networkInt = ipInt & maskInt;
+            const subnetSize = getSubnetSize(cidr);
+            const broadcastInt = networkInt + subnetSize - 1n;
+
+            // Initialize state
+            state.parentNetwork = {
+                ip: compressIPv6(intToIPv6(networkInt)),
+                cidr: cidr,
+                networkInt: networkInt,
+                broadcastInt: broadcastInt
+            };
+
+            state.allocations = [];
+            state.nextId = 1;
+
+            // Show planner section
+            document.getElementById('plannerSection').classList.add('show');
+
+            // Add first empty allocation
+            addAllocation();
+
+            // Announce initialization to screen readers
+            A11yUtils.announce(`Subnet planner initialized for parent network ${state.parentNetwork.ip} slash ${cidr}`, 'polite');
+        }
+
+        // ===== Table Management =====
+
+        function addAllocation() {
+            // Determine default CIDR based on parent
+            let defaultCIDR;
+            if (state.parentNetwork.cidr <= 48) {
+                defaultCIDR = 64; // Standard /64 subnet
+            } else if (state.parentNetwork.cidr <= 56) {
+                defaultCIDR = 64;
+            } else if (state.parentNetwork.cidr <= 64) {
+                defaultCIDR = state.parentNetwork.cidr + 4;
+            } else {
+                defaultCIDR = Math.min(state.parentNetwork.cidr + 4, 128);
+            }
+
+            // Find next available network address
+            let networkInt = findNextAvailableNetwork(defaultCIDR);
+
+            // Create allocation object
+            const allocation = {
+                id: state.nextId++,
+                label: `Subnet ${state.allocations.length + 1}`,
+                cidr: defaultCIDR,
+                networkInt: networkInt,
+                description: '',
+                vlanId: null,
+                color: defaultColors[state.allocations.length % defaultColors.length]
+            };
+
+            state.allocations.push(allocation);
+            renderTable();
+            validateAllocations();
+        }
+
+        function deleteAllocation(id) {
+            state.allocations = state.allocations.filter(a => a.id !== id);
+            updateAllViews();
+        }
+
+        function updateAllocation(id, field, value) {
+            const allocation = state.allocations.find(a => a.id === id);
+            if (!allocation) return;
+
+            allocation[field] = value;
+
+            // If CIDR changed, recalculate network address
+            if (field === 'cidr') {
+                allocation.networkInt = findNextAvailableNetwork(allocation.cidr, id);
+            }
+
+            updateAllViews();
+        }
+
+        function findNextAvailableNetwork(cidr, excludeId = null) {
+            const subnetSize = getSubnetSize(cidr);
+
+            // Get sorted allocations excluding current one
+            const sorted = state.allocations
+                .filter(a => excludeId === null || a.id !== excludeId)
+                .filter(a => a.networkInt !== null)
+                .sort((a, b) => {
+                    if (a.networkInt < b.networkInt) return -1;
+                    if (a.networkInt > b.networkInt) return 1;
+                    return 0;
+                });
+
+            let candidateNetwork = state.parentNetwork.networkInt;
+
+            // Align to subnet boundary
+            const remainder = candidateNetwork % subnetSize;
+            if (remainder !== 0n) {
+                candidateNetwork = candidateNetwork - remainder + subnetSize;
+            }
+
+            // Find first non-overlapping slot
+            for (const existing of sorted) {
+                const existingSize = getSubnetSize(existing.cidr);
+                const existingEnd = existing.networkInt + existingSize;
+
+                // Check if candidate overlaps with existing
+                if (candidateNetwork < existingEnd && candidateNetwork + subnetSize > existing.networkInt) {
+                    // Move candidate past this allocation
+                    candidateNetwork = existingEnd;
+                    // Realign to subnet boundary
+                    const rem = candidateNetwork % subnetSize;
+                    if (rem !== 0n) {
+                        candidateNetwork = candidateNetwork - rem + subnetSize;
+                    }
+                }
+            }
+
+            // Check if within parent network
+            if (candidateNetwork + subnetSize <= state.parentNetwork.broadcastInt + 1n) {
+                return candidateNetwork;
+            }
+
+            return null; // No space available
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('allocationTableBody');
+            tbody.innerHTML = '';
+
+            // Sort by network address
+            const sorted = [...state.allocations].sort((a, b) => {
+                if (a.networkInt === null) return 1;
+                if (b.networkInt === null) return -1;
+                if (a.networkInt < b.networkInt) return -1;
+                if (a.networkInt > b.networkInt) return 1;
+                return 0;
+            });
+
+            sorted.forEach(allocation => {
+                const tr = document.createElement('tr');
+                tr.dataset.id = allocation.id;
+
+                // Label cell
+                const labelCell = createEditableCell(allocation.label, 'text', (value) => {
+                    updateAllocation(allocation.id, 'label', value);
+                });
+
+                // CIDR cell
+                const cidrCell = createEditableCell(allocation.cidr, 'number', (value) => {
+                    const cidr = parseInt(value);
+                    if (cidr >= state.parentNetwork.cidr && cidr <= 128) {
+                        updateAllocation(allocation.id, 'cidr', cidr);
+                    }
+                });
+
+                // Network cell (calculated)
+                const networkCell = document.createElement('td');
+                networkCell.className = 'calculated-field';
+                networkCell.textContent = allocation.networkInt !== null ?
+                    `${compressIPv6(intToIPv6(allocation.networkInt))}/${allocation.cidr}` :
+                    'No space';
+
+                // Size cell (calculated)
+                const sizeCell = document.createElement('td');
+                sizeCell.className = 'calculated-field';
+                const size = getSubnetSize(allocation.cidr);
+                sizeCell.textContent = formatBigNumber(size);
+
+                // VLAN cell
+                const vlanCell = createEditableCell(allocation.vlanId || '', 'number', (value) => {
+                    const vlan = value ? parseInt(value) : null;
+                    updateAllocation(allocation.id, 'vlanId', vlan);
+                });
+
+                // Description cell
+                const descCell = createEditableCell(allocation.description, 'text', (value) => {
+                    updateAllocation(allocation.id, 'description', value);
+                });
+
+                // Color cell
+                const colorCell = document.createElement('td');
+                colorCell.className = 'color-picker-cell';
+                const colorInput = document.createElement('input');
+                colorInput.type = 'color';
+                colorInput.value = allocation.color;
+                colorInput.addEventListener('change', (e) => {
+                    updateAllocation(allocation.id, 'color', e.target.value);
+                });
+                colorCell.appendChild(colorInput);
+
+                // Actions cell
+                const actionsCell = document.createElement('td');
+                const deleteBtn = document.createElement('button');
+                deleteBtn.textContent = 'Delete';
+                deleteBtn.className = 'action-btn';
+                deleteBtn.onclick = () => deleteAllocation(allocation.id);
+                actionsCell.appendChild(deleteBtn);
+
+                tr.append(labelCell, cidrCell, networkCell, sizeCell, vlanCell, descCell, colorCell, actionsCell);
+                tbody.appendChild(tr);
+            });
+        }
+
+        function createEditableCell(value, type, onUpdate) {
+            const td = document.createElement('td');
+            td.contentEditable = true;
+            td.textContent = value;
+            td.dataset.type = type;
+
+            // Store original value
+            let originalValue = value;
+
+            // Validate on blur
+            td.addEventListener('blur', (e) => {
+                const newValue = e.target.textContent.trim();
+
+                if (type === 'number') {
+                    const num = parseInt(newValue);
+                    if (!isNaN(num) && num >= 0) {
+                        onUpdate(newValue);
+                        originalValue = newValue;
+                    } else {
+                        e.target.textContent = originalValue;
+                    }
+                } else {
+                    onUpdate(newValue);
+                    originalValue = newValue;
+                }
+            });
+
+            // Prevent enter key from creating newlines
+            td.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    e.target.blur();
+                }
+            });
+
+            return td;
+        }
+
+        // ===== Validation =====
+
+        function validateAllocations() {
+            const errors = [];
+            const warnings = [];
+
+            // Check each allocation
+            state.allocations.forEach(allocation => {
+                if (allocation.networkInt === null) {
+                    errors.push({
+                        allocationId: allocation.id,
+                        message: `${allocation.label}: No available space in parent network`
+                    });
+                    return;
+                }
+
+                const subnetSize = getSubnetSize(allocation.cidr);
+                const endInt = allocation.networkInt + subnetSize;
+
+                // Check if within parent network
+                if (allocation.networkInt < state.parentNetwork.networkInt ||
+                    endInt > state.parentNetwork.broadcastInt + 1n) {
+                    errors.push({
+                        allocationId: allocation.id,
+                        message: `${allocation.label}: Outside parent network bounds`
+                    });
+                }
+
+                // Check alignment
+                if (allocation.networkInt % subnetSize !== 0n) {
+                    warnings.push({
+                        allocationId: allocation.id,
+                        message: `${allocation.label}: Network address not aligned to /${allocation.cidr} boundary`
+                    });
+                }
+
+                // Check VLAN range
+                if (allocation.vlanId !== null && (allocation.vlanId < 1 || allocation.vlanId > 4094)) {
+                    warnings.push({
+                        allocationId: allocation.id,
+                        message: `${allocation.label}: VLAN ID outside typical range (1-4094)`
+                    });
+                }
+            });
+
+            // Check for overlaps
+            const sorted = [...state.allocations]
+                .filter(a => a.networkInt !== null)
+                .sort((a, b) => {
+                    if (a.networkInt < b.networkInt) return -1;
+                    if (a.networkInt > b.networkInt) return 1;
+                    return 0;
+                });
+
+            for (let i = 0; i < sorted.length - 1; i++) {
+                const current = sorted[i];
+                const next = sorted[i + 1];
+                const currentSize = getSubnetSize(current.cidr);
+                const currentEnd = current.networkInt + currentSize;
+
+                if (currentEnd > next.networkInt) {
+                    errors.push({
+                        allocationId: current.id,
+                        message: `${current.label}: Overlaps with ${next.label}`
+                    });
+                }
+            }
+
+            displayValidationMessages(errors, warnings);
+            highlightErrorRows(errors, warnings);
+
+            return { errors, warnings };
+        }
+
+        function displayValidationMessages(errors, warnings) {
+            const container = document.getElementById('validationMessages');
+            container.innerHTML = '';
+
+            errors.forEach(err => {
+                const div = document.createElement('div');
+                div.className = 'validation-message error';
+                div.innerHTML = `<strong>Error:</strong> ${err.message}`;
+                container.appendChild(div);
+            });
+
+            warnings.forEach(warn => {
+                const div = document.createElement('div');
+                div.className = 'validation-message warning';
+                div.innerHTML = `<strong>Warning:</strong> ${warn.message}`;
+                container.appendChild(div);
+            });
+
+            // Add info message about available space
+            if (errors.length === 0 && warnings.length === 0 && state.allocations.length > 0) {
+                const totalSize = state.parentNetwork.broadcastInt - state.parentNetwork.networkInt + 1n;
+                const usedSize = state.allocations
+                    .filter(a => a.networkInt !== null)
+                    .reduce((sum, a) => sum + getSubnetSize(a.cidr), 0n);
+                const availableSize = totalSize - usedSize;
+
+                // Calculate percentage (convert to Number for display)
+                const percentUsed = Number((usedSize * 10000n) / totalSize) / 100;
+
+                const div = document.createElement('div');
+                div.className = 'validation-message info';
+                div.innerHTML = `<strong>Space Usage:</strong> ${formatBigNumber(usedSize)} of ${formatBigNumber(totalSize)} IPs allocated (${percentUsed.toFixed(2)}%) - ${formatBigNumber(availableSize)} IPs available`;
+                container.appendChild(div);
+            }
+        }
+
+        function highlightErrorRows(errors, warnings) {
+            // Clear existing highlights
+            document.querySelectorAll('.allocation-table tr').forEach(tr => {
+                tr.classList.remove('error-row', 'warning-row');
+            });
+
+            // Apply error highlights
+            errors.forEach(err => {
+                const row = document.querySelector(`tr[data-id="${err.allocationId}"]`);
+                if (row) row.classList.add('error-row');
+            });
+
+            // Apply warning highlights
+            warnings.forEach(warn => {
+                const row = document.querySelector(`tr[data-id="${warn.allocationId}"]`);
+                if (row && !row.classList.contains('error-row')) {
+                    row.classList.add('warning-row');
+                }
+            });
+        }
+
+        // ===== Bar Chart =====
+
+        function renderBarChart() {
+            const container = document.getElementById('barChart');
+            container.innerHTML = '';
+
+            const totalSize = state.parentNetwork.broadcastInt - state.parentNetwork.networkInt + 1n;
+
+            // Sort allocations by network address
+            const sorted = [...state.allocations]
+                .filter(a => a.networkInt !== null)
+                .sort((a, b) => {
+                    if (a.networkInt < b.networkInt) return -1;
+                    if (a.networkInt > b.networkInt) return 1;
+                    return 0;
+                });
+
+            let currentPosition = state.parentNetwork.networkInt;
+
+            sorted.forEach(allocation => {
+                const allocSize = getSubnetSize(allocation.cidr);
+
+                // Add unallocated space before this allocation
+                if (allocation.networkInt > currentPosition) {
+                    const gapSize = allocation.networkInt - currentPosition;
+                    const gapPercent = Number((gapSize * 10000n) / totalSize) / 100;
+
+                    if (gapPercent > 0.1) { // Only show if > 0.1%
+                        const gapSegment = createBarSegment('Unallocated', gapPercent, '#333', true);
+                        container.appendChild(gapSegment);
+                    }
+                }
+
+                // Add allocation segment
+                const allocPercent = Number((allocSize * 10000n) / totalSize) / 100;
+                const segment = createBarSegment(
+                    allocation.label || 'Unnamed',
+                    allocPercent,
+                    allocation.color,
+                    false,
+                    allocation
+                );
+                container.appendChild(segment);
+
+                currentPosition = allocation.networkInt + allocSize;
+            });
+
+            // Add remaining unallocated space
+            if (currentPosition <= state.parentNetwork.broadcastInt) {
+                const remainingSize = state.parentNetwork.broadcastInt - currentPosition + 1n;
+                const remainingPercent = Number((remainingSize * 10000n) / totalSize) / 100;
+
+                if (remainingPercent > 0.1) {
+                    const remainingSegment = createBarSegment('Unallocated', remainingPercent, '#333', true);
+                    container.appendChild(remainingSegment);
+                }
+            }
+
+            renderBarChartLegend(sorted);
+        }
+
+        function createBarSegment(label, widthPercent, color, isUnallocated, allocation = null) {
+            const segment = document.createElement('div');
+            segment.className = 'bar-segment' + (isUnallocated ? ' unallocated' : '');
+            segment.style.width = widthPercent + '%';
+
+            if (!isUnallocated) {
+                segment.style.backgroundColor = color;
+            }
+
+            // Only show label if segment is wide enough
+            if (widthPercent > 5) {
+                segment.textContent = label;
+            }
+
+            // Tooltip
+            if (allocation) {
+                const networkStr = compressIPv6(intToIPv6(allocation.networkInt));
+                const sizeStr = formatBigNumber(getSubnetSize(allocation.cidr));
+                segment.title = `${allocation.label}\n${networkStr}/${allocation.cidr}\n${sizeStr} IPs\n${allocation.description || '(no description)'}`;
+
+                // Click to highlight in table
+                segment.onclick = () => {
+                    switchView('table');
+                    setTimeout(() => {
+                        const row = document.querySelector(`tr[data-id="${allocation.id}"]`);
+                        if (row) {
+                            row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            row.style.outline = '3px solid #4fc3f7';
+                            setTimeout(() => { row.style.outline = ''; }, 2000);
+                        }
+                    }, 100);
+                };
+            } else {
+                segment.title = label;
+            }
+
+            return segment;
+        }
+
+        function renderBarChartLegend(allocations) {
+            const legend = document.getElementById('barChartLegend');
+            legend.innerHTML = '';
+
+            allocations.forEach(allocation => {
+                const item = document.createElement('div');
+                item.className = 'legend-item';
+
+                const colorBox = document.createElement('span');
+                colorBox.className = 'legend-color';
+                colorBox.style.backgroundColor = allocation.color;
+
+                const labelSpan = document.createElement('span');
+                labelSpan.className = 'legend-label';
+                labelSpan.textContent = allocation.label;
+
+                const cidrSpan = document.createElement('span');
+                cidrSpan.className = 'legend-cidr';
+                cidrSpan.textContent = `${compressIPv6(intToIPv6(allocation.networkInt))}/${allocation.cidr}`;
+
+                item.appendChild(colorBox);
+                item.appendChild(labelSpan);
+                item.appendChild(cidrSpan);
+                legend.appendChild(item);
+            });
+        }
+
+        // ===== Tree View =====
+
+        function renderTreeView() {
+            const container = document.getElementById('treeContainer');
+            container.innerHTML = '';
+
+            // Root node - parent network
+            const rootNode = createTreeNode({
+                label: 'Parent Network',
+                network: state.parentNetwork.ip,
+                cidr: state.parentNetwork.cidr,
+                color: '#4fc3f7',
+                isRoot: true,
+                size: state.parentNetwork.broadcastInt - state.parentNetwork.networkInt + 1n
+            });
+            container.appendChild(rootNode);
+
+            // Sort allocations by network address
+            const sorted = [...state.allocations]
+                .filter(a => a.networkInt !== null)
+                .sort((a, b) => {
+                    if (a.networkInt < b.networkInt) return -1;
+                    if (a.networkInt > b.networkInt) return 1;
+                    return 0;
+                });
+
+            // Add each allocation as child node
+            sorted.forEach(allocation => {
+                const connector = document.createElement('div');
+                connector.className = 'tree-connector';
+                container.appendChild(connector);
+
+                const node = createTreeNode({
+                    label: allocation.label || 'Unnamed',
+                    network: compressIPv6(intToIPv6(allocation.networkInt)),
+                    cidr: allocation.cidr,
+                    color: allocation.color,
+                    vlanId: allocation.vlanId,
+                    description: allocation.description,
+                    size: getSubnetSize(allocation.cidr),
+                    isRoot: false
+                });
+                container.appendChild(node);
+            });
+        }
+
+        function createTreeNode(data) {
+            const node = document.createElement('div');
+            node.className = 'tree-node' + (data.isRoot ? ' root' : '');
+
+            const item = document.createElement('div');
+            item.className = 'tree-item';
+            item.style.borderLeftColor = data.color;
+
+            const labelDiv = document.createElement('div');
+            labelDiv.className = 'tree-label';
+            labelDiv.style.color = data.color;
+            labelDiv.textContent = data.label;
+
+            const networkDiv = document.createElement('div');
+            networkDiv.className = 'tree-network';
+            networkDiv.textContent = `${data.network}/${data.cidr}`;
+
+            item.appendChild(labelDiv);
+            item.appendChild(networkDiv);
+
+            if (data.vlanId) {
+                const vlanDiv = document.createElement('div');
+                vlanDiv.className = 'tree-vlan';
+                vlanDiv.textContent = `VLAN ${data.vlanId}`;
+                item.appendChild(vlanDiv);
+            }
+
+            if (data.size) {
+                const sizeDiv = document.createElement('div');
+                sizeDiv.className = 'tree-size';
+                sizeDiv.textContent = `${formatBigNumber(data.size)} IPs`;
+                item.appendChild(sizeDiv);
+            }
+
+            if (data.description && !data.isRoot) {
+                const descDiv = document.createElement('div');
+                descDiv.className = 'tree-description';
+                descDiv.textContent = data.description;
+                item.appendChild(descDiv);
+            }
+
+            node.appendChild(item);
+            return node;
+        }
+
+        // ===== View Management =====
+
+        function switchView(viewName) {
+            state.currentView = viewName;
+
+            // Update toggle buttons
+            document.querySelectorAll('.toggle-btn').forEach(btn => {
+                const isActive = btn.dataset.view === viewName;
+                btn.classList.toggle('active', isActive);
+                btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+            });
+
+            // Hide all view containers
+            document.querySelectorAll('.view-container').forEach(container => {
+                container.classList.remove('active');
+            });
+
+            // Show selected view
+            const viewMap = {
+                'table': 'tableView',
+                'bar': 'barView',
+                'tree': 'treeView'
+            };
+
+            const containerId = viewMap[viewName];
+            document.getElementById(containerId).classList.add('active');
+
+            // Render view
+            if (viewName === 'bar') {
+                renderBarChart();
+            } else if (viewName === 'tree') {
+                renderTreeView();
+            }
+        }
+
+        function updateAllViews() {
+            // Always re-render table
+            renderTable();
+
+            // Re-render current visualization
+            if (state.currentView === 'bar') {
+                renderBarChart();
+            } else if (state.currentView === 'tree') {
+                renderTreeView();
+            }
+
+            // Validate
+            validateAllocations();
+        }
+
+        // ===== Export Functions =====
+
+        function exportCSV() {
+            if (state.allocations.length === 0) {
+                alert('No allocations to export');
+                return;
+            }
+
+            const rows = [['Label', 'Network', 'CIDR', 'Size', 'VLAN', 'Description', 'Color']];
+
+            state.allocations
+                .filter(a => a.networkInt !== null)
+                .sort((a, b) => {
+                    if (a.networkInt < b.networkInt) return -1;
+                    if (a.networkInt > b.networkInt) return 1;
+                    return 0;
+                })
+                .forEach(allocation => {
+                    const size = getSubnetSize(allocation.cidr);
+                    rows.push([
+                        allocation.label || '',
+                        compressIPv6(intToIPv6(allocation.networkInt)),
+                        allocation.cidr,
+                        size.toString(),
+                        allocation.vlanId || '',
+                        allocation.description || '',
+                        allocation.color
+                    ]);
+                });
+
+            const csv = rows.map(row =>
+                row.map(cell => {
+                    const str = String(cell);
+                    return str.includes(',') || str.includes('"') ? `"${str.replace(/"/g, '""')}"` : str;
+                }).join(',')
+            ).join('\n');
+
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', `ipv6-subnet-plan-${Date.now()}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            A11yUtils.announce('IPv6 subnet allocation plan exported to CSV file', 'polite');
+        }
+
+        function exportJSON() {
+            if (state.allocations.length === 0) {
+                alert('No allocations to export');
+                return;
+            }
+
+            const data = {
+                exportDate: new Date().toISOString(),
+                parentNetwork: {
+                    network: state.parentNetwork.ip,
+                    cidr: state.parentNetwork.cidr,
+                    totalIPs: (state.parentNetwork.broadcastInt - state.parentNetwork.networkInt + 1n).toString()
+                },
+                allocations: state.allocations
+                    .filter(a => a.networkInt !== null)
+                    .sort((a, b) => {
+                        if (a.networkInt < b.networkInt) return -1;
+                        if (a.networkInt > b.networkInt) return 1;
+                        return 0;
+                    })
+                    .map(a => ({
+                        label: a.label,
+                        network: compressIPv6(intToIPv6(a.networkInt)),
+                        cidr: a.cidr,
+                        size: getSubnetSize(a.cidr).toString(),
+                        vlanId: a.vlanId,
+                        description: a.description,
+                        color: a.color
+                    }))
+            };
+
+            const json = JSON.stringify(data, null, 2);
+            const blob = new Blob([json], { type: 'application/json;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', `ipv6-subnet-plan-${Date.now()}.json`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            A11yUtils.announce('IPv6 subnet allocation plan exported to JSON file', 'polite');
+        }
+
+        // Allow Enter key to initialize
+        document.getElementById('parentIP').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') initializePlanner();
+        });
+
+        // localStorage persistence
+        const subnetPlannerFields = ['parentIP', 'parentCIDR'];
+
+        function clearAllSavedData() {
+            StorageUtils.remove('subnet-planner-ipv6');
+            document.getElementById('parentIP').value = '';
+            document.getElementById('parentCIDR').value = '48';
+            A11yUtils.announce('All saved data has been cleared', 'polite');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            StorageUtils.loadFormInputs('subnet-planner-ipv6', subnetPlannerFields);
+            StorageUtils.autoSaveFormInputs('subnet-planner-ipv6', subnetPlannerFields);
+        });
+    </script>
+    <script>
+        document.querySelector('.skip-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.getElementById('main-content');
+            if (target) {
+                target.setAttribute('tabindex', '-1');
+                target.focus();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    </script>
+</body>
+</html>
