@@ -599,6 +599,74 @@
             font-size: 0.9rem;
         }
 
+        /* Protocol Toggle Styles */
+        .protocol-toggle-container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .protocol-toggle-link {
+            display: inline-block;
+            padding: 10px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .protocol-toggle-ipv6 {
+            background: rgba(244, 67, 54, 0.2);
+            border: 2px solid rgba(244, 67, 54, 0.5);
+            color: #ff6b6b;
+        }
+
+        .protocol-toggle-ipv6:hover {
+            background: rgba(244, 67, 54, 0.3);
+            border-color: #f44336;
+            box-shadow: 0 0 15px rgba(244, 67, 54, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Quick Templates Styles */
+        .quick-templates {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .quick-templates h3 {
+            color: #90caf9;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .template-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .template-btn {
+            background: rgba(102, 187, 106, 0.1);
+            border: 1px solid rgba(102, 187, 106, 0.3);
+            color: #66bb6a;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .template-btn:hover {
+            background: rgba(102, 187, 106, 0.2);
+            border-color: #66bb6a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 187, 106, 0.2);
+        }
+
         /* Mobile Responsive */
         @media (max-width: 768px) {
             .home-btn {
@@ -683,6 +751,9 @@
 
     <main id="main-content" class="container">
         <h1>IPv4 Subnet Planner</h1>
+        <div class="protocol-toggle-container">
+            <a href="subnet-planner-ipv6.html" class="protocol-toggle-link protocol-toggle-ipv6">Switch to IPv6 →</a>
+        </div>
 
         <!-- Parent Network Input -->
         <div class="calculator">
@@ -737,6 +808,20 @@
                     class="btn secondary"
                     onclick="clearAllSavedData()"
                     aria-label="Clear all saved form data from this page">Clear Saved Data</button>
+
+            <div class="quick-templates">
+                <h3 id="quick-templates-label">Quick Templates - Load a Pre-configured Site Layout:</h3>
+                <div class="template-buttons" role="group" aria-labelledby="quick-templates-label">
+                    <button type="button"
+                            class="template-btn"
+                            onclick="loadTemplate('small-site')"
+                            aria-label="Load small remote site template with /24 parent network and 8 subnets">Small Remote Site (/24)</button>
+                    <button type="button"
+                            class="template-btn"
+                            onclick="loadTemplate('medium-site')"
+                            aria-label="Load medium remote site template with /22 parent network and 8 subnets">Medium Remote Site (/22)</button>
+                </div>
+            </div>
             </form>
             <div class="error"
                  id="initError"
@@ -1635,6 +1720,103 @@
             StorageUtils.loadFormInputs('subnet-planner', subnetPlannerFields);
             StorageUtils.autoSaveFormInputs('subnet-planner', subnetPlannerFields);
         });
+
+        // ===== Quick Templates =====
+
+        const templates = {
+            'small-site': {
+                name: 'Small Remote Site',
+                parentIP: '10.1.1.0',
+                parentCIDR: 24,
+                allocations: [
+                    { label: 'Users', cidr: 26, vlanId: 10, description: 'End user workstations', color: '#4fc3f7' },
+                    { label: 'Printers', cidr: 28, vlanId: 20, description: 'Printers and IoT devices', color: '#66bb6a' },
+                    { label: 'Servers', cidr: 28, vlanId: 30, description: 'Local servers', color: '#ff8a65' },
+                    { label: 'Management', cidr: 29, vlanId: 40, description: 'Network management', color: '#ffeb3b' },
+                    { label: 'Firewall Transit', cidr: 30, vlanId: 50, description: 'Firewall uplinks', color: '#9c27b0' },
+                    { label: 'VPN Transit', cidr: 30, vlanId: 60, description: 'VPN concentrator links', color: '#f44336' },
+                    { label: 'Quarantine', cidr: 27, vlanId: 70, description: 'Quarantine/remediation', color: '#42a5f5' },
+                    { label: 'Voice', cidr: 27, vlanId: 80, description: 'VoIP phones', color: '#26a69a' }
+                ]
+            },
+            'medium-site': {
+                name: 'Medium Remote Site',
+                parentIP: '10.10.0.0',
+                parentCIDR: 22,
+                allocations: [
+                    { label: 'Users', cidr: 24, vlanId: 10, description: 'End user workstations', color: '#4fc3f7' },
+                    { label: 'Printers', cidr: 26, vlanId: 20, description: 'Printers and IoT devices', color: '#66bb6a' },
+                    { label: 'Servers', cidr: 25, vlanId: 30, description: 'Local servers', color: '#ff8a65' },
+                    { label: 'Management', cidr: 27, vlanId: 40, description: 'Network management', color: '#ffeb3b' },
+                    { label: 'Firewall Transit', cidr: 29, vlanId: 50, description: 'Firewall uplinks', color: '#9c27b0' },
+                    { label: 'VPN Transit', cidr: 29, vlanId: 60, description: 'VPN concentrator links', color: '#f44336' },
+                    { label: 'Quarantine', cidr: 25, vlanId: 70, description: 'Quarantine/remediation', color: '#42a5f5' },
+                    { label: 'Voice', cidr: 25, vlanId: 80, description: 'VoIP phones', color: '#26a69a' }
+                ]
+            }
+        };
+
+        function loadTemplate(templateName) {
+            const template = templates[templateName];
+            if (!template) {
+                alert('Template not found');
+                return;
+            }
+
+            // Set parent network inputs
+            document.getElementById('parentIP').value = template.parentIP;
+            document.getElementById('parentCIDR').value = template.parentCIDR;
+
+            // Calculate parent network
+            const ipInt = ipToInt(template.parentIP);
+            const maskInt = cidrToMask(template.parentCIDR);
+            const networkInt = (ipInt & maskInt) >>> 0;
+            const wildcardInt = (~maskInt) >>> 0;
+            const broadcastInt = (networkInt | wildcardInt) >>> 0;
+
+            // Initialize state with parent network
+            state.parentNetwork = {
+                ip: intToIP(networkInt),
+                cidr: template.parentCIDR,
+                networkInt: networkInt,
+                broadcastInt: broadcastInt
+            };
+
+            // Clear existing allocations
+            state.allocations = [];
+            state.nextId = 1;
+
+            // Add allocations from template
+            let currentNetwork = networkInt;
+            template.allocations.forEach(alloc => {
+                const subnetSize = Math.pow(2, 32 - alloc.cidr);
+
+                // Align to subnet boundary
+                const remainder = currentNetwork % subnetSize;
+                if (remainder !== 0) {
+                    currentNetwork += (subnetSize - remainder);
+                }
+
+                state.allocations.push({
+                    id: state.nextId++,
+                    label: alloc.label,
+                    cidr: alloc.cidr,
+                    networkInt: currentNetwork,
+                    description: alloc.description,
+                    vlanId: alloc.vlanId,
+                    color: alloc.color
+                });
+
+                currentNetwork += subnetSize;
+            });
+
+            // Show planner section and update views
+            document.getElementById('plannerSection').classList.add('show');
+            updateAllViews();
+
+            // Announce to screen readers
+            A11yUtils.announce(`${template.name} template loaded with ${template.allocations.length} subnets`, 'polite');
+        }
     </script>
     <script>
         document.querySelector('.skip-link').addEventListener('click', function(e) {

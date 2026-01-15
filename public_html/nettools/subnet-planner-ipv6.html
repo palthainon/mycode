@@ -600,6 +600,74 @@
             font-size: 0.9rem;
         }
 
+        /* Protocol Toggle Styles */
+        .protocol-toggle-container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .protocol-toggle-link {
+            display: inline-block;
+            padding: 10px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .protocol-toggle-ipv4 {
+            background: rgba(76, 175, 80, 0.2);
+            border: 2px solid rgba(76, 175, 80, 0.5);
+            color: #66bb6a;
+        }
+
+        .protocol-toggle-ipv4:hover {
+            background: rgba(76, 175, 80, 0.3);
+            border-color: #4caf50;
+            box-shadow: 0 0 15px rgba(76, 175, 80, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Quick Templates Styles */
+        .quick-templates {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .quick-templates h3 {
+            color: #90caf9;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .template-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .template-btn {
+            background: rgba(102, 187, 106, 0.1);
+            border: 1px solid rgba(102, 187, 106, 0.3);
+            color: #66bb6a;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .template-btn:hover {
+            background: rgba(102, 187, 106, 0.2);
+            border-color: #66bb6a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 187, 106, 0.2);
+        }
+
         /* Mobile Responsive */
         @media (max-width: 768px) {
             .home-btn {
@@ -684,6 +752,9 @@
 
     <main id="main-content" class="container">
         <h1>IPv6 Subnet Planner</h1>
+        <div class="protocol-toggle-container">
+            <a href="subnet-planner.html" class="protocol-toggle-link protocol-toggle-ipv4">← Switch to IPv4</a>
+        </div>
 
         <!-- Parent Network Input -->
         <div class="calculator">
@@ -724,6 +795,20 @@
                     class="btn secondary"
                     onclick="clearAllSavedData()"
                     aria-label="Clear all saved form data from this page">Clear Saved Data</button>
+
+            <div class="quick-templates">
+                <h3 id="quick-templates-label">Quick Templates - Load a Pre-configured Site Layout:</h3>
+                <div class="template-buttons" role="group" aria-labelledby="quick-templates-label">
+                    <button type="button"
+                            class="template-btn"
+                            onclick="loadTemplate('standard-site')"
+                            aria-label="Load standard site template with /48 parent network and 8 subnets">Standard Site (/48)</button>
+                    <button type="button"
+                            class="template-btn"
+                            onclick="loadTemplate('small-allocation')"
+                            aria-label="Load small allocation template with /56 parent network and 8 subnets">Small Allocation (/56)</button>
+                </div>
+            </div>
             </form>
             <div id="error"
                  role="alert"
@@ -1418,43 +1503,30 @@
 
             let currentPosition = state.parentNetwork.networkInt;
 
-            sorted.forEach(allocation => {
-                const allocSize = getSubnetSize(allocation.cidr);
+            // For IPv6, use equal-width display since percentages are meaningless
+            // (a /64 in a /48 is only ~0.0015% of the space)
+            const numAllocations = sorted.length;
+            const allocWidth = numAllocations > 0 ? Math.floor(90 / numAllocations) : 0;
+            const unallocatedWidth = 100 - (allocWidth * numAllocations);
 
-                // Add unallocated space before this allocation
-                if (allocation.networkInt > currentPosition) {
-                    const gapSize = allocation.networkInt - currentPosition;
-                    const gapPercent = Number((gapSize * 10000n) / totalSize) / 100;
-
-                    if (gapPercent > 0.1) { // Only show if > 0.1%
-                        const gapSegment = createBarSegment('Unallocated', gapPercent, '#333', true);
-                        container.appendChild(gapSegment);
-                    }
-                }
-
-                // Add allocation segment
-                const allocPercent = Number((allocSize * 10000n) / totalSize) / 100;
+            sorted.forEach((allocation, index) => {
+                // Add allocation segment with equal width distribution
                 const segment = createBarSegment(
                     allocation.label || 'Unnamed',
-                    allocPercent,
+                    allocWidth,
                     allocation.color,
                     false,
                     allocation
                 );
                 container.appendChild(segment);
 
-                currentPosition = allocation.networkInt + allocSize;
+                currentPosition = allocation.networkInt + getSubnetSize(allocation.cidr);
             });
 
-            // Add remaining unallocated space
-            if (currentPosition <= state.parentNetwork.broadcastInt) {
-                const remainingSize = state.parentNetwork.broadcastInt - currentPosition + 1n;
-                const remainingPercent = Number((remainingSize * 10000n) / totalSize) / 100;
-
-                if (remainingPercent > 0.1) {
-                    const remainingSegment = createBarSegment('Unallocated', remainingPercent, '#333', true);
-                    container.appendChild(remainingSegment);
-                }
+            // Add remaining unallocated space indicator
+            if (unallocatedWidth > 0) {
+                const remainingSegment = createBarSegment('Unallocated', unallocatedWidth, '#333', true);
+                container.appendChild(remainingSegment);
             }
 
             renderBarChartLegend(sorted);
@@ -1779,6 +1851,103 @@
             StorageUtils.loadFormInputs('subnet-planner-ipv6', subnetPlannerFields);
             StorageUtils.autoSaveFormInputs('subnet-planner-ipv6', subnetPlannerFields);
         });
+
+        // ===== Quick Templates =====
+
+        const templates = {
+            'standard-site': {
+                name: 'Standard Site',
+                parentIP: '2001:db8:1::',
+                parentCIDR: 48,
+                allocations: [
+                    { label: 'Users', cidr: 64, vlanId: 10, description: 'End user workstations', color: '#4fc3f7' },
+                    { label: 'Printers', cidr: 64, vlanId: 20, description: 'Printers and IoT devices', color: '#66bb6a' },
+                    { label: 'Servers', cidr: 64, vlanId: 30, description: 'Local servers', color: '#ff8a65' },
+                    { label: 'Management', cidr: 64, vlanId: 40, description: 'Network management', color: '#ffeb3b' },
+                    { label: 'Firewall Transit', cidr: 64, vlanId: 50, description: 'Firewall uplinks', color: '#9c27b0' },
+                    { label: 'VPN Transit', cidr: 64, vlanId: 60, description: 'VPN concentrator links', color: '#f44336' },
+                    { label: 'Quarantine', cidr: 64, vlanId: 70, description: 'Quarantine/remediation', color: '#42a5f5' },
+                    { label: 'Voice', cidr: 64, vlanId: 80, description: 'VoIP phones', color: '#26a69a' }
+                ]
+            },
+            'small-allocation': {
+                name: 'Small Allocation',
+                parentIP: '2001:db8:abcd::',
+                parentCIDR: 56,
+                allocations: [
+                    { label: 'Users', cidr: 64, vlanId: 10, description: 'End user workstations', color: '#4fc3f7' },
+                    { label: 'Printers', cidr: 64, vlanId: 20, description: 'Printers and IoT devices', color: '#66bb6a' },
+                    { label: 'Servers', cidr: 64, vlanId: 30, description: 'Local servers', color: '#ff8a65' },
+                    { label: 'Management', cidr: 64, vlanId: 40, description: 'Network management', color: '#ffeb3b' },
+                    { label: 'Firewall Transit', cidr: 64, vlanId: 50, description: 'Firewall uplinks', color: '#9c27b0' },
+                    { label: 'VPN Transit', cidr: 64, vlanId: 60, description: 'VPN concentrator links', color: '#f44336' },
+                    { label: 'Quarantine', cidr: 64, vlanId: 70, description: 'Quarantine/remediation', color: '#42a5f5' },
+                    { label: 'Voice', cidr: 64, vlanId: 80, description: 'VoIP phones', color: '#26a69a' }
+                ]
+            }
+        };
+
+        function loadTemplate(templateName) {
+            const template = templates[templateName];
+            if (!template) {
+                alert('Template not found');
+                return;
+            }
+
+            // Set parent network inputs
+            document.getElementById('parentIP').value = template.parentIP;
+            document.getElementById('parentCIDR').value = template.parentCIDR;
+
+            // Calculate parent network
+            const ipInt = ipv6ToInt(template.parentIP);
+            const maskInt = cidrToIPv6Mask(template.parentCIDR);
+            const networkInt = ipInt & maskInt;
+            const subnetSize = getSubnetSize(template.parentCIDR);
+            const broadcastInt = networkInt + subnetSize - 1n;
+
+            // Initialize state with parent network
+            state.parentNetwork = {
+                ip: compressIPv6(intToIPv6(networkInt)),
+                cidr: template.parentCIDR,
+                networkInt: networkInt,
+                broadcastInt: broadcastInt
+            };
+
+            // Clear existing allocations
+            state.allocations = [];
+            state.nextId = 1;
+
+            // Add allocations from template
+            let currentNetwork = networkInt;
+            template.allocations.forEach(alloc => {
+                const allocSubnetSize = getSubnetSize(alloc.cidr);
+
+                // Align to subnet boundary
+                const remainder = currentNetwork % allocSubnetSize;
+                if (remainder !== 0n) {
+                    currentNetwork = currentNetwork - remainder + allocSubnetSize;
+                }
+
+                state.allocations.push({
+                    id: state.nextId++,
+                    label: alloc.label,
+                    cidr: alloc.cidr,
+                    networkInt: currentNetwork,
+                    description: alloc.description,
+                    vlanId: alloc.vlanId,
+                    color: alloc.color
+                });
+
+                currentNetwork = currentNetwork + allocSubnetSize;
+            });
+
+            // Show planner section and update views
+            document.getElementById('plannerSection').classList.add('show');
+            updateAllViews();
+
+            // Announce to screen readers
+            A11yUtils.announce(`${template.name} template loaded with ${template.allocations.length} subnets`, 'polite');
+        }
     </script>
     <script>
         document.querySelector('.skip-link').addEventListener('click', function(e) {
