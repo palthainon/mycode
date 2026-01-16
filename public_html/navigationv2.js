@@ -542,4 +542,7 @@
         injectStyles();
         init();
     }
+
+    // Expose toolsData for home page quick access feature
+    window.toolsData = toolsData;
 })();

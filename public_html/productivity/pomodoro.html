@@ -78,8 +78,8 @@
         /* Circular Timer */
         .timer-container {
             position: relative;
-            width: 280px;
-            height: 280px;
+            width: clamp(200px, 45vw, 320px);
+            height: clamp(200px, 45vw, 320px);
             margin: 0 auto 30px;
         }
 
@@ -92,13 +92,13 @@
         .timer-bg {
             fill: none;
             stroke: rgba(255, 255, 255, 0.1);
-            stroke-width: 8;
+            stroke-width: 6;
         }
 
         .timer-progress {
             fill: none;
             stroke: #4fc3f7;
-            stroke-width: 8;
+            stroke-width: 6;
             stroke-linecap: round;
             transition: stroke-dashoffset 0.5s ease, stroke 0.3s ease;
         }
@@ -120,7 +120,7 @@
         }
 
         .timer-target {
-            font-size: 1rem;
+            font-size: clamp(0.8rem, 2.5vw, 1rem);
             color: #90caf9;
             margin-bottom: 5px;
             font-variant-numeric: tabular-nums;
@@ -129,7 +129,7 @@
         }
 
         .timer-time {
-            font-size: 3.5rem;
+            font-size: clamp(2rem, 10vw, 3.5rem);
             font-weight: 300;
             color: #fff;
             font-variant-numeric: tabular-nums;
@@ -147,7 +147,7 @@
         }
 
         .timer-time-input {
-            font-size: 3.5rem;
+            font-size: clamp(2rem, 10vw, 3.5rem);
             font-weight: 300;
             color: #fff;
             font-variant-numeric: tabular-nums;
@@ -155,13 +155,13 @@
             background: transparent;
             border: none;
             border-bottom: 2px solid #4fc3f7;
-            width: 120px;
+            width: clamp(80px, 25vw, 120px);
             text-align: center;
             outline: none;
         }
 
         .timer-phase {
-            font-size: 1rem;
+            font-size: clamp(0.8rem, 2.5vw, 1rem);
             color: #90caf9;
             margin-top: 5px;
             text-transform: uppercase;
@@ -169,7 +169,7 @@
         }
 
         .timer-cycle {
-            font-size: 0.85rem;
+            font-size: clamp(0.7rem, 2vw, 0.85rem);
             color: rgba(255, 255, 255, 0.5);
             margin-top: 5px;
         }
@@ -219,15 +219,26 @@
             transform: none !important;
         }
 
+        .skip-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+            transition: max-height 0.25s ease, opacity 0.2s ease, margin 0.25s ease;
+        }
+
+        .skip-container.visible {
+            max-height: 50px;
+            opacity: 1;
+        }
+
         .btn-skip {
-            display: none;
             background: rgba(102, 187, 106, 0.2);
             color: #66bb6a;
             border: 1px solid rgba(102, 187, 106, 0.3);
-        }
-
-        .btn-skip.show {
-            display: inline-block;
         }
 
         .btn-skip:hover {
@@ -600,19 +611,132 @@
             color: #4fc3f7;
         }
 
+        /* Focus Mode Toggle - Top Right Corner */
+        .timer-card {
+            position: relative;
+        }
+
+        .focus-toggle {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 8px 12px;
+            font-size: 1.1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+            color: rgba(255, 255, 255, 0.7);
+            z-index: 10;
+        }
+
+        .focus-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+            color: #fff;
+        }
+
+        /* Task Display for Focused Mode */
+        .focus-task-display {
+            display: none;
+            text-align: center;
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 10px;
+        }
+
+        /* Focused Mode Styles */
+        body.focused-mode {
+            overflow: hidden;
+        }
+
+        body.focused-mode nav,
+        body.focused-mode .skip-link,
+        body.focused-mode h1,
+        body.focused-mode .notification-banner,
+        body.focused-mode .phase-selector,
+        body.focused-mode .task-input-container,
+        body.focused-mode .settings-card,
+        body.focused-mode .history-card,
+        body.focused-mode footer {
+            display: none !important;
+        }
+
+        body.focused-mode .container {
+            max-width: 100vw;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        body.focused-mode .timer-card {
+            background: transparent;
+            box-shadow: none;
+            width: 100%;
+            max-width: none;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: none;
+        }
+
+        body.focused-mode .timer-container {
+            width: min(80vw, 80vh, 500px);
+            height: min(80vw, 80vh, 500px);
+        }
+
+        body.focused-mode .timer-container svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        body.focused-mode #timerTime {
+            font-size: clamp(1.8rem, min(15vw, 15vh), 6rem);
+        }
+
+        body.focused-mode #timerTarget {
+            font-size: clamp(0.7rem, min(4vw, 4vh), 1.2rem);
+        }
+
+        body.focused-mode #timerPhase {
+            font-size: clamp(0.9rem, min(5vw, 5vh), 2rem);
+        }
+
+        body.focused-mode #timerCycle {
+            font-size: clamp(0.7rem, min(3vw, 3vh), 1.2rem);
+        }
+
+        body.focused-mode .focus-task-display {
+            display: block;
+            font-size: clamp(0.85rem, min(4vw, 4vh), 1.5rem);
+            margin-top: 15px;
+        }
+
+        body.focused-mode .controls {
+            margin-top: 30px;
+        }
+
+        body.focused-mode .skip-container {
+            margin-bottom: 0;
+        }
+
+        body.focused-mode .focus-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+
         /* Responsive */
         @media (max-width: 480px) {
             h1 {
                 font-size: 1.8rem;
-            }
-
-            .timer-container {
-                width: 220px;
-                height: 220px;
-            }
-
-            .timer-time {
-                font-size: 2.5rem;
             }
 
             .settings-grid {
@@ -636,106 +760,145 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <main id="main-content" class="container" role="main" aria-label="Pomodoro Timer Application">
         <h1>Pomodoro Timer</h1>
 
         <!-- Notification Permission Banner -->
-        <div id="notificationBanner" class="notification-banner hidden">
-            <p>Enable notifications to get alerted when your timer ends</p>
-            <button class="btn btn-primary" onclick="requestNotificationPermission()">Enable</button>
+        <div id="notificationBanner" class="notification-banner hidden" role="alert">
+            <p id="notification-prompt">Enable notifications to get alerted when your timer ends</p>
+            <button class="btn btn-primary" onclick="requestNotificationPermission()" aria-describedby="notification-prompt">Enable Notifications</button>
         </div>
 
         <!-- Timer Card -->
-        <div class="timer-card">
+        <div class="timer-card" role="region" aria-label="Timer display and controls">
+            <!-- Focus Mode Toggle -->
+            <button id="focusBtn" class="btn btn-icon focus-toggle"
+                    aria-label="Enter focused mode"
+                    aria-pressed="false"
+                    title="Focus mode (F)">
+                <span class="focus-icon">⛶</span>
+            </button>
+
             <!-- Circular Timer -->
-            <div class="timer-container">
-                <svg class="timer-svg" viewBox="0 0 100 100">
-                    <circle class="timer-bg" cx="50" cy="50" r="45"></circle>
-                    <circle id="timerProgress" class="timer-progress" cx="50" cy="50" r="45"
-                            stroke-dasharray="282.74" stroke-dashoffset="0"></circle>
+            <div class="timer-container" role="timer" aria-live="off" aria-atomic="true">
+                <svg class="timer-svg" viewBox="0 0 100 100" aria-hidden="true">
+                    <circle class="timer-bg" cx="50" cy="50" r="44"></circle>
+                    <circle id="timerProgress" class="timer-progress" cx="50" cy="50" r="44"
+                            stroke-dasharray="276.46" stroke-dashoffset="0"></circle>
                 </svg>
                 <div class="timer-display">
-                    <div id="timerTarget" class="timer-target">of 25:00</div>
-                    <div id="timerTime" class="timer-time">00:00</div>
-                    <div id="timerPhase" class="timer-phase">Work</div>
-                    <div id="timerCycle" class="timer-cycle">Pomodoro 1 of 4</div>
+                    <div id="timerTarget" class="timer-target" aria-label="Target time">of 25:00</div>
+                    <div id="timerTime" class="timer-time" role="status" aria-live="polite" aria-label="Elapsed time" tabindex="0" aria-describedby="timer-edit-hint">00:00</div>
+                    <span id="timer-edit-hint" class="sr-only">Click or press Enter to edit the timer duration when stopped</span>
+                    <div id="timerPhase" class="timer-phase" aria-label="Current phase">Work</div>
+                    <div id="timerCycle" class="timer-cycle" aria-label="Cycle progress">Pomodoro 1 of 4</div>
                 </div>
             </div>
 
+            <!-- Task Display for Focused Mode -->
+            <div id="focusTaskDisplay" class="focus-task-display" aria-live="polite"></div>
+
             <!-- Controls -->
-            <div class="controls">
-                <button id="startBtn" class="btn btn-primary" onclick="startTimer()">Start</button>
-                <button id="pauseBtn" class="btn btn-secondary" onclick="pauseTimer()" disabled>Pause</button>
-                <button id="resetBtn" class="btn btn-secondary" onclick="resetTimer()">Reset</button>
-                <button id="skipBtn" class="btn btn-skip" onclick="skipBreak()">Skip Break</button>
+            <div class="controls" role="group" aria-label="Timer controls">
+                <button id="startBtn" class="btn btn-primary" onclick="startTimer()" aria-label="Start timer">Start</button>
+                <button id="pauseBtn" class="btn btn-secondary" onclick="pauseTimer()" disabled aria-label="Pause timer">Pause</button>
+                <button id="resetBtn" class="btn btn-secondary" onclick="resetTimer()" aria-label="Reset timer to beginning">Reset</button>
+            </div>
+
+            <!-- Skip Break -->
+            <div class="skip-container">
+                <button id="skipBtn" class="btn btn-skip" onclick="skipBreak()" aria-label="Skip current break and return to work">Skip Break</button>
             </div>
 
             <!-- Phase Selector -->
-            <div class="phase-selector">
-                <span class="phase-selector-label">Switch to:</span>
-                <button class="phase-btn active" data-phase="work" onclick="switchPhase('work')">Work</button>
-                <button class="phase-btn" data-phase="shortBreak" onclick="switchPhase('shortBreak')">Break</button>
-                <button class="phase-btn" data-phase="longBreak" onclick="switchPhase('longBreak')">Long Break</button>
+            <div class="phase-selector" role="group" aria-label="Phase selection">
+                <span class="phase-selector-label" id="phase-selector-label">Switch to:</span>
+                <button class="phase-btn active" data-phase="work" onclick="switchPhase('work')" aria-pressed="true" aria-describedby="phase-selector-label">Work</button>
+                <button class="phase-btn" data-phase="shortBreak" onclick="switchPhase('shortBreak')" aria-pressed="false" aria-describedby="phase-selector-label">Break</button>
+                <button class="phase-btn" data-phase="longBreak" onclick="switchPhase('longBreak')" aria-pressed="false" aria-describedby="phase-selector-label">Long Break</button>
             </div>
 
             <!-- Task Input -->
             <div class="task-input-container">
                 <label for="taskInput">Current Task</label>
-                <input type="text" id="taskInput" class="task-input" placeholder="Focus" value="Focus">
+                <input type="text" id="taskInput" class="task-input" placeholder="Focus" value="Focus" aria-describedby="task-help">
+                <span id="task-help" class="sr-only">Enter a name for your current task. This will be saved in your session history.</span>
             </div>
         </div>
 
         <!-- Settings -->
-        <div class="settings-card">
-            <h2>Settings</h2>
-            <div class="settings-grid">
+        <div class="settings-card" role="region" aria-labelledby="settings-heading">
+            <h2 id="settings-heading">Settings</h2>
+            <div class="settings-grid" role="group" aria-label="Duration settings">
                 <div class="setting-item">
                     <label for="workDuration">Work</label>
-                    <input type="number" id="workDuration" min="1" max="120" value="25">
-                    <div class="setting-unit">minutes</div>
+                    <input type="number" id="workDuration" min="1" max="120" value="25" aria-describedby="work-unit">
+                    <div class="setting-unit" id="work-unit">minutes</div>
                 </div>
                 <div class="setting-item">
                     <label for="shortBreakDuration">Short Break</label>
-                    <input type="number" id="shortBreakDuration" min="1" max="30" value="5">
-                    <div class="setting-unit">minutes</div>
+                    <input type="number" id="shortBreakDuration" min="1" max="30" value="5" aria-describedby="short-break-unit">
+                    <div class="setting-unit" id="short-break-unit">minutes</div>
                 </div>
                 <div class="setting-item">
                     <label for="longBreakDuration">Long Break</label>
-                    <input type="number" id="longBreakDuration" min="1" max="60" value="15">
-                    <div class="setting-unit">minutes</div>
+                    <input type="number" id="longBreakDuration" min="1" max="60" value="15" aria-describedby="long-break-unit">
+                    <div class="setting-unit" id="long-break-unit">minutes</div>
                 </div>
             </div>
             <div class="autostop-setting">
                 <label class="toggle-container">
-                    <input type="checkbox" id="autostopToggle" checked>
-                    <span class="toggle-slider"></span>
+                    <input type="checkbox" id="autostopToggle" checked aria-describedby="autostop-desc">
+                    <span class="toggle-slider" aria-hidden="true"></span>
                     <span class="toggle-label">Auto-stop at target time</span>
                 </label>
+                <span id="autostop-desc" class="sr-only">When enabled, the timer will automatically stop and transition to the next phase when the target time is reached</span>
+            </div>
+            <div class="autostop-setting">
+                <label class="toggle-container">
+                    <input type="checkbox" id="countdownToggle" aria-describedby="countdown-desc">
+                    <span class="toggle-slider" aria-hidden="true"></span>
+                    <span class="toggle-label">Countdown mode (show time remaining)</span>
+                </label>
+                <span id="countdown-desc" class="sr-only">When enabled, the timer counts down from the target time instead of counting up from zero</span>
+            </div>
+            <div class="autostop-setting">
+                <label class="toggle-container">
+                    <input type="checkbox" id="autoStartBreaksToggle" aria-describedby="autostart-desc">
+                    <span class="toggle-slider" aria-hidden="true"></span>
+                    <span class="toggle-label">Auto-start breaks after work</span>
+                </label>
+                <span id="autostart-desc" class="sr-only">When enabled, break timers start automatically after work sessions complete. Work sessions always require manual start.</span>
             </div>
         </div>
 
         <!-- History -->
-        <div class="history-card">
-            <h2>
+        <div class="history-card" role="region" aria-labelledby="history-heading">
+            <h2 id="history-heading">
                 Today's Sessions
-                <button class="clear-history-btn" onclick="clearHistory()" title="Clear history">Clear</button>
+                <button class="clear-history-btn" onclick="clearHistory()" aria-label="Clear all session history">Clear</button>
             </h2>
-            <div class="history-stats">
+            <div class="history-stats" role="group" aria-label="Today's statistics">
                 <div class="stat-item">
-                    <div id="totalPomodoros" class="stat-value">0</div>
-                    <div class="stat-label">Pomodoros</div>
+                    <div id="totalPomodoros" class="stat-value" aria-live="polite">0</div>
+                    <div class="stat-label" id="pomodoros-label">Pomodoros</div>
                 </div>
                 <div class="stat-item">
-                    <div id="totalFocusTime" class="stat-value">0</div>
-                    <div class="stat-label">Minutes Focused</div>
+                    <div id="totalFocusTime" class="stat-value" aria-live="polite">0</div>
+                    <div class="stat-label" id="focus-label">Minutes Focused</div>
                 </div>
             </div>
-            <div id="historyList" class="history-list">
-                <div class="history-empty">No sessions yet. Start your first pomodoro!</div>
+            <div id="historyList" class="history-list" role="list" aria-label="Session history">
+                <div class="history-empty" role="listitem">No sessions yet. Start your first pomodoro!</div>
             </div>
-            <button id="exportCsvBtn" class="export-csv-btn" onclick="exportToCSV()" title="Export sessions to CSV">Export to CSV</button>
+            <button id="exportCsvBtn" class="export-csv-btn" onclick="exportToCSV()" aria-label="Export session history to CSV file">Export to CSV</button>
         </div>
-    </div>
+
+        <footer role="contentinfo">
+            Pomodoro Timer - Works offline, no installation required
+        </footer>
+    </main>
 
     <script>
         // Timer State
@@ -746,7 +909,8 @@
             pomodoroCount: 1,
             timeElapsed: 0, // counts up from 0
             totalTime: 25 * 60,
-            intervalId: null
+            intervalId: null,
+            targetReachedSoundPlayed: false // track if sound played at target time
         };
 
         // Settings
@@ -754,11 +918,17 @@
             workDuration: 25,
             shortBreakDuration: 5,
             longBreakDuration: 15,
-            autostop: true
+            autostop: true,
+            countdownMode: false,
+            autoStartBreaks: false
         };
 
         // History
         let history = [];
+
+        // Audio state for iOS Safari compatibility
+        let audioUnlocked = false;
+        let audioContext = null;
 
         // DOM Elements
         const timerProgress = document.getElementById('timerProgress');
@@ -774,7 +944,7 @@
         const notificationBanner = document.getElementById('notificationBanner');
 
         // Circle circumference for progress
-        const CIRCUMFERENCE = 2 * Math.PI * 45; // r=45
+        const CIRCUMFERENCE = 2 * Math.PI * 44; // r=44
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
@@ -783,11 +953,30 @@
             checkNotificationPermission();
             updateDisplay();
 
+            // Initialize skip link
+            const skipLink = document.querySelector('.skip-link');
+            if (skipLink) {
+                skipLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.getElementById('main-content');
+                    if (target) {
+                        target.setAttribute('tabindex', '-1');
+                        target.focus();
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            }
+
             // Save settings on change
             ['workDuration', 'shortBreakDuration', 'longBreakDuration'].forEach(id => {
                 document.getElementById(id).addEventListener('change', saveSettings);
             });
             document.getElementById('autostopToggle').addEventListener('change', saveSettings);
+            document.getElementById('countdownToggle').addEventListener('change', function() {
+                saveSettings();
+                updateDisplay();
+            });
+            document.getElementById('autoStartBreaksToggle').addEventListener('change', saveSettings);
 
             // Save task on change
             taskInput.addEventListener('change', function() {
@@ -800,16 +989,31 @@
 
             // Make timer clickable to edit
             timerTime.addEventListener('click', makeTimerEditable);
+
+            // Keyboard support for timer editing
+            timerTime.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    makeTimerEditable();
+                }
+            });
         });
 
         // Timer Functions
         function startTimer() {
+            // Unlock audio on user interaction (required for iOS Safari)
+            unlockAudio();
+
             if (timerState.isPaused) {
                 // Resume - keep current timeElapsed
                 timerState.isPaused = false;
+                A11yUtils.announce('Timer resumed', 'polite');
             } else {
                 // Start fresh
                 timerState.timeElapsed = 0;
+                timerState.targetReachedSoundPlayed = false;
+                const phaseName = timerState.phase === 'shortBreak' ? 'Short break' : timerState.phase === 'longBreak' ? 'Long break' : 'Work session';
+                A11yUtils.announce(`${phaseName} started. Target: ${Math.floor(timerState.totalTime / 60)} minutes.`, 'polite');
             }
 
             timerState.isRunning = true;
@@ -827,7 +1031,12 @@
 
             startBtn.disabled = false;
             startBtn.textContent = 'Resume';
+            startBtn.setAttribute('aria-label', 'Resume timer');
             pauseBtn.disabled = true;
+
+            const minutes = Math.floor(timerState.timeElapsed / 60);
+            const seconds = timerState.timeElapsed % 60;
+            A11yUtils.announce(`Timer paused at ${minutes} minutes ${seconds} seconds`, 'polite');
         }
 
         function stopTimer() {
@@ -854,7 +1063,10 @@
                     timerState.totalTime = settings.shortBreakDuration * 60;
                 }
             } else if (timerState.phase !== 'work') {
-                // Break phase - just transition back to work
+                // Break phase - play sound and transition back to work
+                playNotificationSound(timerState.phase);
+                showNotification();
+
                 if (timerState.phase === 'shortBreak') {
                     timerState.pomodoroCount++;
                 }
@@ -864,6 +1076,7 @@
 
             timerState.timeElapsed = 0;
             timerState.isPaused = false;
+            timerState.targetReachedSoundPlayed = false;
 
             startBtn.disabled = false;
             startBtn.textContent = 'Start';
@@ -879,14 +1092,17 @@
             timerState.pomodoroCount = 1;
             timerState.totalTime = settings.workDuration * 60;
             timerState.timeElapsed = 0;
+            timerState.targetReachedSoundPlayed = false;
 
             clearInterval(timerState.intervalId);
 
             startBtn.disabled = false;
             startBtn.textContent = 'Start';
+            startBtn.setAttribute('aria-label', 'Start timer');
             pauseBtn.disabled = true;
 
             updateDisplay();
+            A11yUtils.announce('Timer reset. Ready to start work session.', 'polite');
         }
 
         function skipBreak() {
@@ -903,12 +1119,15 @@
             timerState.phase = 'work';
             timerState.totalTime = settings.workDuration * 60;
             timerState.timeElapsed = 0;
+            timerState.targetReachedSoundPlayed = false;
 
             startBtn.disabled = false;
             startBtn.textContent = 'Start';
+            startBtn.setAttribute('aria-label', 'Start timer');
             pauseBtn.disabled = true;
 
             updateDisplay();
+            A11yUtils.announce('Break skipped. Ready to start work session.', 'polite');
         }
 
         function switchPhase(phase) {
@@ -919,6 +1138,7 @@
             timerState.isPaused = false;
             timerState.phase = phase;
             timerState.timeElapsed = 0;
+            timerState.targetReachedSoundPlayed = false;
 
             // Set total time based on phase
             if (phase === 'work') {
@@ -931,16 +1151,35 @@
 
             startBtn.disabled = false;
             startBtn.textContent = 'Start';
+            startBtn.setAttribute('aria-label', 'Start timer');
             pauseBtn.disabled = true;
 
             updateDisplay();
+            const phaseName = phase === 'shortBreak' ? 'Short break' : phase === 'longBreak' ? 'Long break' : 'Work';
+            A11yUtils.announce(`Switched to ${phaseName}. Target: ${Math.floor(timerState.totalTime / 60)} minutes.`, 'polite');
         }
 
         function tick() {
             timerState.timeElapsed++;
 
-            if (settings.autostop && timerState.timeElapsed >= timerState.totalTime) {
-                completePhase();
+            // Check if we've just reached the target time
+            if (timerState.timeElapsed >= timerState.totalTime && !timerState.targetReachedSoundPlayed) {
+                timerState.targetReachedSoundPlayed = true;
+
+                if (settings.autostop) {
+                    // Autostop enabled: complete the phase (plays sound and transitions)
+                    completePhase();
+                    return;
+                } else {
+                    // Autostop disabled: play sound and notification but keep running
+                    playNotificationSound(timerState.phase);
+                    showNotification();
+
+                    // If work phase, save the session at target time
+                    if (timerState.phase === 'work') {
+                        saveSession();
+                    }
+                }
             }
 
             updateDisplay();
@@ -955,6 +1194,8 @@
 
             // Show browser notification
             showNotification();
+
+            const completedPhase = timerState.phase;
 
             if (timerState.phase === 'work') {
                 // Save completed pomodoro to history
@@ -982,28 +1223,80 @@
 
             timerState.timeElapsed = 0;
             timerState.isPaused = false;
+            timerState.targetReachedSoundPlayed = false;
 
-            startBtn.disabled = false;
-            startBtn.textContent = 'Start';
-            pauseBtn.disabled = true;
+            // Auto-start breaks if setting is enabled (but not work sessions)
+            const shouldAutoStart = settings.autoStartBreaks && completedPhase === 'work';
+
+            if (shouldAutoStart) {
+                // Auto-start the break timer
+                timerState.isRunning = true;
+                startBtn.disabled = true;
+                pauseBtn.disabled = false;
+                updatePauseButton();
+                timerState.intervalId = setInterval(tick, 1000);
+            } else {
+                startBtn.disabled = false;
+                startBtn.textContent = 'Start';
+                startBtn.setAttribute('aria-label', 'Start timer');
+                pauseBtn.disabled = true;
+            }
 
             updateDisplay();
+
+            // Announce phase completion
+            if (completedPhase === 'work') {
+                const nextPhase = timerState.phase === 'longBreak' ? 'long break' : 'short break';
+                if (shouldAutoStart) {
+                    A11yUtils.announce(`Work session complete! ${nextPhase} started automatically.`, 'assertive');
+                } else {
+                    A11yUtils.announce(`Work session complete! Time for a ${nextPhase}.`, 'assertive');
+                }
+            } else {
+                A11yUtils.announce('Break complete! Ready for next work session.', 'assertive');
+            }
         }
 
         function updateDisplay() {
-            // Update time display (count-up)
+            // Update time display (count-up or countdown based on setting)
             const isOvertime = timerState.timeElapsed > timerState.totalTime;
-            const displayTime = isOvertime
-                ? timerState.timeElapsed - timerState.totalTime
-                : timerState.timeElapsed;
-            const minutes = Math.floor(displayTime / 60);
-            const seconds = displayTime % 60;
-            const timeStr = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            timerTime.textContent = isOvertime ? `+${timeStr}` : timeStr;
+            let displayTime, timeStr;
 
-            // Update progress ring (fills up as time elapses)
+            if (settings.countdownMode) {
+                // Countdown mode: show time remaining
+                if (isOvertime) {
+                    displayTime = timerState.timeElapsed - timerState.totalTime;
+                    const minutes = Math.floor(displayTime / 60);
+                    const seconds = displayTime % 60;
+                    timeStr = `-${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                } else {
+                    displayTime = timerState.totalTime - timerState.timeElapsed;
+                    const minutes = Math.floor(displayTime / 60);
+                    const seconds = displayTime % 60;
+                    timeStr = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                }
+            } else {
+                // Count-up mode (default): show elapsed time
+                displayTime = isOvertime
+                    ? timerState.timeElapsed - timerState.totalTime
+                    : timerState.timeElapsed;
+                const minutes = Math.floor(displayTime / 60);
+                const seconds = displayTime % 60;
+                timeStr = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                if (isOvertime) timeStr = `+${timeStr}`;
+            }
+            timerTime.textContent = timeStr;
+
+            // Update progress ring (fills up in count-up mode, empties in countdown mode)
             const progress = Math.min(timerState.timeElapsed / timerState.totalTime, 1);
-            const offset = CIRCUMFERENCE * (1 - progress);
+            let offset;
+            if (settings.countdownMode) {
+                // Countdown: ring starts full and empties
+                offset = CIRCUMFERENCE * progress;
+            } else {
+                // Count-up: ring starts empty and fills
+                offset = CIRCUMFERENCE * (1 - progress);
+            }
             timerProgress.style.strokeDashoffset = offset;
 
             // Update phase styling
@@ -1028,10 +1321,22 @@
             // Update cycle display
             timerCycle.textContent = `Pomodoro ${timerState.pomodoroCount} of 4`;
 
-            // Update target time display
+            // Update target time display and aria-labels based on countdown mode
             const targetMinutes = Math.floor(timerState.totalTime / 60);
             const targetSeconds = timerState.totalTime % 60;
-            timerTarget.textContent = `of ${targetMinutes.toString().padStart(2, '0')}:${targetSeconds.toString().padStart(2, '0')}`;
+            if (settings.countdownMode) {
+                // In countdown mode, show elapsed time in the smaller label
+                const elapsedMinutes = Math.floor(timerState.timeElapsed / 60);
+                const elapsedSeconds = timerState.timeElapsed % 60;
+                timerTarget.textContent = `${elapsedMinutes.toString().padStart(2, '0')}:${elapsedSeconds.toString().padStart(2, '0')} elapsed`;
+                timerTarget.setAttribute('aria-label', 'Elapsed time');
+                timerTime.setAttribute('aria-label', 'Time remaining');
+            } else {
+                // In count-up mode, show target time
+                timerTarget.textContent = `of ${targetMinutes.toString().padStart(2, '0')}:${targetSeconds.toString().padStart(2, '0')}`;
+                timerTarget.setAttribute('aria-label', 'Target time');
+                timerTime.setAttribute('aria-label', 'Elapsed time');
+            }
 
             // Update target time color based on phase
             if (timerState.phase === 'shortBreak') {
@@ -1042,11 +1347,12 @@
                 timerTarget.style.color = '#90caf9';
             }
 
-            // Show/hide skip break button
+            // Show/hide skip break button (animate container, not button)
+            const skipContainer = document.querySelector('.skip-container');
             if (timerState.phase === 'shortBreak' || timerState.phase === 'longBreak') {
-                skipBtn.classList.add('show');
+                skipContainer.classList.add('visible');
             } else {
-                skipBtn.classList.remove('show');
+                skipContainer.classList.remove('visible');
             }
 
             // Update timer clickability state
@@ -1059,7 +1365,9 @@
             // Update phase selector buttons
             document.querySelectorAll('.phase-btn').forEach(btn => {
                 const phase = btn.dataset.phase;
-                btn.classList.toggle('active', phase === timerState.phase);
+                const isActive = phase === timerState.phase;
+                btn.classList.toggle('active', isActive);
+                btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
                 btn.disabled = timerState.isRunning;
             });
         }
@@ -1070,6 +1378,7 @@
             if (timerState.isRunning || timerState.isPaused) return;
 
             const currentMinutes = Math.floor(timerState.totalTime / 60);
+            const timerDisplay = document.querySelector('.timer-display');
 
             // Create input element
             const input = document.createElement('input');
@@ -1082,6 +1391,9 @@
             // Store original display
             const originalText = timerTime.textContent;
 
+            // Add editing indicator
+            timerDisplay.classList.add('editing');
+
             // Replace text with input
             timerTime.textContent = '';
             timerTime.appendChild(input);
@@ -1089,6 +1401,9 @@
             input.select();
 
             function finishEdit(save) {
+                // Remove editing indicator
+                timerDisplay.classList.remove('editing');
+
                 if (save) {
                     const newMinutes = parseInt(input.value) || currentMinutes;
                     const clampedMinutes = Math.max(1, Math.min(120, newMinutes));
@@ -1136,6 +1451,8 @@
                 document.getElementById('shortBreakDuration').value = settings.shortBreakDuration;
                 document.getElementById('longBreakDuration').value = settings.longBreakDuration;
                 document.getElementById('autostopToggle').checked = settings.autostop !== false;
+                document.getElementById('countdownToggle').checked = settings.countdownMode === true;
+                document.getElementById('autoStartBreaksToggle').checked = settings.autoStartBreaks === true;
             }
             timerState.totalTime = settings.workDuration * 60;
             timerState.timeElapsed = 0;
@@ -1147,6 +1464,8 @@
             settings.shortBreakDuration = parseInt(document.getElementById('shortBreakDuration').value) || 5;
             settings.longBreakDuration = parseInt(document.getElementById('longBreakDuration').value) || 15;
             settings.autostop = document.getElementById('autostopToggle').checked;
+            settings.countdownMode = document.getElementById('countdownToggle').checked;
+            settings.autoStartBreaks = document.getElementById('autoStartBreaksToggle').checked;
 
             StorageUtils.save('pomodoro_settings', settings);
             updatePauseButton();
@@ -1263,6 +1582,7 @@
                 history = [];
                 StorageUtils.remove('pomodoro_history');
                 renderHistory();
+                A11yUtils.announce('Session history cleared', 'polite');
             }
         }
 
@@ -1290,6 +1610,7 @@
             link.click();
 
             URL.revokeObjectURL(url);
+            A11yUtils.announce(`Exported ${history.length} sessions to CSV file`, 'polite');
         }
 
         // Notification Functions
@@ -1334,9 +1655,53 @@
         }
 
         // Audio Functions
+        // iOS Safari requires user interaction to unlock AudioContext
+        function unlockAudio() {
+            if (audioUnlocked) return Promise.resolve();
+
+            try {
+                const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+                if (!AudioContextClass) return Promise.resolve();
+
+                if (!audioContext) {
+                    audioContext = new AudioContextClass();
+                }
+
+                // Resume if suspended (iOS Safari)
+                if (audioContext.state === 'suspended') {
+                    return audioContext.resume().then(() => {
+                        // Play silent buffer to fully unlock
+                        const buffer = audioContext.createBuffer(1, 1, 22050);
+                        const source = audioContext.createBufferSource();
+                        source.buffer = buffer;
+                        source.connect(audioContext.destination);
+                        source.start(0);
+                        audioUnlocked = true;
+                    });
+                }
+
+                audioUnlocked = true;
+                return Promise.resolve();
+            } catch (e) {
+                console.warn('Audio unlock failed:', e);
+                return Promise.resolve();
+            }
+        }
+
         function playNotificationSound(phase) {
             try {
-                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+                if (!AudioContextClass) return;
+
+                // Reuse or create global context
+                if (!audioContext) {
+                    audioContext = new AudioContextClass();
+                }
+
+                // Handle suspended state (iOS Safari)
+                if (audioContext.state === 'suspended') {
+                    audioContext.resume();
+                }
 
                 if (phase === 'work') {
                     // Work complete: Celebratory ascending C major chord (3 times)
@@ -1368,28 +1733,35 @@
                         });
                     }
                 } else {
-                    // Break complete: Gentle two-tone chime to signal back to work
+                    // Break complete: Gentle two-tone chime to signal back to work (3 times)
                     const frequencies = [392.00, 523.25]; // G4, C5 - simple interval
                     const noteDuration = 0.8;
+                    const repetitions = 3;
+                    const chimeDuration = noteDuration + 0.4; // Duration of one chime sequence
+                    const delayBetween = 0.3;
 
-                    frequencies.forEach((freq, index) => {
-                        const oscillator = audioContext.createOscillator();
-                        const gainNode = audioContext.createGain();
+                    for (let rep = 0; rep < repetitions; rep++) {
+                        const repOffset = rep * (chimeDuration + delayBetween);
 
-                        oscillator.connect(gainNode);
-                        gainNode.connect(audioContext.destination);
+                        frequencies.forEach((freq, index) => {
+                            const oscillator = audioContext.createOscillator();
+                            const gainNode = audioContext.createGain();
 
-                        oscillator.type = 'sine';
-                        oscillator.frequency.setValueAtTime(freq, audioContext.currentTime);
+                            oscillator.connect(gainNode);
+                            gainNode.connect(audioContext.destination);
 
-                        const startTime = audioContext.currentTime + (index * 0.4);
-                        gainNode.gain.setValueAtTime(0, startTime);
-                        gainNode.gain.linearRampToValueAtTime(0.12, startTime + 0.05);
-                        gainNode.gain.exponentialRampToValueAtTime(0.001, startTime + noteDuration);
+                            oscillator.type = 'sine';
+                            oscillator.frequency.setValueAtTime(freq, audioContext.currentTime);
 
-                        oscillator.start(startTime);
-                        oscillator.stop(startTime + noteDuration);
-                    });
+                            const startTime = audioContext.currentTime + repOffset + (index * 0.4);
+                            gainNode.gain.setValueAtTime(0, startTime);
+                            gainNode.gain.linearRampToValueAtTime(0.12, startTime + 0.05);
+                            gainNode.gain.exponentialRampToValueAtTime(0.001, startTime + noteDuration);
+
+                            oscillator.start(startTime);
+                            oscillator.stop(startTime + noteDuration);
+                        });
+                    }
                 }
             } catch (e) {
                 console.warn('Audio not available:', e);
@@ -1402,6 +1774,52 @@
             div.textContent = text;
             return div.innerHTML;
         }
+
+        // Focus Mode
+        let focusedMode = false;
+
+        function updateFocusTaskDisplay() {
+            const focusTaskDisplay = document.getElementById('focusTaskDisplay');
+            const taskName = taskInput.value.trim() || 'Focus';
+            focusTaskDisplay.textContent = taskName;
+        }
+
+        function toggleFocusMode(enter = null) {
+            focusedMode = enter !== null ? enter : !focusedMode;
+            document.body.classList.toggle('focused-mode', focusedMode);
+
+            const btn = document.getElementById('focusBtn');
+            btn.setAttribute('aria-pressed', focusedMode);
+            btn.innerHTML = focusedMode ? '<span class="focus-icon">✕</span>' : '<span class="focus-icon">⛶</span>';
+            btn.setAttribute('aria-label', focusedMode ? 'Exit focused mode' : 'Enter focused mode');
+            btn.title = focusedMode ? 'Exit focus mode (Esc)' : 'Focus mode (F)';
+
+            if (focusedMode) {
+                updateFocusTaskDisplay();
+            }
+
+            A11yUtils.announce(focusedMode ? 'Focused mode enabled' : 'Focused mode disabled', 'polite');
+        }
+
+        // Focus mode event listeners
+        document.getElementById('focusBtn').addEventListener('click', () => toggleFocusMode());
+
+        // Update task display when task input changes (while in focused mode)
+        taskInput.addEventListener('input', () => {
+            if (focusedMode) updateFocusTaskDisplay();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            // 'F' to toggle focus mode (only when not typing in input)
+            if (e.key.toLowerCase() === 'f' && !e.target.matches('input, textarea')) {
+                e.preventDefault();
+                toggleFocusMode();
+            }
+            // Escape to exit focus mode
+            if (e.key === 'Escape' && focusedMode) {
+                toggleFocusMode(false);
+            }
+        });
     </script>
 </body>
 </html>

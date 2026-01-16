@@ -227,10 +227,9 @@
         }
 
         .extra-payment-section {
-            display: grid;
-            grid-template-columns: 200px 1fr;
-            gap: 20px;
-            align-items: end;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
             margin-bottom: 25px;
             padding: 20px;
             background: rgba(79, 195, 247, 0.1);
@@ -788,8 +787,8 @@
         }
 
         .schedule-table th {
-            background: rgba(79, 195, 247, 0.2);
-            color: #4fc3f7;
+            background: rgba(79, 195, 247, 0.9);
+            color: #0f1419;
             padding: 12px 15px;
             text-align: right;
             font-weight: 600;
@@ -1810,6 +1809,30 @@
             font-family: 'Consolas', 'Monaco', monospace;
         }
 
+        .debt-summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding: 15px 20px;
+            background: rgba(79, 195, 247, 0.1);
+            border: 1px solid rgba(79, 195, 247, 0.2);
+            border-radius: 8px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .debt-total {
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .debt-total strong {
+            color: #4fc3f7;
+            font-size: 1.2rem;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
         .apply-expense-btn {
             background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
             border: none;
@@ -1957,7 +1980,7 @@
             }
 
             .extra-payment-section {
-                grid-template-columns: 1fr;
+                gap: 12px;
             }
 
             .action-buttons {
@@ -2208,6 +2231,79 @@
                 font-weight: 600;
             }
         }
+
+        /* Formula Section */
+        .formula-section {
+            margin-top: 30px;
+        }
+
+        .formula-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .formula-card {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .formula-card h3 {
+            color: #4fc3f7;
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        .formula-desc {
+            color: #90caf9;
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+        }
+
+        .formula-box {
+            background: #0f1419;
+            border-radius: 6px;
+            padding: 12px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .formula-box code {
+            font-family: 'Consolas', 'Monaco', monospace;
+            color: #81c784;
+            font-size: 0.9rem;
+            word-break: break-all;
+        }
+
+        .formula-box .copy-btn {
+            background: rgba(79, 195, 247, 0.2);
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            color: #4fc3f7;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+
+        .formula-box .copy-btn:hover {
+            background: rgba(79, 195, 247, 0.3);
+        }
+
+        .formula-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 15px;
+            font-size: 0.8rem;
+            color: #78909c;
+        }
     </style>
 
     <!-- Structured Data -->
@@ -2291,6 +2387,17 @@
                     <!-- Debt items will be added here -->
                 </div>
 
+                <div class="debt-summary">
+                    <div class="debt-total">
+                        <span>Total debt balance:</span>
+                        <strong id="totalDebtBalance">$0.00</strong>
+                    </div>
+                    <div class="debt-total">
+                        <span>Total minimum payments:</span>
+                        <strong id="totalDebtMinimum">$0.00</strong>
+                    </div>
+                </div>
+
                 <!-- Expense Tracking Section -->
                 <div class="expense-section">
                     <div class="section-title">
@@ -2326,6 +2433,11 @@
                 </div>
 
                 <div class="extra-payment-section">
+                    <div class="minimum-summary">
+                        <span>Your minimum payments total:</span>
+                        <strong id="totalMinimum">$0.00</strong>
+                        <span>per month</span>
+                    </div>
                     <div class="input-field">
                         <label for="extraPayment">Extra Monthly Payment</label>
                         <div class="input-prefix">
@@ -2333,11 +2445,6 @@
                             <input type="text" id="extraPayment" placeholder="0" aria-describedby="extra-help" inputmode="decimal">
                         </div>
                         <span id="extra-help" class="sr-only">Enter additional monthly payment beyond minimums</span>
-                    </div>
-                    <div class="minimum-summary">
-                        <span>Your minimum payments total:</span>
-                        <strong id="totalMinimum">$0.00</strong>
-                        <span>per month</span>
                     </div>
                 </div>
 
@@ -2447,6 +2554,107 @@
                     </div>
                     <span class="card-arrow" aria-hidden="true">&#8594;</span>
                 </a>
+            </div>
+        </div>
+
+        <!-- Excel Formula Section -->
+        <div class="formula-section">
+            <div class="collapsible" id="formula-collapsible">
+                <div class="collapsible-header" onclick="toggleCollapsible('formula-collapsible')" tabindex="0" role="button" aria-expanded="false" aria-controls="formula-content">
+                    <h3>Excel Formulas for Debt Calculations</h3>
+                    <span class="collapsible-icon" aria-hidden="true">&#9660;</span>
+                </div>
+                <div class="collapsible-content" id="formula-content">
+                    <p>Use these Excel formulas to recreate debt payoff calculations in your own spreadsheets.</p>
+                    <div class="formula-grid">
+                        <div class="formula-card">
+                            <h3>Monthly Payment (PMT)</h3>
+                            <p class="formula-desc">Calculate required monthly payment for a loan</p>
+                            <div class="formula-box">
+                                <code id="formula-pmt">=PMT(B2/12, B3, -B1)</code>
+                                <button class="copy-btn" onclick="copyFormula('formula-pmt', this)">Copy</button>
+                            </div>
+                            <div class="formula-legend">
+                                <span>B1 = Loan Balance</span>
+                                <span>B2 = Annual Rate (decimal)</span>
+                                <span>B3 = Months Remaining</span>
+                            </div>
+                        </div>
+
+                        <div class="formula-card">
+                            <h3>Months to Payoff (NPER)</h3>
+                            <p class="formula-desc">Calculate how many months to pay off a debt</p>
+                            <div class="formula-box">
+                                <code id="formula-nper">=NPER(B2/12, -B3, B1)</code>
+                                <button class="copy-btn" onclick="copyFormula('formula-nper', this)">Copy</button>
+                            </div>
+                            <div class="formula-legend">
+                                <span>B1 = Current Balance</span>
+                                <span>B2 = Annual Rate (decimal)</span>
+                                <span>B3 = Monthly Payment</span>
+                            </div>
+                        </div>
+
+                        <div class="formula-card">
+                            <h3>Total Interest (CUMIPMT)</h3>
+                            <p class="formula-desc">Calculate total interest over the life of the loan</p>
+                            <div class="formula-box">
+                                <code id="formula-cumipmt">=CUMIPMT(B2/12, B3, B1, 1, B3, 0)</code>
+                                <button class="copy-btn" onclick="copyFormula('formula-cumipmt', this)">Copy</button>
+                            </div>
+                            <div class="formula-legend">
+                                <span>B1 = Loan Balance</span>
+                                <span>B2 = Annual Rate (decimal)</span>
+                                <span>B3 = Total Months</span>
+                            </div>
+                        </div>
+
+                        <div class="formula-card">
+                            <h3>Interest for Specific Month (IPMT)</h3>
+                            <p class="formula-desc">Calculate interest portion of a specific payment</p>
+                            <div class="formula-box">
+                                <code id="formula-ipmt">=IPMT(B2/12, B4, B3, -B1)</code>
+                                <button class="copy-btn" onclick="copyFormula('formula-ipmt', this)">Copy</button>
+                            </div>
+                            <div class="formula-legend">
+                                <span>B1 = Loan Balance</span>
+                                <span>B2 = Annual Rate (decimal)</span>
+                                <span>B3 = Total Months</span>
+                                <span>B4 = Payment Number</span>
+                            </div>
+                        </div>
+
+                        <div class="formula-card">
+                            <h3>Principal for Specific Month (PPMT)</h3>
+                            <p class="formula-desc">Calculate principal portion of a specific payment</p>
+                            <div class="formula-box">
+                                <code id="formula-ppmt">=PPMT(B2/12, B4, B3, -B1)</code>
+                                <button class="copy-btn" onclick="copyFormula('formula-ppmt', this)">Copy</button>
+                            </div>
+                            <div class="formula-legend">
+                                <span>B1 = Loan Balance</span>
+                                <span>B2 = Annual Rate (decimal)</span>
+                                <span>B3 = Total Months</span>
+                                <span>B4 = Payment Number</span>
+                            </div>
+                        </div>
+
+                        <div class="formula-card">
+                            <h3>Remaining Balance (FV)</h3>
+                            <p class="formula-desc">Calculate remaining balance after N payments</p>
+                            <div class="formula-box">
+                                <code id="formula-fv">=FV(B2/12, B4, -B3, B1)</code>
+                                <button class="copy-btn" onclick="copyFormula('formula-fv', this)">Copy</button>
+                            </div>
+                            <div class="formula-legend">
+                                <span>B1 = Original Balance</span>
+                                <span>B2 = Annual Rate (decimal)</span>
+                                <span>B3 = Monthly Payment</span>
+                                <span>B4 = Payments Made</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -2691,8 +2899,14 @@
         }
 
         function updateTotalMinimum() {
+            const totalBalance = debts.reduce((sum, d) => sum + (d.balance || 0), 0);
             const total = debts.reduce((sum, d) => sum + (d.minPayment || 0), 0);
             document.getElementById('totalMinimum').textContent = formatCurrency(total);
+            // Update debt summary elements
+            const balanceEl = document.getElementById('totalDebtBalance');
+            const minEl = document.getElementById('totalDebtMinimum');
+            if (balanceEl) balanceEl.textContent = formatCurrency(totalBalance);
+            if (minEl) minEl.textContent = formatCurrency(total);
         }
 
         function toggleDebtPreset(presetName, isChecked) {
@@ -2965,11 +3179,12 @@
                 return `${years} yr ${remainingMonths} mo`;
             };
 
-            // Calculate debt-free date
+            // Calculate debt-free date as years from now
             const getDebtFreeDate = (months) => {
-                const date = new Date();
-                date.setMonth(date.getMonth() + months);
-                return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+                const years = Math.ceil(months / 12);
+                if (years === 0) return 'This year';
+                if (years === 1) return 'Year 1';
+                return `Year ${years}`;
             };
 
             // Display snowball stats
@@ -3167,6 +3382,25 @@
             const header = element.querySelector('.collapsible-header');
             const isOpen = element.classList.toggle('open');
             header.setAttribute('aria-expanded', isOpen);
+        }
+
+        function copyFormula(elementId, button) {
+            const code = document.getElementById(elementId);
+            const text = code.textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = 'Copied!';
+                button.style.background = 'rgba(129, 199, 132, 0.3)';
+                button.style.borderColor = 'rgba(129, 199, 132, 0.5)';
+                button.style.color = '#81c784';
+                A11yUtils.announce('Formula copied to clipboard', 'polite');
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '';
+                    button.style.borderColor = '';
+                    button.style.color = '';
+                }, 2000);
+            });
         }
 
         function switchEducationTab(tabName) {

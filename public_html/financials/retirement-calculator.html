@@ -99,6 +99,28 @@
             margin-bottom: 25px;
         }
 
+        .section-group {
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .info-section {
+            background: rgba(79, 195, 247, 0.08);
+            border-left: 4px solid rgba(79, 195, 247, 0.5);
+        }
+
+        .income-section {
+            background: rgba(139, 195, 74, 0.08);
+            border-left: 4px solid rgba(139, 195, 74, 0.5);
+        }
+
+        .savings-section {
+            background: rgba(46, 125, 50, 0.08);
+            border-left: 4px solid rgba(46, 125, 50, 0.5);
+        }
+
         .input-field {
             display: flex;
             flex-direction: column;
@@ -416,7 +438,7 @@
         }
 
         .schedule-table th {
-            background: rgba(79, 195, 247, 0.2);
+            background: #1a3a5c;
             color: #4fc3f7;
             padding: 12px 15px;
             text-align: right;
@@ -556,6 +578,102 @@
             margin-top: 30px;
             color: rgba(255, 255, 255, 0.4);
             font-size: 0.85rem;
+        }
+
+        .formula-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .formula-section h2 {
+            color: #4fc3f7;
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+
+        .formula-intro {
+            color: #90caf9;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        .formula-card {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #4fc3f7;
+        }
+
+        .formula-card h3 {
+            color: #fff;
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+
+        .formula-card .formula-desc {
+            color: #90caf9;
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+        }
+
+        .formula-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #0f1419;
+            border-radius: 6px;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+        }
+
+        .formula-box code {
+            flex: 1;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.95rem;
+            color: #66bb6a;
+            word-break: break-all;
+        }
+
+        .formula-box .copy-btn {
+            background: rgba(79, 195, 247, 0.2);
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            color: #4fc3f7;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .formula-box .copy-btn:hover {
+            background: rgba(79, 195, 247, 0.3);
+            border-color: #4fc3f7;
+        }
+
+        .formula-box .copy-btn.copied {
+            background: rgba(76, 175, 80, 0.3);
+            border-color: #4caf50;
+            color: #4caf50;
+        }
+
+        .formula-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .formula-legend span {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px 8px;
+            border-radius: 4px;
         }
 
         .required-indicator {
@@ -771,6 +889,57 @@
                 font-weight: 600;
             }
         }
+
+        /* Collapsible Section */
+        .collapsible {
+            margin-bottom: 12px;
+        }
+
+        .collapsible-header {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+        }
+
+        .collapsible-header:hover {
+            background: rgba(0, 0, 0, 0.3);
+            border-color: rgba(79, 195, 247, 0.3);
+        }
+
+        .collapsible-header h3 {
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .collapsible-icon {
+            color: #4fc3f7;
+            font-size: 1.2rem;
+            transition: transform 0.3s;
+        }
+
+        .collapsible.open .collapsible-icon {
+            transform: rotate(180deg);
+        }
+
+        .collapsible-content {
+            display: none;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .collapsible.open .collapsible-content {
+            display: block;
+        }
     </style>
 
     <!-- Structured Data -->
@@ -814,111 +983,116 @@
 
         <div class="calculator">
             <form id="retirement-form" aria-label="Retirement Calculator Form">
-                <h3 class="section-title">Your Information</h3>
-                <div class="input-group">
-                    <div class="input-field">
-                        <label for="current-age">Current Age<span class="required-indicator">*</span></label>
-                        <input type="number" id="current-age" placeholder="30" value="30" min="18" max="80" aria-required="true" aria-describedby="age-help">
-                        <span id="age-help" class="sr-only">Enter your current age between 18 and 80</span>
-                    </div>
-                    <div class="input-field">
-                        <label for="retirement-age">Target Retirement Age<span class="required-indicator">*</span></label>
-                        <input type="number" id="retirement-age" placeholder="50" value="50" min="25" max="80" aria-required="true" aria-describedby="retire-help">
-                        <span id="retire-help" class="sr-only">Enter your target retirement age, can be as early as 25</span>
-                        <span class="help-text">Early retirement is achievable!</span>
-                    </div>
-                    <div class="input-field">
-                        <label for="life-expectancy">Life Expectancy<span class="required-indicator">*</span></label>
-                        <input type="number" id="life-expectancy" placeholder="90" value="90" min="60" max="120" aria-required="true" aria-describedby="life-help">
-                        <span id="life-help" class="sr-only">Estimate how long you expect to live for withdrawal planning</span>
+                <div class="section-group info-section">
+                    <h3 class="section-title">Your Information</h3>
+                    <div class="input-group">
+                        <div class="input-field">
+                            <label for="current-age">Current Age<span class="required-indicator">*</span></label>
+                            <input type="number" id="current-age" placeholder="30" value="30" min="18" max="80" aria-required="true" aria-describedby="age-help">
+                            <span id="age-help" class="sr-only">Enter your current age between 18 and 80</span>
+                        </div>
+                        <div class="input-field">
+                            <label for="retirement-age">Target Retirement Age<span class="required-indicator">*</span></label>
+                            <input type="number" id="retirement-age" placeholder="60" value="60" min="25" max="80" aria-required="true" aria-describedby="retire-help">
+                            <span id="retire-help" class="sr-only">Enter your target retirement age, can be as early as 25</span>
+                        </div>
+                        <div class="input-field">
+                            <label for="life-expectancy">Life Expectancy<span class="required-indicator">*</span></label>
+                            <input type="number" id="life-expectancy" placeholder="90" value="90" min="60" max="120" aria-required="true" aria-describedby="life-help">
+                            <span id="life-help" class="sr-only">Estimate how long you expect to live for withdrawal planning</span>
+                        </div>
                     </div>
                 </div>
 
-                <h3 class="section-title">Income & Expenses</h3>
-                <div class="input-group">
-                    <div class="input-field">
-                        <label for="annual-income">Annual Income (Pre-tax)<span class="required-indicator">*</span></label>
-                        <div class="input-prefix">
-                            <span>$</span>
-                            <input type="text" id="annual-income" placeholder="75,000" value="75,000" aria-required="true" aria-describedby="income-help" inputmode="decimal">
+                <div class="section-group income-section">
+                    <h3 class="section-title">Income & Expenses</h3>
+                    <div class="input-group">
+                        <div class="input-field">
+                            <label for="annual-income">Annual Income (Pre-tax)<span class="required-indicator">*</span></label>
+                            <div class="input-prefix">
+                                <span>$</span>
+                                <input type="text" id="annual-income" placeholder="75,000" value="75,000" aria-required="true" aria-describedby="income-help" inputmode="decimal">
+                            </div>
+                            <span id="income-help" class="sr-only">Enter your annual pre-tax income</span>
                         </div>
-                        <span id="income-help" class="sr-only">Enter your annual pre-tax income</span>
-                    </div>
-                    <div class="input-field">
-                        <label for="annual-expenses">Annual Expenses<span class="required-indicator">*</span></label>
-                        <div class="input-prefix">
-                            <span>$</span>
-                            <input type="text" id="annual-expenses" placeholder="40,000" value="40,000" aria-required="true" aria-describedby="expenses-help" inputmode="decimal">
+                        <div class="input-field">
+                            <label for="annual-expenses">Annual Expenses<span class="required-indicator">*</span></label>
+                            <div class="input-prefix">
+                                <span>$</span>
+                                <input type="text" id="annual-expenses" placeholder="40,000" value="40,000" aria-required="true" aria-describedby="expenses-help" inputmode="decimal">
+                            </div>
+                            <span id="expenses-help" class="sr-only">Enter your total annual expenses, this helps determine your retirement target</span>
+                            <span class="help-text">Key factor for your retirement target</span>
                         </div>
-                        <span id="expenses-help" class="sr-only">Enter your total annual expenses, this helps determine your retirement target</span>
-                        <span class="help-text">Key factor for your retirement target</span>
-                    </div>
-                    <div class="input-field">
-                        <label for="retirement-expenses">Post-Retirement Annual Expenses<span class="required-indicator">*</span></label>
-                        <div class="input-prefix">
-                            <span>$</span>
-                            <input type="text" id="retirement-expenses" placeholder="35,000" value="35,000" aria-required="true" aria-describedby="retirement-expenses-help" inputmode="decimal">
+                        <div class="input-field">
+                            <label for="retirement-expenses">Post-Retirement Annual Expenses<span class="required-indicator">*</span></label>
+                            <div class="input-prefix">
+                                <span>$</span>
+                                <input type="text" id="retirement-expenses" placeholder="35,000" value="35,000" aria-required="true" aria-describedby="retirement-expenses-help" inputmode="decimal">
+                            </div>
+                            <span id="retirement-expenses-help" class="sr-only">Expected annual expenses in retirement (often 70-80% of current expenses)</span>
+                            <span class="help-text">Often lower than working years - no commute, paid-off mortgage</span>
                         </div>
-                        <span id="retirement-expenses-help" class="sr-only">Expected annual expenses in retirement (often 70-80% of current expenses)</span>
-                        <span class="help-text">Often lower than working years - no commute, paid-off mortgage</span>
-                    </div>
-                    <div class="input-field">
-                        <label for="current-savings">Current Retirement Savings<span class="required-indicator">*</span></label>
-                        <div class="input-prefix">
-                            <span>$</span>
-                            <input type="text" id="current-savings" placeholder="50,000" value="50,000" aria-required="true" aria-describedby="savings-help" inputmode="decimal">
+                        <div class="input-field">
+                            <label for="current-savings">Current Retirement Savings<span class="required-indicator">*</span></label>
+                            <div class="input-prefix">
+                                <span>$</span>
+                                <input type="text" id="current-savings" placeholder="50,000" value="50,000" aria-required="true" aria-describedby="savings-help" inputmode="decimal">
+                            </div>
+                            <span id="savings-help" class="sr-only">Enter your current total retirement savings and investments</span>
                         </div>
-                        <span id="savings-help" class="sr-only">Enter your current total retirement savings and investments</span>
-                    </div>
-                </div>
-
-                <h3 class="section-title">Savings & Returns</h3>
-                <div class="input-group">
-                    <div class="input-field">
-                        <label for="monthly-contribution">Monthly Contribution<span class="required-indicator">*</span></label>
-                        <div class="input-prefix">
-                            <span>$</span>
-                            <input type="text" id="monthly-contribution" placeholder="1,500" value="1,500" aria-required="true" aria-describedby="contrib-help" inputmode="decimal">
-                        </div>
-                        <span id="contrib-help" class="sr-only">Enter how much you save monthly toward retirement</span>
-                    </div>
-                    <div class="input-field">
-                        <label for="expected-return">Expected Annual Return<span class="required-indicator">*</span></label>
-                        <div class="input-suffix">
-                            <input type="text" id="expected-return" placeholder="7" value="7" aria-required="true" aria-describedby="return-help" inputmode="decimal">
-                            <span>%</span>
-                        </div>
-                        <span id="return-help" class="sr-only">Enter expected annual investment return, typically 7% for stocks</span>
-                    </div>
-                    <div class="input-field">
-                        <label for="inflation-rate">Inflation Rate<span class="required-indicator">*</span></label>
-                        <div class="input-suffix">
-                            <input type="text" id="inflation-rate" placeholder="3" value="3" aria-required="true" aria-describedby="inflation-help" inputmode="decimal">
-                            <span>%</span>
-                        </div>
-                        <span id="inflation-help" class="sr-only">Enter expected inflation rate, typically around 3%</span>
                     </div>
                 </div>
 
-                <h3 class="section-title">Withdrawal Settings</h3>
-                <div class="input-group">
-                    <div class="input-field">
-                        <label for="withdrawal-rate">Safe Withdrawal Rate<span class="required-indicator">*</span></label>
-                        <div class="input-suffix">
-                            <input type="text" id="withdrawal-rate" placeholder="4" value="4" aria-required="true" aria-describedby="swr-help" inputmode="decimal">
-                            <span>%</span>
+                <div class="section-group savings-section">
+                    <h3 class="section-title">Savings & Returns</h3>
+                    <div class="input-group">
+                        <div class="input-field">
+                            <label for="monthly-contribution">Monthly Contribution<span class="required-indicator">*</span></label>
+                            <div class="input-prefix">
+                                <span>$</span>
+                                <input type="text" id="monthly-contribution" placeholder="1,500" value="1,500" aria-required="true" aria-describedby="contrib-help" inputmode="decimal">
+                            </div>
+                            <span id="contrib-help" class="sr-only">Enter how much you save monthly toward retirement</span>
                         </div>
-                        <span id="swr-help" class="sr-only">The 4% rule is standard, use 3.5% for longer retirements</span>
-                        <span class="help-text">4% rule is standard; use 3.5% for 40+ year retirements</span>
+                        <div class="input-field">
+                            <label for="expected-return">Expected Annual Return<span class="required-indicator">*</span></label>
+                            <div class="input-suffix">
+                                <input type="text" id="expected-return" placeholder="7" value="7" aria-required="true" aria-describedby="return-help" inputmode="decimal">
+                                <span>%</span>
+                            </div>
+                            <span id="return-help" class="sr-only">Enter expected annual investment return, typically 7% for stocks</span>
+                        </div>
+                        <div class="input-field">
+                            <label for="inflation-rate">Inflation Rate<span class="required-indicator">*</span></label>
+                            <div class="input-suffix">
+                                <input type="text" id="inflation-rate" placeholder="3" value="3" aria-required="true" aria-describedby="inflation-help" inputmode="decimal">
+                                <span>%</span>
+                            </div>
+                            <span id="inflation-help" class="sr-only">Enter expected inflation rate, typically around 3%</span>
+                        </div>
                     </div>
-                    <div class="input-field">
-                        <label for="social-security">Social Security (Monthly at 67)</label>
-                        <div class="input-prefix">
-                            <span>$</span>
-                            <input type="text" id="social-security" placeholder="0" value="0" aria-describedby="ss-help" inputmode="decimal">
+
+                    <h3 class="section-title">Withdrawal Settings</h3>
+                    <div class="input-group">
+                        <div class="input-field">
+                            <label for="withdrawal-rate">Safe Withdrawal Rate<span class="required-indicator">*</span></label>
+                            <div class="input-suffix">
+                                <input type="text" id="withdrawal-rate" placeholder="4" value="4" aria-required="true" aria-describedby="swr-help" inputmode="decimal">
+                                <span>%</span>
+                            </div>
+                            <span id="swr-help" class="sr-only">The 4% rule is standard, use 3.5% for longer retirements</span>
+                            <span class="help-text">4% rule is standard; use 3.5% for 40+ year retirements</span>
                         </div>
-                        <span id="ss-help" class="sr-only">Optional: Enter expected monthly Social Security benefit at age 67</span>
-                        <span class="help-text">Optional - leave at $0 if not claiming benefits</span>
+                        <div class="input-field">
+                            <label for="social-security">Social Security (Monthly at 67)</label>
+                            <div class="input-prefix">
+                                <span>$</span>
+                                <input type="text" id="social-security" placeholder="0" value="0" aria-describedby="ss-help" inputmode="decimal">
+                            </div>
+                            <span id="ss-help" class="sr-only">Optional: Enter expected monthly Social Security benefit at age 67</span>
+                            <span class="help-text">Optional - leave at $0 if not claiming benefits</span>
+                        </div>
                     </div>
                 </div>
 
@@ -973,6 +1147,87 @@
                         <!-- Schedule rows will be inserted here -->
                     </tbody>
                 </table>
+            </div>
+        </div>
+
+        <div class="formula-section" id="formula-section">
+            <div class="collapsible" id="formula-collapsible">
+                <div class="collapsible-header" onclick="toggleCollapsible('formula-collapsible')" tabindex="0" role="button" aria-expanded="false" aria-controls="formula-content">
+                    <h3>Excel Formulas for Retirement Planning</h3>
+                    <span class="collapsible-icon" aria-hidden="true">&#9660;</span>
+                </div>
+                <div class="collapsible-content" id="formula-content">
+                    <p class="formula-intro">Copy these formulas into Excel or Google Sheets. Replace cell references with your values.</p>
+
+                    <div class="formula-card">
+                        <h3>FIRE Number (Retirement Target)</h3>
+                        <p class="formula-desc">Calculate how much you need to retire based on the 4% rule</p>
+                        <div class="formula-box">
+                            <code id="formula-fire">=B1/B2</code>
+                            <button class="copy-btn" onclick="copyFormula('formula-fire', this)" aria-label="Copy formula">Copy</button>
+                        </div>
+                        <div class="formula-legend">
+                            <span>B1 = Annual Expenses</span>
+                            <span>B2 = Withdrawal Rate (decimal, e.g., 0.04)</span>
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Future Value of Savings</h3>
+                        <p class="formula-desc">Calculate portfolio value at retirement with monthly contributions</p>
+                        <div class="formula-box">
+                            <code id="formula-fv">=FV(B3/12, B4*12, -B2, -B1)</code>
+                            <button class="copy-btn" onclick="copyFormula('formula-fv', this)" aria-label="Copy formula">Copy</button>
+                        </div>
+                        <div class="formula-legend">
+                            <span>B1 = Current Savings</span>
+                            <span>B2 = Monthly Contribution</span>
+                            <span>B3 = Annual Return (decimal, e.g., 0.07)</span>
+                            <span>B4 = Years to Retirement</span>
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Years to FIRE</h3>
+                        <p class="formula-desc">Calculate how many years until you reach your FIRE number</p>
+                        <div class="formula-box">
+                            <code id="formula-nper">=NPER(B3/12, -B2, -B1, B4)/12</code>
+                            <button class="copy-btn" onclick="copyFormula('formula-nper', this)" aria-label="Copy formula">Copy</button>
+                        </div>
+                        <div class="formula-legend">
+                            <span>B1 = Current Savings</span>
+                            <span>B2 = Monthly Contribution</span>
+                            <span>B3 = Annual Return (decimal)</span>
+                            <span>B4 = FIRE Number (target)</span>
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Savings Rate</h3>
+                        <p class="formula-desc">Calculate your savings rate as a percentage of income</p>
+                        <div class="formula-box">
+                            <code id="formula-savingsrate">=(B1*12)/B2</code>
+                            <button class="copy-btn" onclick="copyFormula('formula-savingsrate', this)" aria-label="Copy formula">Copy</button>
+                        </div>
+                        <div class="formula-legend">
+                            <span>B1 = Monthly Contribution</span>
+                            <span>B2 = Annual Income</span>
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Safe Withdrawal Amount (Annual)</h3>
+                        <p class="formula-desc">Calculate how much you can withdraw annually in retirement</p>
+                        <div class="formula-box">
+                            <code id="formula-swr">=B1*B2</code>
+                            <button class="copy-btn" onclick="copyFormula('formula-swr', this)" aria-label="Copy formula">Copy</button>
+                        </div>
+                        <div class="formula-legend">
+                            <span>B1 = Portfolio Value</span>
+                            <span>B2 = Withdrawal Rate (decimal, e.g., 0.04)</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -1176,7 +1431,7 @@
             }
 
             // Get optional social security
-            const socialSecurity = parseNumber(socialSecurityInput.value) || 0;
+            const socialSecurity = parseNumber(socialSecurityInput.value) || 1000;
 
             // Calculate retirement target using post-retirement expenses
             fireNumber = retirementExpenses / (withdrawalRate / 100);
@@ -1431,6 +1686,28 @@
                 button.textContent = '\u2713';
                 button.classList.add('copied');
                 A11yUtils.announce('Value copied to clipboard', 'polite');
+
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.classList.remove('copied');
+                }, 1500);
+            });
+        }
+
+        function toggleCollapsible(id) {
+            const element = document.getElementById(id);
+            const header = element.querySelector('.collapsible-header');
+            const isOpen = element.classList.toggle('open');
+            header.setAttribute('aria-expanded', isOpen);
+        }
+
+        function copyFormula(elementId, button) {
+            const formula = document.getElementById(elementId).textContent;
+            navigator.clipboard.writeText(formula).then(() => {
+                const originalText = button.textContent;
+                button.textContent = '\u2713';
+                button.classList.add('copied');
+                A11yUtils.announce('Formula copied to clipboard', 'polite');
 
                 setTimeout(() => {
                     button.textContent = originalText;

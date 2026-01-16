@@ -6,25 +6,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Plan and visualize subnet allocations with VLSM support. Calculate optimal subnet distribution for complex networks. Interactive subnet planning tool.">
-    <meta name="keywords" content="subnet planner, VLSM calculator, subnet allocation, network planning, IP address planning, subnet design">
+    <meta name="description" content="Plan and visualize IPv6 subnet allocations. Calculate optimal subnet distribution for IPv6 networks with interactive VLSM planning.">
+    <meta name="keywords" content="IPv6 subnet planner, IPv6 VLSM calculator, IPv6 subnet allocation, IPv6 network planning, IP address planning, subnet design">
     <meta name="author" content="OldWeb LLC">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://oldweb.tech/nettools/subnet-planner.html">
+    <link rel="canonical" href="https://oldweb.tech/nettools/subnet-planner-ipv6.html">
 
     <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Subnet Planner - OldWeb.tech">
-    <meta property="og:description" content="Plan and visualize subnet allocations with VLSM support. Calculate optimal subnet distribution for complex networks. Interactive subnet planning tool.">
+    <meta property="og:title" content="IPv6 Subnet Planner - OldWeb.tech">
+    <meta property="og:description" content="Plan and visualize IPv6 subnet allocations. Calculate optimal subnet distribution for IPv6 networks with interactive VLSM planning.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://oldweb.tech/nettools/subnet-planner.html">
+    <meta property="og:url" content="https://oldweb.tech/nettools/subnet-planner-ipv6.html">
     <meta property="og:site_name" content="OldWeb.tech">
-    <meta property="og:image" content="https://oldweb.tech/logo/og-image.svg">
 
     <!-- Twitter Card Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Subnet Planner - OldWeb.tech">
-    <meta name="twitter:description" content="Plan and visualize subnet allocations with VLSM support. Calculate optimal subnet distribution for complex networks. Interactive subnet planning tool.">
-    <meta name="twitter:image" content="https://oldweb.tech/logo/og-image.svg">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="IPv6 Subnet Planner - OldWeb.tech">
+    <meta name="twitter:description" content="Plan and visualize IPv6 subnet allocations. Calculate optimal subnet distribution for IPv6 networks with interactive VLSM planning.">
 
     <!-- Additional Meta Tags -->
     <meta name="theme-color" content="#1a1a2e">
@@ -32,7 +30,7 @@
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
 
-    <title>Subnet Planner - OldWeb.tech</title>
+    <title>IPv6 Subnet Planner - OldWeb.tech</title>
     <link rel="stylesheet" href="../a11y.css">
     <script src="../a11y-utils.js"></script>
     <script src="../storage-utils.js"></script>
@@ -426,7 +424,7 @@
         /* Legend */
         .chart-legend {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 12px;
         }
 
@@ -456,7 +454,7 @@
         .legend-cidr {
             font-family: 'Consolas', 'Monaco', monospace;
             color: #90caf9;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
 
         /* Tree View */
@@ -497,6 +495,7 @@
             padding: 4px 12px;
             border-radius: 4px;
             font-weight: 600;
+            font-size: 0.9rem;
         }
 
         .tree-vlan {
@@ -618,16 +617,16 @@
             white-space: nowrap;
         }
 
-        .protocol-toggle-ipv6 {
-            background: rgba(244, 67, 54, 0.2);
-            border: 2px solid rgba(244, 67, 54, 0.5);
-            color: #ff6b6b;
+        .protocol-toggle-ipv4 {
+            background: rgba(76, 175, 80, 0.2);
+            border: 2px solid rgba(76, 175, 80, 0.5);
+            color: #66bb6a;
         }
 
-        .protocol-toggle-ipv6:hover {
-            background: rgba(244, 67, 54, 0.3);
-            border-color: #f44336;
-            box-shadow: 0 0 15px rgba(244, 67, 54, 0.3);
+        .protocol-toggle-ipv4:hover {
+            background: rgba(76, 175, 80, 0.3);
+            border-color: #4caf50;
+            box-shadow: 0 0 15px rgba(76, 175, 80, 0.3);
             transform: translateY(-2px);
         }
 
@@ -819,9 +818,9 @@
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      "name": "Subnet Planner",
-      "description": "Plan and visualize subnet allocations with VLSM support. Calculate optimal subnet distribution for complex networks. Interactive subnet planning tool.",
-      "url": "https://oldweb.tech/subnet-planner.html",
+      "name": "IPv6 Subnet Planner",
+      "description": "Plan and visualize IPv6 subnet allocations. Calculate optimal subnet distribution for IPv6 networks with interactive VLSM planning.",
+      "url": "https://oldweb.tech/nettools/subnet-planner-ipv6.html",
       "applicationCategory": "UtilitiesApplication",
       "operatingSystem": "Web Browser",
       "offers": {
@@ -847,52 +846,38 @@
 </div>
 
     <main id="main-content" class="container">
-        <h1>IPv4 Subnet Planner</h1>
+        <h1>IPv6 Subnet Planner</h1>
         <div class="protocol-toggle-container">
-            <a href="subnet-planner-ipv6.html" class="protocol-toggle-link protocol-toggle-ipv6">Switch to IPv6 →</a>
+            <a href="subnet-planner.html" class="protocol-toggle-link protocol-toggle-ipv4">← Switch to IPv4</a>
         </div>
 
         <!-- Parent Network Input -->
         <div class="calculator">
-            <form id="planner-form" aria-label="Subnet Planner Configuration Form">
+            <form id="planner-form" aria-label="IPv6 Subnet Planner Configuration Form">
                 <div class="input-group">
                     <div class="input-field">
-                        <label for="parentIP">Parent Network IP Address</label>
+                        <label for="parentIP">Parent Network IPv6 Address</label>
                         <input type="text"
                                id="parentIP"
-                               placeholder="10.0.0.0"
+                               placeholder="2001:db8::"
                                aria-required="true"
                                aria-describedby="parent-ip-help">
-                        <span id="parent-ip-help" class="sr-only">Enter the parent network IP address for subnet planning, for example 10.0.0.0</span>
+                        <span id="parent-ip-help" class="sr-only">Enter the parent network IPv6 address for subnet planning, for example 2001:db8::</span>
                     </div>
                     <div class="input-field">
                         <label for="parentCIDR">CIDR Prefix</label>
                         <select id="parentCIDR"
                                 aria-required="true"
                                 aria-describedby="parent-cidr-help">
-                        <option value="8">/8 - 255.0.0.0</option>
-                        <option value="9">/9 - 255.128.0.0</option>
-                        <option value="10">/10 - 255.192.0.0</option>
-                        <option value="11">/11 - 255.224.0.0</option>
-                        <option value="12">/12 - 255.240.0.0</option>
-                        <option value="13">/13 - 255.248.0.0</option>
-                        <option value="14">/14 - 255.252.0.0</option>
-                        <option value="15">/15 - 255.254.0.0</option>
-                        <option value="16" selected>/16 - 255.255.0.0</option>
-                        <option value="17">/17 - 255.255.128.0</option>
-                        <option value="18">/18 - 255.255.192.0</option>
-                        <option value="19">/19 - 255.255.224.0</option>
-                        <option value="20">/20 - 255.255.240.0</option>
-                        <option value="21">/21 - 255.255.248.0</option>
-                        <option value="22">/22 - 255.255.252.0</option>
-                        <option value="23">/23 - 255.255.254.0</option>
-                        <option value="24">/24 - 255.255.255.0</option>
-                        <option value="25">/25 - 255.255.255.128</option>
-                        <option value="26">/26 - 255.255.255.192</option>
-                        <option value="27">/27 - 255.255.255.224</option>
-                        <option value="28">/28 - 255.255.255.240</option>
-                        <option value="29">/29 - 255.255.255.248</option>
-                        <option value="30">/30 - 255.255.255.252</option>
+                        <option value="32">/32 - ISP Allocation</option>
+                        <option value="36">/36</option>
+                        <option value="40">/40</option>
+                        <option value="44">/44</option>
+                        <option value="48" selected>/48 - Site Allocation</option>
+                        <option value="52">/52</option>
+                        <option value="56">/56 - Smaller Site</option>
+                        <option value="60">/60</option>
+                        <option value="64">/64 - Single Subnet</option>
                     </select>
                     <span id="parent-cidr-help" class="sr-only">Select the CIDR prefix for the parent network</span>
                 </div>
@@ -911,17 +896,16 @@
                 <div class="template-buttons" role="group" aria-labelledby="quick-templates-label">
                     <button type="button"
                             class="template-btn"
-                            onclick="loadTemplate('small-site')"
-                            aria-label="Load small remote site template with /24 parent network and 8 subnets">Small Remote Site (/24)</button>
+                            onclick="loadTemplate('standard-site')"
+                            aria-label="Load standard site template with /48 parent network and 8 subnets">Standard Site (/48)</button>
                     <button type="button"
                             class="template-btn"
-                            onclick="loadTemplate('medium-site')"
-                            aria-label="Load medium remote site template with /22 parent network and 8 subnets">Medium Remote Site (/22)</button>
+                            onclick="loadTemplate('small-allocation')"
+                            aria-label="Load small allocation template with /56 parent network and 8 subnets">Small Allocation (/56)</button>
                 </div>
             </div>
             </form>
-            <div class="error"
-                 id="initError"
+            <div id="error"
                  role="alert"
                  aria-live="assertive"
                  aria-atomic="true"></div>
@@ -1029,98 +1013,98 @@
         <!-- Reference Section -->
         <div class="reference-section">
             <div class="reference-toggle" onclick="toggleReference()" role="button" tabindex="0" aria-expanded="false" aria-controls="referenceContent">
-                <h2>IPv4 Reserved Address Reference</h2>
+                <h2>IPv6 Reserved Address Reference</h2>
                 <span class="toggle-icon" aria-hidden="true">▼</span>
             </div>
             <div class="reference-content" id="referenceContent">
                 <div class="reference-grid">
                     <div class="reference-block">
-                        <h3>Private Addresses (RFC 1918)</h3>
+                        <h3>Special Addresses</h3>
                         <div class="reference-item">
-                            <div class="reference-network">10.0.0.0/8</div>
-                            <div class="reference-desc">Class A private network - 16,777,216 addresses</div>
-                            <div class="reference-rfc">10.0.0.0 - 10.255.255.255</div>
+                            <div class="reference-network">::1/128</div>
+                            <div class="reference-desc">Loopback address (localhost)</div>
+                            <div class="reference-rfc">RFC 4291 - Equivalent to IPv4 127.0.0.1</div>
                         </div>
                         <div class="reference-item">
-                            <div class="reference-network">172.16.0.0/12</div>
-                            <div class="reference-desc">Class B private network - 1,048,576 addresses</div>
-                            <div class="reference-rfc">172.16.0.0 - 172.31.255.255</div>
+                            <div class="reference-network">::/128</div>
+                            <div class="reference-desc">Unspecified address</div>
+                            <div class="reference-rfc">RFC 4291 - Used when no address available</div>
                         </div>
                         <div class="reference-item">
-                            <div class="reference-network">192.168.0.0/16</div>
-                            <div class="reference-desc">Class C private network - 65,536 addresses</div>
-                            <div class="reference-rfc">192.168.0.0 - 192.168.255.255</div>
-                        </div>
-                    </div>
-
-                    <div class="reference-block">
-                        <h3>Special-Purpose Addresses</h3>
-                        <div class="reference-item">
-                            <div class="reference-network">127.0.0.0/8</div>
-                            <div class="reference-desc">Loopback addresses (localhost)</div>
-                            <div class="reference-rfc">RFC 1122 - Typically 127.0.0.1</div>
-                        </div>
-                        <div class="reference-item">
-                            <div class="reference-network">169.254.0.0/16</div>
-                            <div class="reference-desc">Link-Local / APIPA (Automatic Private IP Addressing)</div>
-                            <div class="reference-rfc">RFC 3927 - Used when DHCP unavailable</div>
-                        </div>
-                        <div class="reference-item">
-                            <div class="reference-network">100.64.0.0/10</div>
-                            <div class="reference-desc">Carrier-Grade NAT (CGN)</div>
-                            <div class="reference-rfc">RFC 6598 - Shared address space for ISPs</div>
+                            <div class="reference-network">::ffff:0:0/96</div>
+                            <div class="reference-desc">IPv4-mapped IPv6 addresses</div>
+                            <div class="reference-rfc">RFC 4291 - Hybrid dual-stack environments</div>
                         </div>
                     </div>
 
                     <div class="reference-block">
-                        <h3>Multicast & Broadcast</h3>
+                        <h3>Link-Local & Unique Local</h3>
                         <div class="reference-item">
-                            <div class="reference-network">224.0.0.0/4</div>
-                            <div class="reference-desc">Multicast addresses (former Class D)</div>
-                            <div class="reference-rfc">224.0.0.0 - 239.255.255.255</div>
+                            <div class="reference-network">fe80::/10</div>
+                            <div class="reference-desc">Link-local addresses</div>
+                            <div class="reference-rfc">RFC 4291 - Valid only on local subnet</div>
                         </div>
                         <div class="reference-item">
-                            <div class="reference-network">255.255.255.255/32</div>
-                            <div class="reference-desc">Limited broadcast address</div>
-                            <div class="reference-rfc">RFC 919 - Broadcast to local subnet</div>
-                        </div>
-                    </div>
-
-                    <div class="reference-block">
-                        <h3>Documentation & Testing</h3>
-                        <div class="reference-item">
-                            <div class="reference-network">192.0.2.0/24</div>
-                            <div class="reference-desc">Documentation (TEST-NET-1)</div>
-                            <div class="reference-rfc">RFC 5737 - Examples and documentation</div>
+                            <div class="reference-network">fc00::/7</div>
+                            <div class="reference-desc">Unique Local Addresses (ULA)</div>
+                            <div class="reference-rfc">RFC 4193 - Private IPv6 addresses</div>
                         </div>
                         <div class="reference-item">
-                            <div class="reference-network">198.51.100.0/24</div>
-                            <div class="reference-desc">Documentation (TEST-NET-2)</div>
-                            <div class="reference-rfc">RFC 5737 - Examples and documentation</div>
-                        </div>
-                        <div class="reference-item">
-                            <div class="reference-network">203.0.113.0/24</div>
-                            <div class="reference-desc">Documentation (TEST-NET-3)</div>
-                            <div class="reference-rfc">RFC 5737 - Examples and documentation</div>
-                        </div>
-                        <div class="reference-item">
-                            <div class="reference-network">198.18.0.0/15</div>
-                            <div class="reference-desc">Benchmarking and testing</div>
-                            <div class="reference-rfc">RFC 2544 - Network performance testing</div>
+                            <div class="reference-network">fd00::/8</div>
+                            <div class="reference-desc">ULA with locally assigned prefix</div>
+                            <div class="reference-rfc">RFC 4193 - Most common ULA implementation</div>
                         </div>
                     </div>
 
                     <div class="reference-block">
-                        <h3>Reserved & Future Use</h3>
+                        <h3>Multicast</h3>
                         <div class="reference-item">
-                            <div class="reference-network">0.0.0.0/8</div>
-                            <div class="reference-desc">Current network (only valid as source)</div>
-                            <div class="reference-rfc">RFC 1122 - This network</div>
+                            <div class="reference-network">ff00::/8</div>
+                            <div class="reference-desc">All multicast addresses</div>
+                            <div class="reference-rfc">RFC 4291 - Various scopes defined</div>
                         </div>
                         <div class="reference-item">
-                            <div class="reference-network">240.0.0.0/4</div>
-                            <div class="reference-desc">Reserved for future use (former Class E)</div>
-                            <div class="reference-rfc">RFC 1112 - Experimental</div>
+                            <div class="reference-network">ff02::1</div>
+                            <div class="reference-desc">All nodes (link-local scope)</div>
+                            <div class="reference-rfc">RFC 4291 - Equivalent to broadcast</div>
+                        </div>
+                        <div class="reference-item">
+                            <div class="reference-network">ff02::2</div>
+                            <div class="reference-desc">All routers (link-local scope)</div>
+                            <div class="reference-rfc">RFC 4291 - Router discovery</div>
+                        </div>
+                    </div>
+
+                    <div class="reference-block">
+                        <h3>Documentation & Global</h3>
+                        <div class="reference-item">
+                            <div class="reference-network">2001:db8::/32</div>
+                            <div class="reference-desc">Documentation prefix</div>
+                            <div class="reference-rfc">RFC 3849 - Examples and documentation only</div>
+                        </div>
+                        <div class="reference-item">
+                            <div class="reference-network">2000::/3</div>
+                            <div class="reference-desc">Global Unicast Addresses</div>
+                            <div class="reference-rfc">RFC 4291 - Routable public IPv6 addresses</div>
+                        </div>
+                    </div>
+
+                    <div class="reference-block">
+                        <h3>Common Allocations</h3>
+                        <div class="reference-item">
+                            <div class="reference-network">/48</div>
+                            <div class="reference-desc">Standard site allocation</div>
+                            <div class="reference-rfc">RFC 6177 - 65,536 /64 subnets available</div>
+                        </div>
+                        <div class="reference-item">
+                            <div class="reference-network">/56</div>
+                            <div class="reference-desc">Small site allocation</div>
+                            <div class="reference-rfc">RFC 6177 - 256 /64 subnets available</div>
+                        </div>
+                        <div class="reference-item">
+                            <div class="reference-network">/64</div>
+                            <div class="reference-desc">Standard LAN subnet size</div>
+                            <div class="reference-rfc">RFC 4291 - Required for SLAAC</div>
                         </div>
                     </div>
                 </div>
@@ -1128,7 +1112,7 @@
         </div>
 
         <footer role="contentinfo">
-            Subnet Planner - Works offline, no installation required
+            IPv6 Subnet Planner - Works offline, no installation required
         </footer>
     </main>
 
@@ -1148,33 +1132,152 @@
             '#ffa726', '#ec407a', '#ab47bc', '#7e57c2'
         ];
 
-        // ===== Utility Functions =====
+        // ===== IPv6 Utility Functions =====
 
-        function isValidIP(ip) {
-            const parts = ip.split('.');
-            if (parts.length !== 4) return false;
-            return parts.every(part => {
-                const num = parseInt(part, 10);
-                return !isNaN(num) && num >= 0 && num <= 255 && part === num.toString();
-            });
+        // Validate IPv6 address
+        function isValidIPv6(addr) {
+            if (!addr || addr.length > 39) return false;
+
+            // Check for valid characters
+            if (!/^[0-9a-fA-F:]+$/.test(addr)) return false;
+
+            // Cannot start or end with single colon
+            if (/^:[^:]/.test(addr) || /[^:]:$/.test(addr)) return false;
+
+            // Only one :: allowed
+            if ((addr.match(/::/g) || []).length > 1) return false;
+
+            // Handle :: compression
+            if (addr.includes('::')) {
+                const parts = addr.split('::');
+                const left = parts[0] ? parts[0].split(':').filter(s => s) : [];
+                const right = parts[1] ? parts[1].split(':').filter(s => s) : [];
+                const totalSegments = left.length + right.length;
+                if (totalSegments > 7) return false;
+
+                // Validate each segment
+                const allSegments = [...left, ...right];
+                for (const seg of allSegments) {
+                    if (seg.length > 4) return false;
+                    const num = parseInt(seg, 16);
+                    if (isNaN(num) || num < 0 || num > 0xffff) return false;
+                }
+            } else {
+                const segments = addr.split(':');
+                if (segments.length !== 8) return false;
+
+                for (const seg of segments) {
+                    if (seg.length > 4 || seg.length === 0) return false;
+                    const num = parseInt(seg, 16);
+                    if (isNaN(num) || num < 0 || num > 0xffff) return false;
+                }
+            }
+
+            return true;
         }
 
-        function ipToInt(ip) {
-            const parts = ip.split('.').map(Number);
-            return ((parts[0] << 24) | (parts[1] << 16) | (parts[2] << 8) | parts[3]) >>> 0;
+        // Expand compressed IPv6 to full notation
+        function expandIPv6(addr) {
+            if (addr.includes('::')) {
+                const sides = addr.split('::');
+                const left = sides[0] ? sides[0].split(':') : [];
+                const right = sides[1] ? sides[1].split(':') : [];
+                const missing = 8 - (left.length + right.length);
+                const middle = Array(missing).fill('0000');
+                const full = [...left, ...middle, ...right];
+                return full.map(s => s.padStart(4, '0')).join(':');
+            }
+            return addr.split(':').map(s => s.padStart(4, '0')).join(':');
         }
 
-        function intToIP(int) {
-            return [
-                (int >>> 24) & 255,
-                (int >>> 16) & 255,
-                (int >>> 8) & 255,
-                int & 255
-            ].join('.');
+        // Compress IPv6 to shortest notation
+        function compressIPv6(addr) {
+            const segments = expandIPv6(addr).split(':');
+
+            // Find longest run of zeros
+            let maxStart = -1, maxLen = 0;
+            let currStart = -1, currLen = 0;
+
+            for (let i = 0; i < segments.length; i++) {
+                if (segments[i] === '0000') {
+                    if (currStart === -1) currStart = i;
+                    currLen++;
+                } else {
+                    if (currLen > maxLen) {
+                        maxStart = currStart;
+                        maxLen = currLen;
+                    }
+                    currStart = -1;
+                    currLen = 0;
+                }
+            }
+            if (currLen > maxLen) {
+                maxStart = currStart;
+                maxLen = currLen;
+            }
+
+            // Replace longest run with ::
+            if (maxLen > 1) {
+                const before = segments.slice(0, maxStart).map(s => s.replace(/^0+/, '') || '0');
+                const after = segments.slice(maxStart + maxLen).map(s => s.replace(/^0+/, '') || '0');
+
+                if (before.length === 0 && after.length === 0) return '::';
+                if (before.length === 0) return '::' + after.join(':');
+                if (after.length === 0) return before.join(':') + '::';
+                return before.join(':') + '::' + after.join(':');
+            }
+
+            return segments.map(s => s.replace(/^0+/, '') || '0').join(':');
         }
 
-        function cidrToMask(cidr) {
-            return cidr === 0 ? 0 : (0xFFFFFFFF << (32 - cidr)) >>> 0;
+        // Convert IPv6 to BigInt
+        function ipv6ToInt(addr) {
+            const expanded = expandIPv6(addr);
+            const segments = expanded.split(':');
+            let result = 0n;
+
+            for (let i = 0; i < 8; i++) {
+                const val = BigInt(parseInt(segments[i], 16));
+                result = (result << 16n) | val;
+            }
+
+            return result;
+        }
+
+        // Convert BigInt to IPv6
+        function intToIPv6(int) {
+            const segments = [];
+            let temp = int;
+
+            for (let i = 0; i < 8; i++) {
+                segments.unshift((temp & 0xffffn).toString(16).padStart(4, '0'));
+                temp = temp >> 16n;
+            }
+
+            return segments.join(':');
+        }
+
+        // Calculate subnet mask from CIDR
+        function cidrToIPv6Mask(cidr) {
+            const mask = (0xffffffffffffffffffffffffffffffffn << (128n - BigInt(cidr))) &
+                         0xffffffffffffffffffffffffffffffffn;
+            return mask;
+        }
+
+        // Get subnet size (number of addresses)
+        function getSubnetSize(cidr) {
+            return 2n ** (128n - BigInt(cidr));
+        }
+
+        // Format large BigInt numbers for display
+        function formatBigNumber(num) {
+            const numStr = num.toString();
+            if (numStr.length <= 15) return numStr.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+            // For very large numbers, use exponential notation
+            const magnitude = numStr.length - 1;
+            const significant = numStr[0] + '.' + numStr.substring(1, 4);
+            return `${significant} × 10^${magnitude}`;
         }
 
         // ===== Initialization =====
@@ -1184,32 +1287,35 @@
             const cidrField = document.getElementById('parentCIDR');
             const ipInput = ipField.value.trim();
             const cidr = parseInt(cidrField.value, 10);
-            const errorDiv = document.getElementById('initError');
+            const errorDiv = document.getElementById('error');
 
             // Clear previous errors
-            A11yUtils.clearError(ipField);
+            ipField.classList.remove('error');
+            ipField.removeAttribute('aria-invalid');
             errorDiv.classList.remove('show');
 
             // Validate IP
-            if (!isValidIP(ipInput)) {
-                const errorMsg = 'Please enter a valid IPv4 address (e.g., 10.0.0.0)';
+            if (!isValidIPv6(ipInput)) {
+                const errorMsg = 'Please enter a valid IPv6 address (e.g., 2001:db8::)';
                 errorDiv.textContent = errorMsg;
                 errorDiv.classList.add('show');
-                A11yUtils.showError(ipField, errorMsg);
+                ipField.classList.add('error');
+                ipField.setAttribute('aria-invalid', 'true');
                 ipField.focus();
+                A11yUtils.announce(errorMsg, 'assertive');
                 return;
             }
 
             // Calculate parent network
-            const ipInt = ipToInt(ipInput);
-            const maskInt = cidrToMask(cidr);
-            const networkInt = (ipInt & maskInt) >>> 0;
-            const wildcardInt = (~maskInt) >>> 0;
-            const broadcastInt = (networkInt | wildcardInt) >>> 0;
+            const ipInt = ipv6ToInt(ipInput);
+            const maskInt = cidrToIPv6Mask(cidr);
+            const networkInt = ipInt & maskInt;
+            const subnetSize = getSubnetSize(cidr);
+            const broadcastInt = networkInt + subnetSize - 1n;
 
             // Initialize state
             state.parentNetwork = {
-                ip: intToIP(networkInt),
+                ip: compressIPv6(intToIPv6(networkInt)),
                 cidr: cidr,
                 networkInt: networkInt,
                 broadcastInt: broadcastInt
@@ -1231,10 +1337,17 @@
         // ===== Table Management =====
 
         function addAllocation() {
-            // Determine next available CIDR and network
-            let defaultCIDR = state.parentNetwork.cidr + 8;
-            if (defaultCIDR > 30) defaultCIDR = 24;
-            if (defaultCIDR < state.parentNetwork.cidr) defaultCIDR = state.parentNetwork.cidr + 1;
+            // Determine default CIDR based on parent
+            let defaultCIDR;
+            if (state.parentNetwork.cidr <= 48) {
+                defaultCIDR = 64; // Standard /64 subnet
+            } else if (state.parentNetwork.cidr <= 56) {
+                defaultCIDR = 64;
+            } else if (state.parentNetwork.cidr <= 64) {
+                defaultCIDR = state.parentNetwork.cidr + 4;
+            } else {
+                defaultCIDR = Math.min(state.parentNetwork.cidr + 4, 128);
+            }
 
             // Find next available network address
             let networkInt = findNextAvailableNetwork(defaultCIDR);
@@ -1275,26 +1388,29 @@
         }
 
         function findNextAvailableNetwork(cidr, excludeId = null) {
-            const subnetSize = Math.pow(2, 32 - cidr);
+            const subnetSize = getSubnetSize(cidr);
 
             // Get sorted allocations excluding current one
             const sorted = state.allocations
                 .filter(a => excludeId === null || a.id !== excludeId)
-                .sort((a, b) => a.networkInt - b.networkInt);
+                .filter(a => a.networkInt !== null)
+                .sort((a, b) => {
+                    if (a.networkInt < b.networkInt) return -1;
+                    if (a.networkInt > b.networkInt) return 1;
+                    return 0;
+                });
 
             let candidateNetwork = state.parentNetwork.networkInt;
 
             // Align to subnet boundary
-            const alignedStart = candidateNetwork - (candidateNetwork % subnetSize);
-            if (alignedStart >= state.parentNetwork.networkInt) {
-                candidateNetwork = alignedStart;
-            } else {
-                candidateNetwork = alignedStart + subnetSize;
+            const remainder = candidateNetwork % subnetSize;
+            if (remainder !== 0n) {
+                candidateNetwork = candidateNetwork - remainder + subnetSize;
             }
 
             // Find first non-overlapping slot
             for (const existing of sorted) {
-                const existingSize = Math.pow(2, 32 - existing.cidr);
+                const existingSize = getSubnetSize(existing.cidr);
                 const existingEnd = existing.networkInt + existingSize;
 
                 // Check if candidate overlaps with existing
@@ -1302,15 +1418,15 @@
                     // Move candidate past this allocation
                     candidateNetwork = existingEnd;
                     // Realign to subnet boundary
-                    const remainder = candidateNetwork % subnetSize;
-                    if (remainder !== 0) {
-                        candidateNetwork += (subnetSize - remainder);
+                    const rem = candidateNetwork % subnetSize;
+                    if (rem !== 0n) {
+                        candidateNetwork = candidateNetwork - rem + subnetSize;
                     }
                 }
             }
 
             // Check if within parent network
-            if (candidateNetwork + subnetSize <= state.parentNetwork.broadcastInt + 1) {
+            if (candidateNetwork + subnetSize <= state.parentNetwork.broadcastInt + 1n) {
                 return candidateNetwork;
             }
 
@@ -1325,7 +1441,9 @@
             const sorted = [...state.allocations].sort((a, b) => {
                 if (a.networkInt === null) return 1;
                 if (b.networkInt === null) return -1;
-                return a.networkInt - b.networkInt;
+                if (a.networkInt < b.networkInt) return -1;
+                if (a.networkInt > b.networkInt) return 1;
+                return 0;
             });
 
             sorted.forEach(allocation => {
@@ -1340,7 +1458,7 @@
                 // CIDR cell
                 const cidrCell = createEditableCell(allocation.cidr, 'number', (value) => {
                     const cidr = parseInt(value);
-                    if (cidr >= state.parentNetwork.cidr && cidr <= 32) {
+                    if (cidr >= state.parentNetwork.cidr && cidr <= 128) {
                         updateAllocation(allocation.id, 'cidr', cidr);
                     }
                 });
@@ -1349,14 +1467,14 @@
                 const networkCell = document.createElement('td');
                 networkCell.className = 'calculated-field';
                 networkCell.textContent = allocation.networkInt !== null ?
-                    `${intToIP(allocation.networkInt)}/${allocation.cidr}` :
+                    `${compressIPv6(intToIPv6(allocation.networkInt))}/${allocation.cidr}` :
                     'No space';
 
                 // Size cell (calculated)
                 const sizeCell = document.createElement('td');
                 sizeCell.className = 'calculated-field';
-                const size = Math.pow(2, 32 - allocation.cidr);
-                sizeCell.textContent = size.toLocaleString();
+                const size = getSubnetSize(allocation.cidr);
+                sizeCell.textContent = formatBigNumber(size);
 
                 // VLAN cell
                 const vlanCell = createEditableCell(allocation.vlanId || '', 'number', (value) => {
@@ -1447,12 +1565,12 @@
                     return;
                 }
 
-                const subnetSize = Math.pow(2, 32 - allocation.cidr);
+                const subnetSize = getSubnetSize(allocation.cidr);
                 const endInt = allocation.networkInt + subnetSize;
 
                 // Check if within parent network
                 if (allocation.networkInt < state.parentNetwork.networkInt ||
-                    endInt > state.parentNetwork.broadcastInt + 1) {
+                    endInt > state.parentNetwork.broadcastInt + 1n) {
                     errors.push({
                         allocationId: allocation.id,
                         message: `${allocation.label}: Outside parent network bounds`
@@ -1460,7 +1578,7 @@
                 }
 
                 // Check alignment
-                if (allocation.networkInt % subnetSize !== 0) {
+                if (allocation.networkInt % subnetSize !== 0n) {
                     warnings.push({
                         allocationId: allocation.id,
                         message: `${allocation.label}: Network address not aligned to /${allocation.cidr} boundary`
@@ -1479,12 +1597,16 @@
             // Check for overlaps
             const sorted = [...state.allocations]
                 .filter(a => a.networkInt !== null)
-                .sort((a, b) => a.networkInt - b.networkInt);
+                .sort((a, b) => {
+                    if (a.networkInt < b.networkInt) return -1;
+                    if (a.networkInt > b.networkInt) return 1;
+                    return 0;
+                });
 
             for (let i = 0; i < sorted.length - 1; i++) {
                 const current = sorted[i];
                 const next = sorted[i + 1];
-                const currentSize = Math.pow(2, 32 - current.cidr);
+                const currentSize = getSubnetSize(current.cidr);
                 const currentEnd = current.networkInt + currentSize;
 
                 if (currentEnd > next.networkInt) {
@@ -1521,16 +1643,18 @@
 
             // Add info message about available space
             if (errors.length === 0 && warnings.length === 0 && state.allocations.length > 0) {
-                const totalSize = state.parentNetwork.broadcastInt - state.parentNetwork.networkInt + 1;
+                const totalSize = state.parentNetwork.broadcastInt - state.parentNetwork.networkInt + 1n;
                 const usedSize = state.allocations
                     .filter(a => a.networkInt !== null)
-                    .reduce((sum, a) => sum + Math.pow(2, 32 - a.cidr), 0);
+                    .reduce((sum, a) => sum + getSubnetSize(a.cidr), 0n);
                 const availableSize = totalSize - usedSize;
-                const percentUsed = ((usedSize / totalSize) * 100).toFixed(1);
+
+                // Calculate percentage (convert to Number for display)
+                const percentUsed = Number((usedSize * 10000n) / totalSize) / 100;
 
                 const div = document.createElement('div');
                 div.className = 'validation-message info';
-                div.innerHTML = `<strong>Space Usage:</strong> ${usedSize.toLocaleString()} of ${totalSize.toLocaleString()} IPs allocated (${percentUsed}%) - ${availableSize.toLocaleString()} IPs available`;
+                div.innerHTML = `<strong>Space Usage:</strong> ${formatBigNumber(usedSize)} of ${formatBigNumber(totalSize)} IPs allocated (${percentUsed.toFixed(2)}%) - ${formatBigNumber(availableSize)} IPs available`;
                 container.appendChild(div);
             }
         }
@@ -1562,52 +1686,43 @@
             const container = document.getElementById('barChart');
             container.innerHTML = '';
 
-            const totalSize = state.parentNetwork.broadcastInt - state.parentNetwork.networkInt + 1;
+            const totalSize = state.parentNetwork.broadcastInt - state.parentNetwork.networkInt + 1n;
 
             // Sort allocations by network address
             const sorted = [...state.allocations]
                 .filter(a => a.networkInt !== null)
-                .sort((a, b) => a.networkInt - b.networkInt);
+                .sort((a, b) => {
+                    if (a.networkInt < b.networkInt) return -1;
+                    if (a.networkInt > b.networkInt) return 1;
+                    return 0;
+                });
 
             let currentPosition = state.parentNetwork.networkInt;
 
-            sorted.forEach(allocation => {
-                const allocSize = Math.pow(2, 32 - allocation.cidr);
+            // For IPv6, use equal-width display since percentages are meaningless
+            // (a /64 in a /48 is only ~0.0015% of the space)
+            const numAllocations = sorted.length;
+            const allocWidth = numAllocations > 0 ? Math.floor(90 / numAllocations) : 0;
+            const unallocatedWidth = 100 - (allocWidth * numAllocations);
 
-                // Add unallocated space before this allocation
-                if (allocation.networkInt > currentPosition) {
-                    const gapSize = allocation.networkInt - currentPosition;
-                    const gapPercent = (gapSize / totalSize) * 100;
-
-                    if (gapPercent > 0.1) { // Only show if > 0.1%
-                        const gapSegment = createBarSegment('Unallocated', gapPercent, '#333', true);
-                        container.appendChild(gapSegment);
-                    }
-                }
-
-                // Add allocation segment
-                const allocPercent = (allocSize / totalSize) * 100;
+            sorted.forEach((allocation, index) => {
+                // Add allocation segment with equal width distribution
                 const segment = createBarSegment(
                     allocation.label || 'Unnamed',
-                    allocPercent,
+                    allocWidth,
                     allocation.color,
                     false,
                     allocation
                 );
                 container.appendChild(segment);
 
-                currentPosition = allocation.networkInt + allocSize;
+                currentPosition = allocation.networkInt + getSubnetSize(allocation.cidr);
             });
 
-            // Add remaining unallocated space
-            if (currentPosition <= state.parentNetwork.broadcastInt) {
-                const remainingSize = state.parentNetwork.broadcastInt - currentPosition + 1;
-                const remainingPercent = (remainingSize / totalSize) * 100;
-
-                if (remainingPercent > 0.1) {
-                    const remainingSegment = createBarSegment('Unallocated', remainingPercent, '#333', true);
-                    container.appendChild(remainingSegment);
-                }
+            // Add remaining unallocated space indicator
+            if (unallocatedWidth > 0) {
+                const remainingSegment = createBarSegment('Unallocated', unallocatedWidth, '#333', true);
+                container.appendChild(remainingSegment);
             }
 
             renderBarChartLegend(sorted);
@@ -1629,7 +1744,9 @@
 
             // Tooltip
             if (allocation) {
-                segment.title = `${allocation.label}\n${intToIP(allocation.networkInt)}/${allocation.cidr}\n${Math.pow(2, 32 - allocation.cidr).toLocaleString()} IPs\n${allocation.description || '(no description)'}`;
+                const networkStr = compressIPv6(intToIPv6(allocation.networkInt));
+                const sizeStr = formatBigNumber(getSubnetSize(allocation.cidr));
+                segment.title = `${allocation.label}\n${networkStr}/${allocation.cidr}\n${sizeStr} IPs\n${allocation.description || '(no description)'}`;
 
                 // Click to highlight in table
                 segment.onclick = () => {
@@ -1668,7 +1785,7 @@
 
                 const cidrSpan = document.createElement('span');
                 cidrSpan.className = 'legend-cidr';
-                cidrSpan.textContent = `${intToIP(allocation.networkInt)}/${allocation.cidr}`;
+                cidrSpan.textContent = `${compressIPv6(intToIPv6(allocation.networkInt))}/${allocation.cidr}`;
 
                 item.appendChild(colorBox);
                 item.appendChild(labelSpan);
@@ -1686,18 +1803,22 @@
             // Root node - parent network
             const rootNode = createTreeNode({
                 label: 'Parent Network',
-                network: intToIP(state.parentNetwork.networkInt),
+                network: state.parentNetwork.ip,
                 cidr: state.parentNetwork.cidr,
                 color: '#4fc3f7',
                 isRoot: true,
-                size: state.parentNetwork.broadcastInt - state.parentNetwork.networkInt + 1
+                size: state.parentNetwork.broadcastInt - state.parentNetwork.networkInt + 1n
             });
             container.appendChild(rootNode);
 
             // Sort allocations by network address
             const sorted = [...state.allocations]
                 .filter(a => a.networkInt !== null)
-                .sort((a, b) => a.networkInt - b.networkInt);
+                .sort((a, b) => {
+                    if (a.networkInt < b.networkInt) return -1;
+                    if (a.networkInt > b.networkInt) return 1;
+                    return 0;
+                });
 
             // Add each allocation as child node
             sorted.forEach(allocation => {
@@ -1707,12 +1828,12 @@
 
                 const node = createTreeNode({
                     label: allocation.label || 'Unnamed',
-                    network: intToIP(allocation.networkInt),
+                    network: compressIPv6(intToIPv6(allocation.networkInt)),
                     cidr: allocation.cidr,
                     color: allocation.color,
                     vlanId: allocation.vlanId,
                     description: allocation.description,
-                    size: Math.pow(2, 32 - allocation.cidr),
+                    size: getSubnetSize(allocation.cidr),
                     isRoot: false
                 });
                 container.appendChild(node);
@@ -1749,7 +1870,7 @@
             if (data.size) {
                 const sizeDiv = document.createElement('div');
                 sizeDiv.className = 'tree-size';
-                sizeDiv.textContent = `${data.size.toLocaleString()} IPs`;
+                sizeDiv.textContent = `${formatBigNumber(data.size)} IPs`;
                 item.appendChild(sizeDiv);
             }
 
@@ -1826,14 +1947,18 @@
 
             state.allocations
                 .filter(a => a.networkInt !== null)
-                .sort((a, b) => a.networkInt - b.networkInt)
+                .sort((a, b) => {
+                    if (a.networkInt < b.networkInt) return -1;
+                    if (a.networkInt > b.networkInt) return 1;
+                    return 0;
+                })
                 .forEach(allocation => {
-                    const size = Math.pow(2, 32 - allocation.cidr);
+                    const size = getSubnetSize(allocation.cidr);
                     rows.push([
                         allocation.label || '',
-                        intToIP(allocation.networkInt),
+                        compressIPv6(intToIPv6(allocation.networkInt)),
                         allocation.cidr,
-                        size,
+                        size.toString(),
                         allocation.vlanId || '',
                         allocation.description || '',
                         allocation.color
@@ -1851,12 +1976,12 @@
             const link = document.createElement('a');
             const url = URL.createObjectURL(blob);
             link.setAttribute('href', url);
-            link.setAttribute('download', `subnet-plan-${Date.now()}.csv`);
+            link.setAttribute('download', `ipv6-subnet-plan-${Date.now()}.csv`);
             link.style.visibility = 'hidden';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-            A11yUtils.announce('Subnet allocation plan exported to CSV file', 'polite');
+            A11yUtils.announce('IPv6 subnet allocation plan exported to CSV file', 'polite');
         }
 
         function exportJSON() {
@@ -1870,16 +1995,20 @@
                 parentNetwork: {
                     network: state.parentNetwork.ip,
                     cidr: state.parentNetwork.cidr,
-                    totalIPs: state.parentNetwork.broadcastInt - state.parentNetwork.networkInt + 1
+                    totalIPs: (state.parentNetwork.broadcastInt - state.parentNetwork.networkInt + 1n).toString()
                 },
                 allocations: state.allocations
                     .filter(a => a.networkInt !== null)
-                    .sort((a, b) => a.networkInt - b.networkInt)
+                    .sort((a, b) => {
+                        if (a.networkInt < b.networkInt) return -1;
+                        if (a.networkInt > b.networkInt) return 1;
+                        return 0;
+                    })
                     .map(a => ({
                         label: a.label,
-                        network: intToIP(a.networkInt),
+                        network: compressIPv6(intToIPv6(a.networkInt)),
                         cidr: a.cidr,
-                        size: Math.pow(2, 32 - a.cidr),
+                        size: getSubnetSize(a.cidr).toString(),
                         vlanId: a.vlanId,
                         description: a.description,
                         color: a.color
@@ -1891,12 +2020,12 @@
             const link = document.createElement('a');
             const url = URL.createObjectURL(blob);
             link.setAttribute('href', url);
-            link.setAttribute('download', `subnet-plan-${Date.now()}.json`);
+            link.setAttribute('download', `ipv6-subnet-plan-${Date.now()}.json`);
             link.style.visibility = 'hidden';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-            A11yUtils.announce('Subnet allocation plan exported to JSON file', 'polite');
+            A11yUtils.announce('IPv6 subnet allocation plan exported to JSON file', 'polite');
         }
 
         // Allow Enter key to initialize
@@ -1908,48 +2037,48 @@
         const subnetPlannerFields = ['parentIP', 'parentCIDR'];
 
         function clearAllSavedData() {
-            StorageUtils.remove('subnet-planner');
+            StorageUtils.remove('subnet-planner-ipv6');
             document.getElementById('parentIP').value = '';
-            document.getElementById('parentCIDR').value = '16';
+            document.getElementById('parentCIDR').value = '48';
             A11yUtils.announce('All saved data has been cleared', 'polite');
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            StorageUtils.loadFormInputs('subnet-planner', subnetPlannerFields);
-            StorageUtils.autoSaveFormInputs('subnet-planner', subnetPlannerFields);
+            StorageUtils.loadFormInputs('subnet-planner-ipv6', subnetPlannerFields);
+            StorageUtils.autoSaveFormInputs('subnet-planner-ipv6', subnetPlannerFields);
         });
 
         // ===== Quick Templates =====
 
         const templates = {
-            'small-site': {
-                name: 'Small Remote Site',
-                parentIP: '10.1.1.0',
-                parentCIDR: 24,
+            'standard-site': {
+                name: 'Standard Site',
+                parentIP: '2001:db8:1::',
+                parentCIDR: 48,
                 allocations: [
-                    { label: 'Users', cidr: 26, vlanId: 10, description: 'End user workstations', color: '#4fc3f7' },
-                    { label: 'Printers', cidr: 28, vlanId: 20, description: 'Printers and IoT devices', color: '#66bb6a' },
-                    { label: 'Servers', cidr: 28, vlanId: 30, description: 'Local servers', color: '#ff8a65' },
-                    { label: 'Management', cidr: 29, vlanId: 40, description: 'Network management', color: '#ffeb3b' },
-                    { label: 'Firewall Transit', cidr: 30, vlanId: 50, description: 'Firewall uplinks', color: '#9c27b0' },
-                    { label: 'VPN Transit', cidr: 30, vlanId: 60, description: 'VPN concentrator links', color: '#f44336' },
-                    { label: 'Quarantine', cidr: 27, vlanId: 70, description: 'Quarantine/remediation', color: '#42a5f5' },
-                    { label: 'Voice', cidr: 27, vlanId: 80, description: 'VoIP phones', color: '#26a69a' }
+                    { label: 'Users', cidr: 64, vlanId: 10, description: 'End user workstations', color: '#4fc3f7' },
+                    { label: 'Printers', cidr: 64, vlanId: 20, description: 'Printers and IoT devices', color: '#66bb6a' },
+                    { label: 'Servers', cidr: 64, vlanId: 30, description: 'Local servers', color: '#ff8a65' },
+                    { label: 'Management', cidr: 64, vlanId: 40, description: 'Network management', color: '#ffeb3b' },
+                    { label: 'Firewall Transit', cidr: 64, vlanId: 50, description: 'Firewall uplinks', color: '#9c27b0' },
+                    { label: 'VPN Transit', cidr: 64, vlanId: 60, description: 'VPN concentrator links', color: '#f44336' },
+                    { label: 'Quarantine', cidr: 64, vlanId: 70, description: 'Quarantine/remediation', color: '#42a5f5' },
+                    { label: 'Voice', cidr: 64, vlanId: 80, description: 'VoIP phones', color: '#26a69a' }
                 ]
             },
-            'medium-site': {
-                name: 'Medium Remote Site',
-                parentIP: '10.10.0.0',
-                parentCIDR: 22,
+            'small-allocation': {
+                name: 'Small Allocation',
+                parentIP: '2001:db8:abcd::',
+                parentCIDR: 56,
                 allocations: [
-                    { label: 'Users', cidr: 24, vlanId: 10, description: 'End user workstations', color: '#4fc3f7' },
-                    { label: 'Printers', cidr: 26, vlanId: 20, description: 'Printers and IoT devices', color: '#66bb6a' },
-                    { label: 'Servers', cidr: 25, vlanId: 30, description: 'Local servers', color: '#ff8a65' },
-                    { label: 'Management', cidr: 27, vlanId: 40, description: 'Network management', color: '#ffeb3b' },
-                    { label: 'Firewall Transit', cidr: 29, vlanId: 50, description: 'Firewall uplinks', color: '#9c27b0' },
-                    { label: 'VPN Transit', cidr: 29, vlanId: 60, description: 'VPN concentrator links', color: '#f44336' },
-                    { label: 'Quarantine', cidr: 25, vlanId: 70, description: 'Quarantine/remediation', color: '#42a5f5' },
-                    { label: 'Voice', cidr: 25, vlanId: 80, description: 'VoIP phones', color: '#26a69a' }
+                    { label: 'Users', cidr: 64, vlanId: 10, description: 'End user workstations', color: '#4fc3f7' },
+                    { label: 'Printers', cidr: 64, vlanId: 20, description: 'Printers and IoT devices', color: '#66bb6a' },
+                    { label: 'Servers', cidr: 64, vlanId: 30, description: 'Local servers', color: '#ff8a65' },
+                    { label: 'Management', cidr: 64, vlanId: 40, description: 'Network management', color: '#ffeb3b' },
+                    { label: 'Firewall Transit', cidr: 64, vlanId: 50, description: 'Firewall uplinks', color: '#9c27b0' },
+                    { label: 'VPN Transit', cidr: 64, vlanId: 60, description: 'VPN concentrator links', color: '#f44336' },
+                    { label: 'Quarantine', cidr: 64, vlanId: 70, description: 'Quarantine/remediation', color: '#42a5f5' },
+                    { label: 'Voice', cidr: 64, vlanId: 80, description: 'VoIP phones', color: '#26a69a' }
                 ]
             }
         };
@@ -1966,15 +2095,15 @@
             document.getElementById('parentCIDR').value = template.parentCIDR;
 
             // Calculate parent network
-            const ipInt = ipToInt(template.parentIP);
-            const maskInt = cidrToMask(template.parentCIDR);
-            const networkInt = (ipInt & maskInt) >>> 0;
-            const wildcardInt = (~maskInt) >>> 0;
-            const broadcastInt = (networkInt | wildcardInt) >>> 0;
+            const ipInt = ipv6ToInt(template.parentIP);
+            const maskInt = cidrToIPv6Mask(template.parentCIDR);
+            const networkInt = ipInt & maskInt;
+            const subnetSize = getSubnetSize(template.parentCIDR);
+            const broadcastInt = networkInt + subnetSize - 1n;
 
             // Initialize state with parent network
             state.parentNetwork = {
-                ip: intToIP(networkInt),
+                ip: compressIPv6(intToIPv6(networkInt)),
                 cidr: template.parentCIDR,
                 networkInt: networkInt,
                 broadcastInt: broadcastInt
@@ -1987,12 +2116,12 @@
             // Add allocations from template
             let currentNetwork = networkInt;
             template.allocations.forEach(alloc => {
-                const subnetSize = Math.pow(2, 32 - alloc.cidr);
+                const allocSubnetSize = getSubnetSize(alloc.cidr);
 
                 // Align to subnet boundary
-                const remainder = currentNetwork % subnetSize;
-                if (remainder !== 0) {
-                    currentNetwork += (subnetSize - remainder);
+                const remainder = currentNetwork % allocSubnetSize;
+                if (remainder !== 0n) {
+                    currentNetwork = currentNetwork - remainder + allocSubnetSize;
                 }
 
                 state.allocations.push({
@@ -2005,7 +2134,7 @@
                     color: alloc.color
                 });
 
-                currentNetwork += subnetSize;
+                currentNetwork = currentNetwork + allocSubnetSize;
             });
 
             // Show planner section and update views
@@ -2032,7 +2161,7 @@
                 content.classList.add('expanded');
                 icon.classList.add('expanded');
                 toggle.setAttribute('aria-expanded', 'true');
-                A11yUtils.announce('IPv4 Reserved Address Reference expanded', 'polite');
+                A11yUtils.announce('IPv6 Reserved Address Reference expanded', 'polite');
             }
         }
 
