@@ -1488,7 +1488,7 @@
             // Change button label and style based on autostop setting
             if (!settings.autostop) {
                 pauseBtn.textContent = timerState.isRunning ? 'Stop' : 'Pause';
-                pauseBtn.onclick = timerState.isRunning && timerState.timeElapsed > 0 ? stopTimer : pauseTimer;
+                pauseBtn.onclick = timerState.isRunning ? stopTimer : pauseTimer;
                 // Red stop button when autostop is off
                 if (timerState.isRunning) {
                     pauseBtn.classList.add('btn-danger');
