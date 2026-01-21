@@ -529,7 +529,7 @@
 </div>
     <main id="main-content" class="container">
         <h1 data-i18n="tools.cronBuilder.title">Cron Expression Builder</h1>
-        <p class="subtitle">Build and parse cron expressions with human-readable explanations</p>
+        <p class="subtitle" data-i18n="tools.cronBuilder.subtitle">Build and parse cron expressions with human-readable explanations</p>
 
         <div class="calculator">
             <div class="mode-toggle" role="group" aria-label="Mode selection">
@@ -541,7 +541,7 @@
                 <form aria-label="Cron expression builder form">
                 <div class="cron-fields">
                     <div class="field-group">
-                        <label for="minute">Minute</label>
+                        <label for="minute" data-i18n="tools.cronBuilder.fields.minute">Minute</label>
                         <input type="text"
                                id="minute"
                                value="*"
@@ -551,7 +551,7 @@
                         <div class="range-hint" id="minute-help">0-59 or *</div>
                     </div>
                     <div class="field-group">
-                        <label for="hour">Hour</label>
+                        <label for="hour" data-i18n="tools.cronBuilder.fields.hour">Hour</label>
                         <input type="text"
                                id="hour"
                                value="*"
@@ -561,7 +561,7 @@
                         <div class="range-hint" id="hour-help">0-23 or *</div>
                     </div>
                     <div class="field-group">
-                        <label for="day">Day of Month</label>
+                        <label for="day" data-i18n="tools.cronBuilder.fields.dayOfMonth">Day of Month</label>
                         <input type="text"
                                id="day"
                                value="*"
@@ -571,7 +571,7 @@
                         <div class="range-hint" id="day-help">1-31 or *</div>
                     </div>
                     <div class="field-group">
-                        <label for="month">Month</label>
+                        <label for="month" data-i18n="tools.cronBuilder.fields.month">Month</label>
                         <input type="text"
                                id="month"
                                value="*"
@@ -581,7 +581,7 @@
                         <div class="range-hint" id="month-help">1-12 or JAN-DEC</div>
                     </div>
                     <div class="field-group">
-                        <label for="weekday">Day of Week</label>
+                        <label for="weekday" data-i18n="tools.cronBuilder.fields.dayOfWeek">Day of Week</label>
                         <input type="text"
                                id="weekday"
                                value="*"
@@ -593,22 +593,22 @@
                 </div>
 
                 <div class="presets-section">
-                    <h3>Common Presets</h3>
+                    <h3 data-i18n="tools.cronBuilder.presets.title">Common Presets</h3>
                     <div class="presets-grid" role="group" aria-label="Common cron expression presets">
-                        <button type="button" class="preset-btn" onclick="applyPreset('* * * * *')" aria-label="Apply preset for every minute: * * * * *">Every minute</button>
+                        <button type="button" class="preset-btn" onclick="applyPreset('* * * * *')" aria-label="Apply preset for every minute: * * * * *" data-i18n="tools.cronBuilder.presets.everyMinute">Every minute</button>
                         <button type="button" class="preset-btn" onclick="applyPreset('*/5 * * * *')" aria-label="Apply preset for every 5 minutes: */5 * * * *">Every 5 min</button>
                         <button type="button" class="preset-btn" onclick="applyPreset('*/15 * * * *')" aria-label="Apply preset for every 15 minutes: */15 * * * *">Every 15 min</button>
-                        <button type="button" class="preset-btn" onclick="applyPreset('0 * * * *')" aria-label="Apply preset for hourly at minute 0: 0 * * * *">Hourly</button>
+                        <button type="button" class="preset-btn" onclick="applyPreset('0 * * * *')" aria-label="Apply preset for hourly at minute 0: 0 * * * *" data-i18n="tools.cronBuilder.presets.everyHour">Hourly</button>
                         <button type="button" class="preset-btn" onclick="applyPreset('0 */6 * * *')" aria-label="Apply preset for every 6 hours: 0 */6 * * *">Every 6 hours</button>
-                        <button type="button" class="preset-btn" onclick="applyPreset('0 0 * * *')" aria-label="Apply preset for daily at midnight: 0 0 * * *">Daily midnight</button>
+                        <button type="button" class="preset-btn" onclick="applyPreset('0 0 * * *')" aria-label="Apply preset for daily at midnight: 0 0 * * *" data-i18n="tools.cronBuilder.presets.everyDay">Daily midnight</button>
                         <button type="button" class="preset-btn" onclick="applyPreset('0 6 * * *')" aria-label="Apply preset for daily at 6 AM: 0 6 * * *">Daily 6am</button>
-                        <button type="button" class="preset-btn" onclick="applyPreset('0 0 * * 0')" aria-label="Apply preset for weekly on Sunday: 0 0 * * 0">Weekly Sunday</button>
-                        <button type="button" class="preset-btn" onclick="applyPreset('0 0 1 * *')" aria-label="Apply preset for monthly on the 1st: 0 0 1 * *">Monthly 1st</button>
+                        <button type="button" class="preset-btn" onclick="applyPreset('0 0 * * 0')" aria-label="Apply preset for weekly on Sunday: 0 0 * * 0" data-i18n="tools.cronBuilder.presets.everyWeek">Weekly Sunday</button>
+                        <button type="button" class="preset-btn" onclick="applyPreset('0 0 1 * *')" aria-label="Apply preset for monthly on the 1st: 0 0 1 * *" data-i18n="tools.cronBuilder.presets.everyMonth">Monthly 1st</button>
                         <button type="button" class="preset-btn" onclick="applyPreset('0 9 * * 1-5')" aria-label="Apply preset for weekdays at 9 AM: 0 9 * * 1-5">Weekdays 9am</button>
                     </div>
                 </div>
 
-                <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page">Clear Saved Data</button>
+                <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page" data-i18n="common.clearSavedData">Clear Saved Data</button>
                 </form>
             </div>
 
@@ -629,10 +629,10 @@
             <div class="error" id="error" role="alert" aria-live="assertive" aria-atomic="true"></div>
 
             <div class="expression-output" role="region" aria-live="polite" aria-label="Generated cron expression">
-                <h3>Cron Expression</h3>
+                <h3 data-i18n="tools.cronBuilder.labels.cronExpression">Cron Expression</h3>
                 <div class="expression-value">
                     <code id="expressionOutput">* * * * *</code>
-                    <button type="button" class="copy-btn" onclick="copyExpression()" aria-label="Copy cron expression to clipboard">Copy</button>
+                    <button type="button" class="copy-btn" onclick="copyExpression()" aria-label="Copy cron expression to clipboard" data-i18n="common.copy">Copy</button>
                 </div>
             </div>
 
@@ -641,12 +641,12 @@
             </div>
 
             <div class="human-readable" id="humanReadable" role="region" aria-label="Human readable description">
-                <h3>Human Readable</h3>
+                <h3 data-i18n="tools.cronBuilder.labels.description">Human Readable</h3>
                 <p id="humanText">Runs every minute</p>
             </div>
 
             <div class="next-runs" id="nextRuns" role="region" aria-label="Next execution times">
-                <h3>Next 10 Execution Times</h3>
+                <h3 data-i18n="tools.cronBuilder.labels.nextRuns">Next 10 Execution Times</h3>
                 <div class="runs-list" id="runsList"></div>
             </div>
         </div>

@@ -61,7 +61,7 @@
         h1 {
             text-align: center;
             margin-top: 40px;
-            margin-bottom: 30px;
+            margin-bottom: 10px;
             font-size: 2.5rem;
             color: #4fc3f7;
             text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
@@ -71,6 +71,13 @@
             color: #4fc3f7;
             font-size: 1.5rem;
             margin-bottom: 15px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
+            margin-bottom: 30px;
         }
 
         /* ASCII Logo */
@@ -540,22 +547,23 @@
 </div>
 
     <main id="main-content" class="container">
-        <h1 data-i18n="data.textDiff.title">Text Diff Tool</h1>
+        <h1 data-i18n="tools.textDiff.title">Text Diff Tool</h1>
+        <p class="subtitle" data-i18n="tools.textDiff.subtitle">Compare text and highlight differences</p>
 
         <!-- Stats Section -->
         <div class="stats-section" id="statsSection" role="region" aria-label="Comparison statistics" aria-live="polite">
             <div class="stats-grid">
                 <div class="stat-item">
                     <div class="stat-value added" id="linesAdded">0</div>
-                    <div class="stat-label">Added</div>
+                    <div class="stat-label" data-i18n="tools.textDiff.results.additions">Added</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-value removed" id="linesRemoved">0</div>
-                    <div class="stat-label">Removed</div>
+                    <div class="stat-label" data-i18n="tools.textDiff.results.deletions">Removed</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-value" id="linesUnchanged">0</div>
-                    <div class="stat-label">Unchanged</div>
+                    <div class="stat-label" data-i18n="tools.textDiff.results.unchanged">Unchanged</div>
                 </div>
             </div>
         </div>
@@ -566,13 +574,14 @@
                 <div class="text-panels">
                     <div class="panel-group">
                         <div class="panel-header">
-                            <label for="leftPanel">Original Text</label>
+                            <label for="leftPanel" data-i18n="tools.textDiff.labels.originalText">Original Text</label>
                             <span class="panel-status" id="leftStatus" role="status" aria-live="polite"></span>
                         </div>
                         <div class="text-panel"
                              id="leftPanel"
                              contenteditable="true"
                              data-placeholder="Paste or type your original text here..."
+                             data-i18n-placeholder="tools.textDiff.placeholders.original"
                              role="textbox"
                              aria-label="Original text input"
                              aria-multiline="true"
@@ -589,13 +598,14 @@ Passed by Congress March 22, 1972. Ratification deadline: March 22, 1979 (extend
                     </div>
                     <div class="panel-group">
                         <div class="panel-header">
-                            <label for="rightPanel">Modified Text</label>
+                            <label for="rightPanel" data-i18n="tools.textDiff.labels.modifiedText">Modified Text</label>
                             <span class="panel-status" id="rightStatus" role="status" aria-live="polite"></span>
                         </div>
                         <div class="text-panel"
                              id="rightPanel"
                              contenteditable="true"
                              data-placeholder="Paste or type your modified text here..."
+                             data-i18n-placeholder="tools.textDiff.placeholders.modified"
                              role="textbox"
                              aria-label="Modified text input"
                              aria-multiline="true"
@@ -657,24 +667,24 @@ Passed by Congress March 22, 1972. Ratification deadline extended to June 30, 19
                 </div>
 
                 <div class="button-group" role="group" aria-label="Actions">
-                    <button type="button" class="btn" onclick="compareDiff()" aria-label="Compare the two texts and show differences">
+                    <button type="button" class="btn" onclick="compareDiff()" aria-label="Compare the two texts and show differences" data-i18n="buttons.compare">
                         Compare
                     </button>
-                    <button type="button" class="btn secondary" onclick="copyResults()" id="copyBtn" style="display: none;" aria-label="Copy diff results to clipboard">
+                    <button type="button" class="btn secondary" onclick="copyResults()" id="copyBtn" style="display: none;" aria-label="Copy diff results to clipboard" data-i18n="common.copy">
                         Copy Results
                     </button>
                     <button type="button" class="btn tertiary" onclick="editMode()" id="editBtn" style="display: none;" aria-label="Return to edit mode to make changes">
                         Edit
                     </button>
-                    <button type="button" class="btn tertiary" onclick="clearAll()" aria-label="Clear all text inputs and comparison results">
+                    <button type="button" class="btn tertiary" onclick="clearAll()" aria-label="Clear all text inputs and comparison results" data-i18n="common.clear">
                         Clear All
                     </button>
                 </div>
             </form>
         </div>
 
-        <footer role="contentinfo" data-i18n="common.worksOffline">
-            Text Diff Tool - Works offline, no installation required
+        <footer role="contentinfo">
+            <span data-i18n="tools.textDiff.title">Text Diff Tool</span> - <span data-i18n="common.worksOffline">Works offline, no installation required</span>
         </footer>
     </main>
 

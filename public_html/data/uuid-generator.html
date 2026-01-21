@@ -776,8 +776,8 @@
  \___/|_|\__,_|   \_/\_/ \___|_.__/
 </div>
     <main id="main-content" class="container">
-        <h1 data-i18n="data.uuidGenerator.title">UUID/GUID Generator</h1>
-        <p class="subtitle">Generate, validate, and convert universally unique identifiers</p>
+        <h1 data-i18n="tools.uuidGenerator.title">UUID Generator</h1>
+        <p class="subtitle" data-i18n="tools.uuidGenerator.subtitle">Generate and validate universally unique identifiers</p>
 
         <div class="calculator">
             <div class="tabs" role="tablist" aria-label="UUID tool tabs">
@@ -834,12 +834,12 @@
 
                     <div class="options-row" role="group" aria-label="Generation options">
                         <div class="option-item">
-                            <label for="quantity">Quantity:</label>
+                            <label for="quantity" data-i18n="tools.uuidGenerator.labels.numberOfUuids">Number of UUIDs:</label>
                             <input type="number" id="quantity" value="1" min="1" max="1000" aria-describedby="quantity-help">
                             <span id="quantity-help" class="sr-only">Generate between 1 and 1000 UUIDs at once</span>
                         </div>
                         <div class="option-item">
-                            <label for="outputFormat">Format:</label>
+                            <label for="outputFormat" data-i18n="tools.uuidGenerator.labels.format">Format:</label>
                             <select id="outputFormat">
                                 <option value="plain">Plain list</option>
                                 <option value="comma">Comma-separated</option>
@@ -850,18 +850,18 @@
                         </div>
                         <label class="option-item">
                             <input type="checkbox" id="uppercase">
-                            Uppercase
+                            <span data-i18n="tools.uuidGenerator.formats.uppercase">Uppercase</span>
                         </label>
                         <label class="option-item">
                             <input type="checkbox" id="noHyphens">
-                            No hyphens
+                            <span data-i18n="tools.uuidGenerator.formats.noDashes">No dashes</span>
                         </label>
                     </div>
 
                     <div class="button-row">
-                        <button type="button" class="action-btn" onclick="generateUUIDs()" aria-label="Generate UUIDs with selected options">Generate UUIDs</button>
-                        <button type="button" class="action-btn secondary" onclick="copyAllOutput()" aria-label="Copy all generated UUIDs to clipboard">Copy All</button>
-                        <button type="button" class="action-btn tertiary" onclick="downloadOutput()" aria-label="Download generated UUIDs as text file">Download</button>
+                        <button type="button" class="action-btn" onclick="generateUUIDs()" aria-label="Generate UUIDs with selected options" data-i18n="common.generate">Generate</button>
+                        <button type="button" class="action-btn secondary" onclick="copyAllOutput()" aria-label="Copy all generated UUIDs to clipboard" data-i18n="common.copyAll">Copy All</button>
+                        <button type="button" class="action-btn tertiary" onclick="downloadOutput()" aria-label="Download generated UUIDs as text file" data-i18n="common.download">Download</button>
                     </div>
 
                     <div class="error" id="generateError" role="alert" aria-live="assertive" aria-atomic="true"></div>
@@ -1130,8 +1130,8 @@ string compact = newGuid.ToString("N");   // No hyphens</code>
             </div>
         </div>
 
-        <footer role="contentinfo" data-i18n="common.worksOffline">
-            UUID Generator - Works offline, no installation required
+        <footer role="contentinfo">
+            <span data-i18n="tools.uuidGenerator.title">UUID Generator</span> - <span data-i18n="common.worksOffline">Works offline, no installation required</span>
         </footer>
     </main>
 

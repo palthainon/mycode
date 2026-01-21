@@ -603,13 +603,13 @@
 </div>
     <main id="main-content" class="container">
         <h1 data-i18n="tools.jinjaBuilder.title">Jinja Template Builder</h1>
-        <p class="subtitle">Build configuration templates with Jinja2 syntax highlighting</p>
+        <p class="subtitle" data-i18n="tools.jinjaBuilder.subtitle">Build configuration templates with Jinja2 syntax highlighting</p>
 
         <div class="tool-section" role="region" aria-label="Jinja template editor">
             <form id="template-form" aria-label="Template selection and actions">
             <div class="controls-row">
                 <div class="control-group">
-                    <label for="templateSelect">Load Template</label>
+                    <label for="templateSelect" data-i18n="tools.jinjaBuilder.labels.template">Load Template</label>
                     <select id="templateSelect" aria-describedby="template-help" aria-required="false">
                         <option value="">-- Select a template --</option>
                         <optgroup label="Network Configurations">
@@ -640,10 +640,10 @@
                     <span id="template-help" class="sr-only">Select a pre-built template to load into the editor</span>
                 </div>
                 <div class="btn-group" role="group" aria-label="Template actions">
-                    <button type="button" class="btn" onclick="copyToClipboard()" aria-label="Copy template to clipboard">Copy</button>
-                    <button type="button" class="btn btn-secondary" onclick="downloadTemplate()" aria-label="Download template as .j2 file">Download</button>
-                    <button type="button" class="btn btn-outline" onclick="clearEditor()" aria-label="Clear the editor content">Clear</button>
-                    <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page">Clear Saved Data</button>
+                    <button type="button" class="btn" onclick="copyToClipboard()" aria-label="Copy template to clipboard" data-i18n="common.copy">Copy</button>
+                    <button type="button" class="btn btn-secondary" onclick="downloadTemplate()" aria-label="Download template as .j2 file" data-i18n="common.download">Download</button>
+                    <button type="button" class="btn btn-outline" onclick="clearEditor()" aria-label="Clear the editor content" data-i18n="common.clear">Clear</button>
+                    <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page" data-i18n="common.clearSavedData">Clear Saved Data</button>
                 </div>
             </div>
             </form>
@@ -669,7 +669,7 @@
 
             <div class="editor-container" role="region" aria-live="polite" aria-atomic="false">
                 <div class="editor-label">
-                    <span>Template Editor</span>
+                    <span data-i18n="tools.jinjaBuilder.labels.template">Template Editor</span>
                     <span class="char-count" id="charCount" aria-live="polite" aria-atomic="true">0 characters</span>
                 </div>
                 <div class="editor-wrapper">

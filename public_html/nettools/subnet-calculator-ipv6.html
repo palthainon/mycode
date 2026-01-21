@@ -539,19 +539,19 @@
     <main id="main-content" class="container">
         <h1 data-i18n="tools.subnetCalculatorIPv6.title">IPv6 Subnet Calculator</h1>
         <div class="protocol-toggle-container">
-            <a href="subnet-calculator.html" class="protocol-toggle-link protocol-toggle-ipv4">← Switch to IPv4</a>
+            <a href="subnet-calculator.html" class="protocol-toggle-link protocol-toggle-ipv4" data-i18n="tools.subnetCalculatorIPv6.switchToIPv4">← Switch to IPv4</a>
         </div>
 
         <div class="calculator">
             <form id="ipv6-subnet-form" aria-label="IPv6 Subnet Calculator Form">
             <div class="input-group">
                 <div class="input-field">
-                    <label for="ipv6Address">IPv6 Address</label>
+                    <label for="ipv6Address" data-i18n="tools.subnetCalculator.ipAddress">IPv6 Address</label>
                     <input type="text" id="ipv6Address" placeholder="2001:db8::1" aria-required="true" aria-describedby="ipv6-help" autocomplete="off">
                     <span id="ipv6-help" class="sr-only">Enter an IPv6 address in standard or compressed notation, for example 2001:db8::1</span>
                 </div>
                 <div class="input-field">
-                    <label for="cidr">Prefix Length</label>
+                    <label for="cidr" data-i18n="tools.subnetCalculator.cidr">Prefix Length</label>
                     <select id="cidr" aria-describedby="cidr-ipv6-help">
                         <option value="32">/32 - ISP Allocation</option>
                         <option value="48">/48 - Site Prefix</option>
@@ -591,8 +591,8 @@
                 </div>
             </div>
 
-            <button type="button" class="btn" onclick="calculate()" style="margin-top: 25px;" aria-label="Calculate IPv6 subnet details for the entered address and prefix">Calculate Subnet</button>
-            <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page">Clear Saved Data</button>
+            <button type="button" class="btn" onclick="calculate()" style="margin-top: 25px;" aria-label="Calculate IPv6 subnet details for the entered address and prefix" data-i18n="tools.subnetCalculator.calculateSubnet">Calculate Subnet</button>
+            <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page" data-i18n="common.clearSavedData">Clear Saved Data</button>
 
             <div class="error-alert" id="error" role="alert" aria-live="assertive" aria-atomic="true"></div>
             </form>
@@ -600,36 +600,36 @@
 
         <div class="results" id="results" role="region" aria-live="polite" aria-label="IPv6 subnet calculation results">
             <div class="section-header">
-                <h2>Subnet Details</h2>
-                <button type="button" class="export-btn" onclick="exportSubnetDetailsToCSV()" aria-label="Export IPv6 subnet details to CSV file">Export to CSV</button>
+                <h2 data-i18n="tools.subnetCalculator.subnetDetails">Subnet Details</h2>
+                <button type="button" class="export-btn" onclick="exportSubnetDetailsToCSV()" aria-label="Export IPv6 subnet details to CSV file" data-i18n="common.exportToCSV">Export to CSV</button>
             </div>
             <div class="results-grid">
                 <div class="result-item">
-                    <div class="label">Network Address (Compressed)</div>
+                    <div class="label" data-i18n="tools.subnetCalculator.networkAddress">Network Address (Compressed)</div>
                     <div class="value" id="networkCompressed">-</div>
                 </div>
                 <div class="result-item">
-                    <div class="label">Network Address (Expanded)</div>
+                    <div class="label" data-i18n="tools.subnetCalculator.networkAddress">Network Address (Expanded)</div>
                     <div class="value" id="networkExpanded">-</div>
                 </div>
                 <div class="result-item">
-                    <div class="label">First Address</div>
+                    <div class="label" data-i18n="tools.subnetCalculator.firstHost">First Address</div>
                     <div class="value" id="firstAddress">-</div>
                 </div>
                 <div class="result-item">
-                    <div class="label">Last Address</div>
+                    <div class="label" data-i18n="tools.subnetCalculator.lastHost">Last Address</div>
                     <div class="value" id="lastAddress">-</div>
                 </div>
                 <div class="result-item">
-                    <div class="label">Prefix</div>
+                    <div class="label" data-i18n="tools.subnetCalculator.cidrNotation">Prefix</div>
                     <div class="value" id="prefix">-</div>
                 </div>
                 <div class="result-item">
-                    <div class="label">Total Addresses</div>
+                    <div class="label" data-i18n="tools.subnetCalculator.totalHosts">Total Addresses</div>
                     <div class="value" id="totalAddresses">-</div>
                 </div>
                 <div class="result-item">
-                    <div class="label">Address Type</div>
+                    <div class="label" data-i18n="tools.subnetCalculator.ipClass">Address Type</div>
                     <div class="value" id="addressType">-</div>
                 </div>
                 <div class="result-item">
@@ -657,8 +657,8 @@
 
         <div class="subnet-list" id="subnetList" role="region" aria-label="All IPv6 subnets in network">
             <div class="section-header">
-                <h2>All Subnets in Network</h2>
-                <button type="button" class="export-btn" onclick="exportSubnetListToCSV()" aria-label="Export IPv6 subnet list to CSV file">Export to CSV</button>
+                <h2 data-i18n="tools.subnetCalculator.allSubnets">All Subnets in Network</h2>
+                <button type="button" class="export-btn" onclick="exportSubnetListToCSV()" aria-label="Export IPv6 subnet list to CSV file" data-i18n="common.exportToCSV">Export to CSV</button>
             </div>
             <div class="warning" id="subnetWarning"></div>
             <div class="subnet-list-info" id="subnetListInfo"></div>
@@ -667,9 +667,9 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Network Address</th>
-                            <th>Address Range</th>
-                            <th>Total Addresses</th>
+                            <th data-i18n="tools.subnetCalculator.networkAddress">Network Address</th>
+                            <th data-i18n="tools.subnetCalculator.hostRange">Address Range</th>
+                            <th data-i18n="tools.subnetCalculator.totalHosts">Total Addresses</th>
                         </tr>
                     </thead>
                     <tbody id="subnetTableBody">

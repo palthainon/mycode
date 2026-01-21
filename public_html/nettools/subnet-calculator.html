@@ -526,14 +526,14 @@
     <main id="main-content" class="container">
         <h1 data-i18n="tools.subnetCalculator.title">IPv4 Subnet Calculator</h1>
         <div class="protocol-toggle-container">
-            <a href="subnet-calculator-ipv6.html" class="protocol-toggle-link protocol-toggle-ipv6">Switch to IPv6 →</a>
+            <a href="subnet-calculator-ipv6.html" class="protocol-toggle-link protocol-toggle-ipv6" data-i18n="tools.subnetCalculator.switchToIPv6">Switch to IPv6 →</a>
         </div>
 
         <div class="calculator">
             <form id="subnet-form" aria-label="Subnet Calculator Form">
             <div class="input-group">
                 <div class="input-field">
-                    <label for="ipAddress">IP Address</label>
+                    <label for="ipAddress" data-i18n="tools.subnetCalculator.ipAddress">IP Address</label>
                     <input type="text"
                            id="ipAddress"
                            placeholder="192.168.1.100"
@@ -543,7 +543,7 @@
                     <span id="ip-help" class="sr-only">Enter an IPv4 address in dotted decimal notation, for example 192.168.1.100</span>
                 </div>
                 <div class="input-field">
-                    <label for="cidr">CIDR / Prefix Length</label>
+                    <label for="cidr" data-i18n="tools.subnetCalculator.cidr">CIDR / Prefix Length</label>
                     <select id="cidr"
                             aria-describedby="cidr-help">
                         <option value="8">/8 - 255.0.0.0</option>
@@ -576,15 +576,15 @@
                 </div>
             </div>
 
-            <button type="button" class="btn" onclick="calculate()" aria-label="Calculate subnet details for the entered IP address and CIDR">Calculate Subnet</button>
-            <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page">Clear Saved Data</button>
+            <button type="button" class="btn" onclick="calculate()" aria-label="Calculate subnet details for the entered IP address and CIDR" data-i18n="tools.subnetCalculator.calculateSubnet">Calculate Subnet</button>
+            <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page" data-i18n="common.clearSavedData">Clear Saved Data</button>
 
             <div class="quick-masks">
-                <h3 id="quick-masks-label">Quick Select Common Masks:</h3>
+                <h3 id="quick-masks-label" data-i18n="tools.subnetCalculator.quickMasks">Quick Select Common Masks:</h3>
                 <div class="mask-buttons" role="group" aria-labelledby="quick-masks-label">
-                    <button type="button" class="mask-btn" onclick="setMask(8)" aria-label="Set CIDR to /8, Class A network with 255.0.0.0 subnet mask, 16 million hosts">/8 Class A</button>
-                    <button type="button" class="mask-btn" onclick="setMask(16)" aria-label="Set CIDR to /16, Class B network with 255.255.0.0 subnet mask, 65 thousand hosts">/16 Class B</button>
-                    <button type="button" class="mask-btn" onclick="setMask(24)" aria-label="Set CIDR to /24, Class C network with 255.255.255.0 subnet mask, 254 hosts">/24 Class C</button>
+                    <button type="button" class="mask-btn" onclick="setMask(8)" aria-label="Set CIDR to /8, Class A network with 255.0.0.0 subnet mask, 16 million hosts">/8 <span data-i18n="tools.subnetCalculator.classA">Class A</span></button>
+                    <button type="button" class="mask-btn" onclick="setMask(16)" aria-label="Set CIDR to /16, Class B network with 255.255.0.0 subnet mask, 65 thousand hosts">/16 <span data-i18n="tools.subnetCalculator.classB">Class B</span></button>
+                    <button type="button" class="mask-btn" onclick="setMask(24)" aria-label="Set CIDR to /24, Class C network with 255.255.255.0 subnet mask, 254 hosts">/24 <span data-i18n="tools.subnetCalculator.classC">Class C</span></button>
                     <button type="button" class="mask-btn" onclick="setMask(25)" aria-label="Set CIDR to /25, 128 total addresses, 126 usable hosts">/25 (128)</button>
                     <button type="button" class="mask-btn" onclick="setMask(26)" aria-label="Set CIDR to /26, 64 total addresses, 62 usable hosts">/26 (64)</button>
                     <button type="button" class="mask-btn" onclick="setMask(27)" aria-label="Set CIDR to /27, 32 total addresses, 30 usable hosts">/27 (32)</button>
@@ -600,64 +600,64 @@
 
         <div class="results" id="results" role="region" aria-live="polite" aria-label="Subnet calculation results">
             <div class="section-header">
-                <h2>Subnet Details</h2>
-                <button type="button" class="export-btn" onclick="exportSubnetDetailsToCSV()" aria-label="Export subnet details to CSV file">Export to CSV</button>
+                <h2 data-i18n="tools.subnetCalculator.subnetDetails">Subnet Details</h2>
+                <button type="button" class="export-btn" onclick="exportSubnetDetailsToCSV()" aria-label="Export subnet details to CSV file" data-i18n="common.exportToCSV">Export to CSV</button>
             </div>
             <div class="results-grid">
                 <div class="result-item">
-                    <div class="label">Network Address</div>
+                    <div class="label" data-i18n="tools.subnetCalculator.networkAddress">Network Address</div>
                     <div class="value" id="networkAddress">-</div>
                 </div>
                 <div class="result-item">
-                    <div class="label">Broadcast Address</div>
+                    <div class="label" data-i18n="tools.subnetCalculator.broadcastAddress">Broadcast Address</div>
                     <div class="value" id="broadcastAddress">-</div>
                 </div>
                 <div class="result-item">
-                    <div class="label">First Usable Host</div>
+                    <div class="label" data-i18n="tools.subnetCalculator.firstHost">First Usable Host</div>
                     <div class="value" id="firstHost">-</div>
                 </div>
                 <div class="result-item">
-                    <div class="label">Last Usable Host</div>
+                    <div class="label" data-i18n="tools.subnetCalculator.lastHost">Last Usable Host</div>
                     <div class="value" id="lastHost">-</div>
                 </div>
                 <div class="result-item">
-                    <div class="label">Subnet Mask</div>
+                    <div class="label" data-i18n="tools.subnetCalculator.subnetMask">Subnet Mask</div>
                     <div class="value" id="subnetMask">-</div>
                 </div>
                 <div class="result-item">
-                    <div class="label">Wildcard Mask</div>
+                    <div class="label" data-i18n="tools.subnetCalculator.wildcardMask">Wildcard Mask</div>
                     <div class="value" id="wildcardMask">-</div>
                 </div>
                 <div class="result-item">
-                    <div class="label">CIDR Notation</div>
+                    <div class="label" data-i18n="tools.subnetCalculator.cidrNotation">CIDR Notation</div>
                     <div class="value" id="cidrNotation">-</div>
                 </div>
                 <div class="result-item">
-                    <div class="label">Total Hosts</div>
+                    <div class="label" data-i18n="tools.subnetCalculator.totalHosts">Total Hosts</div>
                     <div class="value" id="totalHosts">-</div>
                 </div>
                 <div class="result-item">
-                    <div class="label">Usable Hosts</div>
+                    <div class="label" data-i18n="tools.subnetCalculator.usableHosts">Usable Hosts</div>
                     <div class="value" id="usableHosts">-</div>
                 </div>
                 <div class="result-item">
-                    <div class="label">IP Class</div>
+                    <div class="label" data-i18n="tools.subnetCalculator.ipClass">IP Class</div>
                     <div class="value" id="ipClass">-</div>
                 </div>
             </div>
 
             <div class="binary-display">
-                <h3>Binary Representation</h3>
+                <h3 data-i18n="tools.subnetCalculator.binaryRepresentation">Binary Representation</h3>
                 <div class="binary-item">
-                    <span class="bin-label">IP Address:</span>
+                    <span class="bin-label" data-i18n="tools.subnetCalculator.binaryIP">IP Address:</span>
                     <span id="binaryIP">-</span>
                 </div>
                 <div class="binary-item">
-                    <span class="bin-label">Subnet Mask:</span>
+                    <span class="bin-label" data-i18n="tools.subnetCalculator.binaryMask">Subnet Mask:</span>
                     <span id="binaryMask">-</span>
                 </div>
                 <div class="binary-item">
-                    <span class="bin-label">Network:</span>
+                    <span class="bin-label" data-i18n="tools.subnetCalculator.binaryNetwork">Network:</span>
                     <span id="binaryNetwork">-</span>
                 </div>
             </div>
@@ -665,8 +665,8 @@
 
         <div class="subnet-list" id="subnetList" role="region" aria-label="All subnets in network">
             <div class="section-header">
-                <h2>All Subnets in Network</h2>
-                <button type="button" class="export-btn" onclick="exportSubnetListToCSV()" aria-label="Export subnet list to CSV file">Export to CSV</button>
+                <h2 data-i18n="tools.subnetCalculator.allSubnets">All Subnets in Network</h2>
+                <button type="button" class="export-btn" onclick="exportSubnetListToCSV()" aria-label="Export subnet list to CSV file" data-i18n="common.exportToCSV">Export to CSV</button>
             </div>
             <div class="subnet-list-info" id="subnetListInfo"></div>
             <div class="subnet-table-container">
@@ -674,10 +674,10 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Network Address</th>
-                            <th>Host Range</th>
-                            <th>Broadcast</th>
-                            <th>Usable Hosts</th>
+                            <th data-i18n="tools.subnetCalculator.networkAddress">Network Address</th>
+                            <th data-i18n="tools.subnetCalculator.hostRange">Host Range</th>
+                            <th data-i18n="tools.subnetCalculator.broadcast">Broadcast</th>
+                            <th data-i18n="tools.subnetCalculator.usableHosts">Usable Hosts</th>
                         </tr>
                     </thead>
                     <tbody id="subnetTableBody">

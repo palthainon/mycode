@@ -2449,8 +2449,8 @@
                     </div>
                 </div>
 
-                <button type="button" class="btn" onclick="calculate()" aria-label="Compare payoff methods">Compare Methods</button>
-                <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page">Clear Saved Data</button>
+                <button type="button" class="btn" onclick="calculate()" aria-label="Compare payoff methods" data-i18n="common.calculate">Compare Methods</button>
+                <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page" data-i18n="common.clearSavedData">Clear Saved Data</button>
 
                 <div class="error" id="error" role="alert" aria-live="assertive" aria-atomic="true"></div>
             </form>
@@ -2501,7 +2501,7 @@
                 <button type="button" class="action-btn primary" onclick="toggleSchedule()" id="scheduleToggle" aria-expanded="false" aria-controls="scheduleSection">
                     View Detailed Schedule
                 </button>
-                <button type="button" class="action-btn secondary" onclick="exportToCSV()" aria-label="Export comparison to CSV">Export CSV</button>
+                <button type="button" class="action-btn secondary" onclick="exportToCSV()" aria-label="Export comparison to CSV" data-i18n="common.exportCSV">Export CSV</button>
                 <button type="button" class="action-btn secondary" onclick="window.print()" aria-label="Print comparison">Print</button>
             </div>
         </div>

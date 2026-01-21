@@ -100,6 +100,79 @@
       "explore": "Explorar herramientas de productividad"
     }
   },
+  "sections": {
+    "input": "Entrada",
+    "inputText": "Texto de entrada",
+    "output": "Salida",
+    "quickReference": "Referencia rápida",
+    "results": "Resultados",
+    "options": "Opciones",
+    "commonPresets": "Preajustes comunes"
+  },
+  "labels": {
+    "padCharacter": "Carácter de relleno:",
+    "padLength": "Longitud de relleno:",
+    "paddingSide": "Lado del relleno",
+    "caseSensitive": "Distinguir mayúsculas",
+    "trimBeforeCompare": "Recortar antes de comparar",
+    "format": "Formato:",
+    "uppercaseHex": "Hex en mayúsculas",
+    "spaceBetweenBytes": "Espacio entre bytes"
+  },
+  "buttons": {
+    "encode": "Codificar",
+    "decode": "Decodificar",
+    "encodeToBase64": "Codificar a Base64",
+    "decodeFromBase64": "Decodificar desde Base64",
+    "generateHashes": "Generar hashes",
+    "urlEncode": "Codificar URL",
+    "urlDecode": "Decodificar URL",
+    "textToHex": "Texto a Hex",
+    "hexToText": "Hex a texto",
+    "uppercase": "MAYÚSCULAS",
+    "lowercase": "minúsculas",
+    "titleCase": "Tipo Título",
+    "camelCase": "camelCase",
+    "pascalCase": "PascalCase",
+    "snakeCase": "snake_case",
+    "kebabCase": "kebab-case",
+    "trimLines": "Recortar líneas",
+    "padLines": "Rellenar líneas",
+    "reverseLines": "Invertir líneas",
+    "sortAZ": "Ordenar A-Z",
+    "sortZA": "Ordenar Z-A",
+    "sortNumeric": "Ordenar numérico",
+    "shuffle": "Mezclar",
+    "removeEmpty": "Eliminar vacías",
+    "reverseChars": "Invertir caracteres",
+    "removeDuplicates": "Eliminar duplicados",
+    "showOnlyDuplicates": "Mostrar solo duplicados",
+    "countOccurrences": "Contar ocurrencias",
+    "escape": "Escapar",
+    "unescape": "Desescapar",
+    "compare": "Comparar",
+    "swap": "Intercambiar",
+    "start": "Iniciar",
+    "pause": "Pausar",
+    "resume": "Reanudar",
+    "stop": "Detener",
+    "skip": "Saltar"
+  },
+  "formats": {
+    "htmlEntities": "Entidades HTML",
+    "jsonString": "Cadena JSON",
+    "urlEncoding": "Codificación URL",
+    "sqlString": "Cadena SQL",
+    "regexChars": "Caracteres especiales Regex",
+    "shellBash": "Shell/Bash",
+    "csvField": "Campo CSV",
+    "xmlEntities": "Entidades XML"
+  },
+  "padSide": {
+    "left": "Rellenar izquierda",
+    "right": "Rellenar derecha",
+    "both": "Rellenar ambos"
+  },
   "tools": {
     "subnetCalculator": {
       "title": "Calculadora de subred IPv4",
@@ -245,27 +318,164 @@
     "chmodCalculator": {
       "title": "Calculadora Chmod",
       "name": "Chmod",
-      "description": "Convierte entre permisos de archivo Unix simbólicos y octales. Visualiza configuraciones de permisos."
+      "description": "Convierte entre permisos de archivo Unix simbólicos y octales. Visualiza configuraciones de permisos.",
+      "subtitle": "Calculadora visual de permisos de archivos Unix",
+      "tabs": {
+        "permissions": "Permisos",
+        "umask": "Umask"
+      },
+      "labels": {
+        "octal": "Octal",
+        "symbolic": "Simbólico",
+        "permissionCheckboxes": "Casillas de permisos",
+        "read": "Lectura (r)",
+        "write": "Escritura (w)",
+        "execute": "Ejecución (x)",
+        "owner": "Propietario",
+        "group": "Grupo",
+        "other": "Otros",
+        "umaskValue": "Valor Umask",
+        "defaultFilePerms": "Permisos de archivo predeterminados",
+        "defaultDirPerms": "Permisos de directorio predeterminados"
+      },
+      "presets": {
+        "title": "Preajustes comunes",
+        "executables": "Ejecutables",
+        "files": "Archivos",
+        "fullAccess": "Acceso completo",
+        "private": "Privado",
+        "privateExec": "Ejecutable privado",
+        "groupExec": "Ejecutable grupo",
+        "groupWrite": "Escritura grupo",
+        "config": "Configuración",
+        "readOnly": "Solo lectura"
+      },
+      "special": {
+        "title": "Permisos especiales",
+        "setuid": "Setuid (4)",
+        "setuidDesc": "Ejecutar como propietario",
+        "setgid": "Setgid (2)",
+        "setgidDesc": "Ejecutar como grupo",
+        "sticky": "Sticky (1)",
+        "stickyDesc": "Restringir eliminación"
+      },
+      "results": {
+        "octalNotation": "Notación octal",
+        "symbolicNotation": "Notación simbólica",
+        "chmodCommand": "Comando chmod"
+      },
+      "reference": {
+        "title": "Referencia octal",
+        "quickRef": "Referencia rápida:",
+        "permFormat": "Formato de permisos: Propietario-Grupo-Otros",
+        "octalExample": "Octal: 754 = Propietario(7), Grupo(5), Otros(4)",
+        "symbolicExample": "Simbólico: -rwxr-xr-- = Tipo de archivo + Propietario(rwx) + Grupo(r-x) + Otros(r--)"
+      },
+      "umask": {
+        "title": "Calculadora Umask",
+        "description": "Calcula permisos predeterminados de archivos y directorios basados en el valor umask."
+      }
     },
     "base64Hash": {
       "title": "Herramientas Base64 y Hash",
       "name": "Base64/Hash",
-      "description": "Codifica/decodifica Base64 y genera hashes criptográficos (MD5, SHA-1, SHA-256, SHA-512)."
+      "description": "Codifica/decodifica Base64 y genera hashes criptográficos (MD5, SHA-1, SHA-256, SHA-512).",
+      "subtitle": "Codificación, decodificación y generación de hash criptográfico",
+      "tabs": {
+        "base64": "Base64",
+        "hash": "Hash",
+        "url": "URL",
+        "hex": "Hex"
+      },
+      "placeholders": {
+        "inputText": "Ingresa texto para codificar, decodificar o hashear...",
+        "hexInput": "Ingresa texto o valores hexadecimales..."
+      },
+      "results": {
+        "md5": "MD5",
+        "sha1": "SHA-1",
+        "sha256": "SHA-256",
+        "sha512": "SHA-512"
+      }
     },
     "stringTools": {
-      "title": "Herramientas de texto",
+      "title": "Herramientas de manipulación de texto",
       "name": "Herramientas de texto",
-      "description": "Conversión de mayúsculas/minúsculas, conteo de caracteres y utilidades de manipulación de texto."
+      "description": "Conversión de mayúsculas/minúsculas, conteo de caracteres y utilidades de manipulación de texto.",
+      "subtitle": "Conversión de casos, operaciones de líneas y utilidades de texto",
+      "tabs": {
+        "caseConvert": "Convertir caso",
+        "lineOps": "Operaciones de líneas",
+        "duplicates": "Duplicados",
+        "escape": "Escapar"
+      },
+      "placeholders": {
+        "caseInput": "Ingresa texto para convertir...",
+        "linesInput": "Ingresa texto con múltiples líneas...",
+        "dupInput": "Ingresa texto para encontrar/eliminar duplicados...",
+        "escapeInput": "Ingresa texto para escapar o desescapar..."
+      },
+      "stats": {
+        "removedEmptyLines": "Se eliminaron {{count}} línea(s) vacía(s)",
+        "removedDuplicates": "Se eliminaron {{count}} duplicado(s), se mantuvieron {{unique}} línea(s) única(s)",
+        "foundUniqueValues": "Se encontraron {{unique}} valor(es) único(s) de {{total}} línea(s)",
+        "countOccurrences": "Se encontraron {{count}} ocurrencia(s) de {{value}}"
+      }
     },
     "textDiff": {
       "title": "Comparador de texto",
       "name": "Comparar texto",
-      "description": "Compara dos entradas de texto y resalta diferencias con vistas lado a lado o en línea."
+      "description": "Compara dos entradas de texto y resalta diferencias con vistas lado a lado o en línea.",
+      "subtitle": "Compara texto y resalta diferencias",
+      "labels": {
+        "originalText": "Texto original",
+        "modifiedText": "Texto modificado",
+        "diffView": "Vista de diferencias",
+        "sideBySide": "Lado a lado",
+        "inline": "En línea",
+        "unified": "Unificado"
+      },
+      "placeholders": {
+        "original": "Pega el texto original aquí...",
+        "modified": "Pega el texto modificado aquí..."
+      },
+      "results": {
+        "title": "Resultados de comparación",
+        "additions": "Adiciones",
+        "deletions": "Eliminaciones",
+        "unchanged": "Sin cambios",
+        "noChanges": "No se encontraron diferencias",
+        "totalLines": "Total de líneas"
+      },
+      "buttons": {
+        "compare": "Comparar",
+        "swap": "Intercambiar"
+      }
     },
     "uuidGenerator": {
       "title": "Generador de UUID",
       "name": "Generador UUID",
-      "description": "Genera UUIDs aleatorios (v4) y valida formato UUID."
+      "description": "Genera UUIDs aleatorios (v4) y valida formato UUID.",
+      "subtitle": "Genera y valida identificadores únicos universales",
+      "labels": {
+        "numberOfUuids": "Número de UUIDs",
+        "format": "Formato",
+        "generatedUuids": "UUIDs generados"
+      },
+      "formats": {
+        "standard": "Estándar (minúsculas)",
+        "uppercase": "Mayúsculas",
+        "noDashes": "Sin guiones",
+        "braces": "Con llaves {}"
+      },
+      "buttons": {
+        "generate": "Generar UUIDs",
+        "copyAll": "Copiar todo"
+      },
+      "results": {
+        "generated": "Se generaron {{count}} UUID(s)",
+        "copiedAll": "Se copiaron todos los UUIDs al portapapeles"
+      }
     },
     "measurementConverter": {
       "title": "Convertidor de medidas",
@@ -275,7 +485,91 @@
     "amortizationCalculator": {
       "title": "Calculadora de amortización",
       "name": "Amortización",
-      "description": "Calcula pagos de préstamos, visualiza cronogramas de amortización y analiza interés vs capital a lo largo del tiempo."
+      "description": "Calcula pagos de préstamos, visualiza cronogramas de amortización y analiza interés vs capital a lo largo del tiempo.",
+      "labels": {
+        "loanAmount": "Monto del préstamo",
+        "interestRate": "Tasa de interés anual",
+        "loanTerm": "Plazo del préstamo",
+        "termUnit": "Unidad de plazo",
+        "startDate": "Fecha de inicio (opcional)",
+        "extraPayment": "Pago mensual extra (opcional)",
+        "propertyTax": "Impuesto a la propiedad anual (opcional)",
+        "hoaFee": "Cuota HOA mensual (opcional)"
+      },
+      "termUnits": {
+        "years": "Años",
+        "months": "Meses"
+      },
+      "presets": {
+        "title": "Ejemplos de préstamos comunes:",
+        "mortgage200k": "$200K @ 6.5% / 30 años",
+        "mortgage300k": "$300K @ 7% / 30 años",
+        "mortgage400k": "$400K @ 6.75% / 15 años",
+        "auto25k": "$25K Auto @ 8% / 5 años"
+      },
+      "results": {
+        "loanSummary": "Resumen del préstamo",
+        "totalPrincipal": "Capital total",
+        "totalInterest": "Interés total",
+        "totalCost": "Costo total",
+        "monthlyPayment": "Pago mensual",
+        "piPayment": "Pago P&I",
+        "totalMonthlyPayment": "Pago mensual total",
+        "totalPayments": "Total de pagos",
+        "interestRate": "Tasa de interés",
+        "monthlyTax": "Impuesto mensual",
+        "monthlyHOA": "HOA mensual"
+      },
+      "breakdown": {
+        "monthlyBreakdown": "Desglose del pago mensual",
+        "principalVsInterest": "Desglose de capital vs interés",
+        "totalCostBreakdown": "Desglose del costo total (durante el préstamo)",
+        "totalCost": "Costo total:",
+        "totalMonthlyPayment": "Pago mensual total:",
+        "principal": "Capital",
+        "interest": "Interés",
+        "tax": "Impuesto",
+        "hoa": "HOA",
+        "pi": "P&I"
+      },
+      "savings": {
+        "title": "Ahorros por pago anticipado",
+        "interestSaved": "Interés ahorrado",
+        "timeSaved": "Tiempo ahorrado",
+        "paymentsEliminated": "Pagos eliminados",
+        "extraPayment": "Pago extra",
+        "paymentIncrease": "Aumento del pago"
+      },
+      "schedule": {
+        "title": "Cronograma de amortización",
+        "paymentNum": "#",
+        "date": "Fecha",
+        "payment": "Pago",
+        "principal": "Capital",
+        "interest": "Interés",
+        "balance": "Saldo",
+        "exportCSV": "Exportar CSV",
+        "print": "Imprimir"
+      },
+      "formulas": {
+        "title": "Fórmulas de Excel para amortización de préstamos",
+        "description": "Copia estas fórmulas en Excel o Google Sheets. Reemplaza las referencias de celdas con tus valores.",
+        "monthlyPayment": "Pago mensual (PMT)",
+        "monthlyPaymentDesc": "Calcula el pago mensual de capital e interés",
+        "totalInterest": "Interés total pagado",
+        "totalInterestDesc": "Calcula el interés total durante la vida del préstamo",
+        "remainingBalance": "Saldo restante después de N pagos",
+        "remainingBalanceDesc": "Calcula cuánto debes después de cierto número de pagos",
+        "interestPortion": "Porción de interés del pago N",
+        "interestPortionDesc": "Calcula la porción de interés de un pago específico",
+        "principalPortion": "Porción de capital del pago N",
+        "principalPortionDesc": "Calcula la porción de capital de un pago específico"
+      },
+      "validation": {
+        "invalidLoanAmount": "Por favor ingresa un monto de préstamo válido",
+        "invalidInterestRate": "Por favor ingresa una tasa de interés válida (0-100%)",
+        "invalidTerm": "Por favor ingresa un plazo de préstamo válido"
+      }
     },
     "compoundInterestCalculator": {
       "title": "Calculadora de interés compuesto",
@@ -305,7 +599,269 @@
     "pomodoroTimer": {
       "title": "Temporizador Pomodoro",
       "name": "Temporizador Pomodoro",
-      "description": "Temporizador de enfoque usando la Técnica Pomodoro con intervalos de trabajo y descanso personalizables."
+      "description": "Temporizador de enfoque usando la Técnica Pomodoro con intervalos de trabajo y descanso personalizables.",
+      "subtitle": "Mantén el enfoque con la Técnica Pomodoro",
+      "modes": {
+        "work": "Trabajo",
+        "shortBreak": "Descanso corto",
+        "longBreak": "Descanso largo"
+      },
+      "labels": {
+        "workDuration": "Duración del trabajo (minutos)",
+        "shortBreakDuration": "Descanso corto (minutos)",
+        "longBreakDuration": "Descanso largo (minutos)",
+        "sessionsBeforeLongBreak": "Sesiones antes del descanso largo",
+        "autoStartBreaks": "Iniciar descansos automáticamente",
+        "autoStartWork": "Iniciar sesiones de trabajo automáticamente",
+        "soundNotifications": "Notificaciones de sonido",
+        "currentSession": "Sesión actual",
+        "completedPomodoros": "Pomodoros completados"
+      },
+      "buttons": {
+        "start": "Iniciar",
+        "pause": "Pausar",
+        "resume": "Reanudar",
+        "stop": "Detener",
+        "skip": "Saltar",
+        "reset": "Reiniciar"
+      },
+      "status": {
+        "ready": "Listo para comenzar",
+        "working": "¡Tiempo de enfoque!",
+        "shortBreak": "Toma un descanso corto",
+        "longBreak": "Toma un descanso largo",
+        "paused": "Pausado",
+        "completed": "¡Sesión completada!"
+      },
+      "notifications": {
+        "workComplete": "¡Sesión de trabajo completada! Tiempo para un descanso.",
+        "breakComplete": "¡Descanso terminado! ¿Listo para otra sesión?",
+        "longBreakComplete": "¡Descanso largo terminado! ¿Bien descansado?"
+      },
+      "stats": {
+        "todaysSessions": "Sesiones de hoy",
+        "totalTime": "Tiempo total de enfoque",
+        "currentStreak": "Racha actual"
+      }
+    },
+    "cronBuilder": {
+      "title": "Constructor de expresiones Cron",
+      "name": "Cron",
+      "description": "Construye y valida expresiones cron con un editor visual. Vista previa de tiempos de ejecución programados.",
+      "subtitle": "Constructor visual de expresiones cron y validador",
+      "fields": {
+        "minute": "Minuto",
+        "hour": "Hora",
+        "dayOfMonth": "Día del mes",
+        "month": "Mes",
+        "dayOfWeek": "Día de la semana"
+      },
+      "labels": {
+        "cronExpression": "Expresión Cron",
+        "nextRuns": "Próximas ejecuciones programadas",
+        "description": "Descripción"
+      },
+      "presets": {
+        "title": "Preajustes comunes",
+        "everyMinute": "Cada minuto",
+        "everyHour": "Cada hora",
+        "everyDay": "Cada día a medianoche",
+        "everyWeek": "Cada domingo a medianoche",
+        "everyMonth": "Primer día de cada mes"
+      },
+      "validation": {
+        "invalid": "Expresión cron inválida"
+      }
+    },
+    "regexTester": {
+      "title": "Probador de Regex",
+      "name": "Regex",
+      "description": "Prueba y depura expresiones regulares con coincidencia en tiempo real, resaltado de sintaxis e información de coincidencias.",
+      "subtitle": "Prueba expresiones regulares con coincidencia en tiempo real",
+      "labels": {
+        "pattern": "Patrón de expresión regular",
+        "flags": "Banderas",
+        "testString": "Cadena de prueba",
+        "matches": "Coincidencias"
+      },
+      "flags": {
+        "global": "Global (g)",
+        "caseInsensitive": "Insensible a mayúsculas (i)",
+        "multiline": "Multilínea (m)",
+        "dotAll": "Punto todo (s)",
+        "unicode": "Unicode (u)"
+      },
+      "results": {
+        "noMatches": "No se encontraron coincidencias",
+        "matchCount": "Se encontraron {{count}} coincidencia(s)",
+        "matchGroups": "Grupos de coincidencias"
+      },
+      "presets": {
+        "title": "Patrones comunes",
+        "email": "Correo electrónico",
+        "url": "URL",
+        "ipv4": "Dirección IPv4",
+        "phone": "Número de teléfono",
+        "date": "Fecha (YYYY-MM-DD)"
+      }
+    },
+    "timestampConverter": {
+      "title": "Convertidor de marcas de tiempo",
+      "name": "Convertidor de tiempo",
+      "description": "Convierte entre marcas de tiempo Unix, ISO 8601 y formatos de fecha legibles. Soporta múltiples zonas horarias.",
+      "subtitle": "Convierte entre formatos de marca de tiempo y zonas horarias",
+      "labels": {
+        "unixTimestamp": "Marca de tiempo Unix",
+        "iso8601": "ISO 8601",
+        "humanReadable": "Legible por humanos",
+        "timezone": "Zona horaria",
+        "currentTime": "Hora actual"
+      },
+      "buttons": {
+        "now": "Ahora",
+        "convert": "Convertir"
+      },
+      "results": {
+        "localTime": "Hora local",
+        "utcTime": "Hora UTC",
+        "relativeTime": "Tiempo relativo"
+      }
+    },
+    "certificateParser": {
+      "title": "Analizador de certificados",
+      "name": "Analizador de certificados",
+      "description": "Analiza certificados X.509, muestra detalles del certificado y verifica cadenas de certificados.",
+      "subtitle": "Analiza certificados SSL/TLS",
+      "labels": {
+        "certificate": "Certificado (formato PEM)",
+        "subject": "Sujeto",
+        "issuer": "Emisor",
+        "validFrom": "Válido desde",
+        "validTo": "Válido hasta",
+        "serialNumber": "Número de serie",
+        "algorithm": "Algoritmo de firma",
+        "fingerprint": "Huella digital SHA-256"
+      },
+      "placeholders": {
+        "certificate": "Pega el certificado en formato PEM (-----BEGIN CERTIFICATE-----...)"
+      },
+      "validation": {
+        "invalid": "Formato de certificado inválido"
+      }
+    },
+    "measurementConverter": {
+      "title": "Convertidor de medidas",
+      "name": "Convertidor de medidas",
+      "description": "Convierte entre unidades de longitud, peso, volumen y temperatura.",
+      "subtitle": "Convierte entre unidades de medida comunes",
+      "tabs": {
+        "basic": "Basico",
+        "cooking": "Cocina",
+        "scientific": "Cientifico",
+        "trigonometry": "Trigonometria",
+        "engineering": "Ingenieria",
+        "length": "Longitud",
+        "weight": "Peso",
+        "volume": "Volumen",
+        "temperature": "Temperatura",
+        "area": "Area",
+        "speed": "Velocidad"
+      },
+      "labels": {
+        "value": "Valor",
+        "from": "De",
+        "to": "A",
+        "result": "Resultado"
+      },
+      "units": {
+        "meters": "Metros",
+        "feet": "Pies",
+        "inches": "Pulgadas",
+        "centimeters": "Centímetros",
+        "kilometers": "Kilómetros",
+        "miles": "Millas",
+        "yards": "Yardas",
+        "kilograms": "Kilogramos",
+        "pounds": "Libras",
+        "ounces": "Onzas",
+        "grams": "Gramos",
+        "liters": "Litros",
+        "gallons": "Galones",
+        "cups": "Tazas",
+        "milliliters": "Mililitros",
+        "celsius": "Celsius",
+        "fahrenheit": "Fahrenheit",
+        "kelvin": "Kelvin"
+      }
+    },
+    "dataRateCalculator": {
+      "title": "Calculadora de transferencia de datos",
+      "name": "Calculadora de tasa de datos",
+      "description": "Calcula cuánto tiempo toma transferir datos basándose en el tamaño del archivo y la tasa de transferencia.",
+      "subtitle": "Calcula tiempos de transferencia para cualquier tamaño de archivo y velocidad",
+      "labels": {
+        "fileSize": "Tamaño del archivo",
+        "transferRate": "Tasa de transferencia",
+        "transferTime": "Tiempo de transferencia"
+      },
+      "results": {
+        "seconds": "Segundos",
+        "minutes": "Minutos",
+        "hours": "Horas",
+        "days": "Días"
+      },
+      "presets": {
+        "title": "Tasas de transferencia comunes",
+        "usb2": "USB 2.0 (480 Mbps)",
+        "usb3": "USB 3.0 (5 Gbps)",
+        "gigabitEth": "Gigabit Ethernet",
+        "wifi6": "Wi-Fi 6 (1.2 Gbps)",
+        "sata3": "SATA III (6 Gbps)"
+      }
+    },
+    "mtuCalculator": {
+      "title": "Calculadora MTU",
+      "name": "Calculadora MTU",
+      "description": "Calcula la Unidad Máxima de Transmisión (MTU) y el Tamaño Máximo de Segmento (MSS) con análisis de sobrecarga de protocolo.",
+      "subtitle": "Calcula MTU y MSS para varios protocolos",
+      "labels": {
+        "mtu": "MTU (bytes)",
+        "protocol": "Protocolo",
+        "mss": "Tamaño máximo de segmento",
+        "overhead": "Sobrecarga de protocolo"
+      },
+      "protocols": {
+        "ethernet": "Ethernet",
+        "pppoe": "PPPoE",
+        "gre": "Túnel GRE",
+        "ipsec": "IPsec",
+        "vxlan": "VXLAN"
+      }
+    },
+    "jinjaBuilder": {
+      "title": "Constructor de plantillas Jinja",
+      "name": "Constructor Jinja",
+      "description": "Construye y prueba plantillas Jinja2 con resaltado de sintaxis y vista previa en vivo.",
+      "subtitle": "Construye y previsualiza plantillas Jinja2",
+      "labels": {
+        "template": "Plantilla",
+        "variables": "Variables (JSON)",
+        "output": "Salida renderizada"
+      },
+      "buttons": {
+        "render": "Renderizar plantilla",
+        "format": "Formatear JSON"
+      },
+      "presets": {
+        "title": "Ejemplos de plantillas",
+        "networkConfig": "Configuración de red",
+        "ansiblePlaybook": "Playbook de Ansible",
+        "dockerCompose": "Docker Compose"
+      },
+      "validation": {
+        "invalidJson": "JSON inválido en variables",
+        "templateError": "Error de plantilla: {{error}}"
+      }
     }
   },
   "validation": {

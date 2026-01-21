@@ -583,24 +583,24 @@
  \___/|_|\__,_|   \_/\_/ \___|_.__/
 </div>
     <main id="main-content" class="container">
-        <h1 data-i18n="data.stringTools.title">String Manipulation Toolkit</h1>
-        <p class="subtitle">Case conversion, line operations, and text utilities</p>
+        <h1 data-i18n="tools.stringTools.title">String Manipulation Toolkit</h1>
+        <p class="subtitle" data-i18n="tools.stringTools.subtitle">Case conversion, line operations, and text utilities</p>
 
         <div class="calculator">
-            <button type="button" class="clear-data-btn" onclick="clearAllSavedData()" aria-label="Clear all saved form data">Clear</button>
+            <button type="button" class="clear-data-btn" onclick="clearAllSavedData()" aria-label="Clear all saved form data" data-i18n="common.clear">Clear</button>
             <div class="tabs" role="tablist" aria-label="String manipulation tool tabs">
-                <button type="button" class="tab-btn active" onclick="switchTab('case')" role="tab" aria-selected="true" aria-controls="case-tab" id="tab-case">Case Convert</button>
-                <button type="button" class="tab-btn" onclick="switchTab('lines')" role="tab" aria-selected="false" aria-controls="lines-tab" id="tab-lines">Line Ops</button>
-                <button type="button" class="tab-btn" onclick="switchTab('duplicates')" role="tab" aria-selected="false" aria-controls="duplicates-tab" id="tab-duplicates">Duplicates</button>
-                <button type="button" class="tab-btn" onclick="switchTab('escape')" role="tab" aria-selected="false" aria-controls="escape-tab" id="tab-escape">Escape</button>
+                <button type="button" class="tab-btn active" onclick="switchTab('case')" role="tab" aria-selected="true" aria-controls="case-tab" id="tab-case" data-i18n="tools.stringTools.tabs.caseConvert">Case Convert</button>
+                <button type="button" class="tab-btn" onclick="switchTab('lines')" role="tab" aria-selected="false" aria-controls="lines-tab" id="tab-lines" data-i18n="tools.stringTools.tabs.lineOps">Line Ops</button>
+                <button type="button" class="tab-btn" onclick="switchTab('duplicates')" role="tab" aria-selected="false" aria-controls="duplicates-tab" id="tab-duplicates" data-i18n="tools.stringTools.tabs.duplicates">Duplicates</button>
+                <button type="button" class="tab-btn" onclick="switchTab('escape')" role="tab" aria-selected="false" aria-controls="escape-tab" id="tab-escape" data-i18n="tools.stringTools.tabs.escape">Escape</button>
             </div>
 
             <!-- Case Conversion Tab -->
             <div id="case-tab" class="tab-content active" role="tabpanel" aria-labelledby="tab-case">
                 <form aria-label="Case conversion form">
                     <div class="input-area">
-                        <h3 class="section-title"><label for="caseInput">Input Text</label></h3>
-                        <textarea id="caseInput" placeholder="Enter text to convert..." aria-label="Input text for case conversion" aria-required="true" aria-describedby="case-input-help">database connection string
+                        <h3 class="section-title"><label for="caseInput" data-i18n="sections.inputText">Input Text</label></h3>
+                        <textarea id="caseInput" placeholder="Enter text to convert..." data-i18n-placeholder="tools.stringTools.placeholders.caseInput" aria-label="Input text for case conversion" aria-required="true" aria-describedby="case-input-help">database connection string
 max allowed connections
 server host name
 api endpoint url
@@ -614,24 +614,24 @@ backup retention days</textarea>
                     </div>
 
                     <div class="button-row">
-                        <button type="button" class="action-btn" onclick="convertCase('upper')" aria-label="Convert to uppercase" title="UPPERCASE: All letters capitalized. Common for constants and emphasis.">UPPERCASE</button>
-                        <button type="button" class="action-btn" onclick="convertCase('lower')" aria-label="Convert to lowercase" title="lowercase: All letters in lower case. Useful for normalization and comparisons.">lowercase</button>
-                        <button type="button" class="action-btn secondary" onclick="convertCase('title')" aria-label="Convert to title case" title="Title Case: First letter of each word capitalized. Used for headings and proper names.">Title Case</button>
+                        <button type="button" class="action-btn" onclick="convertCase('upper')" aria-label="Convert to uppercase" title="UPPERCASE: All letters capitalized. Common for constants and emphasis." data-i18n="buttons.uppercase">UPPERCASE</button>
+                        <button type="button" class="action-btn" onclick="convertCase('lower')" aria-label="Convert to lowercase" title="lowercase: All letters in lower case. Useful for normalization and comparisons." data-i18n="buttons.lowercase">lowercase</button>
+                        <button type="button" class="action-btn secondary" onclick="convertCase('title')" aria-label="Convert to title case" title="Title Case: First letter of each word capitalized. Used for headings and proper names." data-i18n="buttons.titleCase">Title Case</button>
                     </div>
                     <div class="button-row">
-                        <button type="button" class="action-btn tertiary" onclick="convertCase('camel')" aria-label="Convert to camelCase" title="camelCase: First word lowercase, subsequent words capitalized, no separators. Standard in JavaScript, TypeScript, Java for variables and functions.">camelCase</button>
-                        <button type="button" class="action-btn tertiary" onclick="convertCase('pascal')" aria-label="Convert to PascalCase" title="PascalCase: Every word capitalized, no separators. Used for classes and types in C#, TypeScript, Java.">PascalCase</button>
-                        <button type="button" class="action-btn tertiary" onclick="convertCase('snake')" aria-label="Convert to snake_case" title="snake_case: Words separated by underscores, all lowercase. Standard in Python, Ruby, SQL, and database columns.">snake_case</button>
-                        <button type="button" class="action-btn tertiary" onclick="convertCase('kebab')" aria-label="Convert to kebab-case" title="kebab-case: Words separated by hyphens, all lowercase. Used in CSS classes, URLs, and CLI flags.">kebab-case</button>
+                        <button type="button" class="action-btn tertiary" onclick="convertCase('camel')" aria-label="Convert to camelCase" title="camelCase: First word lowercase, subsequent words capitalized, no separators. Standard in JavaScript, TypeScript, Java for variables and functions." data-i18n="buttons.camelCase">camelCase</button>
+                        <button type="button" class="action-btn tertiary" onclick="convertCase('pascal')" aria-label="Convert to PascalCase" title="PascalCase: Every word capitalized, no separators. Used for classes and types in C#, TypeScript, Java." data-i18n="buttons.pascalCase">PascalCase</button>
+                        <button type="button" class="action-btn tertiary" onclick="convertCase('snake')" aria-label="Convert to snake_case" title="snake_case: Words separated by underscores, all lowercase. Standard in Python, Ruby, SQL, and database columns." data-i18n="buttons.snakeCase">snake_case</button>
+                        <button type="button" class="action-btn tertiary" onclick="convertCase('kebab')" aria-label="Convert to kebab-case" title="kebab-case: Words separated by hyphens, all lowercase. Used in CSS classes, URLs, and CLI flags." data-i18n="buttons.kebabCase">kebab-case</button>
                     </div>
 
                     <div class="error" id="caseError" role="alert" aria-live="assertive" aria-atomic="true"></div>
 
                     <div class="output-area" role="region" aria-live="polite" aria-label="Case conversion result">
-                        <h3 class="section-title"><label for="caseOutput">Output</label></h3>
+                        <h3 class="section-title"><label for="caseOutput" data-i18n="sections.output">Output</label></h3>
                         <div class="output-box">
                             <textarea id="caseOutput" readonly placeholder="Result will appear here..." aria-label="Case conversion output" aria-readonly="true"></textarea>
-                            <button type="button" class="copy-btn" onclick="copyOutput('caseOutput', this)" aria-label="Copy output to clipboard">Copy</button>
+                            <button type="button" class="copy-btn" onclick="copyOutput('caseOutput', this)" aria-label="Copy output to clipboard" data-i18n="common.copy">Copy</button>
                         </div>
                     </div>
                 </form>
@@ -686,8 +686,8 @@ backup retention days</textarea>
             <div id="lines-tab" class="tab-content" role="tabpanel" aria-labelledby="tab-lines">
                 <form aria-label="Line operations form">
                     <div class="input-area">
-                        <h3 class="section-title"><label for="linesInput">Input Text (one item per line)</label></h3>
-                        <textarea id="linesInput" placeholder="Enter text with multiple lines..." aria-label="Input text for line operations" aria-required="true" aria-describedby="lines-input-help">  web-server-01.prod.example.com
+                        <h3 class="section-title"><label for="linesInput" data-i18n="sections.inputText">Input Text (one item per line)</label></h3>
+                        <textarea id="linesInput" placeholder="Enter text with multiple lines..." data-i18n-placeholder="tools.stringTools.placeholders.linesInput" aria-label="Input text for line operations" aria-required="true" aria-describedby="lines-input-help">  web-server-01.prod.example.com
 db-master.prod.example.com
   cache-redis-03.prod.example.com
 10.0.1.50 - load-balancer
@@ -702,45 +702,45 @@ backup-nas.internal.local
 
                     <div class="options-row" role="group" aria-label="Line operation options">
                         <label class="option-item" title="The character used to fill the padding. Default is space. Use '0' for zero-padding numbers, '-' for visual separators.">
-                            <span>Pad character:</span>
+                            <span data-i18n="labels.padCharacter">Pad character:</span>
                             <input type="text" id="padChar" value=" " maxlength="1" aria-label="Character to use for padding">
                         </label>
                         <label class="option-item" title="Target length for each line after padding. Lines longer than this value are left unchanged.">
-                            <span>Pad length:</span>
+                            <span data-i18n="labels.padLength">Pad length:</span>
                             <input type="number" id="padLength" value="20" min="1" max="1000" aria-label="Total length after padding">
                         </label>
                         <label class="option-item" title="Where to add padding: Left (right-align text), Right (left-align text), or Both (center text).">
-                            <select id="padSide" aria-label="Padding side">
-                                <option value="left">Pad Left</option>
-                                <option value="right">Pad Right</option>
-                                <option value="both">Pad Both</option>
+                            <select id="padSide" aria-label="Padding side" data-i18n-aria-label="labels.paddingSide">
+                                <option value="left" data-i18n="padSide.left">Pad Left</option>
+                                <option value="right" data-i18n="padSide.right">Pad Right</option>
+                                <option value="both" data-i18n="padSide.both">Pad Both</option>
                             </select>
                         </label>
                     </div>
 
                     <div class="button-row">
-                        <button type="button" class="action-btn" onclick="lineOp('trim')" aria-label="Trim whitespace from each line" title="Trim Lines: Remove leading and trailing whitespace from each line. Useful for cleaning copy-pasted data.">Trim Lines</button>
-                        <button type="button" class="action-btn" onclick="lineOp('pad')" aria-label="Pad each line to specified length" title="Pad Lines: Add padding characters to reach specified length. Useful for aligning columns in fixed-width formats.">Pad Lines</button>
-                        <button type="button" class="action-btn secondary" onclick="lineOp('reverse')" aria-label="Reverse order of lines" title="Reverse Lines: Flip the order of all lines (last becomes first). Useful for inverting chronological data or stack traces.">Reverse Lines</button>
+                        <button type="button" class="action-btn" onclick="lineOp('trim')" aria-label="Trim whitespace from each line" title="Trim Lines: Remove leading and trailing whitespace from each line. Useful for cleaning copy-pasted data." data-i18n="buttons.trimLines">Trim Lines</button>
+                        <button type="button" class="action-btn" onclick="lineOp('pad')" aria-label="Pad each line to specified length" title="Pad Lines: Add padding characters to reach specified length. Useful for aligning columns in fixed-width formats." data-i18n="buttons.padLines">Pad Lines</button>
+                        <button type="button" class="action-btn secondary" onclick="lineOp('reverse')" aria-label="Reverse order of lines" title="Reverse Lines: Flip the order of all lines (last becomes first). Useful for inverting chronological data or stack traces." data-i18n="buttons.reverseLines">Reverse Lines</button>
                     </div>
                     <div class="button-row">
-                        <button type="button" class="action-btn tertiary" onclick="lineOp('sort')" aria-label="Sort lines alphabetically" title="Sort A-Z: Alphabetically sort lines in ascending order. Useful for organizing imports, hosts files, or config entries.">Sort A-Z</button>
-                        <button type="button" class="action-btn tertiary" onclick="lineOp('sortDesc')" aria-label="Sort lines reverse alphabetically" title="Sort Z-A: Alphabetically sort lines in descending order (reverse alphabetical).">Sort Z-A</button>
-                        <button type="button" class="action-btn tertiary" onclick="lineOp('sortNum')" aria-label="Sort lines numerically" title="Sort Numeric: Sort by the leading number in each line. Works with IPs, version numbers, counts, and mixed text like '192.168.1.1 - server'.">Sort Numeric</button>
-                        <button type="button" class="action-btn tertiary" onclick="lineOp('shuffle')" aria-label="Randomly shuffle lines" title="Shuffle: Randomly reorder all lines. Useful for randomizing test data or generating sample sets.">Shuffle</button>
+                        <button type="button" class="action-btn tertiary" onclick="lineOp('sort')" aria-label="Sort lines alphabetically" title="Sort A-Z: Alphabetically sort lines in ascending order. Useful for organizing imports, hosts files, or config entries." data-i18n="buttons.sortAZ">Sort A-Z</button>
+                        <button type="button" class="action-btn tertiary" onclick="lineOp('sortDesc')" aria-label="Sort lines reverse alphabetically" title="Sort Z-A: Alphabetically sort lines in descending order (reverse alphabetical)." data-i18n="buttons.sortZA">Sort Z-A</button>
+                        <button type="button" class="action-btn tertiary" onclick="lineOp('sortNum')" aria-label="Sort lines numerically" title="Sort Numeric: Sort by the leading number in each line. Works with IPs, version numbers, counts, and mixed text like '192.168.1.1 - server'." data-i18n="buttons.sortNumeric">Sort Numeric</button>
+                        <button type="button" class="action-btn tertiary" onclick="lineOp('shuffle')" aria-label="Randomly shuffle lines" title="Shuffle: Randomly reorder all lines. Useful for randomizing test data or generating sample sets." data-i18n="buttons.shuffle">Shuffle</button>
                     </div>
                     <div class="button-row">
-                        <button type="button" class="action-btn" onclick="lineOp('removeEmpty')" aria-label="Remove empty lines" title="Remove Empty: Delete all blank lines (lines with only whitespace). Useful for cleaning up configs and data files.">Remove Empty</button>
-                        <button type="button" class="action-btn" onclick="lineOp('reverseChars')" aria-label="Reverse characters in each line" title="Reverse Chars: Reverse the characters within each line (not the line order). 'hello' becomes 'olleh'.">Reverse Chars</button>
+                        <button type="button" class="action-btn" onclick="lineOp('removeEmpty')" aria-label="Remove empty lines" title="Remove Empty: Delete all blank lines (lines with only whitespace). Useful for cleaning up configs and data files." data-i18n="buttons.removeEmpty">Remove Empty</button>
+                        <button type="button" class="action-btn" onclick="lineOp('reverseChars')" aria-label="Reverse characters in each line" title="Reverse Chars: Reverse the characters within each line (not the line order). 'hello' becomes 'olleh'." data-i18n="buttons.reverseChars">Reverse Chars</button>
                     </div>
 
                     <div class="error" id="linesError" role="alert" aria-live="assertive" aria-atomic="true"></div>
 
                     <div class="output-area" role="region" aria-live="polite" aria-label="Line operation result">
-                        <h3 class="section-title"><label for="linesOutput">Output</label></h3>
+                        <h3 class="section-title"><label for="linesOutput" data-i18n="sections.output">Output</label></h3>
                         <div class="output-box">
                             <textarea id="linesOutput" readonly placeholder="Result will appear here..." aria-label="Line operation output" aria-readonly="true"></textarea>
-                            <button type="button" class="copy-btn" onclick="copyOutput('linesOutput', this)" aria-label="Copy output to clipboard">Copy</button>
+                            <button type="button" class="copy-btn" onclick="copyOutput('linesOutput', this)" aria-label="Copy output to clipboard" data-i18n="common.copy">Copy</button>
                         </div>
                     </div>
                 </form>
@@ -799,8 +799,8 @@ backup-nas.internal.local
             <div id="duplicates-tab" class="tab-content" role="tabpanel" aria-labelledby="tab-duplicates">
                 <form aria-label="Duplicate handling form">
                     <div class="input-area">
-                        <h3 class="section-title"><label for="dupInput">Input Text (one item per line)</label></h3>
-                        <textarea id="dupInput" placeholder="Enter text with multiple lines to find/remove duplicates..." aria-label="Input text for duplicate operations" aria-required="true" aria-describedby="dup-input-help">192.168.1.100
+                        <h3 class="section-title"><label for="dupInput" data-i18n="sections.inputText">Input Text (one item per line)</label></h3>
+                        <textarea id="dupInput" placeholder="Enter text with multiple lines to find/remove duplicates..." data-i18n-placeholder="tools.stringTools.placeholders.dupInput" aria-label="Input text for duplicate operations" aria-required="true" aria-describedby="dup-input-help">192.168.1.100
 192.168.1.105
 192.168.1.100
 10.0.0.50
@@ -817,27 +817,27 @@ backup-nas.internal.local
                     <div class="options-row" role="group" aria-label="Duplicate options">
                         <label class="option-item" title="When checked, 'Apple' and 'apple' are treated as different values. Uncheck for case-insensitive comparison.">
                             <input type="checkbox" id="dupCaseSensitive" checked aria-label="Case sensitive comparison">
-                            Case sensitive
+                            <span data-i18n="labels.caseSensitive">Case sensitive</span>
                         </label>
                         <label class="option-item" title="When checked, leading/trailing whitespace is ignored. '  hello  ' and 'hello' will be considered duplicates.">
                             <input type="checkbox" id="dupTrimLines" checked aria-label="Trim whitespace before comparing">
-                            Trim before compare
+                            <span data-i18n="labels.trimBeforeCompare">Trim before compare</span>
                         </label>
                     </div>
 
                     <div class="button-row">
-                        <button type="button" class="action-btn" onclick="dupOp('remove')" aria-label="Remove duplicate lines keeping first occurrence" title="Remove Duplicates: Keep only the first occurrence of each unique line. Useful for deduping email lists, hostnames, or IP addresses.">Remove Duplicates</button>
-                        <button type="button" class="action-btn secondary" onclick="dupOp('keepDups')" aria-label="Show only lines that appear more than once" title="Show Only Duplicates: Display only lines that appear more than once. Useful for finding repeated entries in logs or identifying conflicts.">Show Only Duplicates</button>
-                        <button type="button" class="action-btn tertiary" onclick="dupOp('count')" aria-label="Count occurrences of each unique line" title="Count Occurrences: Show each unique value with its count, sorted by frequency. Great for log analysis - find most common IPs, errors, or user agents.">Count Occurrences</button>
+                        <button type="button" class="action-btn" onclick="dupOp('remove')" aria-label="Remove duplicate lines keeping first occurrence" title="Remove Duplicates: Keep only the first occurrence of each unique line. Useful for deduping email lists, hostnames, or IP addresses." data-i18n="buttons.removeDuplicates">Remove Duplicates</button>
+                        <button type="button" class="action-btn secondary" onclick="dupOp('keepDups')" aria-label="Show only lines that appear more than once" title="Show Only Duplicates: Display only lines that appear more than once. Useful for finding repeated entries in logs or identifying conflicts." data-i18n="buttons.showOnlyDuplicates">Show Only Duplicates</button>
+                        <button type="button" class="action-btn tertiary" onclick="dupOp('count')" aria-label="Count occurrences of each unique line" title="Count Occurrences: Show each unique value with its count, sorted by frequency. Great for log analysis - find most common IPs, errors, or user agents." data-i18n="buttons.countOccurrences">Count Occurrences</button>
                     </div>
 
                     <div class="error" id="dupError" role="alert" aria-live="assertive" aria-atomic="true"></div>
 
                     <div class="output-area" role="region" aria-live="polite" aria-label="Duplicate operation result">
-                        <h3 class="section-title"><label for="dupOutput">Output</label></h3>
+                        <h3 class="section-title"><label for="dupOutput" data-i18n="sections.output">Output</label></h3>
                         <div class="output-box" id="dupOutputBox">
                             <textarea id="dupOutput" readonly placeholder="Result will appear here..." aria-label="Duplicate operation output" aria-readonly="true"></textarea>
-                            <button type="button" class="copy-btn" onclick="copyOutput('dupOutput', this)" aria-label="Copy output to clipboard">Copy</button>
+                            <button type="button" class="copy-btn" onclick="copyOutput('dupOutput', this)" aria-label="Copy output to clipboard" data-i18n="common.copy">Copy</button>
                         </div>
                         <div id="countResults" class="count-results" style="display: none;" role="list" aria-label="Occurrence count results"></div>
                     </div>
@@ -899,8 +899,8 @@ backup-nas.internal.local
             <div id="escape-tab" class="tab-content" role="tabpanel" aria-labelledby="tab-escape">
                 <form aria-label="Escape and unescape form">
                     <div class="input-area">
-                        <h3 class="section-title"><label for="escapeInput">Input Text</label></h3>
-                        <textarea id="escapeInput" placeholder="Enter text to escape or unescape..." aria-label="Input text for escape operations" aria-required="true" aria-describedby="escape-input-help"><script>alert("XSS Test");</script>
+                        <h3 class="section-title"><label for="escapeInput" data-i18n="sections.inputText">Input Text</label></h3>
+                        <textarea id="escapeInput" placeholder="Enter text to escape or unescape..." data-i18n-placeholder="tools.stringTools.placeholders.escapeInput" aria-label="Input text for escape operations" aria-required="true" aria-describedby="escape-input-help"><script>alert("XSS Test");</script>
 User's input: "Hello & welcome!"
 Path: C:\Users\Admin\Documents
 Query: name=John Doe&status=active</textarea>
@@ -909,33 +909,33 @@ Query: name=John Doe&status=active</textarea>
 
                     <div class="options-row" role="group" aria-label="Escape format selection">
                         <label class="option-item">
-                            <span id="format-label">Format:</span>
+                            <span id="format-label" data-i18n="labels.format">Format:</span>
                             <select id="escapeFormat" aria-labelledby="format-label" aria-describedby="format-help" title="Select the encoding format for your target context">
-                                <option value="html" title="Escapes & < > \" ' for safe HTML display">HTML Entities</option>
-                                <option value="json" title="Escapes quotes, backslashes, and control characters for JSON strings">JSON String</option>
-                                <option value="url" title="Percent-encodes special characters for URLs and query parameters">URL Encoding</option>
-                                <option value="sql" title="Doubles single quotes for SQL string literals. Note: Use parameterized queries for security!">SQL String</option>
-                                <option value="regex" title="Escapes . * + ? ^ $ { } ( ) [ ] \\ | for literal regex matching">Regex Special Chars</option>
-                                <option value="shell" title="Wraps in single quotes and escapes for safe shell/bash arguments">Shell/Bash</option>
-                                <option value="csv" title="Quotes fields and doubles internal quotes for CSV compatibility">CSV Field</option>
-                                <option value="xml" title="Escapes & < > \" ' using XML entity references">XML Entities</option>
+                                <option value="html" title="Escapes & < > \" ' for safe HTML display" data-i18n="formats.htmlEntities">HTML Entities</option>
+                                <option value="json" title="Escapes quotes, backslashes, and control characters for JSON strings" data-i18n="formats.jsonString">JSON String</option>
+                                <option value="url" title="Percent-encodes special characters for URLs and query parameters" data-i18n="formats.urlEncoding">URL Encoding</option>
+                                <option value="sql" title="Doubles single quotes for SQL string literals. Note: Use parameterized queries for security!" data-i18n="formats.sqlString">SQL String</option>
+                                <option value="regex" title="Escapes . * + ? ^ $ { } ( ) [ ] \\ | for literal regex matching" data-i18n="formats.regexChars">Regex Special Chars</option>
+                                <option value="shell" title="Wraps in single quotes and escapes for safe shell/bash arguments" data-i18n="formats.shellBash">Shell/Bash</option>
+                                <option value="csv" title="Quotes fields and doubles internal quotes for CSV compatibility" data-i18n="formats.csvField">CSV Field</option>
+                                <option value="xml" title="Escapes & < > \" ' using XML entity references" data-i18n="formats.xmlEntities">XML Entities</option>
                             </select>
                             <span id="format-help" class="sr-only">Select the format for escaping or unescaping text</span>
                         </label>
                     </div>
 
                     <div class="button-row">
-                        <button type="button" class="action-btn" onclick="escapeOp('escape')" aria-label="Escape special characters" title="Escape: Convert special characters to their escaped form for the selected format. Use when embedding user input or data into code/markup.">Escape</button>
-                        <button type="button" class="action-btn secondary" onclick="escapeOp('unescape')" aria-label="Unescape special characters" title="Unescape: Convert escaped sequences back to their original characters. Use when decoding data from APIs, logs, or encoded sources.">Unescape</button>
+                        <button type="button" class="action-btn" onclick="escapeOp('escape')" aria-label="Escape special characters" title="Escape: Convert special characters to their escaped form for the selected format. Use when embedding user input or data into code/markup." data-i18n="buttons.escape">Escape</button>
+                        <button type="button" class="action-btn secondary" onclick="escapeOp('unescape')" aria-label="Unescape special characters" title="Unescape: Convert escaped sequences back to their original characters. Use when decoding data from APIs, logs, or encoded sources." data-i18n="buttons.unescape">Unescape</button>
                     </div>
 
                     <div class="error" id="escapeError" role="alert" aria-live="assertive" aria-atomic="true"></div>
 
                     <div class="output-area" role="region" aria-live="polite" aria-label="Escape operation result">
-                        <h3 class="section-title"><label for="escapeOutput">Output</label></h3>
+                        <h3 class="section-title"><label for="escapeOutput" data-i18n="sections.output">Output</label></h3>
                         <div class="output-box">
                             <textarea id="escapeOutput" readonly placeholder="Result will appear here..." aria-label="Escape operation output" aria-readonly="true"></textarea>
-                            <button type="button" class="copy-btn" onclick="copyOutput('escapeOutput', this)" aria-label="Copy output to clipboard">Copy</button>
+                            <button type="button" class="copy-btn" onclick="copyOutput('escapeOutput', this)" aria-label="Copy output to clipboard" data-i18n="common.copy">Copy</button>
                         </div>
                     </div>
                 </form>

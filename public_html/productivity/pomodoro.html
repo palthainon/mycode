@@ -60,10 +60,17 @@
 
         h1 {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 10px;
             font-size: 2.5rem;
             color: #4fc3f7;
             text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
+        }
+
+        .subtitle {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.7);
         }
 
         .timer-card {
@@ -764,6 +771,7 @@
     <a href="#main-content" class="skip-link" data-i18n="common.skipToContent">Skip to main content</a>
     <main id="main-content" class="container" role="main" aria-label="Pomodoro Timer Application">
         <h1 data-i18n="tools.pomodoroTimer.title">Pomodoro Timer</h1>
+        <p class="subtitle" data-i18n="tools.pomodoroTimer.subtitle">Stay focused with the Pomodoro Technique</p>
 
         <!-- Notification Permission Banner -->
         <div id="notificationBanner" class="notification-banner hidden" role="alert">
@@ -802,22 +810,22 @@
 
             <!-- Controls -->
             <div class="controls" role="group" aria-label="Timer controls">
-                <button id="startBtn" class="btn btn-primary" onclick="startTimer()" aria-label="Start timer">Start</button>
-                <button id="pauseBtn" class="btn btn-secondary" onclick="pauseTimer()" disabled aria-label="Pause timer">Pause</button>
-                <button id="resetBtn" class="btn btn-secondary" onclick="resetTimer()" aria-label="Reset timer to beginning">Reset</button>
+                <button id="startBtn" class="btn btn-primary" onclick="startTimer()" aria-label="Start timer" data-i18n="tools.pomodoroTimer.buttons.start">Start</button>
+                <button id="pauseBtn" class="btn btn-secondary" onclick="pauseTimer()" disabled aria-label="Pause timer" data-i18n="tools.pomodoroTimer.buttons.pause">Pause</button>
+                <button id="resetBtn" class="btn btn-secondary" onclick="resetTimer()" aria-label="Reset timer to beginning" data-i18n="tools.pomodoroTimer.buttons.reset">Reset</button>
             </div>
 
             <!-- Skip Break -->
             <div class="skip-container">
-                <button id="skipBtn" class="btn btn-skip" onclick="skipBreak()" aria-label="Skip current break and return to work">Skip Break</button>
+                <button id="skipBtn" class="btn btn-skip" onclick="skipBreak()" aria-label="Skip current break and return to work" data-i18n="tools.pomodoroTimer.buttons.skip">Skip</button>
             </div>
 
             <!-- Phase Selector -->
             <div class="phase-selector" role="group" aria-label="Phase selection">
                 <span class="phase-selector-label" id="phase-selector-label">Switch to:</span>
-                <button class="phase-btn active" data-phase="work" onclick="switchPhase('work')" aria-pressed="true" aria-describedby="phase-selector-label">Work</button>
-                <button class="phase-btn" data-phase="shortBreak" onclick="switchPhase('shortBreak')" aria-pressed="false" aria-describedby="phase-selector-label">Break</button>
-                <button class="phase-btn" data-phase="longBreak" onclick="switchPhase('longBreak')" aria-pressed="false" aria-describedby="phase-selector-label">Long Break</button>
+                <button class="phase-btn active" data-phase="work" onclick="switchPhase('work')" aria-pressed="true" aria-describedby="phase-selector-label" data-i18n="tools.pomodoroTimer.modes.work">Work</button>
+                <button class="phase-btn" data-phase="shortBreak" onclick="switchPhase('shortBreak')" aria-pressed="false" aria-describedby="phase-selector-label" data-i18n="tools.pomodoroTimer.modes.shortBreak">Short Break</button>
+                <button class="phase-btn" data-phase="longBreak" onclick="switchPhase('longBreak')" aria-pressed="false" aria-describedby="phase-selector-label" data-i18n="tools.pomodoroTimer.modes.longBreak">Long Break</button>
             </div>
 
             <!-- Task Input -->
@@ -830,20 +838,20 @@
 
         <!-- Settings -->
         <div class="settings-card" role="region" aria-labelledby="settings-heading">
-            <h2 id="settings-heading">Settings</h2>
+            <h2 id="settings-heading" data-i18n="common.settings">Settings</h2>
             <div class="settings-grid" role="group" aria-label="Duration settings">
                 <div class="setting-item">
-                    <label for="workDuration">Work</label>
+                    <label for="workDuration" data-i18n="tools.pomodoroTimer.modes.work">Work</label>
                     <input type="number" id="workDuration" min="1" max="120" value="25" aria-describedby="work-unit">
                     <div class="setting-unit" id="work-unit">minutes</div>
                 </div>
                 <div class="setting-item">
-                    <label for="shortBreakDuration">Short Break</label>
+                    <label for="shortBreakDuration" data-i18n="tools.pomodoroTimer.modes.shortBreak">Short Break</label>
                     <input type="number" id="shortBreakDuration" min="1" max="30" value="5" aria-describedby="short-break-unit">
                     <div class="setting-unit" id="short-break-unit">minutes</div>
                 </div>
                 <div class="setting-item">
-                    <label for="longBreakDuration">Long Break</label>
+                    <label for="longBreakDuration" data-i18n="tools.pomodoroTimer.modes.longBreak">Long Break</label>
                     <input type="number" id="longBreakDuration" min="1" max="60" value="15" aria-describedby="long-break-unit">
                     <div class="setting-unit" id="long-break-unit">minutes</div>
                 </div>
@@ -868,7 +876,7 @@
                 <label class="toggle-container">
                     <input type="checkbox" id="autoStartBreaksToggle" aria-describedby="autostart-desc">
                     <span class="toggle-slider" aria-hidden="true"></span>
-                    <span class="toggle-label">Auto-start breaks after work</span>
+                    <span class="toggle-label" data-i18n="tools.pomodoroTimer.labels.autoStartBreaks">Auto-start breaks</span>
                 </label>
                 <span id="autostart-desc" class="sr-only">When enabled, break timers start automatically after work sessions complete. Work sessions always require manual start.</span>
             </div>
@@ -877,8 +885,8 @@
         <!-- History -->
         <div class="history-card" role="region" aria-labelledby="history-heading">
             <h2 id="history-heading">
-                Today's Sessions
-                <button class="clear-history-btn" onclick="clearHistory()" aria-label="Clear all session history">Clear</button>
+                <span data-i18n="tools.pomodoroTimer.stats.todaysSessions">Today's Sessions</span>
+                <button class="clear-history-btn" onclick="clearHistory()" aria-label="Clear all session history" data-i18n="common.clear">Clear</button>
             </h2>
             <div class="history-stats" role="group" aria-label="Today's statistics">
                 <div class="stat-item">
@@ -887,17 +895,17 @@
                 </div>
                 <div class="stat-item">
                     <div id="totalFocusTime" class="stat-value" aria-live="polite">0</div>
-                    <div class="stat-label" id="focus-label">Minutes Focused</div>
+                    <div class="stat-label" id="focus-label" data-i18n="tools.pomodoroTimer.stats.totalTime">Total Focus Time</div>
                 </div>
             </div>
             <div id="historyList" class="history-list" role="list" aria-label="Session history">
                 <div class="history-empty" role="listitem">No sessions yet. Start your first pomodoro!</div>
             </div>
-            <button id="exportCsvBtn" class="export-csv-btn" onclick="exportToCSV()" aria-label="Export session history to CSV file">Export to CSV</button>
+            <button id="exportCsvBtn" class="export-csv-btn" onclick="exportToCSV()" aria-label="Export session history to CSV file" data-i18n="common.exportToCSV">Export to CSV</button>
         </div>
 
-        <footer role="contentinfo" data-i18n="common.worksOffline">
-            Works offline, no installation required
+        <footer role="contentinfo">
+            <span data-i18n="common.worksOffline">Works offline, no installation required</span>
         </footer>
     </main>
 

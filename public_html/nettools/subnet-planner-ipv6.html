@@ -857,7 +857,7 @@
             <form id="planner-form" aria-label="IPv6 Subnet Planner Configuration Form">
                 <div class="input-group">
                     <div class="input-field">
-                        <label for="parentIP">Parent Network IPv6 Address</label>
+                        <label for="parentIP" data-i18n="tools.subnetPlannerIPv6.parentIP">Parent Network IPv6 Address</label>
                         <input type="text"
                                id="parentIP"
                                placeholder="2001:db8::"
@@ -866,7 +866,7 @@
                         <span id="parent-ip-help" class="sr-only">Enter the parent network IPv6 address for subnet planning, for example 2001:db8::</span>
                     </div>
                     <div class="input-field">
-                        <label for="parentCIDR">CIDR Prefix</label>
+                        <label for="parentCIDR" data-i18n="tools.subnetPlannerIPv6.cidrPrefix">CIDR Prefix</label>
                         <select id="parentCIDR"
                                 aria-required="true"
                                 aria-describedby="parent-cidr-help">
@@ -886,14 +886,16 @@
             <button type="button"
                     class="btn"
                     onclick="initializePlanner()"
-                    aria-label="Initialize subnet planner with parent network configuration">Initialize Planner</button>
+                    aria-label="Initialize subnet planner with parent network configuration"
+                    data-i18n="tools.subnetPlannerIPv6.initializePlanner">Initialize Planner</button>
             <button type="button"
                     class="btn secondary"
                     onclick="clearAllSavedData()"
-                    aria-label="Clear all saved form data from this page">Clear Saved Data</button>
+                    aria-label="Clear all saved form data from this page"
+                    data-i18n="common.clearSavedData">Clear Saved Data</button>
 
             <div class="quick-templates">
-                <h3 id="quick-templates-label">Quick Templates - Load a Pre-configured Site Layout:</h3>
+                <h3 id="quick-templates-label" data-i18n="tools.subnetPlannerIPv6.quickTemplates">Quick Templates - Load a Pre-configured Site Layout:</h3>
                 <div class="template-buttons" role="group" aria-labelledby="quick-templates-label">
                     <button type="button"
                             class="template-btn"
@@ -915,26 +917,29 @@
         <!-- Planner Section -->
         <div class="planner-section" id="plannerSection">
             <div class="section-header">
-                <h2>Subnet Allocations</h2>
+                <h2 data-i18n="tools.subnetPlannerIPv6.subnetAllocations">Subnet Allocations</h2>
                 <div class="view-toggle" role="group" aria-label="Visualization view selection">
                     <button type="button"
                             class="toggle-btn active"
                             data-view="table"
                             onclick="switchView('table')"
                             aria-pressed="true"
-                            aria-label="View subnet allocations in table format">Table View</button>
+                            aria-label="View subnet allocations in table format"
+                            data-i18n="tools.subnetPlannerIPv6.tableView">Table View</button>
                     <button type="button"
                             class="toggle-btn"
                             data-view="bar"
                             onclick="switchView('bar')"
                             aria-pressed="false"
-                            aria-label="View subnet allocations in bar chart format">Bar Chart</button>
+                            aria-label="View subnet allocations in bar chart format"
+                            data-i18n="tools.subnetPlannerIPv6.barChart">Bar Chart</button>
                     <button type="button"
                             class="toggle-btn"
                             data-view="tree"
                             onclick="switchView('tree')"
                             aria-pressed="false"
-                            aria-label="View subnet allocations in tree hierarchy format">Tree View</button>
+                            aria-label="View subnet allocations in tree hierarchy format"
+                            data-i18n="tools.subnetPlannerIPv6.treeView">Tree View</button>
                 </div>
             </div>
 
@@ -948,20 +953,21 @@
                     <button type="button"
                             class="btn-small"
                             onclick="addAllocation()"
-                            aria-label="Add a new subnet allocation to the plan">+ Add Subnet</button>
+                            aria-label="Add a new subnet allocation to the plan"
+                            data-i18n="tools.subnetPlannerIPv6.addSubnet">+ Add Subnet</button>
                 </div>
                 <div class="table-container">
                     <table class="allocation-table">
                         <thead>
                             <tr>
-                                <th>Label</th>
-                                <th>CIDR</th>
-                                <th>Network Address</th>
-                                <th>Size (IPs)</th>
-                                <th>VLAN</th>
-                                <th>Description</th>
-                                <th>Color</th>
-                                <th>Actions</th>
+                                <th data-i18n="tools.subnetPlannerIPv6.label">Label</th>
+                                <th data-i18n="tools.subnetPlannerIPv6.cidr">CIDR</th>
+                                <th data-i18n="tools.subnetPlannerIPv6.networkAddress">Network Address</th>
+                                <th data-i18n="tools.subnetPlannerIPv6.sizeIPs">Size (IPs)</th>
+                                <th data-i18n="tools.subnetPlannerIPv6.vlan">VLAN</th>
+                                <th data-i18n="tools.subnetPlannerIPv6.description">Description</th>
+                                <th data-i18n="tools.subnetPlannerIPv6.color">Color</th>
+                                <th data-i18n="tools.subnetPlannerIPv6.actions">Actions</th>
                             </tr>
                         </thead>
                         <tbody id="allocationTableBody">
@@ -1003,18 +1009,20 @@
                 <button type="button"
                         class="export-btn"
                         onclick="exportCSV()"
-                        aria-label="Export subnet allocation plan to CSV file">Export CSV</button>
+                        aria-label="Export subnet allocation plan to CSV file"
+                        data-i18n="common.exportCSV">Export CSV</button>
                 <button type="button"
                         class="export-btn json"
                         onclick="exportJSON()"
-                        aria-label="Export subnet allocation plan to JSON file">Export JSON</button>
+                        aria-label="Export subnet allocation plan to JSON file"
+                        data-i18n="tools.subnetPlannerIPv6.exportJSON">Export JSON</button>
             </div>
         </div>
 
         <!-- Reference Section -->
         <div class="reference-section">
             <div class="reference-toggle" onclick="toggleReference()" role="button" tabindex="0" aria-expanded="false" aria-controls="referenceContent">
-                <h2>IPv6 Reserved Address Reference</h2>
+                <h2 data-i18n="tools.subnetPlannerIPv6.ipv6Reference">IPv6 Reserved Address Reference</h2>
                 <span class="toggle-icon" aria-hidden="true">▼</span>
             </div>
             <div class="reference-content" id="referenceContent">

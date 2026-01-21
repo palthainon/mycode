@@ -455,73 +455,73 @@
         <h1 data-i18n="tools.passphraseGenerator.title">Passphrase Generator</h1>
 
         <div class="tool-links">
-            <a href="password-generator.html" class="link-btn" aria-label="Switch to random password generator">Random Password Generator</a>
+            <a href="password-generator.html" class="link-btn" aria-label="Switch to random password generator" data-i18n="tools.passphraseGenerator.switchToRandom">Random Password Generator</a>
         </div>
 
         <div class="calculator">
             <form aria-label="Passphrase generation settings form">
-            <div class="info-text" style="margin-bottom: 20px;">
+            <div class="info-text" style="margin-bottom: 20px;" data-i18n="tools.passphraseGenerator.infoText">
                 XKCD-style passphrases use random common words. They're easier to remember and type while still being secure.
             </div>
             <div class="input-group">
                 <div class="input-field">
-                    <label for="wordCount">Number of Words</label>
+                    <label for="wordCount" data-i18n="tools.passphraseGenerator.wordCount">Number of Words</label>
                     <input type="number" id="wordCount" min="3" max="12" value="4" aria-required="true" aria-describedby="word-count-help">
-                    <span id="word-count-help" class="sr-only">Enter number of words in passphrase, between 3 and 12</span>
+                    <span id="word-count-help" class="sr-only" data-i18n="tools.passphraseGenerator.wordCountHelp">Enter number of words in passphrase, between 3 and 12</span>
                 </div>
                 <div class="input-field">
-                    <label for="separator">Word Separator</label>
+                    <label for="separator" data-i18n="tools.passphraseGenerator.separator">Word Separator</label>
                     <select id="separator" aria-describedby="separator-help">
-                    <span id="separator-help" class="sr-only">Select character to separate words in passphrase</span>
-                        <option value="-">Hyphen (-)</option>
-                        <option value="_">Underscore (_)</option>
-                        <option value=".">Period (.)</option>
-                        <option value=" ">Space</option>
-                        <option value="">None</option>
+                    <span id="separator-help" class="sr-only" data-i18n="tools.passphraseGenerator.separatorHelp">Select character to separate words in passphrase</span>
+                        <option value="-" data-i18n="tools.passphraseGenerator.separatorHyphen">Hyphen (-)</option>
+                        <option value="_" data-i18n="tools.passphraseGenerator.separatorUnderscore">Underscore (_)</option>
+                        <option value="." data-i18n="tools.passphraseGenerator.separatorPeriod">Period (.)</option>
+                        <option value=" " data-i18n="tools.passphraseGenerator.separatorSpace">Space</option>
+                        <option value="" data-i18n="tools.passphraseGenerator.separatorNone">None</option>
                     </select>
                 </div>
             </div>
 
             <div class="input-field" style="margin-bottom: 15px;">
-                <label id="word-style-label">Word Style</label>
+                <label id="word-style-label" data-i18n="tools.passphraseGenerator.wordStyle">Word Style</label>
             </div>
             <div class="checkbox-group" id="wordOptions" role="group" aria-labelledby="word-style-label">
                 <div class="checkbox-item checked" onclick="toggleCheckbox(this)">
                     <input type="checkbox" id="capitalize" checked aria-label="Capitalize first letter of each word in passphrase">
-                    <label for="capitalize">Capitalize Words</label>
+                    <label for="capitalize" data-i18n="tools.passphraseGenerator.capitalizeWords">Capitalize Words</label>
                 </div>
                 <div class="checkbox-item checked" onclick="toggleCheckbox(this)">
                     <input type="checkbox" id="includeNumber" checked aria-label="Include a random number in the passphrase">
-                    <label for="includeNumber">Include Number</label>
+                    <label for="includeNumber" data-i18n="tools.passphraseGenerator.includeNumber">Include Number</label>
                 </div>
                 <div class="checkbox-item checked" onclick="toggleCheckbox(this)">
                     <input type="checkbox" id="includeSymbol" checked aria-label="Include a random symbol in the passphrase">
-                    <label for="includeSymbol">Include Symbol</label>
+                    <label for="includeSymbol" data-i18n="tools.passphraseGenerator.includeSymbol">Include Symbol</label>
                 </div>
             </div>
 
             <div class="input-group">
                 <div class="input-field">
-                    <label for="quantity">Number of Passphrases</label>
+                    <label for="quantity" data-i18n="tools.passphraseGenerator.numberOfPassphrases">Number of Passphrases</label>
                     <input type="number" id="quantity" min="1" max="100" value="5" aria-required="true" aria-describedby="quantity-help">
-                    <span id="quantity-help" class="sr-only">Enter number of passphrases to generate, between 1 and 100</span>
+                    <span id="quantity-help" class="sr-only" data-i18n="tools.passphraseGenerator.quantityHelp">Enter number of passphrases to generate, between 1 and 100</span>
                 </div>
             </div>
             </form>
 
-            <button type="button" class="btn" onclick="generate()" style="margin-top: 20px;" aria-label="Generate passphrases based on selected settings">Generate</button>
+            <button type="button" class="btn" onclick="generate()" style="margin-top: 20px;" aria-label="Generate passphrases based on selected settings" data-i18n="common.generate">Generate</button>
 
-            <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page">Clear Saved Data</button>
+            <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page" data-i18n="common.clearSavedData">Clear Saved Data</button>
 
             <div class="error" id="error" role="alert" aria-live="assertive" aria-atomic="true"></div>
         </div>
 
         <div class="results" id="results" role="region" aria-live="polite" aria-label="Generated passphrases">
             <div class="section-header">
-                <h2>Generated Passphrases</h2>
+                <h2 data-i18n="tools.passphraseGenerator.generatedPassphrases">Generated Passphrases</h2>
                 <div class="header-buttons">
-                    <button type="button" class="copy-all-btn" onclick="copyAll()" aria-label="Copy all generated passphrases to clipboard">Copy All</button>
-                    <button type="button" class="export-btn" onclick="exportToCSV()" aria-label="Export generated passphrases to CSV file">Export CSV</button>
+                    <button type="button" class="copy-all-btn" onclick="copyAll()" aria-label="Copy all generated passphrases to clipboard" data-i18n="common.copyAll">Copy All</button>
+                    <button type="button" class="export-btn" onclick="exportToCSV()" aria-label="Export generated passphrases to CSV file" data-i18n="common.exportCSV">Export CSV</button>
                 </div>
             </div>
             <div class="results-grid" id="resultsGrid">

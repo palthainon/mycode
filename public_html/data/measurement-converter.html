@@ -551,16 +551,16 @@
  \___/|_|\__,_|   \_/\_/ \___|_.__/
 </div>
     <main id="main-content" class="container">
-        <h1 data-i18n="data.measurementConverter.title">Measurement Converter</h1>
-        <p class="subtitle">Convert units for everyday, cooking, scientific, and trigonometry applications</p>
+        <h1 data-i18n="tools.measurementConverter.title">Measurement Converter</h1>
+        <p class="subtitle" data-i18n="tools.measurementConverter.subtitle">Convert between common measurement units</p>
 
         <div class="calculator">
             <div class="tabs" role="tablist" aria-label="Measurement categories">
-                <button type="button" class="tab-btn active" role="tab" aria-selected="true" aria-controls="tab-basic" id="btn-basic" onclick="switchTab('basic')">Basic</button>
-                <button type="button" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-cooking" id="btn-cooking" onclick="switchTab('cooking')">Cooking</button>
-                <button type="button" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-scientific" id="btn-scientific" onclick="switchTab('scientific')">Scientific</button>
-                <button type="button" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-trig" id="btn-trig" onclick="switchTab('trig')">Trigonometry</button>
-                <button type="button" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-engineering" id="btn-engineering" onclick="switchTab('engineering')">Engineering</button>
+                <button type="button" class="tab-btn active" role="tab" aria-selected="true" aria-controls="tab-basic" id="btn-basic" onclick="switchTab('basic')" data-i18n="tools.measurementConverter.tabs.basic">Basic</button>
+                <button type="button" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-cooking" id="btn-cooking" onclick="switchTab('cooking')" data-i18n="tools.measurementConverter.tabs.cooking">Cooking</button>
+                <button type="button" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-scientific" id="btn-scientific" onclick="switchTab('scientific')" data-i18n="tools.measurementConverter.tabs.scientific">Scientific</button>
+                <button type="button" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-trig" id="btn-trig" onclick="switchTab('trig')" data-i18n="tools.measurementConverter.tabs.trigonometry">Trigonometry</button>
+                <button type="button" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-engineering" id="btn-engineering" onclick="switchTab('engineering')" data-i18n="tools.measurementConverter.tabs.engineering">Engineering</button>
             </div>
 
             <!-- Basic Tab -->
@@ -568,14 +568,14 @@
                 <h2 class="section-title">Basic Measurements</h2>
 
                 <div class="subsection">
-                    <h3 class="subsection-title">Length</h3>
+                    <h3 class="subsection-title" data-i18n="tools.measurementConverter.tabs.length">Length</h3>
                     <div class="converter-row">
                         <div class="input-field">
-                            <label for="length-value">Value</label>
+                            <label for="length-value" data-i18n="tools.measurementConverter.labels.value">Value</label>
                             <input type="number" id="length-value" placeholder="Enter value" step="any" aria-describedby="length-result">
                         </div>
                         <div class="input-field">
-                            <label for="length-from">From</label>
+                            <label for="length-from" data-i18n="tools.measurementConverter.labels.from">From</label>
                             <select id="length-from">
                                 <option value="mm">Millimeter (mm)</option>
                                 <option value="cm">Centimeter (cm)</option>
@@ -589,7 +589,7 @@
                         </div>
                         <button type="button" class="swap-btn" onclick="swapUnits('length')" aria-label="Swap length units">&#8644;</button>
                         <div class="input-field">
-                            <label for="length-to">To</label>
+                            <label for="length-to" data-i18n="tools.measurementConverter.labels.to">To</label>
                             <select id="length-to">
                                 <option value="mm">Millimeter (mm)</option>
                                 <option value="cm" selected>Centimeter (cm)</option>
@@ -603,21 +603,21 @@
                         </div>
                     </div>
                     <div class="result-display" id="length-result" aria-live="polite">
-                        <span class="label">Result</span>
+                        <span class="label" data-i18n="tools.measurementConverter.labels.result">Result</span>
                         <span class="value" id="length-result-value">--</span>
-                        <button type="button" class="copy-btn" onclick="copyResult('length-result-value', this)">Copy</button>
+                        <button type="button" class="copy-btn" onclick="copyResult('length-result-value', this)" data-i18n="common.copy">Copy</button>
                     </div>
                 </div>
 
                 <div class="subsection">
-                    <h3 class="subsection-title">Weight / Mass</h3>
+                    <h3 class="subsection-title" data-i18n="tools.measurementConverter.tabs.weight">Weight / Mass</h3>
                     <div class="converter-row">
                         <div class="input-field">
-                            <label for="weight-value">Value</label>
+                            <label for="weight-value" data-i18n="tools.measurementConverter.labels.value">Value</label>
                             <input type="number" id="weight-value" placeholder="Enter value" step="any" aria-describedby="weight-result">
                         </div>
                         <div class="input-field">
-                            <label for="weight-from">From</label>
+                            <label for="weight-from" data-i18n="tools.measurementConverter.labels.from">From</label>
                             <select id="weight-from">
                                 <option value="mg">Milligram (mg)</option>
                                 <option value="g">Gram (g)</option>
@@ -631,7 +631,7 @@
                         </div>
                         <button type="button" class="swap-btn" onclick="swapUnits('weight')" aria-label="Swap weight units">&#8644;</button>
                         <div class="input-field">
-                            <label for="weight-to">To</label>
+                            <label for="weight-to" data-i18n="tools.measurementConverter.labels.to">To</label>
                             <select id="weight-to">
                                 <option value="mg">Milligram (mg)</option>
                                 <option value="g" selected>Gram (g)</option>
@@ -645,21 +645,21 @@
                         </div>
                     </div>
                     <div class="result-display" id="weight-result" aria-live="polite">
-                        <span class="label">Result</span>
+                        <span class="label" data-i18n="tools.measurementConverter.labels.result">Result</span>
                         <span class="value" id="weight-result-value">--</span>
-                        <button type="button" class="copy-btn" onclick="copyResult('weight-result-value', this)">Copy</button>
+                        <button type="button" class="copy-btn" onclick="copyResult('weight-result-value', this)" data-i18n="common.copy">Copy</button>
                     </div>
                 </div>
 
                 <div class="subsection">
-                    <h3 class="subsection-title">Volume</h3>
+                    <h3 class="subsection-title" data-i18n="tools.measurementConverter.tabs.volume">Volume</h3>
                     <div class="converter-row">
                         <div class="input-field">
-                            <label for="volume-value">Value</label>
+                            <label for="volume-value" data-i18n="tools.measurementConverter.labels.value">Value</label>
                             <input type="number" id="volume-value" placeholder="Enter value" step="any" aria-describedby="volume-result">
                         </div>
                         <div class="input-field">
-                            <label for="volume-from">From</label>
+                            <label for="volume-from" data-i18n="tools.measurementConverter.labels.from">From</label>
                             <select id="volume-from">
                                 <option value="ml">Milliliter (mL)</option>
                                 <option value="l">Liter (L)</option>
@@ -673,7 +673,7 @@
                         </div>
                         <button type="button" class="swap-btn" onclick="swapUnits('volume')" aria-label="Swap volume units">&#8644;</button>
                         <div class="input-field">
-                            <label for="volume-to">To</label>
+                            <label for="volume-to" data-i18n="tools.measurementConverter.labels.to">To</label>
                             <select id="volume-to">
                                 <option value="ml" selected>Milliliter (mL)</option>
                                 <option value="l">Liter (L)</option>
@@ -687,21 +687,21 @@
                         </div>
                     </div>
                     <div class="result-display" id="volume-result" aria-live="polite">
-                        <span class="label">Result</span>
+                        <span class="label" data-i18n="tools.measurementConverter.labels.result">Result</span>
                         <span class="value" id="volume-result-value">--</span>
-                        <button type="button" class="copy-btn" onclick="copyResult('volume-result-value', this)">Copy</button>
+                        <button type="button" class="copy-btn" onclick="copyResult('volume-result-value', this)" data-i18n="common.copy">Copy</button>
                     </div>
                 </div>
 
                 <div class="subsection">
-                    <h3 class="subsection-title">Area</h3>
+                    <h3 class="subsection-title" data-i18n="tools.measurementConverter.tabs.area">Area</h3>
                     <div class="converter-row">
                         <div class="input-field">
-                            <label for="area-value">Value</label>
+                            <label for="area-value" data-i18n="tools.measurementConverter.labels.value">Value</label>
                             <input type="number" id="area-value" placeholder="Enter value" step="any" aria-describedby="area-result">
                         </div>
                         <div class="input-field">
-                            <label for="area-from">From</label>
+                            <label for="area-from" data-i18n="tools.measurementConverter.labels.from">From</label>
                             <select id="area-from">
                                 <option value="mm2">Square mm</option>
                                 <option value="cm2">Square cm</option>
@@ -717,7 +717,7 @@
                         </div>
                         <button type="button" class="swap-btn" onclick="swapUnits('area')" aria-label="Swap area units">&#8644;</button>
                         <div class="input-field">
-                            <label for="area-to">To</label>
+                            <label for="area-to" data-i18n="tools.measurementConverter.labels.to">To</label>
                             <select id="area-to">
                                 <option value="mm2">Square mm</option>
                                 <option value="cm2" selected>Square cm</option>
@@ -733,9 +733,9 @@
                         </div>
                     </div>
                     <div class="result-display" id="area-result" aria-live="polite">
-                        <span class="label">Result</span>
+                        <span class="label" data-i18n="tools.measurementConverter.labels.result">Result</span>
                         <span class="value" id="area-result-value">--</span>
-                        <button type="button" class="copy-btn" onclick="copyResult('area-result-value', this)">Copy</button>
+                        <button type="button" class="copy-btn" onclick="copyResult('area-result-value', this)" data-i18n="common.copy">Copy</button>
                     </div>
                 </div>
             </div>
@@ -760,11 +760,11 @@
                     <h3 class="subsection-title">Volume Converter</h3>
                     <div class="converter-row">
                         <div class="input-field">
-                            <label for="cooking-value">Value</label>
+                            <label for="cooking-value" data-i18n="tools.measurementConverter.labels.value">Value</label>
                             <input type="number" id="cooking-value" placeholder="Enter value" step="any" aria-describedby="cooking-result">
                         </div>
                         <div class="input-field">
-                            <label for="cooking-from">From</label>
+                            <label for="cooking-from" data-i18n="tools.measurementConverter.labels.from">From</label>
                             <select id="cooking-from">
                                 <option value="tsp" selected>Teaspoon (tsp)</option>
                                 <option value="tbsp">Tablespoon (tbsp)</option>
@@ -779,7 +779,7 @@
                         </div>
                         <button type="button" class="swap-btn" onclick="swapUnits('cooking')" aria-label="Swap cooking units">&#8644;</button>
                         <div class="input-field">
-                            <label for="cooking-to">To</label>
+                            <label for="cooking-to" data-i18n="tools.measurementConverter.labels.to">To</label>
                             <select id="cooking-to">
                                 <option value="tsp">Teaspoon (tsp)</option>
                                 <option value="tbsp" selected>Tablespoon (tbsp)</option>
@@ -794,9 +794,9 @@
                         </div>
                     </div>
                     <div class="result-display" id="cooking-result" aria-live="polite">
-                        <span class="label">Result</span>
+                        <span class="label" data-i18n="tools.measurementConverter.labels.result">Result</span>
                         <span class="value" id="cooking-result-value">--</span>
-                        <button type="button" class="copy-btn" onclick="copyResult('cooking-result-value', this)">Copy</button>
+                        <button type="button" class="copy-btn" onclick="copyResult('cooking-result-value', this)" data-i18n="common.copy">Copy</button>
                     </div>
                 </div>
 
@@ -936,14 +936,14 @@
                 <h2 class="section-title">Scientific Conversions</h2>
 
                 <div class="subsection">
-                    <h3 class="subsection-title">Temperature</h3>
+                    <h3 class="subsection-title" data-i18n="tools.measurementConverter.tabs.temperature">Temperature</h3>
                     <div class="converter-row">
                         <div class="input-field">
-                            <label for="temp-value">Value</label>
+                            <label for="temp-value" data-i18n="tools.measurementConverter.labels.value">Value</label>
                             <input type="number" id="temp-value" placeholder="Enter temperature" step="any" aria-describedby="temp-result">
                         </div>
                         <div class="input-field">
-                            <label for="temp-from">From</label>
+                            <label for="temp-from" data-i18n="tools.measurementConverter.labels.from">From</label>
                             <select id="temp-from">
                                 <option value="c">Celsius (C)</option>
                                 <option value="f" selected>Fahrenheit (F)</option>
@@ -952,7 +952,7 @@
                         </div>
                         <button type="button" class="swap-btn" onclick="swapUnits('temp')" aria-label="Swap temperature units">&#8644;</button>
                         <div class="input-field">
-                            <label for="temp-to">To</label>
+                            <label for="temp-to" data-i18n="tools.measurementConverter.labels.to">To</label>
                             <select id="temp-to">
                                 <option value="c" selected>Celsius (C)</option>
                                 <option value="f">Fahrenheit (F)</option>
@@ -961,9 +961,9 @@
                         </div>
                     </div>
                     <div class="result-display" id="temp-result" aria-live="polite">
-                        <span class="label">Result</span>
+                        <span class="label" data-i18n="tools.measurementConverter.labels.result">Result</span>
                         <span class="value" id="temp-result-value">--</span>
-                        <button type="button" class="copy-btn" onclick="copyResult('temp-result-value', this)">Copy</button>
+                        <button type="button" class="copy-btn" onclick="copyResult('temp-result-value', this)" data-i18n="common.copy">Copy</button>
                     </div>
                     <div class="quick-buttons">
                         <button type="button" class="quick-btn" onclick="quickTemp(32, 'f', 'c')">32F (freezing)</button>
@@ -977,11 +977,11 @@
                     <h3 class="subsection-title">SI Prefix Converter</h3>
                     <div class="converter-row">
                         <div class="input-field">
-                            <label for="si-value">Value</label>
+                            <label for="si-value" data-i18n="tools.measurementConverter.labels.value">Value</label>
                             <input type="number" id="si-value" placeholder="Enter value" step="any" aria-describedby="si-result">
                         </div>
                         <div class="input-field">
-                            <label for="si-from">From</label>
+                            <label for="si-from" data-i18n="tools.measurementConverter.labels.from">From</label>
                             <select id="si-from">
                                 <option value="p">pico (p) 10^-12</option>
                                 <option value="n">nano (n) 10^-9</option>
@@ -996,7 +996,7 @@
                         </div>
                         <button type="button" class="swap-btn" onclick="swapUnits('si')" aria-label="Swap SI prefix units">&#8644;</button>
                         <div class="input-field">
-                            <label for="si-to">To</label>
+                            <label for="si-to" data-i18n="tools.measurementConverter.labels.to">To</label>
                             <select id="si-to">
                                 <option value="p">pico (p) 10^-12</option>
                                 <option value="n">nano (n) 10^-9</option>
@@ -1011,9 +1011,9 @@
                         </div>
                     </div>
                     <div class="result-display" id="si-result" aria-live="polite">
-                        <span class="label">Result</span>
+                        <span class="label" data-i18n="tools.measurementConverter.labels.result">Result</span>
                         <span class="value" id="si-result-value">--</span>
-                        <button type="button" class="copy-btn" onclick="copyResult('si-result-value', this)">Copy</button>
+                        <button type="button" class="copy-btn" onclick="copyResult('si-result-value', this)" data-i18n="common.copy">Copy</button>
                     </div>
                 </div>
 
@@ -1075,7 +1075,7 @@
                     <div class="result-display" id="sigfig-result" aria-live="polite">
                         <span class="label">Rounded to specified significant figures</span>
                         <span class="value" id="sigfig-result-value">--</span>
-                        <button type="button" class="copy-btn" onclick="copyResult('sigfig-result-value', this)">Copy</button>
+                        <button type="button" class="copy-btn" onclick="copyResult('sigfig-result-value', this)" data-i18n="common.copy">Copy</button>
                     </div>
                 </div>
 
@@ -1083,11 +1083,11 @@
                     <h3 class="subsection-title">Pressure</h3>
                     <div class="converter-row">
                         <div class="input-field">
-                            <label for="pressure-value">Value</label>
+                            <label for="pressure-value" data-i18n="tools.measurementConverter.labels.value">Value</label>
                             <input type="number" id="pressure-value" placeholder="Enter value" step="any" aria-describedby="pressure-result">
                         </div>
                         <div class="input-field">
-                            <label for="pressure-from">From</label>
+                            <label for="pressure-from" data-i18n="tools.measurementConverter.labels.from">From</label>
                             <select id="pressure-from">
                                 <option value="atm" selected>atm</option>
                                 <option value="pa">Pascal (Pa)</option>
@@ -1099,7 +1099,7 @@
                         </div>
                         <button type="button" class="swap-btn" onclick="swapUnits('pressure')" aria-label="Swap pressure units">&#8644;</button>
                         <div class="input-field">
-                            <label for="pressure-to">To</label>
+                            <label for="pressure-to" data-i18n="tools.measurementConverter.labels.to">To</label>
                             <select id="pressure-to">
                                 <option value="atm">atm</option>
                                 <option value="pa" selected>Pascal (Pa)</option>
@@ -1111,9 +1111,9 @@
                         </div>
                     </div>
                     <div class="result-display" id="pressure-result" aria-live="polite">
-                        <span class="label">Result</span>
+                        <span class="label" data-i18n="tools.measurementConverter.labels.result">Result</span>
                         <span class="value" id="pressure-result-value">--</span>
-                        <button type="button" class="copy-btn" onclick="copyResult('pressure-result-value', this)">Copy</button>
+                        <button type="button" class="copy-btn" onclick="copyResult('pressure-result-value', this)" data-i18n="common.copy">Copy</button>
                     </div>
                 </div>
 
@@ -1121,11 +1121,11 @@
                     <h3 class="subsection-title">Energy</h3>
                     <div class="converter-row">
                         <div class="input-field">
-                            <label for="energy-value">Value</label>
+                            <label for="energy-value" data-i18n="tools.measurementConverter.labels.value">Value</label>
                             <input type="number" id="energy-value" placeholder="Enter value" step="any" aria-describedby="energy-result">
                         </div>
                         <div class="input-field">
-                            <label for="energy-from">From</label>
+                            <label for="energy-from" data-i18n="tools.measurementConverter.labels.from">From</label>
                             <select id="energy-from">
                                 <option value="j" selected>Joule (J)</option>
                                 <option value="kj">Kilojoule (kJ)</option>
@@ -1138,7 +1138,7 @@
                         </div>
                         <button type="button" class="swap-btn" onclick="swapUnits('energy')" aria-label="Swap energy units">&#8644;</button>
                         <div class="input-field">
-                            <label for="energy-to">To</label>
+                            <label for="energy-to" data-i18n="tools.measurementConverter.labels.to">To</label>
                             <select id="energy-to">
                                 <option value="j">Joule (J)</option>
                                 <option value="kj">Kilojoule (kJ)</option>
@@ -1151,9 +1151,9 @@
                         </div>
                     </div>
                     <div class="result-display" id="energy-result" aria-live="polite">
-                        <span class="label">Result</span>
+                        <span class="label" data-i18n="tools.measurementConverter.labels.result">Result</span>
                         <span class="value" id="energy-result-value">--</span>
-                        <button type="button" class="copy-btn" onclick="copyResult('energy-result-value', this)">Copy</button>
+                        <button type="button" class="copy-btn" onclick="copyResult('energy-result-value', this)" data-i18n="common.copy">Copy</button>
                     </div>
                 </div>
             </div>
@@ -1166,11 +1166,11 @@
                     <h3 class="subsection-title">Angle Conversion</h3>
                     <div class="converter-row">
                         <div class="input-field">
-                            <label for="angle-value">Value</label>
+                            <label for="angle-value" data-i18n="tools.measurementConverter.labels.value">Value</label>
                             <input type="number" id="angle-value" placeholder="Enter angle" step="any" aria-describedby="angle-result">
                         </div>
                         <div class="input-field">
-                            <label for="angle-from">From</label>
+                            <label for="angle-from" data-i18n="tools.measurementConverter.labels.from">From</label>
                             <select id="angle-from">
                                 <option value="deg" selected>Degrees</option>
                                 <option value="rad">Radians</option>
@@ -1180,7 +1180,7 @@
                         </div>
                         <button type="button" class="swap-btn" onclick="swapUnits('angle')" aria-label="Swap angle units">&#8644;</button>
                         <div class="input-field">
-                            <label for="angle-to">To</label>
+                            <label for="angle-to" data-i18n="tools.measurementConverter.labels.to">To</label>
                             <select id="angle-to">
                                 <option value="deg">Degrees</option>
                                 <option value="rad" selected>Radians</option>
@@ -1190,9 +1190,9 @@
                         </div>
                     </div>
                     <div class="result-display" id="angle-result" aria-live="polite">
-                        <span class="label">Result</span>
+                        <span class="label" data-i18n="tools.measurementConverter.labels.result">Result</span>
                         <span class="value" id="angle-result-value">--</span>
-                        <button type="button" class="copy-btn" onclick="copyResult('angle-result-value', this)">Copy</button>
+                        <button type="button" class="copy-btn" onclick="copyResult('angle-result-value', this)" data-i18n="common.copy">Copy</button>
                     </div>
                 </div>
 
@@ -1210,7 +1210,7 @@
                                 <option value="rad">Radians</option>
                             </select>
                         </div>
-                        <button type="button" class="btn" onclick="calculateTrig()">Calculate</button>
+                        <button type="button" class="btn" onclick="calculateTrig()" data-i18n="common.calculate">Calculate</button>
                     </div>
                     <div class="trig-results" id="trig-results-area" aria-live="polite">
                         <div class="trig-result-item">
@@ -1286,14 +1286,14 @@
                 <h2 class="section-title">Engineering Conversions</h2>
 
                 <div class="subsection">
-                    <h3 class="subsection-title">Speed / Velocity</h3>
+                    <h3 class="subsection-title" data-i18n="tools.measurementConverter.tabs.speed">Speed / Velocity</h3>
                     <div class="converter-row">
                         <div class="input-field">
-                            <label for="speed-value">Value</label>
+                            <label for="speed-value" data-i18n="tools.measurementConverter.labels.value">Value</label>
                             <input type="number" id="speed-value" placeholder="Enter value" step="any" aria-describedby="speed-result">
                         </div>
                         <div class="input-field">
-                            <label for="speed-from">From</label>
+                            <label for="speed-from" data-i18n="tools.measurementConverter.labels.from">From</label>
                             <select id="speed-from">
                                 <option value="mps">Meters/second (m/s)</option>
                                 <option value="kmh">Kilometers/hour (km/h)</option>
@@ -1305,7 +1305,7 @@
                         </div>
                         <button type="button" class="swap-btn" onclick="swapUnits('speed')" aria-label="Swap speed units">&#8644;</button>
                         <div class="input-field">
-                            <label for="speed-to">To</label>
+                            <label for="speed-to" data-i18n="tools.measurementConverter.labels.to">To</label>
                             <select id="speed-to">
                                 <option value="mps">Meters/second (m/s)</option>
                                 <option value="kmh" selected>Kilometers/hour (km/h)</option>
@@ -1317,9 +1317,9 @@
                         </div>
                     </div>
                     <div class="result-display" id="speed-result" aria-live="polite">
-                        <span class="label">Result</span>
+                        <span class="label" data-i18n="tools.measurementConverter.labels.result">Result</span>
                         <span class="value" id="speed-result-value">--</span>
-                        <button type="button" class="copy-btn" onclick="copyResult('speed-result-value', this)">Copy</button>
+                        <button type="button" class="copy-btn" onclick="copyResult('speed-result-value', this)" data-i18n="common.copy">Copy</button>
                     </div>
                 </div>
 
@@ -1327,11 +1327,11 @@
                     <h3 class="subsection-title">Time</h3>
                     <div class="converter-row">
                         <div class="input-field">
-                            <label for="time-value">Value</label>
+                            <label for="time-value" data-i18n="tools.measurementConverter.labels.value">Value</label>
                             <input type="number" id="time-value" placeholder="Enter value" step="any" aria-describedby="time-result">
                         </div>
                         <div class="input-field">
-                            <label for="time-from">From</label>
+                            <label for="time-from" data-i18n="tools.measurementConverter.labels.from">From</label>
                             <select id="time-from">
                                 <option value="ns">Nanosecond (ns)</option>
                                 <option value="us">Microsecond (µs)</option>
@@ -1346,7 +1346,7 @@
                         </div>
                         <button type="button" class="swap-btn" onclick="swapUnits('time')" aria-label="Swap time units">&#8644;</button>
                         <div class="input-field">
-                            <label for="time-to">To</label>
+                            <label for="time-to" data-i18n="tools.measurementConverter.labels.to">To</label>
                             <select id="time-to">
                                 <option value="ns">Nanosecond (ns)</option>
                                 <option value="us">Microsecond (µs)</option>
@@ -1361,9 +1361,9 @@
                         </div>
                     </div>
                     <div class="result-display" id="time-result" aria-live="polite">
-                        <span class="label">Result</span>
+                        <span class="label" data-i18n="tools.measurementConverter.labels.result">Result</span>
                         <span class="value" id="time-result-value">--</span>
-                        <button type="button" class="copy-btn" onclick="copyResult('time-result-value', this)">Copy</button>
+                        <button type="button" class="copy-btn" onclick="copyResult('time-result-value', this)" data-i18n="common.copy">Copy</button>
                     </div>
                 </div>
 
@@ -1371,11 +1371,11 @@
                     <h3 class="subsection-title">Power</h3>
                     <div class="converter-row">
                         <div class="input-field">
-                            <label for="power-value">Value</label>
+                            <label for="power-value" data-i18n="tools.measurementConverter.labels.value">Value</label>
                             <input type="number" id="power-value" placeholder="Enter value" step="any" aria-describedby="power-result">
                         </div>
                         <div class="input-field">
-                            <label for="power-from">From</label>
+                            <label for="power-from" data-i18n="tools.measurementConverter.labels.from">From</label>
                             <select id="power-from">
                                 <option value="w">Watt (W)</option>
                                 <option value="kw" selected>Kilowatt (kW)</option>
@@ -1388,7 +1388,7 @@
                         </div>
                         <button type="button" class="swap-btn" onclick="swapUnits('power')" aria-label="Swap power units">&#8644;</button>
                         <div class="input-field">
-                            <label for="power-to">To</label>
+                            <label for="power-to" data-i18n="tools.measurementConverter.labels.to">To</label>
                             <select id="power-to">
                                 <option value="w">Watt (W)</option>
                                 <option value="kw">Kilowatt (kW)</option>
@@ -1401,9 +1401,9 @@
                         </div>
                     </div>
                     <div class="result-display" id="power-result" aria-live="polite">
-                        <span class="label">Result</span>
+                        <span class="label" data-i18n="tools.measurementConverter.labels.result">Result</span>
                         <span class="value" id="power-result-value">--</span>
-                        <button type="button" class="copy-btn" onclick="copyResult('power-result-value', this)">Copy</button>
+                        <button type="button" class="copy-btn" onclick="copyResult('power-result-value', this)" data-i18n="common.copy">Copy</button>
                     </div>
                 </div>
 
@@ -1411,11 +1411,11 @@
                     <h3 class="subsection-title">Frequency</h3>
                     <div class="converter-row">
                         <div class="input-field">
-                            <label for="freq-value">Value</label>
+                            <label for="freq-value" data-i18n="tools.measurementConverter.labels.value">Value</label>
                             <input type="number" id="freq-value" placeholder="Enter value" step="any" aria-describedby="freq-result">
                         </div>
                         <div class="input-field">
-                            <label for="freq-from">From</label>
+                            <label for="freq-from" data-i18n="tools.measurementConverter.labels.from">From</label>
                             <select id="freq-from">
                                 <option value="hz">Hertz (Hz)</option>
                                 <option value="khz">Kilohertz (kHz)</option>
@@ -1427,7 +1427,7 @@
                         </div>
                         <button type="button" class="swap-btn" onclick="swapUnits('freq')" aria-label="Swap frequency units">&#8644;</button>
                         <div class="input-field">
-                            <label for="freq-to">To</label>
+                            <label for="freq-to" data-i18n="tools.measurementConverter.labels.to">To</label>
                             <select id="freq-to">
                                 <option value="hz">Hertz (Hz)</option>
                                 <option value="khz">Kilohertz (kHz)</option>
@@ -1439,9 +1439,9 @@
                         </div>
                     </div>
                     <div class="result-display" id="freq-result" aria-live="polite">
-                        <span class="label">Result</span>
+                        <span class="label" data-i18n="tools.measurementConverter.labels.result">Result</span>
                         <span class="value" id="freq-result-value">--</span>
-                        <button type="button" class="copy-btn" onclick="copyResult('freq-result-value', this)">Copy</button>
+                        <button type="button" class="copy-btn" onclick="copyResult('freq-result-value', this)" data-i18n="common.copy">Copy</button>
                     </div>
                 </div>
             </div>
@@ -1449,7 +1449,7 @@
             <div id="error" role="alert" aria-live="assertive" aria-atomic="true"></div>
 
             <div class="button-row">
-                <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data">Clear Saved Data</button>
+                <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data" data-i18n="common.clearSavedData">Clear Saved Data</button>
             </div>
         </div>
 

@@ -665,7 +665,7 @@
 </div>
     <main id="main-content" class="container">
         <h1 data-i18n="tools.certificateParser.title">Certificate Parser</h1>
-        <p class="subtitle">Decode PEM certificates and CSRs, generate certificate signing requests</p>
+        <p class="subtitle" data-i18n="tools.certificateParser.subtitle">Decode PEM certificates and CSRs, generate certificate signing requests</p>
 
         <div class="tabs" role="tablist" aria-label="Certificate tool options">
             <button type="button" class="tab-btn active" role="tab" aria-selected="true" aria-controls="tab-cert" id="tab-btn-cert" onclick="switchTab('cert')">Parse Certificate</button>
@@ -677,14 +677,14 @@
         <div class="tab-content active" id="tab-cert" role="tabpanel" aria-labelledby="tab-btn-cert">
             <div class="calculator">
                 <div class="input-group">
-                    <label for="certInput">Paste PEM Certificate</label>
-                    <textarea id="certInput" placeholder="-----BEGIN CERTIFICATE-----&#10;MIIDxTCCAq2gAwIBAgIQAqxcJmoLQ...&#10;-----END CERTIFICATE-----" aria-describedby="cert-help"></textarea>
+                    <label for="certInput" data-i18n="tools.certificateParser.labels.certificate">Paste PEM Certificate</label>
+                    <textarea id="certInput" placeholder="-----BEGIN CERTIFICATE-----&#10;MIIDxTCCAq2gAwIBAgIQAqxcJmoLQ...&#10;-----END CERTIFICATE-----" data-i18n-placeholder="tools.certificateParser.placeholders.certificate" aria-describedby="cert-help"></textarea>
                     <span id="cert-help" class="sr-only">Paste a PEM-encoded X.509 certificate to decode its information</span>
                 </div>
 
                 <div class="btn-row">
-                    <button type="button" class="primary-btn" onclick="parseCertificate()" aria-label="Parse the certificate">Parse Certificate</button>
-                    <button type="button" class="secondary-btn" onclick="clearCertInput()" aria-label="Clear input and results">Clear</button>
+                    <button type="button" class="primary-btn" onclick="parseCertificate()" aria-label="Parse the certificate" data-i18n="common.calculate">Parse Certificate</button>
+                    <button type="button" class="secondary-btn" onclick="clearCertInput()" aria-label="Clear input and results" data-i18n="common.clear">Clear</button>
                     <button type="button" class="secondary-btn" onclick="loadSampleCert()" aria-label="Load a sample certificate for testing">Load Sample</button>
                 </div>
 
@@ -712,32 +712,32 @@
                     </div>
 
                     <div class="result-card">
-                        <h4>Subject (CN)</h4>
+                        <h4 data-i18n="tools.certificateParser.labels.subject">Subject (CN)</h4>
                         <div class="value">
                             <code id="certSubject">-</code>
-                            <button type="button" class="copy-btn" onclick="copyValue('certSubject', this)" aria-label="Copy subject to clipboard">Copy</button>
+                            <button type="button" class="copy-btn" onclick="copyValue('certSubject', this)" aria-label="Copy subject to clipboard" data-i18n="common.copy">Copy</button>
                         </div>
                         <div class="dn-display" id="subjectDN"></div>
                     </div>
 
                     <div class="result-card">
-                        <h4>Issuer</h4>
+                        <h4 data-i18n="tools.certificateParser.labels.issuer">Issuer</h4>
                         <div class="value">
                             <code id="certIssuer">-</code>
-                            <button type="button" class="copy-btn" onclick="copyValue('certIssuer', this)" aria-label="Copy issuer to clipboard">Copy</button>
+                            <button type="button" class="copy-btn" onclick="copyValue('certIssuer', this)" aria-label="Copy issuer to clipboard" data-i18n="common.copy">Copy</button>
                         </div>
                         <div class="dn-display" id="issuerDN"></div>
                     </div>
 
                     <div class="results-grid">
                         <div class="result-card">
-                            <h4>Valid From</h4>
+                            <h4 data-i18n="tools.certificateParser.labels.validFrom">Valid From</h4>
                             <div class="value">
                                 <code id="certNotBefore">-</code>
                             </div>
                         </div>
                         <div class="result-card">
-                            <h4>Valid Until</h4>
+                            <h4 data-i18n="tools.certificateParser.labels.validTo">Valid Until</h4>
                             <div class="value">
                                 <code id="certNotAfter">-</code>
                             </div>
@@ -745,10 +745,10 @@
                     </div>
 
                     <div class="result-card">
-                        <h4>Serial Number</h4>
+                        <h4 data-i18n="tools.certificateParser.labels.serialNumber">Serial Number</h4>
                         <div class="value">
                             <code id="certSerial">-</code>
-                            <button type="button" class="copy-btn" onclick="copyValue('certSerial', this)" aria-label="Copy serial number to clipboard">Copy</button>
+                            <button type="button" class="copy-btn" onclick="copyValue('certSerial', this)" aria-label="Copy serial number to clipboard" data-i18n="common.copy">Copy</button>
                         </div>
                     </div>
 
@@ -761,7 +761,7 @@
 
                     <div class="results-grid">
                         <div class="result-card">
-                            <h4>Signature Algorithm</h4>
+                            <h4 data-i18n="tools.certificateParser.labels.algorithm">Signature Algorithm</h4>
                             <div class="value">
                                 <code id="certSigAlg">-</code>
                             </div>
@@ -775,10 +775,10 @@
                     </div>
 
                     <div class="result-card">
-                        <h4>Fingerprint (SHA-256)</h4>
+                        <h4 data-i18n="tools.certificateParser.labels.fingerprint">Fingerprint (SHA-256)</h4>
                         <div class="value">
                             <code id="certFingerprint">-</code>
-                            <button type="button" class="copy-btn" onclick="copyValue('certFingerprint', this)" aria-label="Copy fingerprint to clipboard">Copy</button>
+                            <button type="button" class="copy-btn" onclick="copyValue('certFingerprint', this)" aria-label="Copy fingerprint to clipboard" data-i18n="common.copy">Copy</button>
                         </div>
                     </div>
                 </div>
@@ -931,7 +931,7 @@
             </div>
         </div>
 
-        <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page" style="max-width: 300px; margin: 20px auto;">Clear Saved Data</button>
+        <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page" style="max-width: 300px; margin: 20px auto;" data-i18n="common.clearSavedData">Clear Saved Data</button>
 
         <footer role="contentinfo" data-i18n="common.worksOffline">
             Certificate Parser - All processing done locally in your browser

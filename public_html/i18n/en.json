@@ -100,6 +100,79 @@
       "explore": "Explore Productivity Tools"
     }
   },
+  "sections": {
+    "input": "Input",
+    "inputText": "Input Text",
+    "output": "Output",
+    "quickReference": "Quick Reference",
+    "results": "Results",
+    "options": "Options",
+    "commonPresets": "Common Presets"
+  },
+  "labels": {
+    "padCharacter": "Pad character:",
+    "padLength": "Pad length:",
+    "paddingSide": "Padding side",
+    "caseSensitive": "Case sensitive",
+    "trimBeforeCompare": "Trim before compare",
+    "format": "Format:",
+    "uppercaseHex": "Uppercase hex",
+    "spaceBetweenBytes": "Space between bytes"
+  },
+  "buttons": {
+    "encode": "Encode",
+    "decode": "Decode",
+    "encodeToBase64": "Encode to Base64",
+    "decodeFromBase64": "Decode from Base64",
+    "generateHashes": "Generate Hashes",
+    "urlEncode": "URL Encode",
+    "urlDecode": "URL Decode",
+    "textToHex": "Text to Hex",
+    "hexToText": "Hex to Text",
+    "uppercase": "UPPERCASE",
+    "lowercase": "lowercase",
+    "titleCase": "Title Case",
+    "camelCase": "camelCase",
+    "pascalCase": "PascalCase",
+    "snakeCase": "snake_case",
+    "kebabCase": "kebab-case",
+    "trimLines": "Trim Lines",
+    "padLines": "Pad Lines",
+    "reverseLines": "Reverse Lines",
+    "sortAZ": "Sort A-Z",
+    "sortZA": "Sort Z-A",
+    "sortNumeric": "Sort Numeric",
+    "shuffle": "Shuffle",
+    "removeEmpty": "Remove Empty",
+    "reverseChars": "Reverse Chars",
+    "removeDuplicates": "Remove Duplicates",
+    "showOnlyDuplicates": "Show Only Duplicates",
+    "countOccurrences": "Count Occurrences",
+    "escape": "Escape",
+    "unescape": "Unescape",
+    "compare": "Compare",
+    "swap": "Swap",
+    "start": "Start",
+    "pause": "Pause",
+    "resume": "Resume",
+    "stop": "Stop",
+    "skip": "Skip"
+  },
+  "formats": {
+    "htmlEntities": "HTML Entities",
+    "jsonString": "JSON String",
+    "urlEncoding": "URL Encoding",
+    "sqlString": "SQL String",
+    "regexChars": "Regex Special Chars",
+    "shellBash": "Shell/Bash",
+    "csvField": "CSV Field",
+    "xmlEntities": "XML Entities"
+  },
+  "padSide": {
+    "left": "Pad Left",
+    "right": "Pad Right",
+    "both": "Pad Both"
+  },
   "tools": {
     "subnetCalculator": {
       "title": "IPv4 Subnet Calculator",
@@ -149,12 +222,50 @@
     "subnetPlanner": {
       "title": "Subnet Planner",
       "name": "Subnet Planner",
-      "description": "Plan and visualize subnetting schemes for IPv4 networks. Design hierarchical subnets, calculate required subnet sizes, and generate subnet lists with detailed information."
+      "description": "Plan and visualize subnetting schemes for IPv4 networks. Design hierarchical subnets, calculate required subnet sizes, and generate subnet lists with detailed information.",
+      "parentIP": "Parent Network IP Address",
+      "cidrPrefix": "CIDR Prefix",
+      "initializePlanner": "Initialize Planner",
+      "quickTemplates": "Quick Templates - Load a Pre-configured Site Layout:",
+      "subnetAllocations": "Subnet Allocations",
+      "tableView": "Table View",
+      "barChart": "Bar Chart",
+      "treeView": "Tree View",
+      "addSubnet": "+ Add Subnet",
+      "label": "Label",
+      "cidr": "CIDR",
+      "networkAddress": "Network Address",
+      "sizeIPs": "Size (IPs)",
+      "vlan": "VLAN",
+      "description": "Description",
+      "color": "Color",
+      "actions": "Actions",
+      "exportJSON": "Export JSON",
+      "ipv4Reference": "IPv4 Reserved Address Reference"
     },
     "subnetPlannerIPv6": {
       "title": "IPv6 Subnet Planner",
       "name": "IPv6 Subnet Planner",
-      "description": "Plan and visualize IPv6 subnet allocations with support for massive address spaces. Design hierarchical /64 subnets, assign VLANs, and export plans to CSV or JSON."
+      "description": "Plan and visualize IPv6 subnet allocations with support for massive address spaces. Design hierarchical /64 subnets, assign VLANs, and export plans to CSV or JSON.",
+      "parentIP": "Parent Network IPv6 Address",
+      "cidrPrefix": "CIDR Prefix",
+      "initializePlanner": "Initialize Planner",
+      "quickTemplates": "Quick Templates - Load a Pre-configured Site Layout:",
+      "subnetAllocations": "Subnet Allocations",
+      "tableView": "Table View",
+      "barChart": "Bar Chart",
+      "treeView": "Tree View",
+      "addSubnet": "+ Add Subnet",
+      "label": "Label",
+      "cidr": "CIDR",
+      "networkAddress": "Network Address",
+      "sizeIPs": "Size (IPs)",
+      "vlan": "VLAN",
+      "description": "Description",
+      "color": "Color",
+      "actions": "Actions",
+      "exportJSON": "Export JSON",
+      "ipv6Reference": "IPv6 Reserved Address Reference"
     },
     "cidrConverter": {
       "title": "CIDR Notation Converter",
@@ -230,7 +341,25 @@
     "passphraseGenerator": {
       "title": "Passphrase Generator",
       "name": "Passphrase Generator",
-      "description": "Generate secure XKCD-style passphrases using random dictionary words."
+      "description": "Generate secure XKCD-style passphrases using random dictionary words.",
+      "switchToRandom": "Random Password Generator",
+      "infoText": "XKCD-style passphrases use random common words. They're easier to remember and type while still being secure.",
+      "wordCount": "Number of Words",
+      "wordCountHelp": "Enter number of words in passphrase, between 3 and 12",
+      "separator": "Word Separator",
+      "separatorHelp": "Select character to separate words in passphrase",
+      "separatorHyphen": "Hyphen (-)",
+      "separatorUnderscore": "Underscore (_)",
+      "separatorPeriod": "Period (.)",
+      "separatorSpace": "Space",
+      "separatorNone": "None",
+      "wordStyle": "Word Style",
+      "capitalizeWords": "Capitalize Words",
+      "includeNumber": "Include Number",
+      "includeSymbol": "Include Symbol",
+      "numberOfPassphrases": "Number of Passphrases",
+      "quantityHelp": "Enter number of passphrases to generate, between 1 and 100",
+      "generatedPassphrases": "Generated Passphrases"
     },
     "certificateParser": {
       "title": "Certificate Parser",
@@ -245,37 +374,298 @@
     "chmodCalculator": {
       "title": "Chmod Calculator",
       "name": "Chmod",
-      "description": "Convert between symbolic and octal Unix file permissions. Visualize permission settings."
+      "description": "Convert between symbolic and octal Unix file permissions. Visualize permission settings.",
+      "subtitle": "Visual Unix file permissions calculator",
+      "tabs": {
+        "permissions": "Permissions",
+        "umask": "Umask"
+      },
+      "labels": {
+        "octal": "Octal",
+        "symbolic": "Symbolic",
+        "permissionCheckboxes": "Permission Checkboxes",
+        "read": "Read (r)",
+        "write": "Write (w)",
+        "execute": "Execute (x)",
+        "owner": "Owner",
+        "group": "Group",
+        "other": "Other",
+        "umaskValue": "Umask Value",
+        "defaultFilePerms": "Default File Permissions",
+        "defaultDirPerms": "Default Directory Permissions"
+      },
+      "presets": {
+        "title": "Common Presets",
+        "executables": "Executables",
+        "files": "Files",
+        "fullAccess": "Full access",
+        "private": "Private",
+        "privateExec": "Private exec",
+        "groupExec": "Group exec",
+        "groupWrite": "Group write",
+        "config": "Config",
+        "readOnly": "Read-only"
+      },
+      "special": {
+        "title": "Special Permissions",
+        "setuid": "Setuid (4)",
+        "setuidDesc": "Run as file owner",
+        "setgid": "Setgid (2)",
+        "setgidDesc": "Run as file group",
+        "sticky": "Sticky (1)",
+        "stickyDesc": "Restrict deletion"
+      },
+      "results": {
+        "octalNotation": "Octal Notation",
+        "symbolicNotation": "Symbolic Notation",
+        "chmodCommand": "chmod Command"
+      },
+      "reference": {
+        "title": "Octal Reference",
+        "quickRef": "Quick Reference:",
+        "permFormat": "Permissions format: Owner-Group-Other",
+        "octalExample": "Octal: 754 = Owner(7), Group(5), Other(4)",
+        "symbolicExample": "Symbolic: -rwxr-xr-- = File type + Owner(rwx) + Group(r-x) + Other(r--)"
+      },
+      "umask": {
+        "title": "Umask Calculator",
+        "description": "Calculate default file and directory permissions based on umask value."
+      }
     },
     "base64Hash": {
       "title": "Base64 & Hash Tools",
       "name": "Base64/Hash",
-      "description": "Encode/decode Base64 and generate cryptographic hashes (MD5, SHA-1, SHA-256, SHA-512)."
+      "description": "Encode/decode Base64 and generate cryptographic hashes (MD5, SHA-1, SHA-256, SHA-512).",
+      "subtitle": "Encoding, decoding, and cryptographic hash generation",
+      "tabs": {
+        "base64": "Base64",
+        "hash": "Hash",
+        "url": "URL",
+        "hex": "Hex"
+      },
+      "placeholders": {
+        "inputText": "Enter text to encode, decode, or hash...",
+        "hexInput": "Enter text or hex values..."
+      },
+      "results": {
+        "md5": "MD5",
+        "sha1": "SHA-1",
+        "sha256": "SHA-256",
+        "sha512": "SHA-512"
+      }
     },
     "stringTools": {
-      "title": "String Tools",
+      "title": "String Manipulation Toolkit",
       "name": "String Tools",
-      "description": "Case conversion, character counting, and text manipulation utilities."
+      "description": "Case conversion, character counting, and text manipulation utilities.",
+      "subtitle": "Case conversion, line operations, and text utilities",
+      "tabs": {
+        "caseConvert": "Case Convert",
+        "lineOps": "Line Ops",
+        "duplicates": "Duplicates",
+        "escape": "Escape"
+      },
+      "placeholders": {
+        "caseInput": "Enter text to convert...",
+        "linesInput": "Enter text with multiple lines...",
+        "dupInput": "Enter text to find/remove duplicates...",
+        "escapeInput": "Enter text to escape or unescape..."
+      },
+      "stats": {
+        "removedEmptyLines": "Removed {{count}} empty line(s)",
+        "removedDuplicates": "Removed {{count}} duplicate(s), kept {{unique}} unique line(s)",
+        "foundUniqueValues": "Found {{unique}} unique value(s) from {{total}} line(s)",
+        "countOccurrences": "Found {{count}} occurrence(s) of {{value}}"
+      }
     },
     "textDiff": {
       "title": "Text Diff",
       "name": "Text Diff(Compare)",
-      "description": "Compare two text inputs and highlight differences with side-by-side or inline views."
+      "description": "Compare two text inputs and highlight differences with side-by-side or inline views.",
+      "subtitle": "Compare text and highlight differences",
+      "labels": {
+        "originalText": "Original Text",
+        "modifiedText": "Modified Text",
+        "diffView": "Diff View",
+        "sideBySide": "Side by Side",
+        "inline": "Inline",
+        "unified": "Unified"
+      },
+      "placeholders": {
+        "original": "Paste original text here...",
+        "modified": "Paste modified text here..."
+      },
+      "results": {
+        "title": "Comparison Results",
+        "additions": "Additions",
+        "deletions": "Deletions",
+        "unchanged": "Unchanged",
+        "noChanges": "No differences found",
+        "totalLines": "Total Lines"
+      },
+      "buttons": {
+        "compare": "Compare",
+        "swap": "Swap"
+      }
     },
     "uuidGenerator": {
       "title": "UUID Generator",
       "name": "UUID Gen",
-      "description": "Generate random UUIDs (v4) and validate UUID format."
+      "description": "Generate random UUIDs (v4) and validate UUID format.",
+      "subtitle": "Generate and validate universally unique identifiers",
+      "labels": {
+        "numberOfUuids": "Number of UUIDs",
+        "format": "Format",
+        "generatedUuids": "Generated UUIDs"
+      },
+      "formats": {
+        "standard": "Standard (lowercase)",
+        "uppercase": "Uppercase",
+        "noDashes": "No dashes",
+        "braces": "With braces {}"
+      },
+      "buttons": {
+        "generate": "Generate UUIDs",
+        "copyAll": "Copy All"
+      },
+      "results": {
+        "generated": "Generated {{count}} UUID(s)",
+        "copiedAll": "Copied all UUIDs to clipboard"
+      }
     },
     "measurementConverter": {
       "title": "Measurement Converter",
       "name": "Measurement Convert",
-      "description": "Convert between length, weight, volume, and temperature units."
+      "description": "Convert between length, weight, volume, and temperature units.",
+      "subtitle": "Convert between common measurement units",
+      "tabs": {
+        "basic": "Basic",
+        "cooking": "Cooking",
+        "scientific": "Scientific",
+        "trigonometry": "Trigonometry",
+        "engineering": "Engineering",
+        "length": "Length",
+        "weight": "Weight",
+        "volume": "Volume",
+        "temperature": "Temperature",
+        "area": "Area",
+        "speed": "Speed"
+      },
+      "labels": {
+        "value": "Value",
+        "from": "From",
+        "to": "To",
+        "result": "Result"
+      },
+      "units": {
+        "meters": "Meters",
+        "feet": "Feet",
+        "inches": "Inches",
+        "centimeters": "Centimeters",
+        "kilometers": "Kilometers",
+        "miles": "Miles",
+        "yards": "Yards",
+        "kilograms": "Kilograms",
+        "pounds": "Pounds",
+        "ounces": "Ounces",
+        "grams": "Grams",
+        "liters": "Liters",
+        "gallons": "Gallons",
+        "cups": "Cups",
+        "milliliters": "Milliliters",
+        "celsius": "Celsius",
+        "fahrenheit": "Fahrenheit",
+        "kelvin": "Kelvin"
+      }
     },
     "amortizationCalculator": {
       "title": "Amortization Calculator",
       "name": "Amortization",
-      "description": "Calculate loan payments, view amortization schedules, and analyze interest vs principal over time."
+      "description": "Calculate loan payments, view amortization schedules, and analyze interest vs principal over time.",
+      "labels": {
+        "loanAmount": "Loan Amount",
+        "interestRate": "Annual Interest Rate",
+        "loanTerm": "Loan Term",
+        "termUnit": "Term Unit",
+        "startDate": "Start Date (Optional)",
+        "extraPayment": "Extra Monthly Payment (Optional)",
+        "propertyTax": "Annual Property Tax (Optional)",
+        "hoaFee": "Monthly HOA Fee (Optional)"
+      },
+      "termUnits": {
+        "years": "Years",
+        "months": "Months"
+      },
+      "presets": {
+        "title": "Common Loan Examples:",
+        "mortgage200k": "$200K @ 6.5% / 30yr",
+        "mortgage300k": "$300K @ 7% / 30yr",
+        "mortgage400k": "$400K @ 6.75% / 15yr",
+        "auto25k": "$25K Auto @ 8% / 5yr"
+      },
+      "results": {
+        "loanSummary": "Loan Summary",
+        "totalPrincipal": "Total Principal",
+        "totalInterest": "Total Interest",
+        "totalCost": "Total Cost",
+        "monthlyPayment": "Monthly Payment",
+        "piPayment": "P&I Payment",
+        "totalMonthlyPayment": "Total Monthly Payment",
+        "totalPayments": "Total Payments",
+        "interestRate": "Interest Rate",
+        "monthlyTax": "Monthly Tax",
+        "monthlyHOA": "Monthly HOA"
+      },
+      "breakdown": {
+        "monthlyBreakdown": "Monthly Payment Breakdown",
+        "principalVsInterest": "Principal vs Interest Breakdown",
+        "totalCostBreakdown": "Total Cost Breakdown (Over Loan Term)",
+        "totalCost": "Total Cost:",
+        "totalMonthlyPayment": "Total Monthly Payment:",
+        "principal": "Principal",
+        "interest": "Interest",
+        "tax": "Tax",
+        "hoa": "HOA",
+        "pi": "P&I"
+      },
+      "savings": {
+        "title": "Early Payoff Savings",
+        "interestSaved": "Interest Saved",
+        "timeSaved": "Time Saved",
+        "paymentsEliminated": "Payments Eliminated",
+        "extraPayment": "Extra Payment",
+        "paymentIncrease": "Payment Increase"
+      },
+      "schedule": {
+        "title": "Amortization Schedule",
+        "paymentNum": "#",
+        "date": "Date",
+        "payment": "Payment",
+        "principal": "Principal",
+        "interest": "Interest",
+        "balance": "Balance",
+        "exportCSV": "Export CSV",
+        "print": "Print"
+      },
+      "formulas": {
+        "title": "Excel Formulas for Loan Amortization",
+        "description": "Copy these formulas into Excel or Google Sheets. Replace cell references with your values.",
+        "monthlyPayment": "Monthly Payment (PMT)",
+        "monthlyPaymentDesc": "Calculate monthly principal and interest payment",
+        "totalInterest": "Total Interest Paid",
+        "totalInterestDesc": "Calculate total interest over the life of the loan",
+        "remainingBalance": "Remaining Balance After N Payments",
+        "remainingBalanceDesc": "Calculate how much you still owe after a number of payments",
+        "interestPortion": "Interest Portion of Payment N",
+        "interestPortionDesc": "Calculate interest portion of a specific payment",
+        "principalPortion": "Principal Portion of Payment N",
+        "principalPortionDesc": "Calculate principal portion of a specific payment"
+      },
+      "validation": {
+        "invalidLoanAmount": "Please enter a valid loan amount",
+        "invalidInterestRate": "Please enter a valid interest rate (0-100%)",
+        "invalidTerm": "Please enter a valid loan term"
+      }
     },
     "compoundInterestCalculator": {
       "title": "Compound Interest Calculator",
@@ -295,17 +685,236 @@
     "loanPayoffMethods": {
       "title": "Loan Payoff Methods",
       "name": "Loan Payoff Methods",
+      "subtitle": "Snowball vs Avalanche: Which strategy is right for you?",
       "description": "Compare different loan payoff strategies and see potential savings."
     },
     "loanReference": {
       "title": "Loan Reference",
       "name": "Loan Reference",
+      "subtitle": "Understand loan types, spot warning signs, and make informed decisions",
       "description": "Reference guide for loan types, terms, and calculations."
     },
     "pomodoroTimer": {
       "title": "Pomodoro Timer",
       "name": "Pomodoro Timer",
-      "description": "Focus timer using the Pomodoro Technique with customizable work and break intervals."
+      "description": "Focus timer using the Pomodoro Technique with customizable work and break intervals.",
+      "subtitle": "Stay focused with the Pomodoro Technique",
+      "modes": {
+        "work": "Work",
+        "shortBreak": "Short Break",
+        "longBreak": "Long Break"
+      },
+      "labels": {
+        "workDuration": "Work Duration (minutes)",
+        "shortBreakDuration": "Short Break (minutes)",
+        "longBreakDuration": "Long Break (minutes)",
+        "sessionsBeforeLongBreak": "Sessions Before Long Break",
+        "autoStartBreaks": "Auto-start breaks",
+        "autoStartWork": "Auto-start work sessions",
+        "soundNotifications": "Sound notifications",
+        "currentSession": "Current Session",
+        "completedPomodoros": "Completed Pomodoros"
+      },
+      "buttons": {
+        "start": "Start",
+        "pause": "Pause",
+        "resume": "Resume",
+        "stop": "Stop",
+        "skip": "Skip",
+        "reset": "Reset"
+      },
+      "status": {
+        "ready": "Ready to start",
+        "working": "Focus time!",
+        "shortBreak": "Take a short break",
+        "longBreak": "Take a long break",
+        "paused": "Paused",
+        "completed": "Session completed!"
+      },
+      "notifications": {
+        "workComplete": "Work session complete! Time for a break.",
+        "breakComplete": "Break over! Ready for another session?",
+        "longBreakComplete": "Long break over! Well rested?"
+      },
+      "stats": {
+        "todaysSessions": "Today's Sessions",
+        "totalTime": "Total Focus Time",
+        "currentStreak": "Current Streak"
+      }
+    },
+    "cronBuilder": {
+      "title": "Cron Expression Builder",
+      "name": "Cron",
+      "description": "Build and validate cron expressions with a visual editor. Preview scheduled execution times.",
+      "subtitle": "Visual cron expression builder and validator",
+      "fields": {
+        "minute": "Minute",
+        "hour": "Hour",
+        "dayOfMonth": "Day of Month",
+        "month": "Month",
+        "dayOfWeek": "Day of Week"
+      },
+      "labels": {
+        "cronExpression": "Cron Expression",
+        "nextRuns": "Next Scheduled Runs",
+        "description": "Description"
+      },
+      "presets": {
+        "title": "Common Presets",
+        "everyMinute": "Every Minute",
+        "everyHour": "Every Hour",
+        "everyDay": "Every Day at Midnight",
+        "everyWeek": "Every Sunday at Midnight",
+        "everyMonth": "First of Every Month"
+      },
+      "validation": {
+        "invalid": "Invalid cron expression"
+      }
+    },
+    "regexTester": {
+      "title": "Regex Tester",
+      "name": "Regex",
+      "description": "Test and debug regular expressions with real-time matching, syntax highlighting, and match information.",
+      "subtitle": "Test regular expressions with real-time matching",
+      "labels": {
+        "pattern": "Regular Expression Pattern",
+        "flags": "Flags",
+        "testString": "Test String",
+        "matches": "Matches"
+      },
+      "flags": {
+        "global": "Global (g)",
+        "caseInsensitive": "Case Insensitive (i)",
+        "multiline": "Multiline (m)",
+        "dotAll": "Dot All (s)",
+        "unicode": "Unicode (u)"
+      },
+      "results": {
+        "noMatches": "No matches found",
+        "matchCount": "{{count}} match(es) found",
+        "matchGroups": "Match Groups"
+      },
+      "presets": {
+        "title": "Common Patterns",
+        "email": "Email",
+        "url": "URL",
+        "ipv4": "IPv4 Address",
+        "phone": "Phone Number",
+        "date": "Date (YYYY-MM-DD)"
+      }
+    },
+    "timestampConverter": {
+      "title": "Timestamp Converter",
+      "name": "Timestamp Convert",
+      "description": "Convert between Unix timestamps, ISO 8601, and human-readable date formats. Supports multiple timezones.",
+      "subtitle": "Convert between timestamp formats and timezones",
+      "labels": {
+        "unixTimestamp": "Unix Timestamp",
+        "iso8601": "ISO 8601",
+        "humanReadable": "Human Readable",
+        "timezone": "Timezone",
+        "currentTime": "Current Time"
+      },
+      "buttons": {
+        "now": "Now",
+        "convert": "Convert"
+      },
+      "results": {
+        "localTime": "Local Time",
+        "utcTime": "UTC Time",
+        "relativeTime": "Relative Time"
+      }
+    },
+    "certificateParser": {
+      "title": "Certificate Parser",
+      "name": "Certificate Parse",
+      "description": "Parse and analyze X.509 certificates, display certificate details, and verify certificate chains.",
+      "subtitle": "Parse and analyze SSL/TLS certificates",
+      "labels": {
+        "certificate": "Certificate (PEM format)",
+        "subject": "Subject",
+        "issuer": "Issuer",
+        "validFrom": "Valid From",
+        "validTo": "Valid To",
+        "serialNumber": "Serial Number",
+        "algorithm": "Signature Algorithm",
+        "fingerprint": "SHA-256 Fingerprint"
+      },
+      "placeholders": {
+        "certificate": "Paste certificate in PEM format (-----BEGIN CERTIFICATE-----...)"
+      },
+      "validation": {
+        "invalid": "Invalid certificate format"
+      }
+    },
+    "dataRateCalculator": {
+      "title": "Data Transfer Calculator",
+      "name": "Data-Rate Calc",
+      "description": "Calculate how long it takes to transfer data based on file size and transfer rate.",
+      "subtitle": "Calculate transfer times for any file size and speed",
+      "labels": {
+        "fileSize": "File Size",
+        "transferRate": "Transfer Rate",
+        "transferTime": "Transfer Time"
+      },
+      "results": {
+        "seconds": "Seconds",
+        "minutes": "Minutes",
+        "hours": "Hours",
+        "days": "Days"
+      },
+      "presets": {
+        "title": "Common Transfer Rates",
+        "usb2": "USB 2.0 (480 Mbps)",
+        "usb3": "USB 3.0 (5 Gbps)",
+        "gigabitEth": "Gigabit Ethernet",
+        "wifi6": "Wi-Fi 6 (1.2 Gbps)",
+        "sata3": "SATA III (6 Gbps)"
+      }
+    },
+    "mtuCalculator": {
+      "title": "MTU Calculator",
+      "name": "MTU Calc",
+      "description": "Calculate Maximum Transmission Unit (MTU) and Maximum Segment Size (MSS) with protocol overhead analysis.",
+      "subtitle": "Calculate MTU and MSS for various protocols",
+      "labels": {
+        "mtu": "MTU (bytes)",
+        "protocol": "Protocol",
+        "mss": "Maximum Segment Size",
+        "overhead": "Protocol Overhead"
+      },
+      "protocols": {
+        "ethernet": "Ethernet",
+        "pppoe": "PPPoE",
+        "gre": "GRE Tunnel",
+        "ipsec": "IPsec",
+        "vxlan": "VXLAN"
+      }
+    },
+    "jinjaBuilder": {
+      "title": "Jinja Template Builder",
+      "name": "Jinja Builder",
+      "description": "Build and test Jinja2 templates with syntax highlighting and live preview.",
+      "subtitle": "Build and preview Jinja2 templates",
+      "labels": {
+        "template": "Template",
+        "variables": "Variables (JSON)",
+        "output": "Rendered Output"
+      },
+      "buttons": {
+        "render": "Render Template",
+        "format": "Format JSON"
+      },
+      "presets": {
+        "title": "Template Examples",
+        "networkConfig": "Network Config",
+        "ansiblePlaybook": "Ansible Playbook",
+        "dockerCompose": "Docker Compose"
+      },
+      "validation": {
+        "invalidJson": "Invalid JSON in variables",
+        "templateError": "Template error: {{error}}"
+      }
     }
   },
   "validation": {

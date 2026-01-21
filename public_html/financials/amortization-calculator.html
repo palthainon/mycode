@@ -1082,13 +1082,13 @@
     </div>
 
     <main id="main-content" class="container">
-        <h1 data-i18n="financials.amortization.title">Amortization Calculator</h1>
+        <h1 data-i18n="tools.amortizationCalculator.title">Amortization Calculator</h1>
 
         <div class="calculator">
             <form id="amort-form" aria-label="Amortization Calculator Form">
                 <div class="input-group">
                     <div class="input-field">
-                        <label for="principal">Loan Amount</label>
+                        <label for="principal" data-i18n="tools.amortizationCalculator.labels.loanAmount">Loan Amount</label>
                         <div class="input-prefix">
                             <span>$</span>
                             <input type="text" id="principal" placeholder="200,000" aria-required="true" aria-describedby="principal-help" inputmode="decimal">
@@ -1096,7 +1096,7 @@
                         <span id="principal-help" class="sr-only">Enter the total loan amount in dollars</span>
                     </div>
                     <div class="input-field">
-                        <label for="rate">Annual Interest Rate</label>
+                        <label for="rate" data-i18n="tools.amortizationCalculator.labels.interestRate">Annual Interest Rate</label>
                         <div class="input-suffix">
                             <input type="text" id="rate" placeholder="6.5" aria-required="true" aria-describedby="rate-help" inputmode="decimal">
                             <span>%</span>
@@ -1104,15 +1104,15 @@
                         <span id="rate-help" class="sr-only">Enter the annual interest rate as a percentage</span>
                     </div>
                     <div class="input-field">
-                        <label for="term">Loan Term</label>
+                        <label for="term" data-i18n="tools.amortizationCalculator.labels.loanTerm">Loan Term</label>
                         <input type="number" id="term" placeholder="30" value="30" min="1" max="50" aria-required="true" aria-describedby="term-help">
                         <span id="term-help" class="sr-only">Enter the loan term in years</span>
                     </div>
                     <div class="input-field">
-                        <label for="term-unit">Term Unit</label>
+                        <label for="term-unit" data-i18n="tools.amortizationCalculator.labels.termUnit">Term Unit</label>
                         <select id="term-unit" aria-describedby="term-unit-help">
-                            <option value="years" selected>Years</option>
-                            <option value="months">Months</option>
+                            <option value="years" selected data-i18n="tools.amortizationCalculator.termUnits.years">Years</option>
+                            <option value="months" data-i18n="tools.amortizationCalculator.termUnits.months">Months</option>
                         </select>
                         <span id="term-unit-help" class="sr-only">Select whether the term is in years or months</span>
                     </div>
@@ -1120,12 +1120,12 @@
 
                 <div class="input-group">
                     <div class="input-field">
-                        <label for="start-date">Start Date (Optional)</label>
+                        <label for="start-date" data-i18n="tools.amortizationCalculator.labels.startDate">Start Date (Optional)</label>
                         <input type="month" id="start-date" aria-describedby="start-date-help">
                         <span id="start-date-help" class="sr-only">Optional: Enter the loan start date to show payment dates in the schedule</span>
                     </div>
                     <div class="input-field">
-                        <label for="extra-payment">Extra Monthly Payment (Optional)</label>
+                        <label for="extra-payment" data-i18n="tools.amortizationCalculator.labels.extraPayment">Extra Monthly Payment (Optional)</label>
                         <div class="input-prefix">
                             <span>$</span>
                             <input type="text" id="extra-payment" placeholder="0" aria-describedby="extra-payment-help" inputmode="decimal">
@@ -1136,7 +1136,7 @@
 
                 <div class="input-group">
                     <div class="input-field">
-                        <label for="property-tax">Annual Property Tax (Optional)</label>
+                        <label for="property-tax" data-i18n="tools.amortizationCalculator.labels.propertyTax">Annual Property Tax (Optional)</label>
                         <div class="input-prefix">
                             <span>$</span>
                             <input type="text" id="property-tax" placeholder="0" aria-describedby="property-tax-help" inputmode="decimal">
@@ -1144,7 +1144,7 @@
                         <span id="property-tax-help" class="sr-only">Optional: Enter annual property tax to include in total monthly payment</span>
                     </div>
                     <div class="input-field">
-                        <label for="hoa-fee">Monthly HOA Fee (Optional)</label>
+                        <label for="hoa-fee" data-i18n="tools.amortizationCalculator.labels.hoaFee">Monthly HOA Fee (Optional)</label>
                         <div class="input-prefix">
                             <span>$</span>
                             <input type="text" id="hoa-fee" placeholder="0" aria-describedby="hoa-fee-help" inputmode="decimal">
@@ -1153,16 +1153,16 @@
                     </div>
                 </div>
 
-                <button type="button" class="btn" onclick="calculate()" aria-label="Calculate amortization schedule">Calculate</button>
-                <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page">Clear Saved Data</button>
+                <button type="button" class="btn" onclick="calculate()" aria-label="Calculate amortization schedule" data-i18n="common.calculate">Calculate</button>
+                <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page" data-i18n="common.clearSavedData">Clear Saved Data</button>
 
                 <div class="quick-presets">
-                    <h3 id="presets-label">Common Loan Examples:</h3>
+                    <h3 id="presets-label" data-i18n="tools.amortizationCalculator.presets.title">Common Loan Examples:</h3>
                     <div class="preset-buttons" role="group" aria-labelledby="presets-label">
-                        <button type="button" class="preset-btn" onclick="setPreset(200000, 6.5, 30)" aria-label="200 thousand dollar mortgage at 6.5 percent for 30 years">$200K @ 6.5% / 30yr</button>
-                        <button type="button" class="preset-btn" onclick="setPreset(300000, 7, 30)" aria-label="300 thousand dollar mortgage at 7 percent for 30 years">$300K @ 7% / 30yr</button>
-                        <button type="button" class="preset-btn" onclick="setPreset(400000, 6.75, 15)" aria-label="400 thousand dollar mortgage at 6.75 percent for 15 years">$400K @ 6.75% / 15yr</button>
-                        <button type="button" class="preset-btn" onclick="setPreset(25000, 8, 5)" aria-label="25 thousand dollar auto loan at 8 percent for 5 years">$25K Auto @ 8% / 5yr</button>
+                        <button type="button" class="preset-btn" onclick="setPreset(200000, 6.5, 30)" aria-label="200 thousand dollar mortgage at 6.5 percent for 30 years" data-i18n="tools.amortizationCalculator.presets.mortgage200k">$200K @ 6.5% / 30yr</button>
+                        <button type="button" class="preset-btn" onclick="setPreset(300000, 7, 30)" aria-label="300 thousand dollar mortgage at 7 percent for 30 years" data-i18n="tools.amortizationCalculator.presets.mortgage300k">$300K @ 7% / 30yr</button>
+                        <button type="button" class="preset-btn" onclick="setPreset(400000, 6.75, 15)" aria-label="400 thousand dollar mortgage at 6.75 percent for 15 years" data-i18n="tools.amortizationCalculator.presets.mortgage400k">$400K @ 6.75% / 15yr</button>
+                        <button type="button" class="preset-btn" onclick="setPreset(25000, 8, 5)" aria-label="25 thousand dollar auto loan at 8 percent for 5 years" data-i18n="tools.amortizationCalculator.presets.auto25k">$25K Auto @ 8% / 5yr</button>
                     </div>
                 </div>
 
@@ -1171,7 +1171,7 @@
         </div>
 
         <div class="results" id="results" role="region" aria-live="polite" aria-label="Loan summary">
-            <h2>Loan Summary</h2>
+            <h2 data-i18n="tools.amortizationCalculator.results.loanSummary">Loan Summary</h2>
             <div class="summary-grid" id="summaryGrid">
                 <!-- Summary will be inserted here -->
             </div>
@@ -1181,7 +1181,7 @@
         </div>
 
         <div class="savings-section" id="savings-section" role="region" aria-live="polite" aria-label="Early payoff savings">
-            <h2>Early Payoff Savings</h2>
+            <h2 data-i18n="tools.amortizationCalculator.savings.title">Early Payoff Savings</h2>
             <div class="savings-grid" id="savingsGrid">
                 <!-- Savings will be inserted here -->
             </div>
@@ -1189,22 +1189,22 @@
 
         <div class="schedule-section" id="schedule-section" role="region" aria-label="Amortization schedule">
             <div class="section-header">
-                <h2>Amortization Schedule</h2>
+                <h2 data-i18n="tools.amortizationCalculator.schedule.title">Amortization Schedule</h2>
                 <div class="header-actions">
-                    <button type="button" class="export-btn" onclick="exportToCSV()" aria-label="Export schedule to CSV file">Export CSV</button>
-                    <button type="button" class="print-btn" onclick="window.print()" aria-label="Print amortization schedule">Print</button>
+                    <button type="button" class="export-btn" onclick="exportToCSV()" aria-label="Export schedule to CSV file" data-i18n="common.exportCSV">Export CSV</button>
+                    <button type="button" class="print-btn" onclick="window.print()" aria-label="Print amortization schedule" data-i18n="tools.amortizationCalculator.schedule.print">Print</button>
                 </div>
             </div>
             <div class="schedule-table-wrapper">
                 <table class="schedule-table" id="scheduleTable" aria-label="Payment schedule">
                     <thead>
                         <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Payment</th>
-                            <th scope="col">Principal</th>
-                            <th scope="col">Interest</th>
-                            <th scope="col">Balance</th>
+                            <th scope="col" data-i18n="tools.amortizationCalculator.schedule.paymentNum">#</th>
+                            <th scope="col" data-i18n="tools.amortizationCalculator.schedule.date">Date</th>
+                            <th scope="col" data-i18n="tools.amortizationCalculator.schedule.payment">Payment</th>
+                            <th scope="col" data-i18n="tools.amortizationCalculator.schedule.principal">Principal</th>
+                            <th scope="col" data-i18n="tools.amortizationCalculator.schedule.interest">Interest</th>
+                            <th scope="col" data-i18n="tools.amortizationCalculator.schedule.balance">Balance</th>
                         </tr>
                     </thead>
                     <tbody id="scheduleBody">

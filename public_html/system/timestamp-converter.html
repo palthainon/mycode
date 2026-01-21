@@ -73,10 +73,17 @@
 
         h1 {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 10px;
             font-size: 2.5rem;
             color: #4fc3f7;
             text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #90caf9;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
         }
 
         .calculator {
@@ -502,14 +509,15 @@
  \___/|_|\__,_|   \_/\_/ \___|_.__/
 </div>
     <main id="main-content" class="container">
-        <h1 data-i18n="tools.timestampConverter.title">Log Timestamp Converter</h1>
+        <h1 data-i18n="tools.timestampConverter.title">Timestamp Converter</h1>
+        <p class="subtitle" data-i18n="tools.timestampConverter.subtitle">Convert between timestamp formats and timezones</p>
 
         <div class="calculator">
             <div class="error" id="errorMsg" role="alert" aria-live="assertive" aria-atomic="true"></div>
 
             <form aria-label="Timestamp converter form">
             <div class="input-group">
-                <label for="timestampInput">Paste timestamps (one per line):</label>
+                <label for="timestampInput" data-i18n="tools.timestampConverter.labels.unixTimestamp">Paste timestamps (one per line):</label>
                 <textarea
                     id="timestampInput"
                     class="timestamp-input"
@@ -521,7 +529,7 @@
             </div>
 
             <div class="input-group">
-                <label id="timezone-label">Additional Timezones (optional):</label>
+                <label id="timezone-label" data-i18n="tools.timestampConverter.labels.timezone">Additional Timezones (optional):</label>
                 <div class="timezone-selectors" role="group" aria-labelledby="timezone-label">
                     <select id="tz1" aria-label="Additional timezone 1 for conversion">
                         <option value="">-- Timezone 1 --</option>
@@ -575,11 +583,11 @@
             </div>
 
             <div class="button-group">
-                <button type="button" class="btn" onclick="convertTimestamps()" aria-label="Convert all entered timestamps to multiple timezone formats">Convert Timestamps</button>
-                <button type="button" class="btn btn-secondary" onclick="loadSampleData()" aria-label="Load sample log timestamps for testing">Load Sample Data</button>
+                <button type="button" class="btn" onclick="convertTimestamps()" aria-label="Convert all entered timestamps to multiple timezone formats" data-i18n="tools.timestampConverter.buttons.convert">Convert Timestamps</button>
+                <button type="button" class="btn btn-secondary" onclick="loadSampleData()" aria-label="Load sample log timestamps for testing" data-i18n="tools.timestampConverter.buttons.now">Load Sample Data</button>
             </div>
 
-            <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page">Clear Saved Data</button>
+            <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page" data-i18n="common.clearSavedData">Clear Saved Data</button>
             </form>
         </div>
 
@@ -587,7 +595,7 @@
             <div class="calculator">
                 <div class="results-header">
                     <div class="results-summary" id="resultsSummary"></div>
-                    <button type="button" class="export-btn" onclick="exportToCSV()" aria-label="Export timestamp conversions to CSV file">Export to CSV</button>
+                    <button type="button" class="export-btn" onclick="exportToCSV()" aria-label="Export timestamp conversions to CSV file" data-i18n="common.exportToCSV">Export to CSV</button>
                 </div>
                 <div class="results-table-container">
                     <table class="results-table">
@@ -607,7 +615,7 @@
         </div>
 
         <footer role="contentinfo" data-i18n="common.worksOffline">
-            Log Timestamp Converter - Supports ISO8601, RFC3339, Syslog, Apache/Nginx, Windows Event Log, and Unix formats
+            Works offline, no installation required
         </footer>
     </main>
 
@@ -847,10 +855,10 @@
                         })));
 
                     // UTC
-                    conversions.push(createConversionRow('UTC', formatTimezone(result.date, 'UTC')));
+                    conversions.push(createConversionRow(I18nUtils.t('tools.timestampConverter.results.utcTime'), formatTimezone(result.date, 'UTC')));
 
                     // Local
-                    conversions.push(createConversionRow('Local',
+                    conversions.push(createConversionRow(I18nUtils.t('tools.timestampConverter.results.localTime'),
                         result.date.toLocaleString('en-US', {
                             year: 'numeric',
                             month: 'short',
@@ -897,10 +905,11 @@
         }
 
         function createConversionRow(label, value) {
+            const copyText = I18nUtils.t('common.copy');
             return `<div class="conversion-row">
                 <span class="conversion-label">${label}:</span>
                 <span class="conversion-value">${value}</span>
-                <button class="copy-btn" onclick="copyToClipboard('${escapeHtml(value)}', this)">Copy</button>
+                <button class="copy-btn" onclick="copyToClipboard('${escapeHtml(value)}', this)" data-i18n="common.copy">${copyText}</button>
             </div>`;
         }
 
@@ -931,11 +940,11 @@
                                   .replace(/&gt;/g, '>');
 
             navigator.clipboard.writeText(unescaped).then(() => {
-                button.textContent = 'Copied!';
+                button.textContent = I18nUtils.t('common.copied');
                 button.classList.add('copied');
-                A11yUtils.announce('Copied timestamp to clipboard', 'polite');
+                A11yUtils.announce(I18nUtils.t('common.copiedToClipboard'), 'polite');
                 setTimeout(() => {
-                    button.textContent = 'Copy';
+                    button.textContent = I18nUtils.t('common.copy');
                     button.classList.remove('copied');
                 }, 2000);
             }).catch(err => {
