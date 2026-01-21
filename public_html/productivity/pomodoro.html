@@ -35,8 +35,9 @@
     <title>Pomodoro Timer - OldWeb.tech</title>
     <link rel="stylesheet" href="../a11y.css">
     <script src="../a11y-utils.js"></script>
-    <script src="../navigationv2.js"></script>
     <script src="../storage-utils.js"></script>
+    <script src="../i18n-utils.js"></script>
+    <script src="../navigationv2.js"></script>
     <style>
         * {
             margin: 0;
@@ -760,9 +761,9 @@
     </style>
 </head>
 <body>
-    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <a href="#main-content" class="skip-link" data-i18n="common.skipToContent">Skip to main content</a>
     <main id="main-content" class="container" role="main" aria-label="Pomodoro Timer Application">
-        <h1>Pomodoro Timer</h1>
+        <h1 data-i18n="tools.pomodoroTimer.title">Pomodoro Timer</h1>
 
         <!-- Notification Permission Banner -->
         <div id="notificationBanner" class="notification-banner hidden" role="alert">
@@ -895,8 +896,8 @@
             <button id="exportCsvBtn" class="export-csv-btn" onclick="exportToCSV()" aria-label="Export session history to CSV file">Export to CSV</button>
         </div>
 
-        <footer role="contentinfo">
-            Pomodoro Timer - Works offline, no installation required
+        <footer role="contentinfo" data-i18n="common.worksOffline">
+            Works offline, no installation required
         </footer>
     </main>
 

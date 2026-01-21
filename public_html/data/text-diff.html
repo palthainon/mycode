@@ -35,6 +35,8 @@
     <title>Text Diff Tool - OldWeb.tech</title>
     <link rel="stylesheet" href="../a11y.css">
     <script src="../a11y-utils.js"></script>
+    <script src="../storage-utils.js"></script>
+    <script src="../i18n-utils.js"></script>
     <script src="../navigationv2.js"></script>
     <style>
         * {
@@ -528,7 +530,7 @@
     </script>
 </head>
 <body>
-    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <a href="#main-content" class="skip-link" data-i18n="common.skipToContent">Skip to main content</a>
 
     <div class="ascii-logo" aria-hidden="true">  ___  _     _  __        __   _
  / _ \| | __| | \ \      / /__| |__
@@ -538,7 +540,7 @@
 </div>
 
     <main id="main-content" class="container">
-        <h1>Text Diff Tool</h1>
+        <h1 data-i18n="data.textDiff.title">Text Diff Tool</h1>
 
         <!-- Stats Section -->
         <div class="stats-section" id="statsSection" role="region" aria-label="Comparison statistics" aria-live="polite">
@@ -671,7 +673,7 @@ Passed by Congress March 22, 1972. Ratification deadline extended to June 30, 19
             </form>
         </div>
 
-        <footer role="contentinfo">
+        <footer role="contentinfo" data-i18n="common.worksOffline">
             Text Diff Tool - Works offline, no installation required
         </footer>
     </main>

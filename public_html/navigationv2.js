@@ -65,6 +65,119 @@
             z-index: 1000;
         }
 
+        /* Language Selector Styles */
+        .nav-lang-selector {
+            position: relative;
+            margin-left: 10px;
+        }
+
+        .nav-lang-btn {
+            background: transparent;
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            color: #4fc3f7;
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 6px 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+            border-radius: 6px;
+            font-family: inherit;
+        }
+
+        .nav-lang-btn:hover {
+            background: rgba(79, 195, 247, 0.1);
+            border-color: rgba(79, 195, 247, 0.5);
+        }
+
+        .nav-lang-btn:focus {
+            outline: 2px solid #4fc3f7;
+            outline-offset: 2px;
+        }
+
+        .nav-lang-btn[aria-expanded="true"] {
+            background: rgba(79, 195, 247, 0.15);
+            border-color: #4fc3f7;
+        }
+
+        .nav-lang-icon {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
+        .nav-lang-code {
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-lang-dropdown {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            min-width: 140px;
+            background: #16213e;
+            backdrop-filter: blur(10px);
+            border-radius: 8px;
+            border: 1px solid rgba(79, 195, 247, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            padding: 6px 0;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            pointer-events: none;
+        }
+
+        .nav-lang-dropdown:not([hidden]) {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .nav-lang-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            padding: 10px 16px;
+            background: transparent;
+            border: none;
+            color: #4fc3f7;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+            text-align: left;
+            font-family: inherit;
+        }
+
+        .nav-lang-option:hover {
+            background: rgba(79, 195, 247, 0.1);
+            color: #2196f3;
+        }
+
+        .nav-lang-option:focus {
+            outline: 2px solid #4fc3f7;
+            outline-offset: -2px;
+        }
+
+        .nav-lang-option[aria-current="true"] {
+            color: #66bb6a;
+            background: rgba(102, 187, 106, 0.1);
+        }
+
+        .nav-lang-option[aria-current="true"]::after {
+            content: '✓';
+            margin-left: auto;
+        }
+
+        .nav-lang-native {
+            font-weight: 400;
+            opacity: 0.8;
+        }
+
         .nav-home {
             color: #4fc3f7;
             text-decoration: none;
@@ -268,6 +381,28 @@
                 transform: translateX(-50%) translateY(0);
                 pointer-events: auto;
             }
+
+            .nav-lang-selector {
+                margin-left: 0;
+                margin-top: 10px;
+                display: flex;
+                justify-content: center;
+            }
+
+            .nav-lang-btn {
+                min-height: 44px;
+                padding: 8px 14px;
+            }
+
+            .nav-lang-dropdown {
+                left: 50%;
+                right: auto;
+                transform: translateX(-50%) translateY(-10px);
+            }
+
+            .nav-lang-dropdown:not([hidden]) {
+                transform: translateX(-50%) translateY(0);
+            }
         }
     `;
 
@@ -390,6 +525,30 @@
 
         html += `
         </div>
+        <div class="nav-lang-selector">
+            <button class="nav-lang-btn"
+                    id="nav-lang-btn"
+                    aria-expanded="false"
+                    aria-controls="nav-lang-dropdown"
+                    aria-haspopup="listbox"
+                    aria-label="Select language">
+                <svg class="nav-lang-icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                </svg>
+                <span class="nav-lang-code" id="nav-lang-code">EN</span>
+            </button>
+            <div class="nav-lang-dropdown" id="nav-lang-dropdown" role="listbox" aria-label="Available languages" hidden>
+                <button class="nav-lang-option" role="option" data-lang="en" aria-current="true">
+                    English <span class="nav-lang-native">(English)</span>
+                </button>
+                <button class="nav-lang-option" role="option" data-lang="es" aria-current="false">
+                    Spanish <span class="nav-lang-native">(Español)</span>
+                </button>
+                <button class="nav-lang-option" role="option" data-lang="hi" aria-current="false">
+                    Hindi <span class="nav-lang-native">(हिन्दी)</span>
+                </button>
+            </div>
+        </div>
     </nav>`;
         return html;
     }
@@ -432,6 +591,113 @@
         });
     }
 
+    // Setup language selector
+    function setupLanguageSelector() {
+        const langBtn = document.getElementById('nav-lang-btn');
+        const langDropdown = document.getElementById('nav-lang-dropdown');
+        const langCode = document.getElementById('nav-lang-code');
+
+        if (!langBtn || !langDropdown) return;
+
+        // Update current language display
+        function updateLanguageDisplay(lang) {
+            langCode.textContent = lang.toUpperCase();
+
+            // Update aria-current on options
+            langDropdown.querySelectorAll('.nav-lang-option').forEach(opt => {
+                opt.setAttribute('aria-current', opt.dataset.lang === lang ? 'true' : 'false');
+            });
+        }
+
+        // Initialize with current language
+        if (typeof I18nUtils !== 'undefined' && I18nUtils.isReady()) {
+            updateLanguageDisplay(I18nUtils.getCurrentLang());
+        } else {
+            // Try to get from localStorage if I18nUtils not ready yet
+            try {
+                const saved = localStorage.getItem('owt_user-language');
+                if (saved) {
+                    updateLanguageDisplay(JSON.parse(saved));
+                }
+            } catch (e) {
+                // Default to EN
+            }
+        }
+
+        // Listen for language changes from I18nUtils
+        document.addEventListener('langchange', (e) => {
+            updateLanguageDisplay(e.detail.language);
+        });
+
+        // Toggle dropdown
+        langBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isExpanded = langBtn.getAttribute('aria-expanded') === 'true';
+
+            // Close other dropdowns first
+            closeAllDropdowns();
+
+            if (isExpanded) {
+                langBtn.setAttribute('aria-expanded', 'false');
+                langDropdown.setAttribute('hidden', '');
+            } else {
+                langBtn.setAttribute('aria-expanded', 'true');
+                langDropdown.removeAttribute('hidden');
+            }
+        });
+
+        // Language option clicks
+        langDropdown.querySelectorAll('.nav-lang-option').forEach(opt => {
+            opt.addEventListener('click', async (e) => {
+                e.stopPropagation();
+                const newLang = opt.dataset.lang;
+
+                // Close dropdown
+                langBtn.setAttribute('aria-expanded', 'false');
+                langDropdown.setAttribute('hidden', '');
+
+                // Change language
+                if (typeof I18nUtils !== 'undefined') {
+                    await I18nUtils.setLang(newLang);
+                } else {
+                    // Fallback: save to localStorage and reload
+                    try {
+                        localStorage.setItem('owt_user-language', JSON.stringify(newLang));
+                    } catch (e) {}
+                    window.location.reload();
+                }
+
+                updateLanguageDisplay(newLang);
+            });
+        });
+
+        // Close language dropdown on escape or click outside
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && langBtn.getAttribute('aria-expanded') === 'true') {
+                langBtn.setAttribute('aria-expanded', 'false');
+                langDropdown.setAttribute('hidden', '');
+                langBtn.focus();
+            }
+        });
+
+        // Arrow key navigation in language dropdown
+        langDropdown.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                const options = Array.from(langDropdown.querySelectorAll('.nav-lang-option'));
+                const currentIndex = options.indexOf(document.activeElement);
+
+                if (e.key === 'ArrowDown') {
+                    const nextIndex = Math.min(currentIndex + 1, options.length - 1);
+                    options[nextIndex].focus();
+                } else {
+                    const prevIndex = Math.max(currentIndex - 1, 0);
+                    options[prevIndex].focus();
+                }
+            }
+        });
+    }
+
     // Setup event listeners
     function setupEventListeners() {
         // Category button clicks
@@ -443,10 +709,18 @@
             });
         });
 
-        // Click outside to close
+        // Click outside to close (including language dropdown)
         document.addEventListener('click', (e) => {
             if (!e.target.closest('.nav-category')) {
                 closeAllDropdowns();
+            }
+            if (!e.target.closest('.nav-lang-selector')) {
+                const langBtn = document.getElementById('nav-lang-btn');
+                const langDropdown = document.getElementById('nav-lang-dropdown');
+                if (langBtn && langDropdown) {
+                    langBtn.setAttribute('aria-expanded', 'false');
+                    langDropdown.setAttribute('hidden', '');
+                }
             }
         });
 
@@ -530,6 +804,7 @@
 
         document.body.insertBefore(navElement, document.body.firstChild);
         setupEventListeners();
+        setupLanguageSelector();
     }
 
     // Run on DOM ready

@@ -36,6 +36,7 @@
     <link rel="stylesheet" href="../a11y.css">
     <script src="../a11y-utils.js"></script>
     <script src="../storage-utils.js"></script>
+    <script src="../i18n-utils.js"></script>
     <script src="../navigationv2.js"></script>
     <style>
         * {
@@ -617,7 +618,7 @@
     </script>
 </head>
 <body>
-    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <a href="#main-content" class="skip-link" data-i18n="common.skipToContent">Skip to main content</a>
     <div class="ascii-logo" aria-hidden="true">  ___  _     _  __        __   _
  / _ \| | __| | \ \      / /__| |__
 | | | | |/ _` |  \ \ /\ / / _ \ '_ \
@@ -626,7 +627,7 @@
 </div>
 
     <main id="main-content" class="container">
-        <h1>CIDR Notation Converter</h1>
+        <h1 data-i18n="tools.cidrConverter.title">CIDR Notation Converter</h1>
 
         <div class="mode-toggle" role="group" aria-label="Conversion mode selection">
             <button type="button"
@@ -769,7 +770,7 @@ permit ip 192.168.100.0 0.0.0.255"></textarea>
              aria-label="CIDR conversion results"></div>
 
         <footer role="contentinfo">
-            CIDR Converter - Works offline, no installation required
+            <span data-i18n="tools.cidrConverter.title">CIDR Converter</span> - <span data-i18n="common.worksOffline">Works offline, no installation required</span>
         </footer>
     </main>
 

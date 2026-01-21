@@ -35,6 +35,8 @@
     <title>Bit Calculator - OldWeb.tech</title>
     <link rel="stylesheet" href="../a11y.css">
     <script src="../a11y-utils.js"></script>
+    <script src="../storage-utils.js"></script>
+    <script src="../i18n-utils.js"></script>
     <script src="../navigationv2.js"></script>
     <style>
         * {
@@ -451,7 +453,7 @@
     </script>
 </head>
 <body>
-    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <a href="#main-content" class="skip-link" data-i18n="common.skipToContent">Skip to main content</a>
     <div class="ascii-logo" aria-hidden="true">  ___  _    _  __        __   _
  / _ \| | _| | \ \      / /__| |__
 | | | | |/ _` | \ \ /\ / / _ \ '_ \
@@ -459,7 +461,7 @@
  \___/|_|\__,_|   \_/\_/ \___|_.__/
 </div>
     <main id="main-content" class="container">
-        <h1>Bit Calculator</h1>
+        <h1 data-i18n="tools.bitCalculator.title">Bit Calculator</h1>
 
         <div class="calculator">
             <form id="bit-calc-form" aria-label="Bit Calculator Form">
@@ -532,7 +534,7 @@
         </div>
 
         <footer role="contentinfo">
-            Bit Calculator - Works offline, no installation required
+            <span data-i18n="tools.bitCalculator.title">Bit Calculator</span> - <span data-i18n="common.worksOffline">Works offline, no installation required</span>
         </footer>
     </div>
 

@@ -40,6 +40,7 @@
 
     <!-- Utilities -->
     <script src="storage-utils.js"></script>
+    <script src="i18n-utils.js"></script>
     <script src="navigationv2.js"></script>
     <style>
         * {
@@ -531,7 +532,7 @@
     </script>
 </head>
 <body>
-    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <a href="#main-content" class="skip-link" data-i18n="common.skipToContent">Skip to main content</a>
     <div class="ascii-logo" aria-hidden="true">  ___  _    _  __        __   _
  / _ \| | _| | \ \      / /__| |__
 | | | | |/ _` | \ \ /\ / / _ \ '_ \
@@ -539,16 +540,17 @@
  \___/|_|\__,_|   \_/\_/ \___|_.__/
 </div>
     <main id="main-content" class="container">
-        <h1>OldWeb Tools</h1>
-        <p class="subtitle">Fast, simple, offline-ready utilities for network engineers and system administrators</p>
+        <h1 data-i18n="home.title">OldWeb Tools</h1>
+        <p class="subtitle" data-i18n="home.subtitle">Fast, simple, offline-ready utilities for network engineers and system administrators</p>
 
         <!-- Quick Access Section -->
         <section id="quick-access-section" class="quick-access-section" aria-labelledby="quick-access-heading">
             <div class="quick-access-header">
-                <h2 id="quick-access-heading">Quick Access</h2>
+                <h2 id="quick-access-heading" data-i18n="home.quickAccess">Quick Access</h2>
                 <button type="button"
                         id="quick-access-settings-btn"
                         class="settings-btn"
+                        data-i18n-aria-label="home.customizeQuickAccess"
                         aria-label="Customize quick access tools"
                         aria-haspopup="dialog"
                         aria-expanded="false">
@@ -564,42 +566,42 @@
 
         <div class="tools-grid">
             <a href="nettools/index.html" class="tool-card">
-                <h2>Network Tools</h2>
-                <p>IP and subnet calculators, CIDR converters, and network planning utilities for network engineers.</p>
-                <div class="tool-list">Subnet Calculator • IPv6 Subnet Calculator • Subnet Planner • CIDR Converter • Bit Calculator • Data Transfer Calculator</div>
-                <span class="tool-link">Explore Network Tools</span>
+                <h2 data-i18n="categories.network.title">Network Tools</h2>
+                <p data-i18n="categories.network.description">IP and subnet calculators, CIDR converters, and network planning utilities for network engineers.</p>
+                <div class="tool-list" data-i18n="categories.network.toolList">Subnet Calculator • IPv6 Subnet Calculator • Subnet Planner • CIDR Converter • Bit Calculator • Data Transfer Calculator</div>
+                <span class="tool-link" data-i18n="categories.network.explore">Explore Network Tools</span>
             </a>
 
             <a href="system/index.html" class="tool-card">
-                <h2>System Tools</h2>
-                <p>Unix/Linux system administration utilities including permissions, cron scheduling, disk planning, and log analysis.</p>
-                <div class="tool-list">Chmod Calculator • Cron Builder • DISK Tools • Password Generator • Regex Tester • Log Timestamp Converter</div>
-                <span class="tool-link">Explore System Tools</span>
+                <h2 data-i18n="categories.system.title">System Tools</h2>
+                <p data-i18n="categories.system.description">Unix/Linux system administration utilities including permissions, cron scheduling, disk planning, and log analysis.</p>
+                <div class="tool-list" data-i18n="categories.system.toolList">Chmod Calculator • Cron Builder • DISK Tools • Password Generator • Regex Tester • Log Timestamp Converter</div>
+                <span class="tool-link" data-i18n="categories.system.explore">Explore System Tools</span>
             </a>
 
             <a href="data/index.html" class="tool-card">
-                <h2>Data Tools</h2>
-                <p>Data encoding, hashing, and format conversion utilities for developers and security professionals.</p>
-                <div class="tool-list">Base64 & Hash Tools</div>
-                <span class="tool-link">Explore Data Tools</span>
+                <h2 data-i18n="categories.data.title">Data Tools</h2>
+                <p data-i18n="categories.data.description">Data encoding, hashing, and format conversion utilities for developers and security professionals.</p>
+                <div class="tool-list" data-i18n="categories.data.toolList">Base64 & Hash Tools</div>
+                <span class="tool-link" data-i18n="categories.data.explore">Explore Data Tools</span>
             </a>
 
             <a href="financials/index.html" class="tool-card">
-                <h2>Financial Tools</h2>
-                <p>Loan and mortgage calculators for financial planning, payment schedules, and interest analysis.</p>
-                <div class="tool-list">Amortization Calculator</div>
-                <span class="tool-link">Explore Financial Tools</span>
+                <h2 data-i18n="categories.financials.title">Financial Tools</h2>
+                <p data-i18n="categories.financials.description">Loan and mortgage calculators for financial planning, payment schedules, and interest analysis.</p>
+                <div class="tool-list" data-i18n="categories.financials.toolList">Amortization Calculator</div>
+                <span class="tool-link" data-i18n="categories.financials.explore">Explore Financial Tools</span>
             </a>
 
             <a href="productivity/index.html" class="tool-card">
-                <h2>Productivity Tools</h2>
-                <p>Time management and focus utilities to help you stay productive and organized.</p>
-                <div class="tool-list">Pomodoro Timer</div>
-                <span class="tool-link">Explore Productivity Tools</span>
+                <h2 data-i18n="categories.productivity.title">Productivity Tools</h2>
+                <p data-i18n="categories.productivity.description">Time management and focus utilities to help you stay productive and organized.</p>
+                <div class="tool-list" data-i18n="categories.productivity.toolList">Pomodoro Timer</div>
+                <span class="tool-link" data-i18n="categories.productivity.explore">Explore Productivity Tools</span>
             </a>
         </div>
 
-        <footer role="contentinfo">
+        <footer role="contentinfo" data-i18n="home.footer">
             OldWeb Tools - Works offline, no installation required
         </footer>
     </main>
@@ -614,24 +616,25 @@
          hidden>
         <div class="modal-content">
             <div class="modal-header">
-                <h3 id="modal-title">Customize Quick Access</h3>
+                <h3 id="modal-title" data-i18n="home.quickAccessModal.title">Customize Quick Access</h3>
                 <button type="button"
                         class="modal-close-btn"
+                        data-i18n-aria-label="common.close"
                         aria-label="Close settings"
                         id="modal-close-btn">&times;</button>
             </div>
             <p id="modal-description" class="modal-description">
-                Select up to 8 tools to appear in your Quick Access section.
+                <span data-i18n="home.quickAccessModal.description">Select up to 8 tools to appear in your Quick Access section.</span>
                 <span id="selection-count" aria-live="polite">0 of 8 selected</span>
             </p>
             <div class="modal-body" id="tool-selection-container">
                 <!-- Generated by JavaScript from toolsData -->
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn secondary" id="clear-quick-access-btn">
+                <button type="button" class="btn secondary" id="clear-quick-access-btn" data-i18n="home.quickAccessModal.clearAll">
                     Clear All
                 </button>
-                <button type="button" class="btn primary" id="save-quick-access-btn">
+                <button type="button" class="btn primary" id="save-quick-access-btn" data-i18n="home.quickAccessModal.saveAndClose">
                     Save & Close
                 </button>
             </div>
@@ -767,7 +770,11 @@
 
             function updateSelectionCount() {
                 if (selectionCount) {
-                    selectionCount.textContent = `${selectedTools.length} of ${MAX_TOOLS} selected`;
+                    if (typeof I18nUtils !== 'undefined' && I18nUtils.isReady()) {
+                        selectionCount.textContent = I18nUtils.t('home.quickAccessModal.selectionCount', { count: selectedTools.length, max: MAX_TOOLS });
+                    } else {
+                        selectionCount.textContent = `${selectedTools.length} of ${MAX_TOOLS} selected`;
+                    }
                 }
 
                 // Enable/disable unchecked checkboxes based on limit
@@ -825,7 +832,8 @@
                     });
                     updateSelectionCount();
                     if (typeof A11yUtils !== 'undefined') {
-                        A11yUtils.announce('All quick access tools cleared', 'polite');
+                        const msg = typeof I18nUtils !== 'undefined' ? I18nUtils.t('home.quickAccessModal.toolsCleared') : 'All quick access tools cleared';
+                        A11yUtils.announce(msg, 'polite');
                     }
                 });
 
@@ -835,7 +843,8 @@
                     renderQuickAccessButtons();
                     closeModal();
                     if (typeof A11yUtils !== 'undefined') {
-                        A11yUtils.announce('Quick access tools saved', 'polite');
+                        const msg = typeof I18nUtils !== 'undefined' ? I18nUtils.t('home.quickAccessModal.toolsSaved') : 'Quick access tools saved';
+                        A11yUtils.announce(msg, 'polite');
                     }
                 });
             }

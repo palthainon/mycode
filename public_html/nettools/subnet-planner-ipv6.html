@@ -34,6 +34,7 @@
     <link rel="stylesheet" href="../a11y.css">
     <script src="../a11y-utils.js"></script>
     <script src="../storage-utils.js"></script>
+    <script src="../i18n-utils.js"></script>
     <script src="../navigationv2.js"></script>
     <style>
         * {
@@ -836,7 +837,7 @@
     </script>
 </head>
 <body>
-    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <a href="#main-content" class="skip-link" data-i18n="common.skipToContent">Skip to main content</a>
 
     <div class="ascii-logo" aria-hidden="true">  ___  _     _  __        __   _
  / _ \| | __| | \ \      / /__| |__
@@ -846,7 +847,7 @@
 </div>
 
     <main id="main-content" class="container">
-        <h1>IPv6 Subnet Planner</h1>
+        <h1 data-i18n="tools.subnetPlannerIPv6.title">IPv6 Subnet Planner</h1>
         <div class="protocol-toggle-container">
             <a href="subnet-planner.html" class="protocol-toggle-link protocol-toggle-ipv4">← Switch to IPv4</a>
         </div>
@@ -1112,7 +1113,7 @@
         </div>
 
         <footer role="contentinfo">
-            IPv6 Subnet Planner - Works offline, no installation required
+            <span data-i18n="tools.subnetPlannerIPv6.title">IPv6 Subnet Planner</span> - <span data-i18n="common.worksOffline">Works offline, no installation required</span>
         </footer>
     </main>
 

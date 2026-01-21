@@ -1,0 +1,337 @@
+{
+  "_meta": {
+    "language": "en",
+    "nativeName": "English",
+    "direction": "ltr"
+  },
+  "common": {
+    "calculate": "Calculate",
+    "clear": "Clear",
+    "copy": "Copy",
+    "copyAll": "Copy All",
+    "copied": "Copied!",
+    "copiedToClipboard": "Copied to clipboard",
+    "clearSavedData": "Clear Saved Data",
+    "allDataCleared": "All saved data has been cleared",
+    "error": "Error",
+    "required": "This field is required",
+    "generate": "Generate",
+    "export": "Export",
+    "exportCSV": "Export CSV",
+    "exportToCSV": "Export to CSV",
+    "download": "Download",
+    "reset": "Reset",
+    "save": "Save",
+    "cancel": "Cancel",
+    "close": "Close",
+    "loading": "Loading...",
+    "noResults": "No results",
+    "searchPlaceholder": "Search...",
+    "openCalculator": "Open Calculator",
+    "openPlanner": "Open Planner",
+    "openConverter": "Open Converter",
+    "openBuilder": "Open Builder",
+    "openTool": "Open Tool",
+    "skipToContent": "Skip to main content",
+    "worksOffline": "Works offline, no installation required",
+    "settings": "Settings",
+    "customize": "Customize"
+  },
+  "nav": {
+    "home": "Home",
+    "network": "Network",
+    "system": "System",
+    "data": "Data",
+    "financials": "Financials",
+    "productivity": "Productivity",
+    "selectLanguage": "Select Language",
+    "languageChanged": "Language changed to {{language}}"
+  },
+  "home": {
+    "title": "OldWeb Tools",
+    "subtitle": "Fast, simple, offline-ready utilities for network engineers and system administrators",
+    "quickAccess": "Quick Access",
+    "customizeQuickAccess": "Customize quick access tools",
+    "quickAccessModal": {
+      "title": "Customize Quick Access",
+      "description": "Select up to 8 tools to appear in your Quick Access section.",
+      "selectionCount": "{{count}} of {{max}} selected",
+      "clearAll": "Clear All",
+      "saveAndClose": "Save & Close",
+      "toolsCleared": "All quick access tools cleared",
+      "toolsSaved": "Quick access tools saved"
+    },
+    "footer": "OldWeb Tools - Works offline, no installation required"
+  },
+  "categories": {
+    "network": {
+      "title": "Network Tools",
+      "subtitle": "Fast, reliable networking utilities for planning, calculation, and troubleshooting",
+      "description": "IP and subnet calculators, CIDR converters, and network planning utilities for network engineers.",
+      "toolList": "Subnet Calculator • IPv6 Subnet Calculator • Subnet Planner • CIDR Converter • Bit Calculator • Data Transfer Calculator",
+      "explore": "Explore Network Tools"
+    },
+    "system": {
+      "title": "System Tools",
+      "subtitle": "Unix/Linux system administration utilities",
+      "description": "Unix/Linux system administration utilities including permissions, cron scheduling, disk planning, and log analysis.",
+      "toolList": "Chmod Calculator • Cron Builder • DISK Tools • Password Generator • Regex Tester • Log Timestamp Converter",
+      "explore": "Explore System Tools"
+    },
+    "data": {
+      "title": "Data Tools",
+      "subtitle": "Data encoding and format conversion utilities",
+      "description": "Data encoding, hashing, and format conversion utilities for developers and security professionals.",
+      "toolList": "Base64 & Hash Tools",
+      "explore": "Explore Data Tools"
+    },
+    "financials": {
+      "title": "Financial Tools",
+      "subtitle": "Financial calculators and planning tools",
+      "description": "Loan and mortgage calculators for financial planning, payment schedules, and interest analysis.",
+      "toolList": "Amortization Calculator",
+      "explore": "Explore Financial Tools"
+    },
+    "productivity": {
+      "title": "Productivity Tools",
+      "subtitle": "Time management and focus utilities",
+      "description": "Time management and focus utilities to help you stay productive and organized.",
+      "toolList": "Pomodoro Timer",
+      "explore": "Explore Productivity Tools"
+    }
+  },
+  "tools": {
+    "subnetCalculator": {
+      "title": "IPv4 Subnet Calculator",
+      "name": "Subnet Calculator",
+      "description": "Calculate IPv4 network addresses, broadcast addresses, host ranges, and subnet details from IP/CIDR notation. Includes binary representation and subnet list visualization.",
+      "ipAddress": "IP Address",
+      "ipAddressPlaceholder": "192.168.1.100",
+      "ipAddressHelp": "Enter an IPv4 address in dotted decimal notation",
+      "cidr": "CIDR / Prefix Length",
+      "cidrHelp": "Select the CIDR prefix length or subnet mask for your network",
+      "calculateSubnet": "Calculate Subnet",
+      "quickMasks": "Quick Select Common Masks:",
+      "classA": "Class A",
+      "classB": "Class B",
+      "classC": "Class C",
+      "subnetDetails": "Subnet Details",
+      "networkAddress": "Network Address",
+      "broadcastAddress": "Broadcast Address",
+      "firstHost": "First Usable Host",
+      "lastHost": "Last Usable Host",
+      "subnetMask": "Subnet Mask",
+      "wildcardMask": "Wildcard Mask",
+      "cidrNotation": "CIDR Notation",
+      "totalHosts": "Total Hosts",
+      "usableHosts": "Usable Hosts",
+      "ipClass": "IP Class",
+      "binaryRepresentation": "Binary Representation",
+      "binaryIP": "IP Address:",
+      "binaryMask": "Subnet Mask:",
+      "binaryNetwork": "Network:",
+      "allSubnets": "All Subnets in Network",
+      "subnetListInfo": "Showing {{shown}} of {{total}} possible /{{cidr}} subnets within {{network}}",
+      "current": "Current",
+      "hostRange": "Host Range",
+      "broadcast": "Broadcast",
+      "invalidIP": "Please enter a valid IPv4 address (e.g., 192.168.1.100)",
+      "resultsAnnounce": "Subnet calculation complete. Network address is {{network}} slash {{cidr}}. {{hosts}} usable hosts.",
+      "switchToIPv6": "Switch to IPv6 →",
+      "footer": "Subnet Calculator - Works offline, no installation required"
+    },
+    "subnetCalculatorIPv6": {
+      "title": "IPv6 Subnet Calculator",
+      "name": "IPv6 Subnet Calculator",
+      "description": "Calculate IPv6 network addresses, prefix information, and address ranges. Full support for IPv6 CIDR notation and address compression.",
+      "switchToIPv4": "← Switch to IPv4"
+    },
+    "subnetPlanner": {
+      "title": "Subnet Planner",
+      "name": "Subnet Planner",
+      "description": "Plan and visualize subnetting schemes for IPv4 networks. Design hierarchical subnets, calculate required subnet sizes, and generate subnet lists with detailed information."
+    },
+    "subnetPlannerIPv6": {
+      "title": "IPv6 Subnet Planner",
+      "name": "IPv6 Subnet Planner",
+      "description": "Plan and visualize IPv6 subnet allocations with support for massive address spaces. Design hierarchical /64 subnets, assign VLANs, and export plans to CSV or JSON."
+    },
+    "cidrConverter": {
+      "title": "CIDR Notation Converter",
+      "name": "CIDR Convert",
+      "description": "Convert CIDR notation to IP ranges, detect overlaps between multiple networks, and convert IP ranges back to CIDR notation. Supports standard CIDR, subnet mask, and Cisco wildcard formats."
+    },
+    "bitCalculator": {
+      "title": "Bit Calculator",
+      "name": "Bit Calc",
+      "description": "Convert between bits, bytes, and larger units (KB, MB, GB, TB, etc.) with support for both legacy and IEEE notation. Perfect for network bandwidth and storage calculations."
+    },
+    "dataRateCalculator": {
+      "title": "Data Transfer Calculator",
+      "name": "Data-Rate Calc",
+      "description": "Calculate how long it takes to transfer data based on file size and transfer rate. Supports various units and displays results in seconds, minutes, hours, days, and weeks."
+    },
+    "mtuCalculator": {
+      "title": "MTU Calculator",
+      "name": "MTU Calc",
+      "description": "Calculate Maximum Transmission Unit (MTU) and Maximum Segment Size (MSS) with protocol overhead analysis."
+    },
+    "jinjaBuilder": {
+      "title": "Jinja Template Builder",
+      "name": "Jinja Builder",
+      "description": "Build and test Jinja2 templates with syntax highlighting. Pre-built templates for network configs, Ansible playbooks, Docker Compose, and system configurations with live preview."
+    },
+    "regexTester": {
+      "title": "Regex Tester",
+      "name": "Regex",
+      "description": "Test and debug regular expressions with real-time matching, syntax highlighting, and match information."
+    },
+    "timestampConverter": {
+      "title": "Timestamp Converter",
+      "name": "Timestamp Convert",
+      "description": "Convert between Unix timestamps, ISO 8601, and human-readable date formats. Supports multiple timezones."
+    },
+    "diskTools": {
+      "title": "Disk Tools",
+      "name": "Disk Tools",
+      "description": "RAID calculator, disk space estimator, and storage planning utilities."
+    },
+    "passwordGenerator": {
+      "title": "Password Generator",
+      "name": "Password Gen",
+      "description": "Generate secure random passwords with customizable length and character sets. Strong password generation for system administrators.",
+      "passwordLength": "Password Length",
+      "passwordLengthHelp": "Adjust password length from 4 to 128 characters",
+      "quickPresets": "Quick Presets (Password Policies)",
+      "activeDirectory": "Active Directory",
+      "linuxPAM": "Linux (PAM)",
+      "strongMixed": "Strong (20+ mixed)",
+      "pinNumbers": "PIN (numbers only)",
+      "hexKey": "Hex Key",
+      "characterTypes": "Character Types",
+      "uppercase": "Uppercase (A-Z)",
+      "lowercase": "Lowercase (a-z)",
+      "numbers": "Numbers (0-9)",
+      "symbols": "Symbols (!@#$...)",
+      "excludeCharacters": "Exclude Characters",
+      "excludePlaceholder": "e.g., 0O1lI",
+      "excludeHelp": "Enter characters to exclude from password generation",
+      "numberOfPasswords": "Number of Passwords",
+      "generatedPasswords": "Generated Passwords",
+      "securityNote": "Passwords are generated entirely in your browser using the Web Crypto API. Nothing is sent to any server.",
+      "generated": "Generated {{count}} passwords",
+      "copiedPassword": "Copied password to clipboard",
+      "copiedAll": "Copied all {{count}} passwords to clipboard",
+      "exported": "Exported {{count}} passwords to CSV file",
+      "noCharTypes": "Please select at least one character type",
+      "policyApplied": "Applied {{policy}} password policy",
+      "footer": "Password Generator - Works offline, no installation required"
+    },
+    "passphraseGenerator": {
+      "title": "Passphrase Generator",
+      "name": "Passphrase Generator",
+      "description": "Generate secure XKCD-style passphrases using random dictionary words."
+    },
+    "certificateParser": {
+      "title": "Certificate Parser",
+      "name": "Certificate Parse",
+      "description": "Parse and analyze X.509 certificates, display certificate details, and verify certificate chains."
+    },
+    "cronBuilder": {
+      "title": "Cron Expression Builder",
+      "name": "Cron",
+      "description": "Build and validate cron expressions with a visual editor. Preview scheduled execution times."
+    },
+    "chmodCalculator": {
+      "title": "Chmod Calculator",
+      "name": "Chmod",
+      "description": "Convert between symbolic and octal Unix file permissions. Visualize permission settings."
+    },
+    "base64Hash": {
+      "title": "Base64 & Hash Tools",
+      "name": "Base64/Hash",
+      "description": "Encode/decode Base64 and generate cryptographic hashes (MD5, SHA-1, SHA-256, SHA-512)."
+    },
+    "stringTools": {
+      "title": "String Tools",
+      "name": "String Tools",
+      "description": "Case conversion, character counting, and text manipulation utilities."
+    },
+    "textDiff": {
+      "title": "Text Diff",
+      "name": "Text Diff(Compare)",
+      "description": "Compare two text inputs and highlight differences with side-by-side or inline views."
+    },
+    "uuidGenerator": {
+      "title": "UUID Generator",
+      "name": "UUID Gen",
+      "description": "Generate random UUIDs (v4) and validate UUID format."
+    },
+    "measurementConverter": {
+      "title": "Measurement Converter",
+      "name": "Measurement Convert",
+      "description": "Convert between length, weight, volume, and temperature units."
+    },
+    "amortizationCalculator": {
+      "title": "Amortization Calculator",
+      "name": "Amortization",
+      "description": "Calculate loan payments, view amortization schedules, and analyze interest vs principal over time."
+    },
+    "compoundInterestCalculator": {
+      "title": "Compound Interest Calculator",
+      "name": "Compound Interest",
+      "description": "Calculate compound interest growth over time with regular contributions."
+    },
+    "debtPayoffComparison": {
+      "title": "Debt Payoff Comparison",
+      "name": "Debt Payoff",
+      "description": "Compare debt payoff strategies: avalanche vs snowball methods."
+    },
+    "retirementCalculator": {
+      "title": "Retirement Calculator",
+      "name": "Retirement",
+      "description": "Plan retirement savings with contribution and withdrawal projections."
+    },
+    "loanPayoffMethods": {
+      "title": "Loan Payoff Methods",
+      "name": "Loan Payoff Methods",
+      "description": "Compare different loan payoff strategies and see potential savings."
+    },
+    "loanReference": {
+      "title": "Loan Reference",
+      "name": "Loan Reference",
+      "description": "Reference guide for loan types, terms, and calculations."
+    },
+    "pomodoroTimer": {
+      "title": "Pomodoro Timer",
+      "name": "Pomodoro Timer",
+      "description": "Focus timer using the Pomodoro Technique with customizable work and break intervals."
+    }
+  },
+  "validation": {
+    "required": "This field is required",
+    "invalidIP": "Please enter a valid IP address",
+    "invalidNumber": "Please enter a valid number",
+    "minValue": "Value must be at least {{min}}",
+    "maxValue": "Value must be at most {{max}}",
+    "invalidFormat": "Invalid format"
+  },
+  "strength": {
+    "weak": "Weak",
+    "medium": "Medium",
+    "strong": "Strong",
+    "veryStrong": "Very Strong"
+  },
+  "accessibility": {
+    "skipLink": "Skip to main content",
+    "mainNavigation": "Main navigation",
+    "closeMenu": "Close menu",
+    "openMenu": "Open menu",
+    "expandDropdown": "Expand dropdown",
+    "collapseDropdown": "Collapse dropdown",
+    "currentPage": "Current page",
+    "languageSelector": "Language selector",
+    "resultsRegion": "Results",
+    "formRegion": "Form"
+  }
+}

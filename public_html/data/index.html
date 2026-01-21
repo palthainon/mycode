@@ -38,6 +38,9 @@
     <link rel="stylesheet" href="../a11y.css">
     <script src="../a11y-utils.js"></script>
 
+    <!-- Utilities -->
+    <script src="../storage-utils.js"></script>
+    <script src="../i18n-utils.js"></script>
     <script src="../navigationv2.js"></script>
     <style>
         * {
@@ -200,7 +203,7 @@
     </script>
 </head>
 <body>
-    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <a href="#main-content" class="skip-link" data-i18n="common.skipToContent">Skip to main content</a>
     <div class="ascii-logo" aria-hidden="true">  ___  _    _  __        __   _
  / _ \| | _| | \ \      / /__| |__
 | | | | |/ _` | \ \ /\ / / _ \ '_ \
@@ -208,42 +211,42 @@
  \___/|_|\__,_|   \_/\_/ \___|_.__/
 </div>
     <main id="main-content" class="container">
-        <h1>Data Tools</h1>
-        <p class="subtitle">Encoding, hashing, and data format conversion utilities</p>
+        <h1 data-i18n="categories.data.title">Data Tools</h1>
+        <p class="subtitle" data-i18n="categories.data.subtitle">Encoding, hashing, and data format conversion utilities</p>
 
         <div class="tools-grid">
             <a href="base64-hash.html" class="tool-card">
-                <h2>Base64 & Hash Tools</h2>
-                <p>Encode/decode Base64, generate hashes (MD5, SHA-1, SHA-256, SHA-512), URL encode/decode, and hex conversion. Essential encoding utilities for API testing, certificates, and passwords.</p>
-                <span class="tool-link">Open Tools</span>
+                <h2 data-i18n="tools.base64Hash.title">Base64 & Hash Tools</h2>
+                <p data-i18n="tools.base64Hash.description">Encode/decode Base64, generate hashes (MD5, SHA-1, SHA-256, SHA-512), URL encode/decode, and hex conversion. Essential encoding utilities for API testing, certificates, and passwords.</p>
+                <span class="tool-link" data-i18n="common.openTool">Open Tools</span>
             </a>
 
             <a href="string-tools.html" class="tool-card">
-                <h2>String Manipulation Toolkit</h2>
-                <p>Case conversion (UPPER, lower, Title, camelCase, snake_case, kebab-case), line operations (trim, sort, reverse), duplicate removal, and escape/unescape for HTML, JSON, SQL, and more.</p>
-                <span class="tool-link">Open Tools</span>
+                <h2 data-i18n="tools.stringTools.title">String Manipulation Toolkit</h2>
+                <p data-i18n="tools.stringTools.description">Case conversion (UPPER, lower, Title, camelCase, snake_case, kebab-case), line operations (trim, sort, reverse), duplicate removal, and escape/unescape for HTML, JSON, SQL, and more.</p>
+                <span class="tool-link" data-i18n="common.openTool">Open Tools</span>
             </a>
 
             <a href="text-diff.html" class="tool-card">
-                <h2>Text Diff Tool</h2>
-                <p>Compare text files and find differences with side-by-side visualization. Line-by-line comparison with syntax highlighting for added, removed, and modified lines. Perfect for config file comparisons and code reviews.</p>
-                <span class="tool-link">Open Tool</span>
+                <h2 data-i18n="tools.textDiff.title">Text Diff Tool</h2>
+                <p data-i18n="tools.textDiff.description">Compare text files and find differences with side-by-side visualization. Line-by-line comparison with syntax highlighting for added, removed, and modified lines. Perfect for config file comparisons and code reviews.</p>
+                <span class="tool-link" data-i18n="common.openTool">Open Tool</span>
             </a>
 
             <a href="uuid-generator.html" class="tool-card">
-                <h2>UUID/GUID Generator</h2>
-                <p>Generate, validate, and convert UUIDs/GUIDs. Supports UUID v1 (timestamp), v4 (random), and v5 (name-based) with batch generation, validation, and multiple output formats. Includes conversion to various formats and detailed UUID analysis.</p>
-                <span class="tool-link">Open Tool</span>
+                <h2 data-i18n="tools.uuidGenerator.title">UUID/GUID Generator</h2>
+                <p data-i18n="tools.uuidGenerator.description">Generate, validate, and convert UUIDs/GUIDs. Supports UUID v1 (timestamp), v4 (random), and v5 (name-based) with batch generation, validation, and multiple output formats. Includes conversion to various formats and detailed UUID analysis.</p>
+                <span class="tool-link" data-i18n="common.openTool">Open Tool</span>
             </a>
 
             <a href="measurement-converter.html" class="tool-card">
-                <h2>Measurement Converter</h2>
-                <p>Comprehensive unit converter for length, weight, volume, area, cooking measurements, temperature (C/F/K), SI prefixes, scientific notation, significant figures, pressure, energy, and trigonometry. Includes unit circle reference and live trig calculator.</p>
-                <span class="tool-link">Open Tool</span>
+                <h2 data-i18n="tools.measurementConverter.title">Measurement Converter</h2>
+                <p data-i18n="tools.measurementConverter.description">Comprehensive unit converter for length, weight, volume, area, cooking measurements, temperature (C/F/K), SI prefixes, scientific notation, significant figures, pressure, energy, and trigonometry. Includes unit circle reference and live trig calculator.</p>
+                <span class="tool-link" data-i18n="common.openTool">Open Tool</span>
             </a>
         </div>
 
-        <footer role="contentinfo">
+        <footer role="contentinfo" data-i18n="common.worksOffline">
             Data Tools - Works offline, no installation required
         </footer>
     </main>

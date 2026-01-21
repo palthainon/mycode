@@ -38,6 +38,9 @@
     <link rel="stylesheet" href="../a11y.css">
     <script src="../a11y-utils.js"></script>
 
+    <!-- Utilities -->
+    <script src="../storage-utils.js"></script>
+    <script src="../i18n-utils.js"></script>
     <script src="../navigationv2.js"></script>
     <style>
         * {
@@ -200,7 +203,7 @@
     </script>
 </head>
 <body>
-    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <a href="#main-content" class="skip-link" data-i18n="common.skipToContent">Skip to main content</a>
     <div class="ascii-logo" aria-hidden="true">  ___  _    _  __        __   _
  / _ \| | _| | \ \      / /__| |__
 | | | | |/ _` | \ \ /\ / / _ \ '_ \
@@ -208,54 +211,54 @@
  \___/|_|\__,_|   \_/\_/ \___|_.__/
 </div>
     <main id="main-content" class="container">
-        <h1>System Tools</h1>
-        <p class="subtitle">Essential utilities for Unix/Linux system administration and DevOps</p>
+        <h1 data-i18n="categories.system.title">System Tools</h1>
+        <p class="subtitle" data-i18n="categories.system.subtitle">Essential utilities for Unix/Linux system administration and DevOps</p>
 
         <div class="tools-grid">
             <a href="chmod-calculator.html" class="tool-card">
-                <h2>Chmod Calculator</h2>
-                <p>Visual permission calculator with checkboxes for owner/group/other. Bidirectional conversion between octal (755) and symbolic (-rwxr-xr-x) notation. Includes umask calculator and special permission bits.</p>
-                <span class="tool-link">Open Calculator</span>
+                <h2 data-i18n="tools.chmodCalculator.title">Chmod Calculator</h2>
+                <p data-i18n="tools.chmodCalculator.description">Visual permission calculator with checkboxes for owner/group/other. Bidirectional conversion between octal (755) and symbolic (-rwxr-xr-x) notation. Includes umask calculator and special permission bits.</p>
+                <span class="tool-link" data-i18n="common.openCalculator">Open Calculator</span>
             </a>
 
             <a href="cron-builder.html" class="tool-card">
-                <h2>Cron Builder</h2>
-                <p>Build cron expressions visually or parse existing ones. Human-readable explanations, next 10 execution times, and common preset library. Essential for scheduling tasks on Linux systems.</p>
-                <span class="tool-link">Open Builder</span>
+                <h2 data-i18n="tools.cronBuilder.title">Cron Builder</h2>
+                <p data-i18n="tools.cronBuilder.description">Build cron expressions visually or parse existing ones. Human-readable explanations, next 10 execution times, and common preset library. Essential for scheduling tasks on Linux systems.</p>
+                <span class="tool-link" data-i18n="common.openBuilder">Open Builder</span>
             </a>
 
             <a href="disk-tools.html" class="tool-card">
-                <h2>DISK Tools</h2>
-                <p>Comprehensive storage and RAID calculator. Calculate RAID capacity and rebuild times, convert disk space units, analyze disk usage percentages, and estimate IOPS performance for various disk types and RAID configurations.</p>
-                <span class="tool-link">Open Tools</span>
+                <h2 data-i18n="tools.diskTools.title">DISK Tools</h2>
+                <p data-i18n="tools.diskTools.description">Comprehensive storage and RAID calculator. Calculate RAID capacity and rebuild times, convert disk space units, analyze disk usage percentages, and estimate IOPS performance for various disk types and RAID configurations.</p>
+                <span class="tool-link" data-i18n="common.openTool">Open Tools</span>
             </a>
 
             <a href="password-generator.html" class="tool-card">
-                <h2>Password Generator</h2>
-                <p>Generate secure random passwords with configurable length and complexity. Supports multiple policies (Active Directory, Linux PAM, custom), XKCD-style passphrases, and batch generation. Uses Web Crypto API for secure randomness.</p>
-                <span class="tool-link">Open Generator</span>
+                <h2 data-i18n="tools.passwordGenerator.title">Password Generator</h2>
+                <p data-i18n="tools.passwordGenerator.description">Generate secure random passwords with configurable length and complexity. Supports multiple policies (Active Directory, Linux PAM, custom), XKCD-style passphrases, and batch generation. Uses Web Crypto API for secure randomness.</p>
+                <span class="tool-link" data-i18n="common.openTool">Open Generator</span>
             </a>
 
             <a href="regex-tester.html" class="tool-card">
-                <h2>Regex Tester</h2>
-                <p>Test regular expressions against multi-line text with real-time matching. Includes common network patterns for MAC addresses, IPs, VLANs, and interface names. View matches with highlighting or in list format.</p>
-                <span class="tool-link">Open Tester</span>
+                <h2 data-i18n="tools.regexTester.title">Regex Tester</h2>
+                <p data-i18n="tools.regexTester.description">Test regular expressions against multi-line text with real-time matching. Includes common network patterns for MAC addresses, IPs, VLANs, and interface names. View matches with highlighting or in list format.</p>
+                <span class="tool-link" data-i18n="common.openTool">Open Tester</span>
             </a>
 
             <a href="timestamp-converter.html" class="tool-card">
-                <h2>Log Timestamp Converter</h2>
-                <p>Parse and convert log timestamps in batch mode. Auto-detects ISO8601, RFC3339, syslog, Windows Event Log, Apache/Nginx, and Unix formats. Convert to multiple timezones with CSV export.</p>
-                <span class="tool-link">Open Converter</span>
+                <h2 data-i18n="tools.timestampConverter.title">Log Timestamp Converter</h2>
+                <p data-i18n="tools.timestampConverter.description">Parse and convert log timestamps in batch mode. Auto-detects ISO8601, RFC3339, syslog, Windows Event Log, Apache/Nginx, and Unix formats. Convert to multiple timezones with CSV export.</p>
+                <span class="tool-link" data-i18n="common.openConverter">Open Converter</span>
             </a>
 
             <a href="certificate-parser.html" class="tool-card">
-                <h2>Certificate Parser</h2>
-                <p>Parse and decode PEM certificates to view expiry dates, subject, issuer, and Subject Alternative Names (SANs). Parse existing CSRs or generate new Certificate Signing Requests with custom SANs.</p>
-                <span class="tool-link">Open Parser</span>
+                <h2 data-i18n="tools.certificateParser.title">Certificate Parser</h2>
+                <p data-i18n="tools.certificateParser.description">Parse and decode PEM certificates to view expiry dates, subject, issuer, and Subject Alternative Names (SANs). Parse existing CSRs or generate new Certificate Signing Requests with custom SANs.</p>
+                <span class="tool-link" data-i18n="common.openTool">Open Parser</span>
             </a>
         </div>
 
-        <footer role="contentinfo">
+        <footer role="contentinfo" data-i18n="common.worksOffline">
             System Tools - Works offline, no installation required
         </footer>
     </main>

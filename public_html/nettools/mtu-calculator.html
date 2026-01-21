@@ -35,6 +35,8 @@
     <title>MTU Calculator - OldWeb.tech</title>
     <link rel="stylesheet" href="../a11y.css">
     <script src="../a11y-utils.js"></script>
+    <script src="../storage-utils.js"></script>
+    <script src="../i18n-utils.js"></script>
     <script src="../navigationv2.js"></script>
     <style>
         * {
@@ -692,7 +694,7 @@
     </script>
 </head>
 <body>
-    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <a href="#main-content" class="skip-link" data-i18n="common.skipToContent">Skip to main content</a>
     <div class="ascii-logo" aria-hidden="true">  ___  _     _  __        __   _
  / _ \| | __| | \ \      / /__| |__
 | | | | |/ _` |  \ \ /\ / / _ \ '_ \
@@ -701,7 +703,7 @@
 </div>
 
     <main id="main-content" class="container">
-        <h1>MTU Calculator</h1>
+        <h1 data-i18n="tools.mtuCalculator.title">MTU Calculator</h1>
         <p class="subtitle">Calculate Maximum Transmission Unit with protocol overhead analysis</p>
 
         <div class="mode-toggle" role="group" aria-label="Calculator mode selection">
@@ -1114,7 +1116,7 @@
         </div>
 
         <footer role="contentinfo">
-            MTU Calculator - Works offline, no installation required
+            <span data-i18n="tools.mtuCalculator.title">MTU Calculator</span> - <span data-i18n="common.worksOffline">Works offline, no installation required</span>
         </footer>
     </main>
 

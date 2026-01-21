@@ -36,6 +36,9 @@
     <link rel="stylesheet" href="../a11y.css">
     <script src="../a11y-utils.js"></script>
 
+    <!-- Utilities -->
+    <script src="../storage-utils.js"></script>
+    <script src="../i18n-utils.js"></script>
     <script src="../navigationv2.js"></script>
     <style>
         * {
@@ -198,7 +201,7 @@
     </script>
 </head>
 <body>
-    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <a href="#main-content" class="skip-link" data-i18n="common.skipToContent">Skip to main content</a>
     <div class="ascii-logo" aria-hidden="true">  ___  _    _  __        __   _
  / _ \| | _| | \ \      / /__| |__
 | | | | |/ _` | \ \ /\ / / _ \ '_ \
@@ -206,18 +209,18 @@
  \___/|_|\__,_|   \_/\_/ \___|_.__/
 </div>
     <main id="main-content" class="container">
-        <h1>Productivity Tools</h1>
-        <p class="subtitle">Simple, effective tools for time management and focused work</p>
+        <h1 data-i18n="categories.productivity.title">Productivity Tools</h1>
+        <p class="subtitle" data-i18n="categories.productivity.subtitle">Simple, effective tools for time management and focused work</p>
 
         <div class="tools-grid">
             <a href="pomodoro.html" class="tool-card">
-                <h2>Pomodoro Timer</h2>
-                <p>A customizable Pomodoro timer with circular countdown display, browser notifications, and audio alerts. Track your focus sessions with built-in history and statistics. Supports work sessions, short breaks, and long breaks.</p>
-                <span class="tool-link">Open Timer</span>
+                <h2 data-i18n="tools.pomodoroTimer.title">Pomodoro Timer</h2>
+                <p data-i18n="tools.pomodoroTimer.description">A customizable Pomodoro timer with circular countdown display, browser notifications, and audio alerts. Track your focus sessions with built-in history and statistics. Supports work sessions, short breaks, and long breaks.</p>
+                <span class="tool-link" data-i18n="common.openTool">Open Timer</span>
             </a>
         </div>
 
-        <footer role="contentinfo">
+        <footer role="contentinfo" data-i18n="common.worksOffline">
             OldWeb Tools - Works offline, no installation required
         </footer>
     </main>
