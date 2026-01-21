@@ -612,29 +612,29 @@
                     <label for="templateSelect" data-i18n="tools.jinjaBuilder.labels.template">Load Template</label>
                     <select id="templateSelect" aria-describedby="template-help" aria-required="false">
                         <option value="">-- Select a template --</option>
-                        <optgroup label="Network Configurations">
-                            <option value="cisco-interface">Cisco Interface Config</option>
-                            <option value="cisco-acl">Cisco ACL</option>
-                            <option value="vlan-config">VLAN Configuration</option>
-                            <option value="bgp-neighbor">BGP Neighbor</option>
-                            <option value="firewall-rules">Firewall Rules</option>
+                        <optgroup label="Network Configurations" data-i18n="tools.jinjaBuilder.optgroups.networkConfigurations">
+                            <option value="cisco-interface" data-i18n="tools.jinjaBuilder.templates.ciscoInterface">Cisco Interface Config</option>
+                            <option value="cisco-acl" data-i18n="tools.jinjaBuilder.templates.ciscoAcl">Cisco ACL</option>
+                            <option value="vlan-config" data-i18n="tools.jinjaBuilder.templates.vlanConfig">VLAN Configuration</option>
+                            <option value="bgp-neighbor" data-i18n="tools.jinjaBuilder.templates.bgpNeighbor">BGP Neighbor</option>
+                            <option value="firewall-rules" data-i18n="tools.jinjaBuilder.templates.firewallRules">Firewall Rules</option>
                         </optgroup>
-                        <optgroup label="Server Configurations">
-                            <option value="nginx-vhost">Nginx Virtual Host</option>
-                            <option value="apache-vhost">Apache Virtual Host</option>
-                            <option value="dns-zone">DNS Zone File</option>
-                            <option value="hosts-file">Hosts File</option>
+                        <optgroup label="Server Configurations" data-i18n="tools.jinjaBuilder.optgroups.serverConfigurations">
+                            <option value="nginx-vhost" data-i18n="tools.jinjaBuilder.templates.nginxVhost">Nginx Virtual Host</option>
+                            <option value="apache-vhost" data-i18n="tools.jinjaBuilder.templates.apacheVhost">Apache Virtual Host</option>
+                            <option value="dns-zone" data-i18n="tools.jinjaBuilder.templates.dnsZone">DNS Zone File</option>
+                            <option value="hosts-file" data-i18n="tools.jinjaBuilder.templates.hostsFile">Hosts File</option>
                         </optgroup>
-                        <optgroup label="Automation">
-                            <option value="ansible-playbook">Ansible Playbook</option>
-                            <option value="ansible-vars">Ansible Variables</option>
-                            <option value="docker-compose">Docker Compose</option>
+                        <optgroup label="Automation" data-i18n="tools.jinjaBuilder.optgroups.automation">
+                            <option value="ansible-playbook" data-i18n="tools.jinjaBuilder.templates.ansiblePlaybook">Ansible Playbook</option>
+                            <option value="ansible-vars" data-i18n="tools.jinjaBuilder.templates.ansibleVariables">Ansible Variables</option>
+                            <option value="docker-compose" data-i18n="tools.jinjaBuilder.templates.dockerCompose">Docker Compose</option>
                         </optgroup>
-                        <optgroup label="Basic Examples">
-                            <option value="for-loop">For Loop Example</option>
-                            <option value="conditionals">Conditionals Example</option>
-                            <option value="filters">Filters Example</option>
-                            <option value="inheritance">Template Inheritance</option>
+                        <optgroup label="Basic Examples" data-i18n="tools.jinjaBuilder.optgroups.basicExamples">
+                            <option value="for-loop" data-i18n="tools.jinjaBuilder.templates.forLoopExample">For Loop Example</option>
+                            <option value="conditionals" data-i18n="tools.jinjaBuilder.templates.conditionalsExample">Conditionals Example</option>
+                            <option value="filters" data-i18n="tools.jinjaBuilder.templates.filtersExample">Filters Example</option>
+                            <option value="inheritance" data-i18n="tools.jinjaBuilder.templates.templateInheritance">Template Inheritance</option>
                         </optgroup>
                     </select>
                     <span id="template-help" class="sr-only">Select a pre-built template to load into the editor</span>
@@ -685,6 +685,7 @@ Examples:
 {% endfor %}
 
 {# This is a comment #}"
+                        data-i18n-placeholder="tools.jinjaBuilder.placeholders.template"
                         spellcheck="false"
                         aria-label="Jinja template editor"
                     ></textarea>
@@ -692,7 +693,7 @@ Examples:
             </div>
 
             <div class="quick-ref" role="region" aria-labelledby="quick-ref-heading" aria-describedby="quick-ref-description">
-                <h3 id="quick-ref-heading">Quick Reference</h3>
+                <h3 id="quick-ref-heading" data-i18n="tools.jinjaBuilder.labels.quickReference">Quick Reference</h3>
                 <p id="quick-ref-description" class="sr-only">Common Jinja2 syntax patterns and their usage</p>
                 <div class="ref-grid" role="list">
                     <div class="ref-item" role="listitem">
@@ -732,13 +733,13 @@ Examples:
 
             <!-- Complete Reference Guide with Tabs -->
             <div class="reference-tabs" role="region" aria-labelledby="ref-guide-heading">
-                <h3 id="ref-guide-heading">Complete Reference Guide</h3>
+                <h3 id="ref-guide-heading" data-i18n="tools.jinjaBuilder.labels.completeReferenceGuide">Complete Reference Guide</h3>
                 <div class="tab-nav" role="tablist" aria-label="Reference categories">
-                    <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="tab-basics" id="btn-basics" tabindex="0">Basics</button>
-                    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-control" id="btn-control" tabindex="-1">Control Flow</button>
-                    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-filters" id="btn-filters" tabindex="-1">Filters</button>
-                    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-tests" id="btn-tests" tabindex="-1">Tests</button>
-                    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-advanced" id="btn-advanced" tabindex="-1">Advanced</button>
+                    <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="tab-basics" id="btn-basics" tabindex="0" data-i18n="tools.jinjaBuilder.tabs.basics">Basics</button>
+                    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-control" id="btn-control" tabindex="-1" data-i18n="tools.jinjaBuilder.tabs.controlFlow">Control Flow</button>
+                    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-filters" id="btn-filters" tabindex="-1" data-i18n="tools.jinjaBuilder.tabs.filters">Filters</button>
+                    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-tests" id="btn-tests" tabindex="-1" data-i18n="tools.jinjaBuilder.tabs.tests">Tests</button>
+                    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-advanced" id="btn-advanced" tabindex="-1" data-i18n="tools.jinjaBuilder.tabs.advanced">Advanced</button>
                 </div>
 
                 <!-- Basics Tab -->

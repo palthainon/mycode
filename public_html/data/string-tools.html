@@ -637,14 +637,14 @@ backup retention days</textarea>
                 </form>
 
                 <div class="reference-section">
-                    <div class="reference-header">Quick Reference: Case Conventions</div>
+                    <div class="reference-header" data-i18n="stringToolsRef.caseConventions">Quick Reference: Case Conventions</div>
                     <div class="reference-content">
                             <table class="reference-table" role="table">
                                 <thead>
                                     <tr>
-                                        <th scope="col">Case Style</th>
-                                        <th scope="col">Languages</th>
-                                        <th scope="col">Common Usage</th>
+                                        <th scope="col" data-i18n="reference.caseStyle">Case Style</th>
+                                        <th scope="col" data-i18n="reference.languages">Languages</th>
+                                        <th scope="col" data-i18n="reference.commonUsage">Common Usage</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -676,7 +676,7 @@ backup retention days</textarea>
                                 </tbody>
                             </table>
                         <div class="reference-tip">
-                            <strong>Tip:</strong> Follow your language's conventions (PEP 8 for Python, Airbnb Style Guide for JS). snake_case is generally more readable; camelCase is more compact.
+                            <strong data-i18n="reference.tipLabel">Tip:</strong> <span data-i18n="stringToolsRef.tipCaseConventions">Follow your language's conventions (PEP 8 for Python, Airbnb Style Guide for JS). snake_case is generally more readable; camelCase is more compact.</span>
                         </div>
                     </div>
                 </div>
@@ -748,13 +748,13 @@ backup-nas.internal.local
                 <div id="linesStats" class="stats-box" style="display: none;" role="status" aria-live="polite"></div>
 
                 <div class="reference-section">
-                    <div class="reference-header">Quick Reference: Line Operations</div>
+                    <div class="reference-header" data-i18n="stringToolsRef.lineOperations">Quick Reference: Line Operations</div>
                     <div class="reference-content">
                             <table class="reference-table" role="table">
                                 <thead>
                                     <tr>
-                                        <th scope="col">Operation</th>
-                                        <th scope="col">Common Use Cases</th>
+                                        <th scope="col" data-i18n="reference.operation">Operation</th>
+                                        <th scope="col" data-i18n="reference.commonUseCases">Common Use Cases</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -789,7 +789,7 @@ backup-nas.internal.local
                                 </tbody>
                             </table>
                         <div class="reference-tip">
-                            <strong>Tip:</strong> Numeric sort extracts the leading number from each line, useful for lines like "192.168.1.1 - server1" or "v2.1.0 - release".
+                            <strong data-i18n="reference.tipLabel">Tip:</strong> <span data-i18n="stringToolsRef.tipNumericSort">Numeric sort extracts the leading number from each line, useful for lines like "192.168.1.1 - server1" or "v2.1.0 - release".</span>
                         </div>
                     </div>
                 </div>
@@ -846,13 +846,13 @@ backup-nas.internal.local
                 <div id="dupStats" class="stats-box" style="display: none;" role="status" aria-live="polite"></div>
 
                 <div class="reference-section">
-                    <div class="reference-header">Quick Reference: Duplicate Handling</div>
+                    <div class="reference-header" data-i18n="stringToolsRef.duplicateHandling">Quick Reference: Duplicate Handling</div>
                     <div class="reference-content">
                             <table class="reference-table" role="table">
                                 <thead>
                                     <tr>
-                                        <th scope="col">Option</th>
-                                        <th scope="col">Behavior</th>
+                                        <th scope="col" data-i18n="reference.option">Option</th>
+                                        <th scope="col" data-i18n="reference.behavior">Behavior</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -869,8 +869,8 @@ backup-nas.internal.local
                             <table class="reference-table" role="table" style="margin-top: 12px;">
                                 <thead>
                                     <tr>
-                                        <th scope="col">Operation</th>
-                                        <th scope="col">Use Cases</th>
+                                        <th scope="col" data-i18n="reference.operation">Operation</th>
+                                        <th scope="col" data-i18n="reference.useCase">Use Cases</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -889,7 +889,7 @@ backup-nas.internal.local
                                 </tbody>
                             </table>
                         <div class="reference-tip">
-                            <strong>Tip:</strong> Use "Count Occurrences" on server logs to quickly identify the most frequent IP addresses, error codes, or user agents.
+                            <strong data-i18n="reference.tipLabel">Tip:</strong> <span data-i18n="stringToolsRef.tipCountOccurrences">Use "Count Occurrences" on server logs to quickly identify the most frequent IP addresses, error codes, or user agents.</span>
                         </div>
                     </div>
                 </div>
@@ -941,14 +941,14 @@ Query: name=John Doe&status=active</textarea>
                 </form>
 
                 <div class="reference-section">
-                    <div class="reference-header">Quick Reference: Escape Formats &amp; Security</div>
+                    <div class="reference-header" data-i18n="stringToolsRef.escapeFormats">Quick Reference: Escape Formats &amp; Security</div>
                     <div class="reference-content">
                             <table class="reference-table" role="table">
                                 <thead>
                                     <tr>
-                                        <th scope="col">Format</th>
-                                        <th scope="col">Characters Escaped</th>
-                                        <th scope="col">Use Case</th>
+                                        <th scope="col" data-i18n="reference.format">Format</th>
+                                        <th scope="col" data-i18n="reference.escapes">Characters Escaped</th>
+                                        <th scope="col" data-i18n="reference.useCase">Use Case</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -995,10 +995,10 @@ Query: name=John Doe&status=active</textarea>
                                 </tbody>
                             </table>
                         <div class="reference-warning">
-                            <strong>Security Note (SQL):</strong> Escaping single quotes helps but is <strong>not sufficient</strong> for SQL injection prevention. Always use parameterized queries/prepared statements in production code.
+                            <strong data-i18n="reference.securityNote">Security Note (SQL):</strong> <span data-i18n="stringToolsRef.securityNoteSql">Escaping single quotes helps but is <strong>not sufficient</strong> for SQL injection prevention. Always use parameterized queries/prepared statements in production code.</span>
                         </div>
                         <div class="reference-tip">
-                            <strong>Best Practice:</strong> HTML entity encoding prevents basic XSS but is context-dependent. For full protection, encode on output (not input), use Content Security Policy (CSP), and leverage your framework's built-in protections.
+                            <strong data-i18n="reference.bestPractice">Best Practice:</strong> <span data-i18n="stringToolsRef.bestPracticeHtml">HTML entity encoding prevents basic XSS but is context-dependent. For full protection, encode on output (not input), use Content Security Policy (CSP), and leverage your framework's built-in protections.</span>
                         </div>
                     </div>
                 </div>

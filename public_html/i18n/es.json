@@ -173,6 +173,61 @@
     "right": "Rellenar derecha",
     "both": "Rellenar ambos"
   },
+  "reference": {
+    "quickReference": "Referencia rápida",
+    "caseStyle": "Estilo de caso",
+    "languages": "Lenguajes",
+    "commonUsage": "Uso común",
+    "operation": "Operación",
+    "commonUseCases": "Casos de uso comunes",
+    "option": "Opción",
+    "behavior": "Comportamiento",
+    "format": "Formato",
+    "escapes": "Caracteres escapados",
+    "unescapes": "Desescapa",
+    "useCase": "Caso de uso",
+    "recommended": "Recomendado",
+    "why": "Por qué",
+    "tipLabel": "Consejo:",
+    "securityNote": "Nota de seguridad (SQL):",
+    "bestPractice": "Mejor práctica:"
+  },
+  "stringToolsRef": {
+    "caseConventions": "Referencia rápida: Convenciones de mayúsculas",
+    "lineOperations": "Referencia rápida: Operaciones de líneas",
+    "duplicateHandling": "Referencia rápida: Manejo de duplicados",
+    "escapeFormats": "Referencia rápida: Formatos de escape",
+    "camelCaseDesc": "Variables, funciones, métodos",
+    "pascalCaseDesc": "Clases, interfaces, tipos",
+    "snakeCaseDesc": "Variables, columnas de base de datos",
+    "kebabCaseDesc": "Clases CSS, slugs de URL, flags CLI",
+    "screamingSnakeDesc": "Constantes, variables de entorno",
+    "tipCaseConventions": "Sigue las convenciones de tu lenguaje (PEP 8 para Python, Airbnb Style Guide para JS). snake_case es generalmente más legible; camelCase es más compacto.",
+    "trimLinesUseCase": "Limpiar datos copiados, eliminar espacios en blanco antes de commits",
+    "padLinesUseCase": "Alinear columnas en formatos de ancho fijo, formatear tablas",
+    "sortUseCase": "Organizar imports, archivos hosts, entradas de configuración, registros DNS",
+    "sortNumericUseCase": "Ordenar números de versión, direcciones IP, listas de puertos, conteos de logs",
+    "reverseLinesUseCase": "Invertir logs cronológicos, revertir stack traces",
+    "removeEmptyUseCase": "Limpiar configs multilínea, sanear listas de usuarios",
+    "shuffleUseCase": "Aleatorizar datos de prueba, generar conjuntos de muestra",
+    "tipNumericSort": "El ordenamiento numérico extrae el número inicial de cada línea, útil para líneas como \"192.168.1.1 - servidor1\" o \"v2.1.0 - release\".",
+    "caseSensitiveBehavior": "{{code1}} y {{code2}} se tratan como valores diferentes",
+    "trimBeforeCompareBehavior": "Ignora espacios en blanco iniciales/finales ({{code1}} = {{code2}})",
+    "removeDuplicatesUseCase": "Limpiar listas de correo, deduplicar nombres de host, sanear listas de IP",
+    "showDuplicatesUseCase": "Encontrar entradas repetidas en logs, identificar conflictos",
+    "countOccurrencesUseCase": "Analizar frecuencia de logs, encontrar errores/IPs más comunes",
+    "tipCountOccurrences": "Usa \"Contar ocurrencias\" en logs del servidor para identificar rápidamente las direcciones IP, códigos de error o user agents más frecuentes.",
+    "htmlEscapes": "& < > \" '",
+    "jsonEscapes": "Comillas, barras invertidas, caracteres de control",
+    "urlEscapes": "No alfanuméricos a %XX",
+    "sqlEscapes": "Comillas simples duplicadas",
+    "regexEscapes": ". * + ? ^ $ { } ( ) [ ] \\ |",
+    "shellEscapes": "Envuelve en comillas simples",
+    "csvEscapes": "Entrecomilla campos, duplica comillas internas",
+    "xmlEscapes": "& < > \" ' como entidades",
+    "securityNoteSql": "Escapar comillas simples ayuda pero no es suficiente para prevenir inyección SQL. Siempre usa consultas parametrizadas/declaraciones preparadas en código de producción.",
+    "bestPracticeHtml": "La codificación de entidades HTML previene XSS básico pero depende del contexto. Para protección completa, codifica en la salida (no en la entrada), usa Content Security Policy (CSP) y aprovecha las protecciones incorporadas de tu framework."
+  },
   "tools": {
     "subnetCalculator": {
       "title": "Calculadora de subred IPv4",
@@ -211,28 +266,207 @@
       "invalidIP": "Por favor ingresa una dirección IPv4 válida (ej., 192.168.1.100)",
       "resultsAnnounce": "Cálculo de subred completado. La dirección de red es {{network}} barra {{cidr}}. {{hosts}} hosts utilizables.",
       "switchToIPv6": "Cambiar a IPv6 →",
-      "footer": "Calculadora de subred - Funciona sin conexión, no requiere instalación"
+      "footer": "Calculadora de subred - Funciona sin conexión, no requiere instalación",
+      "formAriaLabel": "Formulario de calculadora de subred",
+      "ipAddressScreenReader": "Ingresa una dirección IPv4 en notación decimal con puntos, por ejemplo 192.168.1.100",
+      "cidrScreenReader": "Selecciona la longitud del prefijo CIDR o máscara de subred para tu red",
+      "limitedForPerformance": "(limitado a las primeras {{max}} por rendimiento)",
+      "loopback": "Loopback",
+      "classD": "Clase D (Multicast)",
+      "classE": "Clase E (Reservado)",
+      "notApplicable": "N/A",
+      "noSubnetListToExport": "No hay lista de subredes para exportar",
+      "resultsAriaLabel": "Resultados del cálculo de subred",
+      "subnetListAriaLabel": "Todas las subredes en la red",
+      "exportSubnetDetailsAriaLabel": "Exportar detalles de subred a archivo CSV",
+      "exportSubnetListAriaLabel": "Exportar lista de subredes a archivo CSV",
+      "calculateAriaLabel": "Calcular detalles de subred para la dirección IP y CIDR ingresados",
+      "clearSavedDataAriaLabel": "Borrar todos los datos guardados del formulario de esta página"
     },
     "subnetCalculatorIPv6": {
       "title": "Calculadora de subred IPv6",
       "name": "Calculadora de subred IPv6",
       "description": "Calcula direcciones de red IPv6, información de prefijo y rangos de direcciones. Soporte completo para notación CIDR IPv6 y compresión de direcciones.",
-      "switchToIPv4": "← Cambiar a IPv4"
+      "switchToIPv4": "← Cambiar a IPv4",
+      "formAriaLabel": "Formulario de calculadora de subred IPv6",
+      "ipv6AddressPlaceholder": "2001:db8::1",
+      "ipv6AddressHelp": "Ingresa una dirección IPv6 en notación estándar o comprimida, por ejemplo 2001:db8::1",
+      "prefixHelp": "Selecciona la longitud del prefijo IPv6 para tu red",
+      "prefixOptions": {
+        "p32": "/32 - Asignación ISP",
+        "p48": "/48 - Prefijo de sitio",
+        "p56": "/56 - Sitio pequeño",
+        "p64": "/64 - Subred única",
+        "p80": "/80",
+        "p96": "/96",
+        "p112": "/112",
+        "p120": "/120",
+        "p127": "/127 - Punto a punto",
+        "p128": "/128 - Host único"
+      },
+      "quickAddresses": "Selección rápida de direcciones comunes:",
+      "quickPrefixes": "Selección rápida de prefijos comunes:",
+      "addressLocal": "fe80::1 - Local",
+      "addressInternet": "2001:db8::1 - Internet",
+      "addressPrivate": "fd00::1 - Privado",
+      "prefixISP": "/32 ISP",
+      "prefixSite": "/48 Sitio",
+      "prefixSmallSite": "/56 Sitio pequeño",
+      "prefixSubnet": "/64 Subred",
+      "prefixHost": "/128 Host",
+      "networkCompressed": "Dirección de red (Comprimida)",
+      "networkExpanded": "Dirección de red (Expandida)",
+      "interfaceId": "ID de interfaz",
+      "hexRepresentation": "Representación hexadecimal",
+      "hexIPv6Address": "Dirección IPv6:",
+      "hexPrefixMask": "Máscara de prefijo:",
+      "hexNetworkColored": "Red (coloreada):",
+      "invalidIPv6": "Por favor ingresa una dirección IPv6 válida (ej., 2001:db8::1 o 2001:0db8:0000:0000:0000:0000:0000:0001)",
+      "resultsAnnounce": "Cálculo de subred IPv6 completado. La dirección de red es {{network}} barra {{cidr}}. Tipo de dirección es {{type}}.",
+      "performanceLimitWarning": "Límite de rendimiento: Mostrando las primeras {{max}} de {{total}} subredes posibles",
+      "subnetListInfo": "Mostrando {{shown}} de {{total}} posibles subredes /{{cidr}} dentro de {{network}}",
+      "current": "Actual",
+      "noSubnetListToExport": "No hay lista de subredes para exportar"
     },
     "subnetPlanner": {
       "title": "Planificador de subred",
       "name": "Planificador de subred",
-      "description": "Planifica y visualiza esquemas de subred para redes IPv4. Diseña subredes jerárquicas, calcula tamaños de subred requeridos y genera listas de subredes con información detallada."
+      "description": "Planifica y visualiza esquemas de subred para redes IPv4. Diseña subredes jerárquicas, calcula tamaños de subred requeridos y genera listas de subredes con información detallada.",
+      "parentIP": "Dirección IP de red padre",
+      "cidrPrefix": "Prefijo CIDR",
+      "initializePlanner": "Inicializar planificador",
+      "quickTemplates": "Plantillas rápidas - Cargar un diseño de sitio preconfigurado:",
+      "subnetAllocations": "Asignaciones de subred",
+      "tableView": "Vista de tabla",
+      "barChart": "Gráfico de barras",
+      "treeView": "Vista de árbol",
+      "addSubnet": "+ Agregar subred",
+      "label": "Etiqueta",
+      "cidr": "CIDR",
+      "networkAddress": "Dirección de red",
+      "sizeIPs": "Tamaño (IPs)",
+      "vlan": "VLAN",
+      "description": "Descripción",
+      "color": "Color",
+      "actions": "Acciones",
+      "exportJSON": "Exportar JSON",
+      "ipv4Reference": "Referencia de direcciones IPv4 reservadas",
+      "reference": {
+        "privateAddresses": "Direcciones privadas (RFC 1918)",
+        "specialPurpose": "Direcciones de propósito especial",
+        "multicastBroadcast": "Multicast y broadcast",
+        "documentationTesting": "Documentación y pruebas",
+        "reservedFuture": "Reservado y uso futuro",
+        "cidrRange": "Rango CIDR",
+        "addressCount": "Cantidad de direcciones",
+        "description": "Descripción",
+        "classAPrivate": "Red privada Clase A - 16,777,216 direcciones",
+        "classBPrivate": "Red privada Clase B - 1,048,576 direcciones",
+        "classCPrivate": "Red privada Clase C - 65,536 direcciones",
+        "loopback": "Direcciones de loopback (localhost)",
+        "loopbackRfc": "RFC 1122 - Típicamente 127.0.0.1",
+        "linkLocal": "Link-Local / APIPA (Direccionamiento IP privado automático)",
+        "linkLocalRfc": "RFC 3927 - Usado cuando DHCP no está disponible",
+        "carrierGradeNat": "NAT de grado de operador (CGN)",
+        "carrierGradeNatRfc": "RFC 6598 - Espacio de direcciones compartido para ISPs",
+        "multicast": "Direcciones multicast (antigua Clase D)",
+        "limitedBroadcast": "Dirección de broadcast limitado",
+        "limitedBroadcastRfc": "RFC 919 - Broadcast a subred local",
+        "testNet1": "Documentación (TEST-NET-1)",
+        "testNet2": "Documentación (TEST-NET-2)",
+        "testNet3": "Documentación (TEST-NET-3)",
+        "testNetRfc": "RFC 5737 - Ejemplos y documentación",
+        "benchmarking": "Benchmarking y pruebas",
+        "benchmarkingRfc": "RFC 2544 - Pruebas de rendimiento de red",
+        "currentNetwork": "Red actual (solo válido como origen)",
+        "currentNetworkRfc": "RFC 1122 - Esta red",
+        "reservedClassE": "Reservado para uso futuro (antigua Clase E)",
+        "reservedClassERfc": "RFC 1112 - Experimental"
+      }
     },
     "subnetPlannerIPv6": {
       "title": "Planificador de subred IPv6",
       "name": "Planificador de subred IPv6",
-      "description": "Planifica y visualiza asignaciones de subred IPv6 con soporte para espacios de direcciones masivos. Diseña subredes jerárquicas /64, asigna VLANs y exporta planes a CSV o JSON."
+      "description": "Planifica y visualiza asignaciones de subred IPv6 con soporte para espacios de direcciones masivos. Diseña subredes jerárquicas /64, asigna VLANs y exporta planes a CSV o JSON.",
+      "parentIP": "Direccion de red IPv6 padre",
+      "cidrPrefix": "Prefijo CIDR",
+      "initializePlanner": "Inicializar planificador",
+      "quickTemplates": "Plantillas rapidas - Cargar una disposicion de sitio preconfigurada:",
+      "subnetAllocations": "Asignaciones de subred",
+      "tableView": "Vista de tabla",
+      "barChart": "Grafico de barras",
+      "treeView": "Vista de arbol",
+      "addSubnet": "+ Agregar subred",
+      "label": "Etiqueta",
+      "cidr": "CIDR",
+      "networkAddress": "Direccion de red",
+      "sizeIPs": "Tamano (IPs)",
+      "vlan": "VLAN",
+      "color": "Color",
+      "actions": "Acciones",
+      "exportJSON": "Exportar JSON",
+      "ipv6Reference": "Referencia de direcciones reservadas IPv6",
+      "reference": {
+        "specialAddresses": "Direcciones especiales",
+        "loopbackDesc": "Direccion de bucle local (localhost)",
+        "loopbackRfc": "RFC 4291 - Equivalente a IPv4 127.0.0.1",
+        "unspecifiedDesc": "Direccion no especificada",
+        "unspecifiedRfc": "RFC 4291 - Se usa cuando no hay direccion disponible",
+        "ipv4MappedDesc": "Direcciones IPv6 mapeadas a IPv4",
+        "ipv4MappedRfc": "RFC 4291 - Entornos hibridos de pila doble",
+        "linkLocalUniqueLocal": "Enlace local y local unico",
+        "linkLocalDesc": "Direcciones de enlace local",
+        "linkLocalRfc": "RFC 4291 - Valida solo en subred local",
+        "ulaDesc": "Direcciones locales unicas (ULA)",
+        "ulaRfc": "RFC 4193 - Direcciones IPv6 privadas",
+        "ulaLocalDesc": "ULA con prefijo asignado localmente",
+        "ulaLocalRfc": "RFC 4193 - Implementacion ULA mas comun",
+        "multicast": "Multidifusion",
+        "allMulticastDesc": "Todas las direcciones de multidifusion",
+        "allMulticastRfc": "RFC 4291 - Varios ambitos definidos",
+        "allNodesDesc": "Todos los nodos (ambito de enlace local)",
+        "allNodesRfc": "RFC 4291 - Equivalente a difusion",
+        "allRoutersDesc": "Todos los enrutadores (ambito de enlace local)",
+        "allRoutersRfc": "RFC 4291 - Descubrimiento de enrutadores",
+        "documentationGlobal": "Documentacion y global",
+        "documentationDesc": "Prefijo de documentacion",
+        "documentationRfc": "RFC 3849 - Solo para ejemplos y documentacion",
+        "globalUnicastDesc": "Direcciones unicast globales",
+        "globalUnicastRfc": "RFC 4291 - Direcciones IPv6 publicas enrutables",
+        "commonAllocations": "Asignaciones comunes",
+        "slash48Desc": "Asignacion de sitio estandar",
+        "slash48Rfc": "RFC 6177 - 65,536 subredes /64 disponibles",
+        "slash56Desc": "Asignacion de sitio pequeno",
+        "slash56Rfc": "RFC 6177 - 256 subredes /64 disponibles",
+        "slash64Desc": "Tamano de subred LAN estandar",
+        "slash64Rfc": "RFC 4291 - Requerido para SLAAC"
+      }
     },
     "cidrConverter": {
       "title": "Convertidor de notación CIDR",
       "name": "Convertidor CIDR",
-      "description": "Convierte notación CIDR a rangos de IP, detecta superposiciones entre múltiples redes y convierte rangos de IP de vuelta a notación CIDR. Soporta CIDR estándar, máscara de subred y formatos wildcard de Cisco."
+      "description": "Convierte notación CIDR a rangos de IP, detecta superposiciones entre múltiples redes y convierte rangos de IP de vuelta a notación CIDR. Soporta CIDR estándar, máscara de subred y formatos wildcard de Cisco.",
+      "modes": {
+        "singleCidr": "CIDR único",
+        "multipleCidrs": "Múltiples CIDRs",
+        "rangeToCidr": "Rango a CIDR"
+      },
+      "labels": {
+        "ipAddress": "Dirección IP",
+        "cidrPrefix": "Prefijo CIDR",
+        "quickSelect": "Selección rápida:"
+      },
+      "sections": {
+        "networkDetails": "Detalles de red",
+        "binaryRepresentation": "Representación binaria",
+        "analysisSummary": "Resumen de análisis",
+        "exactCidrMatch": "Coincidencia CIDR exacta encontrada",
+        "multipleCidrRequired": "Se requieren múltiples bloques CIDR"
+      },
+      "buttons": {
+        "exportCsv": "Exportar CSV",
+        "exportJson": "Exportar JSON"
+      }
     },
     "bitCalculator": {
       "title": "Calculadora de bits",
@@ -267,7 +501,40 @@
     "diskTools": {
       "title": "Herramientas de disco",
       "name": "Herramientas de disco",
-      "description": "Calculadora RAID, estimador de espacio en disco y utilidades de planificación de almacenamiento."
+      "description": "Calculadora RAID, estimador de espacio en disco y utilidades de planificación de almacenamiento.",
+      "raidOptions": {
+        "raid0": "RAID 0 - Striping (Sin redundancia)",
+        "raid1": "RAID 1 - Espejo",
+        "raid5": "RAID 5 - Paridad distribuida",
+        "raid6": "RAID 6 - Paridad doble",
+        "raid10": "RAID 10 - Stripes con espejo",
+        "raid0Short": "RAID 0",
+        "raid1Short": "RAID 1",
+        "raid5Short": "RAID 5",
+        "raid6Short": "RAID 6",
+        "raid10Short": "RAID 10"
+      },
+      "unitOptions": {
+        "bytes": "Bytes (B)",
+        "kilobytes": "Kilobytes (KB - 1000)",
+        "megabytes": "Megabytes (MB - 1000)",
+        "gigabytes": "Gigabytes (GB - 1000)",
+        "terabytes": "Terabytes (TB - 1000)",
+        "petabytes": "Petabytes (PB - 1000)",
+        "kibibytes": "Kibibytes (KiB - 1024)",
+        "mebibytes": "Mebibytes (MiB - 1024)",
+        "gibibytes": "Gibibytes (GiB - 1024)",
+        "tebibytes": "Tebibytes (TiB - 1024)",
+        "pebibytes": "Pebibytes (PiB - 1024)"
+      },
+      "diskTypes": {
+        "ssd": "SSD (Unidad de estado sólido)",
+        "sas15k": "SAS 15K RPM",
+        "sas10k": "SAS 10K RPM",
+        "sata7200": "SATA 7200 RPM",
+        "sata5400": "SATA 5400 RPM",
+        "nvme": "NVMe SSD"
+      }
     },
     "passwordGenerator": {
       "title": "Generador de contraseñas",
@@ -298,12 +565,38 @@
       "exported": "Se exportaron {{count}} contraseñas a archivo CSV",
       "noCharTypes": "Por favor selecciona al menos un tipo de carácter",
       "policyApplied": "Se aplicó la política de contraseña {{policy}}",
+      "switchToPassphrase": "Generador de frases (estilo XKCD)",
       "footer": "Generador de contraseñas - Funciona sin conexión, no requiere instalación"
     },
     "passphraseGenerator": {
       "title": "Generador de frases de contraseña",
       "name": "Generador de frases",
-      "description": "Genera frases de contraseña seguras estilo XKCD usando palabras aleatorias del diccionario."
+      "description": "Genera frases de contraseña seguras estilo XKCD usando palabras aleatorias del diccionario.",
+      "switchToRandom": "Generador de contraseñas aleatorias",
+      "infoText": "Las frases de contraseña estilo XKCD usan palabras comunes aleatorias. Son más fáciles de recordar y escribir mientras siguen siendo seguras.",
+      "wordCount": "Número de palabras",
+      "wordCountHelp": "Ingresa el número de palabras en la frase, entre 3 y 12",
+      "separator": "Separador de palabras",
+      "separatorHelp": "Selecciona el carácter para separar las palabras en la frase",
+      "separatorHyphen": "Guion (-)",
+      "separatorUnderscore": "Guion bajo (_)",
+      "separatorPeriod": "Punto (.)",
+      "separatorSpace": "Espacio",
+      "separatorNone": "Ninguno",
+      "wordStyle": "Estilo de palabras",
+      "capitalizeWords": "Capitalizar palabras",
+      "includeNumber": "Incluir número",
+      "includeSymbol": "Incluir símbolo",
+      "numberOfPassphrases": "Número de frases",
+      "quantityHelp": "Ingresa el número de frases a generar, entre 1 y 100",
+      "generatedPassphrases": "Frases generadas",
+      "generated": "Se generaron {{count}} frases",
+      "copiedPassphrase": "Frase copiada al portapapeles",
+      "copiedAll": "Se copiaron las {{count}} frases al portapapeles",
+      "noItemsToExport": "No hay elementos para exportar",
+      "csvHeaderPassphrase": "Frase",
+      "csvHeaderStrength": "Fortaleza",
+      "exported": "Se exportaron {{count}} frases al archivo CSV {{filename}}"
     },
     "certificateParser": {
       "title": "Analizador de certificados",
@@ -389,7 +682,17 @@
       },
       "placeholders": {
         "inputText": "Ingresa texto para codificar, decodificar o hashear...",
-        "hexInput": "Ingresa texto o valores hexadecimales..."
+        "base64Input": "Ingresa texto para codificar o Base64 para decodificar...",
+        "resultPlaceholder": "El resultado aparecerá aquí...",
+        "hashInput": "Ingresa texto para hashear...",
+        "urlInput": "Ingresa texto para codificar URL o texto codificado para decodificar...",
+        "hexInput": "Ingresa texto para convertir a hex o cadena hex para decodificar..."
+      },
+      "infoBoxes": {
+        "base64Info": "La codificación Base64 convierte datos binarios a texto ASCII. Se usa comúnmente para incrustar imágenes en HTML/CSS o transmitir datos en URLs.",
+        "hashInfo": "Los hashes criptográficos son funciones unidireccionales. La misma entrada siempre produce la misma salida, pero no puedes revertir el proceso.",
+        "urlInfo": "La codificación URL reemplaza caracteres inseguros con valores codificados en porcentaje. Se requiere para caracteres especiales en URLs y datos de formulario.",
+        "hexInfo": "La codificación hexadecimal representa cada byte como dos dígitos hex. Útil para depuración, mostrar datos binarios y archivos de configuración."
       },
       "results": {
         "md5": "MD5",
@@ -433,11 +736,16 @@
         "diffView": "Vista de diferencias",
         "sideBySide": "Lado a lado",
         "inline": "En línea",
-        "unified": "Unificado"
+        "unified": "Unificado",
+        "syncScroll": "Desplazamiento sincronizado",
+        "ignoreWhitespace": "Ignorar espacios en blanco",
+        "ignoreCase": "Ignorar mayúsculas/minúsculas",
+        "trimLines": "Recortar líneas",
+        "changesOnly": "Solo cambios"
       },
       "placeholders": {
-        "original": "Pega el texto original aquí...",
-        "modified": "Pega el texto modificado aquí..."
+        "original": "Pega o escribe tu texto original aquí...",
+        "modified": "Pega o escribe tu texto modificado aquí..."
       },
       "results": {
         "title": "Resultados de comparación",
@@ -457,25 +765,99 @@
       "name": "Generador UUID",
       "description": "Genera UUIDs aleatorios (v4) y valida formato UUID.",
       "subtitle": "Genera y valida identificadores únicos universales",
+      "tabs": {
+        "generate": "Generar",
+        "validate": "Validar",
+        "convert": "Convertir",
+        "reference": "Referencia"
+      },
       "labels": {
         "numberOfUuids": "Número de UUIDs",
         "format": "Formato",
-        "generatedUuids": "UUIDs generados"
+        "generatedUuids": "UUIDs generados",
+        "selectVersion": "Seleccionar versión de UUID",
+        "namespace": "Espacio de nombres",
+        "customNamespace": "UUID de espacio de nombres personalizado",
+        "nameToHash": "Nombre (cadena a hashear)",
+        "enterUuidToValidate": "Ingrese UUID para validar",
+        "enterUuidToConvert": "Ingrese UUID para convertir",
+        "batchValidation": "Validación por lotes",
+        "componentBreakdown": "Desglose de componentes"
+      },
+      "versions": {
+        "v4Name": "Versión 4 (Aleatorio)",
+        "v4Desc": "UUID criptográficamente aleatorio. Mejor para uso general, bases de datos e identificadores únicos.",
+        "v1Name": "Versión 1 (Marca de tiempo)",
+        "v1Desc": "Basado en marca de tiempo e ID de nodo. Útil cuando necesitas UUIDs ordenables o seguimiento temporal.",
+        "v5Name": "Versión 5 (Basado en nombre SHA-1)",
+        "v5Desc": "UUID determinístico de espacio de nombres y nombre. Las mismas entradas siempre producen el mismo UUID.",
+        "recommended": "Recomendado"
+      },
+      "namespaces": {
+        "dns": "DNS",
+        "url": "URL",
+        "oid": "OID",
+        "x500": "X.500 DN",
+        "custom": "UUID personalizado..."
+      },
+      "outputFormats": {
+        "plain": "Lista simple",
+        "comma": "Separado por comas",
+        "json": "Arreglo JSON",
+        "sql": "INSERT SQL",
+        "python": "Lista Python"
       },
       "formats": {
         "standard": "Estándar (minúsculas)",
         "uppercase": "Mayúsculas",
         "noDashes": "Sin guiones",
-        "braces": "Con llaves {}"
+        "braces": "Con llaves {}",
+        "noHyphens": "Sin guiones",
+        "urn": "URN",
+        "csharp": "GUID C#",
+        "hexBytes": "Bytes Hex",
+        "base64": "Base64"
       },
       "buttons": {
         "generate": "Generar UUIDs",
-        "copyAll": "Copiar todo"
+        "copyAll": "Copiar todo",
+        "validateUuid": "Validar UUID",
+        "validateAll": "Validar todos",
+        "convert": "Convertir"
       },
       "results": {
         "generated": "Se generaron {{count}} UUID(s)",
         "copiedAll": "Se copiaron todos los UUIDs al portapapeles"
-      }
+      },
+      "reference": {
+        "structure": "Estructura de UUID",
+        "versionComparison": "Comparación de versiones",
+        "specialUuids": "UUIDs especiales",
+        "codeExamples": "Ejemplos de código",
+        "nilUuid": "UUID NIL",
+        "maxUuid": "UUID Max",
+        "useCases": {
+          "databaseKeys": "Claves primarias de base de datos",
+          "temporalSorting": "Necesita ordenamiento temporal",
+          "deterministicIds": "IDs determinísticos",
+          "distributedSystems": "Sistemas distribuidos",
+          "contentAddressing": "Direccionamiento basado en contenido"
+        },
+        "whyReasons": {
+          "random": "Criptográficamente aleatorio, sin colisiones",
+          "timestamp": "La marca de tiempo está codificada en el UUID",
+          "sameInput": "Misma entrada siempre = mismo UUID",
+          "noCoordination": "No se necesita coordinación entre nodos",
+          "contentDerived": "UUID derivado del contenido mismo"
+        }
+      },
+      "validation": {
+        "valid": "UUID válido",
+        "invalid": "UUID inválido",
+        "rfc4122": "Valida formato UUID, versión y variante según especificación RFC 4122."
+      },
+      "infoBox": "Usa la API Web Crypto para generación aleatoria criptográficamente segura. Todo el procesamiento ocurre localmente en tu navegador.",
+      "convertInfo": "Todas las conversiones preservan el valor original del UUID. Diferentes formatos son usados por diferentes sistemas y lenguajes de programación."
     },
     "measurementConverter": {
       "title": "Convertidor de medidas",
@@ -538,7 +920,13 @@
         "timeSaved": "Tiempo ahorrado",
         "paymentsEliminated": "Pagos eliminados",
         "extraPayment": "Pago extra",
-        "paymentIncrease": "Aumento del pago"
+        "paymentIncrease": "Aumento del pago",
+        "yearAbbr": "año",
+        "yearsAbbr": "años",
+        "monthAbbr": "mes",
+        "monthLabel": "mes",
+        "monthsLabel": "meses",
+        "perMonth": "mes"
       },
       "schedule": {
         "title": "Cronograma de amortización",
@@ -549,7 +937,10 @@
         "interest": "Interés",
         "balance": "Saldo",
         "exportCSV": "Exportar CSV",
-        "print": "Imprimir"
+        "print": "Imprimir",
+        "csvPaymentNum": "Pago #",
+        "noScheduleToExport": "No hay cronograma para exportar. Por favor calcula primero.",
+        "exportedToCSV": "Cronograma de amortización exportado a archivo CSV"
       },
       "formulas": {
         "title": "Fórmulas de Excel para amortización de préstamos",
@@ -563,7 +954,13 @@
         "interestPortion": "Porción de interés del pago N",
         "interestPortionDesc": "Calcula la porción de interés de un pago específico",
         "principalPortion": "Porción de capital del pago N",
-        "principalPortionDesc": "Calcula la porción de capital de un pago específico"
+        "principalPortionDesc": "Calcula la porción de capital de un pago específico",
+        "legendLoanAmount": "B1 = Monto del préstamo",
+        "legendAnnualRate": "B2 = Tasa anual (decimal, ej. 0.065)",
+        "legendTermYears": "B3 = Plazo en años",
+        "legendPaymentsMade": "B4 = Pagos realizados",
+        "legendPaymentNumber": "B4 = Número de pago",
+        "copiedFormula": "Fórmula copiada al portapapeles"
       },
       "validation": {
         "invalidLoanAmount": "Por favor ingresa un monto de préstamo válido",
@@ -574,7 +971,26 @@
     "compoundInterestCalculator": {
       "title": "Calculadora de interés compuesto",
       "name": "Interés compuesto",
-      "description": "Calcula el crecimiento del interés compuesto a lo largo del tiempo con contribuciones regulares."
+      "description": "Calcula el crecimiento del interés compuesto a lo largo del tiempo con contribuciones regulares.",
+      "labels": {
+        "initialInvestment": "Inversión inicial",
+        "annualInterestRate": "Tasa de interés anual",
+        "investmentPeriod": "Período de inversión",
+        "monthlyContribution": "Contribución mensual (Opcional)",
+        "compoundingFrequency": "Frecuencia de capitalización",
+        "contributionTiming": "Momento de la contribución"
+      },
+      "frequency": {
+        "annually": "Anualmente",
+        "semiAnnually": "Semestralmente",
+        "quarterly": "Trimestralmente",
+        "monthly": "Mensualmente",
+        "daily": "Diariamente"
+      },
+      "timing": {
+        "beginning": "Inicio del período",
+        "end": "Fin del período"
+      }
     },
     "debtPayoffComparison": {
       "title": "Comparación de pago de deudas",
@@ -584,17 +1000,173 @@
     "retirementCalculator": {
       "title": "Calculadora de jubilación",
       "name": "Jubilación",
-      "description": "Planifica ahorros de jubilación con proyecciones de contribución y retiro."
+      "description": "Planifica ahorros de jubilación con proyecciones de contribución y retiro.",
+      "sections": {
+        "yourInformation": "Tu información",
+        "incomeExpenses": "Ingresos y gastos",
+        "savingsReturns": "Ahorros y rendimientos",
+        "withdrawalSettings": "Configuración de retiros",
+        "savingsStrategyExamples": "Ejemplos de estrategias de ahorro:",
+        "retirementSummary": "Resumen de jubilación",
+        "yearByYearProjection": "Proyección año por año"
+      },
+      "labels": {
+        "socialSecurity": "Seguridad social (Mensual a los 67)"
+      },
+      "formulas": {
+        "title": "Fórmulas de Excel para planificación de jubilación",
+        "fireNumber": "Número FIRE",
+        "fireNumberDesc": "Calcula tu objetivo de independencia financiera",
+        "futureValue": "Valor futuro de los ahorros",
+        "futureValueDesc": "Proyecta el crecimiento de tus ahorros a lo largo del tiempo",
+        "yearsToFire": "Años hasta FIRE",
+        "yearsToFireDesc": "Calcula cuánto tiempo hasta alcanzar FIRE",
+        "savingsRate": "Tasa de ahorro",
+        "savingsRateDesc": "Calcula tu porcentaje actual de ahorro",
+        "safeWithdrawal": "Monto de retiro seguro",
+        "safeWithdrawalDesc": "Calcula el retiro anual sostenible"
+      }
     },
     "loanPayoffMethods": {
-      "title": "Métodos de pago de préstamos",
+      "title": "Métodos de pago de deudas",
       "name": "Métodos de pago",
-      "description": "Compara diferentes estrategias de pago de préstamos y ve los ahorros potenciales."
+      "subtitle": "Bola de nieve vs Avalancha: ¿Qué estrategia es adecuada para ti?",
+      "description": "Compara diferentes estrategias de pago de préstamos y ve los ahorros potenciales.",
+      "navLinks": {
+        "debtPayoffCalculator": "Calculadora de pago de deudas",
+        "loanReferenceGuide": "Guía de referencia de préstamos",
+        "tryTheCalculator": "Probar la calculadora",
+        "goToCalculator": "Ir a la calculadora de pago de deudas",
+        "learnAboutLoans": "Aprende sobre tipos de préstamos y préstamos predatorios",
+        "tryCalculator": "Probar la calculadora de pago de deudas"
+      },
+      "comparison": {
+        "sectionTitle": "Métodos de bola de nieve vs avalancha de deuda",
+        "introText": "Ambos métodos funcionan pagando mínimos en todas las deudas mientras se destina dinero extra hacia una deuda \"objetivo\". La diferencia está en cómo eliges qué deuda atacar primero.",
+        "tableLabel": "Comparación de métodos de bola de nieve y avalancha",
+        "feature": "Característica",
+        "snowballMethod": "Método bola de nieve",
+        "avalancheMethod": "Método avalancha",
+        "strategy": "Estrategia",
+        "snowballStrategy": "Pagar primero el saldo más pequeño",
+        "avalancheStrategy": "Pagar primero la tasa de interés más alta",
+        "order": "Orden",
+        "snowballOrder": "Del saldo más pequeño al más grande",
+        "avalancheOrder": "De la TAE más alta a la más baja",
+        "motivation": "Motivación",
+        "snowballMotivation": "Victorias rápidas al principio - las deudas desaparecen rápido",
+        "avalancheMotivation": "Máximo ahorro - las matemáticas están de tu lado",
+        "totalInterestPaid": "Total de intereses pagados",
+        "snowballInterest": "Ligeramente más (varía según la mezcla de deudas)",
+        "avalancheInterest": "El menor interés posible",
+        "bestFor": "Mejor para",
+        "snowballBestFor": "Personas que necesitan motivación, han abandonado antes, o tienen muchas deudas pequeñas",
+        "avalancheBestFor": "Personas analíticas, aquellos con deudas de alto interés, o cualquiera que pueda mantenerse motivado sin victorias rápidas",
+        "researchNote": "Nota de investigación:",
+        "researchText": "Estudios de la Escuela de Administración Kellogg encontraron que las personas que usan el método de bola de nieve tienen más probabilidades de eliminar la deuda por completo - las pequeñas victorias crean impulso. Sin embargo, la avalancha ahorra aproximadamente un 1.3% más de interés en promedio. El mejor método es el que seguirás."
+      },
+      "psychology": {
+        "sectionTitle": "La psicología del pago de deudas",
+        "introText": "La investigación muestra que <strong>las finanzas personales son 80% comportamiento y solo 20% conocimiento</strong>. Esto es lo que nos dice la economía conductual:",
+        "proportionalProgress": "El progreso proporcional importa:",
+        "proportionalProgressText": "Cuando haces un pago de $150 en un saldo de $600, has eliminado el 25%. En un saldo de $6,000, apenas se registra. Nuestros cerebros responden más a la proporción que a la cantidad absoluta.",
+        "debtAccountAversion": "Aversión a las cuentas de deuda:",
+        "debtAccountAversionText": "Mantenemos \"cuentas\" mentales para cada deuda. Cerrar una cuenta completa se siente como una victoria completa, aunque sea pequeña. Esto explica por qué eliminar una deuda pequeña puede ser más motivador que hacer un progreso igual en una grande.",
+        "keyInsight": "La idea clave:",
+        "keyInsightText": "El mejor método de pago de deudas es el que realmente seguirás hasta completar. Si el método de avalancha te hace abandonar después de 6 meses, el método de bola de nieve que completes es mejor para ti."
+      },
+      "faq": {
+        "sectionTitle": "Preguntas frecuentes",
+        "includeMortgage": "¿Debo incluir mi hipoteca?",
+        "includeMortgageAnswer": "Generalmente no. Enfócate primero en la deuda de consumo (tarjetas de crédito, préstamos de auto, préstamos personales). Las hipotecas son a largo plazo, a menudo tienen beneficios fiscales, y la tasa de interés es típicamente más baja que otras deudas.",
+        "zeroPercentRates": "¿Qué pasa con las tasas promocionales del 0%?",
+        "zeroPercentRatesAnswer": "¡Ten cuidado! Ingresa la TAE posterior a la promoción que aplicará cuando termine el período del 0%. Si no puedes pagarlo antes, planifica para la tasa más alta.",
+        "onlyMinimums": "¿Qué pasa si solo puedo pagar los mínimos?",
+        "onlyMinimumsAnswer": "Ambos métodos producen el mismo resultado cuando solo puedes pagar mínimos. Enfócate en encontrar dinero extra a través del presupuesto, ingresos adicionales o reduciendo gastos. Incluso $50 extra al mes hace una diferencia significativa.",
+        "switchMethods": "¿Puedo cambiar de método a mitad de camino?",
+        "switchMethodsAnswer": "¡Absolutamente! Algunas personas comienzan con bola de nieve para ganar impulso, luego cambian a avalancha una vez que han construido el hábito. Lo importante es seguir adelante."
+      },
+      "footer": "Guía de métodos de pago de deudas - Funciona sin conexión, sin datos almacenados, sin registro requerido"
     },
     "loanReference": {
       "title": "Referencia de préstamos",
       "name": "Referencia de préstamos",
-      "description": "Guía de referencia para tipos de préstamos, términos y cálculos."
+      "subtitle": "Comprende los tipos de préstamos, detecta señales de advertencia y toma decisiones informadas",
+      "description": "Guía de referencia para tipos de préstamos, términos y cálculos.",
+      "sections": {
+        "loanTypes": "Entendiendo los diferentes tipos de préstamos",
+        "predatoryLending": "Préstamos predatorios: Señales de advertencia a observar",
+        "loanCalculator": "Ve el costo real: Calculadora de préstamos",
+        "redFlagChecker": "Interactivo: ¿Es seguro este préstamo? (Verificador de señales de alarma)",
+        "scenarioQuiz": "Cuestionario: ¿Qué harías tú?"
+      },
+      "tableHeaders": {
+        "loanType": "Tipo de préstamo",
+        "typicalApr": "TAE típica",
+        "termLength": "Duración del plazo",
+        "riskLevel": "Nivel de riesgo"
+      },
+      "loanTypes": {
+        "federalStudent": "Préstamo estudiantil federal",
+        "autoLoan": "Préstamo de auto (buen crédito)",
+        "personalLoan": "Préstamo personal",
+        "creditCard": "Tarjeta de crédito",
+        "paydayLoan": "Préstamo de día de pago",
+        "titleLoan": "Préstamo sobre título"
+      },
+      "riskLevels": {
+        "low": "Bajo",
+        "medium": "Medio",
+        "mediumHigh": "Medio-Alto",
+        "extreme": "EXTREMO"
+      },
+      "checker": {
+        "checkAllThatApply": "Marca todos los que apliquen",
+        "flag1": "La TAE es superior al 36%",
+        "flag1Desc": "Los grupos de protección al consumidor consideran TAE de 36%+ como predatoria",
+        "flag2": "Dijeron \"no se necesita verificación de crédito\"",
+        "flag2Desc": "Los prestamistas legítimos verifican el crédito para asegurarse de que puedas pagar",
+        "flag3": "Me presionan para firmar hoy",
+        "flag3Desc": "Los buenos prestamistas te dan tiempo para pensar y comparar opciones",
+        "flag4": "Las tarifas son difíciles de encontrar o poco claras",
+        "flag4Desc": "Las tarifas ocultas son una señal de advertencia importante",
+        "flag5": "Hay un gran \"pago globo\" al final",
+        "flag5Desc": "Pagos pequeños seguidos de una gran suma es una trampa",
+        "flag6": "No puedo encontrar fácilmente su información de licencia/registro",
+        "flag6Desc": "Los prestamistas legítimos muestran su número NMLS",
+        "flag7": "Quieren acceso a mi cuenta bancaria para retirar automáticamente",
+        "flag7Desc": "Esto les da control sobre tu dinero",
+        "flag8": "Mi pago mensual sería más del 10% de mis ingresos",
+        "flag8Desc": "Los pagos inasequibles llevan a trampas de deuda",
+        "resultSafeTitle": "¡Se ve bien!",
+        "resultSafeDesc": "No se detectaron señales de alarma importantes. Este préstamo podría ser razonable, pero aún compara tasas de al menos 3 prestamistas antes de decidir.",
+        "resultCautionTitle": "Procede con precaución",
+        "resultCautionDesc": "Has identificado 1-2 señales de advertencia. Esto no significa automáticamente que sea un mal préstamo, pero deberías investigar más y considerar alternativas.",
+        "resultDangerTitle": "¡Advertencia: Alto riesgo!",
+        "resultDangerDesc": "Se detectaron múltiples señales de alarma. Este préstamo tiene señales significativas de préstamo predatorio. Considera seriamente retirarte y explorar otras opciones como cooperativas de crédito, préstamos familiares o ahorrar.",
+        "resetChecker": "Reiniciar verificador"
+      },
+      "quiz": {
+        "question": "Pregunta",
+        "of": "de",
+        "scenario": "Escenario:",
+        "previous": "Anterior",
+        "nextQuestion": "Siguiente pregunta",
+        "quizComplete": "¡Cuestionario completado!",
+        "scoreMessage": "¡Obtuviste {{score}} de {{total}} correctas!",
+        "tryAgain": "Intentar de nuevo"
+      },
+      "calculator": {
+        "title": "Comparar préstamo bueno vs préstamo predatorio",
+        "amountToBorrow": "Monto a pedir prestado",
+        "goodLoanApr": "TAE de préstamo bueno",
+        "predatoryApr": "TAE predatoria",
+        "repaymentPeriod": "Período de pago",
+        "goodLoanTotal": "Total préstamo bueno",
+        "predatoryLoanTotal": "Total préstamo predatorio",
+        "monthly": "Mensual:",
+        "savings": "Al elegir el buen préstamo, ahorras:"
+      }
     },
     "pomodoroTimer": {
       "title": "Temporizador Pomodoro",
@@ -615,7 +1187,11 @@
         "autoStartWork": "Iniciar sesiones de trabajo automáticamente",
         "soundNotifications": "Notificaciones de sonido",
         "currentSession": "Sesión actual",
-        "completedPomodoros": "Pomodoros completados"
+        "completedPomodoros": "Pomodoros completados",
+        "sessionLabel": "Etiqueta de sesión"
+      },
+      "placeholders": {
+        "sessionLabel": "Enfoque"
       },
       "buttons": {
         "start": "Iniciar",
@@ -659,18 +1235,51 @@
       "labels": {
         "cronExpression": "Expresión Cron",
         "nextRuns": "Próximas ejecuciones programadas",
-        "description": "Descripción"
+        "description": "Legible por humanos",
+        "parseCron": "Analizar expresión cron"
+      },
+      "hints": {
+        "minute": "0-59 o *",
+        "hour": "0-23 o *",
+        "dayOfMonth": "1-31 o *",
+        "month": "1-12 o ENE-DIC",
+        "dayOfWeek": "0-6 (Dom-Sáb)"
       },
       "presets": {
         "title": "Preajustes comunes",
         "everyMinute": "Cada minuto",
+        "every5Min": "Cada 5 min",
+        "every15Min": "Cada 15 min",
         "everyHour": "Cada hora",
-        "everyDay": "Cada día a medianoche",
-        "everyWeek": "Cada domingo a medianoche",
-        "everyMonth": "Primer día de cada mes"
+        "every6Hours": "Cada 6 horas",
+        "everyDay": "Diario medianoche",
+        "daily6am": "Diario 6am",
+        "everyWeek": "Semanal domingo",
+        "everyMonth": "Mensual día 1",
+        "weekdays9am": "Días hábiles 9am"
+      },
+      "modes": {
+        "build": "Construir",
+        "parse": "Analizar"
+      },
+      "placeholders": {
+        "parseInput": "Ingresa expresión cron (ej., */5 * * * *)"
+      },
+      "buttons": {
+        "parse": "Analizar"
       },
       "validation": {
-        "invalid": "Expresión cron inválida"
+        "invalid": "Expresión cron inválida",
+        "enterExpression": "Por favor ingresa una expresión cron",
+        "sixFields": "Esto parece ser un cron de 6 campos (con segundos). Esta herramienta soporta expresiones cron estándar de 5 campos.",
+        "wrongFieldCount": "Se esperaban 5 campos, se obtuvieron {{count}}. Formato: minuto hora día mes día_semana"
+      },
+      "humanReadable": {
+        "everyMinute": "Se ejecuta cada minuto",
+        "everyHour": "Se ejecuta cada hora",
+        "everyDay": "Se ejecuta cada día a medianoche",
+        "everyWeekday": "Se ejecuta cada día hábil",
+        "monthly": "Se ejecuta mensualmente"
       }
     },
     "regexTester": {
@@ -680,29 +1289,53 @@
       "subtitle": "Prueba expresiones regulares con coincidencia en tiempo real",
       "labels": {
         "pattern": "Patrón de expresión regular",
-        "flags": "Banderas",
+        "flags": "Banderas Regex",
         "testString": "Cadena de prueba",
         "matches": "Coincidencias"
       },
       "flags": {
-        "global": "Global (g)",
-        "caseInsensitive": "Insensible a mayúsculas (i)",
-        "multiline": "Multilínea (m)",
-        "dotAll": "Punto todo (s)",
+        "global": "g - Global (encontrar todas)",
+        "caseInsensitive": "i - Insensible a mayúsculas",
+        "multiline": "m - Multilínea",
+        "dotAll": "s - Punto todo",
         "unicode": "Unicode (u)"
       },
       "results": {
         "noMatches": "No se encontraron coincidencias",
-        "matchCount": "Se encontraron {{count}} coincidencia(s)",
-        "matchGroups": "Grupos de coincidencias"
+        "matchCount": "Se encontraron {{count}} coincidencias",
+        "matchGroups": "Grupos de coincidencias",
+        "charCount": "{{count}} / {{max}} caracteres"
       },
       "presets": {
-        "title": "Patrones comunes",
+        "title": "Patrones de red comunes",
+        "entireLine": "Línea completa",
+        "macColon": "MAC (dos puntos)",
+        "macDash": "MAC (guión)",
+        "macDot": "MAC (punto)",
+        "mac4digit": "MAC (4 dígitos)",
+        "macAny": "MAC (cualquier)",
+        "ipv4": "IPv4",
+        "ipv4Cidr": "IPv4 CIDR",
+        "ipMask": "IP + Máscara",
+        "vlanId": "ID VLAN",
+        "interface": "Interfaz",
+        "allSpaces": "Todos los espacios",
+        "blankLines": "Líneas en blanco",
         "email": "Correo electrónico",
         "url": "URL",
-        "ipv4": "Dirección IPv4",
         "phone": "Número de teléfono",
-        "date": "Fecha (YYYY-MM-DD)"
+        "date": "Fecha (YYYY-MM-DD)",
+        "hostname": "Nombre de host",
+        "port": "Puerto"
+      },
+      "placeholders": {
+        "pattern": "Ingresa patrón regex o selecciona de preajustes...",
+        "testString": "Ingresa texto para probar contra tu patrón regex..."
+      },
+      "buttons": {
+        "testPattern": "Probar patrón",
+        "loadSample": "Cargar datos de ejemplo",
+        "exportTxt": "Exportar TXT"
       }
     },
     "timestampConverter": {
@@ -716,6 +1349,32 @@
         "humanReadable": "Legible por humanos",
         "timezone": "Zona horaria",
         "currentTime": "Hora actual"
+      },
+      "tableHeaders": {
+        "line": "Línea",
+        "original": "Original",
+        "detectedFormat": "Formato detectado",
+        "conversions": "Conversiones"
+      },
+      "timezones": {
+        "usEastern": "US Este",
+        "usCentral": "US Central",
+        "usMountain": "US Montaña",
+        "usPacific": "US Pacífico",
+        "london": "Londres (GMT/BST)",
+        "paris": "París (CET/CEST)",
+        "berlin": "Berlín (CET/CEST)",
+        "tokyo": "Tokio (JST)",
+        "shanghai": "Shanghái (CST)",
+        "dubai": "Dubái (GST)",
+        "sydney": "Sídney (AEST/AEDT)",
+        "auckland": "Auckland (NZST/NZDT)",
+        "utc": "UTC",
+        "mumbai": "Bombay (IST)",
+        "singapore": "Singapur (SGT)",
+        "hongKong": "Hong Kong (HKT)",
+        "moscow": "Moscú (MSK)",
+        "saoPaulo": "São Paulo (BRT)"
       },
       "buttons": {
         "now": "Ahora",
@@ -732,6 +1391,11 @@
       "name": "Analizador de certificados",
       "description": "Analiza certificados X.509, muestra detalles del certificado y verifica cadenas de certificados.",
       "subtitle": "Analiza certificados SSL/TLS",
+      "tabs": {
+        "parse": "Analizar Certificado",
+        "parseCSR": "Analizar CSR",
+        "generate": "Generar CSR"
+      },
       "labels": {
         "certificate": "Certificado (formato PEM)",
         "subject": "Sujeto",
@@ -740,7 +1404,33 @@
         "validTo": "Válido hasta",
         "serialNumber": "Número de serie",
         "algorithm": "Algoritmo de firma",
-        "fingerprint": "Huella digital SHA-256"
+        "fingerprint": "Huella digital SHA-256",
+        "san": "Nombres Alternativos del Sujeto (SANs)"
+      },
+      "csrLabels": {
+        "subjectInfo": "Información del Sujeto",
+        "commonName": "Nombre Común (CN) *",
+        "organization": "Organización (O)",
+        "organizationalUnit": "Unidad Organizacional (OU)",
+        "locality": "Localidad (L)",
+        "state": "Estado (ST)",
+        "country": "País (C)",
+        "sanOptional": "Nombres Alternativos del Sujeto (Opcional)"
+      },
+      "csrPlaceholders": {
+        "commonName": "example.com",
+        "organization": "Mi Empresa Inc",
+        "organizationalUnit": "Departamento de TI",
+        "locality": "Ciudad de México",
+        "state": "CDMX",
+        "country": "MX"
+      },
+      "status": {
+        "valid": "Válido",
+        "expired": "Expirado",
+        "notYetValid": "Aún no válido",
+        "expiringSoon": "Expirando pronto",
+        "unknown": "Desconocido"
       },
       "placeholders": {
         "certificate": "Pega el certificado en formato PEM (-----BEGIN CERTIFICATE-----...)"
@@ -755,23 +1445,34 @@
       "description": "Convierte entre unidades de longitud, peso, volumen y temperatura.",
       "subtitle": "Convierte entre unidades de medida comunes",
       "tabs": {
-        "basic": "Basico",
+        "basic": "Básico",
         "cooking": "Cocina",
-        "scientific": "Cientifico",
-        "trigonometry": "Trigonometria",
-        "engineering": "Ingenieria",
+        "scientific": "Científico",
+        "trigonometry": "Trigonometría",
+        "engineering": "Ingeniería",
         "length": "Longitud",
         "weight": "Peso",
         "volume": "Volumen",
         "temperature": "Temperatura",
-        "area": "Area",
+        "area": "Área",
         "speed": "Velocidad"
       },
       "labels": {
         "value": "Valor",
         "from": "De",
         "to": "A",
-        "result": "Resultado"
+        "result": "Resultado",
+        "cupStandard": "Estándar de taza",
+        "enterNumber": "Ingresa número",
+        "precision": "Precisión",
+        "sigFigs": "Cifras significativas",
+        "angle": "Ángulo",
+        "unit": "Unidad"
+      },
+      "placeholders": {
+        "enterValue": "Ingresa valor",
+        "enterTemperature": "Ingresa temperatura",
+        "enterAngle": "Ingresa ángulo"
       },
       "units": {
         "meters": "Metros",
@@ -792,6 +1493,22 @@
         "celsius": "Celsius",
         "fahrenheit": "Fahrenheit",
         "kelvin": "Kelvin"
+      },
+      "cooking": {
+        "usLegal": "US Legal (240ml)",
+        "usCustomary": "US Consuetudinario (236ml)",
+        "metric": "Métrico (250ml)",
+        "imperial": "Imperial (284ml)",
+        "japanese": "Japonés (200ml)"
+      },
+      "scientific": {
+        "scientificNotation": "Notación científica",
+        "significantFigures": "Cifras significativas",
+        "trigResults": "Resultados trigonométricos"
+      },
+      "trigUnits": {
+        "degrees": "Grados",
+        "radians": "Radianes"
       }
     },
     "dataRateCalculator": {
@@ -804,11 +1521,30 @@
         "transferRate": "Tasa de transferencia",
         "transferTime": "Tiempo de transferencia"
       },
+      "sections": {
+        "quickDataSizes": "Tamaños de datos rápidos:",
+        "quickTransferRates": "Tasas de transferencia rápidas:",
+        "transferTime": "Tiempo de transferencia",
+        "transferDetails": "Detalles de transferencia"
+      },
+      "units": {
+        "bytes": "Bytes",
+        "kb": "KB",
+        "mb": "MB",
+        "gb": "GB",
+        "tb": "TB",
+        "pb": "PB",
+        "bps": "bps",
+        "kbps": "Kbps",
+        "mbps": "Mbps",
+        "gbps": "Gbps"
+      },
       "results": {
         "seconds": "Segundos",
         "minutes": "Minutos",
         "hours": "Horas",
-        "days": "Días"
+        "days": "Días",
+        "weeks": "Semanas"
       },
       "presets": {
         "title": "Tasas de transferencia comunes",
@@ -843,10 +1579,43 @@
       "name": "Constructor Jinja",
       "description": "Construye y prueba plantillas Jinja2 con resaltado de sintaxis y vista previa en vivo.",
       "subtitle": "Construye y previsualiza plantillas Jinja2",
+      "tabs": {
+        "basics": "Básicos",
+        "controlFlow": "Flujo de control",
+        "filters": "Filtros",
+        "tests": "Pruebas",
+        "advanced": "Avanzado"
+      },
       "labels": {
         "template": "Plantilla",
         "variables": "Variables (JSON)",
-        "output": "Salida renderizada"
+        "output": "Salida renderizada",
+        "quickReference": "Referencia rápida",
+        "completeReferenceGuide": "Guía de referencia completa"
+      },
+      "templates": {
+        "ciscoInterface": "Configuración de interfaz Cisco",
+        "ciscoAcl": "ACL Cisco",
+        "vlanConfig": "Configuración de VLAN",
+        "bgpNeighbor": "Vecino BGP",
+        "firewallRules": "Reglas de firewall",
+        "nginxVhost": "Host virtual Nginx",
+        "apacheVhost": "Host virtual Apache",
+        "dnsZone": "Archivo de zona DNS",
+        "hostsFile": "Archivo hosts",
+        "ansiblePlaybook": "Playbook de Ansible",
+        "ansibleVariables": "Variables de Ansible",
+        "dockerCompose": "Docker Compose",
+        "forLoopExample": "Ejemplo de bucle For",
+        "conditionalsExample": "Ejemplo de condicionales",
+        "filtersExample": "Ejemplo de filtros",
+        "templateInheritance": "Herencia de plantillas"
+      },
+      "optgroups": {
+        "networkConfigurations": "Configuraciones de red",
+        "serverConfigurations": "Configuraciones de servidor",
+        "automation": "Automatización",
+        "basicExamples": "Ejemplos básicos"
       },
       "buttons": {
         "render": "Renderizar plantilla",
@@ -857,6 +1626,9 @@
         "networkConfig": "Configuración de red",
         "ansiblePlaybook": "Playbook de Ansible",
         "dockerCompose": "Docker Compose"
+      },
+      "placeholders": {
+        "template": "Ingresa tu plantilla Jinja2 aquí..."
       },
       "validation": {
         "invalidJson": "JSON inválido en variables",

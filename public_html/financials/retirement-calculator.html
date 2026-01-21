@@ -985,7 +985,7 @@
         <div class="calculator">
             <form id="retirement-form" aria-label="Retirement Calculator Form">
                 <div class="section-group info-section">
-                    <h3 class="section-title">Your Information</h3>
+                    <h3 class="section-title" data-i18n="tools.retirementCalculator.sections.yourInformation">Your Information</h3>
                     <div class="input-group">
                         <div class="input-field">
                             <label for="current-age">Current Age<span class="required-indicator">*</span></label>
@@ -1006,7 +1006,7 @@
                 </div>
 
                 <div class="section-group income-section">
-                    <h3 class="section-title">Income & Expenses</h3>
+                    <h3 class="section-title" data-i18n="tools.retirementCalculator.sections.incomeExpenses">Income & Expenses</h3>
                     <div class="input-group">
                         <div class="input-field">
                             <label for="annual-income">Annual Income (Pre-tax)<span class="required-indicator">*</span></label>
@@ -1046,7 +1046,7 @@
                 </div>
 
                 <div class="section-group savings-section">
-                    <h3 class="section-title">Savings & Returns</h3>
+                    <h3 class="section-title" data-i18n="tools.retirementCalculator.sections.savingsReturns">Savings & Returns</h3>
                     <div class="input-group">
                         <div class="input-field">
                             <label for="monthly-contribution">Monthly Contribution<span class="required-indicator">*</span></label>
@@ -1074,7 +1074,7 @@
                         </div>
                     </div>
 
-                    <h3 class="section-title">Withdrawal Settings</h3>
+                    <h3 class="section-title" data-i18n="tools.retirementCalculator.sections.withdrawalSettings">Withdrawal Settings</h3>
                     <div class="input-group">
                         <div class="input-field">
                             <label for="withdrawal-rate">Safe Withdrawal Rate<span class="required-indicator">*</span></label>
@@ -1086,7 +1086,7 @@
                             <span class="help-text">4% rule is standard; use 3.5% for 40+ year retirements</span>
                         </div>
                         <div class="input-field">
-                            <label for="social-security">Social Security (Monthly at 67)</label>
+                            <label for="social-security" data-i18n="tools.retirementCalculator.labels.socialSecurity">Social Security (Monthly at 67)</label>
                             <div class="input-prefix">
                                 <span>$</span>
                                 <input type="text" id="social-security" placeholder="0" value="0" aria-describedby="ss-help" inputmode="decimal">
@@ -1101,7 +1101,7 @@
                 <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page" data-i18n="common.clearSavedData">Clear Saved Data</button>
 
                 <div class="quick-presets">
-                    <h3 id="presets-label">Savings Strategy Examples:</h3>
+                    <h3 id="presets-label" data-i18n="tools.retirementCalculator.sections.savingsStrategyExamples">Savings Strategy Examples:</h3>
                     <div class="preset-buttons" role="group" aria-labelledby="presets-label">
                         <button type="button" class="preset-btn fire" onclick="setPreset('aggressive')" aria-label="Aggressive Saver: 50% savings rate, retire at 40">Aggressive Saver (50% savings, retire at 40)</button>
                         <button type="button" class="preset-btn fire" onclick="setPreset('moderate')" aria-label="Moderate Saver: 35% savings rate, retire at 50">Moderate Saver (35% savings, retire at 50)</button>
@@ -1115,7 +1115,7 @@
         </div>
 
         <div class="results" id="results" role="region" aria-live="polite" aria-label="Retirement summary">
-            <h2>Retirement Summary</h2>
+            <h2 data-i18n="tools.retirementCalculator.sections.retirementSummary">Retirement Summary</h2>
             <div class="summary-grid" id="summaryGrid">
                 <!-- Summary will be inserted here -->
             </div>
@@ -1126,7 +1126,7 @@
 
         <div class="schedule-section" id="schedule-section" role="region" aria-label="Year by year projection">
             <div class="section-header">
-                <h2>Year-by-Year Projection</h2>
+                <h2 data-i18n="tools.retirementCalculator.sections.yearByYearProjection">Year-by-Year Projection</h2>
                 <div class="header-actions">
                     <button type="button" class="export-btn" onclick="exportToCSV()" aria-label="Export projection to CSV file" data-i18n="common.exportCSV">Export CSV</button>
                     <button type="button" class="print-btn" onclick="window.print()" aria-label="Print projection">Print</button>
@@ -1154,15 +1154,15 @@
         <div class="formula-section" id="formula-section">
             <div class="collapsible" id="formula-collapsible">
                 <div class="collapsible-header" onclick="toggleCollapsible('formula-collapsible')" tabindex="0" role="button" aria-expanded="false" aria-controls="formula-content">
-                    <h3>Excel Formulas for Retirement Planning</h3>
+                    <h3 data-i18n="tools.retirementCalculator.formulas.title">Excel Formulas for Retirement Planning</h3>
                     <span class="collapsible-icon" aria-hidden="true">&#9660;</span>
                 </div>
                 <div class="collapsible-content" id="formula-content">
                     <p class="formula-intro">Copy these formulas into Excel or Google Sheets. Replace cell references with your values.</p>
 
                     <div class="formula-card">
-                        <h3>FIRE Number (Retirement Target)</h3>
-                        <p class="formula-desc">Calculate how much you need to retire based on the 4% rule</p>
+                        <h3 data-i18n="tools.retirementCalculator.formulas.fireNumber">FIRE Number (Retirement Target)</h3>
+                        <p class="formula-desc" data-i18n="tools.retirementCalculator.formulas.fireNumberDesc">Calculate how much you need to retire based on the 4% rule</p>
                         <div class="formula-box">
                             <code id="formula-fire">=B1/B2</code>
                             <button class="copy-btn" onclick="copyFormula('formula-fire', this)" aria-label="Copy formula">Copy</button>
@@ -1174,8 +1174,8 @@
                     </div>
 
                     <div class="formula-card">
-                        <h3>Future Value of Savings</h3>
-                        <p class="formula-desc">Calculate portfolio value at retirement with monthly contributions</p>
+                        <h3 data-i18n="tools.retirementCalculator.formulas.futureValue">Future Value of Savings</h3>
+                        <p class="formula-desc" data-i18n="tools.retirementCalculator.formulas.futureValueDesc">Calculate portfolio value at retirement with monthly contributions</p>
                         <div class="formula-box">
                             <code id="formula-fv">=FV(B3/12, B4*12, -B2, -B1)</code>
                             <button class="copy-btn" onclick="copyFormula('formula-fv', this)" aria-label="Copy formula">Copy</button>
@@ -1189,8 +1189,8 @@
                     </div>
 
                     <div class="formula-card">
-                        <h3>Years to FIRE</h3>
-                        <p class="formula-desc">Calculate how many years until you reach your FIRE number</p>
+                        <h3 data-i18n="tools.retirementCalculator.formulas.yearsToFire">Years to FIRE</h3>
+                        <p class="formula-desc" data-i18n="tools.retirementCalculator.formulas.yearsToFireDesc">Calculate how many years until you reach your FIRE number</p>
                         <div class="formula-box">
                             <code id="formula-nper">=NPER(B3/12, -B2, -B1, B4)/12</code>
                             <button class="copy-btn" onclick="copyFormula('formula-nper', this)" aria-label="Copy formula">Copy</button>
@@ -1204,8 +1204,8 @@
                     </div>
 
                     <div class="formula-card">
-                        <h3>Savings Rate</h3>
-                        <p class="formula-desc">Calculate your savings rate as a percentage of income</p>
+                        <h3 data-i18n="tools.retirementCalculator.formulas.savingsRate">Savings Rate</h3>
+                        <p class="formula-desc" data-i18n="tools.retirementCalculator.formulas.savingsRateDesc">Calculate your savings rate as a percentage of income</p>
                         <div class="formula-box">
                             <code id="formula-savingsrate">=(B1*12)/B2</code>
                             <button class="copy-btn" onclick="copyFormula('formula-savingsrate', this)" aria-label="Copy formula">Copy</button>
@@ -1217,8 +1217,8 @@
                     </div>
 
                     <div class="formula-card">
-                        <h3>Safe Withdrawal Amount (Annual)</h3>
-                        <p class="formula-desc">Calculate how much you can withdraw annually in retirement</p>
+                        <h3 data-i18n="tools.retirementCalculator.formulas.safeWithdrawal">Safe Withdrawal Amount (Annual)</h3>
+                        <p class="formula-desc" data-i18n="tools.retirementCalculator.formulas.safeWithdrawalDesc">Calculate how much you can withdraw annually in retirement</p>
                         <div class="formula-box">
                             <code id="formula-swr">=B1*B2</code>
                             <button class="copy-btn" onclick="copyFormula('formula-swr', this)" aria-label="Copy formula">Copy</button>

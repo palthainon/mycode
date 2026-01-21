@@ -371,11 +371,11 @@
                         <label for="raidLevel">RAID Level</label>
                         <select id="raidLevel" onchange="updateRaidInfo()" aria-describedby="raid-help">
                         <span id="raid-help" class="sr-only">Select RAID level to calculate capacity and performance characteristics</span>
-                            <option value="0">RAID 0 - Striping (No Redundancy)</option>
-                            <option value="1">RAID 1 - Mirroring</option>
-                            <option value="5" selected>RAID 5 - Distributed Parity</option>
-                            <option value="6">RAID 6 - Double Parity</option>
-                            <option value="10">RAID 10 - Mirrored Stripes</option>
+                            <option value="0" data-i18n="tools.diskTools.raidOptions.raid0">RAID 0 - Striping (No Redundancy)</option>
+                            <option value="1" data-i18n="tools.diskTools.raidOptions.raid1">RAID 1 - Mirroring</option>
+                            <option value="5" selected data-i18n="tools.diskTools.raidOptions.raid5">RAID 5 - Distributed Parity</option>
+                            <option value="6" data-i18n="tools.diskTools.raidOptions.raid6">RAID 6 - Double Parity</option>
+                            <option value="10" data-i18n="tools.diskTools.raidOptions.raid10">RAID 10 - Mirrored Stripes</option>
                         </select>
                     </div>
                     <div class="input-row">
@@ -454,17 +454,17 @@
                         <label for="diskUnit">From Unit</label>
                         <select id="diskUnit" aria-describedby="unit-help">
                         <span id="unit-help" class="sr-only">Select source unit for conversion</span>
-                            <option value="B">Bytes (B)</option>
-                            <option value="KB">Kilobytes (KB - 1000)</option>
-                            <option value="MB">Megabytes (MB - 1000)</option>
-                            <option value="GB" selected>Gigabytes (GB - 1000)</option>
-                            <option value="TB">Terabytes (TB - 1000)</option>
-                            <option value="PB">Petabytes (PB - 1000)</option>
-                            <option value="KiB">Kibibytes (KiB - 1024)</option>
-                            <option value="MiB">Mebibytes (MiB - 1024)</option>
-                            <option value="GiB">Gibibytes (GiB - 1024)</option>
-                            <option value="TiB">Tebibytes (TiB - 1024)</option>
-                            <option value="PiB">Pebibytes (PiB - 1024)</option>
+                            <option value="B" data-i18n="tools.diskTools.unitOptions.bytes">Bytes (B)</option>
+                            <option value="KB" data-i18n="tools.diskTools.unitOptions.kilobytes">Kilobytes (KB - 1000)</option>
+                            <option value="MB" data-i18n="tools.diskTools.unitOptions.megabytes">Megabytes (MB - 1000)</option>
+                            <option value="GB" selected data-i18n="tools.diskTools.unitOptions.gigabytes">Gigabytes (GB - 1000)</option>
+                            <option value="TB" data-i18n="tools.diskTools.unitOptions.terabytes">Terabytes (TB - 1000)</option>
+                            <option value="PB" data-i18n="tools.diskTools.unitOptions.petabytes">Petabytes (PB - 1000)</option>
+                            <option value="KiB" data-i18n="tools.diskTools.unitOptions.kibibytes">Kibibytes (KiB - 1024)</option>
+                            <option value="MiB" data-i18n="tools.diskTools.unitOptions.mebibytes">Mebibytes (MiB - 1024)</option>
+                            <option value="GiB" data-i18n="tools.diskTools.unitOptions.gibibytes">Gibibytes (GiB - 1024)</option>
+                            <option value="TiB" data-i18n="tools.diskTools.unitOptions.tebibytes">Tebibytes (TiB - 1024)</option>
+                            <option value="PiB" data-i18n="tools.diskTools.unitOptions.pebibytes">Pebibytes (PiB - 1024)</option>
                         </select>
                     </div>
                 </div>
@@ -529,12 +529,12 @@
                             <label for="diskType">Disk Type</label>
                             <select id="diskType" onchange="updateIOPSDefaults()" aria-describedby="disk-type-help">
                             <span id="disk-type-help" class="sr-only">Select disk type to set typical IOPS values</span>
-                                <option value="ssd">SSD (Solid State Drive)</option>
-                                <option value="sas15k">SAS 15K RPM</option>
-                                <option value="sas10k">SAS 10K RPM</option>
-                                <option value="sata7k" selected>SATA 7200 RPM</option>
-                                <option value="sata5k">SATA 5400 RPM</option>
-                                <option value="nvme">NVMe SSD</option>
+                                <option value="ssd" data-i18n="tools.diskTools.diskTypes.ssd">SSD (Solid State Drive)</option>
+                                <option value="sas15k" data-i18n="tools.diskTools.diskTypes.sas15k">SAS 15K RPM</option>
+                                <option value="sas10k" data-i18n="tools.diskTools.diskTypes.sas10k">SAS 10K RPM</option>
+                                <option value="sata7k" selected data-i18n="tools.diskTools.diskTypes.sata7200">SATA 7200 RPM</option>
+                                <option value="sata5k" data-i18n="tools.diskTools.diskTypes.sata5400">SATA 5400 RPM</option>
+                                <option value="nvme" data-i18n="tools.diskTools.diskTypes.nvme">NVMe SSD</option>
                             </select>
                         </div>
                         <div class="input-row">
@@ -559,11 +559,11 @@
                                 <label for="raidLevelIOPS">RAID Level</label>
                                 <select id="raidLevelIOPS" aria-describedby="raid-iops-help">
                                 <span id="raid-iops-help" class="sr-only">Select RAID level for IOPS calculation</span>
-                                    <option value="0">RAID 0</option>
-                                    <option value="1">RAID 1</option>
-                                    <option value="5" selected>RAID 5</option>
-                                    <option value="6">RAID 6</option>
-                                    <option value="10">RAID 10</option>
+                                    <option value="0" data-i18n="tools.diskTools.raidOptions.raid0Short">RAID 0</option>
+                                    <option value="1" data-i18n="tools.diskTools.raidOptions.raid1Short">RAID 1</option>
+                                    <option value="5" selected data-i18n="tools.diskTools.raidOptions.raid5Short">RAID 5</option>
+                                    <option value="6" data-i18n="tools.diskTools.raidOptions.raid6Short">RAID 6</option>
+                                    <option value="10" data-i18n="tools.diskTools.raidOptions.raid10Short">RAID 10</option>
                                 </select>
                             </div>
                         </div>

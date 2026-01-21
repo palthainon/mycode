@@ -1217,65 +1217,65 @@
         <div class="formula-section" id="formula-section">
             <div class="collapsible" id="formula-collapsible">
                 <div class="collapsible-header" onclick="toggleCollapsible('formula-collapsible')" tabindex="0" role="button" aria-expanded="false" aria-controls="formula-content">
-                    <h3>Excel Formulas for Loan Amortization</h3>
+                    <h3 data-i18n="tools.amortizationCalculator.formulas.title">Excel Formulas for Loan Amortization</h3>
                     <span class="collapsible-icon" aria-hidden="true">&#9660;</span>
                 </div>
                 <div class="collapsible-content" id="formula-content">
-                    <p class="formula-intro">Copy these formulas into Excel or Google Sheets. Replace cell references with your values.</p>
+                    <p class="formula-intro" data-i18n="tools.amortizationCalculator.formulas.description">Copy these formulas into Excel or Google Sheets. Replace cell references with your values.</p>
 
                     <div class="formula-card">
-                        <h3>Monthly Payment (PMT)</h3>
-                        <p class="formula-desc">Calculate monthly principal and interest payment</p>
+                        <h3 data-i18n="tools.amortizationCalculator.formulas.monthlyPayment">Monthly Payment (PMT)</h3>
+                        <p class="formula-desc" data-i18n="tools.amortizationCalculator.formulas.monthlyPaymentDesc">Calculate monthly principal and interest payment</p>
                         <div class="formula-box">
                             <code id="formula-pmt">=PMT(B2/12, B3*12, -B1)</code>
-                            <button class="copy-btn" onclick="copyFormula('formula-pmt', this)" aria-label="Copy formula">Copy</button>
+                            <button class="copy-btn" onclick="copyFormula('formula-pmt', this)" aria-label="Copy formula" data-i18n="common.copy">Copy</button>
                         </div>
                         <div class="formula-legend">
-                            <span>B1 = Loan Amount</span>
-                            <span>B2 = Annual Rate (decimal, e.g., 0.065)</span>
-                            <span>B3 = Term in Years</span>
+                            <span data-i18n="tools.amortizationCalculator.formulas.legendLoanAmount">B1 = Loan Amount</span>
+                            <span data-i18n="tools.amortizationCalculator.formulas.legendAnnualRate">B2 = Annual Rate (decimal, e.g., 0.065)</span>
+                            <span data-i18n="tools.amortizationCalculator.formulas.legendTermYears">B3 = Term in Years</span>
                         </div>
                     </div>
 
                     <div class="formula-card">
-                        <h3>Total Interest Paid</h3>
-                        <p class="formula-desc">Calculate total interest over the life of the loan</p>
+                        <h3 data-i18n="tools.amortizationCalculator.formulas.totalInterest">Total Interest Paid</h3>
+                        <p class="formula-desc" data-i18n="tools.amortizationCalculator.formulas.totalInterestDesc">Calculate total interest over the life of the loan</p>
                         <div class="formula-box">
                             <code id="formula-total-interest">=(PMT(B2/12,B3*12,-B1)*B3*12)-B1</code>
-                            <button class="copy-btn" onclick="copyFormula('formula-total-interest', this)" aria-label="Copy formula">Copy</button>
+                            <button class="copy-btn" onclick="copyFormula('formula-total-interest', this)" aria-label="Copy formula" data-i18n="common.copy">Copy</button>
                         </div>
                     </div>
 
                     <div class="formula-card">
-                        <h3>Remaining Balance After N Payments</h3>
-                        <p class="formula-desc">Calculate how much you still owe after a number of payments</p>
+                        <h3 data-i18n="tools.amortizationCalculator.formulas.remainingBalance">Remaining Balance After N Payments</h3>
+                        <p class="formula-desc" data-i18n="tools.amortizationCalculator.formulas.remainingBalanceDesc">Calculate how much you still owe after a number of payments</p>
                         <div class="formula-box">
                             <code id="formula-balance">=FV(B2/12, B4, -PMT(B2/12,B3*12,-B1), B1)</code>
-                            <button class="copy-btn" onclick="copyFormula('formula-balance', this)" aria-label="Copy formula">Copy</button>
+                            <button class="copy-btn" onclick="copyFormula('formula-balance', this)" aria-label="Copy formula" data-i18n="common.copy">Copy</button>
                         </div>
                         <div class="formula-legend">
-                            <span>B4 = Payments Made</span>
+                            <span data-i18n="tools.amortizationCalculator.formulas.legendPaymentsMade">B4 = Payments Made</span>
                         </div>
                     </div>
 
                     <div class="formula-card">
-                        <h3>Interest Portion of Payment N</h3>
-                        <p class="formula-desc">Calculate interest portion of a specific payment</p>
+                        <h3 data-i18n="tools.amortizationCalculator.formulas.interestPortion">Interest Portion of Payment N</h3>
+                        <p class="formula-desc" data-i18n="tools.amortizationCalculator.formulas.interestPortionDesc">Calculate interest portion of a specific payment</p>
                         <div class="formula-box">
                             <code id="formula-ipmt">=IPMT(B2/12, B4, B3*12, -B1)</code>
-                            <button class="copy-btn" onclick="copyFormula('formula-ipmt', this)" aria-label="Copy formula">Copy</button>
+                            <button class="copy-btn" onclick="copyFormula('formula-ipmt', this)" aria-label="Copy formula" data-i18n="common.copy">Copy</button>
                         </div>
                         <div class="formula-legend">
-                            <span>B4 = Payment Number</span>
+                            <span data-i18n="tools.amortizationCalculator.formulas.legendPaymentNumber">B4 = Payment Number</span>
                         </div>
                     </div>
 
                     <div class="formula-card">
-                        <h3>Principal Portion of Payment N</h3>
-                        <p class="formula-desc">Calculate principal portion of a specific payment</p>
+                        <h3 data-i18n="tools.amortizationCalculator.formulas.principalPortion">Principal Portion of Payment N</h3>
+                        <p class="formula-desc" data-i18n="tools.amortizationCalculator.formulas.principalPortionDesc">Calculate principal portion of a specific payment</p>
                         <div class="formula-box">
                             <code id="formula-ppmt">=PPMT(B2/12, B4, B3*12, -B1)</code>
-                            <button class="copy-btn" onclick="copyFormula('formula-ppmt', this)" aria-label="Copy formula">Copy</button>
+                            <button class="copy-btn" onclick="copyFormula('formula-ppmt', this)" aria-label="Copy formula" data-i18n="common.copy">Copy</button>
                         </div>
                     </div>
                 </div>
@@ -1357,7 +1357,7 @@
             // Validate principal
             const principal = parseNumber(principalInput.value);
             if (principal === null) {
-                const msg = 'Please enter a valid loan amount';
+                const msg = I18nUtils.t('tools.amortizationCalculator.validation.invalidLoanAmount');
                 errorDiv.textContent = msg;
                 errorDiv.classList.add('show');
                 principalInput.classList.add('error');
@@ -1370,7 +1370,7 @@
             // Validate rate
             const annualRate = parseNumber(rateInput.value);
             if (annualRate === null || annualRate > 100) {
-                const msg = 'Please enter a valid interest rate (0-100%)';
+                const msg = I18nUtils.t('tools.amortizationCalculator.validation.invalidInterestRate');
                 errorDiv.textContent = msg;
                 errorDiv.classList.add('show');
                 rateInput.classList.add('error');
@@ -1383,7 +1383,7 @@
             // Validate term
             const termValue = parseInt(termInput.value);
             if (isNaN(termValue) || termValue <= 0) {
-                const msg = 'Please enter a valid loan term';
+                const msg = I18nUtils.t('tools.amortizationCalculator.validation.invalidTerm');
                 errorDiv.textContent = msg;
                 errorDiv.classList.add('show');
                 termInput.classList.add('error');
@@ -1488,32 +1488,35 @@
 
             let timeString = '';
             if (yearsSaved > 0) {
-                timeString = `${yearsSaved} yr${yearsSaved !== 1 ? 's' : ''} ${monthsSaved} mo`;
+                const yrsLabel = yearsSaved !== 1 ? I18nUtils.t('tools.amortizationCalculator.savings.yearsAbbr') : I18nUtils.t('tools.amortizationCalculator.savings.yearAbbr');
+                const moLabel = I18nUtils.t('tools.amortizationCalculator.savings.monthAbbr');
+                timeString = `${yearsSaved} ${yrsLabel} ${monthsSaved} ${moLabel}`;
             } else {
-                timeString = `${monthsSaved} month${monthsSaved !== 1 ? 's' : ''}`;
+                const monthLabel = monthsSaved !== 1 ? I18nUtils.t('tools.amortizationCalculator.savings.monthsLabel') : I18nUtils.t('tools.amortizationCalculator.savings.monthLabel');
+                timeString = `${monthsSaved} ${monthLabel}`;
             }
 
             const paymentIncrease = ((extraPayment / basePayment) * 100).toFixed(1);
 
             savingsGrid.innerHTML = `
                 <div class="savings-item highlight">
-                    <div class="label">Interest Saved</div>
+                    <div class="label">${I18nUtils.t('tools.amortizationCalculator.savings.interestSaved')}</div>
                     <div class="value positive">${formatCurrency(interestSaved)}</div>
                 </div>
                 <div class="savings-item highlight">
-                    <div class="label">Time Saved</div>
+                    <div class="label">${I18nUtils.t('tools.amortizationCalculator.savings.timeSaved')}</div>
                     <div class="value positive">${timeString}</div>
                 </div>
                 <div class="savings-item">
-                    <div class="label">Payments Eliminated</div>
+                    <div class="label">${I18nUtils.t('tools.amortizationCalculator.savings.paymentsEliminated')}</div>
                     <div class="value">${paymentsSaved}</div>
                 </div>
                 <div class="savings-item">
-                    <div class="label">Extra Payment</div>
-                    <div class="value">${formatCurrency(extraPayment)}/mo</div>
+                    <div class="label">${I18nUtils.t('tools.amortizationCalculator.savings.extraPayment')}</div>
+                    <div class="value">${formatCurrency(extraPayment)}/${I18nUtils.t('tools.amortizationCalculator.savings.perMonth')}</div>
                 </div>
                 <div class="savings-item">
-                    <div class="label">Payment Increase</div>
+                    <div class="label">${I18nUtils.t('tools.amortizationCalculator.savings.paymentIncrease')}</div>
                     <div class="value">+${paymentIncrease}%</div>
                 </div>
             `;
@@ -1530,45 +1533,46 @@
             const hasExtras = monthlyPropertyTax > 0 || hoaFee > 0;
             const totalMonthlyWithExtras = monthlyPayment + monthlyPropertyTax + hoaFee;
 
+            const copyLabel = I18nUtils.t('common.copy');
             let summaryHTML = `
                 <div class="summary-item">
-                    <div class="label">Total Principal</div>
+                    <div class="label">${I18nUtils.t('tools.amortizationCalculator.results.totalPrincipal')}</div>
                     <div class="value">${formatCurrency(principal)}</div>
-                    <button class="copy-btn" onclick="copyValue('${principal.toFixed(2)}', this)" aria-label="Copy principal">Copy</button>
+                    <button class="copy-btn" onclick="copyValue('${principal.toFixed(2)}', this)" aria-label="Copy principal">${copyLabel}</button>
                 </div>
                 <div class="summary-item">
-                    <div class="label">Total Interest</div>
+                    <div class="label">${I18nUtils.t('tools.amortizationCalculator.results.totalInterest')}</div>
                     <div class="value">${formatCurrency(totalInterest)}</div>
-                    <button class="copy-btn" onclick="copyValue('${totalInterest.toFixed(2)}', this)" aria-label="Copy total interest">Copy</button>
+                    <button class="copy-btn" onclick="copyValue('${totalInterest.toFixed(2)}', this)" aria-label="Copy total interest">${copyLabel}</button>
                 </div>
                 <div class="summary-item highlight">
-                    <div class="label">Total Cost</div>
+                    <div class="label">${I18nUtils.t('tools.amortizationCalculator.results.totalCost')}</div>
                     <div class="value">${formatCurrency(totalPaid)}</div>
-                    <button class="copy-btn" onclick="copyValue('${totalPaid.toFixed(2)}', this)" aria-label="Copy total cost">Copy</button>
+                    <button class="copy-btn" onclick="copyValue('${totalPaid.toFixed(2)}', this)" aria-label="Copy total cost">${copyLabel}</button>
                 </div>
                 <div class="summary-item highlight">
-                    <div class="label">${hasExtras ? 'P&I Payment' : 'Monthly Payment'}</div>
+                    <div class="label">${hasExtras ? I18nUtils.t('tools.amortizationCalculator.results.piPayment') : I18nUtils.t('tools.amortizationCalculator.results.monthlyPayment')}</div>
                     <div class="value" id="monthlyPaymentValue">${formatCurrency(monthlyPayment)}</div>
-                    <button class="copy-btn" onclick="copyValue('${monthlyPayment.toFixed(2)}', this)" aria-label="Copy monthly payment">Copy</button>
+                    <button class="copy-btn" onclick="copyValue('${monthlyPayment.toFixed(2)}', this)" aria-label="Copy monthly payment">${copyLabel}</button>
                 </div>`;
 
             if (hasExtras) {
                 summaryHTML += `
                 <div class="summary-item highlight">
-                    <div class="label">Total Monthly Payment</div>
+                    <div class="label">${I18nUtils.t('tools.amortizationCalculator.results.totalMonthlyPayment')}</div>
                     <div class="value">${formatCurrency(totalMonthlyWithExtras)}</div>
-                    <button class="copy-btn" onclick="copyValue('${totalMonthlyWithExtras.toFixed(2)}', this)" aria-label="Copy total monthly payment">Copy</button>
+                    <button class="copy-btn" onclick="copyValue('${totalMonthlyWithExtras.toFixed(2)}', this)" aria-label="Copy total monthly payment">${copyLabel}</button>
                 </div>`;
             }
 
             summaryHTML += `
                 <div class="summary-row">
                     <div class="summary-item">
-                        <div class="label">Total Payments</div>
+                        <div class="label">${I18nUtils.t('tools.amortizationCalculator.results.totalPayments')}</div>
                         <div class="value">${numPayments}</div>
                     </div>
                     <div class="summary-item">
-                        <div class="label">Interest Rate</div>
+                        <div class="label">${I18nUtils.t('tools.amortizationCalculator.results.interestRate')}</div>
                         <div class="value">${rate}%</div>
                     </div>
                 </div>`;
@@ -1578,14 +1582,14 @@
                 if (monthlyPropertyTax > 0) {
                     summaryHTML += `
                     <div class="summary-item">
-                        <div class="label">Monthly Tax</div>
+                        <div class="label">${I18nUtils.t('tools.amortizationCalculator.results.monthlyTax')}</div>
                         <div class="value">${formatCurrency(monthlyPropertyTax)}</div>
                     </div>`;
                 }
                 if (hoaFee > 0) {
                     summaryHTML += `
                     <div class="summary-item">
-                        <div class="label">Monthly HOA</div>
+                        <div class="label">${I18nUtils.t('tools.amortizationCalculator.results.monthlyHOA')}</div>
                         <div class="value">${formatCurrency(hoaFee)}</div>
                     </div>`;
                 }
@@ -1603,22 +1607,26 @@
                 const monthlyTaxPct = (monthlyPropertyTax / totalMonthlyWithExtras * 100).toFixed(1);
                 const monthlyHoaPct = (hoaFee / totalMonthlyWithExtras * 100).toFixed(1);
 
+                const piLabel = I18nUtils.t('tools.amortizationCalculator.breakdown.pi');
+                const taxLabel = I18nUtils.t('tools.amortizationCalculator.breakdown.tax');
+                const hoaLabel = I18nUtils.t('tools.amortizationCalculator.breakdown.hoa');
+
                 let monthlyBarHTML = `<div class="breakdown-pi" style="width: ${piPct}%">${piPct}%</div>`;
                 let monthlyLegendHTML = `
                     <div class="legend-item">
                         <span class="legend-dot pi"></span>
-                        <span>P&I: ${formatCurrency(monthlyPayment)}</span>
+                        <span>${piLabel}: ${formatCurrency(monthlyPayment)}</span>
                     </div>`;
-                let monthlyAriaLabel = `P&I ${piPct}%`;
+                let monthlyAriaLabel = `${piLabel} ${piPct}%`;
 
                 if (monthlyPropertyTax > 0) {
                     monthlyBarHTML += `<div class="breakdown-tax" style="width: ${monthlyTaxPct}%">${monthlyTaxPct}%</div>`;
                     monthlyLegendHTML += `
                     <div class="legend-item">
                         <span class="legend-dot tax"></span>
-                        <span>Tax: ${formatCurrency(monthlyPropertyTax)}</span>
+                        <span>${taxLabel}: ${formatCurrency(monthlyPropertyTax)}</span>
                     </div>`;
-                    monthlyAriaLabel += `, Tax ${monthlyTaxPct}%`;
+                    monthlyAriaLabel += `, ${taxLabel} ${monthlyTaxPct}%`;
                 }
 
                 if (hoaFee > 0) {
@@ -1626,13 +1634,13 @@
                     monthlyLegendHTML += `
                     <div class="legend-item">
                         <span class="legend-dot hoa"></span>
-                        <span>HOA: ${formatCurrency(hoaFee)}</span>
+                        <span>${hoaLabel}: ${formatCurrency(hoaFee)}</span>
                     </div>`;
-                    monthlyAriaLabel += `, HOA ${monthlyHoaPct}%`;
+                    monthlyAriaLabel += `, ${hoaLabel} ${monthlyHoaPct}%`;
                 }
 
                 breakdownHTML += `
-                    <h3>Monthly Payment Breakdown</h3>
+                    <h3>${I18nUtils.t('tools.amortizationCalculator.breakdown.monthlyBreakdown')}</h3>
                     <div class="breakdown-bar" role="img" aria-label="${monthlyAriaLabel}">
                         ${monthlyBarHTML}
                     </div>
@@ -1640,7 +1648,7 @@
                         ${monthlyLegendHTML}
                     </div>
                     <div class="breakdown-total">
-                        <span class="total-label">Total Monthly Payment:</span>
+                        <span class="total-label">${I18nUtils.t('tools.amortizationCalculator.breakdown.totalMonthlyPayment')}</span>
                         <span class="total-value">${formatCurrency(totalMonthlyWithExtras)}</span>
                     </div>
                     <div class="breakdown-spacer"></div>
@@ -1648,6 +1656,12 @@
             }
 
             // Lifetime cost breakdown
+            const principalLabel = I18nUtils.t('tools.amortizationCalculator.breakdown.principal');
+            const interestLabel = I18nUtils.t('tools.amortizationCalculator.breakdown.interest');
+            const taxLabel = I18nUtils.t('tools.amortizationCalculator.breakdown.tax');
+            const hoaLabel = I18nUtils.t('tools.amortizationCalculator.breakdown.hoa');
+            const totalCostLabel = I18nUtils.t('tools.amortizationCalculator.breakdown.totalCost');
+
             if (hasExtras) {
                 // Calculate total lifetime cost including tax and HOA over loan term
                 const totalTax = monthlyPropertyTax * numPayments;
@@ -1661,18 +1675,18 @@
 
                 let barHTML = '';
                 let legendHTML = '';
-                let ariaLabel = `Principal ${principalPct}%, Interest ${interestPct}%`;
+                let ariaLabel = `${principalLabel} ${principalPct}%, ${interestLabel} ${interestPct}%`;
 
                 barHTML += `<div class="breakdown-principal" style="width: ${principalPct}%">${principalPct}%</div>`;
                 barHTML += `<div class="breakdown-interest" style="width: ${interestPct}%">${interestPct}%</div>`;
                 legendHTML += `
                     <div class="legend-item">
                         <span class="legend-dot principal"></span>
-                        <span>Principal: ${formatCurrency(principal)}</span>
+                        <span>${principalLabel}: ${formatCurrency(principal)}</span>
                     </div>
                     <div class="legend-item">
                         <span class="legend-dot interest"></span>
-                        <span>Interest: ${formatCurrency(totalInterest)}</span>
+                        <span>${interestLabel}: ${formatCurrency(totalInterest)}</span>
                     </div>`;
 
                 if (monthlyPropertyTax > 0) {
@@ -1680,9 +1694,9 @@
                     legendHTML += `
                     <div class="legend-item">
                         <span class="legend-dot tax"></span>
-                        <span>Tax: ${formatCurrency(totalTax)}</span>
+                        <span>${taxLabel}: ${formatCurrency(totalTax)}</span>
                     </div>`;
-                    ariaLabel += `, Tax ${taxPct}%`;
+                    ariaLabel += `, ${taxLabel} ${taxPct}%`;
                 }
 
                 if (hoaFee > 0) {
@@ -1690,13 +1704,13 @@
                     legendHTML += `
                     <div class="legend-item">
                         <span class="legend-dot hoa"></span>
-                        <span>HOA: ${formatCurrency(totalHOA)}</span>
+                        <span>${hoaLabel}: ${formatCurrency(totalHOA)}</span>
                     </div>`;
-                    ariaLabel += `, HOA ${hoaPct}%`;
+                    ariaLabel += `, ${hoaLabel} ${hoaPct}%`;
                 }
 
                 breakdownHTML += `
-                    <h3>Total Cost Breakdown (Over Loan Term)</h3>
+                    <h3>${I18nUtils.t('tools.amortizationCalculator.breakdown.totalCostBreakdown')}</h3>
                     <div class="breakdown-bar" role="img" aria-label="${ariaLabel}">
                         ${barHTML}
                     </div>
@@ -1704,29 +1718,29 @@
                         ${legendHTML}
                     </div>
                     <div class="breakdown-total">
-                        <span class="total-label">Total Cost:</span>
+                        <span class="total-label">${totalCostLabel}</span>
                         <span class="total-value">${formatCurrency(grandTotal)}</span>
                     </div>
                 `;
             } else {
                 breakdownHTML += `
-                    <h3>Principal vs Interest Breakdown</h3>
-                    <div class="breakdown-bar" role="img" aria-label="Principal ${principalPercent}%, Interest ${interestPercent}%">
+                    <h3>${I18nUtils.t('tools.amortizationCalculator.breakdown.principalVsInterest')}</h3>
+                    <div class="breakdown-bar" role="img" aria-label="${principalLabel} ${principalPercent}%, ${interestLabel} ${interestPercent}%">
                         <div class="breakdown-principal" style="width: ${principalPercent}%">${principalPercent}%</div>
                         <div class="breakdown-interest" style="width: ${interestPercent}%">${interestPercent}%</div>
                     </div>
                     <div class="breakdown-legend">
                         <div class="legend-item">
                             <span class="legend-dot principal"></span>
-                            <span>Principal: ${formatCurrency(principal)}</span>
+                            <span>${principalLabel}: ${formatCurrency(principal)}</span>
                         </div>
                         <div class="legend-item">
                             <span class="legend-dot interest"></span>
-                            <span>Interest: ${formatCurrency(totalInterest)}</span>
+                            <span>${interestLabel}: ${formatCurrency(totalInterest)}</span>
                         </div>
                     </div>
                     <div class="breakdown-total">
-                        <span class="total-label">Total Cost:</span>
+                        <span class="total-label">${totalCostLabel}</span>
                         <span class="total-value">${formatCurrency(totalPaid)}</span>
                     </div>
                 `;
@@ -1768,7 +1782,7 @@
                 const originalText = button.textContent;
                 button.textContent = '\u2713';
                 button.classList.add('copied');
-                A11yUtils.announce('Value copied to clipboard', 'polite');
+                A11yUtils.announce(I18nUtils.t('common.copiedToClipboard'), 'polite');
 
                 setTimeout(() => {
                     button.textContent = originalText;
@@ -1790,7 +1804,7 @@
                 const originalText = button.textContent;
                 button.textContent = '\u2713';
                 button.classList.add('copied');
-                A11yUtils.announce('Formula copied to clipboard', 'polite');
+                A11yUtils.announce(I18nUtils.t('tools.amortizationCalculator.formulas.copiedFormula'), 'polite');
 
                 setTimeout(() => {
                     button.textContent = originalText;
@@ -1801,11 +1815,18 @@
 
         function exportToCSV() {
             if (scheduleData.length === 0) {
-                alert('No schedule to export. Please calculate first.');
+                alert(I18nUtils.t('tools.amortizationCalculator.schedule.noScheduleToExport'));
                 return;
             }
 
-            const headers = ['Payment #', 'Date', 'Payment', 'Principal', 'Interest', 'Balance'];
+            const headers = [
+                I18nUtils.t('tools.amortizationCalculator.schedule.csvPaymentNum'),
+                I18nUtils.t('tools.amortizationCalculator.schedule.date'),
+                I18nUtils.t('tools.amortizationCalculator.schedule.payment'),
+                I18nUtils.t('tools.amortizationCalculator.schedule.principal'),
+                I18nUtils.t('tools.amortizationCalculator.schedule.interest'),
+                I18nUtils.t('tools.amortizationCalculator.schedule.balance')
+            ];
             const csvRows = [headers.join(',')];
 
             scheduleData.forEach(row => {
@@ -1834,7 +1855,7 @@
             link.click();
             document.body.removeChild(link);
 
-            A11yUtils.announce('Amortization schedule exported to CSV file', 'polite');
+            A11yUtils.announce(I18nUtils.t('tools.amortizationCalculator.schedule.exportedToCSV'), 'polite');
         }
 
         // Format principal input with commas
@@ -1914,7 +1935,7 @@
             document.getElementById('savings-section').classList.remove('show');
             document.getElementById('schedule-section').classList.remove('show');
 
-            A11yUtils.announce('All saved data has been cleared', 'polite');
+            A11yUtils.announce(I18nUtils.t('common.allDataCleared'), 'polite');
         }
 
         // Set default start date to current month and load saved data

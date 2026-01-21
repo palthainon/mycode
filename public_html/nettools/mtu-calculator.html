@@ -704,23 +704,29 @@
 
     <main id="main-content" class="container">
         <h1 data-i18n="tools.mtuCalculator.title">MTU Calculator</h1>
-        <p class="subtitle">Calculate Maximum Transmission Unit with protocol overhead analysis</p>
+        <p class="subtitle" data-i18n="tools.mtuCalculator.subtitle">Calculate Maximum Transmission Unit with protocol overhead analysis</p>
 
         <div class="mode-toggle" role="group" aria-label="Calculator mode selection">
             <button type="button"
                     class="mode-btn active"
                     onclick="switchMode('basic')"
                     aria-pressed="true"
+                    data-i18n="tools.mtuCalculator.modes.mtuCalculator"
+                    data-i18n-aria-label="tools.mtuCalculator.modeDescriptions.mtuCalculator"
                     aria-label="MTU calculator with protocol and VPN overhead selection">MTU Calculator</button>
             <button type="button"
                     class="mode-btn"
                     onclick="switchMode('stack')"
                     aria-pressed="false"
+                    data-i18n="tools.mtuCalculator.modes.protocolStack"
+                    data-i18n-aria-label="tools.mtuCalculator.modeDescriptions.protocolStack"
                     aria-label="Protocol stack builder with visual layers">Protocol Stack</button>
             <button type="button"
                     class="mode-btn"
                     onclick="switchMode('pmtud')"
                     aria-pressed="false"
+                    data-i18n="tools.mtuCalculator.modes.pathMtuDiscovery"
+                    data-i18n-aria-label="tools.mtuCalculator.modeDescriptions.pathMtuDiscovery"
                     aria-label="Path MTU Discovery test command generator">Path MTU Discovery</button>
         </div>
 
@@ -730,7 +736,7 @@
                 <form id="basic-form" aria-label="Basic MTU Calculator Form">
                     <div class="input-group">
                         <div class="input-field">
-                            <label for="basicMtu">Base MTU (bytes)</label>
+                            <label for="basicMtu" data-i18n="tools.mtuCalculator.labels.baseMtu">Base MTU (bytes)</label>
                             <input type="number"
                                    id="basicMtu"
                                    value="1500"
@@ -738,113 +744,114 @@
                                    max="9000"
                                    aria-required="true"
                                    aria-describedby="basic-mtu-help">
-                            <span id="basic-mtu-help" class="sr-only">Enter the base MTU in bytes, typically 1500 for Ethernet</span>
+                            <span id="basic-mtu-help" class="sr-only" data-i18n="tools.mtuCalculator.accessibility.basicMtuHelp">Enter the base MTU in bytes, typically 1500 for Ethernet</span>
                         </div>
                     </div>
 
                     <div class="checkbox-group">
-                        <h3 id="ip-version-label">IP Version</h3>
+                        <h3 id="ip-version-label" data-i18n="tools.mtuCalculator.labels.ipVersion">IP Version</h3>
                         <div class="checkbox-options" role="radiogroup" aria-labelledby="ip-version-label">
                             <div class="checkbox-item">
                                 <input type="radio" id="basicIpv4" name="basicIpVersion" value="ipv4" checked>
-                                <label for="basicIpv4">IPv4 <span class="overhead-info">(20 bytes)</span></label>
+                                <label for="basicIpv4"><span data-i18n="tools.mtuCalculator.protocols.ipv4">IPv4</span> <span class="overhead-info">(20 bytes)</span></label>
                             </div>
                             <div class="checkbox-item">
                                 <input type="radio" id="basicIpv6" name="basicIpVersion" value="ipv6">
-                                <label for="basicIpv6">IPv6 <span class="overhead-info">(40 bytes)</span></label>
+                                <label for="basicIpv6"><span data-i18n="tools.mtuCalculator.protocols.ipv6">IPv6</span> <span class="overhead-info">(40 bytes)</span></label>
                             </div>
                         </div>
                     </div>
 
                     <div class="checkbox-group">
-                        <h3 id="transport-label">Transport Protocol</h3>
+                        <h3 id="transport-label" data-i18n="tools.mtuCalculator.labels.transportProtocol">Transport Protocol</h3>
                         <div class="checkbox-options" role="radiogroup" aria-labelledby="transport-label">
                             <div class="checkbox-item">
                                 <input type="radio" id="basicTcp" name="basicTransport" value="tcp" checked>
-                                <label for="basicTcp">TCP <span class="overhead-info">(20 bytes)</span></label>
+                                <label for="basicTcp"><span data-i18n="tools.mtuCalculator.protocols.tcp">TCP</span> <span class="overhead-info">(20 bytes)</span></label>
                             </div>
                             <div class="checkbox-item">
                                 <input type="radio" id="basicUdp" name="basicTransport" value="udp">
-                                <label for="basicUdp">UDP <span class="overhead-info">(8 bytes)</span></label>
+                                <label for="basicUdp"><span data-i18n="tools.mtuCalculator.protocols.udp">UDP</span> <span class="overhead-info">(8 bytes)</span></label>
                             </div>
                             <div class="checkbox-item">
                                 <input type="radio" id="basicIcmp" name="basicTransport" value="icmp">
-                                <label for="basicIcmp">ICMP <span class="overhead-info">(8 bytes)</span></label>
+                                <label for="basicIcmp"><span data-i18n="tools.mtuCalculator.protocols.icmp">ICMP</span> <span class="overhead-info">(8 bytes)</span></label>
                             </div>
                             <div class="checkbox-item">
                                 <input type="radio" id="basicNone" name="basicTransport" value="none">
-                                <label for="basicNone">None <span class="overhead-info">(IP only)</span></label>
+                                <label for="basicNone"><span data-i18n="tools.mtuCalculator.protocols.none">None</span> <span class="overhead-info" data-i18n="tools.mtuCalculator.protocols.ipOnly">(IP only)</span></label>
                             </div>
                         </div>
                     </div>
 
                     <div class="checkbox-group">
-                        <h3 id="additional-label">Layer 2 Overhead</h3>
+                        <h3 id="additional-label" data-i18n="tools.mtuCalculator.labels.layer2Overhead">Layer 2 Overhead</h3>
                         <div class="checkbox-options" role="group" aria-labelledby="additional-label">
                             <div class="checkbox-item">
                                 <input type="checkbox" id="basicPppoe">
-                                <label for="basicPppoe">PPPoE <span class="overhead-info">(8 bytes)</span></label>
+                                <label for="basicPppoe"><span data-i18n="tools.mtuCalculator.protocols.pppoe">PPPoE</span> <span class="overhead-info">(8 bytes)</span></label>
                             </div>
                             <div class="checkbox-item">
                                 <input type="checkbox" id="basicVlan">
-                                <label for="basicVlan">VLAN 802.1Q <span class="overhead-info">(4 bytes)</span></label>
+                                <label for="basicVlan"><span data-i18n="tools.mtuCalculator.protocols.vlan8021q">VLAN 802.1Q</span> <span class="overhead-info">(4 bytes)</span></label>
                             </div>
                             <div class="checkbox-item">
                                 <input type="checkbox" id="basicQinq">
-                                <label for="basicQinq">QinQ Double Tag <span class="overhead-info">(8 bytes)</span></label>
+                                <label for="basicQinq"><span data-i18n="tools.mtuCalculator.protocols.qinqDoubleTag">QinQ Double Tag</span> <span class="overhead-info">(8 bytes)</span></label>
                             </div>
                         </div>
                     </div>
 
                     <div class="checkbox-group">
-                        <h3 id="tunnel-label">Tunnel / VPN Overhead</h3>
+                        <h3 id="tunnel-label" data-i18n="tools.mtuCalculator.labels.tunnelVpnOverhead">Tunnel / VPN Overhead</h3>
                         <div class="checkbox-options" role="radiogroup" aria-labelledby="tunnel-label" style="flex-direction: column; gap: 10px;">
                             <div class="checkbox-item">
                                 <input type="radio" id="tunnelNone" name="basicTunnel" value="none" checked>
-                                <label for="tunnelNone">None</label>
+                                <label for="tunnelNone" data-i18n="tools.mtuCalculator.protocols.none">None</label>
                             </div>
                             <div class="checkbox-item">
                                 <input type="radio" id="tunnelGre" name="basicTunnel" value="gre">
-                                <label for="tunnelGre">GRE Tunnel <span class="overhead-info">(24 bytes)</span></label>
+                                <label for="tunnelGre"><span data-i18n="tools.mtuCalculator.protocols.greTunnel">GRE Tunnel</span> <span class="overhead-info">(24 bytes)</span></label>
                             </div>
                             <div class="checkbox-item">
                                 <input type="radio" id="tunnelIpsecTunnel" name="basicTunnel" value="ipsec-tunnel">
-                                <label for="tunnelIpsecTunnel">IPsec ESP Tunnel Mode <span class="overhead-info">(~73 bytes)</span></label>
+                                <label for="tunnelIpsecTunnel"><span data-i18n="tools.mtuCalculator.protocols.ipsecEspTunnelMode">IPsec ESP Tunnel Mode</span> <span class="overhead-info">(~73 bytes)</span></label>
                             </div>
                             <div class="checkbox-item">
                                 <input type="radio" id="tunnelIpsecTransport" name="basicTunnel" value="ipsec-transport">
-                                <label for="tunnelIpsecTransport">IPsec ESP Transport Mode <span class="overhead-info">(~53 bytes)</span></label>
+                                <label for="tunnelIpsecTransport"><span data-i18n="tools.mtuCalculator.protocols.ipsecEspTransportMode">IPsec ESP Transport Mode</span> <span class="overhead-info">(~53 bytes)</span></label>
                             </div>
                             <div class="checkbox-item">
                                 <input type="radio" id="tunnelOpenvpnUdp" name="basicTunnel" value="openvpn-udp">
-                                <label for="tunnelOpenvpnUdp">OpenVPN UDP <span class="overhead-info">(~29 bytes)</span></label>
+                                <label for="tunnelOpenvpnUdp"><span data-i18n="tools.mtuCalculator.protocols.openvpnUdp">OpenVPN UDP</span> <span class="overhead-info">(~29 bytes)</span></label>
                             </div>
                             <div class="checkbox-item">
                                 <input type="radio" id="tunnelOpenvpnTcp" name="basicTunnel" value="openvpn-tcp">
-                                <label for="tunnelOpenvpnTcp">OpenVPN TCP <span class="overhead-info">(~41 bytes)</span></label>
+                                <label for="tunnelOpenvpnTcp"><span data-i18n="tools.mtuCalculator.protocols.openvpnTcp">OpenVPN TCP</span> <span class="overhead-info">(~41 bytes)</span></label>
                             </div>
                             <div class="checkbox-item">
                                 <input type="radio" id="tunnelWireguard" name="basicTunnel" value="wireguard">
-                                <label for="tunnelWireguard">WireGuard <span class="overhead-info">(~32 bytes)</span></label>
+                                <label for="tunnelWireguard"><span data-i18n="tools.mtuCalculator.protocols.wireguard">WireGuard</span> <span class="overhead-info">(~32 bytes)</span></label>
                             </div>
                         </div>
                     </div>
 
                     <div class="quick-presets">
-                        <h3 id="presets-label">Quick Presets</h3>
+                        <h3 id="presets-label" data-i18n="tools.mtuCalculator.presets.title">Quick Presets</h3>
                         <div class="preset-buttons" role="group" aria-labelledby="presets-label">
-                            <button type="button" class="preset-btn" onclick="applyPreset('standard')" aria-label="Standard Ethernet 1500 MTU">Standard (1500)</button>
-                            <button type="button" class="preset-btn" onclick="applyPreset('pppoe')" aria-label="PPPoE DSL connection 1492 MTU">PPPoE/DSL (1492)</button>
-                            <button type="button" class="preset-btn" onclick="applyPreset('jumbo')" aria-label="Jumbo frames 9000 MTU">Jumbo (9000)</button>
-                            <button type="button" class="preset-btn" onclick="applyPreset('vpn')" aria-label="VPN safe 1400 MTU">VPN Safe (1400)</button>
-                            <button type="button" class="preset-btn" onclick="applyPreset('ipv4min')" aria-label="IPv4 minimum 576 MTU">IPv4 Min (576)</button>
-                            <button type="button" class="preset-btn" onclick="applyPreset('ipv6min')" aria-label="IPv6 minimum 1280 MTU">IPv6 Min (1280)</button>
+                            <button type="button" class="preset-btn" onclick="applyPreset('standard')" data-i18n="tools.mtuCalculator.presets.standard" data-i18n-aria-label="tools.mtuCalculator.presetDescriptions.standard" aria-label="Standard Ethernet 1500 MTU">Standard (1500)</button>
+                            <button type="button" class="preset-btn" onclick="applyPreset('pppoe')" data-i18n="tools.mtuCalculator.presets.pppoeDsl" data-i18n-aria-label="tools.mtuCalculator.presetDescriptions.pppoeDsl" aria-label="PPPoE DSL connection 1492 MTU">PPPoE/DSL (1492)</button>
+                            <button type="button" class="preset-btn" onclick="applyPreset('jumbo')" data-i18n="tools.mtuCalculator.presets.jumbo" data-i18n-aria-label="tools.mtuCalculator.presetDescriptions.jumbo" aria-label="Jumbo frames 9000 MTU">Jumbo (9000)</button>
+                            <button type="button" class="preset-btn" onclick="applyPreset('vpn')" data-i18n="tools.mtuCalculator.presets.vpnSafe" data-i18n-aria-label="tools.mtuCalculator.presetDescriptions.vpnSafe" aria-label="VPN safe 1400 MTU">VPN Safe (1400)</button>
+                            <button type="button" class="preset-btn" onclick="applyPreset('ipv4min')" data-i18n="tools.mtuCalculator.presets.ipv4Min" data-i18n-aria-label="tools.mtuCalculator.presetDescriptions.ipv4Min" aria-label="IPv4 minimum 576 MTU">IPv4 Min (576)</button>
+                            <button type="button" class="preset-btn" onclick="applyPreset('ipv6min')" data-i18n="tools.mtuCalculator.presets.ipv6Min" data-i18n-aria-label="tools.mtuCalculator.presetDescriptions.ipv6Min" aria-label="IPv6 minimum 1280 MTU">IPv6 Min (1280)</button>
                         </div>
                     </div>
 
                     <button type="button"
                             class="btn"
                             onclick="calculateBasic()"
+                            data-i18n-aria-label="tools.mtuCalculator.accessibility.calculateMtuButton"
                             aria-label="Calculate MTU with selected options"
                             data-i18n="common.calculate">Calculate MTU</button>
                 </form>
@@ -855,7 +862,7 @@
                 <form id="stack-form" aria-label="Protocol Stack Builder Form">
                     <div class="input-group">
                         <div class="input-field">
-                            <label for="stackMtu">Physical MTU (bytes)</label>
+                            <label for="stackMtu" data-i18n="tools.mtuCalculator.labels.physicalMtu">Physical MTU (bytes)</label>
                             <input type="number"
                                    id="stackMtu"
                                    value="1500"
@@ -863,44 +870,44 @@
                                    max="9000"
                                    aria-required="true"
                                    aria-describedby="stack-mtu-help">
-                            <span id="stack-mtu-help" class="sr-only">Enter the physical layer MTU</span>
+                            <span id="stack-mtu-help" class="sr-only" data-i18n="tools.mtuCalculator.accessibility.stackMtuHelp">Enter the physical layer MTU</span>
                         </div>
                     </div>
 
                     <div class="checkbox-group">
-                        <h3 id="stack-layers-label">Select Protocol Layers (in order of encapsulation)</h3>
+                        <h3 id="stack-layers-label" data-i18n="tools.mtuCalculator.labels.selectProtocolLayers">Select Protocol Layers (in order of encapsulation)</h3>
                         <div class="checkbox-options" role="group" aria-labelledby="stack-layers-label" style="flex-direction: column; gap: 10px;">
                             <div class="checkbox-item">
                                 <input type="checkbox" id="stackPppoe">
-                                <label for="stackPppoe">PPPoE <span class="overhead-info">(8 bytes)</span></label>
+                                <label for="stackPppoe"><span data-i18n="tools.mtuCalculator.protocols.pppoe">PPPoE</span> <span class="overhead-info">(8 bytes)</span></label>
                             </div>
                             <div class="checkbox-item">
                                 <input type="checkbox" id="stackVlan">
-                                <label for="stackVlan">VLAN 802.1Q <span class="overhead-info">(4 bytes)</span></label>
+                                <label for="stackVlan"><span data-i18n="tools.mtuCalculator.protocols.vlan8021q">VLAN 802.1Q</span> <span class="overhead-info">(4 bytes)</span></label>
                             </div>
                             <div class="checkbox-item">
                                 <input type="checkbox" id="stackGre">
-                                <label for="stackGre">GRE Tunnel <span class="overhead-info">(24 bytes)</span></label>
+                                <label for="stackGre"><span data-i18n="tools.mtuCalculator.protocols.greTunnel">GRE Tunnel</span> <span class="overhead-info">(24 bytes)</span></label>
                             </div>
                             <div class="checkbox-item">
                                 <input type="checkbox" id="stackIpsec">
-                                <label for="stackIpsec">IPsec ESP Tunnel <span class="overhead-info">(~73 bytes)</span></label>
+                                <label for="stackIpsec"><span data-i18n="tools.mtuCalculator.protocols.ipsecEspTunnelMode">IPsec ESP Tunnel</span> <span class="overhead-info">(~73 bytes)</span></label>
                             </div>
                             <div class="checkbox-item">
                                 <input type="checkbox" id="stackIpv4" checked>
-                                <label for="stackIpv4">IPv4 Header <span class="overhead-info">(20 bytes)</span></label>
+                                <label for="stackIpv4"><span data-i18n="tools.mtuCalculator.protocols.ipv4Header">IPv4 Header</span> <span class="overhead-info">(20 bytes)</span></label>
                             </div>
                             <div class="checkbox-item">
                                 <input type="checkbox" id="stackIpv6">
-                                <label for="stackIpv6">IPv6 Header <span class="overhead-info">(40 bytes)</span></label>
+                                <label for="stackIpv6"><span data-i18n="tools.mtuCalculator.protocols.ipv6Header">IPv6 Header</span> <span class="overhead-info">(40 bytes)</span></label>
                             </div>
                             <div class="checkbox-item">
                                 <input type="checkbox" id="stackTcp" checked>
-                                <label for="stackTcp">TCP Header <span class="overhead-info">(20 bytes)</span></label>
+                                <label for="stackTcp"><span data-i18n="tools.mtuCalculator.protocols.tcpHeader">TCP Header</span> <span class="overhead-info">(20 bytes)</span></label>
                             </div>
                             <div class="checkbox-item">
                                 <input type="checkbox" id="stackUdp">
-                                <label for="stackUdp">UDP Header <span class="overhead-info">(8 bytes)</span></label>
+                                <label for="stackUdp"><span data-i18n="tools.mtuCalculator.protocols.udpHeader">UDP Header</span> <span class="overhead-info">(8 bytes)</span></label>
                             </div>
                         </div>
                     </div>
@@ -908,8 +915,9 @@
                     <button type="button"
                             class="btn"
                             onclick="calculateStack()"
+                            data-i18n-aria-label="tools.mtuCalculator.accessibility.buildProtocolStackButton"
                             aria-label="Build protocol stack and calculate payload"
-                            data-i18n="common.calculate">Build Protocol Stack</button>
+                            data-i18n="tools.mtuCalculator.modes.protocolStack">Build Protocol Stack</button>
                 </form>
             </div>
 
@@ -918,7 +926,7 @@
                 <form id="pmtud-form" aria-label="Path MTU Discovery Form">
                     <div class="input-group">
                         <div class="input-field">
-                            <label for="pmtudMtu">MTU to Test (bytes)</label>
+                            <label for="pmtudMtu" data-i18n="tools.mtuCalculator.labels.mtuToTest">MTU to Test (bytes)</label>
                             <input type="number"
                                    id="pmtudMtu"
                                    value="1500"
@@ -926,30 +934,30 @@
                                    max="9000"
                                    aria-required="true"
                                    aria-describedby="pmtud-mtu-help">
-                            <span id="pmtud-mtu-help" class="sr-only">Enter the MTU value you want to test</span>
+                            <span id="pmtud-mtu-help" class="sr-only" data-i18n="tools.mtuCalculator.accessibility.pmtudMtuHelp">Enter the MTU value you want to test</span>
                         </div>
                         <div class="input-field">
-                            <label for="pmtudHost">Target Host</label>
+                            <label for="pmtudHost" data-i18n="tools.mtuCalculator.labels.targetHost">Target Host</label>
                             <input type="text"
                                    id="pmtudHost"
                                    value="8.8.8.8"
                                    placeholder="example.com or IP address"
                                    aria-required="true"
                                    aria-describedby="pmtud-host-help">
-                            <span id="pmtud-host-help" class="sr-only">Enter a hostname or IP address to test path MTU against</span>
+                            <span id="pmtud-host-help" class="sr-only" data-i18n="tools.mtuCalculator.accessibility.pmtudHostHelp">Enter a hostname or IP address to test path MTU against</span>
                         </div>
                     </div>
 
                     <div class="checkbox-group">
-                        <h3 id="pmtud-ip-label">IP Version</h3>
+                        <h3 id="pmtud-ip-label" data-i18n="tools.mtuCalculator.labels.ipVersion">IP Version</h3>
                         <div class="checkbox-options" role="radiogroup" aria-labelledby="pmtud-ip-label">
                             <div class="checkbox-item">
                                 <input type="radio" id="pmtudIpv4" name="pmtudIpVersion" value="ipv4" checked>
-                                <label for="pmtudIpv4">IPv4</label>
+                                <label for="pmtudIpv4" data-i18n="tools.mtuCalculator.protocols.ipv4">IPv4</label>
                             </div>
                             <div class="checkbox-item">
                                 <input type="radio" id="pmtudIpv6" name="pmtudIpVersion" value="ipv6">
-                                <label for="pmtudIpv6">IPv6</label>
+                                <label for="pmtudIpv6" data-i18n="tools.mtuCalculator.protocols.ipv6">IPv6</label>
                             </div>
                         </div>
                     </div>
@@ -957,6 +965,7 @@
                     <button type="button"
                             class="btn"
                             onclick="calculatePmtud()"
+                            data-i18n-aria-label="tools.mtuCalculator.accessibility.generatePmtudButton"
                             aria-label="Generate Path MTU Discovery test commands"
                             data-i18n="common.generate">Generate PMTUD Commands</button>
                 </form>
@@ -976,143 +985,143 @@
              aria-label="MTU calculation results"></div>
 
         <div class="reference-section">
-            <h2>MTU Reference</h2>
+            <h2 data-i18n="tools.mtuCalculator.reference.title">MTU Reference</h2>
 
-            <h3>Common MTU Values</h3>
+            <h3 data-i18n="tools.mtuCalculator.reference.commonMtuValues">Common MTU Values</h3>
             <table class="reference-table">
                 <thead>
                     <tr>
-                        <th>Network Type</th>
-                        <th>MTU</th>
-                        <th>Use Case</th>
+                        <th data-i18n="tools.mtuCalculator.reference.networkType">Network Type</th>
+                        <th data-i18n="tools.mtuCalculator.reference.mtu">MTU</th>
+                        <th data-i18n="tools.mtuCalculator.reference.useCase">Use Case</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Ethernet Standard</td>
+                        <td data-i18n="tools.mtuCalculator.reference.ethernetStandard">Ethernet Standard</td>
                         <td>1500</td>
-                        <td>Default for most networks</td>
+                        <td data-i18n="tools.mtuCalculator.reference.defaultForMostNetworks">Default for most networks</td>
                     </tr>
                     <tr>
-                        <td>PPPoE/DSL</td>
+                        <td data-i18n="tools.mtuCalculator.reference.pppoeDsl">PPPoE/DSL</td>
                         <td>1492</td>
-                        <td>DSL/fiber with PPPoE (8-byte overhead)</td>
+                        <td data-i18n="tools.mtuCalculator.reference.dslFiberPppoe">DSL/fiber with PPPoE (8-byte overhead)</td>
                     </tr>
                     <tr>
-                        <td>IPv4 Minimum</td>
+                        <td data-i18n="tools.mtuCalculator.reference.ipv4Minimum">IPv4 Minimum</td>
                         <td>576</td>
-                        <td>Minimum guaranteed non-fragmented</td>
+                        <td data-i18n="tools.mtuCalculator.reference.minimumGuaranteedNonFragmented">Minimum guaranteed non-fragmented</td>
                     </tr>
                     <tr>
-                        <td>IPv6 Minimum</td>
+                        <td data-i18n="tools.mtuCalculator.reference.ipv6Minimum">IPv6 Minimum</td>
                         <td>1280</td>
-                        <td>Minimum required for IPv6</td>
+                        <td data-i18n="tools.mtuCalculator.reference.minimumRequiredIpv6">Minimum required for IPv6</td>
                     </tr>
                     <tr>
-                        <td>Ethernet Jumbo</td>
+                        <td data-i18n="tools.mtuCalculator.reference.ethernetJumbo">Ethernet Jumbo</td>
                         <td>9000</td>
-                        <td>High-performance LANs/datacenter</td>
+                        <td data-i18n="tools.mtuCalculator.reference.highPerformanceLan">High-performance LANs/datacenter</td>
                     </tr>
                     <tr>
-                        <td>VPN Typical</td>
+                        <td data-i18n="tools.mtuCalculator.reference.vpnTypical">VPN Typical</td>
                         <td>1400</td>
-                        <td>Common safe value for VPN tunnels</td>
+                        <td data-i18n="tools.mtuCalculator.reference.commonVpnValue">Common safe value for VPN tunnels</td>
                     </tr>
                 </tbody>
             </table>
 
-            <h3>MTU vs MSS</h3>
-            <p><strong>MTU (Maximum Transmission Unit)</strong> is the maximum packet size including all headers at Layer 3 and above.</p>
-            <p><strong>MSS (Maximum Segment Size)</strong> is the maximum TCP payload only, calculated as: MTU - IP header - TCP header.</p>
-            <p>Example: With 1500 MTU and IPv4/TCP: MSS = 1500 - 20 (IPv4) - 20 (TCP) = <strong>1460 bytes</strong></p>
+            <h3 data-i18n="tools.mtuCalculator.reference.mtuVsMss">MTU vs MSS</h3>
+            <p><strong>MTU (Maximum Transmission Unit)</strong> <span data-i18n="tools.mtuCalculator.reference.mtuDefinition">is the maximum packet size including all headers at Layer 3 and above.</span></p>
+            <p><strong>MSS (Maximum Segment Size)</strong> <span data-i18n="tools.mtuCalculator.reference.mssDefinition">is the maximum TCP payload only, calculated as: MTU - IP header - TCP header.</span></p>
+            <p data-i18n="tools.mtuCalculator.reference.mssExample">Example: With 1500 MTU and IPv4/TCP: MSS = 1500 - 20 (IPv4) - 20 (TCP) = <strong>1460 bytes</strong></p>
 
-            <h3>Protocol Header Sizes</h3>
+            <h3 data-i18n="tools.mtuCalculator.reference.protocolHeaderSizes">Protocol Header Sizes</h3>
             <table class="reference-table">
                 <thead>
                     <tr>
-                        <th>Protocol</th>
-                        <th>Header Size</th>
-                        <th>Notes</th>
+                        <th data-i18n="tools.mtuCalculator.labels.protocol">Protocol</th>
+                        <th data-i18n="tools.mtuCalculator.reference.headerSize">Header Size</th>
+                        <th data-i18n="tools.mtuCalculator.reference.notes">Notes</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>IPv4</td>
+                        <td data-i18n="tools.mtuCalculator.protocols.ipv4">IPv4</td>
                         <td>20 bytes</td>
-                        <td>Without options (up to 60 with options)</td>
+                        <td data-i18n="tools.mtuCalculator.reference.ipv4WithoutOptions">Without options (up to 60 with options)</td>
                     </tr>
                     <tr>
-                        <td>IPv6</td>
+                        <td data-i18n="tools.mtuCalculator.protocols.ipv6">IPv6</td>
                         <td>40 bytes</td>
-                        <td>Fixed header size</td>
+                        <td data-i18n="tools.mtuCalculator.reference.ipv6FixedHeader">Fixed header size</td>
                     </tr>
                     <tr>
-                        <td>TCP</td>
+                        <td data-i18n="tools.mtuCalculator.protocols.tcp">TCP</td>
                         <td>20 bytes</td>
-                        <td>Without options (up to 60 with options)</td>
+                        <td data-i18n="tools.mtuCalculator.reference.tcpWithoutOptions">Without options (up to 60 with options)</td>
                     </tr>
                     <tr>
-                        <td>UDP</td>
+                        <td data-i18n="tools.mtuCalculator.protocols.udp">UDP</td>
                         <td>8 bytes</td>
-                        <td>Fixed header size</td>
+                        <td data-i18n="tools.mtuCalculator.reference.udpFixedHeader">Fixed header size</td>
                     </tr>
                     <tr>
-                        <td>ICMP</td>
+                        <td data-i18n="tools.mtuCalculator.protocols.icmp">ICMP</td>
                         <td>8 bytes</td>
-                        <td>Echo request/reply</td>
+                        <td data-i18n="tools.mtuCalculator.reference.icmpEchoRequestReply">Echo request/reply</td>
                     </tr>
                     <tr>
                         <td>GRE</td>
                         <td>24 bytes</td>
-                        <td>4 GRE + 20 inner IP header</td>
+                        <td data-i18n="tools.mtuCalculator.reference.greComponents">4 GRE + 20 inner IP header</td>
                     </tr>
                     <tr>
-                        <td>PPPoE</td>
+                        <td data-i18n="tools.mtuCalculator.protocols.pppoe">PPPoE</td>
                         <td>8 bytes</td>
-                        <td>6 PPPoE + 2 PPP</td>
+                        <td data-i18n="tools.mtuCalculator.reference.pppoeComponents">6 PPPoE + 2 PPP</td>
                     </tr>
                     <tr>
-                        <td>VLAN 802.1Q</td>
+                        <td data-i18n="tools.mtuCalculator.protocols.vlan8021q">VLAN 802.1Q</td>
                         <td>4 bytes</td>
-                        <td>Single VLAN tag</td>
+                        <td data-i18n="tools.mtuCalculator.reference.vlanSingleTag">Single VLAN tag</td>
                     </tr>
                 </tbody>
             </table>
 
-            <h3>VPN/Tunnel Overhead</h3>
+            <h3 data-i18n="tools.mtuCalculator.reference.vpnTunnelOverhead">VPN/Tunnel Overhead</h3>
             <table class="reference-table">
                 <thead>
                     <tr>
-                        <th>VPN Type</th>
-                        <th>Overhead</th>
-                        <th>Components</th>
+                        <th data-i18n="tools.mtuCalculator.reference.vpnType">VPN Type</th>
+                        <th data-i18n="tools.mtuCalculator.labels.overhead">Overhead</th>
+                        <th data-i18n="tools.mtuCalculator.reference.components">Components</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>IPsec ESP Tunnel</td>
+                        <td data-i18n="tools.mtuCalculator.protocols.ipsecEspTunnelMode">IPsec ESP Tunnel</td>
                         <td>~73 bytes</td>
-                        <td>Outer IP (20) + ESP header (8) + IV (16) + trailer (2) + padding (~15) + ICV (12)</td>
+                        <td data-i18n="tools.mtuCalculator.reference.ipsecTunnelComponents">Outer IP (20) + ESP header (8) + IV (16) + trailer (2) + padding (~15) + ICV (12)</td>
                     </tr>
                     <tr>
-                        <td>IPsec ESP Transport</td>
+                        <td data-i18n="tools.mtuCalculator.protocols.ipsecEspTransportMode">IPsec ESP Transport</td>
                         <td>~53 bytes</td>
-                        <td>ESP header (8) + IV (16) + trailer (2) + padding (~15) + ICV (12)</td>
+                        <td data-i18n="tools.mtuCalculator.reference.ipsecTransportComponents">ESP header (8) + IV (16) + trailer (2) + padding (~15) + ICV (12)</td>
                     </tr>
                     <tr>
-                        <td>OpenVPN UDP</td>
+                        <td data-i18n="tools.mtuCalculator.protocols.openvpnUdp">OpenVPN UDP</td>
                         <td>~29 bytes</td>
-                        <td>UDP header (8) + OpenVPN header (1) + HMAC (20)</td>
+                        <td data-i18n="tools.mtuCalculator.reference.openvpnUdpComponents">UDP header (8) + OpenVPN header (1) + HMAC (20)</td>
                     </tr>
                     <tr>
-                        <td>OpenVPN TCP</td>
+                        <td data-i18n="tools.mtuCalculator.protocols.openvpnTcp">OpenVPN TCP</td>
                         <td>~41 bytes</td>
-                        <td>TCP header (20) + OpenVPN header (1) + HMAC (20)</td>
+                        <td data-i18n="tools.mtuCalculator.reference.openvpnTcpComponents">TCP header (20) + OpenVPN header (1) + HMAC (20)</td>
                     </tr>
                     <tr>
-                        <td>WireGuard</td>
+                        <td data-i18n="tools.mtuCalculator.protocols.wireguard">WireGuard</td>
                         <td>~32 bytes</td>
-                        <td>UDP header (8) + WG header (16) + Poly1305 auth (16)</td>
+                        <td data-i18n="tools.mtuCalculator.reference.wireguardComponents">UDP header (8) + WG header (16) + Poly1305 auth (16)</td>
                     </tr>
                 </tbody>
             </table>
@@ -1142,59 +1151,61 @@
             wireguard: 32
         };
 
-        // VPN overhead details
-        const VPN_DETAILS = {
-            'ipsec-tunnel': {
-                name: 'IPsec ESP Tunnel Mode',
-                overhead: 73,
-                components: [
-                    { name: 'Outer IP Header', bytes: 20 },
-                    { name: 'ESP Header', bytes: 8 },
-                    { name: 'IV (AES)', bytes: 16 },
-                    { name: 'ESP Trailer', bytes: 2 },
-                    { name: 'Padding (avg)', bytes: 15 },
-                    { name: 'ICV (Auth)', bytes: 12 }
-                ]
-            },
-            'ipsec-transport': {
-                name: 'IPsec ESP Transport Mode',
-                overhead: 53,
-                components: [
-                    { name: 'ESP Header', bytes: 8 },
-                    { name: 'IV (AES)', bytes: 16 },
-                    { name: 'ESP Trailer', bytes: 2 },
-                    { name: 'Padding (avg)', bytes: 15 },
-                    { name: 'ICV (Auth)', bytes: 12 }
-                ]
-            },
-            'openvpn-udp': {
-                name: 'OpenVPN UDP',
-                overhead: 29,
-                components: [
-                    { name: 'UDP Header', bytes: 8 },
-                    { name: 'OpenVPN Header', bytes: 1 },
-                    { name: 'HMAC', bytes: 20 }
-                ]
-            },
-            'openvpn-tcp': {
-                name: 'OpenVPN TCP',
-                overhead: 41,
-                components: [
-                    { name: 'TCP Header', bytes: 20 },
-                    { name: 'OpenVPN Header', bytes: 1 },
-                    { name: 'HMAC', bytes: 20 }
-                ]
-            },
-            'wireguard': {
-                name: 'WireGuard',
-                overhead: 32,
-                components: [
-                    { name: 'UDP Header', bytes: 8 },
-                    { name: 'WG Header', bytes: 16 },
-                    { name: 'Poly1305 Auth', bytes: 16 }
-                ]
-            }
-        };
+        // VPN overhead details - using i18n keys for translation
+        function getVpnDetails() {
+            return {
+                'ipsec-tunnel': {
+                    nameKey: 'tools.mtuCalculator.protocols.ipsecEspTunnelMode',
+                    overhead: 73,
+                    components: [
+                        { nameKey: 'tools.mtuCalculator.vpnComponents.outerIpHeader', bytes: 20 },
+                        { nameKey: 'tools.mtuCalculator.vpnComponents.espHeader', bytes: 8 },
+                        { nameKey: 'tools.mtuCalculator.vpnComponents.ivAes', bytes: 16 },
+                        { nameKey: 'tools.mtuCalculator.vpnComponents.espTrailer', bytes: 2 },
+                        { nameKey: 'tools.mtuCalculator.vpnComponents.paddingAvg', bytes: 15 },
+                        { nameKey: 'tools.mtuCalculator.vpnComponents.icvAuth', bytes: 12 }
+                    ]
+                },
+                'ipsec-transport': {
+                    nameKey: 'tools.mtuCalculator.protocols.ipsecEspTransportMode',
+                    overhead: 53,
+                    components: [
+                        { nameKey: 'tools.mtuCalculator.vpnComponents.espHeader', bytes: 8 },
+                        { nameKey: 'tools.mtuCalculator.vpnComponents.ivAes', bytes: 16 },
+                        { nameKey: 'tools.mtuCalculator.vpnComponents.espTrailer', bytes: 2 },
+                        { nameKey: 'tools.mtuCalculator.vpnComponents.paddingAvg', bytes: 15 },
+                        { nameKey: 'tools.mtuCalculator.vpnComponents.icvAuth', bytes: 12 }
+                    ]
+                },
+                'openvpn-udp': {
+                    nameKey: 'tools.mtuCalculator.protocols.openvpnUdp',
+                    overhead: 29,
+                    components: [
+                        { nameKey: 'tools.mtuCalculator.vpnComponents.udpHeader', bytes: 8 },
+                        { nameKey: 'tools.mtuCalculator.vpnComponents.openvpnHeader', bytes: 1 },
+                        { nameKey: 'tools.mtuCalculator.vpnComponents.hmac', bytes: 20 }
+                    ]
+                },
+                'openvpn-tcp': {
+                    nameKey: 'tools.mtuCalculator.protocols.openvpnTcp',
+                    overhead: 41,
+                    components: [
+                        { nameKey: 'tools.mtuCalculator.vpnComponents.tcpHeader', bytes: 20 },
+                        { nameKey: 'tools.mtuCalculator.vpnComponents.openvpnHeader', bytes: 1 },
+                        { nameKey: 'tools.mtuCalculator.vpnComponents.hmac', bytes: 20 }
+                    ]
+                },
+                'wireguard': {
+                    nameKey: 'tools.mtuCalculator.protocols.wireguard',
+                    overhead: 32,
+                    components: [
+                        { nameKey: 'tools.mtuCalculator.vpnComponents.udpHeader', bytes: 8 },
+                        { nameKey: 'tools.mtuCalculator.vpnComponents.wgHeader', bytes: 16 },
+                        { nameKey: 'tools.mtuCalculator.vpnComponents.poly1305Auth', bytes: 16 }
+                    ]
+                }
+            };
+        }
 
         let currentMode = 'basic';
         let lastResults = null;
@@ -1225,7 +1236,7 @@
             errorDiv.classList.remove('show');
 
             if (isNaN(mtu) || mtu < 68) {
-                const msg = 'MTU must be at least 68 bytes (IPv4 minimum)';
+                const msg = I18nUtils.t('tools.mtuCalculator.validation.mtuMinimum');
                 A11yUtils.showError(field, msg);
                 errorDiv.textContent = msg;
                 errorDiv.classList.add('show');
@@ -1233,7 +1244,7 @@
             }
 
             if (mtu > 9000) {
-                const msg = 'MTU cannot exceed 9000 bytes (Jumbo frame maximum)';
+                const msg = I18nUtils.t('tools.mtuCalculator.validation.mtuMaximum');
                 A11yUtils.showError(field, msg);
                 errorDiv.textContent = msg;
                 errorDiv.classList.add('show');
@@ -1305,30 +1316,31 @@
 
             // Layer 2 overhead (reduces available MTU)
             if (document.getElementById('basicPppoe').checked) {
-                layers.push({ name: 'PPPoE', bytes: OVERHEAD.pppoe, type: 'l2' });
+                layers.push({ name: I18nUtils.t('tools.mtuCalculator.protocols.pppoe'), bytes: OVERHEAD.pppoe, type: 'l2' });
                 totalOverhead += OVERHEAD.pppoe;
                 l2Overhead += OVERHEAD.pppoe;
             }
             if (document.getElementById('basicVlan').checked && !document.getElementById('basicQinq').checked) {
-                layers.push({ name: 'VLAN 802.1Q', bytes: OVERHEAD.vlan, type: 'l2' });
+                layers.push({ name: I18nUtils.t('tools.mtuCalculator.protocols.vlan8021q'), bytes: OVERHEAD.vlan, type: 'l2' });
                 totalOverhead += OVERHEAD.vlan;
                 l2Overhead += OVERHEAD.vlan;
             }
             if (document.getElementById('basicQinq').checked) {
-                layers.push({ name: 'QinQ Double Tag', bytes: OVERHEAD.qinq, type: 'l2' });
+                layers.push({ name: I18nUtils.t('tools.mtuCalculator.protocols.qinqDoubleTag'), bytes: OVERHEAD.qinq, type: 'l2' });
                 totalOverhead += OVERHEAD.qinq;
                 l2Overhead += OVERHEAD.qinq;
             }
 
             // Tunnel/VPN overhead
+            const VPN_DETAILS = getVpnDetails();
             if (tunnelType !== 'none') {
                 if (tunnelType === 'gre') {
-                    layers.push({ name: 'GRE Tunnel', bytes: OVERHEAD.gre, type: 'tunnel' });
+                    layers.push({ name: I18nUtils.t('tools.mtuCalculator.protocols.greTunnel'), bytes: OVERHEAD.gre, type: 'tunnel' });
                     totalOverhead += OVERHEAD.gre;
                     tunnelOverhead = OVERHEAD.gre;
                 } else if (VPN_DETAILS[tunnelType]) {
                     const vpnInfo = VPN_DETAILS[tunnelType];
-                    layers.push({ name: vpnInfo.name, bytes: vpnInfo.overhead, type: 'tunnel' });
+                    layers.push({ name: I18nUtils.t(vpnInfo.nameKey), bytes: vpnInfo.overhead, type: 'tunnel' });
                     totalOverhead += vpnInfo.overhead;
                     tunnelOverhead = vpnInfo.overhead;
                     vpnComponents = vpnInfo.components;
@@ -1337,15 +1349,15 @@
 
             // IP Layer
             const ipOverhead = ipVersion === 'ipv4' ? OVERHEAD.ipv4 : OVERHEAD.ipv6;
-            layers.push({ name: ipVersion === 'ipv4' ? 'IPv4 Header' : 'IPv6 Header', bytes: ipOverhead, type: 'ip' });
+            layers.push({ name: I18nUtils.t(ipVersion === 'ipv4' ? 'tools.mtuCalculator.protocols.ipv4Header' : 'tools.mtuCalculator.protocols.ipv6Header'), bytes: ipOverhead, type: 'ip' });
             totalOverhead += ipOverhead;
 
             // Transport Layer
             let transportOverhead = 0;
             if (transport !== 'none') {
                 transportOverhead = OVERHEAD[transport];
-                const transportName = transport.toUpperCase() + ' Header';
-                layers.push({ name: transportName, bytes: transportOverhead, type: 'transport' });
+                const transportNameKey = 'tools.mtuCalculator.protocols.' + transport + 'Header';
+                layers.push({ name: I18nUtils.t(transportNameKey), bytes: transportOverhead, type: 'transport' });
                 totalOverhead += transportOverhead;
             }
 
@@ -1383,13 +1395,13 @@
 
             // Check for warnings
             if (results.payload < 0) {
-                warningHtml = `<div class="warning-badge">Negative payload! MTU is too small for selected protocols.</div>`;
+                warningHtml = `<div class="warning-badge">${I18nUtils.t('tools.mtuCalculator.warnings.negativePayload')}</div>`;
             } else if (results.tunnelMtu !== null && results.tunnelMtu < 1280) {
-                warningHtml = `<div class="warning-badge">Tunnel MTU is below 1280 bytes. Consider adjusting your base MTU or tunnel settings.</div>`;
+                warningHtml = `<div class="warning-badge">${I18nUtils.t('tools.mtuCalculator.warnings.tunnelMtuBelow1280')}</div>`;
             } else if (results.effectiveMtu < 576 && results.ipVersion === 'ipv4') {
-                warningHtml = `<div class="warning-badge">Effective MTU is below IPv4 minimum (576 bytes). Fragmentation may occur.</div>`;
+                warningHtml = `<div class="warning-badge">${I18nUtils.t('tools.mtuCalculator.warnings.effectiveMtuBelowIpv4Min')}</div>`;
             } else if (results.effectiveMtu < 1280 && results.ipVersion === 'ipv6') {
-                warningHtml = `<div class="warning-badge">Effective MTU is below IPv6 minimum (1280 bytes). Connection issues may occur.</div>`;
+                warningHtml = `<div class="warning-badge">${I18nUtils.t('tools.mtuCalculator.warnings.effectiveMtuBelowIpv6Min')}</div>`;
             }
 
             let layersHtml = results.layers.map(layer => `
@@ -1402,7 +1414,7 @@
             if (results.payload > 0) {
                 layersHtml += `
                     <div class="layer-item payload">
-                        <span class="layer-name">Available Payload</span>
+                        <span class="layer-name">${I18nUtils.t('tools.mtuCalculator.results.availablePayload')}</span>
                         <span class="layer-bytes">${results.payload} bytes</span>
                     </div>
                 `;
@@ -1411,13 +1423,14 @@
             // VPN component breakdown
             let vpnBreakdownHtml = '';
             if (results.vpnComponents) {
-                const vpnName = VPN_DETAILS[results.tunnelType]?.name || 'VPN';
+                const VPN_DETAILS = getVpnDetails();
+                const vpnName = I18nUtils.t(VPN_DETAILS[results.tunnelType]?.nameKey) || 'VPN';
                 vpnBreakdownHtml = `
                     <div class="overhead-breakdown" style="margin-top: 15px;">
-                        <h3>${vpnName} Component Breakdown</h3>
+                        <h3>${I18nUtils.t('tools.mtuCalculator.results.componentBreakdown', {name: vpnName})}</h3>
                         ${results.vpnComponents.map(c => `
                             <div class="layer-item overhead">
-                                <span class="layer-name">${c.name}</span>
+                                <span class="layer-name">${I18nUtils.t(c.nameKey)}</span>
                                 <span class="layer-bytes">${c.bytes} bytes</span>
                             </div>
                         `).join('')}
@@ -1426,84 +1439,84 @@
             }
 
             resultsDiv.innerHTML = `
-                <h2>MTU Calculation Results</h2>
+                <h2>${I18nUtils.t('tools.mtuCalculator.results.title')}</h2>
                 <div class="summary-grid">
                     <div class="summary-card">
                         <div class="stat-value">${results.baseMtu}</div>
-                        <div class="stat-label">Base MTU</div>
+                        <div class="stat-label">${I18nUtils.t('tools.mtuCalculator.results.baseMtu')}</div>
                     </div>
                     <div class="summary-card ${results.effectiveMtu < 576 ? 'warning' : ''}">
                         <div class="stat-value">${results.effectiveMtu}</div>
-                        <div class="stat-label">Effective MTU</div>
+                        <div class="stat-label">${I18nUtils.t('tools.mtuCalculator.results.effectiveMtu')}</div>
                     </div>
                     ${results.tunnelMtu !== null ? `
                     <div class="summary-card ${results.tunnelMtu < 1280 ? 'warning' : ''}">
                         <div class="stat-value">${results.tunnelMtu}</div>
-                        <div class="stat-label">Tunnel MTU</div>
+                        <div class="stat-label">${I18nUtils.t('tools.mtuCalculator.results.tunnelMtu')}</div>
                     </div>
                     ` : ''}
                     <div class="summary-card ${results.payload < 0 ? 'error' : 'success'}">
                         <div class="stat-value">${results.payload}</div>
-                        <div class="stat-label">Payload</div>
+                        <div class="stat-label">${I18nUtils.t('tools.mtuCalculator.results.payload')}</div>
                     </div>
                     ${results.mss !== null ? `
                     <div class="summary-card">
                         <div class="stat-value">${results.mss}</div>
-                        <div class="stat-label">TCP MSS</div>
+                        <div class="stat-label">${I18nUtils.t('tools.mtuCalculator.results.tcpMss')}</div>
                     </div>
                     ` : ''}
                     ${results.tunnelOverhead > 0 ? `
                     <div class="summary-card">
                         <div class="stat-value">${results.tunnelOverhead}</div>
-                        <div class="stat-label">Tunnel Overhead</div>
+                        <div class="stat-label">${I18nUtils.t('tools.mtuCalculator.results.tunnelOverhead')}</div>
                     </div>
                     ` : ''}
                     <div class="summary-card">
                         <div class="stat-value">${results.totalOverhead}</div>
-                        <div class="stat-label">Total Overhead</div>
+                        <div class="stat-label">${I18nUtils.t('tools.mtuCalculator.results.totalOverhead')}</div>
                     </div>
                 </div>
 
                 ${warningHtml}
 
                 <div class="overhead-breakdown">
-                    <h3>Protocol Overhead Breakdown</h3>
+                    <h3>${I18nUtils.t('tools.mtuCalculator.results.protocolOverheadBreakdown')}</h3>
                     ${layersHtml}
                 </div>
 
                 ${vpnBreakdownHtml}
 
                 <div class="overhead-breakdown">
-                    <h3>Recommended Interface Settings</h3>
+                    <h3>${I18nUtils.t('tools.mtuCalculator.results.recommendedInterfaceSettings')}</h3>
                     <div class="layer-item" style="border-left-color: #66bb6a;">
-                        <span class="layer-name">Physical Interface MTU</span>
+                        <span class="layer-name">${I18nUtils.t('tools.mtuCalculator.results.physicalInterfaceMtu')}</span>
                         <span class="layer-bytes">${results.effectiveMtu} bytes</span>
                     </div>
                     ${results.tunnelMtu !== null ? `
                     <div class="layer-item" style="border-left-color: #66bb6a;">
-                        <span class="layer-name">VPN/Tunnel Interface MTU</span>
+                        <span class="layer-name">${I18nUtils.t('tools.mtuCalculator.results.vpnTunnelInterfaceMtu')}</span>
                         <span class="layer-bytes">${results.tunnelMtu} bytes</span>
                     </div>
                     <div class="layer-item" style="border-left-color: #66bb6a;">
-                        <span class="layer-name">Client Device MTU</span>
+                        <span class="layer-name">${I18nUtils.t('tools.mtuCalculator.results.clientDeviceMtu')}</span>
                         <span class="layer-bytes">${results.tunnelMtu} bytes</span>
                     </div>
                     <p style="color: #90caf9; font-size: 0.85rem; margin-top: 12px; line-height: 1.5;">
-                        <strong>Client Device MTU:</strong> Use this value for devices behind the VPN gateway when Path MTU Discovery (PMTUD) is blocked or unreliable. This prevents packet fragmentation and black-holing.
+                        <strong>${I18nUtils.t('tools.mtuCalculator.results.clientDeviceMtu')}:</strong> ${I18nUtils.t('tools.mtuCalculator.results.clientDeviceMtuNote')}
                     </p>
                     ` : ''}
                 </div>
 
                 <div class="export-section">
-                    <button type="button" class="export-btn" onclick="exportCSV()" aria-label="Export results to CSV file">Export CSV</button>
-                    <button type="button" class="export-btn json" onclick="exportJSON()" aria-label="Export results to JSON file">Export JSON</button>
+                    <button type="button" class="export-btn" onclick="exportCSV()" aria-label="${I18nUtils.t('tools.mtuCalculator.export.csvExported')}">${I18nUtils.t('tools.mtuCalculator.export.csv')}</button>
+                    <button type="button" class="export-btn json" onclick="exportJSON()" aria-label="${I18nUtils.t('tools.mtuCalculator.export.jsonExported')}">${I18nUtils.t('tools.mtuCalculator.export.json')}</button>
                 </div>
             `;
 
             resultsDiv.classList.add('show');
             resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            const tunnelInfo = results.tunnelMtu !== null ? ` Tunnel MTU is ${results.tunnelMtu} bytes.` : '';
-            A11yUtils.announce(`MTU calculation complete. Effective MTU is ${results.effectiveMtu} bytes with ${results.payload} bytes available payload.${tunnelInfo}`, 'polite');
+            const tunnelInfo = results.tunnelMtu !== null ? ' ' + I18nUtils.t('tools.mtuCalculator.accessibility.resultsAnnounceTunnel', {tunnelMtu: results.tunnelMtu}) : '';
+            A11yUtils.announce(I18nUtils.t('tools.mtuCalculator.accessibility.resultsAnnounce', {effectiveMtu: results.effectiveMtu, payload: results.payload}) + tunnelInfo, 'polite');
         }
 
         // Protocol Stack Builder
@@ -1516,35 +1529,35 @@
 
             // Check each layer in order
             if (document.getElementById('stackPppoe').checked) {
-                layers.push({ name: 'PPPoE', bytes: OVERHEAD.pppoe });
+                layers.push({ name: I18nUtils.t('tools.mtuCalculator.protocols.pppoe'), bytes: OVERHEAD.pppoe });
                 totalOverhead += OVERHEAD.pppoe;
             }
             if (document.getElementById('stackVlan').checked) {
-                layers.push({ name: 'VLAN 802.1Q', bytes: OVERHEAD.vlan });
+                layers.push({ name: I18nUtils.t('tools.mtuCalculator.protocols.vlan8021q'), bytes: OVERHEAD.vlan });
                 totalOverhead += OVERHEAD.vlan;
             }
             if (document.getElementById('stackGre').checked) {
-                layers.push({ name: 'GRE Tunnel', bytes: OVERHEAD.gre });
+                layers.push({ name: I18nUtils.t('tools.mtuCalculator.protocols.greTunnel'), bytes: OVERHEAD.gre });
                 totalOverhead += OVERHEAD.gre;
             }
             if (document.getElementById('stackIpsec').checked) {
-                layers.push({ name: 'IPsec ESP Tunnel', bytes: OVERHEAD.ipsecTunnel });
+                layers.push({ name: I18nUtils.t('tools.mtuCalculator.protocols.ipsecEspTunnelMode'), bytes: OVERHEAD.ipsecTunnel });
                 totalOverhead += OVERHEAD.ipsecTunnel;
             }
             if (document.getElementById('stackIpv4').checked) {
-                layers.push({ name: 'IPv4 Header', bytes: OVERHEAD.ipv4 });
+                layers.push({ name: I18nUtils.t('tools.mtuCalculator.protocols.ipv4Header'), bytes: OVERHEAD.ipv4 });
                 totalOverhead += OVERHEAD.ipv4;
             }
             if (document.getElementById('stackIpv6').checked) {
-                layers.push({ name: 'IPv6 Header', bytes: OVERHEAD.ipv6 });
+                layers.push({ name: I18nUtils.t('tools.mtuCalculator.protocols.ipv6Header'), bytes: OVERHEAD.ipv6 });
                 totalOverhead += OVERHEAD.ipv6;
             }
             if (document.getElementById('stackTcp').checked) {
-                layers.push({ name: 'TCP Header', bytes: OVERHEAD.tcp });
+                layers.push({ name: I18nUtils.t('tools.mtuCalculator.protocols.tcpHeader'), bytes: OVERHEAD.tcp });
                 totalOverhead += OVERHEAD.tcp;
             }
             if (document.getElementById('stackUdp').checked) {
-                layers.push({ name: 'UDP Header', bytes: OVERHEAD.udp });
+                layers.push({ name: I18nUtils.t('tools.mtuCalculator.protocols.udpHeader'), bytes: OVERHEAD.udp });
                 totalOverhead += OVERHEAD.udp;
             }
 
@@ -1570,9 +1583,9 @@
             let warningHtml = '';
 
             if (results.payload < 0) {
-                warningHtml = `<div class="warning-badge">Negative payload! Remove some layers or increase MTU.</div>`;
+                warningHtml = `<div class="warning-badge">${I18nUtils.t('tools.mtuCalculator.warnings.negativePayloadStack')}</div>`;
             } else if (results.payload < 100) {
-                warningHtml = `<div class="warning-badge">Very small payload (${results.payload} bytes). Consider optimizing your stack.</div>`;
+                warningHtml = `<div class="warning-badge">${I18nUtils.t('tools.mtuCalculator.warnings.verySmallPayload', {bytes: results.payload})}</div>`;
             }
 
             const layersHtml = results.layers.map(layer => `
@@ -1583,58 +1596,58 @@
             `).join('');
 
             resultsDiv.innerHTML = `
-                <h2>Protocol Stack Analysis</h2>
+                <h2>${I18nUtils.t('tools.mtuCalculator.results.protocolStackAnalysis')}</h2>
                 <div class="summary-grid">
                     <div class="summary-card">
                         <div class="stat-value">${results.baseMtu}</div>
-                        <div class="stat-label">Physical MTU</div>
+                        <div class="stat-label">${I18nUtils.t('tools.mtuCalculator.results.physicalMtu')}</div>
                     </div>
                     <div class="summary-card">
                         <div class="stat-value">${results.totalOverhead}</div>
-                        <div class="stat-label">Total Overhead</div>
+                        <div class="stat-label">${I18nUtils.t('tools.mtuCalculator.results.totalOverhead')}</div>
                     </div>
                     <div class="summary-card ${results.payload < 0 ? 'error' : results.payload < 100 ? 'warning' : 'success'}">
                         <div class="stat-value">${results.payload}</div>
-                        <div class="stat-label">Available Payload</div>
+                        <div class="stat-label">${I18nUtils.t('tools.mtuCalculator.results.availablePayload')}</div>
                     </div>
                     <div class="summary-card">
                         <div class="stat-value">${results.layers.length}</div>
-                        <div class="stat-label">Protocol Layers</div>
+                        <div class="stat-label">${I18nUtils.t('tools.mtuCalculator.results.protocolLayers')}</div>
                     </div>
                 </div>
 
                 ${warningHtml}
 
                 <div class="overhead-breakdown">
-                    <h3>Layer-by-Layer Breakdown</h3>
+                    <h3>${I18nUtils.t('tools.mtuCalculator.results.layerByLayerBreakdown')}</h3>
                     <div class="layer-item" style="border-left-color: #4fc3f7;">
-                        <span class="layer-name">Physical MTU</span>
+                        <span class="layer-name">${I18nUtils.t('tools.mtuCalculator.results.physicalMtu')}</span>
                         <span class="layer-bytes">${results.baseMtu} bytes</span>
                     </div>
                     ${layersHtml}
                     <div class="layer-item payload">
-                        <span class="layer-name">Available Payload</span>
+                        <span class="layer-name">${I18nUtils.t('tools.mtuCalculator.results.availablePayload')}</span>
                         <span class="layer-bytes">${results.payload} bytes</span>
                     </div>
                 </div>
 
                 <div class="overhead-breakdown">
-                    <h3>Recommended Interface Settings</h3>
+                    <h3>${I18nUtils.t('tools.mtuCalculator.results.recommendedInterfaceSettings')}</h3>
                     <div class="layer-item" style="border-left-color: #66bb6a;">
-                        <span class="layer-name">Interface MTU</span>
+                        <span class="layer-name">${I18nUtils.t('tools.mtuCalculator.results.interfaceMtu')}</span>
                         <span class="layer-bytes">${results.baseMtu} bytes</span>
                     </div>
                 </div>
 
                 <div class="export-section">
-                    <button type="button" class="export-btn" onclick="exportCSV()" aria-label="Export results to CSV file">Export CSV</button>
-                    <button type="button" class="export-btn json" onclick="exportJSON()" aria-label="Export results to JSON file">Export JSON</button>
+                    <button type="button" class="export-btn" onclick="exportCSV()" aria-label="${I18nUtils.t('tools.mtuCalculator.export.csvExported')}">${I18nUtils.t('tools.mtuCalculator.export.csv')}</button>
+                    <button type="button" class="export-btn json" onclick="exportJSON()" aria-label="${I18nUtils.t('tools.mtuCalculator.export.jsonExported')}">${I18nUtils.t('tools.mtuCalculator.export.json')}</button>
                 </div>
             `;
 
             resultsDiv.classList.add('show');
             resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            A11yUtils.announce(`Protocol stack built with ${results.layers.length} layers. Total overhead is ${results.totalOverhead} bytes with ${results.payload} bytes payload.`, 'polite');
+            A11yUtils.announce(I18nUtils.t('tools.mtuCalculator.accessibility.stackResultsAnnounce', {layers: results.layers.length, overhead: results.totalOverhead, payload: results.payload}), 'polite');
         }
 
         // Path MTU Discovery
@@ -1649,7 +1662,7 @@
             A11yUtils.clearError(hostField);
 
             if (!host) {
-                const msg = 'Please enter a target host';
+                const msg = I18nUtils.t('tools.mtuCalculator.validation.enterTargetHost');
                 A11yUtils.showError(hostField, msg);
                 errorDiv.textContent = msg;
                 errorDiv.classList.add('show');
@@ -1694,82 +1707,82 @@
             const resultsDiv = document.getElementById('results');
 
             resultsDiv.innerHTML = `
-                <h2>Path MTU Discovery Commands</h2>
+                <h2>${I18nUtils.t('tools.mtuCalculator.pmtud.title')}</h2>
                 <div class="summary-grid">
                     <div class="summary-card">
                         <div class="stat-value">${results.mtu}</div>
-                        <div class="stat-label">Test MTU</div>
+                        <div class="stat-label">${I18nUtils.t('tools.mtuCalculator.pmtud.testMtu')}</div>
                     </div>
                     <div class="summary-card">
                         <div class="stat-value">${results.payloadSize}</div>
-                        <div class="stat-label">ICMP Payload</div>
+                        <div class="stat-label">${I18nUtils.t('tools.mtuCalculator.pmtud.icmpPayload')}</div>
                     </div>
                     <div class="summary-card">
                         <div class="stat-value">${results.ipVersion.toUpperCase()}</div>
-                        <div class="stat-label">IP Version</div>
+                        <div class="stat-label">${I18nUtils.t('tools.mtuCalculator.labels.ipVersion')}</div>
                     </div>
                 </div>
 
                 <div class="icmp-commands">
-                    <h3>Test Commands (with Don't Fragment flag)</h3>
+                    <h3>${I18nUtils.t('tools.mtuCalculator.pmtud.testCommands')}</h3>
                     <p style="color: #90caf9; margin-bottom: 15px; font-size: 0.9rem;">
-                        Run these commands to test if packets of this size can reach the target without fragmentation.
-                        If you receive "Packet needs to be fragmented" or similar errors, reduce the MTU and try again.
+                        ${I18nUtils.t('tools.mtuCalculator.pmtud.testCommandsHelp')}
                     </p>
 
                     <div class="command-box">
-                        <div class="os-label">Linux</div>
+                        <div class="os-label">${I18nUtils.t('tools.mtuCalculator.os.linux')}</div>
                         <code id="cmd-linux">${results.commands.linux}</code>
-                        <button type="button" class="copy-btn" onclick="copyCommand('linux')" aria-label="Copy Linux command">Copy</button>
+                        <button type="button" class="copy-btn" onclick="copyCommand('linux')" aria-label="${I18nUtils.t('tools.mtuCalculator.accessibility.copyButton', {os: 'Linux'})}">${I18nUtils.t('common.copy')}</button>
                     </div>
 
                     <div class="command-box">
-                        <div class="os-label">Windows</div>
+                        <div class="os-label">${I18nUtils.t('tools.mtuCalculator.os.windows')}</div>
                         <code id="cmd-windows">${results.commands.windows}</code>
-                        <button type="button" class="copy-btn" onclick="copyCommand('windows')" aria-label="Copy Windows command">Copy</button>
+                        <button type="button" class="copy-btn" onclick="copyCommand('windows')" aria-label="${I18nUtils.t('tools.mtuCalculator.accessibility.copyButton', {os: 'Windows'})}">${I18nUtils.t('common.copy')}</button>
                     </div>
 
                     <div class="command-box">
-                        <div class="os-label">macOS</div>
+                        <div class="os-label">${I18nUtils.t('tools.mtuCalculator.os.macos')}</div>
                         <code id="cmd-macos">${results.commands.macos}</code>
-                        <button type="button" class="copy-btn" onclick="copyCommand('macos')" aria-label="Copy macOS command">Copy</button>
+                        <button type="button" class="copy-btn" onclick="copyCommand('macos')" aria-label="${I18nUtils.t('tools.mtuCalculator.accessibility.copyButton', {os: 'macOS'})}">${I18nUtils.t('common.copy')}</button>
                     </div>
                 </div>
 
                 <div class="overhead-breakdown">
-                    <h3>How to Find Your Path MTU</h3>
+                    <h3>${I18nUtils.t('tools.mtuCalculator.pmtud.howToFind')}</h3>
                     <ol style="color: #90caf9; padding-left: 20px; line-height: 1.8;">
-                        <li>Start with your current MTU (usually 1500)</li>
-                        <li>Run the command for your OS</li>
-                        <li>If packets get through, your path MTU is at least this size</li>
-                        <li>If you get fragmentation errors, reduce MTU by 10-20 bytes and retry</li>
-                        <li>The largest size that works is your path MTU</li>
+                        <li>${I18nUtils.t('tools.mtuCalculator.pmtud.step1')}</li>
+                        <li>${I18nUtils.t('tools.mtuCalculator.pmtud.step2')}</li>
+                        <li>${I18nUtils.t('tools.mtuCalculator.pmtud.step3')}</li>
+                        <li>${I18nUtils.t('tools.mtuCalculator.pmtud.step4')}</li>
+                        <li>${I18nUtils.t('tools.mtuCalculator.pmtud.step5')}</li>
                     </ol>
                 </div>
 
                 <div class="export-section">
-                    <button type="button" class="export-btn" onclick="exportCSV()" aria-label="Export results to CSV file">Export CSV</button>
-                    <button type="button" class="export-btn json" onclick="exportJSON()" aria-label="Export results to JSON file">Export JSON</button>
+                    <button type="button" class="export-btn" onclick="exportCSV()" aria-label="${I18nUtils.t('tools.mtuCalculator.export.csvExported')}">${I18nUtils.t('tools.mtuCalculator.export.csv')}</button>
+                    <button type="button" class="export-btn json" onclick="exportJSON()" aria-label="${I18nUtils.t('tools.mtuCalculator.export.jsonExported')}">${I18nUtils.t('tools.mtuCalculator.export.json')}</button>
                 </div>
             `;
 
             resultsDiv.classList.add('show');
             resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            A11yUtils.announce(`Path MTU Discovery commands generated for ${results.host}. ICMP payload size is ${results.payloadSize} bytes.`, 'polite');
+            A11yUtils.announce(I18nUtils.t('tools.mtuCalculator.accessibility.pmtudResultsAnnounce', {host: results.host, payloadSize: results.payloadSize}), 'polite');
         }
 
         // Copy command to clipboard
         function copyCommand(os) {
             const code = document.getElementById(`cmd-${os}`);
             const btn = code.parentElement.querySelector('.copy-btn');
+            const osName = os.charAt(0).toUpperCase() + os.slice(1);
 
             navigator.clipboard.writeText(code.textContent).then(() => {
-                btn.textContent = 'Copied!';
+                btn.textContent = I18nUtils.t('common.copied');
                 btn.classList.add('copied');
-                A11yUtils.announce(`${os} command copied to clipboard`, 'polite');
+                A11yUtils.announce(I18nUtils.t('tools.mtuCalculator.accessibility.commandCopied', {os: osName}), 'polite');
 
                 setTimeout(() => {
-                    btn.textContent = 'Copy';
+                    btn.textContent = I18nUtils.t('common.copy');
                     btn.classList.remove('copied');
                 }, 2000);
             }).catch(err => {

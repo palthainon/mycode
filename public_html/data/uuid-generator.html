@@ -781,54 +781,54 @@
 
         <div class="calculator">
             <div class="tabs" role="tablist" aria-label="UUID tool tabs">
-                <button type="button" class="tab-btn active" onclick="switchTab('generate')" role="tab" aria-selected="true" aria-controls="generate-tab" id="tab-generate">Generate</button>
-                <button type="button" class="tab-btn" onclick="switchTab('validate')" role="tab" aria-selected="false" aria-controls="validate-tab" id="tab-validate">Validate</button>
-                <button type="button" class="tab-btn" onclick="switchTab('convert')" role="tab" aria-selected="false" aria-controls="convert-tab" id="tab-convert">Convert</button>
-                <button type="button" class="tab-btn" onclick="switchTab('reference')" role="tab" aria-selected="false" aria-controls="reference-tab" id="tab-reference">Reference</button>
+                <button type="button" class="tab-btn active" onclick="switchTab('generate')" role="tab" aria-selected="true" aria-controls="generate-tab" id="tab-generate" data-i18n="tools.uuidGenerator.tabs.generate">Generate</button>
+                <button type="button" class="tab-btn" onclick="switchTab('validate')" role="tab" aria-selected="false" aria-controls="validate-tab" id="tab-validate" data-i18n="tools.uuidGenerator.tabs.validate">Validate</button>
+                <button type="button" class="tab-btn" onclick="switchTab('convert')" role="tab" aria-selected="false" aria-controls="convert-tab" id="tab-convert" data-i18n="tools.uuidGenerator.tabs.convert">Convert</button>
+                <button type="button" class="tab-btn" onclick="switchTab('reference')" role="tab" aria-selected="false" aria-controls="reference-tab" id="tab-reference" data-i18n="tools.uuidGenerator.tabs.reference">Reference</button>
             </div>
 
             <!-- Generate Tab -->
             <div id="generate-tab" class="tab-content active" role="tabpanel" aria-labelledby="tab-generate">
                 <form aria-label="UUID generation form">
                     <div class="version-selector" role="radiogroup" aria-label="UUID version selection">
-                        <h3>Select UUID Version</h3>
+                        <h3 data-i18n="tools.uuidGenerator.labels.selectVersion">Select UUID Version</h3>
                         <label class="version-option selected" id="version-option-4">
                             <input type="radio" name="uuidVersion" value="4" checked aria-describedby="v4-desc">
                             <div class="version-info">
-                                <div class="version-name">Version 4 (Random) <span class="version-badge">Recommended</span></div>
-                                <div class="version-desc" id="v4-desc">Cryptographically random UUID. Best for general purpose use, databases, and unique identifiers.</div>
+                                <div class="version-name"><span data-i18n="tools.uuidGenerator.versions.v4Name">Version 4 (Random)</span> <span class="version-badge" data-i18n="tools.uuidGenerator.versions.recommended">Recommended</span></div>
+                                <div class="version-desc" id="v4-desc" data-i18n="tools.uuidGenerator.versions.v4Desc">Cryptographically random UUID. Best for general purpose use, databases, and unique identifiers.</div>
                             </div>
                         </label>
                         <label class="version-option" id="version-option-1">
                             <input type="radio" name="uuidVersion" value="1" aria-describedby="v1-desc">
                             <div class="version-info">
-                                <div class="version-name">Version 1 (Timestamp)</div>
-                                <div class="version-desc" id="v1-desc">Based on timestamp and node ID. Useful when you need sortable UUIDs or temporal tracking.</div>
+                                <div class="version-name" data-i18n="tools.uuidGenerator.versions.v1Name">Version 1 (Timestamp)</div>
+                                <div class="version-desc" id="v1-desc" data-i18n="tools.uuidGenerator.versions.v1Desc">Based on timestamp and node ID. Useful when you need sortable UUIDs or temporal tracking.</div>
                             </div>
                         </label>
                         <label class="version-option" id="version-option-5">
                             <input type="radio" name="uuidVersion" value="5" aria-describedby="v5-desc">
                             <div class="version-info">
-                                <div class="version-name">Version 5 (SHA-1 Name-based)</div>
-                                <div class="version-desc" id="v5-desc">Deterministic UUID from namespace and name. Same inputs always produce the same UUID.</div>
+                                <div class="version-name" data-i18n="tools.uuidGenerator.versions.v5Name">Version 5 (SHA-1 Name-based)</div>
+                                <div class="version-desc" id="v5-desc" data-i18n="tools.uuidGenerator.versions.v5Desc">Deterministic UUID from namespace and name. Same inputs always produce the same UUID.</div>
                             </div>
                         </label>
                     </div>
 
                     <div class="v5-options" id="v5Options" aria-label="Version 5 namespace options">
-                        <label for="v5Namespace">Namespace</label>
+                        <label for="v5Namespace" data-i18n="tools.uuidGenerator.labels.namespace">Namespace</label>
                         <select id="v5Namespace">
-                            <option value="dns">DNS (6ba7b810-9dad-11d1-80b4-00c04fd430c8)</option>
-                            <option value="url">URL (6ba7b811-9dad-11d1-80b4-00c04fd430c8)</option>
-                            <option value="oid">OID (6ba7b812-9dad-11d1-80b4-00c04fd430c8)</option>
-                            <option value="x500">X.500 DN (6ba7b814-9dad-11d1-80b4-00c04fd430c8)</option>
-                            <option value="custom">Custom UUID...</option>
+                            <option value="dns" data-i18n="tools.uuidGenerator.namespaces.dns">DNS (6ba7b810-9dad-11d1-80b4-00c04fd430c8)</option>
+                            <option value="url" data-i18n="tools.uuidGenerator.namespaces.url">URL (6ba7b811-9dad-11d1-80b4-00c04fd430c8)</option>
+                            <option value="oid" data-i18n="tools.uuidGenerator.namespaces.oid">OID (6ba7b812-9dad-11d1-80b4-00c04fd430c8)</option>
+                            <option value="x500" data-i18n="tools.uuidGenerator.namespaces.x500">X.500 DN (6ba7b814-9dad-11d1-80b4-00c04fd430c8)</option>
+                            <option value="custom" data-i18n="tools.uuidGenerator.namespaces.custom">Custom UUID...</option>
                         </select>
                         <div id="customNamespaceContainer" style="display: none;">
-                            <label for="v5CustomNamespace">Custom Namespace UUID</label>
+                            <label for="v5CustomNamespace" data-i18n="tools.uuidGenerator.labels.customNamespace">Custom Namespace UUID</label>
                             <input type="text" id="v5CustomNamespace" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx">
                         </div>
-                        <label for="v5Name">Name (string to hash)</label>
+                        <label for="v5Name" data-i18n="tools.uuidGenerator.labels.nameToHash">Name (string to hash)</label>
                         <input type="text" id="v5Name" placeholder="e.g., www.example.com">
                     </div>
 
@@ -841,11 +841,11 @@
                         <div class="option-item">
                             <label for="outputFormat" data-i18n="tools.uuidGenerator.labels.format">Format:</label>
                             <select id="outputFormat">
-                                <option value="plain">Plain list</option>
-                                <option value="comma">Comma-separated</option>
-                                <option value="json">JSON array</option>
-                                <option value="sql">SQL INSERT</option>
-                                <option value="python">Python list</option>
+                                <option value="plain" data-i18n="tools.uuidGenerator.outputFormats.plain">Plain list</option>
+                                <option value="comma" data-i18n="tools.uuidGenerator.outputFormats.comma">Comma-separated</option>
+                                <option value="json" data-i18n="tools.uuidGenerator.outputFormats.json">JSON array</option>
+                                <option value="sql" data-i18n="tools.uuidGenerator.outputFormats.sql">SQL INSERT</option>
+                                <option value="python" data-i18n="tools.uuidGenerator.outputFormats.python">Python list</option>
                             </select>
                         </div>
                         <label class="option-item">
@@ -867,15 +867,15 @@
                     <div class="error" id="generateError" role="alert" aria-live="assertive" aria-atomic="true"></div>
 
                     <div class="output-area" role="region" aria-live="polite" aria-label="Generated UUIDs">
-                        <h3 class="section-title">Output</h3>
+                        <h3 class="section-title" data-i18n="sections.output">Output</h3>
                         <div class="output-box">
                             <textarea id="generateOutput" readonly placeholder="Generated UUIDs will appear here..." aria-label="Generated UUID output"></textarea>
-                            <button type="button" class="copy-btn" onclick="copyOutput('generateOutput', this)" aria-label="Copy output to clipboard">Copy</button>
+                            <button type="button" class="copy-btn" onclick="copyOutput('generateOutput', this)" aria-label="Copy output to clipboard" data-i18n="common.copy">Copy</button>
                         </div>
                     </div>
                 </form>
 
-                <div class="info-box">
+                <div class="info-box" data-i18n="tools.uuidGenerator.infoBox">
                     Uses Web Crypto API for cryptographically secure random generation. All processing happens locally in your browser.
                 </div>
             </div>
@@ -884,14 +884,14 @@
             <div id="validate-tab" class="tab-content" role="tabpanel" aria-labelledby="tab-validate">
                 <form aria-label="UUID validation form">
                     <div class="input-area">
-                        <h3 class="section-title">Enter UUID to Validate</h3>
+                        <h3 class="section-title" data-i18n="tools.uuidGenerator.labels.enterUuidToValidate">Enter UUID to Validate</h3>
                         <input type="text" id="validateInput" placeholder="e.g., 550e8400-e29b-41d4-a716-446655440000" aria-label="UUID to validate" aria-describedby="validate-help">
                         <span id="validate-help" class="sr-only">Enter a UUID to check if it is valid and see its details</span>
                     </div>
 
                     <div class="button-row">
-                        <button type="button" class="action-btn" onclick="validateUUID()" aria-label="Validate the entered UUID">Validate UUID</button>
-                        <button type="button" class="action-btn secondary" onclick="clearValidation()" aria-label="Clear validation result">Clear</button>
+                        <button type="button" class="action-btn" onclick="validateUUID()" aria-label="Validate the entered UUID" data-i18n="tools.uuidGenerator.buttons.validateUuid">Validate UUID</button>
+                        <button type="button" class="action-btn secondary" onclick="clearValidation()" aria-label="Clear validation result" data-i18n="common.clear">Clear</button>
                     </div>
 
                     <div class="error" id="validateError" role="alert" aria-live="assertive" aria-atomic="true"></div>
@@ -904,29 +904,29 @@
                     </div>
                     <div class="validation-details" id="validationDetails"></div>
                     <div class="component-breakdown" id="componentBreakdown">
-                        <h4>Component Breakdown</h4>
+                        <h4 data-i18n="tools.uuidGenerator.labels.componentBreakdown">Component Breakdown</h4>
                         <div class="component-tree" id="componentTree"></div>
                     </div>
                 </div>
 
-                <div class="info-box">
+                <div class="info-box" data-i18n="tools.uuidGenerator.validation.rfc4122">
                     Validates UUID format, version, and variant according to RFC 4122 specification.
                 </div>
 
-                <h3 class="section-title" style="margin-top: 30px;">Batch Validation</h3>
+                <h3 class="section-title" style="margin-top: 30px;" data-i18n="tools.uuidGenerator.labels.batchValidation">Batch Validation</h3>
                 <form aria-label="Batch UUID validation form">
                     <div class="input-area">
                         <textarea id="batchValidateInput" placeholder="Enter multiple UUIDs (one per line)..." aria-label="Multiple UUIDs for batch validation"></textarea>
                     </div>
 
                     <div class="button-row">
-                        <button type="button" class="action-btn" onclick="batchValidate()" aria-label="Validate all entered UUIDs">Validate All</button>
+                        <button type="button" class="action-btn" onclick="batchValidate()" aria-label="Validate all entered UUIDs" data-i18n="tools.uuidGenerator.buttons.validateAll">Validate All</button>
                     </div>
 
                     <div class="output-area" role="region" aria-live="polite" aria-label="Batch validation results">
                         <div class="output-box">
                             <textarea id="batchValidateOutput" readonly placeholder="Batch validation results will appear here..." aria-label="Batch validation output"></textarea>
-                            <button type="button" class="copy-btn" onclick="copyOutput('batchValidateOutput', this)" aria-label="Copy batch results to clipboard">Copy</button>
+                            <button type="button" class="copy-btn" onclick="copyOutput('batchValidateOutput', this)" aria-label="Copy batch results to clipboard" data-i18n="common.copy">Copy</button>
                         </div>
                     </div>
                 </form>
@@ -936,14 +936,14 @@
             <div id="convert-tab" class="tab-content" role="tabpanel" aria-labelledby="tab-convert">
                 <form aria-label="UUID conversion form">
                     <div class="input-area">
-                        <h3 class="section-title">Enter UUID to Convert</h3>
+                        <h3 class="section-title" data-i18n="tools.uuidGenerator.labels.enterUuidToConvert">Enter UUID to Convert</h3>
                         <input type="text" id="convertInput" placeholder="e.g., 550e8400-e29b-41d4-a716-446655440000" aria-label="UUID to convert" aria-describedby="convert-help">
                         <span id="convert-help" class="sr-only">Enter a valid UUID to convert it to different formats</span>
                     </div>
 
                     <div class="button-row">
-                        <button type="button" class="action-btn" onclick="convertUUID()" aria-label="Convert UUID to all formats">Convert</button>
-                        <button type="button" class="action-btn secondary" onclick="clearConversion()" aria-label="Clear conversion results">Clear</button>
+                        <button type="button" class="action-btn" onclick="convertUUID()" aria-label="Convert UUID to all formats" data-i18n="tools.uuidGenerator.buttons.convert">Convert</button>
+                        <button type="button" class="action-btn secondary" onclick="clearConversion()" aria-label="Clear conversion results" data-i18n="common.clear">Clear</button>
                     </div>
 
                     <div class="error" id="convertError" role="alert" aria-live="assertive" aria-atomic="true"></div>
@@ -951,43 +951,43 @@
 
                 <div class="convert-results" id="convertResults" role="region" aria-live="polite" aria-label="Conversion results" style="display: none;">
                     <div class="convert-item">
-                        <span class="format-name">Standard</span>
+                        <span class="format-name" data-i18n="tools.uuidGenerator.formats.standard">Standard</span>
                         <span class="format-value" id="formatStandard">-</span>
-                        <button type="button" class="copy-btn" onclick="copyFormat('formatStandard', this)" aria-label="Copy standard format">Copy</button>
+                        <button type="button" class="copy-btn" onclick="copyFormat('formatStandard', this)" aria-label="Copy standard format" data-i18n="common.copy">Copy</button>
                     </div>
                     <div class="convert-item">
-                        <span class="format-name">Uppercase</span>
+                        <span class="format-name" data-i18n="tools.uuidGenerator.formats.uppercase">Uppercase</span>
                         <span class="format-value" id="formatUppercase">-</span>
-                        <button type="button" class="copy-btn" onclick="copyFormat('formatUppercase', this)" aria-label="Copy uppercase format">Copy</button>
+                        <button type="button" class="copy-btn" onclick="copyFormat('formatUppercase', this)" aria-label="Copy uppercase format" data-i18n="common.copy">Copy</button>
                     </div>
                     <div class="convert-item">
-                        <span class="format-name">No Hyphens</span>
+                        <span class="format-name" data-i18n="tools.uuidGenerator.formats.noHyphens">No Hyphens</span>
                         <span class="format-value" id="formatNoHyphens">-</span>
-                        <button type="button" class="copy-btn" onclick="copyFormat('formatNoHyphens', this)" aria-label="Copy format without hyphens">Copy</button>
+                        <button type="button" class="copy-btn" onclick="copyFormat('formatNoHyphens', this)" aria-label="Copy format without hyphens" data-i18n="common.copy">Copy</button>
                     </div>
                     <div class="convert-item">
-                        <span class="format-name">URN</span>
+                        <span class="format-name" data-i18n="tools.uuidGenerator.formats.urn">URN</span>
                         <span class="format-value" id="formatURN">-</span>
-                        <button type="button" class="copy-btn" onclick="copyFormat('formatURN', this)" aria-label="Copy URN format">Copy</button>
+                        <button type="button" class="copy-btn" onclick="copyFormat('formatURN', this)" aria-label="Copy URN format" data-i18n="common.copy">Copy</button>
                     </div>
                     <div class="convert-item">
-                        <span class="format-name">C# GUID</span>
+                        <span class="format-name" data-i18n="tools.uuidGenerator.formats.csharp">C# GUID</span>
                         <span class="format-value" id="formatCSharp">-</span>
-                        <button type="button" class="copy-btn" onclick="copyFormat('formatCSharp', this)" aria-label="Copy C sharp GUID format">Copy</button>
+                        <button type="button" class="copy-btn" onclick="copyFormat('formatCSharp', this)" aria-label="Copy C sharp GUID format" data-i18n="common.copy">Copy</button>
                     </div>
                     <div class="convert-item">
-                        <span class="format-name">Hex Bytes</span>
+                        <span class="format-name" data-i18n="tools.uuidGenerator.formats.hexBytes">Hex Bytes</span>
                         <span class="format-value" id="formatHexBytes">-</span>
-                        <button type="button" class="copy-btn" onclick="copyFormat('formatHexBytes', this)" aria-label="Copy hex bytes format">Copy</button>
+                        <button type="button" class="copy-btn" onclick="copyFormat('formatHexBytes', this)" aria-label="Copy hex bytes format" data-i18n="common.copy">Copy</button>
                     </div>
                     <div class="convert-item">
-                        <span class="format-name">Base64</span>
+                        <span class="format-name" data-i18n="tools.uuidGenerator.formats.base64">Base64</span>
                         <span class="format-value" id="formatBase64">-</span>
-                        <button type="button" class="copy-btn" onclick="copyFormat('formatBase64', this)" aria-label="Copy base64 format">Copy</button>
+                        <button type="button" class="copy-btn" onclick="copyFormat('formatBase64', this)" aria-label="Copy base64 format" data-i18n="common.copy">Copy</button>
                     </div>
                 </div>
 
-                <div class="info-box">
+                <div class="info-box" data-i18n="tools.uuidGenerator.convertInfo">
                     All conversions preserve the original UUID value. Different formats are used by different systems and programming languages.
                 </div>
             </div>
@@ -995,7 +995,7 @@
             <!-- Reference Tab -->
             <div id="reference-tab" class="tab-content" role="tabpanel" aria-labelledby="tab-reference">
                 <div class="reference-section">
-                    <h3>UUID Structure</h3>
+                    <h3 data-i18n="tools.uuidGenerator.reference.structure">UUID Structure</h3>
                     <div class="structure-diagram" role="img" aria-label="UUID structure diagram">
 <span class="highlight">xxxxxxxx</span>-<span class="highlight">xxxx</span>-<span class="highlight">Mxxx</span>-<span class="highlight">Nxxx</span>-<span class="highlight">xxxxxxxxxxxx</span>
     |         |      |      |           |
@@ -1019,61 +1019,61 @@
                 </div>
 
                 <div class="reference-section">
-                    <h3>Version Comparison</h3>
+                    <h3 data-i18n="tools.uuidGenerator.reference.versionComparison">Version Comparison</h3>
                     <table class="use-case-table" role="table">
                         <thead>
                             <tr>
-                                <th scope="col">Use Case</th>
-                                <th scope="col">Recommended Version</th>
-                                <th scope="col">Why</th>
+                                <th scope="col" data-i18n="reference.useCase">Use Case</th>
+                                <th scope="col" data-i18n="reference.recommended">Recommended Version</th>
+                                <th scope="col" data-i18n="reference.why">Why</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Database primary keys</td>
+                                <td data-i18n="tools.uuidGenerator.reference.useCases.databaseKeys">Database primary keys</td>
                                 <td>Version 4</td>
-                                <td>Cryptographically random, no collisions</td>
+                                <td data-i18n="tools.uuidGenerator.reference.whyReasons.random">Cryptographically random, no collisions</td>
                             </tr>
                             <tr>
-                                <td>Need temporal sorting</td>
+                                <td data-i18n="tools.uuidGenerator.reference.useCases.temporalSorting">Need temporal sorting</td>
                                 <td>Version 1 or ULID</td>
-                                <td>Timestamp is encoded in the UUID</td>
+                                <td data-i18n="tools.uuidGenerator.reference.whyReasons.timestamp">Timestamp is encoded in the UUID</td>
                             </tr>
                             <tr>
-                                <td>Deterministic IDs</td>
+                                <td data-i18n="tools.uuidGenerator.reference.useCases.deterministicIds">Deterministic IDs</td>
                                 <td>Version 5</td>
-                                <td>Same input always = same UUID</td>
+                                <td data-i18n="tools.uuidGenerator.reference.whyReasons.sameInput">Same input always = same UUID</td>
                             </tr>
                             <tr>
-                                <td>Distributed systems</td>
+                                <td data-i18n="tools.uuidGenerator.reference.useCases.distributedSystems">Distributed systems</td>
                                 <td>Version 4</td>
-                                <td>No coordination needed between nodes</td>
+                                <td data-i18n="tools.uuidGenerator.reference.whyReasons.noCoordination">No coordination needed between nodes</td>
                             </tr>
                             <tr>
-                                <td>Content-based addressing</td>
+                                <td data-i18n="tools.uuidGenerator.reference.useCases.contentAddressing">Content-based addressing</td>
                                 <td>Version 5</td>
-                                <td>UUID derived from content itself</td>
+                                <td data-i18n="tools.uuidGenerator.reference.whyReasons.contentDerived">UUID derived from content itself</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
 
                 <div class="reference-section">
-                    <h3>Special UUIDs</h3>
+                    <h3 data-i18n="tools.uuidGenerator.reference.specialUuids">Special UUIDs</h3>
                     <div class="convert-item" style="background: rgba(0, 0, 0, 0.2); margin-bottom: 10px;">
-                        <span class="format-name">NIL UUID</span>
+                        <span class="format-name" data-i18n="tools.uuidGenerator.reference.nilUuid">NIL UUID</span>
                         <span class="format-value">00000000-0000-0000-0000-000000000000</span>
-                        <button type="button" class="copy-btn" onclick="copyText('00000000-0000-0000-0000-000000000000', this)" aria-label="Copy NIL UUID">Copy</button>
+                        <button type="button" class="copy-btn" onclick="copyText('00000000-0000-0000-0000-000000000000', this)" aria-label="Copy NIL UUID" data-i18n="common.copy">Copy</button>
                     </div>
                     <div class="convert-item" style="background: rgba(0, 0, 0, 0.2);">
-                        <span class="format-name">Max UUID</span>
+                        <span class="format-name" data-i18n="tools.uuidGenerator.reference.maxUuid">Max UUID</span>
                         <span class="format-value">ffffffff-ffff-ffff-ffff-ffffffffffff</span>
-                        <button type="button" class="copy-btn" onclick="copyText('ffffffff-ffff-ffff-ffff-ffffffffffff', this)" aria-label="Copy Max UUID">Copy</button>
+                        <button type="button" class="copy-btn" onclick="copyText('ffffffff-ffff-ffff-ffff-ffffffffffff', this)" aria-label="Copy Max UUID" data-i18n="common.copy">Copy</button>
                     </div>
                 </div>
 
                 <div class="reference-section">
-                    <h3>Code Examples</h3>
+                    <h3 data-i18n="tools.uuidGenerator.reference.codeExamples">Code Examples</h3>
 
                     <div class="code-example">
                         <span class="lang-label">JavaScript (Browser/Node.js 15+)</span>

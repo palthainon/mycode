@@ -173,6 +173,61 @@
     "right": "Pad Right",
     "both": "Pad Both"
   },
+  "reference": {
+    "quickReference": "Quick Reference",
+    "caseStyle": "Case Style",
+    "languages": "Languages",
+    "commonUsage": "Common Usage",
+    "operation": "Operation",
+    "commonUseCases": "Common Use Cases",
+    "option": "Option",
+    "behavior": "Behavior",
+    "format": "Format",
+    "escapes": "Characters Escaped",
+    "unescapes": "Unescapes",
+    "useCase": "Use Case",
+    "recommended": "Recommended",
+    "why": "Why",
+    "tipLabel": "Tip:",
+    "securityNote": "Security Note (SQL):",
+    "bestPractice": "Best Practice:"
+  },
+  "stringToolsRef": {
+    "caseConventions": "Quick Reference: Case Conventions",
+    "lineOperations": "Quick Reference: Line Operations",
+    "duplicateHandling": "Quick Reference: Duplicate Handling",
+    "escapeFormats": "Quick Reference: Escape Formats",
+    "camelCaseDesc": "Variables, functions, methods",
+    "pascalCaseDesc": "Classes, interfaces, types",
+    "snakeCaseDesc": "Variables, database columns",
+    "kebabCaseDesc": "CSS classes, URL slugs, CLI flags",
+    "screamingSnakeDesc": "Constants, env variables",
+    "tipCaseConventions": "Follow your language's conventions (PEP 8 for Python, Airbnb Style Guide for JS). snake_case is generally more readable; camelCase is more compact.",
+    "trimLinesUseCase": "Clean copy-pasted data, remove trailing whitespace before commits",
+    "padLinesUseCase": "Align columns in fixed-width formats, format tables",
+    "sortUseCase": "Organize imports, hosts files, config entries, DNS records",
+    "sortNumericUseCase": "Order version numbers, IP addresses, port lists, log counts",
+    "reverseLinesUseCase": "Invert chronological logs, reverse stack traces",
+    "removeEmptyUseCase": "Clean up multi-line configs, sanitize user lists",
+    "shuffleUseCase": "Randomize test data, generate sample sets",
+    "tipNumericSort": "Numeric sort extracts the leading number from each line, useful for lines like \"192.168.1.1 - server1\" or \"v2.1.0 - release\".",
+    "caseSensitiveBehavior": "{{code1}} and {{code2}} are treated as different values",
+    "trimBeforeCompareBehavior": "Ignores leading/trailing whitespace ({{code1}} = {{code2}})",
+    "removeDuplicatesUseCase": "Clean email lists, dedupe hostnames, sanitize IP lists",
+    "showDuplicatesUseCase": "Find repeated entries in logs, identify conflicts",
+    "countOccurrencesUseCase": "Analyze log frequency, find most common errors/IPs",
+    "tipCountOccurrences": "Use \"Count Occurrences\" on server logs to quickly identify the most frequent IP addresses, error codes, or user agents.",
+    "htmlEscapes": "& < > \" '",
+    "jsonEscapes": "Quotes, backslashes, control chars",
+    "urlEscapes": "Non-alphanumeric to %XX",
+    "sqlEscapes": "Single quotes doubled",
+    "regexEscapes": ". * + ? ^ $ { } ( ) [ ] \\ |",
+    "shellEscapes": "Wraps in single quotes",
+    "csvEscapes": "Quotes fields, doubles internal quotes",
+    "xmlEscapes": "& < > \" ' as entities",
+    "securityNoteSql": "Escaping single quotes helps but is not sufficient for SQL injection prevention. Always use parameterized queries/prepared statements in production code.",
+    "bestPracticeHtml": "HTML entity encoding prevents basic XSS but is context-dependent. For full protection, encode on output (not input), use Content Security Policy (CSP), and leverage your framework's built-in protections."
+  },
   "tools": {
     "subnetCalculator": {
       "title": "IPv4 Subnet Calculator",
@@ -211,13 +266,67 @@
       "invalidIP": "Please enter a valid IPv4 address (e.g., 192.168.1.100)",
       "resultsAnnounce": "Subnet calculation complete. Network address is {{network}} slash {{cidr}}. {{hosts}} usable hosts.",
       "switchToIPv6": "Switch to IPv6 →",
-      "footer": "Subnet Calculator - Works offline, no installation required"
+      "footer": "Subnet Calculator - Works offline, no installation required",
+      "formAriaLabel": "Subnet Calculator Form",
+      "ipAddressScreenReader": "Enter an IPv4 address in dotted decimal notation, for example 192.168.1.100",
+      "cidrScreenReader": "Select the CIDR prefix length or subnet mask for your network",
+      "limitedForPerformance": "(limited to first {{max}} for performance)",
+      "loopback": "Loopback",
+      "classD": "Class D (Multicast)",
+      "classE": "Class E (Reserved)",
+      "notApplicable": "N/A",
+      "noSubnetListToExport": "No subnet list to export",
+      "resultsAriaLabel": "Subnet calculation results",
+      "subnetListAriaLabel": "All subnets in network",
+      "exportSubnetDetailsAriaLabel": "Export subnet details to CSV file",
+      "exportSubnetListAriaLabel": "Export subnet list to CSV file",
+      "calculateAriaLabel": "Calculate subnet details for the entered IP address and CIDR",
+      "clearSavedDataAriaLabel": "Clear all saved form data from this page"
     },
     "subnetCalculatorIPv6": {
       "title": "IPv6 Subnet Calculator",
       "name": "IPv6 Subnet Calculator",
       "description": "Calculate IPv6 network addresses, prefix information, and address ranges. Full support for IPv6 CIDR notation and address compression.",
-      "switchToIPv4": "← Switch to IPv4"
+      "switchToIPv4": "← Switch to IPv4",
+      "formAriaLabel": "IPv6 Subnet Calculator Form",
+      "ipv6AddressPlaceholder": "2001:db8::1",
+      "ipv6AddressHelp": "Enter an IPv6 address in standard or compressed notation, for example 2001:db8::1",
+      "prefixHelp": "Select the IPv6 prefix length for your network",
+      "prefixOptions": {
+        "p32": "/32 - ISP Allocation",
+        "p48": "/48 - Site Prefix",
+        "p56": "/56 - Small Site",
+        "p64": "/64 - Single Subnet",
+        "p80": "/80",
+        "p96": "/96",
+        "p112": "/112",
+        "p120": "/120",
+        "p127": "/127 - Point-to-Point",
+        "p128": "/128 - Single Host"
+      },
+      "quickAddresses": "Quick Select Common Addresses:",
+      "quickPrefixes": "Quick Select Common Prefixes:",
+      "addressLocal": "fe80::1 - Local",
+      "addressInternet": "2001:db8::1 - Internet",
+      "addressPrivate": "fd00::1 - Private",
+      "prefixISP": "/32 ISP",
+      "prefixSite": "/48 Site",
+      "prefixSmallSite": "/56 Small Site",
+      "prefixSubnet": "/64 Subnet",
+      "prefixHost": "/128 Host",
+      "networkCompressed": "Network Address (Compressed)",
+      "networkExpanded": "Network Address (Expanded)",
+      "interfaceId": "Interface ID",
+      "hexRepresentation": "Hexadecimal Representation",
+      "hexIPv6Address": "IPv6 Address:",
+      "hexPrefixMask": "Prefix Mask:",
+      "hexNetworkColored": "Network (colored):",
+      "invalidIPv6": "Please enter a valid IPv6 address (e.g., 2001:db8::1 or 2001:0db8:0000:0000:0000:0000:0000:0001)",
+      "resultsAnnounce": "IPv6 subnet calculation complete. Network address is {{network}} slash {{cidr}}. Address type is {{type}}.",
+      "performanceLimitWarning": "Performance limit: Showing first {{max}} of {{total}} possible subnets",
+      "subnetListInfo": "Showing {{shown}} of {{total}} possible /{{cidr}} subnets within {{network}}",
+      "current": "Current",
+      "noSubnetListToExport": "No subnet list to export"
     },
     "subnetPlanner": {
       "title": "Subnet Planner",
@@ -241,7 +350,39 @@
       "color": "Color",
       "actions": "Actions",
       "exportJSON": "Export JSON",
-      "ipv4Reference": "IPv4 Reserved Address Reference"
+      "ipv4Reference": "IPv4 Reserved Address Reference",
+      "reference": {
+        "privateAddresses": "Private Addresses (RFC 1918)",
+        "specialPurpose": "Special-Purpose Addresses",
+        "multicastBroadcast": "Multicast & Broadcast",
+        "documentationTesting": "Documentation & Testing",
+        "reservedFuture": "Reserved & Future Use",
+        "cidrRange": "CIDR Range",
+        "addressCount": "Address Count",
+        "description": "Description",
+        "classAPrivate": "Class A private network - 16,777,216 addresses",
+        "classBPrivate": "Class B private network - 1,048,576 addresses",
+        "classCPrivate": "Class C private network - 65,536 addresses",
+        "loopback": "Loopback addresses (localhost)",
+        "loopbackRfc": "RFC 1122 - Typically 127.0.0.1",
+        "linkLocal": "Link-Local / APIPA (Automatic Private IP Addressing)",
+        "linkLocalRfc": "RFC 3927 - Used when DHCP unavailable",
+        "carrierGradeNat": "Carrier-Grade NAT (CGN)",
+        "carrierGradeNatRfc": "RFC 6598 - Shared address space for ISPs",
+        "multicast": "Multicast addresses (former Class D)",
+        "limitedBroadcast": "Limited broadcast address",
+        "limitedBroadcastRfc": "RFC 919 - Broadcast to local subnet",
+        "testNet1": "Documentation (TEST-NET-1)",
+        "testNet2": "Documentation (TEST-NET-2)",
+        "testNet3": "Documentation (TEST-NET-3)",
+        "testNetRfc": "RFC 5737 - Examples and documentation",
+        "benchmarking": "Benchmarking and testing",
+        "benchmarkingRfc": "RFC 2544 - Network performance testing",
+        "currentNetwork": "Current network (only valid as source)",
+        "currentNetworkRfc": "RFC 1122 - This network",
+        "reservedClassE": "Reserved for future use (former Class E)",
+        "reservedClassERfc": "RFC 1112 - Experimental"
+      }
     },
     "subnetPlannerIPv6": {
       "title": "IPv6 Subnet Planner",
@@ -265,12 +406,68 @@
       "color": "Color",
       "actions": "Actions",
       "exportJSON": "Export JSON",
-      "ipv6Reference": "IPv6 Reserved Address Reference"
+      "ipv6Reference": "IPv6 Reserved Address Reference",
+      "reference": {
+        "specialAddresses": "Special Addresses",
+        "loopbackDesc": "Loopback address (localhost)",
+        "loopbackRfc": "RFC 4291 - Equivalent to IPv4 127.0.0.1",
+        "unspecifiedDesc": "Unspecified address",
+        "unspecifiedRfc": "RFC 4291 - Used when no address available",
+        "ipv4MappedDesc": "IPv4-mapped IPv6 addresses",
+        "ipv4MappedRfc": "RFC 4291 - Hybrid dual-stack environments",
+        "linkLocalUniqueLocal": "Link-Local & Unique Local",
+        "linkLocalDesc": "Link-local addresses",
+        "linkLocalRfc": "RFC 4291 - Valid only on local subnet",
+        "ulaDesc": "Unique Local Addresses (ULA)",
+        "ulaRfc": "RFC 4193 - Private IPv6 addresses",
+        "ulaLocalDesc": "ULA with locally assigned prefix",
+        "ulaLocalRfc": "RFC 4193 - Most common ULA implementation",
+        "multicast": "Multicast",
+        "allMulticastDesc": "All multicast addresses",
+        "allMulticastRfc": "RFC 4291 - Various scopes defined",
+        "allNodesDesc": "All nodes (link-local scope)",
+        "allNodesRfc": "RFC 4291 - Equivalent to broadcast",
+        "allRoutersDesc": "All routers (link-local scope)",
+        "allRoutersRfc": "RFC 4291 - Router discovery",
+        "documentationGlobal": "Documentation & Global",
+        "documentationDesc": "Documentation prefix",
+        "documentationRfc": "RFC 3849 - Examples and documentation only",
+        "globalUnicastDesc": "Global Unicast Addresses",
+        "globalUnicastRfc": "RFC 4291 - Routable public IPv6 addresses",
+        "commonAllocations": "Common Allocations",
+        "slash48Desc": "Standard site allocation",
+        "slash48Rfc": "RFC 6177 - 65,536 /64 subnets available",
+        "slash56Desc": "Small site allocation",
+        "slash56Rfc": "RFC 6177 - 256 /64 subnets available",
+        "slash64Desc": "Standard LAN subnet size",
+        "slash64Rfc": "RFC 4291 - Required for SLAAC"
+      }
     },
     "cidrConverter": {
       "title": "CIDR Notation Converter",
       "name": "CIDR Convert",
-      "description": "Convert CIDR notation to IP ranges, detect overlaps between multiple networks, and convert IP ranges back to CIDR notation. Supports standard CIDR, subnet mask, and Cisco wildcard formats."
+      "description": "Convert CIDR notation to IP ranges, detect overlaps between multiple networks, and convert IP ranges back to CIDR notation. Supports standard CIDR, subnet mask, and Cisco wildcard formats.",
+      "modes": {
+        "singleCidr": "Single CIDR",
+        "multipleCidrs": "Multiple CIDRs",
+        "rangeToCidr": "Range to CIDR"
+      },
+      "labels": {
+        "ipAddress": "IP Address",
+        "cidrPrefix": "CIDR Prefix",
+        "quickSelect": "Quick Select:"
+      },
+      "sections": {
+        "networkDetails": "Network Details",
+        "binaryRepresentation": "Binary Representation",
+        "analysisSummary": "Analysis Summary",
+        "exactCidrMatch": "Exact CIDR Match Found",
+        "multipleCidrRequired": "Multiple CIDR Blocks Required"
+      },
+      "buttons": {
+        "exportCsv": "Export CSV",
+        "exportJson": "Export JSON"
+      }
     },
     "bitCalculator": {
       "title": "Bit Calculator",
@@ -305,7 +502,40 @@
     "diskTools": {
       "title": "Disk Tools",
       "name": "Disk Tools",
-      "description": "RAID calculator, disk space estimator, and storage planning utilities."
+      "description": "RAID calculator, disk space estimator, and storage planning utilities.",
+      "raidOptions": {
+        "raid0": "RAID 0 - Striping (No Redundancy)",
+        "raid1": "RAID 1 - Mirroring",
+        "raid5": "RAID 5 - Distributed Parity",
+        "raid6": "RAID 6 - Double Parity",
+        "raid10": "RAID 10 - Mirrored Stripes",
+        "raid0Short": "RAID 0",
+        "raid1Short": "RAID 1",
+        "raid5Short": "RAID 5",
+        "raid6Short": "RAID 6",
+        "raid10Short": "RAID 10"
+      },
+      "unitOptions": {
+        "bytes": "Bytes (B)",
+        "kilobytes": "Kilobytes (KB - 1000)",
+        "megabytes": "Megabytes (MB - 1000)",
+        "gigabytes": "Gigabytes (GB - 1000)",
+        "terabytes": "Terabytes (TB - 1000)",
+        "petabytes": "Petabytes (PB - 1000)",
+        "kibibytes": "Kibibytes (KiB - 1024)",
+        "mebibytes": "Mebibytes (MiB - 1024)",
+        "gibibytes": "Gibibytes (GiB - 1024)",
+        "tebibytes": "Tebibytes (TiB - 1024)",
+        "pebibytes": "Pebibytes (PiB - 1024)"
+      },
+      "diskTypes": {
+        "ssd": "SSD (Solid State Drive)",
+        "sas15k": "SAS 15K RPM",
+        "sas10k": "SAS 10K RPM",
+        "sata7200": "SATA 7200 RPM",
+        "sata5400": "SATA 5400 RPM",
+        "nvme": "NVMe SSD"
+      }
     },
     "passwordGenerator": {
       "title": "Password Generator",
@@ -336,6 +566,7 @@
       "exported": "Exported {{count}} passwords to CSV file",
       "noCharTypes": "Please select at least one character type",
       "policyApplied": "Applied {{policy}} password policy",
+      "switchToPassphrase": "Passphrase Generator (XKCD Style)",
       "footer": "Password Generator - Works offline, no installation required"
     },
     "passphraseGenerator": {
@@ -359,7 +590,14 @@
       "includeSymbol": "Include Symbol",
       "numberOfPassphrases": "Number of Passphrases",
       "quantityHelp": "Enter number of passphrases to generate, between 1 and 100",
-      "generatedPassphrases": "Generated Passphrases"
+      "generatedPassphrases": "Generated Passphrases",
+      "generated": "Generated {{count}} passphrases",
+      "copiedPassphrase": "Copied passphrase to clipboard",
+      "copiedAll": "Copied all {{count}} passphrases to clipboard",
+      "noItemsToExport": "No items to export",
+      "csvHeaderPassphrase": "Passphrase",
+      "csvHeaderStrength": "Strength",
+      "exported": "Exported {{count}} passphrases to CSV file {{filename}}"
     },
     "certificateParser": {
       "title": "Certificate Parser",
@@ -445,7 +683,17 @@
       },
       "placeholders": {
         "inputText": "Enter text to encode, decode, or hash...",
-        "hexInput": "Enter text or hex values..."
+        "base64Input": "Enter text to encode or Base64 to decode...",
+        "resultPlaceholder": "Result will appear here...",
+        "hashInput": "Enter text to hash...",
+        "urlInput": "Enter text to URL encode or encoded text to decode...",
+        "hexInput": "Enter text to convert to hex or hex string to decode..."
+      },
+      "infoBoxes": {
+        "base64Info": "Base64 encoding converts binary data to ASCII text. Commonly used for embedding images in HTML/CSS or transmitting data in URLs.",
+        "hashInfo": "Cryptographic hashes are one-way functions. The same input always produces the same output, but you cannot reverse the process.",
+        "urlInfo": "URL encoding replaces unsafe characters with percent-encoded values. Required for special characters in URLs and form data.",
+        "hexInfo": "Hexadecimal encoding represents each byte as two hex digits. Useful for debugging, displaying binary data, and configuration files."
       },
       "results": {
         "md5": "MD5",
@@ -489,11 +737,16 @@
         "diffView": "Diff View",
         "sideBySide": "Side by Side",
         "inline": "Inline",
-        "unified": "Unified"
+        "unified": "Unified",
+        "syncScroll": "Sync Scroll",
+        "ignoreWhitespace": "Ignore Whitespace",
+        "ignoreCase": "Ignore Case",
+        "trimLines": "Trim Lines",
+        "changesOnly": "Changes Only"
       },
       "placeholders": {
-        "original": "Paste original text here...",
-        "modified": "Paste modified text here..."
+        "original": "Paste or type your original text here...",
+        "modified": "Paste or type your modified text here..."
       },
       "results": {
         "title": "Comparison Results",
@@ -513,25 +766,99 @@
       "name": "UUID Gen",
       "description": "Generate random UUIDs (v4) and validate UUID format.",
       "subtitle": "Generate and validate universally unique identifiers",
+      "tabs": {
+        "generate": "Generate",
+        "validate": "Validate",
+        "convert": "Convert",
+        "reference": "Reference"
+      },
       "labels": {
         "numberOfUuids": "Number of UUIDs",
         "format": "Format",
-        "generatedUuids": "Generated UUIDs"
+        "generatedUuids": "Generated UUIDs",
+        "selectVersion": "Select UUID Version",
+        "namespace": "Namespace",
+        "customNamespace": "Custom Namespace UUID",
+        "nameToHash": "Name (string to hash)",
+        "enterUuidToValidate": "Enter UUID to Validate",
+        "enterUuidToConvert": "Enter UUID to Convert",
+        "batchValidation": "Batch Validation",
+        "componentBreakdown": "Component Breakdown"
+      },
+      "versions": {
+        "v4Name": "Version 4 (Random)",
+        "v4Desc": "Cryptographically random UUID. Best for general purpose use, databases, and unique identifiers.",
+        "v1Name": "Version 1 (Timestamp)",
+        "v1Desc": "Based on timestamp and node ID. Useful when you need sortable UUIDs or temporal tracking.",
+        "v5Name": "Version 5 (SHA-1 Name-based)",
+        "v5Desc": "Deterministic UUID from namespace and name. Same inputs always produce the same UUID.",
+        "recommended": "Recommended"
+      },
+      "namespaces": {
+        "dns": "DNS",
+        "url": "URL",
+        "oid": "OID",
+        "x500": "X.500 DN",
+        "custom": "Custom UUID..."
+      },
+      "outputFormats": {
+        "plain": "Plain list",
+        "comma": "Comma-separated",
+        "json": "JSON array",
+        "sql": "SQL INSERT",
+        "python": "Python list"
       },
       "formats": {
         "standard": "Standard (lowercase)",
         "uppercase": "Uppercase",
         "noDashes": "No dashes",
-        "braces": "With braces {}"
+        "braces": "With braces {}",
+        "noHyphens": "No Hyphens",
+        "urn": "URN",
+        "csharp": "C# GUID",
+        "hexBytes": "Hex Bytes",
+        "base64": "Base64"
       },
       "buttons": {
         "generate": "Generate UUIDs",
-        "copyAll": "Copy All"
+        "copyAll": "Copy All",
+        "validateUuid": "Validate UUID",
+        "validateAll": "Validate All",
+        "convert": "Convert"
       },
       "results": {
         "generated": "Generated {{count}} UUID(s)",
         "copiedAll": "Copied all UUIDs to clipboard"
-      }
+      },
+      "reference": {
+        "structure": "UUID Structure",
+        "versionComparison": "Version Comparison",
+        "specialUuids": "Special UUIDs",
+        "codeExamples": "Code Examples",
+        "nilUuid": "NIL UUID",
+        "maxUuid": "Max UUID",
+        "useCases": {
+          "databaseKeys": "Database primary keys",
+          "temporalSorting": "Need temporal sorting",
+          "deterministicIds": "Deterministic IDs",
+          "distributedSystems": "Distributed systems",
+          "contentAddressing": "Content-based addressing"
+        },
+        "whyReasons": {
+          "random": "Cryptographically random, no collisions",
+          "timestamp": "Timestamp is encoded in the UUID",
+          "sameInput": "Same input always = same UUID",
+          "noCoordination": "No coordination needed between nodes",
+          "contentDerived": "UUID derived from content itself"
+        }
+      },
+      "validation": {
+        "valid": "Valid UUID",
+        "invalid": "Invalid UUID",
+        "rfc4122": "Validates UUID format, version, and variant according to RFC 4122 specification."
+      },
+      "infoBox": "Uses Web Crypto API for cryptographically secure random generation. All processing happens locally in your browser.",
+      "convertInfo": "All conversions preserve the original UUID value. Different formats are used by different systems and programming languages."
     },
     "measurementConverter": {
       "title": "Measurement Converter",
@@ -555,7 +882,18 @@
         "value": "Value",
         "from": "From",
         "to": "To",
-        "result": "Result"
+        "result": "Result",
+        "cupStandard": "Cup Standard",
+        "enterNumber": "Enter Number",
+        "precision": "Precision",
+        "sigFigs": "Sig Figs",
+        "angle": "Angle",
+        "unit": "Unit"
+      },
+      "placeholders": {
+        "enterValue": "Enter value",
+        "enterTemperature": "Enter temperature",
+        "enterAngle": "Enter angle"
       },
       "units": {
         "meters": "Meters",
@@ -576,6 +914,22 @@
         "celsius": "Celsius",
         "fahrenheit": "Fahrenheit",
         "kelvin": "Kelvin"
+      },
+      "cooking": {
+        "usLegal": "US Legal (240ml)",
+        "usCustomary": "US Customary (236ml)",
+        "metric": "Metric (250ml)",
+        "imperial": "Imperial (284ml)",
+        "japanese": "Japanese (200ml)"
+      },
+      "scientific": {
+        "scientificNotation": "Scientific Notation",
+        "significantFigures": "Significant Figures",
+        "trigResults": "Trig Results"
+      },
+      "trigUnits": {
+        "degrees": "Degrees",
+        "radians": "Radians"
       }
     },
     "amortizationCalculator": {
@@ -634,7 +988,13 @@
         "timeSaved": "Time Saved",
         "paymentsEliminated": "Payments Eliminated",
         "extraPayment": "Extra Payment",
-        "paymentIncrease": "Payment Increase"
+        "paymentIncrease": "Payment Increase",
+        "yearAbbr": "yr",
+        "yearsAbbr": "yrs",
+        "monthAbbr": "mo",
+        "monthLabel": "month",
+        "monthsLabel": "months",
+        "perMonth": "mo"
       },
       "schedule": {
         "title": "Amortization Schedule",
@@ -645,7 +1005,10 @@
         "interest": "Interest",
         "balance": "Balance",
         "exportCSV": "Export CSV",
-        "print": "Print"
+        "print": "Print",
+        "csvPaymentNum": "Payment #",
+        "noScheduleToExport": "No schedule to export. Please calculate first.",
+        "exportedToCSV": "Amortization schedule exported to CSV file"
       },
       "formulas": {
         "title": "Excel Formulas for Loan Amortization",
@@ -659,7 +1022,13 @@
         "interestPortion": "Interest Portion of Payment N",
         "interestPortionDesc": "Calculate interest portion of a specific payment",
         "principalPortion": "Principal Portion of Payment N",
-        "principalPortionDesc": "Calculate principal portion of a specific payment"
+        "principalPortionDesc": "Calculate principal portion of a specific payment",
+        "legendLoanAmount": "B1 = Loan Amount",
+        "legendAnnualRate": "B2 = Annual Rate (decimal, e.g., 0.065)",
+        "legendTermYears": "B3 = Term in Years",
+        "legendPaymentsMade": "B4 = Payments Made",
+        "legendPaymentNumber": "B4 = Payment Number",
+        "copiedFormula": "Formula copied to clipboard"
       },
       "validation": {
         "invalidLoanAmount": "Please enter a valid loan amount",
@@ -670,29 +1039,480 @@
     "compoundInterestCalculator": {
       "title": "Compound Interest Calculator",
       "name": "Compound Interest",
-      "description": "Calculate compound interest growth over time with regular contributions."
+      "description": "Calculate compound interest growth over time with regular contributions.",
+      "labels": {
+        "initialInvestment": "Initial Investment",
+        "annualInterestRate": "Annual Interest Rate",
+        "investmentPeriod": "Investment Period",
+        "monthlyContribution": "Monthly Contribution (Optional)",
+        "compoundingFrequency": "Compounding Frequency",
+        "contributionTiming": "Contribution Timing"
+      },
+      "frequency": {
+        "annually": "Annually",
+        "semiAnnually": "Semi-Annually",
+        "quarterly": "Quarterly",
+        "monthly": "Monthly",
+        "daily": "Daily"
+      },
+      "timing": {
+        "beginning": "Beginning of Period",
+        "end": "End of Period"
+      }
     },
     "debtPayoffComparison": {
       "title": "Debt Payoff Comparison",
       "name": "Debt Payoff",
-      "description": "Compare debt payoff strategies: avalanche vs snowball methods."
+      "description": "Compare debt payoff strategies: avalanche vs snowball methods.",
+      "subtitle": "Compare Snowball vs Avalanche methods to find your fastest path to debt freedom",
+      "tabs": {
+        "calculator": "Calculator",
+        "understandLoans": "Understand Loans"
+      },
+      "sections": {
+        "yourDebts": "Your Debts",
+        "expensesToCut": "Expenses to Cut (Optional)",
+        "expensesSubtitle": "Track expenses you can eliminate to put toward debt. Americans waste ~$200/year on unused subscriptions alone.",
+        "extraPayment": "Extra Monthly Payment",
+        "learnAboutDebtPayoff": "Learn About Debt Payoff",
+        "learnAboutDescription": "Explore our educational guides to understand different payoff strategies and learn how to evaluate loan offers.",
+        "excelFormulas": "Excel Formulas for Debt Calculations",
+        "excelFormulasDesc": "Use these Excel formulas to recreate debt payoff calculations in your own spreadsheets."
+      },
+      "labels": {
+        "debtName": "Debt Name",
+        "type": "Type",
+        "balance": "Balance",
+        "apr": "APR",
+        "minPayment": "Min Payment",
+        "expense": "Expense",
+        "costEach": "Cost Each",
+        "timesPerMonth": "Times/Month",
+        "monthly": "Monthly",
+        "totalDebtBalance": "Total debt balance:",
+        "totalMinimumPayments": "Total minimum payments:",
+        "totalMonthlySavings": "Total monthly savings:",
+        "yourMinimumPaymentsTotal": "Your minimum payments total:",
+        "perMonth": "per month"
+      },
+      "buttons": {
+        "addDebt": "+ Add Debt",
+        "addExpense": "+ Add Expense",
+        "compareMethods": "Compare Methods",
+        "applyToExtraPayment": "Apply to Extra Payment",
+        "exportDebts": "Export Debts",
+        "exportExpenses": "Export Expenses",
+        "viewDetailedSchedule": "View Detailed Schedule",
+        "hideDetailedSchedule": "Hide Detailed Schedule",
+        "print": "Print"
+      },
+      "presets": {
+        "quickExamples": "Quick Examples:",
+        "typical3Debt": "Typical 3-Debt",
+        "creditCards": "Credit Cards",
+        "mixedTypes": "Mixed Types",
+        "commonCuts": "Common Cuts:",
+        "subscriptionAudit": "Subscription Audit",
+        "dailyHabits": "Daily Habits",
+        "lifestyleCuts": "Lifestyle Cuts"
+      },
+      "debtTypes": {
+        "creditCard": "Credit Card",
+        "autoLoan": "Auto Loan",
+        "personalLoan": "Personal Loan",
+        "studentLoan": "Student Loan",
+        "medicalDebt": "Medical Debt",
+        "other": "Other"
+      },
+      "methods": {
+        "snowball": "Snowball Method",
+        "avalanche": "Avalanche Method",
+        "savesMore": "Saves More"
+      },
+      "stats": {
+        "debtFreeDate": "Debt-Free Date",
+        "timeToPayOff": "Time to Pay Off",
+        "totalInterest": "Total Interest",
+        "totalPaid": "Total Paid",
+        "firstDebtPaidOff": "First Debt Paid Off",
+        "payoffOrder": "Payoff Order"
+      },
+      "schedule": {
+        "snowballSchedule": "Snowball Schedule",
+        "avalancheSchedule": "Avalanche Schedule",
+        "month": "Month",
+        "targetDebt": "Target Debt",
+        "payment": "Payment",
+        "principal": "Principal",
+        "interest": "Interest",
+        "totalBalance": "Total Balance"
+      },
+      "results": {
+        "keyInsights": "Key Insights",
+        "avalancheSaves": "The <strong>Avalanche method</strong> saves you <span class=\"highlight-number\">{{amount}}</span> in interest",
+        "andPaysFaster": " and pays off your debt <span class=\"highlight-number\">{{months}}</span> sooner.",
+        "bothIdentical": "Both methods produce <strong>nearly identical results</strong> for your debt mix. Choose based on which approach fits your personality better.",
+        "snowballSaves": "The <strong>Snowball method</strong> saves you <span class=\"highlight-number\">{{amount}}</span> in interest for this debt mix.",
+        "snowballFirstDebtFaster": " However, <strong>Snowball</strong> pays off your first debt <span class=\"highlight-number\">{{months}}</span> sooner, giving you an early win.",
+        "avalancheFirstDebtFaster": " <strong>Avalanche</strong> also pays off your first debt <span class=\"highlight-number\">{{months}}</span> sooner.",
+        "months": "months",
+        "year": "year",
+        "years": "years",
+        "monthSingular": "month",
+        "yr": "yr",
+        "mo": "mo",
+        "thisYear": "This year"
+      },
+      "formulas": {
+        "monthlyPaymentPMT": "Monthly Payment (PMT)",
+        "monthlyPaymentDesc": "Calculate required monthly payment for a loan",
+        "monthsToPayoffNPER": "Months to Payoff (NPER)",
+        "monthsToPayoffDesc": "Calculate how many months to pay off a debt",
+        "totalInterestCUMIPMT": "Total Interest (CUMIPMT)",
+        "totalInterestDesc": "Calculate total interest over the life of the loan",
+        "interestForMonth": "Interest for Specific Month (IPMT)",
+        "interestForMonthDesc": "Calculate interest portion of a specific payment",
+        "principalForMonth": "Principal for Specific Month (PPMT)",
+        "principalForMonthDesc": "Calculate principal portion of a specific payment",
+        "remainingBalanceFV": "Remaining Balance (FV)",
+        "remainingBalanceDesc": "Calculate remaining balance after N payments",
+        "loanBalance": "Loan Balance",
+        "annualRateDecimal": "Annual Rate (decimal)",
+        "monthsRemaining": "Months Remaining",
+        "currentBalance": "Current Balance",
+        "monthlyPayment": "Monthly Payment",
+        "totalMonths": "Total Months",
+        "paymentNumber": "Payment Number",
+        "originalBalance": "Original Balance",
+        "paymentsMade": "Payments Made"
+      },
+      "education": {
+        "payoffMethods": "Payoff Methods",
+        "payoffMethodsDesc": "Snowball vs Avalanche: Compare strategies, understand the psychology of debt payoff, and find the approach that works for you.",
+        "loanReferenceGuide": "Loan Reference Guide",
+        "loanReferenceDesc": "Learn about different loan types, spot predatory lending warning signs, and use our interactive tools to evaluate loan offers."
+      },
+      "validation": {
+        "enterNameForAllDebts": "Please enter a name for all debts",
+        "enterValidBalance": "Please enter a valid balance for \"{{name}}\"",
+        "enterMinPayment": "Please enter a minimum payment for \"{{name}}\""
+      },
+      "announcements": {
+        "comparisonComplete": "Comparison complete. Avalanche method saves {{amount}} in interest.",
+        "addedDebts": "Added {{count}} debts from {{preset}} example",
+        "removedDebts": "Removed {{count}} debts from {{preset}} example",
+        "loadedPreset": "Loaded {{preset}} example with {{count}} debts",
+        "loadedExpensePreset": "Loaded {{preset}} example with {{count}} expenses",
+        "addedToExtraPayment": "Added {{amount}} to extra payment. New total: {{total}}",
+        "formulaCopied": "Formula copied to clipboard",
+        "comparisonExported": "Comparison exported to CSV file",
+        "debtsExported": "Debts exported to CSV file",
+        "expensesExported": "Expenses exported to CSV file",
+        "noDebtsToExport": "No debts to export. Add some debts first.",
+        "noExpensesToExport": "No expenses to export. Add some expenses first.",
+        "calculatorSectionSelected": "Calculator section selected",
+        "understandLoansSectionSelected": "Understand Loans section selected"
+      },
+      "placeholders": {
+        "debtNameExample": "e.g., Chase Visa",
+        "expenseExample": "e.g., Morning coffee"
+      },
+      "print": {
+        "reportTitle": "Debt Payoff Comparison Report",
+        "generated": "Generated:"
+      },
+      "footer": "Debt Payoff Comparison - Works offline, no data stored, no sign-up required"
     },
     "retirementCalculator": {
       "title": "Retirement Calculator",
       "name": "Retirement",
-      "description": "Plan retirement savings with contribution and withdrawal projections."
+      "description": "Plan retirement savings with contribution and withdrawal projections.",
+      "sections": {
+        "yourInformation": "Your Information",
+        "incomeExpenses": "Income & Expenses",
+        "savingsReturns": "Savings & Returns",
+        "withdrawalSettings": "Withdrawal Settings",
+        "savingsStrategyExamples": "Savings Strategy Examples:",
+        "retirementSummary": "Retirement Summary",
+        "yearByYearProjection": "Year-by-Year Projection"
+      },
+      "labels": {
+        "socialSecurity": "Social Security (Monthly at 67)"
+      },
+      "formulas": {
+        "title": "Excel Formulas for Retirement Planning",
+        "fireNumber": "FIRE Number",
+        "fireNumberDesc": "Calculate your financial independence target",
+        "futureValue": "Future Value of Savings",
+        "futureValueDesc": "Project your savings growth over time",
+        "yearsToFire": "Years to FIRE",
+        "yearsToFireDesc": "Calculate how long until you reach FIRE",
+        "savingsRate": "Savings Rate",
+        "savingsRateDesc": "Calculate your current savings percentage",
+        "safeWithdrawal": "Safe Withdrawal Amount",
+        "safeWithdrawalDesc": "Calculate sustainable annual withdrawal"
+      }
     },
     "loanPayoffMethods": {
-      "title": "Loan Payoff Methods",
+      "title": "Debt Payoff Methods",
       "name": "Loan Payoff Methods",
       "subtitle": "Snowball vs Avalanche: Which strategy is right for you?",
-      "description": "Compare different loan payoff strategies and see potential savings."
+      "description": "Compare different loan payoff strategies and see potential savings.",
+      "navLinks": {
+        "debtPayoffCalculator": "Debt Payoff Calculator",
+        "loanReferenceGuide": "Loan Reference Guide",
+        "tryTheCalculator": "Try the Calculator",
+        "goToCalculator": "Go to debt payoff calculator",
+        "learnAboutLoans": "Learn about loan types and predatory lending",
+        "tryCalculator": "Try the debt payoff calculator"
+      },
+      "comparison": {
+        "sectionTitle": "Debt Snowball vs Avalanche Methods",
+        "introText": "Both methods work by paying minimums on all debts while putting extra money toward one \"target\" debt. The difference is how you choose which debt to target first.",
+        "tableLabel": "Comparison of Snowball and Avalanche methods",
+        "feature": "Feature",
+        "snowballMethod": "Snowball Method",
+        "avalancheMethod": "Avalanche Method",
+        "strategy": "Strategy",
+        "snowballStrategy": "Pay off smallest balance first",
+        "avalancheStrategy": "Pay off highest interest rate first",
+        "order": "Order",
+        "snowballOrder": "Smallest to largest balance",
+        "avalancheOrder": "Highest to lowest APR",
+        "motivation": "Motivation",
+        "snowballMotivation": "Quick wins early - debts disappear fast",
+        "avalancheMotivation": "Maximum savings - math is on your side",
+        "totalInterestPaid": "Total Interest Paid",
+        "snowballInterest": "Slightly more (varies by debt mix)",
+        "avalancheInterest": "Least possible interest",
+        "bestFor": "Best For",
+        "snowballBestFor": "People who need motivation, have given up before, or have many small debts",
+        "avalancheBestFor": "Analytical people, those with high-interest debt, or anyone who can stay motivated without quick wins",
+        "researchNote": "Research Note:",
+        "researchText": "Studies from the Kellogg School of Management found that people using the snowball method are more likely to eliminate debt completely - small wins create momentum. However, avalanche saves about 1.3% more interest on average. The best method is the one you'll stick with."
+      },
+      "psychology": {
+        "sectionTitle": "The Psychology of Debt Payoff",
+        "introText": "Research shows that <strong>personal finance is 80% behavior and only 20% head knowledge</strong>. Here's what behavioral economics tells us:",
+        "proportionalProgress": "Proportional Progress Matters:",
+        "proportionalProgressText": "When you make a $150 payment on a $600 balance, you've wiped out 25%. On a $6,000 balance, it barely registers. Our brains respond more to proportion than absolute amount.",
+        "debtAccountAversion": "Debt Account Aversion:",
+        "debtAccountAversionText": "We keep mental \"accounts\" for each debt. Closing an entire account feels like a complete win, even if it's small. This explains why eliminating one small debt can be more motivating than making equal progress on a large one.",
+        "keyInsight": "The Key Insight:",
+        "keyInsightText": "The best debt payoff method is the one you'll actually stick with until completion. If the avalanche method causes you to give up after 6 months, the snowball method that you complete is better for you."
+      },
+      "faq": {
+        "sectionTitle": "Common Questions",
+        "includeMortgage": "Should I include my mortgage?",
+        "includeMortgageAnswer": "Usually no. Focus on consumer debt first (credit cards, auto loans, personal loans). Mortgages are long-term, often have tax benefits, and the interest rate is typically lower than other debts.",
+        "zeroPercentRates": "What about 0% promotional rates?",
+        "zeroPercentRatesAnswer": "Be careful! Enter the post-promotional APR that will apply when the 0% period ends. If you can't pay it off before then, plan for the higher rate.",
+        "onlyMinimums": "What if I can only pay minimums?",
+        "onlyMinimumsAnswer": "Both methods produce the same result when you can only pay minimums. Focus on finding extra money through budgeting, side income, or reducing expenses. Even $50 extra per month makes a significant difference.",
+        "switchMethods": "Can I switch methods mid-way?",
+        "switchMethodsAnswer": "Absolutely! Some people start with snowball to get momentum, then switch to avalanche once they've built the habit. The important thing is to keep going."
+      },
+      "footer": "Debt Payoff Methods Guide - Works offline, no data stored, no sign-up required"
     },
     "loanReference": {
       "title": "Loan Reference",
       "name": "Loan Reference",
       "subtitle": "Understand loan types, spot warning signs, and make informed decisions",
-      "description": "Reference guide for loan types, terms, and calculations."
+      "description": "Reference guide for loan types, terms, and calculations.",
+      "sections": {
+        "loanTypes": "Understanding Different Types of Loans",
+        "predatoryLending": "Predatory Lending: Warning Signs to Watch For",
+        "loanCalculator": "See the Real Cost: Loan Calculator",
+        "redFlagChecker": "Interactive: Is This Loan Safe? (Red Flag Checker)",
+        "scenarioQuiz": "Quiz: What Would You Do?"
+      },
+      "tableHeaders": {
+        "loanType": "Loan Type",
+        "typicalApr": "Typical APR",
+        "termLength": "Term Length",
+        "riskLevel": "Risk Level"
+      },
+      "loanTypes": {
+        "federalStudent": "Federal Student Loan",
+        "autoLoan": "Auto Loan (good credit)",
+        "personalLoan": "Personal Loan",
+        "creditCard": "Credit Card",
+        "paydayLoan": "Payday Loan",
+        "titleLoan": "Title Loan"
+      },
+      "termLengths": {
+        "revolving": "Revolving",
+        "weeks": "{{count}} weeks"
+      },
+      "riskLevels": {
+        "low": "Low",
+        "medium": "Medium",
+        "mediumHigh": "Medium-High",
+        "extreme": "EXTREME"
+      },
+      "loanTypesIntro": "Not all loans are created equal. Here's a breakdown of common loan types and what to expect:",
+      "predatoryIntro": "Predatory lenders target people who are desperate, inexperienced, or don't know better. <strong>They're counting on you not understanding what you're signing.</strong> Here's how to spot them:",
+      "calculatorIntro": "Enter a loan amount to see how much you'd actually pay back with different APRs. The difference is eye-opening.",
+      "analogies": {
+        "speedLimit": "Think of APR like a speed limit:",
+        "speedLimitDesc": "Under 10% is cruising in a school zone (safe). 10-36% is highway speed (manageable). Over 36%? You're in a race car with no brakes - that's when things get dangerous.",
+        "videoGameTitle": "Think of it like a video game:",
+        "videoGame": "Predatory lenders are like those \"free-to-play\" games that seem free but are designed to drain your wallet. The terms look simple until you're stuck paying $500 to unlock the next level (or in this case, to avoid destroying your credit).",
+        "perspective": "Put it in perspective:",
+        "savingsCouldBuy": "That savings could buy you"
+      },
+      "nav": {
+        "debtPayoffCalculator": "Debt Payoff Calculator",
+        "payoffMethodsGuide": "Payoff Methods Guide",
+        "tryTheCalculator": "Try the Calculator"
+      },
+      "redFlags": {
+        "title": "Major Red Flags",
+        "highInterest": "Sky-high interest rates",
+        "highInterestDesc": "Anything over 36% APR is a warning sign. Over 100%? That's loan shark territory.",
+        "noCreditCheck": "\"No credit check needed!\"",
+        "noCreditCheckDesc": "Sounds good, but it means they're not checking if you can afford to pay it back. They don't care.",
+        "pressureSign": "Pressure to sign NOW",
+        "pressureSignDesc": "\"This offer expires today!\" or \"Don't you need this money?\" are manipulation tactics.",
+        "hiddenFees": "Hidden fees everywhere",
+        "hiddenFeesDesc": "Origination fees, processing fees, early payoff penalties. If they're hard to find, that's on purpose.",
+        "balloon": "Balloon payments",
+        "balloonDesc": "Small payments for months, then suddenly you owe thousands. It's a trap."
+      },
+      "safeSignsTitle": "Signs of a Legitimate Lender",
+      "safeSigns": {
+        "licensed": "Licensed and regulated - Check for NMLS registration number",
+        "clearDisclosure": "Clear disclosure - All terms, fees, and APR shown upfront BEFORE you sign",
+        "reasonableApr": "APR under 36% - Ideally much lower",
+        "noPressure": "No pressure - Gives you time to read, think, and compare",
+        "rightToCancel": "Right to cancel - 3 days to back out (federal law)",
+        "affordablePayments": "Reasonable repayment - Payments you can actually afford"
+      },
+      "calculator": {
+        "title": "Compare Good Loan vs Predatory Loan",
+        "amountToBorrow": "Amount to Borrow",
+        "goodLoanApr": "Good Loan APR",
+        "predatoryApr": "Predatory APR",
+        "repaymentPeriod": "Repayment Period",
+        "goodLoanTotal": "Good Loan Total",
+        "predatoryLoanTotal": "Predatory Loan Total",
+        "monthly": "Monthly:",
+        "savings": "By choosing the good loan, you save:"
+      },
+      "aprOptions": {
+        "autoLoan": "{{rate}}% (Auto Loan)",
+        "personalLoan": "{{rate}}% (Personal Loan)",
+        "creditUnion": "{{rate}}% (Credit Union)",
+        "creditCard": "{{rate}}% (Credit Card)",
+        "titleLoan": "{{rate}}% (Title Loan)",
+        "badTitleLoan": "{{rate}}% (Bad Title Loan)",
+        "paydayLoan": "{{rate}}% (Payday Loan)",
+        "worstPayday": "{{rate}}% (Worst Payday)"
+      },
+      "periods": {
+        "months6": "6 months",
+        "year1": "1 year",
+        "years2": "2 years",
+        "years3": "3 years",
+        "years5": "5 years",
+        "years6": "6 years",
+        "years10": "10 years"
+      },
+      "checker": {
+        "intro": "Thinking about taking out a loan? Check off any red flags that apply to see if you should proceed:",
+        "checkAllThatApply": "Check All That Apply",
+        "flag1": "The APR is over 36%",
+        "flag1Desc": "Consumer protection groups consider 36%+ APR to be predatory",
+        "flag2": "They said \"no credit check needed\"",
+        "flag2Desc": "Legitimate lenders check credit to ensure you can repay",
+        "flag3": "They're pressuring me to sign today",
+        "flag3Desc": "Good lenders give you time to think and compare options",
+        "flag4": "The fees are hard to find or unclear",
+        "flag4Desc": "Hidden fees are a major warning sign",
+        "flag5": "There's a large \"balloon payment\" at the end",
+        "flag5Desc": "Small payments followed by a huge lump sum is a trap",
+        "flag6": "I can't easily find their license/registration info",
+        "flag6Desc": "Legitimate lenders display their NMLS number",
+        "flag7": "They want access to my bank account to auto-withdraw",
+        "flag7Desc": "This gives them control over your money",
+        "flag8": "My monthly payment would be more than 10% of my income",
+        "flag8Desc": "Unaffordable payments lead to debt traps",
+        "resultSafeTitle": "Looking Good!",
+        "resultSafeDesc": "No major red flags detected. This loan might be reasonable - but still compare rates from at least 3 lenders before deciding.",
+        "resultCautionTitle": "Proceed With Caution",
+        "resultCautionDesc": "You've identified 1-2 warning signs. This doesn't automatically mean it's a bad loan, but you should investigate further and consider alternatives.",
+        "resultDangerTitle": "Warning: High Risk!",
+        "resultDangerDesc": "Multiple red flags detected. This loan has significant warning signs of predatory lending. Strongly consider walking away and exploring other options like credit unions, family loans, or saving up instead.",
+        "resetChecker": "Reset Checker"
+      },
+      "quiz": {
+        "question": "Question",
+        "of": "of",
+        "scenario": "Scenario:",
+        "previous": "Previous",
+        "nextQuestion": "Next Question",
+        "seeResults": "See Results",
+        "quizComplete": "Quiz Complete!",
+        "youGot": "You got",
+        "outOf4Correct": "out of 4 correct!",
+        "scoreMessage": "You got {{score}} out of {{total}} correct!",
+        "tryAgain": "Try Again",
+        "intro": "Test your knowledge with these real-world scenarios. See if you can spot the best financial decision.",
+        "scenario1Text": "Your car breaks down and needs a $800 repair. You need your car to get to work. A payday lender offers you $800 today with \"just $100 in fees\" due in 2 weeks. Your credit union offers an emergency loan at 18% APR with $50/month payments over 18 months.",
+        "scenario1OptionA": "Take the payday loan - $100 fee sounds reasonable and I get the money today",
+        "scenario1OptionB": "Take the credit union loan - lower total cost even though it takes longer",
+        "scenario1OptionC": "Take both - use payday for now, credit union to pay it off",
+        "scenario1CorrectTitle": "Correct!",
+        "scenario1CorrectText": "The credit union loan costs about $932 total ($800 + $132 interest). The payday loan's \"$100 fee\" is actually 650% APR! If you can't pay in 2 weeks, fees compound and you could owe $1,500+ in months. Always calculate the true APR.",
+        "scenario1IncorrectTitle": "Not quite!",
+        "scenario1IncorrectText": "That $100 \"fee\" on an $800 loan for 2 weeks equals 650% APR! The credit union loan at 18% costs about $932 total over 18 months. The payday loan could cost $1,500+ if you need to \"roll it over.\" Always calculate the true APR, not just the upfront fee.",
+        "scenario2Text": "You're 19 and want to build credit. A store offers you their credit card with 29.99% APR and a $500 limit. A secured credit card from a bank requires a $200 deposit but has 18% APR. Your parent offers to add you as an authorized user on their card.",
+        "scenario2OptionA": "Store card - higher limit and I can get rewards at that store",
+        "scenario2OptionB": "Secured card - lower APR and it's from a real bank",
+        "scenario2OptionC": "Authorized user first, then secured card - builds credit with less risk",
+        "scenario2CorrectTitle": "Great thinking!",
+        "scenario2CorrectText": "Being an authorized user lets you build credit history with zero risk - you don't even need to use the card. Then you can get your own secured card to establish independent credit. Store cards often have predatory rates and should be avoided when starting out.",
+        "scenario2IncorrectTitle": "Consider this:",
+        "scenario2IncorrectText": "Store cards have some of the highest APRs (29.99%!) and tempt you to overspend at one store. The smartest path is: become an authorized user first (free credit building), then get a secured card. This builds credit with minimal risk of debt.",
+        "scenario3Text": "You owe $3,000 on a credit card at 24% APR. You receive a balance transfer offer: 0% APR for 12 months, then 26% APR. There's a 3% transfer fee ($90). You can afford to pay $275/month.",
+        "scenario3OptionA": "Don't transfer - the fee and higher eventual APR aren't worth it",
+        "scenario3OptionB": "Transfer it - pay $275/month and finish in 11 months at 0%",
+        "scenario3OptionC": "Transfer and pay minimums - save the extra money",
+        "scenario3CorrectTitle": "Excellent math!",
+        "scenario3CorrectText": "At $275/month for 11 months = $3,025 total (including the $90 fee). Without the transfer, at 24% APR paying $275/month, you'd pay about $360 in interest. The transfer saves you ~$270! The key is paying it off BEFORE the 0% period ends.",
+        "scenario3IncorrectTitle": "Let's do the math:",
+        "scenario3IncorrectText": "Transfer + pay $275/month = $3,025 total (11 months). Without transfer at 24% APR = ~$3,360 total. That's $270 saved! BUT if you only pay minimums, you won't finish before 0% ends, and 26% APR kicks in on the remaining balance. The transfer only works if you commit to paying it off fast.",
+        "scenario4Text": "A \"debt consolidation company\" contacts you offering to combine all your debts into one \"easy payment.\" They want you to stop paying creditors directly and pay them instead. They promise to negotiate lower balances.",
+        "scenario4OptionA": "Decline - this sounds like a debt settlement scam that could hurt my credit",
+        "scenario4OptionB": "Sign up - one payment sounds easier to manage",
+        "scenario4OptionC": "Try it for a few months - I can always quit if it doesn't work",
+        "scenario4CorrectTitle": "Smart call!",
+        "scenario4CorrectText": "Legitimate debt consolidation is a loan that pays off your other debts. \"Debt settlement\" companies that want you to stop paying creditors are often scams - they pocket your money while your credit tanks and creditors sue you. If you need help, try a non-profit credit counseling agency instead.",
+        "scenario4IncorrectTitle": "Watch out!",
+        "scenario4IncorrectText": "This is a debt settlement scam, not consolidation. They'll take your money, tell creditors to wait, and your credit score will plummet. Many of these companies fold before helping you, leaving you worse off. Real help comes from non-profit credit counseling agencies or legitimate consolidation loans from banks/credit unions.",
+        "scorePerfect": "Perfect score! You have excellent financial instincts. Keep that skeptical eye on loan offers!",
+        "scoreGreat": "Great job! You know how to spot most financial traps. Review the explanations for the ones you missed.",
+        "scoreOk": "Not bad! You caught some red flags but missed a few. Review the scenarios above to strengthen your knowledge.",
+        "scoreNeedsWork": "You might be vulnerable to predatory lending. Please review all the explanations above - this knowledge could save you thousands!"
+      },
+      "callouts": {
+        "keyTakeaway": "Key Takeaway:",
+        "apr36Warning": "Any loan with APR over 36% is considered predatory by consumer protection groups. If you see triple-digit APR, run.",
+        "remember": "Remember:",
+        "legitimateLendersWant": "Legitimate lenders WANT you to understand the terms because they want you to pay them back. Predatory lenders profit when you CAN'T pay - that's when fees pile up."
+      },
+      "a11y": {
+        "sectionExpanded": "Section expanded",
+        "sectionCollapsed": "Section collapsed",
+        "noRedFlags": "No red flags detected. This loan may be reasonable.",
+        "warningSignsDetected": "{{count}} warning sign(s) detected. Proceed with caution.",
+        "redFlagsDetected": "{{count}} red flags detected. High risk - consider walking away.",
+        "checkerReset": "Red flag checker has been reset",
+        "correct": "Correct!",
+        "incorrectSeeBelow": "Incorrect. See explanation below.",
+        "quizComplete": "Quiz complete! You scored {{correct}} out of {{total}}.",
+        "quizReset": "Quiz has been reset. Starting from question 1."
+      }
     },
     "pomodoroTimer": {
       "title": "Pomodoro Timer",
@@ -713,7 +1533,11 @@
         "autoStartWork": "Auto-start work sessions",
         "soundNotifications": "Sound notifications",
         "currentSession": "Current Session",
-        "completedPomodoros": "Completed Pomodoros"
+        "completedPomodoros": "Completed Pomodoros",
+        "sessionLabel": "Session Label"
+      },
+      "placeholders": {
+        "sessionLabel": "Focus"
       },
       "buttons": {
         "start": "Start",
@@ -757,18 +1581,51 @@
       "labels": {
         "cronExpression": "Cron Expression",
         "nextRuns": "Next Scheduled Runs",
-        "description": "Description"
+        "description": "Human Readable",
+        "parseCron": "Parse cron expression"
+      },
+      "hints": {
+        "minute": "0-59 or *",
+        "hour": "0-23 or *",
+        "dayOfMonth": "1-31 or *",
+        "month": "1-12 or JAN-DEC",
+        "dayOfWeek": "0-6 (Sun-Sat)"
       },
       "presets": {
         "title": "Common Presets",
-        "everyMinute": "Every Minute",
-        "everyHour": "Every Hour",
-        "everyDay": "Every Day at Midnight",
-        "everyWeek": "Every Sunday at Midnight",
-        "everyMonth": "First of Every Month"
+        "everyMinute": "Every minute",
+        "every5Min": "Every 5 min",
+        "every15Min": "Every 15 min",
+        "everyHour": "Hourly",
+        "every6Hours": "Every 6 hours",
+        "everyDay": "Daily midnight",
+        "daily6am": "Daily 6am",
+        "everyWeek": "Weekly Sunday",
+        "everyMonth": "Monthly 1st",
+        "weekdays9am": "Weekdays 9am"
+      },
+      "modes": {
+        "build": "Build",
+        "parse": "Parse"
+      },
+      "placeholders": {
+        "parseInput": "Enter cron expression (e.g., */5 * * * *)"
+      },
+      "buttons": {
+        "parse": "Parse"
       },
       "validation": {
-        "invalid": "Invalid cron expression"
+        "invalid": "Invalid cron expression",
+        "enterExpression": "Please enter a cron expression",
+        "sixFields": "This appears to be a 6-field cron (with seconds). This tool supports standard 5-field cron expressions.",
+        "wrongFieldCount": "Expected 5 fields, got {{count}}. Format: minute hour day month weekday"
+      },
+      "humanReadable": {
+        "everyMinute": "Runs every minute",
+        "everyHour": "Runs every hour",
+        "everyDay": "Runs every day at midnight",
+        "everyWeekday": "Runs every weekday",
+        "monthly": "Runs monthly"
       }
     },
     "regexTester": {
@@ -778,29 +1635,53 @@
       "subtitle": "Test regular expressions with real-time matching",
       "labels": {
         "pattern": "Regular Expression Pattern",
-        "flags": "Flags",
+        "flags": "Regex Flags",
         "testString": "Test String",
         "matches": "Matches"
       },
       "flags": {
-        "global": "Global (g)",
-        "caseInsensitive": "Case Insensitive (i)",
-        "multiline": "Multiline (m)",
-        "dotAll": "Dot All (s)",
+        "global": "g - Global (find all)",
+        "caseInsensitive": "i - Case insensitive",
+        "multiline": "m - Multiline",
+        "dotAll": "s - Dotall",
         "unicode": "Unicode (u)"
       },
       "results": {
         "noMatches": "No matches found",
-        "matchCount": "{{count}} match(es) found",
-        "matchGroups": "Match Groups"
+        "matchCount": "Found {{count}} matches",
+        "matchGroups": "Match Groups",
+        "charCount": "{{count}} / {{max}} characters"
       },
       "presets": {
-        "title": "Common Patterns",
+        "title": "Common Network Patterns",
+        "entireLine": "Entire Line",
+        "macColon": "MAC (colon)",
+        "macDash": "MAC (dash)",
+        "macDot": "MAC (dot)",
+        "mac4digit": "MAC (4-digit)",
+        "macAny": "MAC (any)",
+        "ipv4": "IPv4",
+        "ipv4Cidr": "IPv4 CIDR",
+        "ipMask": "IP + Mask",
+        "vlanId": "VLAN ID",
+        "interface": "Interface",
+        "allSpaces": "All Spaces",
+        "blankLines": "Blank Lines",
         "email": "Email",
         "url": "URL",
-        "ipv4": "IPv4 Address",
         "phone": "Phone Number",
-        "date": "Date (YYYY-MM-DD)"
+        "date": "Date (YYYY-MM-DD)",
+        "hostname": "Hostname",
+        "port": "Port"
+      },
+      "placeholders": {
+        "pattern": "Enter regex pattern or select from presets...",
+        "testString": "Enter text to test against your regex pattern..."
+      },
+      "buttons": {
+        "testPattern": "Test Pattern",
+        "loadSample": "Load Sample Data",
+        "exportTxt": "Export TXT"
       }
     },
     "timestampConverter": {
@@ -814,6 +1695,32 @@
         "humanReadable": "Human Readable",
         "timezone": "Timezone",
         "currentTime": "Current Time"
+      },
+      "tableHeaders": {
+        "line": "Line",
+        "original": "Original",
+        "detectedFormat": "Detected Format",
+        "conversions": "Conversions"
+      },
+      "timezones": {
+        "usEastern": "US Eastern",
+        "usCentral": "US Central",
+        "usMountain": "US Mountain",
+        "usPacific": "US Pacific",
+        "london": "London (GMT/BST)",
+        "paris": "Paris (CET/CEST)",
+        "berlin": "Berlin (CET/CEST)",
+        "tokyo": "Tokyo (JST)",
+        "shanghai": "Shanghai (CST)",
+        "dubai": "Dubai (GST)",
+        "sydney": "Sydney (AEST/AEDT)",
+        "auckland": "Auckland (NZST/NZDT)",
+        "utc": "UTC",
+        "mumbai": "Mumbai (IST)",
+        "singapore": "Singapore (SGT)",
+        "hongKong": "Hong Kong (HKT)",
+        "moscow": "Moscow (MSK)",
+        "saoPaulo": "São Paulo (BRT)"
       },
       "buttons": {
         "now": "Now",
@@ -830,6 +1737,11 @@
       "name": "Certificate Parse",
       "description": "Parse and analyze X.509 certificates, display certificate details, and verify certificate chains.",
       "subtitle": "Parse and analyze SSL/TLS certificates",
+      "tabs": {
+        "parse": "Parse Certificate",
+        "parseCSR": "Parse CSR",
+        "generate": "Generate CSR"
+      },
       "labels": {
         "certificate": "Certificate (PEM format)",
         "subject": "Subject",
@@ -838,7 +1750,33 @@
         "validTo": "Valid To",
         "serialNumber": "Serial Number",
         "algorithm": "Signature Algorithm",
-        "fingerprint": "SHA-256 Fingerprint"
+        "fingerprint": "SHA-256 Fingerprint",
+        "san": "Subject Alternative Names (SANs)"
+      },
+      "csrLabels": {
+        "subjectInfo": "Subject Information",
+        "commonName": "Common Name (CN) *",
+        "organization": "Organization (O)",
+        "organizationalUnit": "Organizational Unit (OU)",
+        "locality": "Locality (L)",
+        "state": "State (ST)",
+        "country": "Country (C)",
+        "sanOptional": "Subject Alternative Names (Optional)"
+      },
+      "csrPlaceholders": {
+        "commonName": "example.com",
+        "organization": "My Company Inc",
+        "organizationalUnit": "IT Department",
+        "locality": "San Francisco",
+        "state": "California",
+        "country": "US"
+      },
+      "status": {
+        "valid": "Valid",
+        "expired": "Expired",
+        "notYetValid": "Not Yet Valid",
+        "expiringSoon": "Expiring Soon",
+        "unknown": "Unknown"
       },
       "placeholders": {
         "certificate": "Paste certificate in PEM format (-----BEGIN CERTIFICATE-----...)"
@@ -857,11 +1795,30 @@
         "transferRate": "Transfer Rate",
         "transferTime": "Transfer Time"
       },
+      "sections": {
+        "quickDataSizes": "Quick Data Sizes:",
+        "quickTransferRates": "Quick Transfer Rates:",
+        "transferTime": "Transfer Time",
+        "transferDetails": "Transfer Details"
+      },
+      "units": {
+        "bytes": "Bytes",
+        "kb": "KB",
+        "mb": "MB",
+        "gb": "GB",
+        "tb": "TB",
+        "pb": "PB",
+        "bps": "bps",
+        "kbps": "Kbps",
+        "mbps": "Mbps",
+        "gbps": "Gbps"
+      },
       "results": {
         "seconds": "Seconds",
         "minutes": "Minutes",
         "hours": "Hours",
-        "days": "Days"
+        "days": "Days",
+        "weeks": "Weeks"
       },
       "presets": {
         "title": "Common Transfer Rates",
@@ -876,19 +1833,205 @@
       "title": "MTU Calculator",
       "name": "MTU Calc",
       "description": "Calculate Maximum Transmission Unit (MTU) and Maximum Segment Size (MSS) with protocol overhead analysis.",
-      "subtitle": "Calculate MTU and MSS for various protocols",
+      "subtitle": "Calculate Maximum Transmission Unit with protocol overhead analysis",
       "labels": {
         "mtu": "MTU (bytes)",
+        "baseMtu": "Base MTU (bytes)",
+        "physicalMtu": "Physical MTU (bytes)",
+        "mtuToTest": "MTU to Test (bytes)",
+        "targetHost": "Target Host",
         "protocol": "Protocol",
         "mss": "Maximum Segment Size",
-        "overhead": "Protocol Overhead"
+        "overhead": "Protocol Overhead",
+        "ipVersion": "IP Version",
+        "transportProtocol": "Transport Protocol",
+        "layer2Overhead": "Layer 2 Overhead",
+        "tunnelVpnOverhead": "Tunnel / VPN Overhead",
+        "selectProtocolLayers": "Select Protocol Layers (in order of encapsulation)"
       },
       "protocols": {
         "ethernet": "Ethernet",
         "pppoe": "PPPoE",
         "gre": "GRE Tunnel",
         "ipsec": "IPsec",
-        "vxlan": "VXLAN"
+        "vxlan": "VXLAN",
+        "ipv4": "IPv4",
+        "ipv6": "IPv6",
+        "tcp": "TCP",
+        "udp": "UDP",
+        "icmp": "ICMP",
+        "none": "None",
+        "ipOnly": "IP only",
+        "vlan8021q": "VLAN 802.1Q",
+        "qinqDoubleTag": "QinQ Double Tag",
+        "greTunnel": "GRE Tunnel",
+        "ipsecEspTunnelMode": "IPsec ESP Tunnel Mode",
+        "ipsecEspTransportMode": "IPsec ESP Transport Mode",
+        "openvpnUdp": "OpenVPN UDP",
+        "openvpnTcp": "OpenVPN TCP",
+        "wireguard": "WireGuard",
+        "ipv4Header": "IPv4 Header",
+        "ipv6Header": "IPv6 Header",
+        "tcpHeader": "TCP Header",
+        "udpHeader": "UDP Header"
+      },
+      "modes": {
+        "mtuCalculator": "MTU Calculator",
+        "protocolStack": "Protocol Stack",
+        "pathMtuDiscovery": "Path MTU Discovery"
+      },
+      "modeDescriptions": {
+        "mtuCalculator": "MTU calculator with protocol and VPN overhead selection",
+        "protocolStack": "Protocol stack builder with visual layers",
+        "pathMtuDiscovery": "Path MTU Discovery test command generator"
+      },
+      "presets": {
+        "title": "Quick Presets",
+        "standard": "Standard (1500)",
+        "pppoeDsl": "PPPoE/DSL (1492)",
+        "jumbo": "Jumbo (9000)",
+        "vpnSafe": "VPN Safe (1400)",
+        "ipv4Min": "IPv4 Min (576)",
+        "ipv6Min": "IPv6 Min (1280)"
+      },
+      "presetDescriptions": {
+        "standard": "Standard Ethernet 1500 MTU",
+        "pppoeDsl": "PPPoE DSL connection 1492 MTU",
+        "jumbo": "Jumbo frames 9000 MTU",
+        "vpnSafe": "VPN safe 1400 MTU",
+        "ipv4Min": "IPv4 minimum 576 MTU",
+        "ipv6Min": "IPv6 minimum 1280 MTU"
+      },
+      "results": {
+        "title": "MTU Calculation Results",
+        "baseMtu": "Base MTU",
+        "effectiveMtu": "Effective MTU",
+        "tunnelMtu": "Tunnel MTU",
+        "payload": "Payload",
+        "tcpMss": "TCP MSS",
+        "tunnelOverhead": "Tunnel Overhead",
+        "totalOverhead": "Total Overhead",
+        "protocolOverheadBreakdown": "Protocol Overhead Breakdown",
+        "availablePayload": "Available Payload",
+        "recommendedInterfaceSettings": "Recommended Interface Settings",
+        "physicalInterfaceMtu": "Physical Interface MTU",
+        "vpnTunnelInterfaceMtu": "VPN/Tunnel Interface MTU",
+        "clientDeviceMtu": "Client Device MTU",
+        "clientDeviceMtuNote": "Use this value for devices behind the VPN gateway when Path MTU Discovery (PMTUD) is blocked or unreliable. This prevents packet fragmentation and black-holing.",
+        "protocolStackAnalysis": "Protocol Stack Analysis",
+        "physicalMtu": "Physical MTU",
+        "protocolLayers": "Protocol Layers",
+        "layerByLayerBreakdown": "Layer-by-Layer Breakdown",
+        "interfaceMtu": "Interface MTU",
+        "componentBreakdown": "{{name}} Component Breakdown"
+      },
+      "pmtud": {
+        "title": "Path MTU Discovery Commands",
+        "testMtu": "Test MTU",
+        "icmpPayload": "ICMP Payload",
+        "testCommands": "Test Commands (with Don't Fragment flag)",
+        "testCommandsHelp": "Run these commands to test if packets of this size can reach the target without fragmentation. If you receive \"Packet needs to be fragmented\" or similar errors, reduce the MTU and try again.",
+        "howToFind": "How to Find Your Path MTU",
+        "step1": "Start with your current MTU (usually 1500)",
+        "step2": "Run the command for your OS",
+        "step3": "If packets get through, your path MTU is at least this size",
+        "step4": "If you get fragmentation errors, reduce MTU by 10-20 bytes and retry",
+        "step5": "The largest size that works is your path MTU"
+      },
+      "warnings": {
+        "negativePayload": "Negative payload! MTU is too small for selected protocols.",
+        "tunnelMtuBelow1280": "Tunnel MTU is below 1280 bytes. Consider adjusting your base MTU or tunnel settings.",
+        "effectiveMtuBelowIpv4Min": "Effective MTU is below IPv4 minimum (576 bytes). Fragmentation may occur.",
+        "effectiveMtuBelowIpv6Min": "Effective MTU is below IPv6 minimum (1280 bytes). Connection issues may occur.",
+        "negativePayloadStack": "Negative payload! Remove some layers or increase MTU.",
+        "verySmallPayload": "Very small payload ({{bytes}} bytes). Consider optimizing your stack."
+      },
+      "validation": {
+        "mtuMinimum": "MTU must be at least 68 bytes (IPv4 minimum)",
+        "mtuMaximum": "MTU cannot exceed 9000 bytes (Jumbo frame maximum)",
+        "enterTargetHost": "Please enter a target host"
+      },
+      "export": {
+        "csv": "Export CSV",
+        "json": "Export JSON",
+        "csvExported": "Results exported to CSV file",
+        "jsonExported": "Results exported to JSON file"
+      },
+      "os": {
+        "linux": "Linux",
+        "windows": "Windows",
+        "macos": "macOS"
+      },
+      "accessibility": {
+        "basicMtuHelp": "Enter the base MTU in bytes, typically 1500 for Ethernet",
+        "stackMtuHelp": "Enter the physical layer MTU",
+        "pmtudMtuHelp": "Enter the MTU value you want to test",
+        "pmtudHostHelp": "Enter a hostname or IP address to test path MTU against",
+        "resultsAnnounce": "MTU calculation complete. Effective MTU is {{effectiveMtu}} bytes with {{payload}} bytes available payload.",
+        "resultsAnnounceTunnel": "Tunnel MTU is {{tunnelMtu}} bytes.",
+        "stackResultsAnnounce": "Protocol stack built with {{layers}} layers. Total overhead is {{overhead}} bytes with {{payload}} bytes payload.",
+        "pmtudResultsAnnounce": "Path MTU Discovery commands generated for {{host}}. ICMP payload size is {{payloadSize}} bytes.",
+        "commandCopied": "{{os}} command copied to clipboard",
+        "calculateMtuButton": "Calculate MTU with selected options",
+        "buildProtocolStackButton": "Build protocol stack and calculate payload",
+        "generatePmtudButton": "Generate Path MTU Discovery test commands",
+        "copyButton": "Copy {{os}} command"
+      },
+      "reference": {
+        "title": "MTU Reference",
+        "commonMtuValues": "Common MTU Values",
+        "networkType": "Network Type",
+        "mtu": "MTU",
+        "useCase": "Use Case",
+        "ethernetStandard": "Ethernet Standard",
+        "defaultForMostNetworks": "Default for most networks",
+        "pppoeDsl": "PPPoE/DSL",
+        "dslFiberPppoe": "DSL/fiber with PPPoE (8-byte overhead)",
+        "ipv4Minimum": "IPv4 Minimum",
+        "minimumGuaranteedNonFragmented": "Minimum guaranteed non-fragmented",
+        "ipv6Minimum": "IPv6 Minimum",
+        "minimumRequiredIpv6": "Minimum required for IPv6",
+        "ethernetJumbo": "Ethernet Jumbo",
+        "highPerformanceLan": "High-performance LANs/datacenter",
+        "vpnTypical": "VPN Typical",
+        "commonVpnValue": "Common safe value for VPN tunnels",
+        "mtuVsMss": "MTU vs MSS",
+        "mtuDefinition": "MTU (Maximum Transmission Unit) is the maximum packet size including all headers at Layer 3 and above.",
+        "mssDefinition": "MSS (Maximum Segment Size) is the maximum TCP payload only, calculated as: MTU - IP header - TCP header.",
+        "mssExample": "Example: With 1500 MTU and IPv4/TCP: MSS = 1500 - 20 (IPv4) - 20 (TCP) = 1460 bytes",
+        "protocolHeaderSizes": "Protocol Header Sizes",
+        "headerSize": "Header Size",
+        "notes": "Notes",
+        "ipv4WithoutOptions": "Without options (up to 60 with options)",
+        "ipv6FixedHeader": "Fixed header size",
+        "tcpWithoutOptions": "Without options (up to 60 with options)",
+        "udpFixedHeader": "Fixed header size",
+        "icmpEchoRequestReply": "Echo request/reply",
+        "greComponents": "4 GRE + 20 inner IP header",
+        "pppoeComponents": "6 PPPoE + 2 PPP",
+        "vlanSingleTag": "Single VLAN tag",
+        "vpnTunnelOverhead": "VPN/Tunnel Overhead",
+        "vpnType": "VPN Type",
+        "components": "Components",
+        "ipsecTunnelComponents": "Outer IP (20) + ESP header (8) + IV (16) + trailer (2) + padding (~15) + ICV (12)",
+        "ipsecTransportComponents": "ESP header (8) + IV (16) + trailer (2) + padding (~15) + ICV (12)",
+        "openvpnUdpComponents": "UDP header (8) + OpenVPN header (1) + HMAC (20)",
+        "openvpnTcpComponents": "TCP header (20) + OpenVPN header (1) + HMAC (20)",
+        "wireguardComponents": "UDP header (8) + WG header (16) + Poly1305 auth (16)"
+      },
+      "vpnComponents": {
+        "outerIpHeader": "Outer IP Header",
+        "espHeader": "ESP Header",
+        "ivAes": "IV (AES)",
+        "espTrailer": "ESP Trailer",
+        "paddingAvg": "Padding (avg)",
+        "icvAuth": "ICV (Auth)",
+        "udpHeader": "UDP Header",
+        "openvpnHeader": "OpenVPN Header",
+        "hmac": "HMAC",
+        "tcpHeader": "TCP Header",
+        "wgHeader": "WG Header",
+        "poly1305Auth": "Poly1305 Auth"
       }
     },
     "jinjaBuilder": {
@@ -896,10 +2039,43 @@
       "name": "Jinja Builder",
       "description": "Build and test Jinja2 templates with syntax highlighting and live preview.",
       "subtitle": "Build and preview Jinja2 templates",
+      "tabs": {
+        "basics": "Basics",
+        "controlFlow": "Control Flow",
+        "filters": "Filters",
+        "tests": "Tests",
+        "advanced": "Advanced"
+      },
       "labels": {
         "template": "Template",
         "variables": "Variables (JSON)",
-        "output": "Rendered Output"
+        "output": "Rendered Output",
+        "quickReference": "Quick Reference",
+        "completeReferenceGuide": "Complete Reference Guide"
+      },
+      "templates": {
+        "ciscoInterface": "Cisco Interface Config",
+        "ciscoAcl": "Cisco ACL",
+        "vlanConfig": "VLAN Configuration",
+        "bgpNeighbor": "BGP Neighbor",
+        "firewallRules": "Firewall Rules",
+        "nginxVhost": "Nginx Virtual Host",
+        "apacheVhost": "Apache Virtual Host",
+        "dnsZone": "DNS Zone File",
+        "hostsFile": "Hosts File",
+        "ansiblePlaybook": "Ansible Playbook",
+        "ansibleVariables": "Ansible Variables",
+        "dockerCompose": "Docker Compose",
+        "forLoopExample": "For Loop Example",
+        "conditionalsExample": "Conditionals Example",
+        "filtersExample": "Filters Example",
+        "templateInheritance": "Template Inheritance"
+      },
+      "optgroups": {
+        "networkConfigurations": "Network Configurations",
+        "serverConfigurations": "Server Configurations",
+        "automation": "Automation",
+        "basicExamples": "Basic Examples"
       },
       "buttons": {
         "render": "Render Template",
@@ -910,6 +2086,9 @@
         "networkConfig": "Network Config",
         "ansiblePlaybook": "Ansible Playbook",
         "dockerCompose": "Docker Compose"
+      },
+      "placeholders": {
+        "template": "Enter your Jinja2 template here..."
       },
       "validation": {
         "invalidJson": "Invalid JSON in variables",

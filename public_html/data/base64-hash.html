@@ -447,7 +447,7 @@
                 <form aria-label="Base64 encode and decode form">
                 <div class="input-area">
                     <h3 class="section-title" data-i18n="sections.inputText">Input</h3>
-                    <textarea id="base64Input" placeholder="Enter text to encode or Base64 to decode..." aria-label="Input text for Base64 encoding or decoding" aria-describedby="base64-help"></textarea>
+                    <textarea id="base64Input" placeholder="Enter text to encode or Base64 to decode..." data-i18n-placeholder="tools.base64Hash.placeholders.base64Input" aria-label="Input text for Base64 encoding or decoding" aria-describedby="base64-help"></textarea>
                     <span id="base64-help" class="sr-only">Enter plain text to encode as Base64, or enter Base64 encoded text to decode</span>
                 </div>
 
@@ -461,13 +461,13 @@
                 <div class="output-area" role="region" aria-live="polite" aria-label="Base64 operation result">
                     <h3 class="section-title" data-i18n="sections.output">Output</h3>
                     <div class="output-box">
-                        <textarea id="base64Output" readonly placeholder="Result will appear here..." aria-label="Base64 operation output"></textarea>
+                        <textarea id="base64Output" readonly placeholder="Result will appear here..." data-i18n-placeholder="tools.base64Hash.placeholders.resultPlaceholder" aria-label="Base64 operation output"></textarea>
                         <button type="button" class="copy-btn" onclick="copyOutput('base64Output', this)" aria-label="Copy Base64 output to clipboard" data-i18n="common.copy">Copy</button>
                     </div>
                 </div>
                 </form>
 
-                <div class="info-box">
+                <div class="info-box" data-i18n="tools.base64Hash.infoBoxes.base64Info">
                     Supports UTF-8 characters. Base64 encoding increases size by approximately 33%.
                 </div>
             </div>
@@ -477,7 +477,7 @@
                 <form aria-label="Cryptographic hash generation form">
                 <div class="input-area">
                     <h3 class="section-title" data-i18n="sections.inputText">Input Text</h3>
-                    <textarea id="hashInput" placeholder="Enter text to hash..." aria-label="Input text for hash generation" aria-describedby="hash-help"></textarea>
+                    <textarea id="hashInput" placeholder="Enter text to hash..." data-i18n-placeholder="tools.base64Hash.placeholders.hashInput" aria-label="Input text for hash generation" aria-describedby="hash-help"></textarea>
                     <span id="hash-help" class="sr-only">Enter text to generate MD5, SHA-1, SHA-256, and SHA-512 cryptographic hashes</span>
                 </div>
 
@@ -519,7 +519,7 @@
                     </div>
                 </div>
 
-                <div class="info-box">
+                <div class="info-box" data-i18n="tools.base64Hash.infoBoxes.hashInfo">
                     SHA hashes use Web Crypto API. MD5 is provided for compatibility but should not be used for security purposes.
                 </div>
             </div>
@@ -529,7 +529,7 @@
                 <form aria-label="URL encode and decode form">
                 <div class="input-area">
                     <h3 class="section-title" data-i18n="sections.inputText">Input</h3>
-                    <textarea id="urlInput" placeholder="Enter text to URL encode or encoded text to decode..." aria-label="Input text for URL encoding or decoding" aria-describedby="url-help"></textarea>
+                    <textarea id="urlInput" placeholder="Enter text to URL encode or encoded text to decode..." data-i18n-placeholder="tools.base64Hash.placeholders.urlInput" aria-label="Input text for URL encoding or decoding" aria-describedby="url-help"></textarea>
                     <span id="url-help" class="sr-only">Enter plain text to URL encode, or enter URL encoded text to decode</span>
                 </div>
 
@@ -543,13 +543,13 @@
                 <div class="output-area" role="region" aria-live="polite" aria-label="URL operation result">
                     <h3 class="section-title" data-i18n="sections.output">Output</h3>
                     <div class="output-box">
-                        <textarea id="urlOutput" readonly placeholder="Result will appear here..." aria-label="URL operation output"></textarea>
+                        <textarea id="urlOutput" readonly placeholder="Result will appear here..." data-i18n-placeholder="tools.base64Hash.placeholders.resultPlaceholder" aria-label="URL operation output"></textarea>
                         <button type="button" class="copy-btn" onclick="copyOutput('urlOutput', this)" aria-label="Copy URL output to clipboard" data-i18n="common.copy">Copy</button>
                     </div>
                 </div>
                 </form>
 
-                <div class="info-box">
+                <div class="info-box" data-i18n="tools.base64Hash.infoBoxes.urlInfo">
                     Uses encodeURIComponent/decodeURIComponent for proper URI component encoding.
                 </div>
             </div>
@@ -559,7 +559,7 @@
                 <form aria-label="Hexadecimal encode and decode form">
                 <div class="input-area">
                     <h3 class="section-title" data-i18n="sections.inputText">Input</h3>
-                    <textarea id="hexInput" placeholder="Enter text to convert to hex or hex string to decode..." aria-label="Input text for hexadecimal encoding or decoding" aria-describedby="hex-help"></textarea>
+                    <textarea id="hexInput" placeholder="Enter text to convert to hex or hex string to decode..." data-i18n-placeholder="tools.base64Hash.placeholders.hexInput" aria-label="Input text for hexadecimal encoding or decoding" aria-describedby="hex-help"></textarea>
                     <span id="hex-help" class="sr-only">Enter plain text to convert to hexadecimal, or enter hex string to decode to text</span>
                 </div>
 
@@ -584,13 +584,13 @@
                 <div class="output-area" role="region" aria-live="polite" aria-label="Hex operation result">
                     <h3 class="section-title" data-i18n="sections.output">Output</h3>
                     <div class="output-box">
-                        <textarea id="hexOutput" readonly placeholder="Result will appear here..." aria-label="Hex operation output"></textarea>
+                        <textarea id="hexOutput" readonly placeholder="Result will appear here..." data-i18n-placeholder="tools.base64Hash.placeholders.resultPlaceholder" aria-label="Hex operation output"></textarea>
                         <button type="button" class="copy-btn" onclick="copyOutput('hexOutput', this)" aria-label="Copy hex output to clipboard" data-i18n="common.copy">Copy</button>
                     </div>
                 </div>
                 </form>
 
-                <div class="info-box">
+                <div class="info-box" data-i18n="tools.base64Hash.infoBoxes.hexInfo">
                     Hex encoding converts each byte to its two-character hexadecimal representation.
                 </div>
             </div>

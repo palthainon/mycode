@@ -572,7 +572,7 @@
                     <div class="converter-row">
                         <div class="input-field">
                             <label for="length-value" data-i18n="tools.measurementConverter.labels.value">Value</label>
-                            <input type="number" id="length-value" placeholder="Enter value" step="any" aria-describedby="length-result">
+                            <input type="number" id="length-value" placeholder="Enter value" data-i18n-placeholder="tools.measurementConverter.placeholders.enterValue" step="any" aria-describedby="length-result">
                         </div>
                         <div class="input-field">
                             <label for="length-from" data-i18n="tools.measurementConverter.labels.from">From</label>
@@ -614,7 +614,7 @@
                     <div class="converter-row">
                         <div class="input-field">
                             <label for="weight-value" data-i18n="tools.measurementConverter.labels.value">Value</label>
-                            <input type="number" id="weight-value" placeholder="Enter value" step="any" aria-describedby="weight-result">
+                            <input type="number" id="weight-value" placeholder="Enter value" data-i18n-placeholder="tools.measurementConverter.placeholders.enterValue" step="any" aria-describedby="weight-result">
                         </div>
                         <div class="input-field">
                             <label for="weight-from" data-i18n="tools.measurementConverter.labels.from">From</label>
@@ -656,7 +656,7 @@
                     <div class="converter-row">
                         <div class="input-field">
                             <label for="volume-value" data-i18n="tools.measurementConverter.labels.value">Value</label>
-                            <input type="number" id="volume-value" placeholder="Enter value" step="any" aria-describedby="volume-result">
+                            <input type="number" id="volume-value" placeholder="Enter value" data-i18n-placeholder="tools.measurementConverter.placeholders.enterValue" step="any" aria-describedby="volume-result">
                         </div>
                         <div class="input-field">
                             <label for="volume-from" data-i18n="tools.measurementConverter.labels.from">From</label>
@@ -698,7 +698,7 @@
                     <div class="converter-row">
                         <div class="input-field">
                             <label for="area-value" data-i18n="tools.measurementConverter.labels.value">Value</label>
-                            <input type="number" id="area-value" placeholder="Enter value" step="any" aria-describedby="area-result">
+                            <input type="number" id="area-value" placeholder="Enter value" data-i18n-placeholder="tools.measurementConverter.placeholders.enterValue" step="any" aria-describedby="area-result">
                         </div>
                         <div class="input-field">
                             <label for="area-from" data-i18n="tools.measurementConverter.labels.from">From</label>
@@ -745,12 +745,12 @@
                 <h2 class="section-title">Cooking Measurements</h2>
 
                 <div class="notation-toggle">
-                    <label style="color: #90caf9; font-weight: 500; margin-bottom: 8px; display: block;">Cup Standard</label>
+                    <label style="color: #90caf9; font-weight: 500; margin-bottom: 8px; display: block;" data-i18n="tools.measurementConverter.labels.cupStandard">Cup Standard</label>
                     <div class="notation-buttons" role="group" aria-label="Cup measurement standard">
-                        <button type="button" class="notation-btn active" data-cup="us" onclick="setCupStandard('us')">
+                        <button type="button" class="notation-btn active" data-cup="us" onclick="setCupStandard('us')" data-i18n="tools.measurementConverter.cooking.usCustomary">
                             US Cup (236.588 mL)
                         </button>
-                        <button type="button" class="notation-btn" data-cup="metric" onclick="setCupStandard('metric')">
+                        <button type="button" class="notation-btn" data-cup="metric" onclick="setCupStandard('metric')" data-i18n="tools.measurementConverter.cooking.metric">
                             Metric Cup (250 mL)
                         </button>
                     </div>
@@ -761,7 +761,7 @@
                     <div class="converter-row">
                         <div class="input-field">
                             <label for="cooking-value" data-i18n="tools.measurementConverter.labels.value">Value</label>
-                            <input type="number" id="cooking-value" placeholder="Enter value" step="any" aria-describedby="cooking-result">
+                            <input type="number" id="cooking-value" placeholder="Enter value" data-i18n-placeholder="tools.measurementConverter.placeholders.enterValue" step="any" aria-describedby="cooking-result">
                         </div>
                         <div class="input-field">
                             <label for="cooking-from" data-i18n="tools.measurementConverter.labels.from">From</label>
@@ -940,7 +940,7 @@
                     <div class="converter-row">
                         <div class="input-field">
                             <label for="temp-value" data-i18n="tools.measurementConverter.labels.value">Value</label>
-                            <input type="number" id="temp-value" placeholder="Enter temperature" step="any" aria-describedby="temp-result">
+                            <input type="number" id="temp-value" placeholder="Enter temperature" data-i18n-placeholder="tools.measurementConverter.placeholders.enterTemperature" step="any" aria-describedby="temp-result">
                         </div>
                         <div class="input-field">
                             <label for="temp-from" data-i18n="tools.measurementConverter.labels.from">From</label>
@@ -978,7 +978,7 @@
                     <div class="converter-row">
                         <div class="input-field">
                             <label for="si-value" data-i18n="tools.measurementConverter.labels.value">Value</label>
-                            <input type="number" id="si-value" placeholder="Enter value" step="any" aria-describedby="si-result">
+                            <input type="number" id="si-value" placeholder="Enter value" data-i18n-placeholder="tools.measurementConverter.placeholders.enterValue" step="any" aria-describedby="si-result">
                         </div>
                         <div class="input-field">
                             <label for="si-from" data-i18n="tools.measurementConverter.labels.from">From</label>
@@ -1018,14 +1018,14 @@
                 </div>
 
                 <div class="subsection">
-                    <h3 class="subsection-title">Scientific Notation</h3>
+                    <h3 class="subsection-title" data-i18n="tools.measurementConverter.scientific.scientificNotation">Scientific Notation</h3>
                     <div class="converter-row">
                         <div class="input-field" style="flex: 2;">
-                            <label for="sci-value">Enter Number</label>
+                            <label for="sci-value" data-i18n="tools.measurementConverter.labels.enterNumber">Enter Number</label>
                             <input type="text" id="sci-value" placeholder="e.g., 12345.67 or 1.23e5" aria-describedby="sci-result">
                         </div>
                         <div class="input-field">
-                            <label for="sci-precision">Precision</label>
+                            <label for="sci-precision" data-i18n="tools.measurementConverter.labels.precision">Precision</label>
                             <select id="sci-precision">
                                 <option value="2">2 digits</option>
                                 <option value="3">3 digits</option>
@@ -1038,7 +1038,7 @@
                     <div class="result-display" id="sci-result" aria-live="polite">
                         <div style="display: flex; gap: 30px; flex-wrap: wrap;">
                             <div>
-                                <span class="label">Scientific Notation</span>
+                                <span class="label" data-i18n="tools.measurementConverter.scientific.scientificNotation">Scientific Notation</span>
                                 <div class="value" id="sci-result-scientific">--</div>
                             </div>
                             <div>
@@ -1054,14 +1054,14 @@
                 </div>
 
                 <div class="subsection">
-                    <h3 class="subsection-title">Significant Figures</h3>
+                    <h3 class="subsection-title" data-i18n="tools.measurementConverter.scientific.significantFigures">Significant Figures</h3>
                     <div class="converter-row">
                         <div class="input-field" style="flex: 2;">
-                            <label for="sigfig-value">Enter Number</label>
+                            <label for="sigfig-value" data-i18n="tools.measurementConverter.labels.enterNumber">Enter Number</label>
                             <input type="text" id="sigfig-value" placeholder="e.g., 123.456" aria-describedby="sigfig-result">
                         </div>
                         <div class="input-field">
-                            <label for="sigfig-count">Sig Figs</label>
+                            <label for="sigfig-count" data-i18n="tools.measurementConverter.labels.sigFigs">Sig Figs</label>
                             <select id="sigfig-count">
                                 <option value="1">1</option>
                                 <option value="2">2</option>
@@ -1073,7 +1073,7 @@
                         </div>
                     </div>
                     <div class="result-display" id="sigfig-result" aria-live="polite">
-                        <span class="label">Rounded to specified significant figures</span>
+                        <span class="label" data-i18n="tools.measurementConverter.scientific.significantFigures">Significant Figures</span>
                         <span class="value" id="sigfig-result-value">--</span>
                         <button type="button" class="copy-btn" onclick="copyResult('sigfig-result-value', this)" data-i18n="common.copy">Copy</button>
                     </div>
@@ -1084,7 +1084,7 @@
                     <div class="converter-row">
                         <div class="input-field">
                             <label for="pressure-value" data-i18n="tools.measurementConverter.labels.value">Value</label>
-                            <input type="number" id="pressure-value" placeholder="Enter value" step="any" aria-describedby="pressure-result">
+                            <input type="number" id="pressure-value" placeholder="Enter value" data-i18n-placeholder="tools.measurementConverter.placeholders.enterValue" step="any" aria-describedby="pressure-result">
                         </div>
                         <div class="input-field">
                             <label for="pressure-from" data-i18n="tools.measurementConverter.labels.from">From</label>
@@ -1122,7 +1122,7 @@
                     <div class="converter-row">
                         <div class="input-field">
                             <label for="energy-value" data-i18n="tools.measurementConverter.labels.value">Value</label>
-                            <input type="number" id="energy-value" placeholder="Enter value" step="any" aria-describedby="energy-result">
+                            <input type="number" id="energy-value" placeholder="Enter value" data-i18n-placeholder="tools.measurementConverter.placeholders.enterValue" step="any" aria-describedby="energy-result">
                         </div>
                         <div class="input-field">
                             <label for="energy-from" data-i18n="tools.measurementConverter.labels.from">From</label>
@@ -1166,14 +1166,14 @@
                     <h3 class="subsection-title">Angle Conversion</h3>
                     <div class="converter-row">
                         <div class="input-field">
-                            <label for="angle-value" data-i18n="tools.measurementConverter.labels.value">Value</label>
-                            <input type="number" id="angle-value" placeholder="Enter angle" step="any" aria-describedby="angle-result">
+                            <label for="angle-value" data-i18n="tools.measurementConverter.labels.angle">Angle</label>
+                            <input type="number" id="angle-value" placeholder="Enter angle" data-i18n-placeholder="tools.measurementConverter.placeholders.enterAngle" step="any" aria-describedby="angle-result">
                         </div>
                         <div class="input-field">
                             <label for="angle-from" data-i18n="tools.measurementConverter.labels.from">From</label>
                             <select id="angle-from">
-                                <option value="deg" selected>Degrees</option>
-                                <option value="rad">Radians</option>
+                                <option value="deg" selected data-i18n="tools.measurementConverter.trigUnits.degrees">Degrees</option>
+                                <option value="rad" data-i18n="tools.measurementConverter.trigUnits.radians">Radians</option>
                                 <option value="grad">Gradians</option>
                                 <option value="turn">Turns</option>
                             </select>
@@ -1182,8 +1182,8 @@
                         <div class="input-field">
                             <label for="angle-to" data-i18n="tools.measurementConverter.labels.to">To</label>
                             <select id="angle-to">
-                                <option value="deg">Degrees</option>
-                                <option value="rad" selected>Radians</option>
+                                <option value="deg" data-i18n="tools.measurementConverter.trigUnits.degrees">Degrees</option>
+                                <option value="rad" selected data-i18n="tools.measurementConverter.trigUnits.radians">Radians</option>
                                 <option value="grad">Gradians</option>
                                 <option value="turn">Turns</option>
                             </select>
@@ -1197,17 +1197,17 @@
                 </div>
 
                 <div class="subsection">
-                    <h3 class="subsection-title">Trigonometric Functions Calculator</h3>
+                    <h3 class="subsection-title" data-i18n="tools.measurementConverter.scientific.trigResults">Trigonometric Functions Calculator</h3>
                     <div class="converter-row">
                         <div class="input-field" style="flex: 2;">
-                            <label for="trig-angle">Angle</label>
-                            <input type="number" id="trig-angle" placeholder="Enter angle" step="any" aria-describedby="trig-results-area">
+                            <label for="trig-angle" data-i18n="tools.measurementConverter.labels.angle">Angle</label>
+                            <input type="number" id="trig-angle" placeholder="Enter angle" data-i18n-placeholder="tools.measurementConverter.placeholders.enterAngle" step="any" aria-describedby="trig-results-area">
                         </div>
                         <div class="input-field">
-                            <label for="trig-unit">Unit</label>
+                            <label for="trig-unit" data-i18n="tools.measurementConverter.labels.unit">Unit</label>
                             <select id="trig-unit">
-                                <option value="deg" selected>Degrees</option>
-                                <option value="rad">Radians</option>
+                                <option value="deg" selected data-i18n="tools.measurementConverter.trigUnits.degrees">Degrees</option>
+                                <option value="rad" data-i18n="tools.measurementConverter.trigUnits.radians">Radians</option>
                             </select>
                         </div>
                         <button type="button" class="btn" onclick="calculateTrig()" data-i18n="common.calculate">Calculate</button>
@@ -1290,7 +1290,7 @@
                     <div class="converter-row">
                         <div class="input-field">
                             <label for="speed-value" data-i18n="tools.measurementConverter.labels.value">Value</label>
-                            <input type="number" id="speed-value" placeholder="Enter value" step="any" aria-describedby="speed-result">
+                            <input type="number" id="speed-value" placeholder="Enter value" data-i18n-placeholder="tools.measurementConverter.placeholders.enterValue" step="any" aria-describedby="speed-result">
                         </div>
                         <div class="input-field">
                             <label for="speed-from" data-i18n="tools.measurementConverter.labels.from">From</label>
@@ -1328,7 +1328,7 @@
                     <div class="converter-row">
                         <div class="input-field">
                             <label for="time-value" data-i18n="tools.measurementConverter.labels.value">Value</label>
-                            <input type="number" id="time-value" placeholder="Enter value" step="any" aria-describedby="time-result">
+                            <input type="number" id="time-value" placeholder="Enter value" data-i18n-placeholder="tools.measurementConverter.placeholders.enterValue" step="any" aria-describedby="time-result">
                         </div>
                         <div class="input-field">
                             <label for="time-from" data-i18n="tools.measurementConverter.labels.from">From</label>
@@ -1372,7 +1372,7 @@
                     <div class="converter-row">
                         <div class="input-field">
                             <label for="power-value" data-i18n="tools.measurementConverter.labels.value">Value</label>
-                            <input type="number" id="power-value" placeholder="Enter value" step="any" aria-describedby="power-result">
+                            <input type="number" id="power-value" placeholder="Enter value" data-i18n-placeholder="tools.measurementConverter.placeholders.enterValue" step="any" aria-describedby="power-result">
                         </div>
                         <div class="input-field">
                             <label for="power-from" data-i18n="tools.measurementConverter.labels.from">From</label>
@@ -1412,7 +1412,7 @@
                     <div class="converter-row">
                         <div class="input-field">
                             <label for="freq-value" data-i18n="tools.measurementConverter.labels.value">Value</label>
-                            <input type="number" id="freq-value" placeholder="Enter value" step="any" aria-describedby="freq-result">
+                            <input type="number" id="freq-value" placeholder="Enter value" data-i18n-placeholder="tools.measurementConverter.placeholders.enterValue" step="any" aria-describedby="freq-result">
                         </div>
                         <div class="input-field">
                             <label for="freq-from" data-i18n="tools.measurementConverter.labels.from">From</label>

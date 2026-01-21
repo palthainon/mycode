@@ -933,7 +933,7 @@
             <form id="compound-form" aria-label="Compound Interest Calculator Form">
                 <div class="input-group">
                     <div class="input-field">
-                        <label for="principal">Initial Investment</label>
+                        <label for="principal" data-i18n="tools.compoundInterestCalculator.labels.initialInvestment">Initial Investment</label>
                         <div class="input-prefix">
                             <span>$</span>
                             <input type="text" id="principal" placeholder="10,000" aria-required="true" aria-describedby="principal-help" inputmode="decimal">
@@ -941,7 +941,7 @@
                         <span id="principal-help" class="sr-only">Enter your initial investment amount in dollars</span>
                     </div>
                     <div class="input-field">
-                        <label for="rate">Annual Interest Rate</label>
+                        <label for="rate" data-i18n="tools.compoundInterestCalculator.labels.annualInterestRate">Annual Interest Rate</label>
                         <div class="input-suffix">
                             <input type="text" id="rate" placeholder="7" aria-required="true" aria-describedby="rate-help" inputmode="decimal">
                             <span>%</span>
@@ -949,7 +949,7 @@
                         <span id="rate-help" class="sr-only">Enter the annual interest rate as a percentage</span>
                     </div>
                     <div class="input-field">
-                        <label for="years">Investment Period</label>
+                        <label for="years" data-i18n="tools.compoundInterestCalculator.labels.investmentPeriod">Investment Period</label>
                         <input type="number" id="years" placeholder="10" value="10" min="1" max="100" aria-required="true" aria-describedby="years-help">
                         <span id="years-help" class="sr-only">Enter the investment period in years</span>
                     </div>
@@ -957,7 +957,7 @@
 
                 <div class="input-group">
                     <div class="input-field">
-                        <label for="contribution">Monthly Contribution (Optional)</label>
+                        <label for="contribution" data-i18n="tools.compoundInterestCalculator.labels.monthlyContribution">Monthly Contribution (Optional)</label>
                         <div class="input-prefix">
                             <span>$</span>
                             <input type="text" id="contribution" placeholder="500" aria-describedby="contribution-help" inputmode="decimal">
@@ -965,21 +965,21 @@
                         <span id="contribution-help" class="sr-only">Optional: Enter a monthly contribution amount</span>
                     </div>
                     <div class="input-field">
-                        <label for="compound-frequency">Compounding Frequency</label>
+                        <label for="compound-frequency" data-i18n="tools.compoundInterestCalculator.labels.compoundingFrequency">Compounding Frequency</label>
                         <select id="compound-frequency" aria-describedby="frequency-help">
-                            <option value="12">Monthly</option>
-                            <option value="4">Quarterly</option>
-                            <option value="2">Semi-Annually</option>
-                            <option value="1"selected>Annually</option>
-                            <option value="365">Daily</option>
+                            <option value="12" data-i18n="tools.compoundInterestCalculator.frequency.monthly">Monthly</option>
+                            <option value="4" data-i18n="tools.compoundInterestCalculator.frequency.quarterly">Quarterly</option>
+                            <option value="2" data-i18n="tools.compoundInterestCalculator.frequency.semiAnnually">Semi-Annually</option>
+                            <option value="1" selected data-i18n="tools.compoundInterestCalculator.frequency.annually">Annually</option>
+                            <option value="365" data-i18n="tools.compoundInterestCalculator.frequency.daily">Daily</option>
                         </select>
                         <span id="frequency-help" class="sr-only">Select how often interest is compounded</span>
                     </div>
                     <div class="input-field">
-                        <label for="contribution-timing">Contribution Timing</label>
+                        <label for="contribution-timing" data-i18n="tools.compoundInterestCalculator.labels.contributionTiming">Contribution Timing</label>
                         <select id="contribution-timing" aria-describedby="timing-help">
-                            <option value="end" selected>End of Month</option>
-                            <option value="start">Beginning of Month</option>
+                            <option value="end" selected data-i18n="tools.compoundInterestCalculator.timing.end">End of Period</option>
+                            <option value="start" data-i18n="tools.compoundInterestCalculator.timing.beginning">Beginning of Period</option>
                         </select>
                         <span id="timing-help" class="sr-only">Select when contributions are made each month</span>
                     </div>

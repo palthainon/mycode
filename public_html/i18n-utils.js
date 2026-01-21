@@ -263,7 +263,12 @@ const I18nUtils = (function() {
             const key = el.getAttribute('data-i18n-placeholder');
             const translated = t(key);
             if (translated !== key) {
-                el.placeholder = translated;
+                // For contenteditable elements using data-placeholder with CSS
+                if (el.hasAttribute('data-placeholder')) {
+                    el.setAttribute('data-placeholder', translated);
+                } else {
+                    el.placeholder = translated;
+                }
             }
         });
 

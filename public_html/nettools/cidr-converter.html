@@ -634,17 +634,20 @@
                     class="mode-btn active"
                     onclick="switchMode('single')"
                     aria-pressed="true"
-                    aria-label="Convert single CIDR notation to subnet details">Single CIDR</button>
+                    aria-label="Convert single CIDR notation to subnet details"
+                    data-i18n="tools.cidrConverter.modes.singleCidr">Single CIDR</button>
             <button type="button"
                     class="mode-btn"
                     onclick="switchMode('multiple')"
                     aria-pressed="false"
-                    aria-label="Analyze multiple CIDR notations and detect overlaps">Multiple CIDRs</button>
+                    aria-label="Analyze multiple CIDR notations and detect overlaps"
+                    data-i18n="tools.cidrConverter.modes.multipleCidrs">Multiple CIDRs</button>
             <button type="button"
                     class="mode-btn"
                     onclick="switchMode('reverse')"
                     aria-pressed="false"
-                    aria-label="Convert IP address range to CIDR notation">Range to CIDR</button>
+                    aria-label="Convert IP address range to CIDR notation"
+                    data-i18n="tools.cidrConverter.modes.rangeToCidr">Range to CIDR</button>
         </div>
 
         <div class="calculator">
@@ -653,7 +656,7 @@
                 <form id="single-form" aria-label="Single CIDR Converter Form">
                     <div class="input-group">
                         <div class="input-field">
-                            <label for="singleIP">IP Address</label>
+                            <label for="singleIP" data-i18n="tools.cidrConverter.labels.ipAddress">IP Address</label>
                             <input type="text"
                                    id="singleIP"
                                    placeholder="192.168.1.0"
@@ -662,7 +665,7 @@
                             <span id="single-ip-help" class="sr-only">Enter an IPv4 address for CIDR conversion, for example 192.168.1.0</span>
                         </div>
                         <div class="input-field">
-                            <label for="singleCIDR">CIDR Prefix</label>
+                            <label for="singleCIDR" data-i18n="tools.cidrConverter.labels.cidrPrefix">CIDR Prefix</label>
                             <input type="number"
                                    id="singleCIDR"
                                    placeholder="24"
@@ -675,7 +678,7 @@
                     </div>
 
                     <div class="quick-masks">
-                        <h3>Quick Select:</h3>
+                        <h3 data-i18n="tools.cidrConverter.labels.quickSelect">Quick Select:</h3>
                         <div class="mask-buttons">
                             <button type="button" class="mask-btn" onclick="setQuickCIDR(8)" aria-label="Set CIDR to /8">/8</button>
                             <button type="button" class="mask-btn" onclick="setQuickCIDR(16)" aria-label="Set CIDR to /16">/16</button>
@@ -1014,10 +1017,10 @@ permit ip 192.168.100.0 0.0.0.255"></textarea>
             }
 
             resultsDiv.innerHTML = `
-                <h2>Network Details</h2>
+                <h2 data-i18n="tools.cidrConverter.sections.networkDetails">Network Details</h2>
                 <div class="export-section">
-                    <button type="button" class="export-btn" onclick="exportSingleCSV()" aria-label="Export network details to CSV file">Export CSV</button>
-                    <button type="button" class="export-btn json" onclick="exportSingleJSON()" aria-label="Export network details to JSON file">Export JSON</button>
+                    <button type="button" class="export-btn" onclick="exportSingleCSV()" aria-label="Export network details to CSV file" data-i18n="tools.cidrConverter.buttons.exportCsv">Export CSV</button>
+                    <button type="button" class="export-btn json" onclick="exportSingleJSON()" aria-label="Export network details to JSON file" data-i18n="tools.cidrConverter.buttons.exportJson">Export JSON</button>
                 </div>
                 <div class="results-grid">
                     <div class="result-item">
@@ -1063,7 +1066,7 @@ permit ip 192.168.100.0 0.0.0.255"></textarea>
                 </div>
 
                 <div class="binary-display">
-                    <h3>Binary Representation</h3>
+                    <h3 data-i18n="tools.cidrConverter.sections.binaryRepresentation">Binary Representation</h3>
                     <div class="binary-item">
                         <span class="bin-label">Network Address:</span>
                         <span>${formatBinaryWithColors(intToBinary(range.network), cidr)}</span>
@@ -1081,6 +1084,11 @@ permit ip 192.168.100.0 0.0.0.255"></textarea>
 
             resultsDiv.classList.add('show');
             resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            // Translate dynamically added content
+            if (typeof I18nUtils !== 'undefined') {
+                I18nUtils.translatePage();
+            }
 
             // Announce completion to screen readers
             A11yUtils.announce(`CIDR conversion complete. Network ${intToIP(range.network)} slash ${cidr} has ${range.usableHosts.toLocaleString()} usable hosts.`, 'polite');
@@ -1176,7 +1184,7 @@ permit ip 192.168.100.0 0.0.0.255"></textarea>
             });
 
             let html = `
-                <h2>Analysis Summary</h2>
+                <h2 data-i18n="tools.cidrConverter.sections.analysisSummary">Analysis Summary</h2>
                 <div class="summary-grid">
                     <div class="summary-card">
                         <div class="stat-value">${networks.length}</div>
@@ -1196,7 +1204,7 @@ permit ip 192.168.100.0 0.0.0.255"></textarea>
                     </div>
                 </div>
 
-                <h2>Network Details</h2>
+                <h2 data-i18n="tools.cidrConverter.sections.networkDetails">Network Details</h2>
                 <div class="data-table-container">
                     <table class="data-table">
                         <thead>
@@ -1263,14 +1271,19 @@ permit ip 192.168.100.0 0.0.0.255"></textarea>
                 </div>
 
                 <div class="export-section">
-                    <button type="button" class="export-btn" onclick="exportMultipleCSV()" aria-label="Export multiple CIDR analysis to CSV file">Export CSV</button>
-                    <button type="button" class="export-btn json" onclick="exportMultipleJSON()" aria-label="Export multiple CIDR analysis to JSON file">Export JSON</button>
+                    <button type="button" class="export-btn" onclick="exportMultipleCSV()" aria-label="Export multiple CIDR analysis to CSV file" data-i18n="tools.cidrConverter.buttons.exportCsv">Export CSV</button>
+                    <button type="button" class="export-btn json" onclick="exportMultipleJSON()" aria-label="Export multiple CIDR analysis to JSON file" data-i18n="tools.cidrConverter.buttons.exportJson">Export JSON</button>
                 </div>
             `;
 
             resultsDiv.innerHTML = html;
             resultsDiv.classList.add('show');
             resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            // Translate dynamically added content
+            if (typeof I18nUtils !== 'undefined') {
+                I18nUtils.translatePage();
+            }
 
             // Announce completion to screen readers
             A11yUtils.announce(`Analysis complete. Found ${networks.length} networks with ${overlaps.length} overlap pairs.`, 'polite');
@@ -1343,7 +1356,7 @@ permit ip 192.168.100.0 0.0.0.255"></textarea>
                 if (actualNetwork === expectedNetwork) {
                     const range = getCIDRRange(startIP, cidr);
                     resultsDiv.innerHTML = `
-                        <h2>Exact CIDR Match Found</h2>
+                        <h2 data-i18n="tools.cidrConverter.sections.exactCidrMatch">Exact CIDR Match Found</h2>
                         <div class="summary-grid">
                             <div class="summary-card">
                                 <div class="stat-value">${intToIP(range.network)}/${cidr}</div>
@@ -1379,12 +1392,17 @@ permit ip 192.168.100.0 0.0.0.255"></textarea>
                         </div>
 
                         <div class="export-section">
-                            <button type="button" class="export-btn" onclick="exportReverseCSV()" aria-label="Export range to CIDR conversion to CSV file">Export CSV</button>
-                            <button type="button" class="export-btn json" onclick="exportReverseJSON()" aria-label="Export range to CIDR conversion to JSON file">Export JSON</button>
+                            <button type="button" class="export-btn" onclick="exportReverseCSV()" aria-label="Export range to CIDR conversion to CSV file" data-i18n="tools.cidrConverter.buttons.exportCsv">Export CSV</button>
+                            <button type="button" class="export-btn json" onclick="exportReverseJSON()" aria-label="Export range to CIDR conversion to JSON file" data-i18n="tools.cidrConverter.buttons.exportJson">Export JSON</button>
                         </div>
                     `;
                     resultsDiv.classList.add('show');
                     resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+                    // Translate dynamically added content
+                    if (typeof I18nUtils !== 'undefined') {
+                        I18nUtils.translatePage();
+                    }
 
                     // Announce completion to screen readers
                     A11yUtils.announce(`Range converted to exact CIDR match ${intToIP(range.network)} slash ${cidr} with ${range.usableHosts.toLocaleString()} usable hosts.`, 'polite');
@@ -1395,7 +1413,7 @@ permit ip 192.168.100.0 0.0.0.255"></textarea>
             const blocks = rangeToCIDRBlocks(startInt, endInt);
 
             resultsDiv.innerHTML = `
-                <h2>Multiple CIDR Blocks Required</h2>
+                <h2 data-i18n="tools.cidrConverter.sections.multipleCidrRequired">Multiple CIDR Blocks Required</h2>
                 <p style="color: #90caf9; margin-bottom: 20px;">The IP range cannot be represented as a single CIDR block. Here are the ${blocks.length} CIDR blocks needed:</p>
 
                 <div class="data-table-container">
@@ -1424,12 +1442,17 @@ permit ip 192.168.100.0 0.0.0.255"></textarea>
                 </div>
 
                 <div class="export-section">
-                    <button type="button" class="export-btn" onclick="exportReverseCSV()" aria-label="Export range to CIDR blocks to CSV file">Export CSV</button>
-                    <button type="button" class="export-btn json" onclick="exportReverseJSON()" aria-label="Export range to CIDR blocks to JSON file">Export JSON</button>
+                    <button type="button" class="export-btn" onclick="exportReverseCSV()" aria-label="Export range to CIDR blocks to CSV file" data-i18n="tools.cidrConverter.buttons.exportCsv">Export CSV</button>
+                    <button type="button" class="export-btn json" onclick="exportReverseJSON()" aria-label="Export range to CIDR blocks to JSON file" data-i18n="tools.cidrConverter.buttons.exportJson">Export JSON</button>
                 </div>
             `;
             resultsDiv.classList.add('show');
             resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            // Translate dynamically added content
+            if (typeof I18nUtils !== 'undefined') {
+                I18nUtils.translatePage();
+            }
 
             // Announce completion to screen readers
             A11yUtils.announce(`Range converted to ${blocks.length} CIDR blocks to cover IP range from ${startIP} to ${endIP}.`, 'polite');

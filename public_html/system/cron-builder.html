@@ -529,12 +529,12 @@
 </div>
     <main id="main-content" class="container">
         <h1 data-i18n="tools.cronBuilder.title">Cron Expression Builder</h1>
-        <p class="subtitle" data-i18n="tools.cronBuilder.subtitle">Build and parse cron expressions with human-readable explanations</p>
+        <p class="subtitle" data-i18n="tools.cronBuilder.subtitle">Visual cron expression builder and validator</p>
 
         <div class="calculator">
             <div class="mode-toggle" role="group" aria-label="Mode selection">
-                <button type="button" class="mode-btn active" onclick="setMode('build')" aria-label="Switch to build mode to create cron expressions using fields">Build Expression</button>
-                <button type="button" class="mode-btn" onclick="setMode('parse')" aria-label="Switch to parse mode to decode existing cron expressions">Parse Expression</button>
+                <button type="button" class="mode-btn active" onclick="setMode('build')" aria-label="Switch to build mode to create cron expressions using fields" data-i18n="tools.cronBuilder.modes.build">Build</button>
+                <button type="button" class="mode-btn" onclick="setMode('parse')" aria-label="Switch to parse mode to decode existing cron expressions" data-i18n="tools.cronBuilder.modes.parse">Parse</button>
             </div>
 
             <div class="build-section active">
@@ -548,7 +548,7 @@
                                onchange="updateExpression()"
                                oninput="updateExpression()"
                                aria-describedby="minute-help">
-                        <div class="range-hint" id="minute-help">0-59 or *</div>
+                        <div class="range-hint" id="minute-help" data-i18n="tools.cronBuilder.hints.minute">0-59 or *</div>
                     </div>
                     <div class="field-group">
                         <label for="hour" data-i18n="tools.cronBuilder.fields.hour">Hour</label>
@@ -558,7 +558,7 @@
                                onchange="updateExpression()"
                                oninput="updateExpression()"
                                aria-describedby="hour-help">
-                        <div class="range-hint" id="hour-help">0-23 or *</div>
+                        <div class="range-hint" id="hour-help" data-i18n="tools.cronBuilder.hints.hour">0-23 or *</div>
                     </div>
                     <div class="field-group">
                         <label for="day" data-i18n="tools.cronBuilder.fields.dayOfMonth">Day of Month</label>
@@ -568,7 +568,7 @@
                                onchange="updateExpression()"
                                oninput="updateExpression()"
                                aria-describedby="day-help">
-                        <div class="range-hint" id="day-help">1-31 or *</div>
+                        <div class="range-hint" id="day-help" data-i18n="tools.cronBuilder.hints.dayOfMonth">1-31 or *</div>
                     </div>
                     <div class="field-group">
                         <label for="month" data-i18n="tools.cronBuilder.fields.month">Month</label>
@@ -578,7 +578,7 @@
                                onchange="updateExpression()"
                                oninput="updateExpression()"
                                aria-describedby="month-help">
-                        <div class="range-hint" id="month-help">1-12 or JAN-DEC</div>
+                        <div class="range-hint" id="month-help" data-i18n="tools.cronBuilder.hints.month">1-12 or JAN-DEC</div>
                     </div>
                     <div class="field-group">
                         <label for="weekday" data-i18n="tools.cronBuilder.fields.dayOfWeek">Day of Week</label>
@@ -588,7 +588,7 @@
                                onchange="updateExpression()"
                                oninput="updateExpression()"
                                aria-describedby="weekday-help">
-                        <div class="range-hint" id="weekday-help">0-6 (Sun-Sat)</div>
+                        <div class="range-hint" id="weekday-help" data-i18n="tools.cronBuilder.hints.dayOfWeek">0-6 (Sun-Sat)</div>
                     </div>
                 </div>
 
@@ -596,15 +596,15 @@
                     <h3 data-i18n="tools.cronBuilder.presets.title">Common Presets</h3>
                     <div class="presets-grid" role="group" aria-label="Common cron expression presets">
                         <button type="button" class="preset-btn" onclick="applyPreset('* * * * *')" aria-label="Apply preset for every minute: * * * * *" data-i18n="tools.cronBuilder.presets.everyMinute">Every minute</button>
-                        <button type="button" class="preset-btn" onclick="applyPreset('*/5 * * * *')" aria-label="Apply preset for every 5 minutes: */5 * * * *">Every 5 min</button>
-                        <button type="button" class="preset-btn" onclick="applyPreset('*/15 * * * *')" aria-label="Apply preset for every 15 minutes: */15 * * * *">Every 15 min</button>
+                        <button type="button" class="preset-btn" onclick="applyPreset('*/5 * * * *')" aria-label="Apply preset for every 5 minutes: */5 * * * *" data-i18n="tools.cronBuilder.presets.every5Min">Every 5 min</button>
+                        <button type="button" class="preset-btn" onclick="applyPreset('*/15 * * * *')" aria-label="Apply preset for every 15 minutes: */15 * * * *" data-i18n="tools.cronBuilder.presets.every15Min">Every 15 min</button>
                         <button type="button" class="preset-btn" onclick="applyPreset('0 * * * *')" aria-label="Apply preset for hourly at minute 0: 0 * * * *" data-i18n="tools.cronBuilder.presets.everyHour">Hourly</button>
-                        <button type="button" class="preset-btn" onclick="applyPreset('0 */6 * * *')" aria-label="Apply preset for every 6 hours: 0 */6 * * *">Every 6 hours</button>
+                        <button type="button" class="preset-btn" onclick="applyPreset('0 */6 * * *')" aria-label="Apply preset for every 6 hours: 0 */6 * * *" data-i18n="tools.cronBuilder.presets.every6Hours">Every 6 hours</button>
                         <button type="button" class="preset-btn" onclick="applyPreset('0 0 * * *')" aria-label="Apply preset for daily at midnight: 0 0 * * *" data-i18n="tools.cronBuilder.presets.everyDay">Daily midnight</button>
-                        <button type="button" class="preset-btn" onclick="applyPreset('0 6 * * *')" aria-label="Apply preset for daily at 6 AM: 0 6 * * *">Daily 6am</button>
+                        <button type="button" class="preset-btn" onclick="applyPreset('0 6 * * *')" aria-label="Apply preset for daily at 6 AM: 0 6 * * *" data-i18n="tools.cronBuilder.presets.daily6am">Daily 6am</button>
                         <button type="button" class="preset-btn" onclick="applyPreset('0 0 * * 0')" aria-label="Apply preset for weekly on Sunday: 0 0 * * 0" data-i18n="tools.cronBuilder.presets.everyWeek">Weekly Sunday</button>
                         <button type="button" class="preset-btn" onclick="applyPreset('0 0 1 * *')" aria-label="Apply preset for monthly on the 1st: 0 0 1 * *" data-i18n="tools.cronBuilder.presets.everyMonth">Monthly 1st</button>
-                        <button type="button" class="preset-btn" onclick="applyPreset('0 9 * * 1-5')" aria-label="Apply preset for weekdays at 9 AM: 0 9 * * 1-5">Weekdays 9am</button>
+                        <button type="button" class="preset-btn" onclick="applyPreset('0 9 * * 1-5')" aria-label="Apply preset for weekdays at 9 AM: 0 9 * * 1-5" data-i18n="tools.cronBuilder.presets.weekdays9am">Weekdays 9am</button>
                     </div>
                 </div>
 
@@ -619,9 +619,10 @@
                     <input type="text"
                            id="parseInput"
                            placeholder="Enter cron expression (e.g., */5 * * * *)"
+                           data-i18n-placeholder="tools.cronBuilder.placeholders.parseInput"
                            aria-describedby="parse-help">
                     <span id="parse-help" class="sr-only">Enter a 5-field cron expression to parse and analyze</span>
-                    <button type="submit" class="parse-btn" aria-label="Parse and analyze the entered cron expression">Parse</button>
+                    <button type="submit" class="parse-btn" aria-label="Parse and analyze the entered cron expression" data-i18n="tools.cronBuilder.buttons.parse">Parse</button>
                 </div>
                 </form>
             </div>
@@ -642,11 +643,11 @@
 
             <div class="human-readable" id="humanReadable" role="region" aria-label="Human readable description">
                 <h3 data-i18n="tools.cronBuilder.labels.description">Human Readable</h3>
-                <p id="humanText">Runs every minute</p>
+                <p id="humanText" data-i18n="tools.cronBuilder.humanReadable.everyMinute">Runs every minute</p>
             </div>
 
             <div class="next-runs" id="nextRuns" role="region" aria-label="Next execution times">
-                <h3 data-i18n="tools.cronBuilder.labels.nextRuns">Next 10 Execution Times</h3>
+                <h3 data-i18n="tools.cronBuilder.labels.nextRuns">Next Scheduled Runs</h3>
                 <div class="runs-list" id="runsList"></div>
             </div>
         </div>
@@ -714,7 +715,7 @@
             document.getElementById('error').classList.remove('show');
 
             if (!input) {
-                const errorMsg = 'Please enter a cron expression';
+                const errorMsg = I18nUtils.t('tools.cronBuilder.validation.enterExpression');
                 showError(errorMsg);
                 A11yUtils.showError(parseInputField, errorMsg);
                 parseInputField.focus();
@@ -752,11 +753,11 @@
             const parts = expression.trim().split(/\s+/);
 
             if (parts.length === 6) {
-                return { valid: false, error: 'This appears to be a 6-field cron (with seconds). This tool supports standard 5-field cron expressions.' };
+                return { valid: false, error: I18nUtils.t('tools.cronBuilder.validation.sixFields') };
             }
 
             if (parts.length !== 5) {
-                return { valid: false, error: `Expected 5 fields, got ${parts.length}. Format: minute hour day month weekday` };
+                return { valid: false, error: I18nUtils.t('tools.cronBuilder.validation.wrongFieldCount', { count: parts.length }) };
             }
 
             const [minute, hour, day, month, weekday] = parts;
@@ -896,13 +897,13 @@
 
         function cronToHuman(expression) {
             const parts = expression.trim().split(/\s+/);
-            if (parts.length !== 5) return 'Invalid expression';
+            if (parts.length !== 5) return I18nUtils.t('tools.cronBuilder.validation.invalid');
 
             const [minute, hour, day, month, weekday] = parts;
 
             // Common patterns
             if (minute === '*' && hour === '*' && day === '*' && month === '*' && weekday === '*') {
-                return 'Runs every minute';
+                return I18nUtils.t('tools.cronBuilder.humanReadable.everyMinute');
             }
 
             if (minute.startsWith('*/') && hour === '*' && day === '*' && month === '*' && weekday === '*') {
@@ -911,7 +912,7 @@
             }
 
             if (minute === '0' && hour === '*' && day === '*' && month === '*' && weekday === '*') {
-                return 'Runs at the start of every hour';
+                return I18nUtils.t('tools.cronBuilder.humanReadable.everyHour');
             }
 
             if (minute === '0' && hour.startsWith('*/') && day === '*' && month === '*' && weekday === '*') {
@@ -1110,11 +1111,11 @@
             const expression = document.getElementById('expressionOutput').textContent;
             navigator.clipboard.writeText(expression).then(() => {
                 const btn = document.querySelector('.copy-btn');
-                btn.textContent = 'Copied!';
+                btn.textContent = I18nUtils.t('common.copied');
                 btn.classList.add('copied');
-                A11yUtils.announce(`Copied cron expression ${expression} to clipboard`, 'polite');
+                A11yUtils.announce(I18nUtils.t('common.copiedToClipboard'), 'polite');
                 setTimeout(() => {
-                    btn.textContent = 'Copy';
+                    btn.textContent = I18nUtils.t('common.copy');
                     btn.classList.remove('copied');
                 }, 1500);
             });
@@ -1134,7 +1135,7 @@
             document.getElementById('parseInput').value = '';
             // Update display
             updateExpression();
-            A11yUtils.announce('All saved data has been cleared', 'polite');
+            A11yUtils.announce(I18nUtils.t('common.allDataCleared'), 'polite');
         }
 
         document.addEventListener('DOMContentLoaded', function() {

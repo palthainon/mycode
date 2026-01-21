@@ -668,9 +668,9 @@
         <p class="subtitle" data-i18n="tools.certificateParser.subtitle">Decode PEM certificates and CSRs, generate certificate signing requests</p>
 
         <div class="tabs" role="tablist" aria-label="Certificate tool options">
-            <button type="button" class="tab-btn active" role="tab" aria-selected="true" aria-controls="tab-cert" id="tab-btn-cert" onclick="switchTab('cert')">Parse Certificate</button>
-            <button type="button" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-csr-parse" id="tab-btn-csr-parse" onclick="switchTab('csr-parse')">Parse CSR</button>
-            <button type="button" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-csr-gen" id="tab-btn-csr-gen" onclick="switchTab('csr-gen')">Generate CSR</button>
+            <button type="button" class="tab-btn active" role="tab" aria-selected="true" aria-controls="tab-cert" id="tab-btn-cert" onclick="switchTab('cert')" data-i18n="tools.certificateParser.tabs.parse">Parse Certificate</button>
+            <button type="button" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-csr-parse" id="tab-btn-csr-parse" onclick="switchTab('csr-parse')" data-i18n="tools.certificateParser.tabs.parseCSR">Parse CSR</button>
+            <button type="button" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-csr-gen" id="tab-btn-csr-gen" onclick="switchTab('csr-gen')" data-i18n="tools.certificateParser.tabs.generate">Generate CSR</button>
         </div>
 
         <!-- Parse Certificate Tab -->
@@ -753,7 +753,7 @@
                     </div>
 
                     <div class="result-card">
-                        <h4>Subject Alternative Names (SANs)</h4>
+                        <h4 data-i18n="tools.certificateParser.labels.san">Subject Alternative Names (SANs)</h4>
                         <ul class="san-list" id="certSANs" aria-label="List of subject alternative names">
                             <li>-</li>
                         </ul>
@@ -818,7 +818,7 @@
                     </div>
 
                     <div class="result-card">
-                        <h4>Subject Alternative Names (SANs)</h4>
+                        <h4 data-i18n="tools.certificateParser.labels.san">Subject Alternative Names (SANs)</h4>
                         <ul class="san-list" id="csrSANs" aria-label="List of subject alternative names">
                             <li>-</li>
                         </ul>
@@ -845,36 +845,36 @@
         <!-- Generate CSR Tab -->
         <div class="tab-content" id="tab-csr-gen" role="tabpanel" aria-labelledby="tab-btn-csr-gen">
             <div class="calculator">
-                <h3 class="section-title">Subject Information</h3>
+                <h3 class="section-title" data-i18n="tools.certificateParser.csrLabels.subjectInfo">Subject Information</h3>
                 <div class="csr-form-grid">
                     <div class="input-group">
-                        <label for="csrCN">Common Name (CN) *</label>
-                        <input type="text" id="csrCN" placeholder="example.com" required aria-required="true">
+                        <label for="csrCN" data-i18n="tools.certificateParser.csrLabels.commonName">Common Name (CN) *</label>
+                        <input type="text" id="csrCN" placeholder="example.com" data-i18n-placeholder="tools.certificateParser.csrPlaceholders.commonName" required aria-required="true">
                     </div>
                     <div class="input-group">
-                        <label for="csrO">Organization (O)</label>
-                        <input type="text" id="csrO" placeholder="My Company Inc">
+                        <label for="csrO" data-i18n="tools.certificateParser.csrLabels.organization">Organization (O)</label>
+                        <input type="text" id="csrO" placeholder="My Company Inc" data-i18n-placeholder="tools.certificateParser.csrPlaceholders.organization">
                     </div>
                     <div class="input-group">
-                        <label for="csrOU">Organizational Unit (OU)</label>
-                        <input type="text" id="csrOU" placeholder="IT Department">
+                        <label for="csrOU" data-i18n="tools.certificateParser.csrLabels.organizationalUnit">Organizational Unit (OU)</label>
+                        <input type="text" id="csrOU" placeholder="IT Department" data-i18n-placeholder="tools.certificateParser.csrPlaceholders.organizationalUnit">
                     </div>
                     <div class="input-group">
-                        <label for="csrL">Locality (L)</label>
-                        <input type="text" id="csrL" placeholder="San Francisco">
+                        <label for="csrL" data-i18n="tools.certificateParser.csrLabels.locality">Locality (L)</label>
+                        <input type="text" id="csrL" placeholder="San Francisco" data-i18n-placeholder="tools.certificateParser.csrPlaceholders.locality">
                     </div>
                     <div class="input-group">
-                        <label for="csrST">State (ST)</label>
-                        <input type="text" id="csrST" placeholder="California">
+                        <label for="csrST" data-i18n="tools.certificateParser.csrLabels.state">State (ST)</label>
+                        <input type="text" id="csrST" placeholder="California" data-i18n-placeholder="tools.certificateParser.csrPlaceholders.state">
                     </div>
                     <div class="input-group">
-                        <label for="csrC">Country (C)</label>
-                        <input type="text" id="csrC" placeholder="US" maxlength="2" pattern="[A-Za-z]{2}">
+                        <label for="csrC" data-i18n="tools.certificateParser.csrLabels.country">Country (C)</label>
+                        <input type="text" id="csrC" placeholder="US" data-i18n-placeholder="tools.certificateParser.csrPlaceholders.country" maxlength="2" pattern="[A-Za-z]{2}">
                     </div>
                 </div>
 
                 <div class="san-input-container">
-                    <h3 class="section-title">Subject Alternative Names (Optional)</h3>
+                    <h3 class="section-title" data-i18n="tools.certificateParser.csrLabels.sanOptional">Subject Alternative Names (Optional)</h3>
                     <div class="san-inputs" id="sanInputs">
                         <div class="san-row">
                             <input type="text" placeholder="www.example.com" aria-label="Subject alternative name 1">
@@ -1664,28 +1664,28 @@
                     daysEl.textContent = daysUntilExpiry;
 
                     if (now < certData.notBefore) {
-                        statusEl.textContent = 'Not Yet Valid';
+                        statusEl.textContent = I18nUtils.t('tools.certificateParser.status.notYetValid');
                         statusEl.className = 'status-badge expiring';
                         statusCard.className = 'result-card warning';
                         daysCard.className = 'result-card warning';
                     } else if (now > certData.notAfter) {
-                        statusEl.textContent = 'Expired';
+                        statusEl.textContent = I18nUtils.t('tools.certificateParser.status.expired');
                         statusEl.className = 'status-badge expired';
                         statusCard.className = 'result-card expired';
                         daysCard.className = 'result-card expired';
                     } else if (daysUntilExpiry <= 30) {
-                        statusEl.textContent = 'Expiring Soon';
+                        statusEl.textContent = I18nUtils.t('tools.certificateParser.status.expiringSoon');
                         statusEl.className = 'status-badge expiring';
                         statusCard.className = 'result-card warning';
                         daysCard.className = 'result-card warning';
                     } else {
-                        statusEl.textContent = 'Valid';
+                        statusEl.textContent = I18nUtils.t('tools.certificateParser.status.valid');
                         statusEl.className = 'status-badge valid';
                         statusCard.className = 'result-card valid';
                         daysCard.className = 'result-card valid';
                     }
                 } else {
-                    statusEl.textContent = 'Unknown';
+                    statusEl.textContent = I18nUtils.t('tools.certificateParser.status.unknown');
                     statusEl.className = 'status-badge';
                     daysEl.textContent = '-';
                 }

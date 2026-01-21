@@ -530,7 +530,7 @@
         </div>
 
         <div class="calculator">
-            <form id="subnet-form" aria-label="Subnet Calculator Form">
+            <form id="subnet-form" aria-label="Subnet Calculator Form" data-i18n-aria="tools.subnetCalculator.formAriaLabel">
             <div class="input-group">
                 <div class="input-field">
                     <label for="ipAddress" data-i18n="tools.subnetCalculator.ipAddress">IP Address</label>
@@ -540,7 +540,7 @@
                            aria-required="true"
                            aria-describedby="ip-help"
                            autocomplete="off">
-                    <span id="ip-help" class="sr-only">Enter an IPv4 address in dotted decimal notation, for example 192.168.1.100</span>
+                    <span id="ip-help" class="sr-only" data-i18n="tools.subnetCalculator.ipAddressScreenReader">Enter an IPv4 address in dotted decimal notation, for example 192.168.1.100</span>
                 </div>
                 <div class="input-field">
                     <label for="cidr" data-i18n="tools.subnetCalculator.cidr">CIDR / Prefix Length</label>
@@ -572,12 +572,12 @@
                         <option value="31">/31 - 255.255.255.254</option>
                         <option value="32">/32 - 255.255.255.255</option>
                     </select>
-                    <span id="cidr-help" class="sr-only">Select the CIDR prefix length or subnet mask for your network</span>
+                    <span id="cidr-help" class="sr-only" data-i18n="tools.subnetCalculator.cidrScreenReader">Select the CIDR prefix length or subnet mask for your network</span>
                 </div>
             </div>
 
-            <button type="button" class="btn" onclick="calculate()" aria-label="Calculate subnet details for the entered IP address and CIDR" data-i18n="tools.subnetCalculator.calculateSubnet">Calculate Subnet</button>
-            <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page" data-i18n="common.clearSavedData">Clear Saved Data</button>
+            <button type="button" class="btn" onclick="calculate()" aria-label="Calculate subnet details for the entered IP address and CIDR" data-i18n="tools.subnetCalculator.calculateSubnet" data-i18n-aria="tools.subnetCalculator.calculateAriaLabel">Calculate Subnet</button>
+            <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page" data-i18n="common.clearSavedData" data-i18n-aria="tools.subnetCalculator.clearSavedDataAriaLabel">Clear Saved Data</button>
 
             <div class="quick-masks">
                 <h3 id="quick-masks-label" data-i18n="tools.subnetCalculator.quickMasks">Quick Select Common Masks:</h3>
@@ -598,10 +598,10 @@
             </form>
         </div>
 
-        <div class="results" id="results" role="region" aria-live="polite" aria-label="Subnet calculation results">
+        <div class="results" id="results" role="region" aria-live="polite" aria-label="Subnet calculation results" data-i18n-aria="tools.subnetCalculator.resultsAriaLabel">
             <div class="section-header">
                 <h2 data-i18n="tools.subnetCalculator.subnetDetails">Subnet Details</h2>
-                <button type="button" class="export-btn" onclick="exportSubnetDetailsToCSV()" aria-label="Export subnet details to CSV file" data-i18n="common.exportToCSV">Export to CSV</button>
+                <button type="button" class="export-btn" onclick="exportSubnetDetailsToCSV()" aria-label="Export subnet details to CSV file" data-i18n="common.exportToCSV" data-i18n-aria="tools.subnetCalculator.exportSubnetDetailsAriaLabel">Export to CSV</button>
             </div>
             <div class="results-grid">
                 <div class="result-item">
@@ -663,10 +663,10 @@
             </div>
         </div>
 
-        <div class="subnet-list" id="subnetList" role="region" aria-label="All subnets in network">
+        <div class="subnet-list" id="subnetList" role="region" aria-label="All subnets in network" data-i18n-aria="tools.subnetCalculator.subnetListAriaLabel">
             <div class="section-header">
                 <h2 data-i18n="tools.subnetCalculator.allSubnets">All Subnets in Network</h2>
-                <button type="button" class="export-btn" onclick="exportSubnetListToCSV()" aria-label="Export subnet list to CSV file" data-i18n="common.exportToCSV">Export to CSV</button>
+                <button type="button" class="export-btn" onclick="exportSubnetListToCSV()" aria-label="Export subnet list to CSV file" data-i18n="common.exportToCSV" data-i18n-aria="tools.subnetCalculator.exportSubnetListAriaLabel">Export to CSV</button>
             </div>
             <div class="subnet-list-info" id="subnetListInfo"></div>
             <div class="subnet-table-container">
@@ -741,12 +741,12 @@
         // Get IP class
         function getIPClass(ip) {
             const firstOctet = parseInt(ip.split('.')[0], 10);
-            if (firstOctet >= 1 && firstOctet <= 126) return 'Class A';
-            if (firstOctet === 127) return 'Loopback';
-            if (firstOctet >= 128 && firstOctet <= 191) return 'Class B';
-            if (firstOctet >= 192 && firstOctet <= 223) return 'Class C';
-            if (firstOctet >= 224 && firstOctet <= 239) return 'Class D (Multicast)';
-            return 'Class E (Reserved)';
+            if (firstOctet >= 1 && firstOctet <= 126) return I18nUtils.t('tools.subnetCalculator.classA');
+            if (firstOctet === 127) return I18nUtils.t('tools.subnetCalculator.loopback');
+            if (firstOctet >= 128 && firstOctet <= 191) return I18nUtils.t('tools.subnetCalculator.classB');
+            if (firstOctet >= 192 && firstOctet <= 223) return I18nUtils.t('tools.subnetCalculator.classC');
+            if (firstOctet >= 224 && firstOctet <= 239) return I18nUtils.t('tools.subnetCalculator.classD');
+            return I18nUtils.t('tools.subnetCalculator.classE');
         }
 
         // Get parent network CIDR (for subnet listing)
@@ -780,10 +780,17 @@
             const displayCount = Math.min(numSubnets, maxDisplay);
 
             // Update info text
-            infoDiv.innerHTML = `Showing <strong>${displayCount.toLocaleString()}</strong> of <strong>${numSubnets.toLocaleString()}</strong> possible /${cidr} subnets within <strong>${intToIP(parentNetwork)}/${parentCidr}</strong>`;
+            const infoText = I18nUtils.t('tools.subnetCalculator.subnetListInfo', {
+                shown: displayCount.toLocaleString(),
+                total: numSubnets.toLocaleString(),
+                cidr: cidr,
+                network: `${intToIP(parentNetwork)}/${parentCidr}`
+            });
+            infoDiv.innerHTML = infoText.replace(/{{(\w+)}}/g, '<strong>$&</strong>').replace(/{{|}}/g, '');
 
             if (numSubnets > maxDisplay) {
-                infoDiv.innerHTML += ` <em>(limited to first ${maxDisplay} for performance)</em>`;
+                const limitText = I18nUtils.t('tools.subnetCalculator.limitedForPerformance', { max: maxDisplay });
+                infoDiv.innerHTML += ` <em>${limitText}</em>`;
             }
 
             // Calculate usable hosts per subnet
@@ -805,11 +812,13 @@
                     row.className = 'current-subnet';
                 }
 
+                const currentBadge = isCurrent ? `<span class="subnet-badge">${I18nUtils.t('tools.subnetCalculator.current')}</span>` : '';
+                const naText = I18nUtils.t('tools.subnetCalculator.notApplicable');
                 row.innerHTML = `
-                    <td><span class="subnet-number">${i + 1}</span>${isCurrent ? '<span class="subnet-badge">Current</span>' : ''}</td>
+                    <td><span class="subnet-number">${i + 1}</span>${currentBadge}</td>
                     <td>${intToIP(subnetNetwork)}/${cidr}</td>
                     <td>${intToIP(firstHost)} - ${intToIP(lastHost)}</td>
-                    <td>${cidr === 32 ? 'N/A' : intToIP(subnetBroadcast)}</td>
+                    <td>${cidr === 32 ? naText : intToIP(subnetBroadcast)}</td>
                     <td>${usableHostsPerSubnet.toLocaleString()}</td>
                 `;
 
@@ -867,7 +876,7 @@
 
             // Validate IP
             if (!isValidIP(ipInput)) {
-                const errorMsg = 'Please enter a valid IPv4 address (e.g., 192.168.1.100)';
+                const errorMsg = I18nUtils.t('tools.subnetCalculator.invalidIP');
                 errorDiv.textContent = errorMsg;
                 errorDiv.classList.add('show');
                 A11yUtils.showError(ipAddressField, errorMsg);
@@ -891,8 +900,9 @@
             const lastHostInt = cidr >= 31 ? broadcastInt : broadcastInt - 1;
 
             // Update display
+            const naText = I18nUtils.t('tools.subnetCalculator.notApplicable');
             document.getElementById('networkAddress').textContent = intToIP(networkInt);
-            document.getElementById('broadcastAddress').textContent = cidr === 32 ? 'N/A' : intToIP(broadcastInt);
+            document.getElementById('broadcastAddress').textContent = cidr === 32 ? naText : intToIP(broadcastInt);
             document.getElementById('firstHost').textContent = intToIP(firstHostInt);
             document.getElementById('lastHost').textContent = cidr === 32 ? intToIP(firstHostInt) : intToIP(lastHostInt);
             document.getElementById('subnetMask').textContent = intToIP(maskInt);
@@ -912,7 +922,12 @@
             resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
             // Announce results to screen readers
-            A11yUtils.announce(`Subnet calculation complete. Network address is ${intToIP(networkInt)} slash ${cidr}. ${usableHosts.toLocaleString()} usable hosts.`, 'polite');
+            const announceMsg = I18nUtils.t('tools.subnetCalculator.resultsAnnounce', {
+                network: intToIP(networkInt),
+                cidr: cidr,
+                hosts: usableHosts.toLocaleString()
+            });
+            A11yUtils.announce(announceMsg, 'polite');
 
             // Generate subnet list
             generateSubnetList(ipInt, cidr, networkInt);
@@ -994,7 +1009,7 @@
             const rows = tableBody.querySelectorAll('tr');
 
             if (rows.length === 0) {
-                alert('No subnet list to export');
+                alert(I18nUtils.t('tools.subnetCalculator.noSubnetListToExport'));
                 return;
             }
 
@@ -1048,7 +1063,7 @@
             StorageUtils.remove('subnet-calc');
             document.getElementById('ipAddress').value = '';
             document.getElementById('cidr').value = '24';
-            A11yUtils.announce('All saved data has been cleared', 'polite');
+            A11yUtils.announce(I18nUtils.t('common.allDataCleared'), 'polite');
         }
 
         document.addEventListener('DOMContentLoaded', function() {

@@ -2338,21 +2338,23 @@
  \___/|_|\__,_|   \_/\_/ \___|_.__/
 </div>
     <div class="print-header" aria-hidden="true">
-        <h1>Debt Payoff Comparison Report</h1>
+        <h1 data-i18n="tools.debtPayoffComparison.print.reportTitle">Debt Payoff Comparison Report</h1>
         <p class="print-date"></p>
     </div>
 
     <main id="main-content" class="container">
-        <h1 data-i18n="financials.debtPayoff.title">Debt Payoff Comparison</h1>
-        <p class="subtitle">Compare Snowball vs Avalanche methods to find your fastest path to debt freedom</p>
+        <h1 data-i18n="tools.debtPayoffComparison.title">Debt Payoff Comparison</h1>
+        <p class="subtitle" data-i18n="tools.debtPayoffComparison.subtitle">Compare Snowball vs Avalanche methods to find your fastest path to debt freedom</p>
 
         <div class="main-tabs" role="tablist" aria-label="Main content sections">
             <button type="button" class="main-tab active" onclick="switchMainTab('calculator')"
-                    role="tab" aria-selected="true" aria-controls="calculator-section" id="main-tab-calculator">
+                    role="tab" aria-selected="true" aria-controls="calculator-section" id="main-tab-calculator"
+                    data-i18n="tools.debtPayoffComparison.tabs.calculator">
                 Calculator
             </button>
             <button type="button" class="main-tab" onclick="switchMainTab('learn-more')"
-                    role="tab" aria-selected="false" aria-controls="learn-more-section" id="main-tab-learn-more">
+                    role="tab" aria-selected="false" aria-controls="learn-more-section" id="main-tab-learn-more"
+                    data-i18n="tools.debtPayoffComparison.tabs.understandLoans">
                 Understand Loans
             </button>
         </div>
@@ -2362,24 +2364,24 @@
         <div class="calculator">
             <form id="debt-form" aria-label="Debt Payoff Comparison Form">
                 <div class="section-title">
-                    <span>Your Debts</span>
-                    <button type="button" class="add-btn" onclick="addDebt()" aria-label="Add another debt">+ Add Debt</button>
+                    <span data-i18n="tools.debtPayoffComparison.sections.yourDebts">Your Debts</span>
+                    <button type="button" class="add-btn" onclick="addDebt()" aria-label="Add another debt" data-i18n="tools.debtPayoffComparison.buttons.addDebt">+ Add Debt</button>
                 </div>
 
                 <div class="quick-presets">
-                    <h3 id="presets-label">Quick Examples:</h3>
+                    <h3 id="presets-label" data-i18n="tools.debtPayoffComparison.presets.quickExamples">Quick Examples:</h3>
                     <div class="preset-checkboxes" role="group" aria-labelledby="presets-label">
                         <label class="preset-checkbox">
                             <input type="checkbox" id="preset-typical" onchange="toggleDebtPreset('typical', this.checked)">
-                            <span>Typical 3-Debt</span>
+                            <span data-i18n="tools.debtPayoffComparison.presets.typical3Debt">Typical 3-Debt</span>
                         </label>
                         <label class="preset-checkbox">
                             <input type="checkbox" id="preset-credit-cards" onchange="toggleDebtPreset('credit-cards', this.checked)">
-                            <span>Credit Cards</span>
+                            <span data-i18n="tools.debtPayoffComparison.presets.creditCards">Credit Cards</span>
                         </label>
                         <label class="preset-checkbox">
                             <input type="checkbox" id="preset-mixed" onchange="toggleDebtPreset('mixed', this.checked)">
-                            <span>Mixed Types</span>
+                            <span data-i18n="tools.debtPayoffComparison.presets.mixedTypes">Mixed Types</span>
                         </label>
                     </div>
                 </div>
@@ -2390,11 +2392,11 @@
 
                 <div class="debt-summary">
                     <div class="debt-total">
-                        <span>Total debt balance:</span>
+                        <span data-i18n="tools.debtPayoffComparison.labels.totalDebtBalance">Total debt balance:</span>
                         <strong id="totalDebtBalance">$0.00</strong>
                     </div>
                     <div class="debt-total">
-                        <span>Total minimum payments:</span>
+                        <span data-i18n="tools.debtPayoffComparison.labels.totalMinimumPayments">Total minimum payments:</span>
                         <strong id="totalDebtMinimum">$0.00</strong>
                     </div>
                 </div>
@@ -2402,17 +2404,17 @@
                 <!-- Expense Tracking Section -->
                 <div class="expense-section">
                     <div class="section-title">
-                        <span>Expenses to Cut (Optional)</span>
-                        <button type="button" class="add-expense-btn" onclick="addExpense()" aria-label="Add an expense to cut">+ Add Expense</button>
+                        <span data-i18n="tools.debtPayoffComparison.sections.expensesToCut">Expenses to Cut (Optional)</span>
+                        <button type="button" class="add-expense-btn" onclick="addExpense()" aria-label="Add an expense to cut" data-i18n="tools.debtPayoffComparison.buttons.addExpense">+ Add Expense</button>
                     </div>
-                    <p class="section-subtitle">Track expenses you can eliminate to put toward debt. Americans waste ~$200/year on unused subscriptions alone.</p>
+                    <p class="section-subtitle" data-i18n="tools.debtPayoffComparison.sections.expensesSubtitle">Track expenses you can eliminate to put toward debt. Americans waste ~$200/year on unused subscriptions alone.</p>
 
                     <div class="quick-presets expense-presets">
-                        <h3 id="expense-presets-label">Common Cuts:</h3>
+                        <h3 id="expense-presets-label" data-i18n="tools.debtPayoffComparison.presets.commonCuts">Common Cuts:</h3>
                         <div class="preset-buttons" role="group" aria-labelledby="expense-presets-label">
-                            <button type="button" class="preset-btn" onclick="loadExpensePreset('subscriptions')" aria-label="Load subscription audit example">Subscription Audit</button>
-                            <button type="button" class="preset-btn" onclick="loadExpensePreset('daily')" aria-label="Load daily habits example">Daily Habits</button>
-                            <button type="button" class="preset-btn" onclick="loadExpensePreset('lifestyle')" aria-label="Load lifestyle cuts example">Lifestyle Cuts</button>
+                            <button type="button" class="preset-btn" onclick="loadExpensePreset('subscriptions')" aria-label="Load subscription audit example" data-i18n="tools.debtPayoffComparison.presets.subscriptionAudit">Subscription Audit</button>
+                            <button type="button" class="preset-btn" onclick="loadExpensePreset('daily')" aria-label="Load daily habits example" data-i18n="tools.debtPayoffComparison.presets.dailyHabits">Daily Habits</button>
+                            <button type="button" class="preset-btn" onclick="loadExpensePreset('lifestyle')" aria-label="Load lifestyle cuts example" data-i18n="tools.debtPayoffComparison.presets.lifestyleCuts">Lifestyle Cuts</button>
                         </div>
                     </div>
 
@@ -2422,25 +2424,25 @@
 
                     <div class="expense-summary">
                         <div class="expense-total">
-                            <span>Total monthly savings:</span>
+                            <span data-i18n="tools.debtPayoffComparison.labels.totalMonthlySavings">Total monthly savings:</span>
                             <strong id="totalExpenseSavings">$0.00</strong>
                         </div>
                         <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                            <button type="button" class="apply-expense-btn" onclick="applyExpensesToExtra()" id="applyExpenseBtn" disabled aria-label="Apply expense savings to extra payment">Apply to Extra Payment</button>
-                            <button type="button" class="export-expenses-btn" onclick="exportDebtsToCSV()" aria-label="Export debts to CSV">Export Debts</button>
-                            <button type="button" class="export-expenses-btn" onclick="exportExpensesToCSV()" aria-label="Export expenses to CSV">Export Expenses</button>
+                            <button type="button" class="apply-expense-btn" onclick="applyExpensesToExtra()" id="applyExpenseBtn" disabled aria-label="Apply expense savings to extra payment" data-i18n="tools.debtPayoffComparison.buttons.applyToExtraPayment">Apply to Extra Payment</button>
+                            <button type="button" class="export-expenses-btn" onclick="exportDebtsToCSV()" aria-label="Export debts to CSV" data-i18n="tools.debtPayoffComparison.buttons.exportDebts">Export Debts</button>
+                            <button type="button" class="export-expenses-btn" onclick="exportExpensesToCSV()" aria-label="Export expenses to CSV" data-i18n="tools.debtPayoffComparison.buttons.exportExpenses">Export Expenses</button>
                         </div>
                     </div>
                 </div>
 
                 <div class="extra-payment-section">
                     <div class="minimum-summary">
-                        <span>Your minimum payments total:</span>
+                        <span data-i18n="tools.debtPayoffComparison.labels.yourMinimumPaymentsTotal">Your minimum payments total:</span>
                         <strong id="totalMinimum">$0.00</strong>
-                        <span>per month</span>
+                        <span data-i18n="tools.debtPayoffComparison.labels.perMonth">per month</span>
                     </div>
                     <div class="input-field">
-                        <label for="extraPayment">Extra Monthly Payment</label>
+                        <label for="extraPayment" data-i18n="tools.debtPayoffComparison.sections.extraPayment">Extra Monthly Payment</label>
                         <div class="input-prefix">
                             <span>$</span>
                             <input type="text" id="extraPayment" placeholder="0" aria-describedby="extra-help" inputmode="decimal">
@@ -2449,7 +2451,7 @@
                     </div>
                 </div>
 
-                <button type="button" class="btn" onclick="calculate()" aria-label="Compare payoff methods" data-i18n="common.calculate">Compare Methods</button>
+                <button type="button" class="btn" onclick="calculate()" aria-label="Compare payoff methods" data-i18n="tools.debtPayoffComparison.buttons.compareMethods">Compare Methods</button>
                 <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page" data-i18n="common.clearSavedData">Clear Saved Data</button>
 
                 <div class="error" id="error" role="alert" aria-live="assertive" aria-atomic="true"></div>
@@ -2462,13 +2464,13 @@
                 <div class="method-card snowball" id="snowballCard">
                     <div class="method-header">
                         <span class="method-icon" aria-hidden="true">&#10052;</span>
-                        <h2 class="method-title">Snowball Method</h2>
+                        <h2 class="method-title" data-i18n="tools.debtPayoffComparison.methods.snowball">Snowball Method</h2>
                     </div>
                     <div class="method-stats" id="snowballStats">
                         <!-- Stats populated by JS -->
                     </div>
                     <div class="payoff-order">
-                        <h4>Payoff Order</h4>
+                        <h4 data-i18n="tools.debtPayoffComparison.stats.payoffOrder">Payoff Order</h4>
                         <ol id="snowballOrder">
                             <!-- Order populated by JS -->
                         </ol>
@@ -2478,14 +2480,14 @@
                 <div class="method-card avalanche" id="avalancheCard">
                     <div class="method-header">
                         <span class="method-icon" aria-hidden="true">&#9968;</span>
-                        <h2 class="method-title">Avalanche Method</h2>
-                        <span class="winner-badge" id="winnerBadge" style="display: none;">Saves More</span>
+                        <h2 class="method-title" data-i18n="tools.debtPayoffComparison.methods.avalanche">Avalanche Method</h2>
+                        <span class="winner-badge" id="winnerBadge" style="display: none;" data-i18n="tools.debtPayoffComparison.methods.savesMore">Saves More</span>
                     </div>
                     <div class="method-stats" id="avalancheStats">
                         <!-- Stats populated by JS -->
                     </div>
                     <div class="payoff-order">
-                        <h4>Payoff Order</h4>
+                        <h4 data-i18n="tools.debtPayoffComparison.stats.payoffOrder">Payoff Order</h4>
                         <ol id="avalancheOrder">
                             <!-- Order populated by JS -->
                         </ol>
@@ -2498,30 +2500,30 @@
             </div>
 
             <div class="action-buttons">
-                <button type="button" class="action-btn primary" onclick="toggleSchedule()" id="scheduleToggle" aria-expanded="false" aria-controls="scheduleSection">
+                <button type="button" class="action-btn primary" onclick="toggleSchedule()" id="scheduleToggle" aria-expanded="false" aria-controls="scheduleSection" data-i18n="tools.debtPayoffComparison.buttons.viewDetailedSchedule">
                     View Detailed Schedule
                 </button>
                 <button type="button" class="action-btn secondary" onclick="exportToCSV()" aria-label="Export comparison to CSV" data-i18n="common.exportCSV">Export CSV</button>
-                <button type="button" class="action-btn secondary" onclick="window.print()" aria-label="Print comparison">Print</button>
+                <button type="button" class="action-btn secondary" onclick="window.print()" aria-label="Print comparison" data-i18n="tools.debtPayoffComparison.buttons.print">Print</button>
             </div>
         </div>
 
         <!-- Schedule Section -->
         <div class="schedule-section" id="scheduleSection" role="region" aria-label="Detailed payment schedule">
             <div class="schedule-tabs" role="tablist">
-                <button type="button" class="schedule-tab active" onclick="showSchedule('snowball')" role="tab" aria-selected="true" aria-controls="scheduleTable" id="tab-snowball">Snowball Schedule</button>
-                <button type="button" class="schedule-tab" onclick="showSchedule('avalanche')" role="tab" aria-selected="false" aria-controls="scheduleTable" id="tab-avalanche">Avalanche Schedule</button>
+                <button type="button" class="schedule-tab active" onclick="showSchedule('snowball')" role="tab" aria-selected="true" aria-controls="scheduleTable" id="tab-snowball" data-i18n="tools.debtPayoffComparison.schedule.snowballSchedule">Snowball Schedule</button>
+                <button type="button" class="schedule-tab" onclick="showSchedule('avalanche')" role="tab" aria-selected="false" aria-controls="scheduleTable" id="tab-avalanche" data-i18n="tools.debtPayoffComparison.schedule.avalancheSchedule">Avalanche Schedule</button>
             </div>
             <div class="schedule-table-wrapper">
                 <table class="schedule-table" id="scheduleTable" aria-label="Monthly payment schedule">
                     <thead>
                         <tr>
-                            <th scope="col">Month</th>
-                            <th scope="col">Target Debt</th>
-                            <th scope="col">Payment</th>
-                            <th scope="col">Principal</th>
-                            <th scope="col">Interest</th>
-                            <th scope="col">Total Balance</th>
+                            <th scope="col" data-i18n="tools.debtPayoffComparison.schedule.month">Month</th>
+                            <th scope="col" data-i18n="tools.debtPayoffComparison.schedule.targetDebt">Target Debt</th>
+                            <th scope="col" data-i18n="tools.debtPayoffComparison.schedule.payment">Payment</th>
+                            <th scope="col" data-i18n="tools.debtPayoffComparison.schedule.principal">Principal</th>
+                            <th scope="col" data-i18n="tools.debtPayoffComparison.schedule.interest">Interest</th>
+                            <th scope="col" data-i18n="tools.debtPayoffComparison.schedule.totalBalance">Total Balance</th>
                         </tr>
                     </thead>
                     <tbody id="scheduleBody">
@@ -2535,23 +2537,23 @@
 
         <!-- Educational Section - Links to separate pages -->
         <div id="learn-more-section" class="education-section main-tab-content" role="tabpanel" aria-labelledby="main-tab-learn-more" aria-label="Learn about debt payoff methods">
-            <h2>Learn About Debt Payoff</h2>
-            <p style="color: #90caf9; margin-bottom: 25px;">Explore our educational guides to understand different payoff strategies and learn how to evaluate loan offers.</p>
+            <h2 data-i18n="tools.debtPayoffComparison.sections.learnAboutDebtPayoff">Learn About Debt Payoff</h2>
+            <p style="color: #90caf9; margin-bottom: 25px;" data-i18n="tools.debtPayoffComparison.sections.learnAboutDescription">Explore our educational guides to understand different payoff strategies and learn how to evaluate loan offers.</p>
 
             <div class="education-link-cards">
                 <a href="loan-payoff-methods.html" class="education-link-card">
                     <div class="card-icon" aria-hidden="true">&#10052;</div>
                     <div class="card-content">
-                        <h3>Payoff Methods</h3>
-                        <p>Snowball vs Avalanche: Compare strategies, understand the psychology of debt payoff, and find the approach that works for you.</p>
+                        <h3 data-i18n="tools.debtPayoffComparison.education.payoffMethods">Payoff Methods</h3>
+                        <p data-i18n="tools.debtPayoffComparison.education.payoffMethodsDesc">Snowball vs Avalanche: Compare strategies, understand the psychology of debt payoff, and find the approach that works for you.</p>
                     </div>
                     <span class="card-arrow" aria-hidden="true">&#8594;</span>
                 </a>
                 <a href="loan-reference.html" class="education-link-card">
                     <div class="card-icon" aria-hidden="true">&#128218;</div>
                     <div class="card-content">
-                        <h3>Loan Reference Guide</h3>
-                        <p>Learn about different loan types, spot predatory lending warning signs, and use our interactive tools to evaluate loan offers.</p>
+                        <h3 data-i18n="tools.debtPayoffComparison.education.loanReferenceGuide">Loan Reference Guide</h3>
+                        <p data-i18n="tools.debtPayoffComparison.education.loanReferenceDesc">Learn about different loan types, spot predatory lending warning signs, and use our interactive tools to evaluate loan offers.</p>
                     </div>
                     <span class="card-arrow" aria-hidden="true">&#8594;</span>
                 </a>
@@ -2562,96 +2564,96 @@
         <div class="formula-section">
             <div class="collapsible" id="formula-collapsible">
                 <div class="collapsible-header" onclick="toggleCollapsible('formula-collapsible')" tabindex="0" role="button" aria-expanded="false" aria-controls="formula-content">
-                    <h3>Excel Formulas for Debt Calculations</h3>
+                    <h3 data-i18n="tools.debtPayoffComparison.sections.excelFormulas">Excel Formulas for Debt Calculations</h3>
                     <span class="collapsible-icon" aria-hidden="true">&#9660;</span>
                 </div>
                 <div class="collapsible-content" id="formula-content">
-                    <p>Use these Excel formulas to recreate debt payoff calculations in your own spreadsheets.</p>
+                    <p data-i18n="tools.debtPayoffComparison.sections.excelFormulasDesc">Use these Excel formulas to recreate debt payoff calculations in your own spreadsheets.</p>
                     <div class="formula-grid">
                         <div class="formula-card">
-                            <h3>Monthly Payment (PMT)</h3>
-                            <p class="formula-desc">Calculate required monthly payment for a loan</p>
+                            <h3 data-i18n="tools.debtPayoffComparison.formulas.monthlyPaymentPMT">Monthly Payment (PMT)</h3>
+                            <p class="formula-desc" data-i18n="tools.debtPayoffComparison.formulas.monthlyPaymentDesc">Calculate required monthly payment for a loan</p>
                             <div class="formula-box">
                                 <code id="formula-pmt">=PMT(B2/12, B3, -B1)</code>
-                                <button class="copy-btn" onclick="copyFormula('formula-pmt', this)">Copy</button>
+                                <button class="copy-btn" onclick="copyFormula('formula-pmt', this)" data-i18n="common.copy">Copy</button>
                             </div>
                             <div class="formula-legend">
-                                <span>B1 = Loan Balance</span>
-                                <span>B2 = Annual Rate (decimal)</span>
-                                <span>B3 = Months Remaining</span>
+                                <span>B1 = <span data-i18n="tools.debtPayoffComparison.formulas.loanBalance">Loan Balance</span></span>
+                                <span>B2 = <span data-i18n="tools.debtPayoffComparison.formulas.annualRateDecimal">Annual Rate (decimal)</span></span>
+                                <span>B3 = <span data-i18n="tools.debtPayoffComparison.formulas.monthsRemaining">Months Remaining</span></span>
                             </div>
                         </div>
 
                         <div class="formula-card">
-                            <h3>Months to Payoff (NPER)</h3>
-                            <p class="formula-desc">Calculate how many months to pay off a debt</p>
+                            <h3 data-i18n="tools.debtPayoffComparison.formulas.monthsToPayoffNPER">Months to Payoff (NPER)</h3>
+                            <p class="formula-desc" data-i18n="tools.debtPayoffComparison.formulas.monthsToPayoffDesc">Calculate how many months to pay off a debt</p>
                             <div class="formula-box">
                                 <code id="formula-nper">=NPER(B2/12, -B3, B1)</code>
-                                <button class="copy-btn" onclick="copyFormula('formula-nper', this)">Copy</button>
+                                <button class="copy-btn" onclick="copyFormula('formula-nper', this)" data-i18n="common.copy">Copy</button>
                             </div>
                             <div class="formula-legend">
-                                <span>B1 = Current Balance</span>
-                                <span>B2 = Annual Rate (decimal)</span>
-                                <span>B3 = Monthly Payment</span>
+                                <span>B1 = <span data-i18n="tools.debtPayoffComparison.formulas.currentBalance">Current Balance</span></span>
+                                <span>B2 = <span data-i18n="tools.debtPayoffComparison.formulas.annualRateDecimal">Annual Rate (decimal)</span></span>
+                                <span>B3 = <span data-i18n="tools.debtPayoffComparison.formulas.monthlyPayment">Monthly Payment</span></span>
                             </div>
                         </div>
 
                         <div class="formula-card">
-                            <h3>Total Interest (CUMIPMT)</h3>
-                            <p class="formula-desc">Calculate total interest over the life of the loan</p>
+                            <h3 data-i18n="tools.debtPayoffComparison.formulas.totalInterestCUMIPMT">Total Interest (CUMIPMT)</h3>
+                            <p class="formula-desc" data-i18n="tools.debtPayoffComparison.formulas.totalInterestDesc">Calculate total interest over the life of the loan</p>
                             <div class="formula-box">
                                 <code id="formula-cumipmt">=CUMIPMT(B2/12, B3, B1, 1, B3, 0)</code>
-                                <button class="copy-btn" onclick="copyFormula('formula-cumipmt', this)">Copy</button>
+                                <button class="copy-btn" onclick="copyFormula('formula-cumipmt', this)" data-i18n="common.copy">Copy</button>
                             </div>
                             <div class="formula-legend">
-                                <span>B1 = Loan Balance</span>
-                                <span>B2 = Annual Rate (decimal)</span>
-                                <span>B3 = Total Months</span>
+                                <span>B1 = <span data-i18n="tools.debtPayoffComparison.formulas.loanBalance">Loan Balance</span></span>
+                                <span>B2 = <span data-i18n="tools.debtPayoffComparison.formulas.annualRateDecimal">Annual Rate (decimal)</span></span>
+                                <span>B3 = <span data-i18n="tools.debtPayoffComparison.formulas.totalMonths">Total Months</span></span>
                             </div>
                         </div>
 
                         <div class="formula-card">
-                            <h3>Interest for Specific Month (IPMT)</h3>
-                            <p class="formula-desc">Calculate interest portion of a specific payment</p>
+                            <h3 data-i18n="tools.debtPayoffComparison.formulas.interestForMonth">Interest for Specific Month (IPMT)</h3>
+                            <p class="formula-desc" data-i18n="tools.debtPayoffComparison.formulas.interestForMonthDesc">Calculate interest portion of a specific payment</p>
                             <div class="formula-box">
                                 <code id="formula-ipmt">=IPMT(B2/12, B4, B3, -B1)</code>
-                                <button class="copy-btn" onclick="copyFormula('formula-ipmt', this)">Copy</button>
+                                <button class="copy-btn" onclick="copyFormula('formula-ipmt', this)" data-i18n="common.copy">Copy</button>
                             </div>
                             <div class="formula-legend">
-                                <span>B1 = Loan Balance</span>
-                                <span>B2 = Annual Rate (decimal)</span>
-                                <span>B3 = Total Months</span>
-                                <span>B4 = Payment Number</span>
+                                <span>B1 = <span data-i18n="tools.debtPayoffComparison.formulas.loanBalance">Loan Balance</span></span>
+                                <span>B2 = <span data-i18n="tools.debtPayoffComparison.formulas.annualRateDecimal">Annual Rate (decimal)</span></span>
+                                <span>B3 = <span data-i18n="tools.debtPayoffComparison.formulas.totalMonths">Total Months</span></span>
+                                <span>B4 = <span data-i18n="tools.debtPayoffComparison.formulas.paymentNumber">Payment Number</span></span>
                             </div>
                         </div>
 
                         <div class="formula-card">
-                            <h3>Principal for Specific Month (PPMT)</h3>
-                            <p class="formula-desc">Calculate principal portion of a specific payment</p>
+                            <h3 data-i18n="tools.debtPayoffComparison.formulas.principalForMonth">Principal for Specific Month (PPMT)</h3>
+                            <p class="formula-desc" data-i18n="tools.debtPayoffComparison.formulas.principalForMonthDesc">Calculate principal portion of a specific payment</p>
                             <div class="formula-box">
                                 <code id="formula-ppmt">=PPMT(B2/12, B4, B3, -B1)</code>
-                                <button class="copy-btn" onclick="copyFormula('formula-ppmt', this)">Copy</button>
+                                <button class="copy-btn" onclick="copyFormula('formula-ppmt', this)" data-i18n="common.copy">Copy</button>
                             </div>
                             <div class="formula-legend">
-                                <span>B1 = Loan Balance</span>
-                                <span>B2 = Annual Rate (decimal)</span>
-                                <span>B3 = Total Months</span>
-                                <span>B4 = Payment Number</span>
+                                <span>B1 = <span data-i18n="tools.debtPayoffComparison.formulas.loanBalance">Loan Balance</span></span>
+                                <span>B2 = <span data-i18n="tools.debtPayoffComparison.formulas.annualRateDecimal">Annual Rate (decimal)</span></span>
+                                <span>B3 = <span data-i18n="tools.debtPayoffComparison.formulas.totalMonths">Total Months</span></span>
+                                <span>B4 = <span data-i18n="tools.debtPayoffComparison.formulas.paymentNumber">Payment Number</span></span>
                             </div>
                         </div>
 
                         <div class="formula-card">
-                            <h3>Remaining Balance (FV)</h3>
-                            <p class="formula-desc">Calculate remaining balance after N payments</p>
+                            <h3 data-i18n="tools.debtPayoffComparison.formulas.remainingBalanceFV">Remaining Balance (FV)</h3>
+                            <p class="formula-desc" data-i18n="tools.debtPayoffComparison.formulas.remainingBalanceDesc">Calculate remaining balance after N payments</p>
                             <div class="formula-box">
                                 <code id="formula-fv">=FV(B2/12, B4, -B3, B1)</code>
-                                <button class="copy-btn" onclick="copyFormula('formula-fv', this)">Copy</button>
+                                <button class="copy-btn" onclick="copyFormula('formula-fv', this)" data-i18n="common.copy">Copy</button>
                             </div>
                             <div class="formula-legend">
-                                <span>B1 = Original Balance</span>
-                                <span>B2 = Annual Rate (decimal)</span>
-                                <span>B3 = Monthly Payment</span>
-                                <span>B4 = Payments Made</span>
+                                <span>B1 = <span data-i18n="tools.debtPayoffComparison.formulas.originalBalance">Original Balance</span></span>
+                                <span>B2 = <span data-i18n="tools.debtPayoffComparison.formulas.annualRateDecimal">Annual Rate (decimal)</span></span>
+                                <span>B3 = <span data-i18n="tools.debtPayoffComparison.formulas.monthlyPayment">Monthly Payment</span></span>
+                                <span>B4 = <span data-i18n="tools.debtPayoffComparison.formulas.paymentsMade">Payments Made</span></span>
                             </div>
                         </div>
                     </div>
@@ -2660,7 +2662,7 @@
         </div>
 
         <footer role="contentinfo">
-            <span data-i18n="common.worksOffline">Debt Payoff Comparison - Works offline, no data stored, no sign-up required</span>
+            <span data-i18n="tools.debtPayoffComparison.footer">Debt Payoff Comparison - Works offline, no data stored, no sign-up required</span>
         </footer>
     </main>
 
@@ -2712,18 +2714,22 @@
             // Hide results
             document.getElementById('results').classList.remove('show');
 
-            A11yUtils.announce('All saved data has been cleared', 'polite');
+            A11yUtils.announce(I18nUtils.t('common.allDataCleared', 'All saved data has been cleared'), 'polite');
         }
 
         // Debt types with typical APRs for reference
-        const debtTypes = {
-            'credit-card': { label: 'Credit Card', typicalApr: 19.72 },
-            'auto-loan': { label: 'Auto Loan', typicalApr: 8.0 },
-            'personal-loan': { label: 'Personal Loan', typicalApr: 12.21 },
-            'student-loan': { label: 'Student Loan', typicalApr: 6.0 },
-            'medical': { label: 'Medical Debt', typicalApr: 0 },
-            'other': { label: 'Other', typicalApr: 10.0 }
-        };
+        function getDebtTypes() {
+            return {
+                'credit-card': { label: I18nUtils.t('tools.debtPayoffComparison.debtTypes.creditCard', 'Credit Card'), typicalApr: 19.72 },
+                'auto-loan': { label: I18nUtils.t('tools.debtPayoffComparison.debtTypes.autoLoan', 'Auto Loan'), typicalApr: 8.0 },
+                'personal-loan': { label: I18nUtils.t('tools.debtPayoffComparison.debtTypes.personalLoan', 'Personal Loan'), typicalApr: 12.21 },
+                'student-loan': { label: I18nUtils.t('tools.debtPayoffComparison.debtTypes.studentLoan', 'Student Loan'), typicalApr: 6.0 },
+                'medical': { label: I18nUtils.t('tools.debtPayoffComparison.debtTypes.medicalDebt', 'Medical Debt'), typicalApr: 0 },
+                'other': { label: I18nUtils.t('tools.debtPayoffComparison.debtTypes.other', 'Other'), typicalApr: 10.0 }
+            };
+        }
+        // For backward compatibility with existing code
+        let debtTypes = {};
 
         // Preset examples
         const presets = {
@@ -2821,36 +2827,37 @@
             item.className = 'debt-item';
             item.id = `debt-${debt.id}`;
             item.setAttribute('role', 'listitem');
+            const types = getDebtTypes();
 
             item.innerHTML = `
                 <div class="input-field">
-                    <label for="name-${debt.id}">Debt Name</label>
-                    <input type="text" id="name-${debt.id}" placeholder="e.g., Chase Visa" value="${debt.name}" onchange="updateDebt(${debt.id}, 'name', this.value)" aria-required="true">
+                    <label for="name-${debt.id}" data-i18n="tools.debtPayoffComparison.labels.debtName">${I18nUtils.t('tools.debtPayoffComparison.labels.debtName', 'Debt Name')}</label>
+                    <input type="text" id="name-${debt.id}" placeholder="${I18nUtils.t('tools.debtPayoffComparison.placeholders.debtNameExample', 'e.g., Chase Visa')}" value="${debt.name}" onchange="updateDebt(${debt.id}, 'name', this.value)" aria-required="true">
                 </div>
                 <div class="input-field">
-                    <label for="type-${debt.id}">Type</label>
+                    <label for="type-${debt.id}" data-i18n="tools.debtPayoffComparison.labels.type">${I18nUtils.t('tools.debtPayoffComparison.labels.type', 'Type')}</label>
                     <select id="type-${debt.id}" onchange="updateDebt(${debt.id}, 'type', this.value)">
-                        ${Object.entries(debtTypes).map(([key, val]) =>
+                        ${Object.entries(types).map(([key, val]) =>
                             `<option value="${key}" ${debt.type === key ? 'selected' : ''}>${val.label}</option>`
                         ).join('')}
                     </select>
                 </div>
                 <div class="input-field">
-                    <label for="balance-${debt.id}">Balance</label>
+                    <label for="balance-${debt.id}" data-i18n="tools.debtPayoffComparison.labels.balance">${I18nUtils.t('tools.debtPayoffComparison.labels.balance', 'Balance')}</label>
                     <div class="input-prefix">
                         <span>$</span>
                         <input type="text" id="balance-${debt.id}" placeholder="0.00" value="${debt.balance ? debt.balance.toLocaleString() : ''}" oninput="formatInput(this)" onchange="updateDebt(${debt.id}, 'balance', parseNumber(this.value))" inputmode="decimal" aria-required="true">
                     </div>
                 </div>
                 <div class="input-field">
-                    <label for="apr-${debt.id}">APR</label>
+                    <label for="apr-${debt.id}" data-i18n="tools.debtPayoffComparison.labels.apr">${I18nUtils.t('tools.debtPayoffComparison.labels.apr', 'APR')}</label>
                     <div class="input-suffix">
                         <input type="text" id="apr-${debt.id}" placeholder="0.00" value="${debt.apr || ''}" onchange="updateDebt(${debt.id}, 'apr', parseNumber(this.value))" inputmode="decimal" aria-required="true">
                         <span>%</span>
                     </div>
                 </div>
                 <div class="input-field">
-                    <label for="min-${debt.id}">Min Payment</label>
+                    <label for="min-${debt.id}" data-i18n="tools.debtPayoffComparison.labels.minPayment">${I18nUtils.t('tools.debtPayoffComparison.labels.minPayment', 'Min Payment')}</label>
                     <div class="input-prefix">
                         <span>$</span>
                         <input type="text" id="min-${debt.id}" placeholder="0.00" value="${debt.minPayment ? debt.minPayment.toLocaleString() : ''}" oninput="formatInput(this)" onchange="updateDebt(${debt.id}, 'minPayment', parseNumber(this.value))" inputmode="decimal" aria-required="true">
@@ -2927,7 +2934,7 @@
                 preset.forEach(debtData => {
                     addDebt({ ...debtData, presetSource: presetName });
                 });
-                A11yUtils.announce(`Added ${preset.length} debts from ${presetName.replace('-', ' ')} example`, 'polite');
+                A11yUtils.announce(I18nUtils.t('tools.debtPayoffComparison.announcements.addedDebts', 'Added {{count}} debts from {{preset}} example').replace('{{count}}', preset.length).replace('{{preset}}', presetName.replace('-', ' ')), 'polite');
             } else {
                 // Remove debts from this preset
                 const debtsToRemove = debts.filter(d => d.presetSource === presetName);
@@ -2936,7 +2943,7 @@
                     if (element) element.remove();
                 });
                 debts = debts.filter(d => d.presetSource !== presetName);
-                A11yUtils.announce(`Removed ${debtsToRemove.length} debts from ${presetName.replace('-', ' ')} example`, 'polite');
+                A11yUtils.announce(I18nUtils.t('tools.debtPayoffComparison.announcements.removedDebts', 'Removed {{count}} debts from {{preset}} example').replace('{{count}}', debtsToRemove.length).replace('{{preset}}', presetName.replace('-', ' ')), 'polite');
             }
 
             // Ensure at least one empty debt row if all removed
@@ -2972,7 +2979,7 @@
             updateRemoveButtons();
             updateTotalMinimum();
 
-            A11yUtils.announce(`Loaded ${presetName.replace('-', ' ')} example with ${preset.length} debts`, 'polite');
+            A11yUtils.announce(I18nUtils.t('tools.debtPayoffComparison.announcements.loadedPreset', 'Loaded {{preset}} example with {{count}} debts').replace('{{preset}}', presetName.replace('-', ' ')).replace('{{count}}', preset.length), 'polite');
         }
 
         function loadExpensePreset(presetName) {
@@ -2994,7 +3001,7 @@
             });
 
             updateExpenseTotal();
-            A11yUtils.announce(`Loaded ${presetName} example with ${preset.length} expenses`, 'polite');
+            A11yUtils.announce(I18nUtils.t('tools.debtPayoffComparison.announcements.loadedExpensePreset', 'Loaded {{preset}} example with {{count}} expenses').replace('{{preset}}', presetName).replace('{{count}}', preset.length), 'polite');
         }
 
         function validateDebts() {
@@ -3004,19 +3011,19 @@
 
             for (const debt of debts) {
                 if (!debt.name.trim()) {
-                    errorDiv.textContent = 'Please enter a name for all debts';
+                    errorDiv.textContent = I18nUtils.t('tools.debtPayoffComparison.validation.enterNameForAllDebts', 'Please enter a name for all debts');
                     errorDiv.classList.add('show');
                     document.getElementById(`name-${debt.id}`).focus();
                     return false;
                 }
                 if (debt.balance <= 0) {
-                    errorDiv.textContent = `Please enter a valid balance for "${debt.name}"`;
+                    errorDiv.textContent = I18nUtils.t('tools.debtPayoffComparison.validation.enterValidBalance', 'Please enter a valid balance for "{{name}}"').replace('{{name}}', debt.name);
                     errorDiv.classList.add('show');
                     document.getElementById(`balance-${debt.id}`).focus();
                     return false;
                 }
                 if (debt.minPayment <= 0) {
-                    errorDiv.textContent = `Please enter a minimum payment for "${debt.name}"`;
+                    errorDiv.textContent = I18nUtils.t('tools.debtPayoffComparison.validation.enterMinPayment', 'Please enter a minimum payment for "{{name}}"').replace('{{name}}', debt.name);
                     errorDiv.classList.add('show');
                     document.getElementById(`min-${debt.id}`).focus();
                     return false;
@@ -3053,7 +3060,7 @@
             const savings = avalancheResult.totalInterest < snowballResult.totalInterest
                 ? formatCurrency(snowballResult.totalInterest - avalancheResult.totalInterest)
                 : formatCurrency(avalancheResult.totalInterest - snowballResult.totalInterest);
-            A11yUtils.announce(`Comparison complete. Avalanche method saves ${savings} in interest.`, 'polite');
+            A11yUtils.announce(I18nUtils.t('tools.debtPayoffComparison.announcements.comparisonComplete', 'Comparison complete. Avalanche method saves {{amount}} in interest.').replace('{{amount}}', savings), 'polite');
         }
 
         function calculatePayoff(debtsInput, extraPayment, method) {
@@ -3175,64 +3182,73 @@
             const formatTime = (months) => {
                 const years = Math.floor(months / 12);
                 const remainingMonths = months % 12;
-                if (years === 0) return `${remainingMonths} month${remainingMonths !== 1 ? 's' : ''}`;
-                if (remainingMonths === 0) return `${years} year${years !== 1 ? 's' : ''}`;
-                return `${years} yr ${remainingMonths} mo`;
+                const monthLabel = remainingMonths !== 1 ? I18nUtils.t('tools.debtPayoffComparison.results.months', 'months') : I18nUtils.t('tools.debtPayoffComparison.results.monthSingular', 'month');
+                const yearLabel = years !== 1 ? I18nUtils.t('tools.debtPayoffComparison.results.years', 'years') : I18nUtils.t('tools.debtPayoffComparison.results.year', 'year');
+                if (years === 0) return `${remainingMonths} ${monthLabel}`;
+                if (remainingMonths === 0) return `${years} ${yearLabel}`;
+                return `${years} ${I18nUtils.t('tools.debtPayoffComparison.results.yr', 'yr')} ${remainingMonths} ${I18nUtils.t('tools.debtPayoffComparison.results.mo', 'mo')}`;
             };
 
             // Calculate debt-free date as years from now
             const getDebtFreeDate = (months) => {
                 const years = Math.ceil(months / 12);
-                if (years === 0) return 'This year';
-                if (years === 1) return 'Year 1';
-                return `Year ${years}`;
+                if (years === 0) return I18nUtils.t('tools.debtPayoffComparison.results.thisYear', 'This year');
+                if (years === 1) return `${I18nUtils.t('tools.debtPayoffComparison.results.year', 'Year')} 1`;
+                return `${I18nUtils.t('tools.debtPayoffComparison.results.year', 'Year')} ${years}`;
             };
+
+            const debtFreeDateLabel = I18nUtils.t('tools.debtPayoffComparison.stats.debtFreeDate', 'Debt-Free Date');
+            const timeToPayOffLabel = I18nUtils.t('tools.debtPayoffComparison.stats.timeToPayOff', 'Time to Pay Off');
+            const totalInterestLabel = I18nUtils.t('tools.debtPayoffComparison.stats.totalInterest', 'Total Interest');
+            const totalPaidLabel = I18nUtils.t('tools.debtPayoffComparison.stats.totalPaid', 'Total Paid');
+            const firstDebtPaidOffLabel = I18nUtils.t('tools.debtPayoffComparison.stats.firstDebtPaidOff', 'First Debt Paid Off');
+            const monthsLabel = I18nUtils.t('tools.debtPayoffComparison.results.months', 'months');
 
             // Display snowball stats
             document.getElementById('snowballStats').innerHTML = `
                 <div class="stat-row">
-                    <span class="stat-label">Debt-Free Date</span>
+                    <span class="stat-label">${debtFreeDateLabel}</span>
                     <span class="stat-value">${getDebtFreeDate(snowball.months)}</span>
                 </div>
                 <div class="stat-row">
-                    <span class="stat-label">Time to Pay Off</span>
+                    <span class="stat-label">${timeToPayOffLabel}</span>
                     <span class="stat-value">${formatTime(snowball.months)}</span>
                 </div>
                 <div class="stat-row">
-                    <span class="stat-label">Total Interest</span>
+                    <span class="stat-label">${totalInterestLabel}</span>
                     <span class="stat-value">${formatCurrency(snowball.totalInterest)}</span>
                 </div>
                 <div class="stat-row">
-                    <span class="stat-label">Total Paid</span>
+                    <span class="stat-label">${totalPaidLabel}</span>
                     <span class="stat-value">${formatCurrency(snowball.totalPaid)}</span>
                 </div>
                 <div class="stat-row">
-                    <span class="stat-label">First Debt Paid Off</span>
-                    <span class="stat-value highlight">${snowball.firstDebtPaidMonth} months</span>
+                    <span class="stat-label">${firstDebtPaidOffLabel}</span>
+                    <span class="stat-value highlight">${snowball.firstDebtPaidMonth} ${monthsLabel}</span>
                 </div>
             `;
 
             // Display avalanche stats
             document.getElementById('avalancheStats').innerHTML = `
                 <div class="stat-row">
-                    <span class="stat-label">Debt-Free Date</span>
+                    <span class="stat-label">${debtFreeDateLabel}</span>
                     <span class="stat-value">${getDebtFreeDate(avalanche.months)}</span>
                 </div>
                 <div class="stat-row">
-                    <span class="stat-label">Time to Pay Off</span>
+                    <span class="stat-label">${timeToPayOffLabel}</span>
                     <span class="stat-value">${formatTime(avalanche.months)}</span>
                 </div>
                 <div class="stat-row">
-                    <span class="stat-label">Total Interest</span>
+                    <span class="stat-label">${totalInterestLabel}</span>
                     <span class="stat-value ${avalancheWins ? 'highlight' : ''}">${formatCurrency(avalanche.totalInterest)}</span>
                 </div>
                 <div class="stat-row">
-                    <span class="stat-label">Total Paid</span>
+                    <span class="stat-label">${totalPaidLabel}</span>
                     <span class="stat-value">${formatCurrency(avalanche.totalPaid)}</span>
                 </div>
                 <div class="stat-row">
-                    <span class="stat-label">First Debt Paid Off</span>
-                    <span class="stat-value">${avalanche.firstDebtPaidMonth} months</span>
+                    <span class="stat-label">${firstDebtPaidOffLabel}</span>
+                    <span class="stat-value">${avalanche.firstDebtPaidMonth} ${monthsLabel}</span>
                 </div>
             `;
 
@@ -3249,26 +3265,32 @@
             const interestDiff = Math.abs(snowball.totalInterest - avalanche.totalInterest);
             const monthsDiff = Math.abs(snowball.months - avalanche.months);
             const firstDebtDiff = Math.abs(snowball.firstDebtPaidMonth - avalanche.firstDebtPaidMonth);
+            const monthsDiffLabel = monthsDiff !== 1
+                ? `${monthsDiff} ${I18nUtils.t('tools.debtPayoffComparison.results.months', 'months')}`
+                : `${monthsDiff} ${I18nUtils.t('tools.debtPayoffComparison.results.monthSingular', 'month')}`;
+            const firstDebtDiffLabel = firstDebtDiff !== 1
+                ? `${firstDebtDiff} ${I18nUtils.t('tools.debtPayoffComparison.results.months', 'months')}`
+                : `${firstDebtDiff} ${I18nUtils.t('tools.debtPayoffComparison.results.monthSingular', 'month')}`;
 
-            let summaryHtml = '<h3>&#128161; Key Insights</h3>';
+            let summaryHtml = `<h3>&#128161; ${I18nUtils.t('tools.debtPayoffComparison.results.keyInsights', 'Key Insights')}</h3>`;
 
             if (avalancheWins) {
-                summaryHtml += `<p>The <strong>Avalanche method</strong> saves you <span class="highlight-number">${formatCurrency(interestDiff)}</span> in interest`;
+                summaryHtml += `<p>${I18nUtils.t('tools.debtPayoffComparison.results.avalancheSaves', 'The <strong>Avalanche method</strong> saves you <span class="highlight-number">{{amount}}</span> in interest').replace('{{amount}}', formatCurrency(interestDiff))}`;
                 if (monthsDiff > 0) {
-                    summaryHtml += ` and pays off your debt <span class="highlight-number">${monthsDiff} month${monthsDiff !== 1 ? 's' : ''}</span> sooner.`;
+                    summaryHtml += `${I18nUtils.t('tools.debtPayoffComparison.results.andPaysFaster', ' and pays off your debt <span class="highlight-number">{{months}}</span> sooner.').replace('{{months}}', monthsDiffLabel)}`;
                 } else {
                     summaryHtml += `.`;
                 }
             } else if (interestDiff < 1) {
-                summaryHtml += `<p>Both methods produce <strong>nearly identical results</strong> for your debt mix. Choose based on which approach fits your personality better.</p>`;
+                summaryHtml += `<p>${I18nUtils.t('tools.debtPayoffComparison.results.bothIdentical', 'Both methods produce <strong>nearly identical results</strong> for your debt mix. Choose based on which approach fits your personality better.')}</p>`;
             } else {
-                summaryHtml += `<p>The <strong>Snowball method</strong> saves you <span class="highlight-number">${formatCurrency(interestDiff)}</span> in interest for this debt mix.`;
+                summaryHtml += `<p>${I18nUtils.t('tools.debtPayoffComparison.results.snowballSaves', 'The <strong>Snowball method</strong> saves you <span class="highlight-number">{{amount}}</span> in interest for this debt mix.').replace('{{amount}}', formatCurrency(interestDiff))}`;
             }
 
             if (snowball.firstDebtPaidMonth < avalanche.firstDebtPaidMonth) {
-                summaryHtml += ` However, <strong>Snowball</strong> pays off your first debt <span class="highlight-number">${firstDebtDiff} month${firstDebtDiff !== 1 ? 's' : ''}</span> sooner, giving you an early win.</p>`;
+                summaryHtml += `${I18nUtils.t('tools.debtPayoffComparison.results.snowballFirstDebtFaster', ' However, <strong>Snowball</strong> pays off your first debt <span class="highlight-number">{{months}}</span> sooner, giving you an early win.').replace('{{months}}', firstDebtDiffLabel)}</p>`;
             } else if (avalanche.firstDebtPaidMonth < snowball.firstDebtPaidMonth) {
-                summaryHtml += ` <strong>Avalanche</strong> also pays off your first debt <span class="highlight-number">${firstDebtDiff} month${firstDebtDiff !== 1 ? 's' : ''}</span> sooner.</p>`;
+                summaryHtml += `${I18nUtils.t('tools.debtPayoffComparison.results.avalancheFirstDebtFaster', ' <strong>Avalanche</strong> also pays off your first debt <span class="highlight-number">{{months}}</span> sooner.').replace('{{months}}', firstDebtDiffLabel)}</p>`;
             } else {
                 summaryHtml += `</p>`;
             }
@@ -3281,7 +3303,9 @@
             const toggle = document.getElementById('scheduleToggle');
             const isShowing = section.classList.toggle('show');
             toggle.setAttribute('aria-expanded', isShowing);
-            toggle.textContent = isShowing ? 'Hide Detailed Schedule' : 'View Detailed Schedule';
+            toggle.textContent = isShowing
+                ? I18nUtils.t('tools.debtPayoffComparison.buttons.hideDetailedSchedule', 'Hide Detailed Schedule')
+                : I18nUtils.t('tools.debtPayoffComparison.buttons.viewDetailedSchedule', 'View Detailed Schedule');
 
             if (isShowing) {
                 showSchedule(currentScheduleView);
@@ -3375,7 +3399,7 @@
             link.click();
             document.body.removeChild(link);
 
-            A11yUtils.announce('Comparison exported to CSV file', 'polite');
+            A11yUtils.announce(I18nUtils.t('tools.debtPayoffComparison.announcements.comparisonExported', 'Comparison exported to CSV file'), 'polite');
         }
 
         function toggleCollapsible(id) {
@@ -3390,11 +3414,11 @@
             const text = code.textContent;
             navigator.clipboard.writeText(text).then(() => {
                 const originalText = button.textContent;
-                button.textContent = 'Copied!';
+                button.textContent = I18nUtils.t('common.copied', 'Copied!');
                 button.style.background = 'rgba(129, 199, 132, 0.3)';
                 button.style.borderColor = 'rgba(129, 199, 132, 0.5)';
                 button.style.color = '#81c784';
-                A11yUtils.announce('Formula copied to clipboard', 'polite');
+                A11yUtils.announce(I18nUtils.t('tools.debtPayoffComparison.announcements.formulaCopied', 'Formula copied to clipboard'), 'polite');
                 setTimeout(() => {
                     button.textContent = originalText;
                     button.style.background = '';
@@ -3445,8 +3469,10 @@
             document.getElementById(`${tabName}-section`).classList.add('show');
 
             // Announce for screen readers
-            const label = tabName === 'calculator' ? 'Calculator' : 'Understand Loans';
-            A11yUtils.announce(`${label} section selected`, 'polite');
+            const label = tabName === 'calculator'
+                ? I18nUtils.t('tools.debtPayoffComparison.announcements.calculatorSectionSelected', 'Calculator section selected')
+                : I18nUtils.t('tools.debtPayoffComparison.announcements.understandLoansSectionSelected', 'Understand Loans section selected');
+            A11yUtils.announce(label, 'polite');
 
             // Initialize loan calculator if switching to Learn More
             if (tabName === 'learn-more' && document.getElementById('eduLoanAmount')) {
@@ -3793,22 +3819,22 @@
 
             item.innerHTML = `
                 <div class="input-field">
-                    <label for="expense-label-${expense.id}">Expense</label>
-                    <input type="text" id="expense-label-${expense.id}" placeholder="e.g., Morning coffee" value="${expense.label}" onchange="updateExpense(${expense.id}, 'label', this.value)">
+                    <label for="expense-label-${expense.id}" data-i18n="tools.debtPayoffComparison.labels.expense">${I18nUtils.t('tools.debtPayoffComparison.labels.expense', 'Expense')}</label>
+                    <input type="text" id="expense-label-${expense.id}" placeholder="${I18nUtils.t('tools.debtPayoffComparison.placeholders.expenseExample', 'e.g., Morning coffee')}" value="${expense.label}" onchange="updateExpense(${expense.id}, 'label', this.value)">
                 </div>
                 <div class="input-field">
-                    <label for="expense-amount-${expense.id}">Cost Each</label>
+                    <label for="expense-amount-${expense.id}" data-i18n="tools.debtPayoffComparison.labels.costEach">${I18nUtils.t('tools.debtPayoffComparison.labels.costEach', 'Cost Each')}</label>
                     <div class="input-prefix">
                         <span>$</span>
                         <input type="text" id="expense-amount-${expense.id}" placeholder="0.00" value="${expense.amount || ''}" oninput="formatInput(this)" onchange="updateExpenseAmount(${expense.id})" inputmode="decimal">
                     </div>
                 </div>
                 <div class="input-field">
-                    <label for="expense-times-${expense.id}">Times/Month</label>
+                    <label for="expense-times-${expense.id}" data-i18n="tools.debtPayoffComparison.labels.timesPerMonth">${I18nUtils.t('tools.debtPayoffComparison.labels.timesPerMonth', 'Times/Month')}</label>
                     <input type="number" id="expense-times-${expense.id}" placeholder="1" value="${expense.timesPerMonth || 1}" min="1" onchange="updateExpenseAmount(${expense.id})" inputmode="numeric">
                 </div>
                 <div class="input-field monthly-total">
-                    <label for="expense-total-${expense.id}">Monthly</label>
+                    <label for="expense-total-${expense.id}" data-i18n="tools.debtPayoffComparison.labels.monthly">${I18nUtils.t('tools.debtPayoffComparison.labels.monthly', 'Monthly')}</label>
                     <div class="input-prefix">
                         <span>$</span>
                         <input type="text" id="expense-total-${expense.id}" value="${expense.monthlyTotal.toFixed(2)}" readonly tabindex="-1">
@@ -3860,13 +3886,13 @@
             if (total > 0) {
                 const currentExtra = parseNumber(document.getElementById('extraPayment').value) || 0;
                 document.getElementById('extraPayment').value = (currentExtra + total).toFixed(2);
-                A11yUtils.announce(`Added ${formatCurrency(total)} to extra payment. New total: ${formatCurrency(currentExtra + total)}`, 'polite');
+                A11yUtils.announce(I18nUtils.t('tools.debtPayoffComparison.announcements.addedToExtraPayment', 'Added {{amount}} to extra payment. New total: {{total}}').replace('{{amount}}', formatCurrency(total)).replace('{{total}}', formatCurrency(currentExtra + total)), 'polite');
             }
         }
 
         function exportDebtsToCSV() {
             if (debts.length === 0 || !debts.some(d => d.name && d.balance > 0)) {
-                A11yUtils.announce('No debts to export. Add some debts first.', 'polite');
+                A11yUtils.announce(I18nUtils.t('tools.debtPayoffComparison.announcements.noDebtsToExport', 'No debts to export. Add some debts first.'), 'polite');
                 return;
             }
 
@@ -3895,12 +3921,12 @@
             link.click();
             document.body.removeChild(link);
 
-            A11yUtils.announce('Debts exported to CSV file', 'polite');
+            A11yUtils.announce(I18nUtils.t('tools.debtPayoffComparison.announcements.debtsExported', 'Debts exported to CSV file'), 'polite');
         }
 
         function exportExpensesToCSV() {
             if (expenses.length === 0) {
-                A11yUtils.announce('No expenses to export. Add some expenses first.', 'polite');
+                A11yUtils.announce(I18nUtils.t('tools.debtPayoffComparison.announcements.noExpensesToExport', 'No expenses to export. Add some expenses first.'), 'polite');
                 return;
             }
 
@@ -3926,11 +3952,14 @@
             link.click();
             document.body.removeChild(link);
 
-            A11yUtils.announce('Expenses exported to CSV file', 'polite');
+            A11yUtils.announce(I18nUtils.t('tools.debtPayoffComparison.announcements.expensesExported', 'Expenses exported to CSV file'), 'polite');
         }
 
         // Initialize - load saved data or start with empty debt
         document.addEventListener('DOMContentLoaded', function() {
+            // Initialize debtTypes with translations
+            debtTypes = getDebtTypes();
+
             // Load saved debts or add empty one
             const savedDebts = StorageUtils.load('debt-payoff-debts', []);
             if (savedDebts.length > 0) {
@@ -4020,7 +4049,7 @@
         window.addEventListener('beforeprint', function() {
             const printDate = document.querySelector('.print-date');
             if (printDate) {
-                printDate.textContent = 'Generated: ' + new Date().toLocaleDateString('en-US', {
+                printDate.textContent = I18nUtils.t('tools.debtPayoffComparison.print.generated', 'Generated:') + ' ' + new Date().toLocaleDateString('en-US', {
                     year: 'numeric',
                     month: 'long',
                     day: 'numeric'

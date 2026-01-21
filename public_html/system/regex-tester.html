@@ -505,7 +505,7 @@
             <form aria-label="Regular expression tester form">
             <div class="input-group">
                 <label for="pattern" data-i18n="tools.regexTester.labels.pattern">Regular Expression Pattern</label>
-                <input type="text" id="pattern" placeholder="Enter regex pattern or select from presets..." aria-required="true" aria-describedby="pattern-help">
+                <input type="text" id="pattern" placeholder="Enter regex pattern or select from presets..." data-i18n-placeholder="tools.regexTester.placeholders.pattern" aria-required="true" aria-describedby="pattern-help">
                 <span id="pattern-help" class="sr-only">Enter a JavaScript regular expression pattern to test</span>
             </div>
 
@@ -534,19 +534,19 @@
             <div class="presets-section">
                 <label class="presets-label" id="presets-label" data-i18n="tools.regexTester.presets.title">Common Network Patterns</label>
                 <div class="presets-grid" role="group" aria-labelledby="presets-label">
-                    <button type="button" class="preset-btn" data-pattern="^.*$" data-flags="" aria-label="Apply pattern to match entire line">Entire Line</button>
-                    <button type="button" class="preset-btn" data-pattern="([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}" data-flags="g" aria-label="Apply pattern to match MAC addresses with colon separators">MAC (colon)</button>
-                    <button type="button" class="preset-btn" data-pattern="([0-9A-Fa-f]{2}-){5}[0-9A-Fa-f]{2}" data-flags="g">MAC (dash)</button>
-                    <button type="button" class="preset-btn" data-pattern="([0-9A-Fa-f]{4}\.){2}[0-9A-Fa-f]{4}" data-flags="g">MAC (dot)</button>
-                    <button type="button" class="preset-btn" data-pattern="([0-9A-Fa-f]{4}:){2}[0-9A-Fa-f]{4}" data-flags="g">MAC (4-digit)</button>
-                    <button type="button" class="preset-btn" data-pattern="([0-9A-Fa-f]{2}[:-]){5}[0-9A-Fa-f]{2}|([0-9A-Fa-f]{4}\.){2}[0-9A-Fa-f]{4}" data-flags="g">MAC (any)</button>
-                    <button type="button" class="preset-btn" data-pattern="\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b" data-flags="g">IPv4</button>
-                    <button type="button" class="preset-btn" data-pattern="\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\/(?:[0-9]|[12][0-9]|3[0-2])\b" data-flags="g">IPv4 CIDR</button>
-                    <button type="button" class="preset-btn" data-pattern="\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\s+(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b" data-flags="g">IP + Mask</button>
-                    <button type="button" class="preset-btn" data-pattern="\bvlan\s*(\d{1,4})\b" data-flags="gi">VLAN ID</button>
-                    <button type="button" class="preset-btn" data-pattern="\b(?:Ethernet|FastEthernet|GigabitEthernet|eth|ge|fe)\s*[\d/]+" data-flags="gi">Interface</button>
-                    <button type="button" class="preset-btn" data-pattern="\s+" data-flags="g">All Spaces</button>
-                    <button type="button" class="preset-btn" data-pattern="^\s*$" data-flags="gm">Blank Lines</button>
+                    <button type="button" class="preset-btn" data-pattern="^.*$" data-flags="" aria-label="Apply pattern to match entire line" data-i18n="tools.regexTester.presets.entireLine">Entire Line</button>
+                    <button type="button" class="preset-btn" data-pattern="([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}" data-flags="g" aria-label="Apply pattern to match MAC addresses with colon separators" data-i18n="tools.regexTester.presets.macColon">MAC (colon)</button>
+                    <button type="button" class="preset-btn" data-pattern="([0-9A-Fa-f]{2}-){5}[0-9A-Fa-f]{2}" data-flags="g" data-i18n="tools.regexTester.presets.macDash">MAC (dash)</button>
+                    <button type="button" class="preset-btn" data-pattern="([0-9A-Fa-f]{4}\.){2}[0-9A-Fa-f]{4}" data-flags="g" data-i18n="tools.regexTester.presets.macDot">MAC (dot)</button>
+                    <button type="button" class="preset-btn" data-pattern="([0-9A-Fa-f]{4}:){2}[0-9A-Fa-f]{4}" data-flags="g" data-i18n="tools.regexTester.presets.mac4digit">MAC (4-digit)</button>
+                    <button type="button" class="preset-btn" data-pattern="([0-9A-Fa-f]{2}[:-]){5}[0-9A-Fa-f]{2}|([0-9A-Fa-f]{4}\.){2}[0-9A-Fa-f]{4}" data-flags="g" data-i18n="tools.regexTester.presets.macAny">MAC (any)</button>
+                    <button type="button" class="preset-btn" data-pattern="\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b" data-flags="g" data-i18n="tools.regexTester.presets.ipv4">IPv4</button>
+                    <button type="button" class="preset-btn" data-pattern="\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\/(?:[0-9]|[12][0-9]|3[0-2])\b" data-flags="g" data-i18n="tools.regexTester.presets.ipv4Cidr">IPv4 CIDR</button>
+                    <button type="button" class="preset-btn" data-pattern="\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\s+(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b" data-flags="g" data-i18n="tools.regexTester.presets.ipMask">IP + Mask</button>
+                    <button type="button" class="preset-btn" data-pattern="\bvlan\s*(\d{1,4})\b" data-flags="gi" data-i18n="tools.regexTester.presets.vlanId">VLAN ID</button>
+                    <button type="button" class="preset-btn" data-pattern="\b(?:Ethernet|FastEthernet|GigabitEthernet|eth|ge|fe)\s*[\d/]+" data-flags="gi" data-i18n="tools.regexTester.presets.interface">Interface</button>
+                    <button type="button" class="preset-btn" data-pattern="\s+" data-flags="g" data-i18n="tools.regexTester.presets.allSpaces">All Spaces</button>
+                    <button type="button" class="preset-btn" data-pattern="^\s*$" data-flags="gm" data-i18n="tools.regexTester.presets.blankLines">Blank Lines</button>
                 </div>
             </div>
 
@@ -557,20 +557,20 @@
                 </div>
                 <div class="export-buttons">
                     <button type="button" class="export-btn" onclick="exportCSV()" aria-label="Export matches to CSV file" data-i18n="common.exportCSV">Export CSV</button>
-                    <button type="button" class="export-btn" onclick="exportTXT()" aria-label="Export matches to text file">Export TXT</button>
+                    <button type="button" class="export-btn" onclick="exportTXT()" aria-label="Export matches to text file" data-i18n="tools.regexTester.buttons.exportTxt">Export TXT</button>
                 </div>
             </div>
 
             <div class="input-group">
                 <label for="testString" data-i18n="tools.regexTester.labels.testString">Test String</label>
-                <div id="testString" contenteditable="true" class="test-input" data-placeholder="Enter text to test against your regex pattern..." aria-label="Test string input" aria-describedby="charCounter" role="textbox" aria-multiline="true"></div>
+                <div id="testString" contenteditable="true" class="test-input" data-placeholder="Enter text to test against your regex pattern..." data-i18n-data-placeholder="tools.regexTester.placeholders.testString" aria-label="Test string input" aria-describedby="charCounter" role="textbox" aria-multiline="true"></div>
                 <div class="char-counter" id="charCounter" aria-live="polite">0 / 100,000 characters</div>
             </div>
 
             <div class="error" id="errorMsg" role="alert" aria-live="assertive" aria-atomic="true"></div>
 
-            <button type="button" class="btn" onclick="testPattern()" aria-label="Test regex pattern against entered text" data-i18n="common.calculate">Test Pattern</button>
-            <button type="button" class="btn secondary" onclick="loadSample()" aria-label="Load sample network configuration data for testing">Load Sample Data</button>
+            <button type="button" class="btn" onclick="testPattern()" aria-label="Test regex pattern against entered text" data-i18n="tools.regexTester.buttons.testPattern">Test Pattern</button>
+            <button type="button" class="btn secondary" onclick="loadSample()" aria-label="Load sample network configuration data for testing" data-i18n="tools.regexTester.buttons.loadSample">Load Sample Data</button>
             <button type="button" class="btn tertiary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page" data-i18n="common.clearSavedData">Clear Saved Data</button>
             </form>
         </div>
