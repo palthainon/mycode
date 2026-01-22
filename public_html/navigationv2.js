@@ -547,6 +547,9 @@
                 <button class="nav-lang-option" role="option" data-lang="hi" aria-current="false">
                     Hindi <span class="nav-lang-native">(हिन्दी)</span>
                 </button>
+                <button class="nav-lang-option" role="option" data-lang="zh" aria-current="false">
+                    Chinese <span class="nav-lang-native">(中文)</span>
+                </button>
             </div>
         </div>
     </nav>`;

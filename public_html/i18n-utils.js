@@ -9,7 +9,7 @@ const I18nUtils = (function() {
 
     const STORAGE_KEY = 'user-language';
     const DEFAULT_LANG = 'en';
-    const SUPPORTED_LANGS = ['en', 'es', 'hi'];
+    const SUPPORTED_LANGS = ['en', 'es', 'hi', 'zh'];
 
     let translations = {};
     let currentLang = DEFAULT_LANG;
@@ -231,7 +231,8 @@ const I18nUtils = (function() {
         return [
             { code: 'en', name: 'English', nativeName: 'English' },
             { code: 'es', name: 'Spanish', nativeName: 'Español' },
-            { code: 'hi', name: 'Hindi', nativeName: 'हिन्दी' }
+            { code: 'hi', name: 'Hindi', nativeName: 'हिन्दी' },
+            { code: 'zh', name: 'Chinese', nativeName: '中文' }
         ];
     }
 

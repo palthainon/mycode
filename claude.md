@@ -155,6 +155,160 @@ When implementing form data persistence with localStorage:
    - StorageUtils prefixes all keys with `owt_` automatically
    - For tools with multiple data sets, use separate keys (e.g., `'debt-payoff-debts'`, `'debt-payoff-expenses'`)
 
+### Internationalization (i18n) Pattern
+All pages must support multiple languages using the built-in i18n system. The system auto-initializes and requires no manual setup beyond including the script and marking translatable content.
+
+**Supported Languages:**
+- English (en) - Default
+- Spanish (es)
+- Hindi (hi)
+- Chinese (zh) - Simplified Chinese (简体中文)
+
+#### 1. **Required Script Includes**
+Include scripts in this order in `<head>`:
+```html
+<!-- Root pages -->
+<script src="a11y-utils.js"></script>
+<script src="storage-utils.js"></script>
+<script src="i18n-utils.js"></script>
+<script src="navigationv2.js"></script>
+
+<!-- Subdirectory pages (nettools/, system/, data/, financials/, productivity/) -->
+<script src="../a11y-utils.js"></script>
+<script src="../storage-utils.js"></script>
+<script src="../i18n-utils.js"></script>
+<script src="../navigationv2.js"></script>
+```
+
+#### 2. **HTML Data Attributes for Translation**
+Mark translatable content with data attributes:
+
+```html
+<!-- Text content -->
+<h1 data-i18n="tools.myTool.title">My Tool Title</h1>
+<p data-i18n="home.subtitle">Default text shown before translation loads</p>
+
+<!-- Input placeholders -->
+<input type="text" data-i18n-placeholder="tools.myTool.placeholder" placeholder="Default placeholder">
+
+<!-- Aria labels (accessibility) -->
+<button data-i18n-aria-label="common.calculate" aria-label="Calculate">🔢</button>
+
+<!-- Title attributes -->
+<span data-i18n-title="tools.myTool.tooltip" title="Default tooltip">Hover me</span>
+```
+
+#### 3. **JavaScript API (I18nUtils)**
+For dynamic content generated in JavaScript:
+
+```javascript
+// Get translated string
+const label = I18nUtils.t('tools.myTool.results.total');
+
+// With interpolation (use {{variable}} in translation strings)
+const msg = I18nUtils.t('nav.languageChanged', { language: 'Spanish' });
+
+// Format numbers/currency/dates for current locale
+const num = I18nUtils.formatNumber(12345.67);           // "12,345.67" (en)
+const money = I18nUtils.formatCurrency(5000, 'USD');    // "$5,000.00" (en)
+const date = I18nUtils.formatDate(new Date());          // Locale-formatted date
+
+// Check current language
+const lang = I18nUtils.getCurrentLang();  // "en", "es", or "hi"
+
+// Listen for language changes
+document.addEventListener('langchange', (e) => {
+    console.log('Language changed to:', e.detail.language);
+    // Re-render any dynamic content here
+});
+```
+
+#### 4. **Translation File Structure**
+Translation files are located in `/public_html/i18n/{lang}.json`:
+
+```json
+{
+  "_meta": {
+    "language": "en",
+    "nativeName": "English",
+    "direction": "ltr"
+  },
+  "common": {
+    "calculate": "Calculate",
+    "clear": "Clear",
+    "copy": "Copy",
+    "copied": "Copied!",
+    "error": "Error",
+    "required": "Required"
+  },
+  "nav": {
+    "home": "Home",
+    "network": "Network",
+    "system": "System",
+    "data": "Data",
+    "financials": "Financials",
+    "selectLanguage": "Select language"
+  },
+  "tools": {
+    "myTool": {
+      "title": "My Tool",
+      "labels": {
+        "input": "Input",
+        "output": "Output"
+      },
+      "results": {
+        "total": "Total"
+      },
+      "validation": {
+        "invalidInput": "Please enter a valid value"
+      }
+    }
+  }
+}
+```
+
+#### 5. **Adding Translations for New Tools**
+When creating a new tool:
+
+1. **Add keys to all language files** (`en.json`, `es.json`, `hi.json`):
+   ```json
+   "tools": {
+     "newTool": {
+       "title": "New Tool Name",
+       "labels": { ... },
+       "results": { ... },
+       "validation": { ... }
+     }
+   }
+   ```
+
+2. **Use consistent key naming**:
+   - `tools.{toolName}.title` - Page title
+   - `tools.{toolName}.labels.*` - Form labels
+   - `tools.{toolName}.placeholders.*` - Input placeholders
+   - `tools.{toolName}.results.*` - Output labels
+   - `tools.{toolName}.validation.*` - Error messages
+   - `tools.{toolName}.buttons.*` - Button labels (if not using common.*)
+
+3. **Reuse common keys** when possible:
+   - `common.calculate`, `common.clear`, `common.copy`
+   - `sections.input`, `sections.output`, `sections.results`
+   - `buttons.generate`, `buttons.reset`
+
+#### 6. **Language Selector**
+The language selector is automatically included in navigation via `navigationv2.js`. No additional markup needed - it appears in the top navigation bar.
+
+#### 7. **i18n Testing Checklist**
+- [ ] All visible text has `data-i18n` attributes
+- [ ] All input placeholders use `data-i18n-placeholder`
+- [ ] All aria-labels use `data-i18n-aria-label`
+- [ ] Dynamic JS content uses `I18nUtils.t()`
+- [ ] Numbers/currency use `I18nUtils.formatNumber()`/`formatCurrency()`
+- [ ] New translation keys added to ALL language files (en, es, hi)
+- [ ] Test language switching works without page reload
+- [ ] Verify `langchange` event handler updates dynamic content
+- [ ] Default English text provided as fallback in HTML
+
 ### Testing Philosophy
 - Test with actual network data formats (routing tables, config files, logs)
 - Verify edge cases: empty inputs, malformed data, extreme values
@@ -209,6 +363,12 @@ When implementing form data persistence with localStorage:
 - Test navigation from other pages
 10. **Offline capability:**
 - Verify tool works without network after first load
+11. **Internationalization verification:**
+- All static text has `data-i18n` attributes
+- Dynamic content uses `I18nUtils.t()` for translations
+- Translation keys added to all language files (en.json, es.json, hi.json)
+- Test language switching updates all content without reload
+- Numbers and currency use locale-aware formatting
 
 ## Success Criteria
 A tool is done when:
@@ -217,6 +377,7 @@ A tool is done when:
 - A new user can figure it out in under 10 seconds
 - It works reliably with real-world data
 - The code can be understood by someone who hasn't seen it before
+- All text is translatable via i18n data attributes and translation keys exist in all language files
 
 ## What This Project Is NOT
 
