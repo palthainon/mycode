@@ -10,8 +10,7 @@ Audit a web tool for localStorage implementation, then add/fix any missing compo
 $ARGUMENTS
 
 ## Prerequisites
-- Target file must be in public_html/
-- Must have identifiable input/select/checkbox elements with IDs
+- Target file must be in - Must have identifiable input/select/checkbox elements with IDs
 
 ---
 

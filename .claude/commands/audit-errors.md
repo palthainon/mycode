@@ -62,7 +62,7 @@ function showError(message, input) {
 $ARGUMENTS
 
 1. **If a specific file is provided**: Audit only that file
-2. **Otherwise**: Search all HTML files in `public_html/` for these patterns
+2. **Otherwise**: Search all HTML files in the repository for these patterns
 
 ### For each file, check:
 - [ ] CSS: Does `.error` have `display: none`? Should be `#error` instead

@@ -93,7 +93,7 @@ When implementing form validation with error states:
 ### localStorage Persistence Pattern
 When implementing form data persistence with localStorage:
 
-1. **Use storage-utils.js** - Located at `/public_html/storage-utils.js`
+1. **Use storage-utils.js** - Located at `/storage-utils.js`
    ```html
    <script src="../storage-utils.js"></script>
    ```
@@ -224,7 +224,7 @@ document.addEventListener('langchange', (e) => {
 ```
 
 #### 4. **Translation File Structure**
-Translation files are located in `/public_html/i18n/{lang}.json`:
+Translation files are located in `/i18n/{lang}.json`:
 
 ```json
 {

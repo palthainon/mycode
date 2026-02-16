@@ -39,7 +39,7 @@ $ARGUMENTS
 
 ## Tool Categories Reference
 
-Read from `/mnt/github/mycode/public_html/` to find available tools:
+Read from `/mnt/github/mycode/` to find available tools:
 
 ### Network Tools
 - Subnet calculators (IPv4/IPv6)
@@ -115,7 +115,7 @@ Generate TWO versions:
 
 ## Process
 
-1. **Read the category**: Check `/mnt/github/mycode/public_html/{category}/` for available tools
+1. **Read the category**: Check `/mnt/github/mycode/{category}/` for available tools
 2. **Identify 2-3 hero tools**: Main features to highlight
 3. **Find the pain point**: What problem does this category solve?
 4. **Draft the post**: Follow pattern, keep it under 150 words
