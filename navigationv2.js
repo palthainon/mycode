@@ -19,6 +19,7 @@
             { name: 'Regex', file: 'system/regex-tester.html', id: 'regex' },
             { name: 'Timestamp Convert', file: 'system/timestamp-converter.html', id: 'timestamp' },
             { name: 'Disk Tools', file: 'system/disk-tools.html', id: 'disk' },
+            { name: 'IOPS Calc', file: 'system/iops-calculator.html', id: 'iops' },
             { name: 'Password Gen', file: 'system/password-generator.html', id: 'password' },
             { name: 'Certificate Parse', file: 'system/certificate-parser.html', id: 'cert-parser' },
             { separator: '(Linux)' },

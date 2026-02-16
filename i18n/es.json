@@ -536,6 +536,71 @@
         "nvme": "NVMe SSD"
       }
     },
+    "iopsCalc": {
+      "title": "Calculadora de IOPS",
+      "name": "Calc IOPS",
+      "subtitle": "Estime las IOPS de lectura/escritura para discos locales y en la nube",
+      "description": "Calcule IOPS de almacenamiento para arreglos RAID locales, AWS EBS, Azure Managed Disks y Google Cloud Persistent Disks.",
+      "tabs": {
+        "onprem": "Local",
+        "aws": "AWS EBS",
+        "azure": "Azure Disks",
+        "gcp": "Google Cloud PD"
+      },
+      "labels": {
+        "diskType": "Tipo de disco",
+        "numDisks": "Número de discos",
+        "raidLevel": "Nivel RAID",
+        "rwRatio": "Relación lectura / escritura",
+        "advancedMode": "Modo avanzado",
+        "customIops": "IOPS personalizado por disco",
+        "blockSize": "Tamaño de bloque IO",
+        "cacheHitRate": "Tasa de acierto de caché (%)",
+        "controllerOverhead": "Sobrecarga del controlador (%)",
+        "volumeType": "Tipo de volumen",
+        "volumeSize": "Tamaño del volumen (GiB)",
+        "provisionedIops": "IOPS aprovisionados",
+        "numVolumes": "Número de volúmenes",
+        "avgIoSize": "Tamaño promedio de IO (KB)",
+        "azureDiskType": "Tipo de disco",
+        "diskTier": "Nivel de disco (Premium SSD)",
+        "diskSize": "Tamaño del disco (GiB)",
+        "hostCaching": "Caché del host",
+        "gcpDiskType": "Tipo de disco",
+        "diskSizeGB": "Tamaño del disco (GB)",
+        "vmVcpus": "Número de vCPUs de la VM"
+      },
+      "diskTypes": {
+        "hdd7200": "HDD 7.200 RPM (~75-100 IOPS)",
+        "hdd10k": "HDD 10.000 RPM (~125-150 IOPS)",
+        "hdd15k": "HDD 15.000 RPM (~175-210 IOPS)",
+        "ssdSata": "SSD SATA (~50.000 IOPS)",
+        "ssdSas": "SSD SAS (~90.000 IOPS)",
+        "nvme": "NVMe SSD (~300.000 IOPS)"
+      },
+      "presets": {
+        "readOnly": "Solo lectura",
+        "mixed": "Mixto 70/30",
+        "balanced": "Balanceado 50/50",
+        "writeHeavy": "Escritura intensiva"
+      },
+      "help": {
+        "customIops": "Dejar en blanco para usar el valor predeterminado del tipo de disco",
+        "cacheHitRate": "Porcentaje de lecturas servidas desde la caché",
+        "overhead": "Típico: 5-15%"
+      },
+      "results": {
+        "totalEffective": "IOPS efectivos totales",
+        "readIops": "IOPS de lectura",
+        "writeIops": "IOPS de escritura",
+        "throughput": "Rendimiento",
+        "rawIops": "IOPS brutos de disco",
+        "baselineIops": "IOPS base",
+        "maxIops": "IOPS máx. (Nivel)",
+        "limitingFactor": "Factor limitante",
+        "copyResults": "Copiar resultados"
+      }
+    },
     "passwordGenerator": {
       "title": "Generador de contraseñas",
       "name": "Generador de contraseñas",
@@ -993,9 +1058,167 @@
       }
     },
     "debtPayoffComparison": {
-      "title": "Comparación de pago de deudas",
-      "name": "Pago de deudas",
-      "description": "Compara estrategias de pago de deudas: métodos avalancha vs bola de nieve."
+      "title": "Comparación de Pago de Deudas",
+      "name": "Pago de Deudas",
+      "description": "Compara estrategias de pago de deudas: métodos avalancha vs bola de nieve.",
+      "subtitle": "Compara los métodos Bola de Nieve vs Avalancha para encontrar tu camino más rápido hacia la libertad financiera",
+      "tabs": {
+        "calculator": "Calculadora",
+        "understandLoans": "Entender Préstamos"
+      },
+      "sections": {
+        "yourDebts": "Tus Deudas",
+        "expensesToCut": "Gastos para Eliminar (Opcional)",
+        "expensesSubtitle": "Rastrea gastos que puedes eliminar para destinar al pago de deudas. Los estadounidenses desperdician ~$200/año en suscripciones no utilizadas.",
+        "extraPayment": "Pago Mensual Adicional",
+        "learnAboutDebtPayoff": "Aprende Sobre el Pago de Deudas",
+        "learnAboutDescription": "Explora nuestras guías educativas para entender diferentes estrategias de pago y aprender cómo evaluar ofertas de préstamos.",
+        "excelFormulas": "Fórmulas de Excel para Cálculos de Deuda",
+        "excelFormulasDesc": "Usa estas fórmulas de Excel para recrear cálculos de pago de deudas en tus propias hojas de cálculo."
+      },
+      "labels": {
+        "debtName": "Nombre de la Deuda",
+        "type": "Tipo",
+        "balance": "Saldo",
+        "apr": "TAE",
+        "minPayment": "Pago Mínimo",
+        "expense": "Gasto",
+        "costEach": "Costo Unitario",
+        "timesPerMonth": "Veces/Mes",
+        "monthly": "Mensual",
+        "totalDebtBalance": "Saldo total de deudas:",
+        "totalMinimumPayments": "Pagos mínimos totales:",
+        "totalMonthlySavings": "Ahorro mensual total:",
+        "yourMinimumPaymentsTotal": "Tus pagos mínimos totalizan:",
+        "perMonth": "por mes"
+      },
+      "buttons": {
+        "addDebt": "+ Agregar Deuda",
+        "addExpense": "+ Agregar Gasto",
+        "compareMethods": "Comparar Métodos",
+        "applyToExtraPayment": "Aplicar a Pago Adicional",
+        "exportDebts": "Exportar Deudas",
+        "exportExpenses": "Exportar Gastos",
+        "viewDetailedSchedule": "Ver Cronograma Detallado",
+        "hideDetailedSchedule": "Ocultar Cronograma Detallado",
+        "print": "Imprimir"
+      },
+      "presets": {
+        "quickExamples": "Ejemplos Rápidos:",
+        "typical3Debt": "3 Deudas Típicas",
+        "creditCards": "Tarjetas de Crédito",
+        "mixedTypes": "Tipos Mixtos",
+        "commonCuts": "Recortes Comunes:",
+        "subscriptionAudit": "Auditoría de Suscripciones",
+        "dailyHabits": "Hábitos Diarios",
+        "lifestyleCuts": "Recortes de Estilo de Vida"
+      },
+      "debtTypes": {
+        "creditCard": "Tarjeta de Crédito",
+        "autoLoan": "Préstamo de Auto",
+        "personalLoan": "Préstamo Personal",
+        "studentLoan": "Préstamo Estudiantil",
+        "medicalDebt": "Deuda Médica",
+        "other": "Otro"
+      },
+      "methods": {
+        "snowball": "Método Bola de Nieve",
+        "avalanche": "Método Avalancha",
+        "savesMore": "Ahorra Más"
+      },
+      "stats": {
+        "debtFreeDate": "Fecha Libre de Deudas",
+        "timeToPayOff": "Tiempo para Pagar",
+        "totalInterest": "Interés Total",
+        "totalPaid": "Total Pagado",
+        "firstDebtPaidOff": "Primera Deuda Pagada",
+        "payoffOrder": "Orden de Pago"
+      },
+      "schedule": {
+        "snowballSchedule": "Cronograma Bola de Nieve",
+        "avalancheSchedule": "Cronograma Avalancha",
+        "month": "Mes",
+        "targetDebt": "Deuda Objetivo",
+        "payment": "Pago",
+        "principal": "Principal",
+        "interest": "Interés",
+        "totalBalance": "Saldo Total"
+      },
+      "results": {
+        "keyInsights": "Conclusiones Clave",
+        "avalancheSaves": "El <strong>método Avalancha</strong> te ahorra <span class=\"highlight-number\">{{amount}}</span> en intereses",
+        "andPaysFaster": " y paga tu deuda <span class=\"highlight-number\">{{months}}</span> antes.",
+        "bothIdentical": "Ambos métodos producen <strong>resultados casi idénticos</strong> para tu combinación de deudas. Elige según el enfoque que se ajuste mejor a tu personalidad.",
+        "snowballSaves": "El <strong>método Bola de Nieve</strong> te ahorra <span class=\"highlight-number\">{{amount}}</span> en intereses para esta combinación de deudas.",
+        "snowballFirstDebtFaster": " Sin embargo, <strong>Bola de Nieve</strong> paga tu primera deuda <span class=\"highlight-number\">{{months}}</span> antes, dándote una victoria temprana.",
+        "avalancheFirstDebtFaster": " <strong>Avalancha</strong> también paga tu primera deuda <span class=\"highlight-number\">{{months}}</span> antes.",
+        "months": "meses",
+        "year": "año",
+        "years": "años",
+        "monthSingular": "mes",
+        "yr": "año",
+        "mo": "mes",
+        "thisYear": "Este año"
+      },
+      "formulas": {
+        "monthlyPaymentPMT": "Pago Mensual (PAGO)",
+        "monthlyPaymentDesc": "Calcular el pago mensual requerido para un préstamo",
+        "monthsToPayoffNPER": "Meses para Pagar (NPER)",
+        "monthsToPayoffDesc": "Calcular cuántos meses tomará pagar una deuda",
+        "totalInterestCUMIPMT": "Interés Total (INT.ACUM)",
+        "totalInterestDesc": "Calcular el interés total durante la vida del préstamo",
+        "interestForMonth": "Interés para Mes Específico (PAGOINT)",
+        "interestForMonthDesc": "Calcular la porción de interés de un pago específico",
+        "principalForMonth": "Principal para Mes Específico (PAGOPRIN)",
+        "principalForMonthDesc": "Calcular la porción de principal de un pago específico",
+        "remainingBalanceFV": "Saldo Restante (VF)",
+        "remainingBalanceDesc": "Calcular el saldo restante después de N pagos",
+        "loanBalance": "Saldo del Préstamo",
+        "annualRateDecimal": "Tasa Anual (decimal)",
+        "monthsRemaining": "Meses Restantes",
+        "currentBalance": "Saldo Actual",
+        "monthlyPayment": "Pago Mensual",
+        "totalMonths": "Meses Totales",
+        "paymentNumber": "Número de Pago",
+        "originalBalance": "Saldo Original",
+        "paymentsMade": "Pagos Realizados"
+      },
+      "education": {
+        "payoffMethods": "Métodos de Pago",
+        "payoffMethodsDesc": "Bola de Nieve vs Avalancha: Compara estrategias, entiende la psicología del pago de deudas y encuentra el enfoque que funcione para ti.",
+        "loanReferenceGuide": "Guía de Referencia de Préstamos",
+        "loanReferenceDesc": "Aprende sobre diferentes tipos de préstamos, identifica señales de advertencia de préstamos abusivos y usa nuestras herramientas interactivas para evaluar ofertas de préstamos."
+      },
+      "validation": {
+        "enterNameForAllDebts": "Por favor ingresa un nombre para todas las deudas",
+        "enterValidBalance": "Por favor ingresa un saldo válido para \"{{name}}\"",
+        "enterMinPayment": "Por favor ingresa un pago mínimo para \"{{name}}\""
+      },
+      "announcements": {
+        "comparisonComplete": "Comparación completa. El método Avalancha ahorra {{amount}} en intereses.",
+        "addedDebts": "Se agregaron {{count}} deudas del ejemplo {{preset}}",
+        "removedDebts": "Se eliminaron {{count}} deudas del ejemplo {{preset}}",
+        "loadedPreset": "Se cargó el ejemplo {{preset}} con {{count}} deudas",
+        "loadedExpensePreset": "Se cargó el ejemplo {{preset}} con {{count}} gastos",
+        "addedToExtraPayment": "Se agregó {{amount}} al pago adicional. Nuevo total: {{total}}",
+        "formulaCopied": "Fórmula copiada al portapapeles",
+        "comparisonExported": "Comparación exportada a archivo CSV",
+        "debtsExported": "Deudas exportadas a archivo CSV",
+        "expensesExported": "Gastos exportados a archivo CSV",
+        "noDebtsToExport": "No hay deudas para exportar. Agrega algunas deudas primero.",
+        "noExpensesToExport": "No hay gastos para exportar. Agrega algunos gastos primero.",
+        "calculatorSectionSelected": "Sección de calculadora seleccionada",
+        "understandLoansSectionSelected": "Sección de entender préstamos seleccionada"
+      },
+      "placeholders": {
+        "debtNameExample": "ej., Chase Visa",
+        "expenseExample": "ej., Café matutino"
+      },
+      "print": {
+        "reportTitle": "Informe de Comparación de Pago de Deudas",
+        "generated": "Generado:"
+      },
+      "footer": "Comparación de Pago de Deudas - Funciona sin conexión, sin almacenamiento de datos, sin registro requerido"
     },
     "retirementCalculator": {
       "title": "Calculadora de jubilación",

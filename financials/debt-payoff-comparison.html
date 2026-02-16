@@ -4032,6 +4032,28 @@
             if (document.getElementById('eduLoanAmount')) {
                 calculateEducationLoanCost();
             }
+
+            // Re-render dynamic content when translations are available
+            function rerenderDynamicContent() {
+                debtTypes = getDebtTypes();
+
+                debts.forEach(debt => {
+                    const existingItem = document.getElementById(`debt-${debt.id}`);
+                    if (existingItem) existingItem.remove();
+                    renderDebtItem(debt);
+                });
+
+                expenses.forEach(expense => {
+                    const existingItem = document.getElementById(`expense-${expense.id}`);
+                    if (existingItem) existingItem.remove();
+                    renderExpenseItem(expense);
+                });
+            }
+
+            // Listen for i18n ready (fixes race condition on initial load)
+            document.addEventListener('i18nready', rerenderDynamicContent);
+            // Listen for language changes (user switches language)
+            document.addEventListener('langchange', rerenderDynamicContent);
         });
 
         // Skip link handler

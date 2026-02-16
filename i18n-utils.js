@@ -35,6 +35,11 @@ const I18nUtils = (function() {
         // Apply translations to DOM
         applyTranslations();
 
+        // Dispatch ready event so pages can re-render dynamic content
+        document.dispatchEvent(new CustomEvent('i18nready', {
+            detail: { language: currentLang }
+        }));
+
         if (typeof callback === 'function') {
             callback(currentLang);
         }
@@ -134,14 +139,40 @@ const I18nUtils = (function() {
      * Get translated string by key
      * Supports nested keys with dot notation (e.g., 'common.calculate')
      * Supports interpolation with {{variable}} syntax
+     * Supports string fallback when translations aren't loaded yet
+     *
+     * Calling patterns:
+     *   t('key')                           - returns key path on miss
+     *   t('key', 'Fallback')              - returns 'Fallback' on miss
+     *   t('key', { count: 5 })            - interpolation, returns key on miss
+     *   t('key', 'Fallback {{count}}', { count: 5 }) - fallback + interpolation
+     *
      * @param {string} key - Translation key
-     * @param {Object} [params] - Interpolation parameters
-     * @returns {string} - Translated string or key if not found
+     * @param {string|Object} [fallbackOrParams] - Fallback string or interpolation params
+     * @param {Object} [params] - Interpolation parameters (when fallback is a string)
+     * @returns {string} - Translated string, fallback, or key if not found
      */
-    function t(key, params = {}) {
+    function t(key, fallbackOrParams, params) {
+        let fallback;
+        if (typeof fallbackOrParams === 'string') {
+            fallback = fallbackOrParams;
+            params = params || {};
+        } else {
+            fallback = undefined;
+            params = fallbackOrParams || {};
+        }
+
         const value = getNestedValue(translations, key);
 
         if (value === undefined) {
+            if (fallback !== undefined) {
+                if (Object.keys(params).length > 0) {
+                    return fallback.replace(/\{\{(\w+)\}\}/g, (match, paramKey) => {
+                        return params[paramKey] !== undefined ? params[paramKey] : match;
+                    });
+                }
+                return fallback;
+            }
             console.warn(`I18nUtils: Missing translation for key "${key}"`);
             return key;
         }

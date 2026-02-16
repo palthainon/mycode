@@ -1,0 +1,2146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Calculate storage IOPS for on-premises RAID arrays, AWS EBS, Azure Managed Disks, and Google Cloud Persistent Disks. Estimate read/write performance with RAID penalties and cloud provider limits.">
+    <meta name="keywords" content="IOPS calculator, storage performance, RAID IOPS, AWS EBS IOPS, Azure disk IOPS, Google Cloud persistent disk, storage planning, disk performance">
+    <meta name="author" content="OldWeb LLC">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://oldweb.tech/system/iops-calculator.html">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="IOPS Calculator - OldWeb.tech">
+    <meta property="og:description" content="Calculate storage IOPS for on-premises RAID arrays, AWS EBS, Azure Managed Disks, and Google Cloud Persistent Disks.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oldweb.tech/system/iops-calculator.html">
+    <meta property="og:site_name" content="OldWeb.tech">
+    <meta property="og:image" content="https://oldweb.tech/logo/og-image.png">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="IOPS Calculator - OldWeb.tech">
+    <meta name="twitter:description" content="Calculate storage IOPS for on-premises RAID arrays, AWS EBS, Azure Managed Disks, and Google Cloud Persistent Disks.">
+    <meta name="twitter:image" content="https://oldweb.tech/logo/og-image.png">
+
+    <!-- Additional Meta Tags -->
+    <meta name="theme-color" content="#1a1a2e">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
+
+    <title>IOPS Calculator - OldWeb.tech</title>
+    <link rel="stylesheet" href="../a11y.css">
+    <script src="../a11y-utils.js"></script>
+    <script src="../storage-utils.js"></script>
+    <script src="../i18n-utils.js"></script>
+    <script src="../navigationv2.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .ascii-logo {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.65rem;
+            line-height: 1.1;
+            color: #4fc3f7;
+            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
+            opacity: 0.8;
+            white-space: pre;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+            color: #4fc3f7;
+            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #90caf9;
+            font-size: 1rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .calculator {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid rgba(79, 195, 247, 0.2);
+            padding-bottom: 5px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 12px 24px;
+            border: none;
+            background: transparent;
+            color: #90caf9;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .tab-btn:hover {
+            background: rgba(79, 195, 247, 0.1);
+            color: #4fc3f7;
+        }
+
+        .tab-btn:focus {
+            outline: 2px solid #4fc3f7;
+            outline-offset: 2px;
+        }
+
+        .tab-btn.active {
+            background: rgba(79, 195, 247, 0.2);
+            color: #4fc3f7;
+            border-bottom: 3px solid #4fc3f7;
+            margin-bottom: -7px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Form inputs */
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-field {
+            margin-bottom: 15px;
+        }
+
+        .input-field label {
+            display: block;
+            margin-bottom: 8px;
+            color: #90caf9;
+            font-weight: 500;
+        }
+
+        .input-field input,
+        .input-field select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: #0f1419;
+            color: #fff;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            font-family: inherit;
+        }
+
+        .input-field select option {
+            background: #0f1419;
+            color: #fff;
+        }
+
+        .input-field input:focus,
+        .input-field select:focus {
+            outline: none;
+            border-color: #4fc3f7;
+            box-shadow: 0 0 15px rgba(79, 195, 247, 0.2);
+        }
+
+        .input-field input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        input.error {
+            border-color: #f44336 !important;
+        }
+
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .help-text {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.85rem;
+            margin-top: 5px;
+        }
+
+        /* Error container */
+        #error, .error-msg {
+            display: none;
+            background: rgba(244, 67, 54, 0.1);
+            border: 1px solid #f44336;
+            border-left: 4px solid #f44336;
+            color: #ff8a80;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        #error.show, .error-msg.show {
+            display: block;
+        }
+
+        /* Read/Write Slider */
+        .rw-slider-group {
+            margin-bottom: 20px;
+            padding: 15px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+
+        .rw-slider-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: #90caf9;
+            font-weight: 500;
+        }
+
+        .rw-slider-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .rw-label {
+            font-size: 0.85rem;
+            color: #4fc3f7;
+            font-weight: 600;
+            min-width: 70px;
+            text-align: center;
+        }
+
+        .rw-slider-row input[type="range"] {
+            flex: 1;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 8px;
+            border-radius: 4px;
+            background: linear-gradient(to right, #66bb6a 0%, #66bb6a var(--val, 70%), #ff7043 var(--val, 70%), #ff7043 100%);
+            outline: none;
+        }
+
+        .rw-slider-row input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #4fc3f7;
+            cursor: pointer;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
+
+        .rw-slider-row input[type="range"]::-moz-range-thumb {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #4fc3f7;
+            cursor: pointer;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
+
+        .rw-slider-row input[type="range"]:focus {
+            outline: 2px solid #4fc3f7;
+            outline-offset: 4px;
+        }
+
+        .rw-presets {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .rw-preset-btn {
+            padding: 6px 12px;
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            background: transparent;
+            color: #90caf9;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .rw-preset-btn:hover {
+            background: rgba(79, 195, 247, 0.15);
+            border-color: #4fc3f7;
+            color: #4fc3f7;
+        }
+
+        .rw-preset-btn:focus {
+            outline: 2px solid #4fc3f7;
+            outline-offset: 2px;
+        }
+
+        /* Advanced mode toggle */
+        .advanced-toggle {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding: 10px 15px;
+            background: rgba(79, 195, 247, 0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(79, 195, 247, 0.15);
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 48px;
+            height: 26px;
+            flex-shrink: 0;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.15);
+            transition: 0.3s;
+            border-radius: 26px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background: #fff;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+
+        .toggle-switch input:checked + .toggle-slider {
+            background: #4fc3f7;
+        }
+
+        .toggle-switch input:checked + .toggle-slider:before {
+            transform: translateX(22px);
+        }
+
+        .toggle-switch input:focus + .toggle-slider {
+            box-shadow: 0 0 0 3px rgba(79, 195, 247, 0.4);
+        }
+
+        .advanced-label {
+            color: #90caf9;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .advanced-fields {
+            display: none;
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px dashed rgba(79, 195, 247, 0.2);
+            border-radius: 8px;
+        }
+
+        .advanced-fields.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* Buttons */
+        .btn {
+            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
+            color: #fff;
+            border: none;
+            padding: 14px 40px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 10px;
+            font-family: inherit;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(79, 195, 247, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn:focus {
+            outline: 2px solid #4fc3f7;
+            outline-offset: 2px;
+        }
+
+        .btn.secondary {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: #90caf9;
+            margin-top: 10px;
+        }
+
+        .btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: none;
+            transform: none;
+        }
+
+        .button-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .button-row .btn {
+            flex: 1;
+        }
+
+        /* Results */
+        .results {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .results.show {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .results-header .big-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #4fc3f7;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        .results-header .big-label {
+            color: #90caf9;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .result-card {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #4fc3f7;
+        }
+
+        .result-card .rc-label {
+            color: #90caf9;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+
+        .result-card .rc-value {
+            font-size: 1.3rem;
+            font-family: 'Consolas', 'Monaco', monospace;
+            color: #fff;
+        }
+
+        .result-card .rc-sub {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.8rem;
+            margin-top: 3px;
+        }
+
+        .result-card.read {
+            border-left-color: #66bb6a;
+        }
+
+        .result-card.write {
+            border-left-color: #ff7043;
+        }
+
+        .result-card.throughput {
+            border-left-color: #ab47bc;
+        }
+
+        .result-card.limit {
+            border-left-color: #ffca28;
+        }
+
+        /* Info/Warning boxes */
+        .info-box {
+            background: rgba(79, 195, 247, 0.1);
+            border-left: 4px solid #4fc3f7;
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: #90caf9;
+        }
+
+        .info-box strong {
+            color: #4fc3f7;
+        }
+
+        .warning-box {
+            background: rgba(255, 152, 0, 0.1);
+            border-left: 4px solid #ff9800;
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: #ffb74d;
+        }
+
+        .warning-box strong {
+            color: #ff9800;
+        }
+
+        /* Copy button */
+        .copy-results-btn {
+            padding: 8px 20px;
+            background: rgba(102, 187, 106, 0.2);
+            border: 1px solid #66bb6a;
+            border-radius: 6px;
+            color: #66bb6a;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            margin-top: 15px;
+            font-family: inherit;
+        }
+
+        .copy-results-btn:hover {
+            background: rgba(102, 187, 106, 0.3);
+        }
+
+        .copy-results-btn:focus {
+            outline: 2px solid #66bb6a;
+            outline-offset: 2px;
+        }
+
+        .copy-results-btn.copied {
+            background: #66bb6a;
+            color: #1a1a2e;
+        }
+
+        /* Section titles */
+        .section-title {
+            font-size: 0.9rem;
+            color: #90caf9;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            margin-top: 15px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .ascii-logo {
+                position: static;
+                text-align: center;
+                margin-bottom: 20px;
+                font-size: 0.5rem;
+            }
+
+            .input-row {
+                grid-template-columns: 1fr;
+            }
+
+            .tabs {
+                gap: 3px;
+            }
+
+            .tab-btn {
+                padding: 10px 14px;
+                font-size: 0.85rem;
+            }
+
+            .results-header .big-number {
+                font-size: 2rem;
+            }
+
+            .results-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .rw-presets {
+                gap: 5px;
+            }
+
+            .button-row {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85rem;
+        }
+    </style>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "IOPS Calculator",
+      "description": "Calculate storage IOPS for on-premises RAID arrays, AWS EBS, Azure Managed Disks, and Google Cloud Persistent Disks.",
+      "url": "https://oldweb.tech/system/iops-calculator.html",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Web Browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "creator": {
+        "@type": "Organization",
+        "name": "OldWeb.tech"
+      }
+    }
+    </script>
+</head>
+<body>
+    <a href="#main-content" class="skip-link" data-i18n="common.skipToContent">Skip to main content</a>
+    <div class="ascii-logo" aria-hidden="true">  ___  _    _  __        __   _
+ / _ \| | _| | \ \      / /__| |__
+| | | | |/ _` | \ \ /\ / / _ \ '_ \
+| |_| | | (_| |  \ V  V /  __/ |_) |
+ \___/|_|\__,_|   \_/\_/ \___|_.__/
+</div>
+    <main id="main-content" class="container">
+        <h1 data-i18n="tools.iopsCalc.title">IOPS Calculator</h1>
+        <p class="subtitle" data-i18n="tools.iopsCalc.subtitle">Estimate storage read/write IOPS for on-premises and cloud disks</p>
+
+        <div class="calculator">
+            <div class="tabs" role="tablist" aria-label="Storage platform tabs">
+                <button type="button" class="tab-btn active" onclick="switchTab('onprem')" role="tab" aria-selected="true" aria-controls="onprem-tab" id="tab-onprem" data-i18n="tools.iopsCalc.tabs.onprem">On-Premises</button>
+                <button type="button" class="tab-btn" onclick="switchTab('aws')" role="tab" aria-selected="false" aria-controls="aws-tab" id="tab-aws" data-i18n="tools.iopsCalc.tabs.aws">AWS EBS</button>
+                <button type="button" class="tab-btn" onclick="switchTab('azure')" role="tab" aria-selected="false" aria-controls="azure-tab" id="tab-azure" data-i18n="tools.iopsCalc.tabs.azure">Azure Disks</button>
+                <button type="button" class="tab-btn" onclick="switchTab('gcp')" role="tab" aria-selected="false" aria-controls="gcp-tab" id="tab-gcp" data-i18n="tools.iopsCalc.tabs.gcp">Google Cloud PD</button>
+            </div>
+
+            <!-- ==================== ON-PREMISES TAB ==================== -->
+            <div class="tab-content active" id="onprem-tab" role="tabpanel" aria-labelledby="tab-onprem">
+                <div id="onprem-error" class="error-msg" role="alert"></div>
+                <form aria-label="On-premises IOPS calculator" onsubmit="event.preventDefault(); calculateOnPrem();">
+                    <div class="input-group">
+                        <div class="input-row">
+                            <div class="input-field">
+                                <label for="onprem-disk-type" data-i18n="tools.iopsCalc.labels.diskType">Disk Type</label>
+                                <select id="onprem-disk-type">
+                                    <option value="hdd7200" data-i18n="tools.iopsCalc.diskTypes.hdd7200">HDD 7,200 RPM (~75-100 IOPS)</option>
+                                    <option value="hdd10k" data-i18n="tools.iopsCalc.diskTypes.hdd10k">HDD 10,000 RPM (~125-150 IOPS)</option>
+                                    <option value="hdd15k" data-i18n="tools.iopsCalc.diskTypes.hdd15k">HDD 15,000 RPM (~175-210 IOPS)</option>
+                                    <option value="ssdSata" data-i18n="tools.iopsCalc.diskTypes.ssdSata">SSD SATA (~50,000 IOPS)</option>
+                                    <option value="ssdSas" data-i18n="tools.iopsCalc.diskTypes.ssdSas">SSD SAS (~90,000 IOPS)</option>
+                                    <option value="nvme" data-i18n="tools.iopsCalc.diskTypes.nvme">NVMe SSD (~300,000 IOPS)</option>
+                                </select>
+                            </div>
+                            <div class="input-field">
+                                <label for="onprem-num-disks" data-i18n="tools.iopsCalc.labels.numDisks">Number of Disks</label>
+                                <input type="number" id="onprem-num-disks" value="6" min="1" max="999" placeholder="6" aria-required="true">
+                            </div>
+                        </div>
+                        <div class="input-field">
+                            <label for="onprem-raid" data-i18n="tools.iopsCalc.labels.raidLevel">RAID Level</label>
+                            <select id="onprem-raid">
+                                <option value="jbod">None / JBOD (No RAID)</option>
+                                <option value="0">RAID 0 - Striping</option>
+                                <option value="1">RAID 1 - Mirroring</option>
+                                <option value="5" selected>RAID 5 - Single Parity</option>
+                                <option value="6">RAID 6 - Double Parity</option>
+                                <option value="10">RAID 10 - Mirrored Stripes</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- R/W Slider -->
+                    <div class="rw-slider-group">
+                        <label for="onprem-rw-slider" data-i18n="tools.iopsCalc.labels.rwRatio">Read / Write Ratio</label>
+                        <div class="rw-slider-row">
+                            <span class="rw-label" id="onprem-read-pct">Read 70%</span>
+                            <input type="range" id="onprem-rw-slider" min="0" max="100" value="70" style="--val: 70%;" aria-label="Read percentage" oninput="updateRWSlider('onprem')">
+                            <span class="rw-label" id="onprem-write-pct">Write 30%</span>
+                        </div>
+                        <div class="rw-presets">
+                            <button type="button" class="rw-preset-btn" onclick="setRWPreset('onprem', 100)" data-i18n="tools.iopsCalc.presets.readOnly">Read-Only</button>
+                            <button type="button" class="rw-preset-btn" onclick="setRWPreset('onprem', 70)" data-i18n="tools.iopsCalc.presets.mixed">Mixed 70/30</button>
+                            <button type="button" class="rw-preset-btn" onclick="setRWPreset('onprem', 50)" data-i18n="tools.iopsCalc.presets.balanced">Balanced 50/50</button>
+                            <button type="button" class="rw-preset-btn" onclick="setRWPreset('onprem', 20)" data-i18n="tools.iopsCalc.presets.writeHeavy">Write-Heavy</button>
+                        </div>
+                    </div>
+
+                    <!-- Advanced toggle -->
+                    <div class="advanced-toggle">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="onprem-advanced-toggle" onchange="toggleAdvanced('onprem')">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span class="advanced-label" data-i18n="tools.iopsCalc.labels.advancedMode">Advanced Mode</span>
+                    </div>
+
+                    <!-- Advanced fields -->
+                    <div class="advanced-fields" id="onprem-advanced">
+                        <div class="input-row">
+                            <div class="input-field">
+                                <label for="onprem-custom-iops" data-i18n="tools.iopsCalc.labels.customIops">Custom IOPS per Disk</label>
+                                <input type="number" id="onprem-custom-iops" min="1" placeholder="Override disk type IOPS">
+                                <div class="help-text" data-i18n="tools.iopsCalc.help.customIops">Leave blank to use disk type default</div>
+                            </div>
+                            <div class="input-field">
+                                <label for="onprem-block-size" data-i18n="tools.iopsCalc.labels.blockSize">IO Block Size</label>
+                                <select id="onprem-block-size">
+                                    <option value="4096" selected>4 KB</option>
+                                    <option value="8192">8 KB</option>
+                                    <option value="16384">16 KB</option>
+                                    <option value="32768">32 KB</option>
+                                    <option value="65536">64 KB</option>
+                                    <option value="131072">128 KB</option>
+                                    <option value="262144">256 KB</option>
+                                    <option value="524288">512 KB</option>
+                                    <option value="1048576">1 MB</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="input-row">
+                            <div class="input-field">
+                                <label for="onprem-cache-rate" data-i18n="tools.iopsCalc.labels.cacheHitRate">Cache Hit Rate (%)</label>
+                                <input type="number" id="onprem-cache-rate" value="0" min="0" max="99" placeholder="0">
+                                <div class="help-text" data-i18n="tools.iopsCalc.help.cacheHitRate">Percentage of reads served from cache</div>
+                            </div>
+                            <div class="input-field">
+                                <label for="onprem-overhead" data-i18n="tools.iopsCalc.labels.controllerOverhead">Controller Overhead (%)</label>
+                                <input type="number" id="onprem-overhead" value="10" min="0" max="50" placeholder="10">
+                                <div class="help-text" data-i18n="tools.iopsCalc.help.overhead">Typical: 5-15%</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="button-row">
+                        <button type="submit" class="btn" data-i18n="common.calculate">Calculate</button>
+                        <button type="button" class="btn secondary" onclick="clearAllSavedData()" data-i18n="common.clearSavedData">Clear Saved Data</button>
+                    </div>
+                </form>
+
+                <div class="results" id="onprem-results" aria-live="polite">
+                    <div class="results-header">
+                        <div class="big-label" data-i18n="tools.iopsCalc.results.totalEffective">Total Effective IOPS</div>
+                        <div class="big-number" id="onprem-total-iops">-</div>
+                    </div>
+                    <div class="results-grid">
+                        <div class="result-card read">
+                            <div class="rc-label" data-i18n="tools.iopsCalc.results.readIops">Read IOPS</div>
+                            <div class="rc-value" id="onprem-read-iops">-</div>
+                        </div>
+                        <div class="result-card write">
+                            <div class="rc-label" data-i18n="tools.iopsCalc.results.writeIops">Write IOPS</div>
+                            <div class="rc-value" id="onprem-write-iops">-</div>
+                        </div>
+                        <div class="result-card throughput">
+                            <div class="rc-label" data-i18n="tools.iopsCalc.results.throughput">Throughput</div>
+                            <div class="rc-value" id="onprem-throughput">-</div>
+                        </div>
+                        <div class="result-card">
+                            <div class="rc-label" data-i18n="tools.iopsCalc.results.rawIops">Raw Disk IOPS</div>
+                            <div class="rc-value" id="onprem-raw-iops">-</div>
+                        </div>
+                    </div>
+                    <div id="onprem-info-boxes"></div>
+                    <button type="button" class="copy-results-btn" onclick="copyResults('onprem')" data-i18n="tools.iopsCalc.results.copyResults">Copy Results</button>
+                </div>
+            </div>
+
+            <!-- ==================== AWS EBS TAB ==================== -->
+            <div class="tab-content" id="aws-tab" role="tabpanel" aria-labelledby="tab-aws">
+                <div id="aws-error" class="error-msg" role="alert"></div>
+                <form aria-label="AWS EBS IOPS calculator" onsubmit="event.preventDefault(); calculateAWS();">
+                    <div class="input-group">
+                        <div class="input-field">
+                            <label for="aws-volume-type" data-i18n="tools.iopsCalc.labels.volumeType">Volume Type</label>
+                            <select id="aws-volume-type" onchange="awsVolumeTypeChanged()">
+                                <option value="gp3">gp3 - General Purpose SSD</option>
+                                <option value="gp2">gp2 - General Purpose SSD (prev gen)</option>
+                                <option value="io2be">io2 Block Express - High Performance</option>
+                                <option value="io2">io2 - Provisioned IOPS SSD</option>
+                                <option value="io1">io1 - Provisioned IOPS SSD (prev gen)</option>
+                                <option value="st1">st1 - Throughput Optimized HDD</option>
+                                <option value="sc1">sc1 - Cold HDD</option>
+                            </select>
+                        </div>
+                        <div class="input-row">
+                            <div class="input-field">
+                                <label for="aws-volume-size" data-i18n="tools.iopsCalc.labels.volumeSize">Volume Size (GiB)</label>
+                                <input type="number" id="aws-volume-size" value="500" min="1" max="65536" placeholder="500" aria-required="true">
+                                <div class="help-text" id="aws-size-help">1 GiB - 16,384 GiB</div>
+                            </div>
+                            <div class="input-field" id="aws-piops-field">
+                                <label for="aws-piops" data-i18n="tools.iopsCalc.labels.provisionedIops">Provisioned IOPS</label>
+                                <input type="number" id="aws-piops" value="3000" min="3000" max="16000" placeholder="3000">
+                                <div class="help-text" id="aws-piops-help">3,000 - 16,000</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- R/W Slider -->
+                    <div class="rw-slider-group">
+                        <label for="aws-rw-slider" data-i18n="tools.iopsCalc.labels.rwRatio">Read / Write Ratio</label>
+                        <div class="rw-slider-row">
+                            <span class="rw-label" id="aws-read-pct">Read 70%</span>
+                            <input type="range" id="aws-rw-slider" min="0" max="100" value="70" style="--val: 70%;" aria-label="Read percentage" oninput="updateRWSlider('aws')">
+                            <span class="rw-label" id="aws-write-pct">Write 30%</span>
+                        </div>
+                        <div class="rw-presets">
+                            <button type="button" class="rw-preset-btn" onclick="setRWPreset('aws', 100)">Read-Only</button>
+                            <button type="button" class="rw-preset-btn" onclick="setRWPreset('aws', 70)">Mixed 70/30</button>
+                            <button type="button" class="rw-preset-btn" onclick="setRWPreset('aws', 50)">Balanced 50/50</button>
+                            <button type="button" class="rw-preset-btn" onclick="setRWPreset('aws', 20)">Write-Heavy</button>
+                        </div>
+                    </div>
+
+                    <!-- Advanced toggle -->
+                    <div class="advanced-toggle">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="aws-advanced-toggle" onchange="toggleAdvanced('aws')">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span class="advanced-label" data-i18n="tools.iopsCalc.labels.advancedMode">Advanced Mode</span>
+                    </div>
+
+                    <div class="advanced-fields" id="aws-advanced">
+                        <div class="input-row">
+                            <div class="input-field">
+                                <label for="aws-num-volumes" data-i18n="tools.iopsCalc.labels.numVolumes">Number of Volumes</label>
+                                <input type="number" id="aws-num-volumes" value="1" min="1" max="100" placeholder="1">
+                            </div>
+                            <div class="input-field">
+                                <label for="aws-io-size" data-i18n="tools.iopsCalc.labels.avgIoSize">Average IO Size (KB)</label>
+                                <select id="aws-io-size">
+                                    <option value="4">4 KB</option>
+                                    <option value="8">8 KB</option>
+                                    <option value="16" selected>16 KB</option>
+                                    <option value="32">32 KB</option>
+                                    <option value="64">64 KB</option>
+                                    <option value="128">128 KB</option>
+                                    <option value="256">256 KB</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="button-row">
+                        <button type="submit" class="btn" data-i18n="common.calculate">Calculate</button>
+                        <button type="button" class="btn secondary" onclick="clearAllSavedData()" data-i18n="common.clearSavedData">Clear Saved Data</button>
+                    </div>
+                </form>
+
+                <div class="results" id="aws-results" aria-live="polite">
+                    <div class="results-header">
+                        <div class="big-label" data-i18n="tools.iopsCalc.results.totalEffective">Total Effective IOPS</div>
+                        <div class="big-number" id="aws-total-iops">-</div>
+                    </div>
+                    <div class="results-grid">
+                        <div class="result-card read">
+                            <div class="rc-label" data-i18n="tools.iopsCalc.results.readIops">Read IOPS</div>
+                            <div class="rc-value" id="aws-read-iops">-</div>
+                        </div>
+                        <div class="result-card write">
+                            <div class="rc-label" data-i18n="tools.iopsCalc.results.writeIops">Write IOPS</div>
+                            <div class="rc-value" id="aws-write-iops">-</div>
+                        </div>
+                        <div class="result-card throughput">
+                            <div class="rc-label" data-i18n="tools.iopsCalc.results.throughput">Throughput</div>
+                            <div class="rc-value" id="aws-throughput">-</div>
+                        </div>
+                        <div class="result-card">
+                            <div class="rc-label" data-i18n="tools.iopsCalc.results.baselineIops">Baseline IOPS</div>
+                            <div class="rc-value" id="aws-baseline-iops">-</div>
+                        </div>
+                    </div>
+                    <div id="aws-info-boxes"></div>
+                    <button type="button" class="copy-results-btn" onclick="copyResults('aws')" data-i18n="tools.iopsCalc.results.copyResults">Copy Results</button>
+                </div>
+            </div>
+
+            <!-- ==================== AZURE TAB ==================== -->
+            <div class="tab-content" id="azure-tab" role="tabpanel" aria-labelledby="tab-azure">
+                <div id="azure-error" class="error-msg" role="alert"></div>
+                <form aria-label="Azure Managed Disks IOPS calculator" onsubmit="event.preventDefault(); calculateAzure();">
+                    <div class="input-group">
+                        <div class="input-field">
+                            <label for="azure-disk-type" data-i18n="tools.iopsCalc.labels.azureDiskType">Disk Type</label>
+                            <select id="azure-disk-type" onchange="azureDiskTypeChanged()">
+                                <option value="premiumv2">Premium SSD v2</option>
+                                <option value="premium" selected>Premium SSD</option>
+                                <option value="ultra">Ultra Disk</option>
+                                <option value="standardssd">Standard SSD</option>
+                                <option value="standardhdd">Standard HDD</option>
+                            </select>
+                        </div>
+                        <div class="input-row">
+                            <div class="input-field" id="azure-tier-field">
+                                <label for="azure-tier" data-i18n="tools.iopsCalc.labels.diskTier">Disk Tier (Premium SSD)</label>
+                                <select id="azure-tier" onchange="azureTierChanged()">
+                                    <option value="P4">P4 - 32 GiB (120 IOPS)</option>
+                                    <option value="P6">P6 - 64 GiB (240 IOPS)</option>
+                                    <option value="P10">P10 - 128 GiB (500 IOPS)</option>
+                                    <option value="P15">P15 - 256 GiB (1,100 IOPS)</option>
+                                    <option value="P20">P20 - 512 GiB (2,300 IOPS)</option>
+                                    <option value="P30" selected>P30 - 1,024 GiB (5,000 IOPS)</option>
+                                    <option value="P40">P40 - 2,048 GiB (7,500 IOPS)</option>
+                                    <option value="P50">P50 - 4,096 GiB (7,500 IOPS)</option>
+                                    <option value="P60">P60 - 8,192 GiB (16,000 IOPS)</option>
+                                    <option value="P70">P70 - 16,384 GiB (18,000 IOPS)</option>
+                                    <option value="P80">P80 - 32,767 GiB (20,000 IOPS)</option>
+                                </select>
+                            </div>
+                            <div class="input-field" id="azure-size-field" style="display:none;">
+                                <label for="azure-disk-size" data-i18n="tools.iopsCalc.labels.diskSize">Disk Size (GiB)</label>
+                                <input type="number" id="azure-disk-size" value="256" min="1" max="65536" placeholder="256">
+                            </div>
+                            <div class="input-field" id="azure-piops-field" style="display:none;">
+                                <label for="azure-piops" data-i18n="tools.iopsCalc.labels.provisionedIops">Provisioned IOPS</label>
+                                <input type="number" id="azure-piops" value="3000" min="3000" max="80000" placeholder="3000">
+                                <div class="help-text" id="azure-piops-help">3,000 - 80,000</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- R/W Slider -->
+                    <div class="rw-slider-group">
+                        <label for="azure-rw-slider" data-i18n="tools.iopsCalc.labels.rwRatio">Read / Write Ratio</label>
+                        <div class="rw-slider-row">
+                            <span class="rw-label" id="azure-read-pct">Read 70%</span>
+                            <input type="range" id="azure-rw-slider" min="0" max="100" value="70" style="--val: 70%;" aria-label="Read percentage" oninput="updateRWSlider('azure')">
+                            <span class="rw-label" id="azure-write-pct">Write 30%</span>
+                        </div>
+                        <div class="rw-presets">
+                            <button type="button" class="rw-preset-btn" onclick="setRWPreset('azure', 100)">Read-Only</button>
+                            <button type="button" class="rw-preset-btn" onclick="setRWPreset('azure', 70)">Mixed 70/30</button>
+                            <button type="button" class="rw-preset-btn" onclick="setRWPreset('azure', 50)">Balanced 50/50</button>
+                            <button type="button" class="rw-preset-btn" onclick="setRWPreset('azure', 20)">Write-Heavy</button>
+                        </div>
+                    </div>
+
+                    <!-- Advanced toggle -->
+                    <div class="advanced-toggle">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="azure-advanced-toggle" onchange="toggleAdvanced('azure')">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span class="advanced-label" data-i18n="tools.iopsCalc.labels.advancedMode">Advanced Mode</span>
+                    </div>
+
+                    <div class="advanced-fields" id="azure-advanced">
+                        <div class="input-row">
+                            <div class="input-field">
+                                <label for="azure-num-disks" data-i18n="tools.iopsCalc.labels.numDisks">Number of Disks</label>
+                                <input type="number" id="azure-num-disks" value="1" min="1" max="100" placeholder="1">
+                            </div>
+                            <div class="input-field">
+                                <label for="azure-caching" data-i18n="tools.iopsCalc.labels.hostCaching">Host Caching</label>
+                                <select id="azure-caching">
+                                    <option value="none" selected>None</option>
+                                    <option value="readonly">ReadOnly</option>
+                                    <option value="readwrite">ReadWrite</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="button-row">
+                        <button type="submit" class="btn" data-i18n="common.calculate">Calculate</button>
+                        <button type="button" class="btn secondary" onclick="clearAllSavedData()" data-i18n="common.clearSavedData">Clear Saved Data</button>
+                    </div>
+                </form>
+
+                <div class="results" id="azure-results" aria-live="polite">
+                    <div class="results-header">
+                        <div class="big-label" data-i18n="tools.iopsCalc.results.totalEffective">Total Effective IOPS</div>
+                        <div class="big-number" id="azure-total-iops">-</div>
+                    </div>
+                    <div class="results-grid">
+                        <div class="result-card read">
+                            <div class="rc-label" data-i18n="tools.iopsCalc.results.readIops">Read IOPS</div>
+                            <div class="rc-value" id="azure-read-iops">-</div>
+                        </div>
+                        <div class="result-card write">
+                            <div class="rc-label" data-i18n="tools.iopsCalc.results.writeIops">Write IOPS</div>
+                            <div class="rc-value" id="azure-write-iops">-</div>
+                        </div>
+                        <div class="result-card throughput">
+                            <div class="rc-label" data-i18n="tools.iopsCalc.results.throughput">Throughput</div>
+                            <div class="rc-value" id="azure-throughput">-</div>
+                        </div>
+                        <div class="result-card">
+                            <div class="rc-label" data-i18n="tools.iopsCalc.results.maxIops">Max IOPS (Tier)</div>
+                            <div class="rc-value" id="azure-max-iops">-</div>
+                        </div>
+                    </div>
+                    <div id="azure-info-boxes"></div>
+                    <button type="button" class="copy-results-btn" onclick="copyResults('azure')" data-i18n="tools.iopsCalc.results.copyResults">Copy Results</button>
+                </div>
+            </div>
+
+            <!-- ==================== GCP TAB ==================== -->
+            <div class="tab-content" id="gcp-tab" role="tabpanel" aria-labelledby="tab-gcp">
+                <div id="gcp-error" class="error-msg" role="alert"></div>
+                <form aria-label="Google Cloud Persistent Disk IOPS calculator" onsubmit="event.preventDefault(); calculateGCP();">
+                    <div class="input-group">
+                        <div class="input-field">
+                            <label for="gcp-disk-type" data-i18n="tools.iopsCalc.labels.gcpDiskType">Disk Type</label>
+                            <select id="gcp-disk-type" onchange="gcpDiskTypeChanged()">
+                                <option value="pd-ssd" selected>pd-ssd - SSD Persistent Disk</option>
+                                <option value="pd-balanced">pd-balanced - Balanced Persistent Disk</option>
+                                <option value="pd-standard">pd-standard - Standard Persistent Disk</option>
+                                <option value="pd-extreme">pd-extreme - Extreme Persistent Disk</option>
+                            </select>
+                        </div>
+                        <div class="input-row">
+                            <div class="input-field">
+                                <label for="gcp-disk-size" data-i18n="tools.iopsCalc.labels.diskSizeGB">Disk Size (GB)</label>
+                                <input type="number" id="gcp-disk-size" value="500" min="10" max="65536" placeholder="500" aria-required="true">
+                            </div>
+                            <div class="input-field">
+                                <label for="gcp-vcpus" data-i18n="tools.iopsCalc.labels.vmVcpus">VM vCPU Count</label>
+                                <select id="gcp-vcpus">
+                                    <option value="1">1 vCPU</option>
+                                    <option value="2">2 vCPUs</option>
+                                    <option value="4">4 vCPUs</option>
+                                    <option value="8" selected>8 vCPUs</option>
+                                    <option value="16">16 vCPUs</option>
+                                    <option value="32">32 vCPUs</option>
+                                    <option value="64">64 vCPUs</option>
+                                    <option value="96">96 vCPUs</option>
+                                    <option value="128">128+ vCPUs</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="input-field" id="gcp-piops-field" style="display:none;">
+                            <label for="gcp-piops" data-i18n="tools.iopsCalc.labels.provisionedIops">Provisioned IOPS</label>
+                            <input type="number" id="gcp-piops" value="100000" min="10000" max="120000" placeholder="100000">
+                            <div class="help-text">10,000 - 120,000 (pd-extreme)</div>
+                        </div>
+                    </div>
+
+                    <!-- R/W Slider -->
+                    <div class="rw-slider-group">
+                        <label for="gcp-rw-slider" data-i18n="tools.iopsCalc.labels.rwRatio">Read / Write Ratio</label>
+                        <div class="rw-slider-row">
+                            <span class="rw-label" id="gcp-read-pct">Read 70%</span>
+                            <input type="range" id="gcp-rw-slider" min="0" max="100" value="70" style="--val: 70%;" aria-label="Read percentage" oninput="updateRWSlider('gcp')">
+                            <span class="rw-label" id="gcp-write-pct">Write 30%</span>
+                        </div>
+                        <div class="rw-presets">
+                            <button type="button" class="rw-preset-btn" onclick="setRWPreset('gcp', 100)">Read-Only</button>
+                            <button type="button" class="rw-preset-btn" onclick="setRWPreset('gcp', 70)">Mixed 70/30</button>
+                            <button type="button" class="rw-preset-btn" onclick="setRWPreset('gcp', 50)">Balanced 50/50</button>
+                            <button type="button" class="rw-preset-btn" onclick="setRWPreset('gcp', 20)">Write-Heavy</button>
+                        </div>
+                    </div>
+
+                    <!-- Advanced toggle -->
+                    <div class="advanced-toggle">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="gcp-advanced-toggle" onchange="toggleAdvanced('gcp')">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span class="advanced-label" data-i18n="tools.iopsCalc.labels.advancedMode">Advanced Mode</span>
+                    </div>
+
+                    <div class="advanced-fields" id="gcp-advanced">
+                        <div class="input-row">
+                            <div class="input-field">
+                                <label for="gcp-num-disks" data-i18n="tools.iopsCalc.labels.numDisks">Number of Disks</label>
+                                <input type="number" id="gcp-num-disks" value="1" min="1" max="128" placeholder="1">
+                            </div>
+                            <div class="input-field">
+                                <label for="gcp-io-size" data-i18n="tools.iopsCalc.labels.avgIoSize">Average IO Size (KB)</label>
+                                <select id="gcp-io-size">
+                                    <option value="4" selected>4 KB</option>
+                                    <option value="8">8 KB</option>
+                                    <option value="16">16 KB</option>
+                                    <option value="32">32 KB</option>
+                                    <option value="64">64 KB</option>
+                                    <option value="256">256 KB</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="button-row">
+                        <button type="submit" class="btn" data-i18n="common.calculate">Calculate</button>
+                        <button type="button" class="btn secondary" onclick="clearAllSavedData()" data-i18n="common.clearSavedData">Clear Saved Data</button>
+                    </div>
+                </form>
+
+                <div class="results" id="gcp-results" aria-live="polite">
+                    <div class="results-header">
+                        <div class="big-label" data-i18n="tools.iopsCalc.results.totalEffective">Total Effective IOPS</div>
+                        <div class="big-number" id="gcp-total-iops">-</div>
+                    </div>
+                    <div class="results-grid">
+                        <div class="result-card read">
+                            <div class="rc-label" data-i18n="tools.iopsCalc.results.readIops">Read IOPS</div>
+                            <div class="rc-value" id="gcp-read-iops">-</div>
+                        </div>
+                        <div class="result-card write">
+                            <div class="rc-label" data-i18n="tools.iopsCalc.results.writeIops">Write IOPS</div>
+                            <div class="rc-value" id="gcp-write-iops">-</div>
+                        </div>
+                        <div class="result-card throughput">
+                            <div class="rc-label" data-i18n="tools.iopsCalc.results.throughput">Throughput</div>
+                            <div class="rc-value" id="gcp-throughput">-</div>
+                        </div>
+                        <div class="result-card limit">
+                            <div class="rc-label" data-i18n="tools.iopsCalc.results.limitingFactor">Limiting Factor</div>
+                            <div class="rc-value" id="gcp-limiting-factor">-</div>
+                        </div>
+                    </div>
+                    <div id="gcp-info-boxes"></div>
+                    <button type="button" class="copy-results-btn" onclick="copyResults('gcp')" data-i18n="tools.iopsCalc.results.copyResults">Copy Results</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p data-i18n="home.footer">OldWeb Tools - Works offline, no installation required</p>
+    </footer>
+
+    <script>
+    // ========== Constants & Spec Data ==========
+
+    const DISK_IOPS = {
+        hdd7200: 80,
+        hdd10k: 140,
+        hdd15k: 180,
+        ssdSata: 50000,
+        ssdSas: 90000,
+        nvme: 300000
+    };
+
+    const RAID_WRITE_PENALTY = {
+        jbod: 1,
+        '0': 1,
+        '1': 2,
+        '5': 4,
+        '6': 6,
+        '10': 2
+    };
+
+    const RAID_MIN_DISKS = {
+        jbod: 1,
+        '0': 2,
+        '1': 2,
+        '5': 3,
+        '6': 4,
+        '10': 4
+    };
+
+    // AWS EBS specs
+    const AWS_SPECS = {
+        gp3: {
+            baselineIops: 3000,
+            maxIops: 16000,
+            baselineThroughput: 125,
+            maxThroughput: 1000,
+            minSize: 1,
+            maxSize: 16384,
+            provisionable: true,
+            minPiops: 3000,
+            maxPiops: 16000,
+            iopsPerGib: null
+        },
+        gp2: {
+            baselineIops: 100,
+            maxIops: 16000,
+            burstIops: 3000,
+            burstThreshold: 1000,
+            baselineThroughput: 128,
+            maxThroughput: 250,
+            minSize: 1,
+            maxSize: 16384,
+            provisionable: false,
+            iopsPerGib: 3
+        },
+        io2be: {
+            baselineIops: 100,
+            maxIops: 256000,
+            baselineThroughput: 256,
+            maxThroughput: 4000,
+            minSize: 4,
+            maxSize: 65536,
+            provisionable: true,
+            minPiops: 100,
+            maxPiops: 256000,
+            maxIopsPerGib: 1000,
+            iopsPerGib: null
+        },
+        io2: {
+            baselineIops: 100,
+            maxIops: 64000,
+            baselineThroughput: 256,
+            maxThroughput: 1000,
+            minSize: 4,
+            maxSize: 16384,
+            provisionable: true,
+            minPiops: 100,
+            maxPiops: 64000,
+            maxIopsPerGib: 500,
+            iopsPerGib: null
+        },
+        io1: {
+            baselineIops: 100,
+            maxIops: 64000,
+            baselineThroughput: 256,
+            maxThroughput: 1000,
+            minSize: 4,
+            maxSize: 16384,
+            provisionable: true,
+            minPiops: 100,
+            maxPiops: 64000,
+            maxIopsPerGib: 50,
+            iopsPerGib: null
+        },
+        st1: {
+            baselineIops: null,
+            maxIops: 500,
+            baselineThroughput: 40,
+            maxThroughput: 500,
+            burstThroughput: 250,
+            minSize: 125,
+            maxSize: 16384,
+            provisionable: false,
+            throughputPerTiB: 40
+        },
+        sc1: {
+            baselineIops: null,
+            maxIops: 250,
+            baselineThroughput: 12,
+            maxThroughput: 250,
+            burstThroughput: 80,
+            minSize: 125,
+            maxSize: 16384,
+            provisionable: false,
+            throughputPerTiB: 12
+        }
+    };
+
+    // Azure Managed Disk specs
+    const AZURE_PREMIUM_TIERS = {
+        P4:  { size: 32,    iops: 120,   throughput: 25 },
+        P6:  { size: 64,    iops: 240,   throughput: 50 },
+        P10: { size: 128,   iops: 500,   throughput: 100 },
+        P15: { size: 256,   iops: 1100,  throughput: 125 },
+        P20: { size: 512,   iops: 2300,  throughput: 150 },
+        P30: { size: 1024,  iops: 5000,  throughput: 200 },
+        P40: { size: 2048,  iops: 7500,  throughput: 250 },
+        P50: { size: 4096,  iops: 7500,  throughput: 250 },
+        P60: { size: 8192,  iops: 16000, throughput: 500 },
+        P70: { size: 16384, iops: 18000, throughput: 750 },
+        P80: { size: 32767, iops: 20000, throughput: 900 }
+    };
+
+    const AZURE_SPECS = {
+        premiumv2: {
+            baselineIops: 3000,
+            maxIops: 80000,
+            baselineThroughput: 125,
+            maxThroughput: 1200,
+            minSize: 1,
+            maxSize: 65536,
+            provisionable: true
+        },
+        ultra: {
+            baselineIops: 100,
+            maxIops: 160000,
+            baselineThroughput: 1,
+            maxThroughput: 4000,
+            minSize: 4,
+            maxSize: 65536,
+            provisionable: true,
+            iopsPerGib: 300
+        },
+        standardssd: {
+            iopsPerGib: 1,
+            baselineIops: 500,
+            maxIops: 6000,
+            baselineThroughput: 60,
+            maxThroughput: 750,
+            minSize: 1,
+            maxSize: 32767,
+            provisionable: false
+        },
+        standardhdd: {
+            iopsPerGib: 0.5,
+            baselineIops: 500,
+            maxIops: 2000,
+            baselineThroughput: 60,
+            maxThroughput: 500,
+            minSize: 1,
+            maxSize: 32767,
+            provisionable: false
+        }
+    };
+
+    // GCP Persistent Disk specs
+    const GCP_SPECS = {
+        'pd-ssd': {
+            readIopsPerGib: 30,
+            writeIopsPerGib: 30,
+            maxReadIops: 100000,
+            maxWriteIops: 100000,
+            readThroughputPerGib: 0.48,
+            writeThroughputPerGib: 0.48,
+            maxReadThroughput: 1200,
+            maxWriteThroughput: 1200,
+            minSize: 10,
+            maxSize: 65536
+        },
+        'pd-balanced': {
+            readIopsPerGib: 6,
+            writeIopsPerGib: 6,
+            maxReadIops: 80000,
+            maxWriteIops: 80000,
+            readThroughputPerGib: 0.28,
+            writeThroughputPerGib: 0.28,
+            maxReadThroughput: 1200,
+            maxWriteThroughput: 1200,
+            minSize: 10,
+            maxSize: 65536
+        },
+        'pd-standard': {
+            readIopsPerGib: 0.75,
+            writeIopsPerGib: 1.5,
+            maxReadIops: 7500,
+            maxWriteIops: 15000,
+            readThroughputPerGib: 0.12,
+            writeThroughputPerGib: 0.12,
+            maxReadThroughput: 1200,
+            maxWriteThroughput: 400,
+            minSize: 10,
+            maxSize: 65536
+        },
+        'pd-extreme': {
+            readIopsPerGib: null,
+            writeIopsPerGib: null,
+            maxReadIops: 120000,
+            maxWriteIops: 120000,
+            maxReadThroughput: 2400,
+            maxWriteThroughput: 2400,
+            minSize: 500,
+            maxSize: 65536,
+            provisionable: true,
+            minPiops: 10000,
+            maxPiops: 120000
+        }
+    };
+
+    // GCP vCPU IOPS limits (per VM)
+    const GCP_VCPU_LIMITS = {
+        1:   { readIops: 15000,  writeIops: 15000,  readThroughput: 240,  writeThroughput: 240 },
+        2:   { readIops: 15000,  writeIops: 15000,  readThroughput: 240,  writeThroughput: 240 },
+        4:   { readIops: 15000,  writeIops: 15000,  readThroughput: 240,  writeThroughput: 240 },
+        8:   { readIops: 15000,  writeIops: 15000,  readThroughput: 800,  writeThroughput: 800 },
+        16:  { readIops: 25000,  writeIops: 25000,  readThroughput: 1200, writeThroughput: 1200 },
+        32:  { readIops: 60000,  writeIops: 60000,  readThroughput: 1200, writeThroughput: 1200 },
+        64:  { readIops: 100000, writeIops: 100000, readThroughput: 2400, writeThroughput: 2400 },
+        96:  { readIops: 100000, writeIops: 100000, readThroughput: 2400, writeThroughput: 2400 },
+        128: { readIops: 100000, writeIops: 100000, readThroughput: 2400, writeThroughput: 2400 }
+    };
+
+
+    // ========== Tab Switching ==========
+
+    function switchTab(tabName) {
+        document.querySelectorAll('.tab-btn').forEach(function(btn) {
+            btn.classList.remove('active');
+            btn.setAttribute('aria-selected', 'false');
+        });
+        document.querySelectorAll('.tab-content').forEach(function(content) {
+            content.classList.remove('active');
+        });
+
+        var activeBtn = document.getElementById('tab-' + tabName);
+        activeBtn.classList.add('active');
+        activeBtn.setAttribute('aria-selected', 'true');
+        document.getElementById(tabName + '-tab').classList.add('active');
+
+        StorageUtils.save('iops-calculator-tab', tabName);
+        if (typeof A11yUtils !== 'undefined') {
+            A11yUtils.announce('Switched to ' + activeBtn.textContent.trim() + ' tab', 'polite');
+        }
+    }
+
+
+    // ========== Read/Write Slider ==========
+
+    function updateRWSlider(prefix) {
+        var slider = document.getElementById(prefix + '-rw-slider');
+        var readPct = parseInt(slider.value);
+        var writePct = 100 - readPct;
+        document.getElementById(prefix + '-read-pct').textContent = 'Read ' + readPct + '%';
+        document.getElementById(prefix + '-write-pct').textContent = 'Write ' + writePct + '%';
+        slider.style.setProperty('--val', readPct + '%');
+
+        // If results are visible, live-update
+        var resultsEl = document.getElementById(prefix + '-results');
+        if (resultsEl && resultsEl.classList.contains('show')) {
+            if (prefix === 'onprem') calculateOnPrem();
+            else if (prefix === 'aws') calculateAWS();
+            else if (prefix === 'azure') calculateAzure();
+            else if (prefix === 'gcp') calculateGCP();
+        }
+    }
+
+    function setRWPreset(prefix, readVal) {
+        var slider = document.getElementById(prefix + '-rw-slider');
+        slider.value = readVal;
+        updateRWSlider(prefix);
+    }
+
+
+    // ========== Advanced Mode Toggle ==========
+
+    function toggleAdvanced(prefix) {
+        var toggle = document.getElementById(prefix + '-advanced-toggle');
+        var fields = document.getElementById(prefix + '-advanced');
+        if (toggle.checked) {
+            fields.classList.add('show');
+        } else {
+            fields.classList.remove('show');
+        }
+    }
+
+
+    // ========== Shared Validation & Error Handling ==========
+
+    function showTabError(prefix, message) {
+        var el = document.getElementById(prefix + '-error');
+        el.textContent = message;
+        el.classList.add('show');
+        if (typeof A11yUtils !== 'undefined') {
+            A11yUtils.announce(message, 'assertive');
+        }
+    }
+
+    function clearTabError(prefix) {
+        var el = document.getElementById(prefix + '-error');
+        el.textContent = '';
+        el.classList.remove('show');
+    }
+
+    function formatNumber(n) {
+        if (typeof I18nUtils !== 'undefined' && I18nUtils.isReady()) {
+            return I18nUtils.formatNumber(Math.round(n));
+        }
+        return Math.round(n).toLocaleString();
+    }
+
+
+    // ========== On-Premises Calculator ==========
+
+    function calculateOnPrem() {
+        clearTabError('onprem');
+
+        var diskType = document.getElementById('onprem-disk-type').value;
+        var numDisks = parseInt(document.getElementById('onprem-num-disks').value);
+        var raidLevel = document.getElementById('onprem-raid').value;
+        var readPct = parseInt(document.getElementById('onprem-rw-slider').value) / 100;
+        var writePct = 1 - readPct;
+
+        // Validation
+        if (!numDisks || numDisks < 1) {
+            showTabError('onprem', 'Please enter a valid number of disks (1 or more).');
+            return;
+        }
+
+        var minDisks = RAID_MIN_DISKS[raidLevel] || 1;
+        if (numDisks < minDisks) {
+            showTabError('onprem', 'RAID ' + raidLevel + ' requires at least ' + minDisks + ' disks.');
+            return;
+        }
+
+        // Get base IOPS per disk
+        var iopsPerDisk = DISK_IOPS[diskType];
+
+        // Advanced overrides
+        var isAdvanced = document.getElementById('onprem-advanced-toggle').checked;
+        var blockSize = 4096;
+        var cacheRate = 0;
+        var overhead = 10;
+
+        if (isAdvanced) {
+            var customIops = parseInt(document.getElementById('onprem-custom-iops').value);
+            if (customIops && customIops > 0) {
+                iopsPerDisk = customIops;
+            }
+            blockSize = parseInt(document.getElementById('onprem-block-size').value);
+            cacheRate = parseInt(document.getElementById('onprem-cache-rate').value) || 0;
+            overhead = parseInt(document.getElementById('onprem-overhead').value) || 0;
+        }
+
+        // Calculate
+        var rawIops = iopsPerDisk * numDisks;
+        var penalty = RAID_WRITE_PENALTY[raidLevel];
+        var readIops = rawIops * readPct;
+        var writeIops = (rawIops * writePct) / penalty;
+        var totalIops = readIops + writeIops;
+
+        // Apply cache hit rate (boosts reads by serving from cache)
+        if (cacheRate > 0) {
+            var cacheMultiplier = 1 / (1 - (cacheRate / 100) * readPct);
+            totalIops = totalIops * cacheMultiplier;
+            readIops = readIops * cacheMultiplier;
+        }
+
+        // Apply controller overhead
+        if (overhead > 0) {
+            var overheadFactor = 1 - (overhead / 100);
+            totalIops = totalIops * overheadFactor;
+            readIops = readIops * overheadFactor;
+            writeIops = writeIops * overheadFactor;
+        }
+
+        var throughputMBs = (totalIops * blockSize) / (1024 * 1024);
+
+        // Display results
+        document.getElementById('onprem-total-iops').textContent = formatNumber(totalIops);
+        document.getElementById('onprem-read-iops').textContent = formatNumber(readIops);
+        document.getElementById('onprem-write-iops').textContent = formatNumber(writeIops);
+        document.getElementById('onprem-throughput').textContent = throughputMBs.toFixed(1) + ' MB/s';
+        document.getElementById('onprem-raw-iops').textContent = formatNumber(rawIops);
+
+        // Info boxes
+        var infoHtml = '';
+        if (penalty > 1) {
+            infoHtml += '<div class="info-box"><strong>RAID Write Penalty:</strong> RAID ' + raidLevel + ' has a write penalty of ' + penalty + 'x. Each application write requires ' + penalty + ' physical disk I/O operations, reducing effective write IOPS.</div>';
+        }
+        if (cacheRate > 0) {
+            infoHtml += '<div class="info-box"><strong>Cache Boost:</strong> With ' + cacheRate + '% cache hit rate, a portion of reads are served from controller cache without hitting disks.</div>';
+        }
+        if (overhead > 0) {
+            infoHtml += '<div class="info-box"><strong>Controller Overhead:</strong> ' + overhead + '% reduction applied for RAID controller processing overhead.</div>';
+        }
+        document.getElementById('onprem-info-boxes').innerHTML = infoHtml;
+        document.getElementById('onprem-results').classList.add('show');
+    }
+
+
+    // ========== AWS EBS Calculator ==========
+
+    function awsVolumeTypeChanged() {
+        var volType = document.getElementById('aws-volume-type').value;
+        var spec = AWS_SPECS[volType];
+        var piopsField = document.getElementById('aws-piops-field');
+        var sizeInput = document.getElementById('aws-volume-size');
+        var sizeHelp = document.getElementById('aws-size-help');
+        var piopsInput = document.getElementById('aws-piops');
+        var piopsHelp = document.getElementById('aws-piops-help');
+
+        // Update size constraints
+        sizeInput.min = spec.minSize;
+        sizeInput.max = spec.maxSize;
+        sizeHelp.textContent = formatNumber(spec.minSize) + ' - ' + formatNumber(spec.maxSize) + ' GiB';
+
+        // Show/hide provisioned IOPS field
+        if (spec.provisionable) {
+            piopsField.style.display = '';
+            piopsInput.min = spec.minPiops;
+            piopsInput.max = spec.maxPiops;
+            piopsInput.value = spec.baselineIops || spec.minPiops;
+            piopsHelp.textContent = formatNumber(spec.minPiops) + ' - ' + formatNumber(spec.maxPiops);
+        } else {
+            piopsField.style.display = 'none';
+        }
+    }
+
+    function calculateAWS() {
+        clearTabError('aws');
+
+        var volType = document.getElementById('aws-volume-type').value;
+        var spec = AWS_SPECS[volType];
+        var volSize = parseInt(document.getElementById('aws-volume-size').value);
+        var readPct = parseInt(document.getElementById('aws-rw-slider').value) / 100;
+        var writePct = 1 - readPct;
+
+        // Validation
+        if (!volSize || volSize < spec.minSize || volSize > spec.maxSize) {
+            showTabError('aws', 'Volume size must be between ' + spec.minSize + ' and ' + formatNumber(spec.maxSize) + ' GiB.');
+            return;
+        }
+
+        var totalIops = 0;
+        var baselineIops = 0;
+        var throughputMBs = 0;
+        var infoHtml = '';
+
+        if (volType === 'gp3') {
+            var piops = parseInt(document.getElementById('aws-piops').value) || 3000;
+            totalIops = Math.min(Math.max(piops, 3000), 16000);
+            baselineIops = 3000;
+            throughputMBs = piops > 3000 ? Math.min(1000, 125 + ((piops - 3000) / 16000) * 875) : 125;
+
+        } else if (volType === 'gp2') {
+            baselineIops = Math.min(volSize * 3, 16000);
+            baselineIops = Math.max(baselineIops, 100);
+            totalIops = baselineIops;
+            throughputMBs = Math.min(250, totalIops * 256 / (1024 * 1024) * 1024);
+            if (volSize < 1000) {
+                infoHtml += '<div class="warning-box"><strong>Burst Credit:</strong> gp2 volumes under 1,000 GiB can burst to 3,000 IOPS using I/O credits. Sustained IOPS = ' + formatNumber(baselineIops) + '.</div>';
+            }
+
+        } else if (volType === 'io2be' || volType === 'io2' || volType === 'io1') {
+            var piops = parseInt(document.getElementById('aws-piops').value) || spec.minPiops;
+            var maxBySize = volSize * (spec.maxIopsPerGib || 1000);
+            totalIops = Math.min(piops, spec.maxPiops, maxBySize);
+            baselineIops = totalIops;
+            throughputMBs = Math.min(spec.maxThroughput, totalIops * 16 / 1024);
+            if (piops > maxBySize) {
+                infoHtml += '<div class="warning-box"><strong>IOPS:GiB Ratio Limit:</strong> Requested ' + formatNumber(piops) + ' IOPS exceeds the ' + spec.maxIopsPerGib + ':1 IOPS-to-GiB ratio for this volume type. Effective IOPS capped at ' + formatNumber(maxBySize) + '. Increase volume size to provision more IOPS.</div>';
+            }
+
+        } else if (volType === 'st1' || volType === 'sc1') {
+            throughputMBs = Math.min(spec.maxThroughput, volSize / 1024 * spec.throughputPerTiB);
+            totalIops = Math.min(spec.maxIops, Math.round(throughputMBs * 1024 / 1024));
+            baselineIops = totalIops;
+            infoHtml += '<div class="info-box"><strong>Throughput-Optimized:</strong> ' + volType.toUpperCase() + ' volumes are optimized for sequential throughput workloads, not random IOPS. Throughput: ' + throughputMBs.toFixed(1) + ' MB/s baseline.</div>';
+        }
+
+        // Advanced: multiple volumes
+        var isAdvanced = document.getElementById('aws-advanced-toggle').checked;
+        var numVolumes = 1;
+        var ioSize = 16;
+        if (isAdvanced) {
+            numVolumes = parseInt(document.getElementById('aws-num-volumes').value) || 1;
+            ioSize = parseInt(document.getElementById('aws-io-size').value) || 16;
+        }
+
+        var adjustedIops = totalIops * numVolumes;
+        var adjustedThroughput = throughputMBs * numVolumes;
+        if (ioSize !== 16 && (volType !== 'st1' && volType !== 'sc1')) {
+            adjustedThroughput = (adjustedIops * ioSize) / 1024;
+        }
+
+        var readIops = adjustedIops * readPct;
+        var writeIops = adjustedIops * writePct;
+
+        // Display
+        document.getElementById('aws-total-iops').textContent = formatNumber(adjustedIops);
+        document.getElementById('aws-read-iops').textContent = formatNumber(readIops);
+        document.getElementById('aws-write-iops').textContent = formatNumber(writeIops);
+        document.getElementById('aws-throughput').textContent = adjustedThroughput.toFixed(1) + ' MB/s';
+        document.getElementById('aws-baseline-iops').textContent = formatNumber(baselineIops);
+
+        if (numVolumes > 1) {
+            infoHtml += '<div class="info-box"><strong>Multi-Volume:</strong> Results reflect ' + numVolumes + ' volumes striped together (' + formatNumber(totalIops) + ' IOPS per volume).</div>';
+        }
+
+        document.getElementById('aws-info-boxes').innerHTML = infoHtml;
+        document.getElementById('aws-results').classList.add('show');
+    }
+
+
+    // ========== Azure Calculator ==========
+
+    function azureDiskTypeChanged() {
+        var diskType = document.getElementById('azure-disk-type').value;
+        var tierField = document.getElementById('azure-tier-field');
+        var sizeField = document.getElementById('azure-size-field');
+        var piopsField = document.getElementById('azure-piops-field');
+        var piopsInput = document.getElementById('azure-piops');
+        var piopsHelp = document.getElementById('azure-piops-help');
+
+        tierField.style.display = 'none';
+        sizeField.style.display = 'none';
+        piopsField.style.display = 'none';
+
+        if (diskType === 'premium') {
+            tierField.style.display = '';
+        } else if (diskType === 'premiumv2') {
+            sizeField.style.display = '';
+            piopsField.style.display = '';
+            piopsInput.min = 3000;
+            piopsInput.max = 80000;
+            piopsInput.value = 3000;
+            piopsHelp.textContent = '3,000 - 80,000';
+        } else if (diskType === 'ultra') {
+            sizeField.style.display = '';
+            piopsField.style.display = '';
+            piopsInput.min = 100;
+            piopsInput.max = 160000;
+            piopsInput.value = 5000;
+            piopsHelp.textContent = '100 - 160,000';
+        } else {
+            sizeField.style.display = '';
+        }
+    }
+
+    function azureTierChanged() {
+        // No dynamic action needed; tier is used at calculation time
+    }
+
+    function calculateAzure() {
+        clearTabError('azure');
+
+        var diskType = document.getElementById('azure-disk-type').value;
+        var readPct = parseInt(document.getElementById('azure-rw-slider').value) / 100;
+        var writePct = 1 - readPct;
+
+        var totalIops = 0;
+        var maxIops = 0;
+        var throughputMBs = 0;
+        var infoHtml = '';
+
+        if (diskType === 'premium') {
+            var tier = document.getElementById('azure-tier').value;
+            var tierSpec = AZURE_PREMIUM_TIERS[tier];
+            totalIops = tierSpec.iops;
+            maxIops = tierSpec.iops;
+            throughputMBs = tierSpec.throughput;
+            infoHtml += '<div class="info-box"><strong>Premium SSD ' + tier + ':</strong> ' + tierSpec.size + ' GiB disk with ' + formatNumber(tierSpec.iops) + ' provisioned IOPS and ' + tierSpec.throughput + ' MB/s throughput.</div>';
+
+        } else if (diskType === 'premiumv2') {
+            var diskSize = parseInt(document.getElementById('azure-disk-size').value);
+            var piops = parseInt(document.getElementById('azure-piops').value) || 3000;
+            if (!diskSize || diskSize < 1) {
+                showTabError('azure', 'Please enter a valid disk size.');
+                return;
+            }
+            totalIops = Math.min(piops, 80000);
+            maxIops = 80000;
+            throughputMBs = 125 + (totalIops > 3000 ? Math.min(1075, (totalIops - 3000) * 0.025) : 0);
+            infoHtml += '<div class="info-box"><strong>Premium SSD v2:</strong> Baseline 3,000 IOPS / 125 MB/s included. Additional IOPS and throughput can be provisioned independently.</div>';
+
+        } else if (diskType === 'ultra') {
+            var diskSize = parseInt(document.getElementById('azure-disk-size').value);
+            var piops = parseInt(document.getElementById('azure-piops').value) || 5000;
+            if (!diskSize || diskSize < 4) {
+                showTabError('azure', 'Ultra Disk requires a minimum size of 4 GiB.');
+                return;
+            }
+            var maxBySize = diskSize * 300;
+            totalIops = Math.min(piops, 160000, maxBySize);
+            maxIops = Math.min(160000, maxBySize);
+            throughputMBs = Math.min(4000, totalIops * 256 / (1024 * 1024) * 1024);
+            if (piops > maxBySize) {
+                infoHtml += '<div class="warning-box"><strong>IOPS Limit:</strong> Ultra Disk allows up to 300 IOPS/GiB. At ' + diskSize + ' GiB, max IOPS = ' + formatNumber(maxBySize) + '.</div>';
+            }
+
+        } else if (diskType === 'standardssd') {
+            var diskSize = parseInt(document.getElementById('azure-disk-size').value);
+            if (!diskSize || diskSize < 1) {
+                showTabError('azure', 'Please enter a valid disk size.');
+                return;
+            }
+            var spec = AZURE_SPECS.standardssd;
+            totalIops = Math.min(Math.max(diskSize * spec.iopsPerGib, spec.baselineIops), spec.maxIops);
+            maxIops = spec.maxIops;
+            throughputMBs = Math.min(spec.maxThroughput, spec.baselineThroughput + diskSize * 0.15);
+            infoHtml += '<div class="info-box"><strong>Standard SSD:</strong> Baseline 500 IOPS, scales with disk size up to ' + formatNumber(spec.maxIops) + ' IOPS.</div>';
+
+        } else if (diskType === 'standardhdd') {
+            var diskSize = parseInt(document.getElementById('azure-disk-size').value);
+            if (!diskSize || diskSize < 1) {
+                showTabError('azure', 'Please enter a valid disk size.');
+                return;
+            }
+            var spec = AZURE_SPECS.standardhdd;
+            totalIops = Math.min(Math.max(Math.round(diskSize * spec.iopsPerGib), spec.baselineIops), spec.maxIops);
+            maxIops = spec.maxIops;
+            throughputMBs = Math.min(spec.maxThroughput, spec.baselineThroughput + diskSize * 0.06);
+            infoHtml += '<div class="info-box"><strong>Standard HDD:</strong> Best for backup, dev/test, and infrequent access. Max ' + formatNumber(spec.maxIops) + ' IOPS.</div>';
+        }
+
+        // Advanced: multiple disks, host caching
+        var isAdvanced = document.getElementById('azure-advanced-toggle').checked;
+        var numDisks = 1;
+        if (isAdvanced) {
+            numDisks = parseInt(document.getElementById('azure-num-disks').value) || 1;
+            var caching = document.getElementById('azure-caching').value;
+            if (caching === 'readonly') {
+                infoHtml += '<div class="info-box"><strong>Host Caching (ReadOnly):</strong> Cached reads served from VM host, reducing latency for read-heavy workloads. Uncached disk IOPS are still bounded by disk limits.</div>';
+            } else if (caching === 'readwrite') {
+                infoHtml += '<div class="warning-box"><strong>Host Caching (ReadWrite):</strong> Cached reads and writes. Risk of data loss if VM crashes with dirty cache. Only recommended for temporary data.</div>';
+            }
+        }
+
+        var adjustedIops = totalIops * numDisks;
+        var adjustedThroughput = throughputMBs * numDisks;
+        var readIops = adjustedIops * readPct;
+        var writeIops = adjustedIops * writePct;
+
+        // Display
+        document.getElementById('azure-total-iops').textContent = formatNumber(adjustedIops);
+        document.getElementById('azure-read-iops').textContent = formatNumber(readIops);
+        document.getElementById('azure-write-iops').textContent = formatNumber(writeIops);
+        document.getElementById('azure-throughput').textContent = adjustedThroughput.toFixed(1) + ' MB/s';
+        document.getElementById('azure-max-iops').textContent = formatNumber(maxIops);
+
+        if (numDisks > 1) {
+            infoHtml += '<div class="info-box"><strong>Multi-Disk:</strong> Results reflect ' + numDisks + ' disks striped together (' + formatNumber(totalIops) + ' IOPS per disk).</div>';
+        }
+
+        document.getElementById('azure-info-boxes').innerHTML = infoHtml;
+        document.getElementById('azure-results').classList.add('show');
+    }
+
+
+    // ========== Google Cloud Calculator ==========
+
+    function gcpDiskTypeChanged() {
+        var diskType = document.getElementById('gcp-disk-type').value;
+        var piopsField = document.getElementById('gcp-piops-field');
+        var sizeInput = document.getElementById('gcp-disk-size');
+
+        if (diskType === 'pd-extreme') {
+            piopsField.style.display = '';
+            sizeInput.min = 500;
+        } else {
+            piopsField.style.display = 'none';
+            sizeInput.min = 10;
+        }
+    }
+
+    function calculateGCP() {
+        clearTabError('gcp');
+
+        var diskType = document.getElementById('gcp-disk-type').value;
+        var diskSize = parseInt(document.getElementById('gcp-disk-size').value);
+        var vcpus = parseInt(document.getElementById('gcp-vcpus').value);
+        var readPct = parseInt(document.getElementById('gcp-rw-slider').value) / 100;
+        var writePct = 1 - readPct;
+        var spec = GCP_SPECS[diskType];
+
+        // Validation
+        if (!diskSize || diskSize < spec.minSize || diskSize > spec.maxSize) {
+            showTabError('gcp', 'Disk size must be between ' + spec.minSize + ' and ' + formatNumber(spec.maxSize) + ' GB.');
+            return;
+        }
+
+        var vcpuLimit = GCP_VCPU_LIMITS[vcpus];
+        var readIops, writeIops, readThroughput, writeThroughput;
+        var limitingFactor = 'None';
+        var infoHtml = '';
+
+        if (diskType === 'pd-extreme') {
+            var piops = parseInt(document.getElementById('gcp-piops').value) || 100000;
+            readIops = Math.min(piops, spec.maxReadIops);
+            writeIops = Math.min(piops, spec.maxWriteIops);
+            readThroughput = spec.maxReadThroughput;
+            writeThroughput = spec.maxWriteThroughput;
+
+            if (vcpus < 64) {
+                infoHtml += '<div class="warning-box"><strong>vCPU Recommendation:</strong> pd-extreme performs best with 64+ vCPUs. With ' + vcpus + ' vCPUs, IOPS may be limited by VM throughput caps.</div>';
+            }
+        } else {
+            readIops = Math.min(diskSize * spec.readIopsPerGib, spec.maxReadIops);
+            writeIops = Math.min(diskSize * spec.writeIopsPerGib, spec.maxWriteIops);
+            readThroughput = Math.min(diskSize * spec.readThroughputPerGib, spec.maxReadThroughput);
+            writeThroughput = Math.min(diskSize * spec.writeThroughputPerGib, spec.maxWriteThroughput);
+        }
+
+        // Apply vCPU limits
+        var diskReadIops = readIops;
+        var diskWriteIops = writeIops;
+        if (readIops > vcpuLimit.readIops) {
+            readIops = vcpuLimit.readIops;
+            limitingFactor = 'vCPU Cap';
+        }
+        if (writeIops > vcpuLimit.writeIops) {
+            writeIops = vcpuLimit.writeIops;
+            if (limitingFactor === 'None') limitingFactor = 'vCPU Cap';
+        }
+        if (readIops === diskReadIops && writeIops === diskWriteIops && diskType !== 'pd-extreme') {
+            if (diskSize * spec.readIopsPerGib >= spec.maxReadIops || diskSize * spec.writeIopsPerGib >= spec.maxWriteIops) {
+                limitingFactor = 'Disk Type Max';
+            } else {
+                limitingFactor = 'Disk Size';
+            }
+        }
+
+        readThroughput = Math.min(readThroughput, vcpuLimit.readThroughput);
+        writeThroughput = Math.min(writeThroughput, vcpuLimit.writeThroughput);
+
+        // Apply R/W ratio
+        var effectiveReadIops = readIops * readPct;
+        var effectiveWriteIops = writeIops * writePct;
+        var totalIops = effectiveReadIops + effectiveWriteIops;
+        var totalThroughput = (readThroughput * readPct) + (writeThroughput * writePct);
+
+        // Advanced: multiple disks
+        var isAdvanced = document.getElementById('gcp-advanced-toggle').checked;
+        var numDisks = 1;
+        var ioSize = 4;
+        if (isAdvanced) {
+            numDisks = parseInt(document.getElementById('gcp-num-disks').value) || 1;
+            ioSize = parseInt(document.getElementById('gcp-io-size').value) || 4;
+        }
+
+        // Multi-disk: aggregate IOPS still capped by VM
+        var aggregateReadIops = Math.min(diskReadIops * numDisks, vcpuLimit.readIops);
+        var aggregateWriteIops = Math.min(diskWriteIops * numDisks, vcpuLimit.writeIops);
+
+        if (numDisks > 1) {
+            effectiveReadIops = aggregateReadIops * readPct;
+            effectiveWriteIops = aggregateWriteIops * writePct;
+            totalIops = effectiveReadIops + effectiveWriteIops;
+            totalThroughput = Math.min(readThroughput * numDisks, vcpuLimit.readThroughput) * readPct +
+                              Math.min(writeThroughput * numDisks, vcpuLimit.writeThroughput) * writePct;
+
+            if (diskReadIops * numDisks > vcpuLimit.readIops || diskWriteIops * numDisks > vcpuLimit.writeIops) {
+                limitingFactor = 'vCPU Cap';
+            }
+            infoHtml += '<div class="info-box"><strong>Multi-Disk:</strong> ' + numDisks + ' disks attached. VM vCPU limits still cap total IOPS at ' + formatNumber(vcpuLimit.readIops) + ' read / ' + formatNumber(vcpuLimit.writeIops) + ' write.</div>';
+        }
+
+        if (ioSize !== 4) {
+            totalThroughput = (totalIops * ioSize) / 1024;
+        }
+
+        if (limitingFactor === 'vCPU Cap') {
+            infoHtml += '<div class="warning-box"><strong>vCPU Bottleneck:</strong> The VM\'s ' + vcpus + ' vCPUs limit IOPS to ' + formatNumber(vcpuLimit.readIops) + ' read / ' + formatNumber(vcpuLimit.writeIops) + ' write. Increase vCPUs for more IOPS.</div>';
+        }
+
+        // Display
+        document.getElementById('gcp-total-iops').textContent = formatNumber(totalIops);
+        document.getElementById('gcp-read-iops').textContent = formatNumber(effectiveReadIops);
+        document.getElementById('gcp-write-iops').textContent = formatNumber(effectiveWriteIops);
+        document.getElementById('gcp-throughput').textContent = totalThroughput.toFixed(1) + ' MB/s';
+        document.getElementById('gcp-limiting-factor').textContent = limitingFactor;
+
+        document.getElementById('gcp-info-boxes').innerHTML = infoHtml;
+        document.getElementById('gcp-results').classList.add('show');
+    }
+
+
+    // ========== Copy Results ==========
+
+    function copyResults(prefix) {
+        var totalEl = document.getElementById(prefix + '-total-iops');
+        var readEl = document.getElementById(prefix + '-read-iops');
+        var writeEl = document.getElementById(prefix + '-write-iops');
+        var throughputEl = document.getElementById(prefix + '-throughput');
+
+        var text = 'IOPS Calculator Results\n';
+        text += '=======================\n';
+        text += 'Total IOPS: ' + totalEl.textContent + '\n';
+        text += 'Read IOPS: ' + readEl.textContent + '\n';
+        text += 'Write IOPS: ' + writeEl.textContent + '\n';
+        text += 'Throughput: ' + throughputEl.textContent + '\n';
+
+        if (prefix === 'onprem') {
+            text += 'Raw Disk IOPS: ' + document.getElementById('onprem-raw-iops').textContent + '\n';
+        } else if (prefix === 'aws') {
+            text += 'Baseline IOPS: ' + document.getElementById('aws-baseline-iops').textContent + '\n';
+        } else if (prefix === 'azure') {
+            text += 'Max IOPS (Tier): ' + document.getElementById('azure-max-iops').textContent + '\n';
+        } else if (prefix === 'gcp') {
+            text += 'Limiting Factor: ' + document.getElementById('gcp-limiting-factor').textContent + '\n';
+        }
+
+        navigator.clipboard.writeText(text).then(function() {
+            var btn = document.querySelector('#' + prefix + '-results .copy-results-btn');
+            btn.textContent = 'Copied!';
+            btn.classList.add('copied');
+            if (typeof A11yUtils !== 'undefined') {
+                A11yUtils.announce('Results copied to clipboard', 'polite');
+            }
+            setTimeout(function() {
+                btn.textContent = 'Copy Results';
+                btn.classList.remove('copied');
+            }, 2000);
+        });
+    }
+
+
+    // ========== Storage Persistence & Init ==========
+
+    var allFields = [
+        'onprem-disk-type', 'onprem-num-disks', 'onprem-raid', 'onprem-rw-slider',
+        'onprem-advanced-toggle', 'onprem-custom-iops', 'onprem-block-size',
+        'onprem-cache-rate', 'onprem-overhead',
+        'aws-volume-type', 'aws-volume-size', 'aws-piops', 'aws-rw-slider',
+        'aws-advanced-toggle', 'aws-num-volumes', 'aws-io-size',
+        'azure-disk-type', 'azure-tier', 'azure-disk-size', 'azure-piops', 'azure-rw-slider',
+        'azure-advanced-toggle', 'azure-num-disks', 'azure-caching',
+        'gcp-disk-type', 'gcp-disk-size', 'gcp-vcpus', 'gcp-piops', 'gcp-rw-slider',
+        'gcp-advanced-toggle', 'gcp-num-disks', 'gcp-io-size'
+    ];
+
+    function clearAllSavedData() {
+        StorageUtils.remove('iops-calculator');
+        StorageUtils.remove('iops-calculator-tab');
+        allFields.forEach(function(id) {
+            var el = document.getElementById(id);
+            if (!el) return;
+            if (el.type === 'checkbox') {
+                el.checked = false;
+            } else if (el.tagName === 'SELECT') {
+                el.selectedIndex = el.querySelector('[selected]') ? el.querySelector('[selected]').index : 0;
+            } else if (el.type === 'range') {
+                el.value = 70;
+            } else {
+                el.value = el.defaultValue || '';
+            }
+        });
+
+        // Reset advanced panels
+        ['onprem', 'aws', 'azure', 'gcp'].forEach(function(prefix) {
+            document.getElementById(prefix + '-advanced').classList.remove('show');
+            document.getElementById(prefix + '-results').classList.remove('show');
+            clearTabError(prefix);
+        });
+
+        // Reset sliders visually
+        ['onprem', 'aws', 'azure', 'gcp'].forEach(function(prefix) {
+            updateRWSlider(prefix);
+        });
+
+        // Reset conditional fields
+        awsVolumeTypeChanged();
+        azureDiskTypeChanged();
+        gcpDiskTypeChanged();
+
+        if (typeof A11yUtils !== 'undefined') {
+            A11yUtils.announce('All saved data has been cleared', 'polite');
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Restore saved tab
+        var savedTab = StorageUtils.load('iops-calculator-tab', 'onprem');
+        if (savedTab && savedTab !== 'onprem') {
+            switchTab(savedTab);
+        }
+
+        // Restore saved form inputs
+        StorageUtils.loadFormInputs('iops-calculator', allFields, function() {
+            // After loading, update conditional fields and sliders
+            awsVolumeTypeChanged();
+            azureDiskTypeChanged();
+            gcpDiskTypeChanged();
+            ['onprem', 'aws', 'azure', 'gcp'].forEach(function(prefix) {
+                updateRWSlider(prefix);
+                toggleAdvanced(prefix);
+            });
+        });
+
+        // Auto-save on input
+        StorageUtils.autoSaveFormInputs('iops-calculator', allFields);
+
+        // Keyboard tab navigation
+        var tabList = document.querySelector('[role="tablist"]');
+        tabList.addEventListener('keydown', function(e) {
+            var tabs = Array.from(tabList.querySelectorAll('[role="tab"]'));
+            var currentIdx = tabs.indexOf(document.activeElement);
+            if (currentIdx < 0) return;
+
+            if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+                e.preventDefault();
+                var nextIdx;
+                if (e.key === 'ArrowRight') {
+                    nextIdx = (currentIdx + 1) % tabs.length;
+                } else {
+                    nextIdx = (currentIdx - 1 + tabs.length) % tabs.length;
+                }
+                tabs[nextIdx].focus();
+                tabs[nextIdx].click();
+            } else if (e.key === 'Home') {
+                e.preventDefault();
+                tabs[0].focus();
+                tabs[0].click();
+            } else if (e.key === 'End') {
+                e.preventDefault();
+                tabs[tabs.length - 1].focus();
+                tabs[tabs.length - 1].click();
+            }
+        });
+
+        // Language change handler: re-translate copy buttons that might be in "Copied!" state
+        document.addEventListener('langchange', function() {
+            // No dynamic content besides results which are numbers
+        });
+    });
+    </script>
+</body>
+</html>

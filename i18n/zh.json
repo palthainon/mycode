@@ -772,6 +772,71 @@
         "description": "根据 umask 值计算默认文件和目录权限。"
       }
     },
+    "iopsCalc": {
+      "title": "IOPS 计算器",
+      "name": "IOPS 计算",
+      "subtitle": "估算本地和云磁盘的存储读/写 IOPS",
+      "description": "计算本地 RAID 阵列、AWS EBS、Azure 托管磁盘和 Google Cloud 持久磁盘的存储 IOPS。",
+      "tabs": {
+        "onprem": "本地部署",
+        "aws": "AWS EBS",
+        "azure": "Azure 磁盘",
+        "gcp": "Google Cloud PD"
+      },
+      "labels": {
+        "diskType": "磁盘类型",
+        "numDisks": "磁盘数量",
+        "raidLevel": "RAID 级别",
+        "rwRatio": "读/写比率",
+        "advancedMode": "高级模式",
+        "customIops": "每磁盘自定义 IOPS",
+        "blockSize": "IO 块大小",
+        "cacheHitRate": "缓存命中率 (%)",
+        "controllerOverhead": "控制器开销 (%)",
+        "volumeType": "卷类型",
+        "volumeSize": "卷大小 (GiB)",
+        "provisionedIops": "预配置 IOPS",
+        "numVolumes": "卷数量",
+        "avgIoSize": "平均 IO 大小 (KB)",
+        "azureDiskType": "磁盘类型",
+        "diskTier": "磁盘层级（高级 SSD）",
+        "diskSize": "磁盘大小 (GiB)",
+        "hostCaching": "主机缓存",
+        "gcpDiskType": "磁盘类型",
+        "diskSizeGB": "磁盘大小 (GB)",
+        "vmVcpus": "VM vCPU 数量"
+      },
+      "diskTypes": {
+        "hdd7200": "HDD 7,200 RPM (~75-100 IOPS)",
+        "hdd10k": "HDD 10,000 RPM (~125-150 IOPS)",
+        "hdd15k": "HDD 15,000 RPM (~175-210 IOPS)",
+        "ssdSata": "SSD SATA (~50,000 IOPS)",
+        "ssdSas": "SSD SAS (~90,000 IOPS)",
+        "nvme": "NVMe SSD (~300,000 IOPS)"
+      },
+      "presets": {
+        "readOnly": "只读",
+        "mixed": "混合 70/30",
+        "balanced": "均衡 50/50",
+        "writeHeavy": "写入密集型"
+      },
+      "help": {
+        "customIops": "留空以使用磁盘类型默认值",
+        "cacheHitRate": "从缓存提供的读取百分比",
+        "overhead": "典型值：5-15%"
+      },
+      "results": {
+        "totalEffective": "总有效 IOPS",
+        "readIops": "读取 IOPS",
+        "writeIops": "写入 IOPS",
+        "throughput": "吞吐量",
+        "rawIops": "原始磁盘 IOPS",
+        "baselineIops": "基准 IOPS",
+        "maxIops": "最大 IOPS（层级）",
+        "limitingFactor": "限制因素",
+        "copyResults": "复制结果"
+      }
+    },
     "passwordGenerator": {
       "title": "密码生成器",
       "name": "密码生成",

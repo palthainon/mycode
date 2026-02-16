@@ -537,6 +537,71 @@
         "nvme": "NVMe SSD"
       }
     },
+    "iopsCalc": {
+      "title": "IOPS Calculator",
+      "name": "IOPS Calc",
+      "subtitle": "Estimate storage read/write IOPS for on-premises and cloud disks",
+      "description": "Calculate storage IOPS for on-premises RAID arrays, AWS EBS, Azure Managed Disks, and Google Cloud Persistent Disks.",
+      "tabs": {
+        "onprem": "On-Premises",
+        "aws": "AWS EBS",
+        "azure": "Azure Disks",
+        "gcp": "Google Cloud PD"
+      },
+      "labels": {
+        "diskType": "Disk Type",
+        "numDisks": "Number of Disks",
+        "raidLevel": "RAID Level",
+        "rwRatio": "Read / Write Ratio",
+        "advancedMode": "Advanced Mode",
+        "customIops": "Custom IOPS per Disk",
+        "blockSize": "IO Block Size",
+        "cacheHitRate": "Cache Hit Rate (%)",
+        "controllerOverhead": "Controller Overhead (%)",
+        "volumeType": "Volume Type",
+        "volumeSize": "Volume Size (GiB)",
+        "provisionedIops": "Provisioned IOPS",
+        "numVolumes": "Number of Volumes",
+        "avgIoSize": "Average IO Size (KB)",
+        "azureDiskType": "Disk Type",
+        "diskTier": "Disk Tier (Premium SSD)",
+        "diskSize": "Disk Size (GiB)",
+        "hostCaching": "Host Caching",
+        "gcpDiskType": "Disk Type",
+        "diskSizeGB": "Disk Size (GB)",
+        "vmVcpus": "VM vCPU Count"
+      },
+      "diskTypes": {
+        "hdd7200": "HDD 7,200 RPM (~75-100 IOPS)",
+        "hdd10k": "HDD 10,000 RPM (~125-150 IOPS)",
+        "hdd15k": "HDD 15,000 RPM (~175-210 IOPS)",
+        "ssdSata": "SSD SATA (~50,000 IOPS)",
+        "ssdSas": "SSD SAS (~90,000 IOPS)",
+        "nvme": "NVMe SSD (~300,000 IOPS)"
+      },
+      "presets": {
+        "readOnly": "Read-Only",
+        "mixed": "Mixed 70/30",
+        "balanced": "Balanced 50/50",
+        "writeHeavy": "Write-Heavy"
+      },
+      "help": {
+        "customIops": "Leave blank to use disk type default",
+        "cacheHitRate": "Percentage of reads served from cache",
+        "overhead": "Typical: 5-15%"
+      },
+      "results": {
+        "totalEffective": "Total Effective IOPS",
+        "readIops": "Read IOPS",
+        "writeIops": "Write IOPS",
+        "throughput": "Throughput",
+        "rawIops": "Raw Disk IOPS",
+        "baselineIops": "Baseline IOPS",
+        "maxIops": "Max IOPS (Tier)",
+        "limitingFactor": "Limiting Factor",
+        "copyResults": "Copy Results"
+      }
+    },
     "passwordGenerator": {
       "title": "Password Generator",
       "name": "Password Gen",

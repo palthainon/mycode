@@ -536,6 +536,71 @@
         "nvme": "NVMe SSD"
       }
     },
+    "iopsCalc": {
+      "title": "IOPS कैलकुलेटर",
+      "name": "IOPS कैल्क",
+      "subtitle": "ऑन-प्रिमाइसेस और क्लाउड डिस्क के लिए स्टोरेज रीड/राइट IOPS का अनुमान लगाएं",
+      "description": "ऑन-प्रिमाइसेस RAID एरे, AWS EBS, Azure Managed Disks और Google Cloud Persistent Disks के लिए स्टोरेज IOPS की गणना करें।",
+      "tabs": {
+        "onprem": "ऑन-प्रिमाइसेस",
+        "aws": "AWS EBS",
+        "azure": "Azure डिस्क",
+        "gcp": "Google Cloud PD"
+      },
+      "labels": {
+        "diskType": "डिस्क प्रकार",
+        "numDisks": "डिस्क की संख्या",
+        "raidLevel": "RAID स्तर",
+        "rwRatio": "रीड / राइट अनुपात",
+        "advancedMode": "उन्नत मोड",
+        "customIops": "प्रति डिस्क कस्टम IOPS",
+        "blockSize": "IO ब्लॉक आकार",
+        "cacheHitRate": "कैश हिट दर (%)",
+        "controllerOverhead": "कंट्रोलर ओवरहेड (%)",
+        "volumeType": "वॉल्यूम प्रकार",
+        "volumeSize": "वॉल्यूम आकार (GiB)",
+        "provisionedIops": "प्रोविज़न किए गए IOPS",
+        "numVolumes": "वॉल्यूम की संख्या",
+        "avgIoSize": "औसत IO आकार (KB)",
+        "azureDiskType": "डिस्क प्रकार",
+        "diskTier": "डिस्क टियर (Premium SSD)",
+        "diskSize": "डिस्क आकार (GiB)",
+        "hostCaching": "होस्ट कैशिंग",
+        "gcpDiskType": "डिस्क प्रकार",
+        "diskSizeGB": "डिस्क आकार (GB)",
+        "vmVcpus": "VM vCPU संख्या"
+      },
+      "diskTypes": {
+        "hdd7200": "HDD 7,200 RPM (~75-100 IOPS)",
+        "hdd10k": "HDD 10,000 RPM (~125-150 IOPS)",
+        "hdd15k": "HDD 15,000 RPM (~175-210 IOPS)",
+        "ssdSata": "SSD SATA (~50,000 IOPS)",
+        "ssdSas": "SSD SAS (~90,000 IOPS)",
+        "nvme": "NVMe SSD (~300,000 IOPS)"
+      },
+      "presets": {
+        "readOnly": "केवल पढ़ें",
+        "mixed": "मिश्रित 70/30",
+        "balanced": "संतुलित 50/50",
+        "writeHeavy": "लेखन-भारी"
+      },
+      "help": {
+        "customIops": "डिस्क प्रकार डिफ़ॉल्ट का उपयोग करने के लिए खाली छोड़ें",
+        "cacheHitRate": "कैश से सर्व की गई रीड का प्रतिशत",
+        "overhead": "सामान्य: 5-15%"
+      },
+      "results": {
+        "totalEffective": "कुल प्रभावी IOPS",
+        "readIops": "रीड IOPS",
+        "writeIops": "राइट IOPS",
+        "throughput": "थ्रूपुट",
+        "rawIops": "रॉ डिस्क IOPS",
+        "baselineIops": "बेसलाइन IOPS",
+        "maxIops": "अधिकतम IOPS (टियर)",
+        "limitingFactor": "सीमित करने वाला कारक",
+        "copyResults": "परिणाम कॉपी करें"
+      }
+    },
     "passwordGenerator": {
       "title": "पासवर्ड जनरेटर",
       "name": "पासवर्ड जनरेटर",
@@ -995,7 +1060,165 @@
     "debtPayoffComparison": {
       "title": "ऋण चुकौती तुलना",
       "name": "ऋण चुकौती",
-      "description": "ऋण चुकौती रणनीतियों की तुलना करें: एवलांच बनाम स्नोबॉल विधियां।"
+      "description": "ऋण चुकौती रणनीतियों की तुलना करें: एवलांच बनाम स्नोबॉल विधियां।",
+      "subtitle": "ऋण मुक्ति के लिए अपना सबसे तेज़ रास्ता खोजने के लिए स्नोबॉल बनाम एवलांच विधियों की तुलना करें",
+      "tabs": {
+        "calculator": "कैलकुलेटर",
+        "understandLoans": "ऋण को समझें"
+      },
+      "sections": {
+        "yourDebts": "आपके ऋण",
+        "expensesToCut": "कटौती योग्य खर्च (वैकल्पिक)",
+        "expensesSubtitle": "उन खर्चों को ट्रैक करें जिन्हें आप ऋण चुकाने के लिए समाप्त कर सकते हैं। अमेरिकी अप्रयुक्त सदस्यता पर ~$200/वर्ष बर्बाद करते हैं।",
+        "extraPayment": "अतिरिक्त मासिक भुगतान",
+        "learnAboutDebtPayoff": "ऋण चुकौती के बारे में जानें",
+        "learnAboutDescription": "विभिन्न चुकौती रणनीतियों को समझने और ऋण प्रस्तावों का मूल्यांकन करने के लिए हमारे शैक्षिक गाइड देखें।",
+        "excelFormulas": "ऋण गणना के लिए एक्सेल फॉर्मूले",
+        "excelFormulasDesc": "अपनी स्प्रेडशीट में ऋण चुकौती गणना को फिर से बनाने के लिए इन एक्सेल फॉर्मूलों का उपयोग करें।"
+      },
+      "labels": {
+        "debtName": "ऋण का नाम",
+        "type": "प्रकार",
+        "balance": "शेष राशि",
+        "apr": "वार्षिक प्रतिशत दर",
+        "minPayment": "न्यूनतम भुगतान",
+        "expense": "खर्च",
+        "costEach": "प्रति लागत",
+        "timesPerMonth": "बार/माह",
+        "monthly": "मासिक",
+        "totalDebtBalance": "कुल ऋण शेष:",
+        "totalMinimumPayments": "कुल न्यूनतम भुगतान:",
+        "totalMonthlySavings": "कुल मासिक बचत:",
+        "yourMinimumPaymentsTotal": "आपके न्यूनतम भुगतान कुल:",
+        "perMonth": "प्रति माह"
+      },
+      "buttons": {
+        "addDebt": "+ ऋण जोड़ें",
+        "addExpense": "+ खर्च जोड़ें",
+        "compareMethods": "विधियों की तुलना करें",
+        "applyToExtraPayment": "अतिरिक्त भुगतान पर लागू करें",
+        "exportDebts": "ऋण निर्यात करें",
+        "exportExpenses": "खर्च निर्यात करें",
+        "viewDetailedSchedule": "विस्तृत अनुसूची देखें",
+        "hideDetailedSchedule": "विस्तृत अनुसूची छुपाएं",
+        "print": "प्रिंट करें"
+      },
+      "presets": {
+        "quickExamples": "त्वरित उदाहरण:",
+        "typical3Debt": "सामान्य 3 ऋण",
+        "creditCards": "क्रेडिट कार्ड",
+        "mixedTypes": "मिश्रित प्रकार",
+        "commonCuts": "सामान्य कटौती:",
+        "subscriptionAudit": "सदस्यता लेखा परीक्षा",
+        "dailyHabits": "दैनिक आदतें",
+        "lifestyleCuts": "जीवनशैली कटौती"
+      },
+      "debtTypes": {
+        "creditCard": "क्रेडिट कार्ड",
+        "autoLoan": "ऑटो लोन",
+        "personalLoan": "व्यक्तिगत ऋण",
+        "studentLoan": "छात्र ऋण",
+        "medicalDebt": "चिकित्सा ऋण",
+        "other": "अन्य"
+      },
+      "methods": {
+        "snowball": "स्नोबॉल विधि",
+        "avalanche": "एवलांच विधि",
+        "savesMore": "अधिक बचत"
+      },
+      "stats": {
+        "debtFreeDate": "ऋण-मुक्त तिथि",
+        "timeToPayOff": "चुकाने का समय",
+        "totalInterest": "कुल ब्याज",
+        "totalPaid": "कुल भुगतान",
+        "firstDebtPaidOff": "पहला ऋण चुकाया गया",
+        "payoffOrder": "चुकौती क्रम"
+      },
+      "schedule": {
+        "snowballSchedule": "स्नोबॉल अनुसूची",
+        "avalancheSchedule": "एवलांच अनुसूची",
+        "month": "माह",
+        "targetDebt": "लक्ष्य ऋण",
+        "payment": "भुगतान",
+        "principal": "मूलधन",
+        "interest": "ब्याज",
+        "totalBalance": "कुल शेष"
+      },
+      "results": {
+        "keyInsights": "मुख्य अंतर्दृष्टि",
+        "avalancheSaves": "<strong>एवलांच विधि</strong> आपको ब्याज में <span class=\"highlight-number\">{{amount}}</span> बचाती है",
+        "andPaysFaster": " और आपके ऋण को <span class=\"highlight-number\">{{months}}</span> पहले चुका देती है।",
+        "bothIdentical": "दोनों विधियां आपके ऋण मिश्रण के लिए <strong>लगभग समान परिणाम</strong> उत्पन्न करती हैं। अपने व्यक्तित्व के अनुसार कौन सा दृष्टिकोण बेहतर है, उसके आधार पर चुनें।",
+        "snowballSaves": "<strong>स्नोबॉल विधि</strong> इस ऋण मिश्रण के लिए आपको ब्याज में <span class=\"highlight-number\">{{amount}}</span> बचाती है।",
+        "snowballFirstDebtFaster": " हालांकि, <strong>स्नोबॉल</strong> आपके पहले ऋण को <span class=\"highlight-number\">{{months}}</span> पहले चुका देती है, जिससे आपको एक शुरुआती जीत मिलती है।",
+        "avalancheFirstDebtFaster": " <strong>एवलांच</strong> भी आपके पहले ऋण को <span class=\"highlight-number\">{{months}}</span> पहले चुका देती है।",
+        "months": "महीने",
+        "year": "वर्ष",
+        "years": "वर्ष",
+        "monthSingular": "महीना",
+        "yr": "वर्ष",
+        "mo": "माह",
+        "thisYear": "इस वर्ष"
+      },
+      "formulas": {
+        "monthlyPaymentPMT": "मासिक भुगतान (PMT)",
+        "monthlyPaymentDesc": "ऋण के लिए आवश्यक मासिक भुगतान की गणना करें",
+        "monthsToPayoffNPER": "चुकौती के महीने (NPER)",
+        "monthsToPayoffDesc": "ऋण चुकाने में कितने महीने लगेंगे, इसकी गणना करें",
+        "totalInterestCUMIPMT": "कुल ब्याज (CUMIPMT)",
+        "totalInterestDesc": "ऋण के जीवनकाल में कुल ब्याज की गणना करें",
+        "interestForMonth": "विशिष्ट माह के लिए ब्याज (IPMT)",
+        "interestForMonthDesc": "किसी विशिष्ट भुगतान के ब्याज भाग की गणना करें",
+        "principalForMonth": "विशिष्ट माह के लिए मूलधन (PPMT)",
+        "principalForMonthDesc": "किसी विशिष्ट भुगतान के मूलधन भाग की गणना करें",
+        "remainingBalanceFV": "शेष राशि (FV)",
+        "remainingBalanceDesc": "N भुगतानों के बाद शेष राशि की गणना करें",
+        "loanBalance": "ऋण शेष",
+        "annualRateDecimal": "वार्षिक दर (दशमलव)",
+        "monthsRemaining": "शेष महीने",
+        "currentBalance": "वर्तमान शेष",
+        "monthlyPayment": "मासिक भुगतान",
+        "totalMonths": "कुल महीने",
+        "paymentNumber": "भुगतान संख्या",
+        "originalBalance": "मूल शेष",
+        "paymentsMade": "किए गए भुगतान"
+      },
+      "education": {
+        "payoffMethods": "चुकौती विधियां",
+        "payoffMethodsDesc": "स्नोबॉल बनाम एवलांच: रणनीतियों की तुलना करें, ऋण चुकौती के मनोविज्ञान को समझें, और अपने लिए काम करने वाला दृष्टिकोण खोजें।",
+        "loanReferenceGuide": "ऋण संदर्भ गाइड",
+        "loanReferenceDesc": "विभिन्न ऋण प्रकारों के बारे में जानें, शिकारी ऋण देने के चेतावनी संकेतों को पहचानें, और ऋण प्रस्तावों का मूल्यांकन करने के लिए हमारे इंटरैक्टिव टूल का उपयोग करें।"
+      },
+      "validation": {
+        "enterNameForAllDebts": "कृपया सभी ऋणों के लिए नाम दर्ज करें",
+        "enterValidBalance": "कृपया \"{{name}}\" के लिए एक मान्य शेष राशि दर्ज करें",
+        "enterMinPayment": "कृपया \"{{name}}\" के लिए न्यूनतम भुगतान दर्ज करें"
+      },
+      "announcements": {
+        "comparisonComplete": "तुलना पूर्ण। एवलांच विधि ब्याज में {{amount}} बचाती है।",
+        "addedDebts": "{{preset}} उदाहरण से {{count}} ऋण जोड़े गए",
+        "removedDebts": "{{preset}} उदाहरण से {{count}} ऋण हटाए गए",
+        "loadedPreset": "{{count}} ऋणों के साथ {{preset}} उदाहरण लोड किया गया",
+        "loadedExpensePreset": "{{count}} खर्चों के साथ {{preset}} उदाहरण लोड किया गया",
+        "addedToExtraPayment": "अतिरिक्त भुगतान में {{amount}} जोड़ा गया। नया कुल: {{total}}",
+        "formulaCopied": "फॉर्मूला क्लिपबोर्ड पर कॉपी किया गया",
+        "comparisonExported": "तुलना CSV फ़ाइल में निर्यात की गई",
+        "debtsExported": "ऋण CSV फ़ाइल में निर्यात किए गए",
+        "expensesExported": "खर्च CSV फ़ाइल में निर्यात किए गए",
+        "noDebtsToExport": "निर्यात करने के लिए कोई ऋण नहीं। पहले कुछ ऋण जोड़ें।",
+        "noExpensesToExport": "निर्यात करने के लिए कोई खर्च नहीं। पहले कुछ खर्च जोड़ें।",
+        "calculatorSectionSelected": "कैलकुलेटर अनुभाग चुना गया",
+        "understandLoansSectionSelected": "ऋण समझें अनुभाग चुना गया"
+      },
+      "placeholders": {
+        "debtNameExample": "उदा., Chase Visa",
+        "expenseExample": "उदा., सुबह की कॉफी"
+      },
+      "print": {
+        "reportTitle": "ऋण चुकौती तुलना रिपोर्ट",
+        "generated": "उत्पन्न:"
+      },
+      "footer": "ऋण चुकौती तुलना - ऑफ़लाइन काम करता है, कोई डेटा संग्रहीत नहीं, कोई साइन-अप आवश्यक नहीं"
     },
     "retirementCalculator": {
       "title": "रिटायरमेंट कैलकुलेटर",
