@@ -330,6 +330,7 @@ The language selector is automatically included in navigation via `navigationv2.
 - chmod calculators
 - Cron expression builders
 - Disk usage tools
+- IOPS calculators (on-premises RAID, AWS EBS, Azure, GCP)
 - Password generators
 - Regex testers
 

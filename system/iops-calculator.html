@@ -1996,27 +1996,111 @@
     // ========== Copy Results ==========
 
     function copyResults(prefix) {
-        var totalEl = document.getElementById(prefix + '-total-iops');
-        var readEl = document.getElementById(prefix + '-read-iops');
-        var writeEl = document.getElementById(prefix + '-write-iops');
-        var throughputEl = document.getElementById(prefix + '-throughput');
-
-        var text = 'IOPS Calculator Results\n';
-        text += '=======================\n';
-        text += 'Total IOPS: ' + totalEl.textContent + '\n';
-        text += 'Read IOPS: ' + readEl.textContent + '\n';
-        text += 'Write IOPS: ' + writeEl.textContent + '\n';
-        text += 'Throughput: ' + throughputEl.textContent + '\n';
+        var v = function(id) { return document.getElementById(id).value; };
+        var sel = function(id) { var el = document.getElementById(id); return el.options[el.selectedIndex].text; };
+        var out = function(id) { return document.getElementById(id).textContent; };
+        var readPct = parseInt(v(prefix + '-rw-slider'));
+        var rwRatio = readPct + '/' + (100 - readPct);
+        var text = '';
+        var title, divider;
 
         if (prefix === 'onprem') {
-            text += 'Raw Disk IOPS: ' + document.getElementById('onprem-raw-iops').textContent + '\n';
+            title = 'IOPS Calculator - On-Premises RAID';
+            divider = '='.repeat(title.length);
+            text += title + '\n' + divider + '\n\n';
+            text += 'Configuration:\n';
+            text += '  Disk Type:        ' + sel('onprem-disk-type') + '\n';
+            text += '  Number of Disks:  ' + v('onprem-num-disks') + '\n';
+            text += '  RAID Level:       ' + sel('onprem-raid') + '\n';
+            text += '  Read/Write Ratio: ' + rwRatio + '\n';
+            if (document.getElementById('onprem-advanced-toggle').checked) {
+                var customIops = v('onprem-custom-iops');
+                if (customIops) text += '  Custom IOPS/Disk: ' + customIops + '\n';
+                text += '  Block Size:       ' + sel('onprem-block-size') + '\n';
+                text += '  Cache Hit Rate:   ' + v('onprem-cache-rate') + '%\n';
+                text += '  Ctrl Overhead:    ' + v('onprem-overhead') + '%\n';
+            }
+            text += '\nResults:\n';
+            text += '  Total Effective IOPS: ' + out('onprem-total-iops') + '\n';
+            text += '  Read IOPS:            ' + out('onprem-read-iops') + '\n';
+            text += '  Write IOPS:           ' + out('onprem-write-iops') + '\n';
+            text += '  Throughput:           ' + out('onprem-throughput') + '\n';
+            text += '  Raw Disk IOPS:        ' + out('onprem-raw-iops') + '\n';
+
         } else if (prefix === 'aws') {
-            text += 'Baseline IOPS: ' + document.getElementById('aws-baseline-iops').textContent + '\n';
+            title = 'IOPS Calculator - AWS EBS';
+            divider = '='.repeat(title.length);
+            text += title + '\n' + divider + '\n\n';
+            text += 'Configuration:\n';
+            text += '  Volume Type:      ' + sel('aws-volume-type') + '\n';
+            text += '  Volume Size:      ' + v('aws-volume-size') + ' GiB\n';
+            if (document.getElementById('aws-piops-field').style.display !== 'none') {
+                text += '  Provisioned IOPS: ' + v('aws-piops') + '\n';
+            }
+            text += '  Read/Write Ratio: ' + rwRatio + '\n';
+            if (document.getElementById('aws-advanced-toggle').checked) {
+                text += '  Num Volumes:      ' + v('aws-num-volumes') + '\n';
+                text += '  IO Size:          ' + sel('aws-io-size') + '\n';
+            }
+            text += '\nResults:\n';
+            text += '  Total Effective IOPS: ' + out('aws-total-iops') + '\n';
+            text += '  Read IOPS:            ' + out('aws-read-iops') + '\n';
+            text += '  Write IOPS:           ' + out('aws-write-iops') + '\n';
+            text += '  Throughput:           ' + out('aws-throughput') + '\n';
+            text += '  Baseline IOPS:        ' + out('aws-baseline-iops') + '\n';
+
         } else if (prefix === 'azure') {
-            text += 'Max IOPS (Tier): ' + document.getElementById('azure-max-iops').textContent + '\n';
+            title = 'IOPS Calculator - Azure Managed Disks';
+            divider = '='.repeat(title.length);
+            text += title + '\n' + divider + '\n\n';
+            text += 'Configuration:\n';
+            text += '  Disk Type:        ' + sel('azure-disk-type') + '\n';
+            var azDiskType = v('azure-disk-type');
+            if (azDiskType === 'premium') {
+                text += '  Disk Tier:        ' + sel('azure-tier') + '\n';
+            } else {
+                text += '  Disk Size:        ' + v('azure-disk-size') + ' GiB\n';
+            }
+            if (azDiskType === 'premiumv2' || azDiskType === 'ultra') {
+                text += '  Provisioned IOPS: ' + v('azure-piops') + '\n';
+            }
+            text += '  Read/Write Ratio: ' + rwRatio + '\n';
+            if (document.getElementById('azure-advanced-toggle').checked) {
+                text += '  Number of Disks:  ' + v('azure-num-disks') + '\n';
+                text += '  Host Caching:     ' + sel('azure-caching') + '\n';
+            }
+            text += '\nResults:\n';
+            text += '  Total Effective IOPS: ' + out('azure-total-iops') + '\n';
+            text += '  Read IOPS:            ' + out('azure-read-iops') + '\n';
+            text += '  Write IOPS:           ' + out('azure-write-iops') + '\n';
+            text += '  Throughput:           ' + out('azure-throughput') + '\n';
+            text += '  Max IOPS (Tier):      ' + out('azure-max-iops') + '\n';
+
         } else if (prefix === 'gcp') {
-            text += 'Limiting Factor: ' + document.getElementById('gcp-limiting-factor').textContent + '\n';
+            title = 'IOPS Calculator - Google Cloud Persistent Disk';
+            divider = '='.repeat(title.length);
+            text += title + '\n' + divider + '\n\n';
+            text += 'Configuration:\n';
+            text += '  Disk Type:        ' + sel('gcp-disk-type') + '\n';
+            text += '  Disk Size:        ' + v('gcp-disk-size') + ' GB\n';
+            text += '  VM vCPUs:         ' + sel('gcp-vcpus') + '\n';
+            if (document.getElementById('gcp-piops-field').style.display !== 'none') {
+                text += '  Provisioned IOPS: ' + v('gcp-piops') + '\n';
+            }
+            text += '  Read/Write Ratio: ' + rwRatio + '\n';
+            if (document.getElementById('gcp-advanced-toggle').checked) {
+                text += '  Number of Disks:  ' + v('gcp-num-disks') + '\n';
+                text += '  IO Size:          ' + sel('gcp-io-size') + '\n';
+            }
+            text += '\nResults:\n';
+            text += '  Total Effective IOPS: ' + out('gcp-total-iops') + '\n';
+            text += '  Read IOPS:            ' + out('gcp-read-iops') + '\n';
+            text += '  Write IOPS:           ' + out('gcp-write-iops') + '\n';
+            text += '  Throughput:           ' + out('gcp-throughput') + '\n';
+            text += '  Limiting Factor:      ' + out('gcp-limiting-factor') + '\n';
         }
+
+        text += '\nGenerated: ' + new Date().toLocaleString() + '\n';
 
         navigator.clipboard.writeText(text).then(function() {
             var btn = document.querySelector('#' + prefix + '-results .copy-results-btn');
