@@ -2,7 +2,7 @@
 
 ## Overview
 
-A customizable Pomodoro timer with circular countdown display, browser notifications, pleasant audio alerts, and optional task tracking. This will be the first tool under a new **Productivity** top-level navigation section.
+A customizable Pomodoro timer with circular countdown display, mobile ready, browser notifications, pleasant audio alerts, and optional task tracking. This will be the first tool under a new **Productivity** top-level navigation section.
 
 ## Features
 
@@ -62,7 +62,7 @@ A customizable Pomodoro timer with circular countdown display, browser notificat
 |                                          |
 +------------------------------------------+
 |  Settings                                |
-|  Work: [25] min  Break: [5] min          |
+|  Work: [25] min Break: [5] min           |
 |  Long Break: [15] min                    |
 +------------------------------------------+
 |  Today's History                         |
