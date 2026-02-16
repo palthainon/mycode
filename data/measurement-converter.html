@@ -1,0 +1,2040 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Comprehensive measurement converter for length, weight, volume, cooking, temperature, scientific notation, SI prefixes, and trigonometry. Perfect for students and professionals.">
+    <meta name="keywords" content="measurement converter, unit converter, cooking measurements, temperature converter, Celsius Fahrenheit Kelvin, trigonometry calculator, unit circle, SI prefix, scientific notation">
+    <meta name="author" content="OldWeb LLC">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://oldweb.tech/data/measurement-converter.html">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Measurement Converter - OldWeb.tech">
+    <meta property="og:description" content="Comprehensive measurement converter for everyday, cooking, scientific, and trigonometry conversions.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oldweb.tech/data/measurement-converter.html">
+    <meta property="og:site_name" content="OldWeb.tech">
+    <meta property="og:image" content="https://oldweb.tech/logo/og-image.png">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Measurement Converter - OldWeb.tech">
+    <meta name="twitter:description" content="Comprehensive measurement converter for everyday, cooking, scientific, and trigonometry conversions.">
+    <meta name="twitter:image" content="https://oldweb.tech/logo/og-image.png">
+
+    <!-- Additional Meta Tags -->
+    <meta name="theme-color" content="#1a1a2e">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
+
+    <title>Measurement Converter - OldWeb.tech</title>
+    <link rel="stylesheet" href="../a11y.css">
+    <script src="../a11y-utils.js"></script>
+    <script src="../storage-utils.js"></script>
+    <script src="../i18n-utils.js"></script>
+    <script src="../navigationv2.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .ascii-logo {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.65rem;
+            line-height: 1.1;
+            color: #4fc3f7;
+            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
+            opacity: 0.8;
+            white-space: pre;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+            color: #4fc3f7;
+            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #90caf9;
+            font-size: 1rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .calculator {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid rgba(79, 195, 247, 0.2);
+            padding-bottom: 5px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 12px 24px;
+            border: none;
+            background: transparent;
+            color: #90caf9;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .tab-btn:hover {
+            background: rgba(79, 195, 247, 0.1);
+            color: #4fc3f7;
+        }
+
+        .tab-btn.active {
+            background: rgba(79, 195, 247, 0.2);
+            color: #4fc3f7;
+            border-bottom: 3px solid #4fc3f7;
+            margin-bottom: -7px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            color: #4fc3f7;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(79, 195, 247, 0.2);
+        }
+
+        .subsection {
+            margin-bottom: 25px;
+        }
+
+        .subsection-title {
+            font-size: 0.9rem;
+            color: #90caf9;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .converter-row {
+            display: flex;
+            gap: 15px;
+            align-items: flex-end;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .input-field {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .input-field label {
+            display: block;
+            margin-bottom: 8px;
+            color: #90caf9;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .input-field input, .input-field select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: #0f1419;
+            color: #fff;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .input-field select option {
+            background: #0f1419;
+            color: #fff;
+        }
+
+        .input-field input:focus, .input-field select:focus {
+            outline: none;
+            border-color: #4fc3f7;
+            box-shadow: 0 0 15px rgba(79, 195, 247, 0.2);
+        }
+
+        .input-field input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .swap-btn {
+            padding: 12px 16px;
+            background: rgba(79, 195, 247, 0.2);
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            border-radius: 8px;
+            color: #4fc3f7;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.2s;
+        }
+
+        .swap-btn:hover {
+            background: rgba(79, 195, 247, 0.3);
+            transform: scale(1.05);
+        }
+
+        .result-display {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px 20px;
+            border-radius: 8px;
+            border-left: 4px solid #4fc3f7;
+            margin-top: 10px;
+        }
+
+        .result-display .label {
+            color: #90caf9;
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+        }
+
+        .result-display .value {
+            font-size: 1.3rem;
+            font-family: 'Consolas', 'Monaco', monospace;
+            color: #fff;
+        }
+
+        .copy-btn {
+            background: rgba(79, 195, 247, 0.2);
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            color: #4fc3f7;
+            padding: 4px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin-left: 10px;
+            transition: all 0.2s;
+        }
+
+        .copy-btn:hover {
+            background: rgba(79, 195, 247, 0.3);
+        }
+
+        .copy-btn.copied {
+            background: rgba(76, 175, 80, 0.3);
+            border-color: #4caf50;
+            color: #4caf50;
+        }
+
+        .notation-toggle {
+            margin-bottom: 20px;
+        }
+
+        .notation-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .notation-btn {
+            flex: 1;
+            min-width: 150px;
+            padding: 10px 16px;
+            border: 2px solid rgba(79, 195, 247, 0.3);
+            border-radius: 8px;
+            background: rgba(79, 195, 247, 0.1);
+            color: #4fc3f7;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .notation-btn:hover {
+            background: rgba(79, 195, 247, 0.2);
+            border-color: #4fc3f7;
+        }
+
+        .notation-btn.active {
+            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
+            border-color: #4fc3f7;
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(79, 195, 247, 0.3);
+        }
+
+        .reference-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 0.9rem;
+        }
+
+        .reference-table th, .reference-table td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .reference-table th {
+            background: rgba(79, 195, 247, 0.1);
+            color: #4fc3f7;
+            font-weight: 600;
+        }
+
+        .reference-table tr:hover {
+            background: rgba(79, 195, 247, 0.05);
+        }
+
+        .reference-table td {
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        .quick-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .quick-btn {
+            background: rgba(79, 195, 247, 0.1);
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            color: #4fc3f7;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .quick-btn:hover {
+            background: rgba(79, 195, 247, 0.2);
+            border-color: #4fc3f7;
+        }
+
+        .info-box {
+            background: rgba(79, 195, 247, 0.1);
+            border-left: 4px solid #4fc3f7;
+            padding: 12px 16px;
+            border-radius: 4px;
+            margin: 15px 0;
+            font-size: 0.9rem;
+            color: #90caf9;
+        }
+
+        .weight-columns {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .weight-columns .reference-table {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .reference-table.compact {
+            font-size: 0.85rem;
+        }
+
+        .reference-table.compact td,
+        .reference-table.compact th {
+            padding: 6px 10px;
+        }
+
+        .trig-results {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .trig-result-item {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 12px 15px;
+            border-radius: 8px;
+            border-left: 3px solid #4fc3f7;
+        }
+
+        .trig-result-item .func-name {
+            color: #90caf9;
+            font-size: 0.8rem;
+            margin-bottom: 4px;
+        }
+
+        .trig-result-item .func-value {
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 1.1rem;
+            color: #fff;
+        }
+
+        .identity-box {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .identity-box .identity {
+            color: #fff;
+        }
+
+        #error {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid #f44336;
+            color: #ff8a80;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        #error.show {
+            display: block;
+        }
+
+        input.error {
+            border-color: #f44336 !important;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
+            color: #fff;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(79, 195, 247, 0.4);
+        }
+
+        .btn.secondary {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: #90caf9;
+            margin-left: 10px;
+        }
+
+        .btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .button-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .ascii-logo {
+                position: static;
+                text-align: center;
+                margin-bottom: 20px;
+                font-size: 0.5rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .converter-row {
+                flex-direction: column;
+            }
+
+            .input-field {
+                width: 100%;
+            }
+
+            .swap-btn {
+                align-self: center;
+            }
+
+            .tabs {
+                justify-content: center;
+            }
+
+            .tab-btn {
+                padding: 10px 16px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Measurement Converter",
+      "description": "Comprehensive measurement converter for length, weight, volume, cooking, temperature, scientific notation, SI prefixes, and trigonometry.",
+      "url": "https://oldweb.tech/data/measurement-converter.html",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Web Browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "creator": {
+        "@type": "Organization",
+        "name": "OldWeb.tech"
+      }
+    }
+    </script>
+</head>
+<body>
+    <a href="#main-content" class="skip-link" data-i18n="common.skipToContent">Skip to main content</a>
+    <div class="ascii-logo" aria-hidden="true">  ___  _    _  __        __   _
+ / _ \| | _| | \ \      / /__| |__
+| | | | |/ _` | \ \ /\ / / _ \ '_ \
+| |_| | | (_| |  \ V  V /  __/ |_) |
+ \___/|_|\__,_|   \_/\_/ \___|_.__/
+</div>
+    <main id="main-content" class="container">
+        <h1 data-i18n="tools.measurementConverter.title">Measurement Converter</h1>
+        <p class="subtitle" data-i18n="tools.measurementConverter.subtitle">Convert between common measurement units</p>
+
+        <div class="calculator">
+            <div class="tabs" role="tablist" aria-label="Measurement categories">
+                <button type="button" class="tab-btn active" role="tab" aria-selected="true" aria-controls="tab-basic" id="btn-basic" onclick="switchTab('basic')" data-i18n="tools.measurementConverter.tabs.basic">Basic</button>
+                <button type="button" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-cooking" id="btn-cooking" onclick="switchTab('cooking')" data-i18n="tools.measurementConverter.tabs.cooking">Cooking</button>
+                <button type="button" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-scientific" id="btn-scientific" onclick="switchTab('scientific')" data-i18n="tools.measurementConverter.tabs.scientific">Scientific</button>
+                <button type="button" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-trig" id="btn-trig" onclick="switchTab('trig')" data-i18n="tools.measurementConverter.tabs.trigonometry">Trigonometry</button>
+                <button type="button" class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-engineering" id="btn-engineering" onclick="switchTab('engineering')" data-i18n="tools.measurementConverter.tabs.engineering">Engineering</button>
+            </div>
+
+            <!-- Basic Tab -->
+            <div class="tab-content active" id="tab-basic" role="tabpanel" aria-labelledby="btn-basic">
+                <h2 class="section-title">Basic Measurements</h2>
+
+                <div class="subsection">
+                    <h3 class="subsection-title" data-i18n="tools.measurementConverter.tabs.length">Length</h3>
+                    <div class="converter-row">
+                        <div class="input-field">
+                            <label for="length-value" data-i18n="tools.measurementConverter.labels.value">Value</label>
+                            <input type="number" id="length-value" placeholder="Enter value" data-i18n-placeholder="tools.measurementConverter.placeholders.enterValue" step="any" aria-describedby="length-result">
+                        </div>
+                        <div class="input-field">
+                            <label for="length-from" data-i18n="tools.measurementConverter.labels.from">From</label>
+                            <select id="length-from">
+                                <option value="mm">Millimeter (mm)</option>
+                                <option value="cm">Centimeter (cm)</option>
+                                <option value="m">Meter (m)</option>
+                                <option value="km">Kilometer (km)</option>
+                                <option value="in" selected>Inch (in)</option>
+                                <option value="ft">Foot (ft)</option>
+                                <option value="yd">Yard (yd)</option>
+                                <option value="mi">Mile (mi)</option>
+                            </select>
+                        </div>
+                        <button type="button" class="swap-btn" onclick="swapUnits('length')" aria-label="Swap length units">&#8644;</button>
+                        <div class="input-field">
+                            <label for="length-to" data-i18n="tools.measurementConverter.labels.to">To</label>
+                            <select id="length-to">
+                                <option value="mm">Millimeter (mm)</option>
+                                <option value="cm" selected>Centimeter (cm)</option>
+                                <option value="m">Meter (m)</option>
+                                <option value="km">Kilometer (km)</option>
+                                <option value="in">Inch (in)</option>
+                                <option value="ft">Foot (ft)</option>
+                                <option value="yd">Yard (yd)</option>
+                                <option value="mi">Mile (mi)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="result-display" id="length-result" aria-live="polite">
+                        <span class="label" data-i18n="tools.measurementConverter.labels.result">Result</span>
+                        <span class="value" id="length-result-value">--</span>
+                        <button type="button" class="copy-btn" onclick="copyResult('length-result-value', this)" data-i18n="common.copy">Copy</button>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title" data-i18n="tools.measurementConverter.tabs.weight">Weight / Mass</h3>
+                    <div class="converter-row">
+                        <div class="input-field">
+                            <label for="weight-value" data-i18n="tools.measurementConverter.labels.value">Value</label>
+                            <input type="number" id="weight-value" placeholder="Enter value" data-i18n-placeholder="tools.measurementConverter.placeholders.enterValue" step="any" aria-describedby="weight-result">
+                        </div>
+                        <div class="input-field">
+                            <label for="weight-from" data-i18n="tools.measurementConverter.labels.from">From</label>
+                            <select id="weight-from">
+                                <option value="mg">Milligram (mg)</option>
+                                <option value="g">Gram (g)</option>
+                                <option value="kg">Kilogram (kg)</option>
+                                <option value="oz" selected>Ounce (oz)</option>
+                                <option value="lb">Pound (lb)</option>
+                                <option value="st">Stone (st)</option>
+                                <option value="ton">US Ton</option>
+                                <option value="tonne">Metric Tonne</option>
+                            </select>
+                        </div>
+                        <button type="button" class="swap-btn" onclick="swapUnits('weight')" aria-label="Swap weight units">&#8644;</button>
+                        <div class="input-field">
+                            <label for="weight-to" data-i18n="tools.measurementConverter.labels.to">To</label>
+                            <select id="weight-to">
+                                <option value="mg">Milligram (mg)</option>
+                                <option value="g" selected>Gram (g)</option>
+                                <option value="kg">Kilogram (kg)</option>
+                                <option value="oz">Ounce (oz)</option>
+                                <option value="lb">Pound (lb)</option>
+                                <option value="st">Stone (st)</option>
+                                <option value="ton">US Ton</option>
+                                <option value="tonne">Metric Tonne</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="result-display" id="weight-result" aria-live="polite">
+                        <span class="label" data-i18n="tools.measurementConverter.labels.result">Result</span>
+                        <span class="value" id="weight-result-value">--</span>
+                        <button type="button" class="copy-btn" onclick="copyResult('weight-result-value', this)" data-i18n="common.copy">Copy</button>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title" data-i18n="tools.measurementConverter.tabs.volume">Volume</h3>
+                    <div class="converter-row">
+                        <div class="input-field">
+                            <label for="volume-value" data-i18n="tools.measurementConverter.labels.value">Value</label>
+                            <input type="number" id="volume-value" placeholder="Enter value" data-i18n-placeholder="tools.measurementConverter.placeholders.enterValue" step="any" aria-describedby="volume-result">
+                        </div>
+                        <div class="input-field">
+                            <label for="volume-from" data-i18n="tools.measurementConverter.labels.from">From</label>
+                            <select id="volume-from">
+                                <option value="ml">Milliliter (mL)</option>
+                                <option value="l">Liter (L)</option>
+                                <option value="floz" selected>Fluid Ounce (fl oz)</option>
+                                <option value="cup">Cup (US)</option>
+                                <option value="pt">Pint (US)</option>
+                                <option value="qt">Quart (US)</option>
+                                <option value="gal">Gallon (US)</option>
+                                <option value="m3">Cubic Meter (m3)</option>
+                            </select>
+                        </div>
+                        <button type="button" class="swap-btn" onclick="swapUnits('volume')" aria-label="Swap volume units">&#8644;</button>
+                        <div class="input-field">
+                            <label for="volume-to" data-i18n="tools.measurementConverter.labels.to">To</label>
+                            <select id="volume-to">
+                                <option value="ml" selected>Milliliter (mL)</option>
+                                <option value="l">Liter (L)</option>
+                                <option value="floz">Fluid Ounce (fl oz)</option>
+                                <option value="cup">Cup (US)</option>
+                                <option value="pt">Pint (US)</option>
+                                <option value="qt">Quart (US)</option>
+                                <option value="gal">Gallon (US)</option>
+                                <option value="m3">Cubic Meter (m3)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="result-display" id="volume-result" aria-live="polite">
+                        <span class="label" data-i18n="tools.measurementConverter.labels.result">Result</span>
+                        <span class="value" id="volume-result-value">--</span>
+                        <button type="button" class="copy-btn" onclick="copyResult('volume-result-value', this)" data-i18n="common.copy">Copy</button>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title" data-i18n="tools.measurementConverter.tabs.area">Area</h3>
+                    <div class="converter-row">
+                        <div class="input-field">
+                            <label for="area-value" data-i18n="tools.measurementConverter.labels.value">Value</label>
+                            <input type="number" id="area-value" placeholder="Enter value" data-i18n-placeholder="tools.measurementConverter.placeholders.enterValue" step="any" aria-describedby="area-result">
+                        </div>
+                        <div class="input-field">
+                            <label for="area-from" data-i18n="tools.measurementConverter.labels.from">From</label>
+                            <select id="area-from">
+                                <option value="mm2">Square mm</option>
+                                <option value="cm2">Square cm</option>
+                                <option value="m2">Square m</option>
+                                <option value="km2">Square km</option>
+                                <option value="in2" selected>Square in</option>
+                                <option value="ft2">Square ft</option>
+                                <option value="yd2">Square yd</option>
+                                <option value="acre">Acre</option>
+                                <option value="ha">Hectare</option>
+                                <option value="mi2">Square mi</option>
+                            </select>
+                        </div>
+                        <button type="button" class="swap-btn" onclick="swapUnits('area')" aria-label="Swap area units">&#8644;</button>
+                        <div class="input-field">
+                            <label for="area-to" data-i18n="tools.measurementConverter.labels.to">To</label>
+                            <select id="area-to">
+                                <option value="mm2">Square mm</option>
+                                <option value="cm2" selected>Square cm</option>
+                                <option value="m2">Square m</option>
+                                <option value="km2">Square km</option>
+                                <option value="in2">Square in</option>
+                                <option value="ft2">Square ft</option>
+                                <option value="yd2">Square yd</option>
+                                <option value="acre">Acre</option>
+                                <option value="ha">Hectare</option>
+                                <option value="mi2">Square mi</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="result-display" id="area-result" aria-live="polite">
+                        <span class="label" data-i18n="tools.measurementConverter.labels.result">Result</span>
+                        <span class="value" id="area-result-value">--</span>
+                        <button type="button" class="copy-btn" onclick="copyResult('area-result-value', this)" data-i18n="common.copy">Copy</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cooking Tab -->
+            <div class="tab-content" id="tab-cooking" role="tabpanel" aria-labelledby="btn-cooking">
+                <h2 class="section-title">Cooking Measurements</h2>
+
+                <div class="notation-toggle">
+                    <label style="color: #90caf9; font-weight: 500; margin-bottom: 8px; display: block;" data-i18n="tools.measurementConverter.labels.cupStandard">Cup Standard</label>
+                    <div class="notation-buttons" role="group" aria-label="Cup measurement standard">
+                        <button type="button" class="notation-btn active" data-cup="us" onclick="setCupStandard('us')" data-i18n="tools.measurementConverter.cooking.usCustomary">
+                            US Cup (236.588 mL)
+                        </button>
+                        <button type="button" class="notation-btn" data-cup="metric" onclick="setCupStandard('metric')" data-i18n="tools.measurementConverter.cooking.metric">
+                            Metric Cup (250 mL)
+                        </button>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">Volume Converter</h3>
+                    <div class="converter-row">
+                        <div class="input-field">
+                            <label for="cooking-value" data-i18n="tools.measurementConverter.labels.value">Value</label>
+                            <input type="number" id="cooking-value" placeholder="Enter value" data-i18n-placeholder="tools.measurementConverter.placeholders.enterValue" step="any" aria-describedby="cooking-result">
+                        </div>
+                        <div class="input-field">
+                            <label for="cooking-from" data-i18n="tools.measurementConverter.labels.from">From</label>
+                            <select id="cooking-from">
+                                <option value="tsp" selected>Teaspoon (tsp)</option>
+                                <option value="tbsp">Tablespoon (tbsp)</option>
+                                <option value="floz">Fluid Ounce (fl oz)</option>
+                                <option value="cup">Cup</option>
+                                <option value="pt">Pint</option>
+                                <option value="qt">Quart</option>
+                                <option value="gal">Gallon</option>
+                                <option value="ml">Milliliter (mL)</option>
+                                <option value="l">Liter (L)</option>
+                            </select>
+                        </div>
+                        <button type="button" class="swap-btn" onclick="swapUnits('cooking')" aria-label="Swap cooking units">&#8644;</button>
+                        <div class="input-field">
+                            <label for="cooking-to" data-i18n="tools.measurementConverter.labels.to">To</label>
+                            <select id="cooking-to">
+                                <option value="tsp">Teaspoon (tsp)</option>
+                                <option value="tbsp" selected>Tablespoon (tbsp)</option>
+                                <option value="floz">Fluid Ounce (fl oz)</option>
+                                <option value="cup">Cup</option>
+                                <option value="pt">Pint</option>
+                                <option value="qt">Quart</option>
+                                <option value="gal">Gallon</option>
+                                <option value="ml">Milliliter (mL)</option>
+                                <option value="l">Liter (L)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="result-display" id="cooking-result" aria-live="polite">
+                        <span class="label" data-i18n="tools.measurementConverter.labels.result">Result</span>
+                        <span class="value" id="cooking-result-value">--</span>
+                        <button type="button" class="copy-btn" onclick="copyResult('cooking-result-value', this)" data-i18n="common.copy">Copy</button>
+                    </div>
+                </div>
+
+                <div class="quick-buttons">
+                    <button type="button" class="quick-btn" onclick="quickCooking(1, 'cup', 'tbsp')">1 cup to tbsp</button>
+                    <button type="button" class="quick-btn" onclick="quickCooking(1, 'tbsp', 'tsp')">1 tbsp to tsp</button>
+                    <button type="button" class="quick-btn" onclick="quickCooking(1, 'cup', 'ml')">1 cup to mL</button>
+                    <button type="button" class="quick-btn" onclick="quickCooking(0.5, 'cup', 'tbsp')">1/2 cup to tbsp</button>
+                    <button type="button" class="quick-btn" onclick="quickCooking(0.25, 'cup', 'tbsp')">1/4 cup to tbsp</button>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">Dry Measurements</h3>
+                    <table class="reference-table" role="table" aria-label="Dry measurement conversions">
+                        <thead>
+                            <tr>
+                                <th scope="col">TSP</th>
+                                <th scope="col">TBSP</th>
+                                <th scope="col">Cup</th>
+                                <th scope="col">Fl Oz</th>
+                                <th scope="col">Grams</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>3 tsp</td><td>1 tbsp</td><td>1/16 C</td><td>1/2 oz</td><td>14 g</td></tr>
+                            <tr><td>6 tsp</td><td>2 tbsp</td><td>1/8 C</td><td>1 oz</td><td>28 g</td></tr>
+                            <tr><td>12 tsp</td><td>4 tbsp</td><td>1/4 C</td><td>2 oz</td><td>57 g</td></tr>
+                            <tr><td>16 tsp</td><td>5 tbsp + 1 tsp</td><td>1/3 C</td><td>2 2/3 oz</td><td>76 g</td></tr>
+                            <tr><td>24 tsp</td><td>8 tbsp</td><td>1/2 C</td><td>4 oz</td><td>113 g</td></tr>
+                            <tr><td>32 tsp</td><td>10 tbsp + 2 tsp</td><td>2/3 C</td><td>5 1/3 oz</td><td>151 g</td></tr>
+                            <tr><td>36 tsp</td><td>12 tbsp</td><td>3/4 C</td><td>6 oz</td><td>170 g</td></tr>
+                            <tr><td>48 tsp</td><td>16 tbsp</td><td>1 C</td><td>8 oz</td><td>227 g</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">Liquid Measurements</h3>
+                    <table class="reference-table" role="table" aria-label="Liquid measurement conversions">
+                        <thead>
+                            <tr>
+                                <th scope="col">Measure</th>
+                                <th scope="col">Fl Oz</th>
+                                <th scope="col">TBSP</th>
+                                <th scope="col">TSP</th>
+                                <th scope="col">Metric</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>1 gal</td><td>128 oz</td><td>256 tbsp</td><td>768 tsp</td><td>3.8 L</td></tr>
+                            <tr><td>1 quart</td><td>32 oz</td><td>64 tbsp</td><td>192 tsp</td><td>950 mL</td></tr>
+                            <tr><td>1 pint</td><td>16 oz</td><td>32 tbsp</td><td>96 tsp</td><td>473 mL</td></tr>
+                            <tr><td>1 cup</td><td>8 oz</td><td>16 tbsp</td><td>48 tsp</td><td>237 mL</td></tr>
+                            <tr><td>3/4 cup</td><td>6 oz</td><td>12 tbsp</td><td>36 tsp</td><td>177 mL</td></tr>
+                            <tr><td>1/2 cup</td><td>4 oz</td><td>8 tbsp</td><td>24 tsp</td><td>118 mL</td></tr>
+                            <tr><td>1/3 cup</td><td>2 2/3 oz</td><td>5 tbsp + 1 tsp</td><td>16 tsp</td><td>79 mL</td></tr>
+                            <tr><td>1/4 cup</td><td>2 oz</td><td>4 tbsp</td><td>12 tsp</td><td>59 mL</td></tr>
+                            <tr><td>1/8 cup</td><td>1 oz</td><td>2 tbsp</td><td>6 tsp</td><td>30 mL</td></tr>
+                            <tr><td>1/16 cup</td><td>1/2 oz</td><td>1 tbsp</td><td>3 tsp</td><td>15 mL</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">Weight Conversions</h3>
+                    <div class="weight-columns">
+                        <table class="reference-table compact" role="table" aria-label="Weight conversions grams to ounces">
+                            <thead>
+                                <tr><th scope="col">Grams</th><th scope="col">Ounces</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>14 g</td><td>1/2 oz</td></tr>
+                                <tr><td>28 g</td><td>1 oz</td></tr>
+                                <tr><td>57 g</td><td>2 oz</td></tr>
+                                <tr><td>85 g</td><td>3 oz</td></tr>
+                                <tr><td>113 g</td><td>4 oz</td></tr>
+                                <tr><td>141 g</td><td>5 oz</td></tr>
+                                <tr><td>170 g</td><td>6 oz</td></tr>
+                                <tr><td>198 g</td><td>7 oz</td></tr>
+                            </tbody>
+                        </table>
+                        <table class="reference-table compact" role="table" aria-label="Weight conversions grams to ounces continued">
+                            <thead>
+                                <tr><th scope="col">Grams</th><th scope="col">Ounces</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>227 g</td><td>8 oz</td></tr>
+                                <tr><td>255 g</td><td>9 oz</td></tr>
+                                <tr><td>283 g</td><td>10 oz</td></tr>
+                                <tr><td>312 g</td><td>11 oz</td></tr>
+                                <tr><td>340 g</td><td>12 oz</td></tr>
+                                <tr><td>369 g</td><td>13 oz</td></tr>
+                                <tr><td>397 g</td><td>14 oz</td></tr>
+                                <tr><td>425 g</td><td>15 oz</td></tr>
+                                <tr><td>454 g</td><td>1 lb</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">Oven Temperature</h3>
+                    <table class="reference-table compact" role="table" aria-label="Oven temperature conversions">
+                        <thead>
+                            <tr><th scope="col">Fahrenheit</th><th scope="col">Celsius</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>250°F</td><td>120°C</td></tr>
+                            <tr><td>300°F</td><td>150°C</td></tr>
+                            <tr><td>325°F</td><td>160°C</td></tr>
+                            <tr><td>350°F</td><td>180°C</td></tr>
+                            <tr><td>375°F</td><td>190°C</td></tr>
+                            <tr><td>400°F</td><td>200°C</td></tr>
+                            <tr><td>425°F</td><td>220°C</td></tr>
+                            <tr><td>450°F</td><td>230°C</td></tr>
+                            <tr><td>475°F</td><td>245°C</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">Miscellaneous</h3>
+                    <table class="reference-table" role="table" aria-label="Miscellaneous cooking measurements">
+                        <tbody>
+                            <tr><td>1 dash</td><td>6 drops</td></tr>
+                            <tr><td>1 pinch</td><td>1/16 tsp</td></tr>
+                            <tr><td>1 stick butter</td><td>1/4 lb / 113 g</td></tr>
+                            <tr><td>1 pound sugar</td><td>2 1/4 cups</td></tr>
+                            <tr><td>1 pound flour</td><td>3 1/3 cups</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Scientific Tab -->
+            <div class="tab-content" id="tab-scientific" role="tabpanel" aria-labelledby="btn-scientific">
+                <h2 class="section-title">Scientific Conversions</h2>
+
+                <div class="subsection">
+                    <h3 class="subsection-title" data-i18n="tools.measurementConverter.tabs.temperature">Temperature</h3>
+                    <div class="converter-row">
+                        <div class="input-field">
+                            <label for="temp-value" data-i18n="tools.measurementConverter.labels.value">Value</label>
+                            <input type="number" id="temp-value" placeholder="Enter temperature" data-i18n-placeholder="tools.measurementConverter.placeholders.enterTemperature" step="any" aria-describedby="temp-result">
+                        </div>
+                        <div class="input-field">
+                            <label for="temp-from" data-i18n="tools.measurementConverter.labels.from">From</label>
+                            <select id="temp-from">
+                                <option value="c">Celsius (C)</option>
+                                <option value="f" selected>Fahrenheit (F)</option>
+                                <option value="k">Kelvin (K)</option>
+                            </select>
+                        </div>
+                        <button type="button" class="swap-btn" onclick="swapUnits('temp')" aria-label="Swap temperature units">&#8644;</button>
+                        <div class="input-field">
+                            <label for="temp-to" data-i18n="tools.measurementConverter.labels.to">To</label>
+                            <select id="temp-to">
+                                <option value="c" selected>Celsius (C)</option>
+                                <option value="f">Fahrenheit (F)</option>
+                                <option value="k">Kelvin (K)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="result-display" id="temp-result" aria-live="polite">
+                        <span class="label" data-i18n="tools.measurementConverter.labels.result">Result</span>
+                        <span class="value" id="temp-result-value">--</span>
+                        <button type="button" class="copy-btn" onclick="copyResult('temp-result-value', this)" data-i18n="common.copy">Copy</button>
+                    </div>
+                    <div class="quick-buttons">
+                        <button type="button" class="quick-btn" onclick="quickTemp(32, 'f', 'c')">32F (freezing)</button>
+                        <button type="button" class="quick-btn" onclick="quickTemp(212, 'f', 'c')">212F (boiling)</button>
+                        <button type="button" class="quick-btn" onclick="quickTemp(98.6, 'f', 'c')">98.6F (body)</button>
+                        <button type="button" class="quick-btn" onclick="quickTemp(0, 'k', 'c')">0K (absolute zero)</button>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">SI Prefix Converter</h3>
+                    <div class="converter-row">
+                        <div class="input-field">
+                            <label for="si-value" data-i18n="tools.measurementConverter.labels.value">Value</label>
+                            <input type="number" id="si-value" placeholder="Enter value" data-i18n-placeholder="tools.measurementConverter.placeholders.enterValue" step="any" aria-describedby="si-result">
+                        </div>
+                        <div class="input-field">
+                            <label for="si-from" data-i18n="tools.measurementConverter.labels.from">From</label>
+                            <select id="si-from">
+                                <option value="p">pico (p) 10^-12</option>
+                                <option value="n">nano (n) 10^-9</option>
+                                <option value="u">micro (u) 10^-6</option>
+                                <option value="m">milli (m) 10^-3</option>
+                                <option value="base" selected>base unit</option>
+                                <option value="k">kilo (k) 10^3</option>
+                                <option value="M">mega (M) 10^6</option>
+                                <option value="G">giga (G) 10^9</option>
+                                <option value="T">tera (T) 10^12</option>
+                            </select>
+                        </div>
+                        <button type="button" class="swap-btn" onclick="swapUnits('si')" aria-label="Swap SI prefix units">&#8644;</button>
+                        <div class="input-field">
+                            <label for="si-to" data-i18n="tools.measurementConverter.labels.to">To</label>
+                            <select id="si-to">
+                                <option value="p">pico (p) 10^-12</option>
+                                <option value="n">nano (n) 10^-9</option>
+                                <option value="u">micro (u) 10^-6</option>
+                                <option value="m">milli (m) 10^-3</option>
+                                <option value="base">base unit</option>
+                                <option value="k" selected>kilo (k) 10^3</option>
+                                <option value="M">mega (M) 10^6</option>
+                                <option value="G">giga (G) 10^9</option>
+                                <option value="T">tera (T) 10^12</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="result-display" id="si-result" aria-live="polite">
+                        <span class="label" data-i18n="tools.measurementConverter.labels.result">Result</span>
+                        <span class="value" id="si-result-value">--</span>
+                        <button type="button" class="copy-btn" onclick="copyResult('si-result-value', this)" data-i18n="common.copy">Copy</button>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title" data-i18n="tools.measurementConverter.scientific.scientificNotation">Scientific Notation</h3>
+                    <div class="converter-row">
+                        <div class="input-field" style="flex: 2;">
+                            <label for="sci-value" data-i18n="tools.measurementConverter.labels.enterNumber">Enter Number</label>
+                            <input type="text" id="sci-value" placeholder="e.g., 12345.67 or 1.23e5" aria-describedby="sci-result">
+                        </div>
+                        <div class="input-field">
+                            <label for="sci-precision" data-i18n="tools.measurementConverter.labels.precision">Precision</label>
+                            <select id="sci-precision">
+                                <option value="2">2 digits</option>
+                                <option value="3">3 digits</option>
+                                <option value="4" selected>4 digits</option>
+                                <option value="6">6 digits</option>
+                                <option value="8">8 digits</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="result-display" id="sci-result" aria-live="polite">
+                        <div style="display: flex; gap: 30px; flex-wrap: wrap;">
+                            <div>
+                                <span class="label" data-i18n="tools.measurementConverter.scientific.scientificNotation">Scientific Notation</span>
+                                <div class="value" id="sci-result-scientific">--</div>
+                            </div>
+                            <div>
+                                <span class="label">Engineering Notation</span>
+                                <div class="value" id="sci-result-engineering">--</div>
+                            </div>
+                            <div>
+                                <span class="label">Standard Form</span>
+                                <div class="value" id="sci-result-standard">--</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title" data-i18n="tools.measurementConverter.scientific.significantFigures">Significant Figures</h3>
+                    <div class="converter-row">
+                        <div class="input-field" style="flex: 2;">
+                            <label for="sigfig-value" data-i18n="tools.measurementConverter.labels.enterNumber">Enter Number</label>
+                            <input type="text" id="sigfig-value" placeholder="e.g., 123.456" aria-describedby="sigfig-result">
+                        </div>
+                        <div class="input-field">
+                            <label for="sigfig-count" data-i18n="tools.measurementConverter.labels.sigFigs">Sig Figs</label>
+                            <select id="sigfig-count">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3" selected>3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="result-display" id="sigfig-result" aria-live="polite">
+                        <span class="label" data-i18n="tools.measurementConverter.scientific.significantFigures">Significant Figures</span>
+                        <span class="value" id="sigfig-result-value">--</span>
+                        <button type="button" class="copy-btn" onclick="copyResult('sigfig-result-value', this)" data-i18n="common.copy">Copy</button>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">Pressure</h3>
+                    <div class="converter-row">
+                        <div class="input-field">
+                            <label for="pressure-value" data-i18n="tools.measurementConverter.labels.value">Value</label>
+                            <input type="number" id="pressure-value" placeholder="Enter value" data-i18n-placeholder="tools.measurementConverter.placeholders.enterValue" step="any" aria-describedby="pressure-result">
+                        </div>
+                        <div class="input-field">
+                            <label for="pressure-from" data-i18n="tools.measurementConverter.labels.from">From</label>
+                            <select id="pressure-from">
+                                <option value="atm" selected>atm</option>
+                                <option value="pa">Pascal (Pa)</option>
+                                <option value="kpa">kilopascal (kPa)</option>
+                                <option value="bar">bar</option>
+                                <option value="mmhg">mmHg (Torr)</option>
+                                <option value="psi">psi</option>
+                            </select>
+                        </div>
+                        <button type="button" class="swap-btn" onclick="swapUnits('pressure')" aria-label="Swap pressure units">&#8644;</button>
+                        <div class="input-field">
+                            <label for="pressure-to" data-i18n="tools.measurementConverter.labels.to">To</label>
+                            <select id="pressure-to">
+                                <option value="atm">atm</option>
+                                <option value="pa" selected>Pascal (Pa)</option>
+                                <option value="kpa">kilopascal (kPa)</option>
+                                <option value="bar">bar</option>
+                                <option value="mmhg">mmHg (Torr)</option>
+                                <option value="psi">psi</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="result-display" id="pressure-result" aria-live="polite">
+                        <span class="label" data-i18n="tools.measurementConverter.labels.result">Result</span>
+                        <span class="value" id="pressure-result-value">--</span>
+                        <button type="button" class="copy-btn" onclick="copyResult('pressure-result-value', this)" data-i18n="common.copy">Copy</button>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">Energy</h3>
+                    <div class="converter-row">
+                        <div class="input-field">
+                            <label for="energy-value" data-i18n="tools.measurementConverter.labels.value">Value</label>
+                            <input type="number" id="energy-value" placeholder="Enter value" data-i18n-placeholder="tools.measurementConverter.placeholders.enterValue" step="any" aria-describedby="energy-result">
+                        </div>
+                        <div class="input-field">
+                            <label for="energy-from" data-i18n="tools.measurementConverter.labels.from">From</label>
+                            <select id="energy-from">
+                                <option value="j" selected>Joule (J)</option>
+                                <option value="kj">Kilojoule (kJ)</option>
+                                <option value="cal">Calorie (cal)</option>
+                                <option value="kcal">Kilocalorie (kcal/Cal)</option>
+                                <option value="ev">Electron volt (eV)</option>
+                                <option value="btu">BTU</option>
+                                <option value="kwh">Kilowatt-hour (kWh)</option>
+                            </select>
+                        </div>
+                        <button type="button" class="swap-btn" onclick="swapUnits('energy')" aria-label="Swap energy units">&#8644;</button>
+                        <div class="input-field">
+                            <label for="energy-to" data-i18n="tools.measurementConverter.labels.to">To</label>
+                            <select id="energy-to">
+                                <option value="j">Joule (J)</option>
+                                <option value="kj">Kilojoule (kJ)</option>
+                                <option value="cal" selected>Calorie (cal)</option>
+                                <option value="kcal">Kilocalorie (kcal/Cal)</option>
+                                <option value="ev">Electron volt (eV)</option>
+                                <option value="btu">BTU</option>
+                                <option value="kwh">Kilowatt-hour (kWh)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="result-display" id="energy-result" aria-live="polite">
+                        <span class="label" data-i18n="tools.measurementConverter.labels.result">Result</span>
+                        <span class="value" id="energy-result-value">--</span>
+                        <button type="button" class="copy-btn" onclick="copyResult('energy-result-value', this)" data-i18n="common.copy">Copy</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trigonometry Tab -->
+            <div class="tab-content" id="tab-trig" role="tabpanel" aria-labelledby="btn-trig">
+                <h2 class="section-title">Trigonometry</h2>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">Angle Conversion</h3>
+                    <div class="converter-row">
+                        <div class="input-field">
+                            <label for="angle-value" data-i18n="tools.measurementConverter.labels.angle">Angle</label>
+                            <input type="number" id="angle-value" placeholder="Enter angle" data-i18n-placeholder="tools.measurementConverter.placeholders.enterAngle" step="any" aria-describedby="angle-result">
+                        </div>
+                        <div class="input-field">
+                            <label for="angle-from" data-i18n="tools.measurementConverter.labels.from">From</label>
+                            <select id="angle-from">
+                                <option value="deg" selected data-i18n="tools.measurementConverter.trigUnits.degrees">Degrees</option>
+                                <option value="rad" data-i18n="tools.measurementConverter.trigUnits.radians">Radians</option>
+                                <option value="grad">Gradians</option>
+                                <option value="turn">Turns</option>
+                            </select>
+                        </div>
+                        <button type="button" class="swap-btn" onclick="swapUnits('angle')" aria-label="Swap angle units">&#8644;</button>
+                        <div class="input-field">
+                            <label for="angle-to" data-i18n="tools.measurementConverter.labels.to">To</label>
+                            <select id="angle-to">
+                                <option value="deg" data-i18n="tools.measurementConverter.trigUnits.degrees">Degrees</option>
+                                <option value="rad" selected data-i18n="tools.measurementConverter.trigUnits.radians">Radians</option>
+                                <option value="grad">Gradians</option>
+                                <option value="turn">Turns</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="result-display" id="angle-result" aria-live="polite">
+                        <span class="label" data-i18n="tools.measurementConverter.labels.result">Result</span>
+                        <span class="value" id="angle-result-value">--</span>
+                        <button type="button" class="copy-btn" onclick="copyResult('angle-result-value', this)" data-i18n="common.copy">Copy</button>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title" data-i18n="tools.measurementConverter.scientific.trigResults">Trigonometric Functions Calculator</h3>
+                    <div class="converter-row">
+                        <div class="input-field" style="flex: 2;">
+                            <label for="trig-angle" data-i18n="tools.measurementConverter.labels.angle">Angle</label>
+                            <input type="number" id="trig-angle" placeholder="Enter angle" data-i18n-placeholder="tools.measurementConverter.placeholders.enterAngle" step="any" aria-describedby="trig-results-area">
+                        </div>
+                        <div class="input-field">
+                            <label for="trig-unit" data-i18n="tools.measurementConverter.labels.unit">Unit</label>
+                            <select id="trig-unit">
+                                <option value="deg" selected data-i18n="tools.measurementConverter.trigUnits.degrees">Degrees</option>
+                                <option value="rad" data-i18n="tools.measurementConverter.trigUnits.radians">Radians</option>
+                            </select>
+                        </div>
+                        <button type="button" class="btn" onclick="calculateTrig()" data-i18n="common.calculate">Calculate</button>
+                    </div>
+                    <div class="trig-results" id="trig-results-area" aria-live="polite">
+                        <div class="trig-result-item">
+                            <div class="func-name">sin(0)</div>
+                            <div class="func-value" id="trig-sin">--</div>
+                        </div>
+                        <div class="trig-result-item">
+                            <div class="func-name">cos(0)</div>
+                            <div class="func-value" id="trig-cos">--</div>
+                        </div>
+                        <div class="trig-result-item">
+                            <div class="func-name">tan(0)</div>
+                            <div class="func-value" id="trig-tan">--</div>
+                        </div>
+                        <div class="trig-result-item">
+                            <div class="func-name">csc(0)</div>
+                            <div class="func-value" id="trig-csc">--</div>
+                        </div>
+                        <div class="trig-result-item">
+                            <div class="func-name">sec(0)</div>
+                            <div class="func-value" id="trig-sec">--</div>
+                        </div>
+                        <div class="trig-result-item">
+                            <div class="func-name">cot(0)</div>
+                            <div class="func-value" id="trig-cot">--</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">Unit Circle Reference</h3>
+                    <div class="info-box">
+                        <strong>Quadrant Signs (ASTC):</strong> All (I) | Sin (II) | Tan (III) | Cos (IV)
+                    </div>
+                    <table class="reference-table" role="table" aria-label="Unit circle common angle values">
+                        <thead>
+                            <tr>
+                                <th scope="col">Degrees</th>
+                                <th scope="col">Radians</th>
+                                <th scope="col">sin</th>
+                                <th scope="col">cos</th>
+                                <th scope="col">tan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td></tr>
+                            <tr><td>30</td><td>pi/6</td><td>1/2</td><td>sqrt3/2</td><td>sqrt3/3</td></tr>
+                            <tr><td>45</td><td>pi/4</td><td>sqrt2/2</td><td>sqrt2/2</td><td>1</td></tr>
+                            <tr><td>60</td><td>pi/3</td><td>sqrt3/2</td><td>1/2</td><td>sqrt3</td></tr>
+                            <tr><td>90</td><td>pi/2</td><td>1</td><td>0</td><td>undef</td></tr>
+                            <tr><td>120</td><td>2pi/3</td><td>sqrt3/2</td><td>-1/2</td><td>-sqrt3</td></tr>
+                            <tr><td>135</td><td>3pi/4</td><td>sqrt2/2</td><td>-sqrt2/2</td><td>-1</td></tr>
+                            <tr><td>150</td><td>5pi/6</td><td>1/2</td><td>-sqrt3/2</td><td>-sqrt3/3</td></tr>
+                            <tr><td>180</td><td>pi</td><td>0</td><td>-1</td><td>0</td></tr>
+                            <tr><td>270</td><td>3pi/2</td><td>-1</td><td>0</td><td>undef</td></tr>
+                            <tr><td>360</td><td>2pi</td><td>0</td><td>1</td><td>0</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">Pythagorean Identities</h3>
+                    <div class="identity-box">
+                        <div class="identity">sin2(0) + cos2(0) = 1</div>
+                        <div class="identity">1 + tan2(0) = sec2(0)</div>
+                        <div class="identity">1 + cot2(0) = csc2(0)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Engineering Tab -->
+            <div class="tab-content" id="tab-engineering" role="tabpanel" aria-labelledby="btn-engineering">
+                <h2 class="section-title">Engineering Conversions</h2>
+
+                <div class="subsection">
+                    <h3 class="subsection-title" data-i18n="tools.measurementConverter.tabs.speed">Speed / Velocity</h3>
+                    <div class="converter-row">
+                        <div class="input-field">
+                            <label for="speed-value" data-i18n="tools.measurementConverter.labels.value">Value</label>
+                            <input type="number" id="speed-value" placeholder="Enter value" data-i18n-placeholder="tools.measurementConverter.placeholders.enterValue" step="any" aria-describedby="speed-result">
+                        </div>
+                        <div class="input-field">
+                            <label for="speed-from" data-i18n="tools.measurementConverter.labels.from">From</label>
+                            <select id="speed-from">
+                                <option value="mps">Meters/second (m/s)</option>
+                                <option value="kmh">Kilometers/hour (km/h)</option>
+                                <option value="mph" selected>Miles/hour (mph)</option>
+                                <option value="fps">Feet/second (ft/s)</option>
+                                <option value="knot">Knots (kn)</option>
+                                <option value="mach">Mach</option>
+                            </select>
+                        </div>
+                        <button type="button" class="swap-btn" onclick="swapUnits('speed')" aria-label="Swap speed units">&#8644;</button>
+                        <div class="input-field">
+                            <label for="speed-to" data-i18n="tools.measurementConverter.labels.to">To</label>
+                            <select id="speed-to">
+                                <option value="mps">Meters/second (m/s)</option>
+                                <option value="kmh" selected>Kilometers/hour (km/h)</option>
+                                <option value="mph">Miles/hour (mph)</option>
+                                <option value="fps">Feet/second (ft/s)</option>
+                                <option value="knot">Knots (kn)</option>
+                                <option value="mach">Mach</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="result-display" id="speed-result" aria-live="polite">
+                        <span class="label" data-i18n="tools.measurementConverter.labels.result">Result</span>
+                        <span class="value" id="speed-result-value">--</span>
+                        <button type="button" class="copy-btn" onclick="copyResult('speed-result-value', this)" data-i18n="common.copy">Copy</button>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">Time</h3>
+                    <div class="converter-row">
+                        <div class="input-field">
+                            <label for="time-value" data-i18n="tools.measurementConverter.labels.value">Value</label>
+                            <input type="number" id="time-value" placeholder="Enter value" data-i18n-placeholder="tools.measurementConverter.placeholders.enterValue" step="any" aria-describedby="time-result">
+                        </div>
+                        <div class="input-field">
+                            <label for="time-from" data-i18n="tools.measurementConverter.labels.from">From</label>
+                            <select id="time-from">
+                                <option value="ns">Nanosecond (ns)</option>
+                                <option value="us">Microsecond (µs)</option>
+                                <option value="ms">Millisecond (ms)</option>
+                                <option value="s">Second (s)</option>
+                                <option value="min">Minute (min)</option>
+                                <option value="hr" selected>Hour (hr)</option>
+                                <option value="day">Day</option>
+                                <option value="wk">Week</option>
+                                <option value="yr">Year (365 days)</option>
+                            </select>
+                        </div>
+                        <button type="button" class="swap-btn" onclick="swapUnits('time')" aria-label="Swap time units">&#8644;</button>
+                        <div class="input-field">
+                            <label for="time-to" data-i18n="tools.measurementConverter.labels.to">To</label>
+                            <select id="time-to">
+                                <option value="ns">Nanosecond (ns)</option>
+                                <option value="us">Microsecond (µs)</option>
+                                <option value="ms">Millisecond (ms)</option>
+                                <option value="s">Second (s)</option>
+                                <option value="min" selected>Minute (min)</option>
+                                <option value="hr">Hour (hr)</option>
+                                <option value="day">Day</option>
+                                <option value="wk">Week</option>
+                                <option value="yr">Year (365 days)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="result-display" id="time-result" aria-live="polite">
+                        <span class="label" data-i18n="tools.measurementConverter.labels.result">Result</span>
+                        <span class="value" id="time-result-value">--</span>
+                        <button type="button" class="copy-btn" onclick="copyResult('time-result-value', this)" data-i18n="common.copy">Copy</button>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">Power</h3>
+                    <div class="converter-row">
+                        <div class="input-field">
+                            <label for="power-value" data-i18n="tools.measurementConverter.labels.value">Value</label>
+                            <input type="number" id="power-value" placeholder="Enter value" data-i18n-placeholder="tools.measurementConverter.placeholders.enterValue" step="any" aria-describedby="power-result">
+                        </div>
+                        <div class="input-field">
+                            <label for="power-from" data-i18n="tools.measurementConverter.labels.from">From</label>
+                            <select id="power-from">
+                                <option value="w">Watt (W)</option>
+                                <option value="kw" selected>Kilowatt (kW)</option>
+                                <option value="mw">Megawatt (MW)</option>
+                                <option value="hp">Horsepower (hp)</option>
+                                <option value="btuh">BTU/hour</option>
+                                <option value="rt">Ton of refrigeration (RT)</option>
+                                <option value="ftlbs">Foot-pound/sec (ft·lb/s)</option>
+                            </select>
+                        </div>
+                        <button type="button" class="swap-btn" onclick="swapUnits('power')" aria-label="Swap power units">&#8644;</button>
+                        <div class="input-field">
+                            <label for="power-to" data-i18n="tools.measurementConverter.labels.to">To</label>
+                            <select id="power-to">
+                                <option value="w">Watt (W)</option>
+                                <option value="kw">Kilowatt (kW)</option>
+                                <option value="mw">Megawatt (MW)</option>
+                                <option value="hp" selected>Horsepower (hp)</option>
+                                <option value="btuh">BTU/hour</option>
+                                <option value="rt">Ton of refrigeration (RT)</option>
+                                <option value="ftlbs">Foot-pound/sec (ft·lb/s)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="result-display" id="power-result" aria-live="polite">
+                        <span class="label" data-i18n="tools.measurementConverter.labels.result">Result</span>
+                        <span class="value" id="power-result-value">--</span>
+                        <button type="button" class="copy-btn" onclick="copyResult('power-result-value', this)" data-i18n="common.copy">Copy</button>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">Frequency</h3>
+                    <div class="converter-row">
+                        <div class="input-field">
+                            <label for="freq-value" data-i18n="tools.measurementConverter.labels.value">Value</label>
+                            <input type="number" id="freq-value" placeholder="Enter value" data-i18n-placeholder="tools.measurementConverter.placeholders.enterValue" step="any" aria-describedby="freq-result">
+                        </div>
+                        <div class="input-field">
+                            <label for="freq-from" data-i18n="tools.measurementConverter.labels.from">From</label>
+                            <select id="freq-from">
+                                <option value="hz">Hertz (Hz)</option>
+                                <option value="khz">Kilohertz (kHz)</option>
+                                <option value="mhz" selected>Megahertz (MHz)</option>
+                                <option value="ghz">Gigahertz (GHz)</option>
+                                <option value="rpm">RPM (rev/min)</option>
+                                <option value="rads">Radians/sec (rad/s)</option>
+                            </select>
+                        </div>
+                        <button type="button" class="swap-btn" onclick="swapUnits('freq')" aria-label="Swap frequency units">&#8644;</button>
+                        <div class="input-field">
+                            <label for="freq-to" data-i18n="tools.measurementConverter.labels.to">To</label>
+                            <select id="freq-to">
+                                <option value="hz">Hertz (Hz)</option>
+                                <option value="khz">Kilohertz (kHz)</option>
+                                <option value="mhz">Megahertz (MHz)</option>
+                                <option value="ghz" selected>Gigahertz (GHz)</option>
+                                <option value="rpm">RPM (rev/min)</option>
+                                <option value="rads">Radians/sec (rad/s)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="result-display" id="freq-result" aria-live="polite">
+                        <span class="label" data-i18n="tools.measurementConverter.labels.result">Result</span>
+                        <span class="value" id="freq-result-value">--</span>
+                        <button type="button" class="copy-btn" onclick="copyResult('freq-result-value', this)" data-i18n="common.copy">Copy</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="error" role="alert" aria-live="assertive" aria-atomic="true"></div>
+
+            <div class="button-row">
+                <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data" data-i18n="common.clearSavedData">Clear Saved Data</button>
+            </div>
+        </div>
+
+        <footer role="contentinfo" data-i18n="common.worksOffline">
+            Measurement Converter - Works offline, no installation required
+        </footer>
+    </main>
+
+    <script>
+        // ========== Conversion Factors (to base unit) ==========
+
+        // Length: base = meters
+        const lengthFactors = {
+            mm: 0.001,
+            cm: 0.01,
+            m: 1,
+            km: 1000,
+            in: 0.0254,
+            ft: 0.3048,
+            yd: 0.9144,
+            mi: 1609.344
+        };
+
+        // Weight: base = grams
+        const weightFactors = {
+            mg: 0.001,
+            g: 1,
+            kg: 1000,
+            oz: 28.3495,
+            lb: 453.592,
+            st: 6350.29,
+            ton: 907185,
+            tonne: 1000000
+        };
+
+        // Volume: base = milliliters
+        const volumeFactors = {
+            ml: 1,
+            l: 1000,
+            floz: 29.5735,
+            cup: 236.588,
+            pt: 473.176,
+            qt: 946.353,
+            gal: 3785.41,
+            m3: 1000000
+        };
+
+        // Area: base = square meters
+        const areaFactors = {
+            mm2: 0.000001,
+            cm2: 0.0001,
+            m2: 1,
+            km2: 1000000,
+            in2: 0.00064516,
+            ft2: 0.092903,
+            yd2: 0.836127,
+            acre: 4046.86,
+            ha: 10000,
+            mi2: 2589988.11
+        };
+
+        // Cooking: base = milliliters (US standard by default)
+        let cupStandard = 'us';
+        const cookingFactorsUS = {
+            tsp: 4.92892,
+            tbsp: 14.7868,
+            floz: 29.5735,
+            cup: 236.588,
+            pt: 473.176,
+            qt: 946.353,
+            gal: 3785.41,
+            ml: 1,
+            l: 1000
+        };
+        const cookingFactorsMetric = {
+            tsp: 5,
+            tbsp: 15,
+            floz: 30,
+            cup: 250,
+            pt: 500,
+            qt: 1000,
+            gal: 4000,
+            ml: 1,
+            l: 1000
+        };
+
+        // SI Prefixes: factors relative to base
+        const siFactors = {
+            p: 1e-12,
+            n: 1e-9,
+            u: 1e-6,
+            m: 1e-3,
+            base: 1,
+            k: 1e3,
+            M: 1e6,
+            G: 1e9,
+            T: 1e12
+        };
+
+        // Pressure: base = Pascal
+        const pressureFactors = {
+            pa: 1,
+            kpa: 1000,
+            atm: 101325,
+            bar: 100000,
+            mmhg: 133.322,
+            psi: 6894.76
+        };
+
+        // Energy: base = Joules
+        const energyFactors = {
+            j: 1,
+            kj: 1000,
+            cal: 4.184,
+            kcal: 4184,
+            ev: 1.60218e-19,
+            btu: 1055.06,
+            kwh: 3600000
+        };
+
+        // Angle: base = degrees
+        const angleFactors = {
+            deg: 1,
+            rad: 180 / Math.PI,
+            grad: 0.9,
+            turn: 360
+        };
+
+        // Speed: base = meters per second
+        const speedFactors = {
+            'mps': 1,
+            'kmh': 0.277778,
+            'mph': 0.44704,
+            'fps': 0.3048,
+            'knot': 0.514444,
+            'mach': 343
+        };
+
+        // Time: base = seconds
+        const timeFactors = {
+            ns: 1e-9,
+            us: 1e-6,
+            ms: 0.001,
+            s: 1,
+            min: 60,
+            hr: 3600,
+            day: 86400,
+            wk: 604800,
+            yr: 31536000
+        };
+
+        // Power: base = Watts
+        const powerFactors = {
+            w: 1,
+            kw: 1000,
+            mw: 1000000,
+            hp: 745.7,
+            btuh: 0.293071,
+            rt: 3516.85,
+            ftlbs: 1.35582
+        };
+
+        // Frequency: base = Hertz
+        const frequencyFactors = {
+            hz: 1,
+            khz: 1000,
+            mhz: 1000000,
+            ghz: 1000000000,
+            rpm: 0.0166667,
+            rads: 0.159155
+        };
+
+        // ========== Unit Abbreviations ==========
+        const unitAbbreviations = {
+            // Length
+            mm: 'mm', cm: 'cm', m: 'm', km: 'km',
+            in: 'in', ft: 'ft', yd: 'yd', mi: 'mi',
+            // Weight
+            mg: 'mg', g: 'g', kg: 'kg',
+            oz: 'oz', lb: 'lb', st: 'st', ton: 'ton', tonne: 't',
+            // Volume
+            ml: 'mL', l: 'L', floz: 'fl oz', cup: 'cup', pt: 'pt', qt: 'qt', gal: 'gal', m3: 'm³',
+            // Area
+            mm2: 'mm²', cm2: 'cm²', m2: 'm²', km2: 'km²',
+            in2: 'in²', ft2: 'ft²', yd2: 'yd²', acre: 'acre', ha: 'ha', mi2: 'mi²',
+            // Cooking
+            tsp: 'tsp', tbsp: 'tbsp',
+            // Temperature
+            c: '°C', f: '°F', k: 'K',
+            // SI Prefixes
+            p: 'p', n: 'n', u: 'µ', m: 'm', base: '', k: 'k', M: 'M', G: 'G', T: 'T',
+            // Pressure
+            pa: 'Pa', kpa: 'kPa', atm: 'atm', bar: 'bar', mmhg: 'mmHg', psi: 'psi',
+            // Energy
+            j: 'J', kj: 'kJ', cal: 'cal', kcal: 'kcal', ev: 'eV', btu: 'BTU', kwh: 'kWh',
+            // Angle
+            deg: '°', rad: 'rad', grad: 'grad', turn: 'turn',
+            // Speed
+            mps: 'm/s', kmh: 'km/h', mph: 'mph', fps: 'ft/s', knot: 'kn', mach: 'Mach',
+            // Time
+            ns: 'ns', us: 'µs', ms: 'ms', s: 's', min: 'min', hr: 'hr', day: 'day', wk: 'wk', yr: 'yr',
+            // Power
+            w: 'W', kw: 'kW', mw: 'MW', hp: 'hp', btuh: 'BTU/hr', rt: 'RT', ftlbs: 'ft·lb/s',
+            // Frequency
+            hz: 'Hz', khz: 'kHz', mhz: 'MHz', ghz: 'GHz', rpm: 'rpm', rads: 'rad/s'
+        };
+
+        // ========== Generic Conversion Function ==========
+        function convert(value, fromUnit, toUnit, factors) {
+            if (isNaN(value) || value === '') return null;
+            const baseValue = value * factors[fromUnit];
+            return baseValue / factors[toUnit];
+        }
+
+        // ========== Temperature Conversion (special case) ==========
+        function convertTemperature(value, from, to) {
+            if (isNaN(value) || value === '') return null;
+            let celsius;
+
+            // Convert to Celsius first
+            switch(from) {
+                case 'c': celsius = value; break;
+                case 'f': celsius = (value - 32) * 5/9; break;
+                case 'k': celsius = value - 273.15; break;
+            }
+
+            // Convert from Celsius to target
+            switch(to) {
+                case 'c': return celsius;
+                case 'f': return celsius * 9/5 + 32;
+                case 'k': return celsius + 273.15;
+            }
+        }
+
+        // ========== Format Number ==========
+        function formatNumber(num, precision = 6) {
+            if (num === null || isNaN(num)) return '--';
+            if (!isFinite(num)) return 'undefined';
+
+            // Very small or very large numbers use scientific notation
+            if (Math.abs(num) < 0.0001 && num !== 0) {
+                return num.toExponential(precision - 1);
+            }
+            if (Math.abs(num) >= 1e9) {
+                return num.toExponential(precision - 1);
+            }
+
+            // Round to precision significant figures
+            const rounded = parseFloat(num.toPrecision(precision));
+
+            // Format with commas for readability
+            const parts = rounded.toString().split('.');
+            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            return parts.join('.');
+        }
+
+        // ========== Tab Switching ==========
+        function switchTab(tabName) {
+            // Update buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+                btn.setAttribute('aria-selected', 'false');
+            });
+            document.getElementById('btn-' + tabName).classList.add('active');
+            document.getElementById('btn-' + tabName).setAttribute('aria-selected', 'true');
+
+            // Update content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById('tab-' + tabName).classList.add('active');
+
+            // Save preference
+            StorageUtils.save('measurement-tab', tabName);
+
+            A11yUtils.announce('Switched to ' + tabName + ' tab', 'polite');
+        }
+
+        // ========== Swap Units ==========
+        function swapUnits(category) {
+            const fromSelect = document.getElementById(category + '-from');
+            const toSelect = document.getElementById(category + '-to');
+            const temp = fromSelect.value;
+            fromSelect.value = toSelect.value;
+            toSelect.value = temp;
+
+            // Trigger recalculation
+            const valueInput = document.getElementById(category + '-value');
+            if (valueInput && valueInput.value) {
+                valueInput.dispatchEvent(new Event('input'));
+            }
+        }
+
+        // ========== Copy Result ==========
+        function copyResult(elementId, button) {
+            const value = document.getElementById(elementId).textContent;
+            if (value === '--') return;
+
+            navigator.clipboard.writeText(value).then(() => {
+                const originalText = button.textContent;
+                button.textContent = 'Copied!';
+                button.classList.add('copied');
+
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.classList.remove('copied');
+                }, 1500);
+
+                A11yUtils.announce('Copied to clipboard', 'polite');
+            });
+        }
+
+        // ========== Cup Standard Toggle ==========
+        function setCupStandard(standard) {
+            cupStandard = standard;
+
+            document.querySelectorAll('[data-cup]').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.cup === standard);
+            });
+
+            // Recalculate if there's a value
+            const cookingValue = document.getElementById('cooking-value');
+            if (cookingValue.value) {
+                cookingValue.dispatchEvent(new Event('input'));
+            }
+
+            StorageUtils.save('measurement-cup-standard', standard);
+            A11yUtils.announce('Cup standard set to ' + (standard === 'us' ? 'US' : 'Metric'), 'polite');
+        }
+
+        // ========== Quick Conversions ==========
+        function quickCooking(value, from, to) {
+            document.getElementById('cooking-value').value = value;
+            document.getElementById('cooking-from').value = from;
+            document.getElementById('cooking-to').value = to;
+            document.getElementById('cooking-value').dispatchEvent(new Event('input'));
+        }
+
+        function quickTemp(value, from, to) {
+            document.getElementById('temp-value').value = value;
+            document.getElementById('temp-from').value = from;
+            document.getElementById('temp-to').value = to;
+            document.getElementById('temp-value').dispatchEvent(new Event('input'));
+        }
+
+        // ========== Trig Functions Calculator ==========
+        function calculateTrig() {
+            const angleInput = document.getElementById('trig-angle');
+            const unit = document.getElementById('trig-unit').value;
+            let angle = parseFloat(angleInput.value);
+
+            if (isNaN(angle)) {
+                A11yUtils.announce('Please enter a valid angle', 'assertive');
+                return;
+            }
+
+            // Convert to radians for JavaScript Math functions
+            let radians = unit === 'deg' ? angle * Math.PI / 180 : angle;
+
+            // Update function labels
+            const angleLabel = unit === 'deg' ? angle + 'deg' : formatNumber(angle, 4) + ' rad';
+            document.querySelectorAll('.trig-result-item .func-name').forEach((el, i) => {
+                const funcs = ['sin', 'cos', 'tan', 'csc', 'sec', 'cot'];
+                el.textContent = funcs[i] + '(' + angleLabel + ')';
+            });
+
+            // Calculate and display
+            const sin = Math.sin(radians);
+            const cos = Math.cos(radians);
+            const tan = Math.abs(cos) < 1e-10 ? Infinity : sin / cos;
+            const csc = Math.abs(sin) < 1e-10 ? Infinity : 1 / sin;
+            const sec = Math.abs(cos) < 1e-10 ? Infinity : 1 / cos;
+            const cot = Math.abs(sin) < 1e-10 ? Infinity : cos / sin;
+
+            document.getElementById('trig-sin').textContent = formatNumber(sin);
+            document.getElementById('trig-cos').textContent = formatNumber(cos);
+            document.getElementById('trig-tan').textContent = formatNumber(tan);
+            document.getElementById('trig-csc').textContent = formatNumber(csc);
+            document.getElementById('trig-sec').textContent = formatNumber(sec);
+            document.getElementById('trig-cot').textContent = formatNumber(cot);
+
+            A11yUtils.announce('Trigonometric values calculated', 'polite');
+        }
+
+        // ========== Scientific Notation ==========
+        function convertScientificNotation() {
+            const input = document.getElementById('sci-value').value.trim();
+            const precision = parseInt(document.getElementById('sci-precision').value);
+
+            let num;
+            // Parse scientific notation input (e.g., 1.23e5)
+            if (input.includes('e') || input.includes('E')) {
+                num = parseFloat(input);
+            } else {
+                num = parseFloat(input);
+            }
+
+            if (isNaN(num)) {
+                document.getElementById('sci-result-scientific').textContent = '--';
+                document.getElementById('sci-result-engineering').textContent = '--';
+                document.getElementById('sci-result-standard').textContent = '--';
+                return;
+            }
+
+            // Scientific notation
+            document.getElementById('sci-result-scientific').textContent = num.toExponential(precision - 1);
+
+            // Engineering notation (powers of 3)
+            if (num === 0) {
+                document.getElementById('sci-result-engineering').textContent = '0';
+            } else {
+                const exp = Math.floor(Math.log10(Math.abs(num)));
+                const engExp = Math.floor(exp / 3) * 3;
+                const mantissa = num / Math.pow(10, engExp);
+                document.getElementById('sci-result-engineering').textContent =
+                    mantissa.toPrecision(precision) + 'e' + engExp;
+            }
+
+            // Standard form
+            if (Math.abs(num) >= 1e15 || (Math.abs(num) < 0.0001 && num !== 0)) {
+                document.getElementById('sci-result-standard').textContent = num.toPrecision(precision);
+            } else {
+                document.getElementById('sci-result-standard').textContent = formatNumber(num, precision);
+            }
+        }
+
+        // ========== Significant Figures ==========
+        function roundToSigFigs() {
+            const input = document.getElementById('sigfig-value').value.trim();
+            const sigFigs = parseInt(document.getElementById('sigfig-count').value);
+
+            const num = parseFloat(input);
+            if (isNaN(num)) {
+                document.getElementById('sigfig-result-value').textContent = '--';
+                return;
+            }
+
+            if (num === 0) {
+                document.getElementById('sigfig-result-value').textContent = '0';
+                return;
+            }
+
+            const rounded = parseFloat(num.toPrecision(sigFigs));
+            document.getElementById('sigfig-result-value').textContent = rounded.toString();
+        }
+
+        // ========== Setup Event Listeners ==========
+        function setupConverter(category, factors, isTemperature = false) {
+            const valueInput = document.getElementById(category + '-value');
+            const fromSelect = document.getElementById(category + '-from');
+            const toSelect = document.getElementById(category + '-to');
+            const resultValue = document.getElementById(category + '-result-value');
+
+            function update() {
+                const value = parseFloat(valueInput.value);
+                let result;
+
+                if (category === 'cooking') {
+                    const currentFactors = cupStandard === 'us' ? cookingFactorsUS : cookingFactorsMetric;
+                    result = convert(value, fromSelect.value, toSelect.value, currentFactors);
+                } else if (isTemperature) {
+                    result = convertTemperature(value, fromSelect.value, toSelect.value);
+                } else {
+                    result = convert(value, fromSelect.value, toSelect.value, factors);
+                }
+
+                const formattedResult = formatNumber(result);
+                const unit = unitAbbreviations[toSelect.value] || '';
+                resultValue.textContent = formattedResult !== '--' ? formattedResult + ' ' + unit : '--';
+            }
+
+            valueInput.addEventListener('input', update);
+            fromSelect.addEventListener('change', update);
+            toSelect.addEventListener('change', update);
+        }
+
+        // ========== Clear Saved Data ==========
+        function clearAllSavedData() {
+            StorageUtils.remove('measurement-tab');
+            StorageUtils.remove('measurement-cup-standard');
+            StorageUtils.remove('measurement-converter');
+
+            // Reset all inputs
+            document.querySelectorAll('input[type="number"], input[type="text"]').forEach(input => {
+                input.value = '';
+            });
+
+            // Reset all results
+            document.querySelectorAll('.value').forEach(el => {
+                if (el.id && el.id.includes('result')) {
+                    el.textContent = '--';
+                }
+            });
+
+            // Reset cup standard
+            setCupStandard('us');
+
+            // Reset to first tab
+            switchTab('basic');
+
+            A11yUtils.announce('All saved data has been cleared', 'polite');
+        }
+
+        // ========== Storage Fields ==========
+        const storageFields = [
+            'length-value', 'length-from', 'length-to',
+            'weight-value', 'weight-from', 'weight-to',
+            'volume-value', 'volume-from', 'volume-to',
+            'area-value', 'area-from', 'area-to',
+            'cooking-value', 'cooking-from', 'cooking-to',
+            'temp-value', 'temp-from', 'temp-to',
+            'si-value', 'si-from', 'si-to',
+            'sci-value', 'sci-precision',
+            'sigfig-value', 'sigfig-count',
+            'pressure-value', 'pressure-from', 'pressure-to',
+            'energy-value', 'energy-from', 'energy-to',
+            'angle-value', 'angle-from', 'angle-to',
+            'trig-angle', 'trig-unit',
+            'speed-value', 'speed-from', 'speed-to',
+            'time-value', 'time-from', 'time-to',
+            'power-value', 'power-from', 'power-to',
+            'freq-value', 'freq-from', 'freq-to'
+        ];
+
+        // ========== Initialize ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            // Setup converters
+            setupConverter('length', lengthFactors);
+            setupConverter('weight', weightFactors);
+            setupConverter('volume', volumeFactors);
+            setupConverter('area', areaFactors);
+            setupConverter('cooking', null); // Uses dynamic factors
+            setupConverter('temp', null, true); // Temperature special case
+            setupConverter('si', siFactors);
+            setupConverter('pressure', pressureFactors);
+            setupConverter('energy', energyFactors);
+            setupConverter('angle', angleFactors);
+            setupConverter('speed', speedFactors);
+            setupConverter('time', timeFactors);
+            setupConverter('power', powerFactors);
+            setupConverter('freq', frequencyFactors);
+
+            // Scientific notation listeners
+            document.getElementById('sci-value').addEventListener('input', convertScientificNotation);
+            document.getElementById('sci-precision').addEventListener('change', convertScientificNotation);
+
+            // Significant figures listeners
+            document.getElementById('sigfig-value').addEventListener('input', roundToSigFigs);
+            document.getElementById('sigfig-count').addEventListener('change', roundToSigFigs);
+
+            // Trig calculator - Enter key
+            document.getElementById('trig-angle').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') calculateTrig();
+            });
+
+            // Load saved preferences
+            const savedTab = StorageUtils.load('measurement-tab', 'basic');
+            switchTab(savedTab);
+
+            const savedCupStandard = StorageUtils.load('measurement-cup-standard', 'us');
+            setCupStandard(savedCupStandard);
+
+            // Load and auto-save form inputs
+            StorageUtils.loadFormInputs('measurement-converter', storageFields, function() {
+                // Trigger updates after loading
+                storageFields.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el && el.value) {
+                        el.dispatchEvent(new Event('input'));
+                    }
+                });
+            });
+            StorageUtils.autoSaveFormInputs('measurement-converter', storageFields);
+        });
+
+        // Skip link functionality
+        document.querySelector('.skip-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.getElementById('main-content');
+            if (target) {
+                target.setAttribute('tabindex', '-1');
+                target.focus();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    </script>
+</body>
+</html>

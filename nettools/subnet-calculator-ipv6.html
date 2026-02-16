@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Calculate IPv6 subnets with prefix notation. Determine network range, total addresses, and compressed notation. Fast IPv6 subnet calculation tool.">
+    <meta name="keywords" content="IPv6 subnet calculator, IPv6 CIDR, IPv6 prefix calculator, IPv6 network calculator, IPv6 address calculator">
+    <meta name="author" content="OldWeb LLC">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://oldweb.tech/nettools/subnet-calculator-ipv6.html">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="IPv6 Subnet Calculator - OldWeb.tech">
+    <meta property="og:description" content="Calculate IPv6 subnets with prefix notation. Determine network range, total addresses, and compressed notation. Fast IPv6 subnet calculation tool.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oldweb.tech/nettools/subnet-calculator-ipv6.html">
+    <meta property="og:site_name" content="OldWeb.tech">
+    <meta property="og:image" content="https://oldweb.tech/logo/og-image.png">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="IPv6 Subnet Calculator - OldWeb.tech">
+    <meta name="twitter:description" content="Calculate IPv6 subnets with prefix notation. Determine network range, total addresses, and compressed notation. Fast IPv6 subnet calculation tool.">
+    <meta name="twitter:image" content="https://oldweb.tech/logo/og-image.png">
+
+    <!-- Additional Meta Tags -->
+    <meta name="theme-color" content="#1a1a2e">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
+
+    <title>IPv6 Subnet Calculator - OldWeb.tech</title>
+    <link rel="stylesheet" href="../a11y.css">
+    <script src="../a11y-utils.js"></script>
+    <script src="../storage-utils.js"></script>
+    <script src="../i18n-utils.js"></script>
+    <script src="../navigationv2.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 2.5rem;
+            color: #4fc3f7;
+            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
+        }
+
+        .calculator {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .input-field {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .input-field label {
+            display: block;
+            margin-bottom: 8px;
+            color: #90caf9;
+            font-weight: 500;
+        }
+
+        .input-field input, .input-field select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: #0f1419;
+            color: #fff;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .input-field select option {
+            background: #0f1419;
+            color: #fff;
+        }
+
+        .input-field input:focus, .input-field select:focus {
+            outline: none;
+            border-color: #4fc3f7;
+            box-shadow: 0 0 15px rgba(79, 195, 247, 0.2);
+        }
+
+        .input-field input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
+            color: #fff;
+            border: none;
+            padding: 14px 40px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+            display: block;
+            width: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(79, 195, 247, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn.secondary {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: #90caf9;
+            margin-top: 10px;
+        }
+        .btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: none;
+            transform: none;
+        }
+
+        .results {
+            display: none;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .results.show {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .results h2 {
+            color: #4fc3f7;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+        }
+
+        .result-item {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px 20px;
+            border-radius: 8px;
+            border-left: 4px solid #4fc3f7;
+        }
+
+        .result-item .label {
+            color: #90caf9;
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .result-item .value {
+            font-size: 1.1rem;
+            font-family: 'Consolas', 'Monaco', monospace;
+            color: #fff;
+            word-break: break-all;
+        }
+
+        .error-alert {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid #f44336;
+            color: #ff8a80;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .error-alert.show {
+            display: block;
+        }
+
+        .hex-display {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .hex-display h3 {
+            color: #4fc3f7;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .hex-item {
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+        }
+
+        .hex-item .hex-label {
+            color: #90caf9;
+            display: inline-block;
+            width: 180px;
+        }
+
+        .hex-item .network-bits {
+            color: #4fc3f7;
+        }
+
+        .hex-item .host-bits {
+            color: #ff8a65;
+        }
+
+        .quick-masks {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .quick-masks h3 {
+            color: #90caf9;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .mask-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .mask-btn {
+            background: rgba(79, 195, 247, 0.1);
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            color: #4fc3f7;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .mask-btn:hover {
+            background: rgba(79, 195, 247, 0.2);
+            border-color: #4fc3f7;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85rem;
+        }
+
+        /* ASCII Logo */
+        .ascii-logo {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.65rem;
+            line-height: 1.1;
+            color: #4fc3f7;
+            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
+            opacity: 0.8;
+            white-space: pre;
+        }
+
+        @media (max-width: 768px) {
+            .ascii-logo {
+                position: static;
+                text-align: center;
+                margin-bottom: 20px;
+                font-size: 0.5rem;
+            }
+        }
+
+        /* Subnet List Styles */
+        .subnet-list {
+            display: none;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 30px;
+        }
+
+        .subnet-list.show {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .subnet-list h2 {
+            color: #4fc3f7;
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+
+        .subnet-list-info {
+            color: #90caf9;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        .subnet-table-container {
+            max-height: 400px;
+            overflow-y: auto;
+            border-radius: 8px;
+        }
+
+        .subnet-table-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .subnet-table-container::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+        }
+
+        .subnet-table-container::-webkit-scrollbar-thumb {
+            background: rgba(79, 195, 247, 0.5);
+            border-radius: 4px;
+        }
+
+        .subnet-table-container::-webkit-scrollbar-thumb:hover {
+            background: rgba(79, 195, 247, 0.7);
+        }
+
+        .subnet-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.85rem;
+        }
+
+        .subnet-table th {
+            background: rgba(79, 195, 247, 0.9);
+            color: #0f1419;
+            padding: 12px 15px;
+            text-align: left;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        .subnet-table td {
+            padding: 10px 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: #fff;
+        }
+
+        .subnet-table tr:hover {
+            background: rgba(79, 195, 247, 0.1);
+        }
+
+        .subnet-table tr.current-subnet {
+            background: rgba(76, 175, 80, 0.2);
+            border-left: 4px solid #4caf50;
+        }
+
+        .subnet-table tr.current-subnet td {
+            color: #a5d6a7;
+        }
+
+        .subnet-number {
+            color: #90caf9;
+            font-weight: 600;
+        }
+
+        .subnet-badge {
+            display: inline-block;
+            background: #4caf50;
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            margin-left: 10px;
+        }
+
+        /* Export Button Styles */
+        .export-btn {
+            background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 15px;
+        }
+
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 187, 106, 0.4);
+        }
+
+        .export-btn:active {
+            transform: translateY(0);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-header h2 {
+            margin-bottom: 0;
+        }
+
+        /* Protocol Toggle Styles */
+        .protocol-toggle-container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .protocol-toggle-link {
+            display: inline-block;
+            padding: 10px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .protocol-toggle-ipv4 {
+            background: rgba(76, 175, 80, 0.2);
+            border: 2px solid rgba(76, 175, 80, 0.5);
+            color: #81c784;
+        }
+
+        .protocol-toggle-ipv4:hover {
+            background: rgba(76, 175, 80, 0.3);
+            border-color: #4caf50;
+            box-shadow: 0 0 15px rgba(76, 175, 80, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .warning {
+            background: rgba(255, 152, 0, 0.2);
+            border: 1px solid #ff9800;
+            color: #ffb74d;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .warning.show {
+            display: block;
+        }
+    </style>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "IPv6 Subnet Calculator",
+      "description": "Calculate IPv6 subnets with prefix notation. Determine network range, total addresses, and compressed notation. Fast IPv6 subnet calculation tool.",
+      "url": "https://oldweb.tech/subnet-calculator-ipv6.html",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Web Browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "creator": {
+        "@type": "Organization",
+        "name": "OldWeb.tech"
+      }
+    }
+    </script>
+</head>
+<body>
+    <a href="#main-content" class="skip-link" data-i18n="common.skipToContent">Skip to main content</a>
+    <div class="ascii-logo" aria-hidden="true">  ___  _    _  __        __   _
+ / _ \| | _| | \ \      / /__| |__
+| | | | |/ _` | \ \ /\ / / _ \ '_ \
+| |_| | | (_| |  \ V  V /  __/ |_) |
+ \___/|_|\__,_|   \_/\_/ \___|_.__/
+</div>
+    <main id="main-content" class="container">
+        <h1 data-i18n="tools.subnetCalculatorIPv6.title">IPv6 Subnet Calculator</h1>
+        <div class="protocol-toggle-container">
+            <a href="subnet-calculator.html" class="protocol-toggle-link protocol-toggle-ipv4" data-i18n="tools.subnetCalculatorIPv6.switchToIPv4">← Switch to IPv4</a>
+        </div>
+
+        <div class="calculator">
+            <form id="ipv6-subnet-form" aria-label="IPv6 Subnet Calculator Form" data-i18n-aria-label="tools.subnetCalculatorIPv6.formAriaLabel">
+            <div class="input-group">
+                <div class="input-field">
+                    <label for="ipv6Address" data-i18n="tools.subnetCalculator.ipAddress">IPv6 Address</label>
+                    <input type="text" id="ipv6Address" placeholder="2001:db8::1" data-i18n-placeholder="tools.subnetCalculatorIPv6.ipv6AddressPlaceholder" aria-required="true" aria-describedby="ipv6-help" autocomplete="off">
+                    <span id="ipv6-help" class="sr-only" data-i18n="tools.subnetCalculatorIPv6.ipv6AddressHelp">Enter an IPv6 address in standard or compressed notation, for example 2001:db8::1</span>
+                </div>
+                <div class="input-field">
+                    <label for="cidr" data-i18n="tools.subnetCalculator.cidr">Prefix Length</label>
+                    <select id="cidr" aria-describedby="cidr-ipv6-help">
+                        <option value="32" data-i18n="tools.subnetCalculatorIPv6.prefixOptions.p32">/32 - ISP Allocation</option>
+                        <option value="48" data-i18n="tools.subnetCalculatorIPv6.prefixOptions.p48">/48 - Site Prefix</option>
+                        <option value="56" data-i18n="tools.subnetCalculatorIPv6.prefixOptions.p56">/56 - Small Site</option>
+                        <option value="64" selected data-i18n="tools.subnetCalculatorIPv6.prefixOptions.p64">/64 - Single Subnet</option>
+                        <option value="80" data-i18n="tools.subnetCalculatorIPv6.prefixOptions.p80">/80</option>
+                        <option value="96" data-i18n="tools.subnetCalculatorIPv6.prefixOptions.p96">/96</option>
+                        <option value="112" data-i18n="tools.subnetCalculatorIPv6.prefixOptions.p112">/112</option>
+                        <option value="120" data-i18n="tools.subnetCalculatorIPv6.prefixOptions.p120">/120</option>
+                        <option value="127" data-i18n="tools.subnetCalculatorIPv6.prefixOptions.p127">/127 - Point-to-Point</option>
+                        <option value="128" data-i18n="tools.subnetCalculatorIPv6.prefixOptions.p128">/128 - Single Host</option>
+                    </select>
+                    <span id="cidr-ipv6-help" class="sr-only" data-i18n="tools.subnetCalculatorIPv6.prefixHelp">Select the IPv6 prefix length for your network</span>
+                </div>
+            </div>
+
+            <div class="quick-masks">
+                <h3 id="quick-addresses-label" data-i18n="tools.subnetCalculatorIPv6.quickAddresses">Quick Select Common Addresses:</h3>
+                <div class="mask-buttons" role="group" aria-labelledby="quick-addresses-label">
+                    <button type="button" class="mask-btn" onclick="setAddress('fe80::1')" aria-label="Set address to fe80::1, link-local address" data-i18n="tools.subnetCalculatorIPv6.addressLocal">fe80::1 - Local</button>
+                    <button type="button" class="mask-btn" onclick="setAddress('2001:db8::1')" aria-label="Set address to 2001:db8::1, documentation and testing address" data-i18n="tools.subnetCalculatorIPv6.addressInternet">2001:db8::1 - Internet</button>
+                    <button type="button" class="mask-btn" onclick="setAddress('fd00::1')" aria-label="Set address to fd00::1, unique local address, private network" data-i18n="tools.subnetCalculatorIPv6.addressPrivate">fd00::1 - Private</button>
+                </div>
+            </div>
+
+            <div class="quick-masks">
+                <h3 id="quick-prefixes-label" data-i18n="tools.subnetCalculatorIPv6.quickPrefixes">Quick Select Common Prefixes:</h3>
+                <div class="mask-buttons" role="group" aria-labelledby="quick-prefixes-label">
+                    <button type="button" class="mask-btn" onclick="setMask(32)" aria-label="Set prefix to /32, ISP allocation" data-i18n="tools.subnetCalculatorIPv6.prefixISP">/32 ISP</button>
+                    <button type="button" class="mask-btn" onclick="setMask(48)" aria-label="Set prefix to /48, site prefix" data-i18n="tools.subnetCalculatorIPv6.prefixSite">/48 Site</button>
+                    <button type="button" class="mask-btn" onclick="setMask(56)" aria-label="Set prefix to /56, small site prefix" data-i18n="tools.subnetCalculatorIPv6.prefixSmallSite">/56 Small Site</button>
+                    <button type="button" class="mask-btn" onclick="setMask(64)" aria-label="Set prefix to /64, single subnet, standard for LANs" data-i18n="tools.subnetCalculatorIPv6.prefixSubnet">/64 Subnet</button>
+                    <button type="button" class="mask-btn" onclick="setMask(80)" aria-label="Set prefix to /80">/80</button>
+                    <button type="button" class="mask-btn" onclick="setMask(96)" aria-label="Set prefix to /96">/96</button>
+                    <button type="button" class="mask-btn" onclick="setMask(112)" aria-label="Set prefix to /112">/112</button>
+                    <button type="button" class="mask-btn" onclick="setMask(128)" aria-label="Set prefix to /128, single host address" data-i18n="tools.subnetCalculatorIPv6.prefixHost">/128 Host</button>
+                </div>
+            </div>
+
+            <button type="button" class="btn" onclick="calculate()" style="margin-top: 25px;" aria-label="Calculate IPv6 subnet details for the entered address and prefix" data-i18n="tools.subnetCalculator.calculateSubnet">Calculate Subnet</button>
+            <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page" data-i18n="common.clearSavedData">Clear Saved Data</button>
+
+            <div class="error-alert" id="error" role="alert" aria-live="assertive" aria-atomic="true"></div>
+            </form>
+        </div>
+
+        <div class="results" id="results" role="region" aria-live="polite" aria-label="IPv6 subnet calculation results">
+            <div class="section-header">
+                <h2 data-i18n="tools.subnetCalculator.subnetDetails">Subnet Details</h2>
+                <button type="button" class="export-btn" onclick="exportSubnetDetailsToCSV()" aria-label="Export IPv6 subnet details to CSV file" data-i18n="common.exportToCSV">Export to CSV</button>
+            </div>
+            <div class="results-grid">
+                <div class="result-item">
+                    <div class="label" data-i18n="tools.subnetCalculatorIPv6.networkCompressed">Network Address (Compressed)</div>
+                    <div class="value" id="networkCompressed">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="label" data-i18n="tools.subnetCalculatorIPv6.networkExpanded">Network Address (Expanded)</div>
+                    <div class="value" id="networkExpanded">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="label" data-i18n="tools.subnetCalculator.firstHost">First Address</div>
+                    <div class="value" id="firstAddress">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="label" data-i18n="tools.subnetCalculator.lastHost">Last Address</div>
+                    <div class="value" id="lastAddress">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="label" data-i18n="tools.subnetCalculator.cidrNotation">Prefix</div>
+                    <div class="value" id="prefix">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="label" data-i18n="tools.subnetCalculator.totalHosts">Total Addresses</div>
+                    <div class="value" id="totalAddresses">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="label" data-i18n="tools.subnetCalculator.ipClass">Address Type</div>
+                    <div class="value" id="addressType">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="label" data-i18n="tools.subnetCalculatorIPv6.interfaceId">Interface ID</div>
+                    <div class="value" id="interfaceId">-</div>
+                </div>
+            </div>
+
+            <div class="hex-display">
+                <h3 data-i18n="tools.subnetCalculatorIPv6.hexRepresentation">Hexadecimal Representation</h3>
+                <div class="hex-item">
+                    <span class="hex-label" data-i18n="tools.subnetCalculatorIPv6.hexIPv6Address">IPv6 Address:</span>
+                    <span id="hexIP">-</span>
+                </div>
+                <div class="hex-item">
+                    <span class="hex-label" data-i18n="tools.subnetCalculatorIPv6.hexPrefixMask">Prefix Mask:</span>
+                    <span id="hexMask">-</span>
+                </div>
+                <div class="hex-item">
+                    <span class="hex-label" data-i18n="tools.subnetCalculatorIPv6.hexNetworkColored">Network (colored):</span>
+                    <span id="hexNetwork">-</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="subnet-list" id="subnetList" role="region" aria-label="All IPv6 subnets in network">
+            <div class="section-header">
+                <h2 data-i18n="tools.subnetCalculator.allSubnets">All Subnets in Network</h2>
+                <button type="button" class="export-btn" onclick="exportSubnetListToCSV()" aria-label="Export IPv6 subnet list to CSV file" data-i18n="common.exportToCSV">Export to CSV</button>
+            </div>
+            <div class="warning" id="subnetWarning"></div>
+            <div class="subnet-list-info" id="subnetListInfo"></div>
+            <div class="subnet-table-container">
+                <table class="subnet-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th data-i18n="tools.subnetCalculator.networkAddress">Network Address</th>
+                            <th data-i18n="tools.subnetCalculator.hostRange">Address Range</th>
+                            <th data-i18n="tools.subnetCalculator.totalHosts">Total Addresses</th>
+                        </tr>
+                    </thead>
+                    <tbody id="subnetTableBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <footer role="contentinfo">
+            <span data-i18n="tools.subnetCalculatorIPv6.title">IPv6 Subnet Calculator</span> - <span data-i18n="common.worksOffline">Works offline, no installation required</span>
+        </footer>
+    </main>
+
+    <script>
+        // Initialize accessibility - handle skip link
+        document.querySelector('.skip-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.getElementById('main-content');
+            if (target) {
+                target.setAttribute('tabindex', '-1');
+                target.focus();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    </script>
+
+    <script>
+        // Set quick address selection
+        function setAddress(addr) {
+            document.getElementById('ipv6Address').value = addr;
+            // Auto-calculate if valid
+            if (isValidIPv6(addr)) calculate();
+        }
+
+        // Set quick mask selection
+        function setMask(cidr) {
+            document.getElementById('cidr').value = cidr;
+        }
+
+        // Validate IPv6 address
+        function isValidIPv6(addr) {
+            if (!addr || addr.length > 39) return false;
+
+            // Check for valid characters
+            if (!/^[0-9a-fA-F:]+$/.test(addr)) return false;
+
+            // Cannot start or end with single colon
+            if (/^:[^:]/.test(addr) || /[^:]:$/.test(addr)) return false;
+
+            // Only one :: allowed
+            if ((addr.match(/::/g) || []).length > 1) return false;
+
+            // Handle :: compression
+            if (addr.includes('::')) {
+                const parts = addr.split('::');
+                const left = parts[0] ? parts[0].split(':').filter(s => s) : [];
+                const right = parts[1] ? parts[1].split(':').filter(s => s) : [];
+                const totalSegments = left.length + right.length;
+                if (totalSegments > 7) return false;
+
+                // Validate each segment
+                const allSegments = [...left, ...right];
+                for (const seg of allSegments) {
+                    if (seg.length > 4) return false;
+                    const num = parseInt(seg, 16);
+                    if (isNaN(num) || num < 0 || num > 0xffff) return false;
+                }
+            } else {
+                const segments = addr.split(':');
+                if (segments.length !== 8) return false;
+
+                for (const seg of segments) {
+                    if (seg.length > 4 || seg.length === 0) return false;
+                    const num = parseInt(seg, 16);
+                    if (isNaN(num) || num < 0 || num > 0xffff) return false;
+                }
+            }
+
+            return true;
+        }
+
+        // Expand compressed IPv6 to full notation
+        function expandIPv6(addr) {
+            if (addr.includes('::')) {
+                const sides = addr.split('::');
+                const left = sides[0] ? sides[0].split(':') : [];
+                const right = sides[1] ? sides[1].split(':') : [];
+                const missing = 8 - (left.length + right.length);
+                const middle = Array(missing).fill('0000');
+                const full = [...left, ...middle, ...right];
+                return full.map(s => s.padStart(4, '0')).join(':');
+            }
+            return addr.split(':').map(s => s.padStart(4, '0')).join(':');
+        }
+
+        // Compress IPv6 to shortest notation
+        function compressIPv6(addr) {
+            const segments = expandIPv6(addr).split(':');
+
+            // Find longest run of zeros
+            let maxStart = -1, maxLen = 0;
+            let currStart = -1, currLen = 0;
+
+            for (let i = 0; i < segments.length; i++) {
+                if (segments[i] === '0000') {
+                    if (currStart === -1) currStart = i;
+                    currLen++;
+                } else {
+                    if (currLen > maxLen) {
+                        maxStart = currStart;
+                        maxLen = currLen;
+                    }
+                    currStart = -1;
+                    currLen = 0;
+                }
+            }
+            if (currLen > maxLen) {
+                maxStart = currStart;
+                maxLen = currLen;
+            }
+
+            // Replace longest run with ::
+            if (maxLen > 1) {
+                const before = segments.slice(0, maxStart).map(s => s.replace(/^0+/, '') || '0');
+                const after = segments.slice(maxStart + maxLen).map(s => s.replace(/^0+/, '') || '0');
+
+                if (before.length === 0 && after.length === 0) return '::';
+                if (before.length === 0) return '::' + after.join(':');
+                if (after.length === 0) return before.join(':') + '::';
+                return before.join(':') + '::' + after.join(':');
+            }
+
+            return segments.map(s => s.replace(/^0+/, '') || '0').join(':');
+        }
+
+        // Convert IPv6 to BigInt
+        function ipv6ToInt(addr) {
+            const expanded = expandIPv6(addr);
+            const segments = expanded.split(':');
+            let result = 0n;
+
+            for (let i = 0; i < 8; i++) {
+                const val = BigInt(parseInt(segments[i], 16));
+                result = (result << 16n) | val;
+            }
+
+            return result;
+        }
+
+        // Convert BigInt to IPv6
+        function intToIPv6(int) {
+            const segments = [];
+            let temp = int;
+
+            for (let i = 0; i < 8; i++) {
+                segments.unshift((temp & 0xffffn).toString(16).padStart(4, '0'));
+                temp = temp >> 16n;
+            }
+
+            return segments.join(':');
+        }
+
+        // Calculate subnet mask from CIDR
+        function cidrToIPv6Mask(cidr) {
+            const mask = (0xffffffffffffffffffffffffffffffffn << (128n - BigInt(cidr))) &
+                         0xffffffffffffffffffffffffffffffffn;
+            return mask;
+        }
+
+        // Get IPv6 address type
+        function getIPv6AddressType(addr) {
+            const ipInt = ipv6ToInt(addr);
+
+            if (ipInt === 0n) return 'Unspecified (::)';
+            if (ipInt === 1n) return 'Loopback (::1)';
+
+            const firstSegment = (ipInt >> 112n) & 0xffffn;
+
+            // Link-local: fe80::/10
+            if ((firstSegment & 0xffc0n) === 0xfe80n) return 'Link-Local';
+
+            // Unique local: fc00::/7
+            if ((firstSegment & 0xfe00n) === 0xfc00n) return 'Unique Local Address (ULA)';
+
+            // Multicast: ff00::/8
+            if ((firstSegment & 0xff00n) === 0xff00n) return 'Multicast';
+
+            // IPv4-mapped: ::ffff:0:0/96
+            if ((ipInt >> 32n) === 0xffffn) return 'IPv4-Mapped';
+
+            return 'Global Unicast';
+        }
+
+        // Format IPv6 hex with colors
+        function formatIPv6HexWithColors(addr, cidr) {
+            const expanded = expandIPv6(addr);
+            const hex = expanded.replace(/:/g, '');
+
+            let result = '';
+            for (let i = 0; i < hex.length; i++) {
+                // Add colon every 4 hex digits
+                if (i > 0 && i % 4 === 0) result += ':';
+
+                // Color based on network vs host bits
+                const bitPosition = i * 4; // Each hex = 4 bits
+                if (bitPosition < cidr) {
+                    result += `<span class="network-bits">${hex[i]}</span>`;
+                } else {
+                    result += `<span class="host-bits">${hex[i]}</span>`;
+                }
+            }
+            return result;
+        }
+
+        // Get parent CIDR for subnet listing
+        function getParentCidrIPv6(cidr) {
+            if (cidr >= 65) return 64;
+            if (cidr >= 57) return 56;
+            if (cidr >= 49) return 48;
+            if (cidr >= 33) return 32;
+            return Math.max(0, cidr - 8);
+        }
+
+        // Format large number
+        function formatBigNumber(num) {
+            const numStr = num.toString();
+            if (numStr.length <= 15) return numStr.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+            // For very large numbers, use exponential notation
+            const magnitude = numStr.length - 1;
+            const base = numStr[0] + '.' + numStr.slice(1, 4);
+            return `${base} × 10^${magnitude}`;
+        }
+
+        // Generate subnet list
+        function generateSubnetList(ipInt, cidr, currentNetworkInt) {
+            const subnetListDiv = document.getElementById('subnetList');
+            const tableBody = document.getElementById('subnetTableBody');
+            const infoDiv = document.getElementById('subnetListInfo');
+            const warningDiv = document.getElementById('subnetWarning');
+
+            // Clear previous content
+            tableBody.innerHTML = '';
+            warningDiv.classList.remove('show');
+
+            // Get parent network
+            const parentCidr = getParentCidrIPv6(cidr);
+            const parentMask = cidrToIPv6Mask(parentCidr);
+            const parentNetwork = ipInt & parentMask;
+
+            // Calculate number of subnets
+            const numSubnets = 2n ** BigInt(cidr - parentCidr);
+            const subnetSize = 2n ** BigInt(128 - cidr);
+
+            // Limit display to max 256 subnets for performance
+            const maxDisplay = 256;
+            const displayCount = Number(numSubnets > BigInt(maxDisplay) ? BigInt(maxDisplay) : numSubnets);
+
+            // Show warning if limiting
+            if (numSubnets > maxDisplay) {
+                const warningText = I18nUtils.t('tools.subnetCalculatorIPv6.performanceLimitWarning', { max: maxDisplay, total: formatBigNumber(numSubnets) });
+                warningDiv.textContent = warningText;
+                warningDiv.classList.add('show');
+            }
+
+            // Update info text
+            const infoText = I18nUtils.t('tools.subnetCalculatorIPv6.subnetListInfo', {
+                shown: displayCount.toLocaleString(),
+                total: formatBigNumber(numSubnets),
+                cidr: cidr,
+                network: `${compressIPv6(intToIPv6(parentNetwork))}/${parentCidr}`
+            });
+            infoDiv.innerHTML = infoText.replace(/(\d[\d,]*)/g, '<strong>$1</strong>').replace(/([\da-fA-F:]+\/\d+)/g, '<strong>$1</strong>');
+
+            // Generate subnet rows
+            for (let i = 0; i < displayCount; i++) {
+                const subnetNetwork = parentNetwork + (BigInt(i) * subnetSize);
+                const lastAddress = subnetNetwork + subnetSize - 1n;
+
+                const isCurrent = subnetNetwork === currentNetworkInt;
+
+                const row = document.createElement('tr');
+                if (isCurrent) {
+                    row.className = 'current-subnet';
+                }
+
+                const currentBadge = isCurrent ? `<span class="subnet-badge">${I18nUtils.t('tools.subnetCalculatorIPv6.current')}</span>` : '';
+                row.innerHTML = `
+                    <td><span class="subnet-number">${i + 1}</span>${currentBadge}</td>
+                    <td>${compressIPv6(intToIPv6(subnetNetwork))}/${cidr}</td>
+                    <td>${compressIPv6(intToIPv6(subnetNetwork))} - ${compressIPv6(intToIPv6(lastAddress))}</td>
+                    <td>${formatBigNumber(subnetSize)}</td>
+                `;
+
+                tableBody.appendChild(row);
+            }
+
+            // Show the subnet list
+            subnetListDiv.classList.add('show');
+
+            // Scroll to current subnet if not visible
+            setTimeout(() => {
+                const currentRow = tableBody.querySelector('.current-subnet');
+                if (currentRow) {
+                    currentRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }, 100);
+        }
+
+        // Main calculate function
+        function calculate() {
+            const ipInput = document.getElementById('ipv6Address').value.trim();
+            const ipv6AddressField = document.getElementById('ipv6Address');
+            const cidr = parseInt(document.getElementById('cidr').value, 10);
+            const errorDiv = document.getElementById('error');
+            const resultsDiv = document.getElementById('results');
+
+            // Hide previous results
+            resultsDiv.classList.remove('show');
+            errorDiv.classList.remove('show');
+            errorDiv.textContent = '';
+            document.getElementById('subnetList').classList.remove('show');
+
+            // Clear any previous errors
+            A11yUtils.clearError(ipv6AddressField);
+
+            // Validate IP
+            if (!isValidIPv6(ipInput)) {
+                const errorMsg = I18nUtils.t('tools.subnetCalculatorIPv6.invalidIPv6');
+                errorDiv.textContent = errorMsg;
+                errorDiv.classList.add('show');
+                A11yUtils.showError(ipv6AddressField, errorMsg);
+                ipv6AddressField.focus();
+                return;
+            }
+
+            // Calculate values
+            const ipInt = ipv6ToInt(ipInput);
+            const maskInt = cidrToIPv6Mask(cidr);
+            const networkInt = ipInt & maskInt;
+
+            const hostBits = 128 - cidr;
+            const totalAddresses = 2n ** BigInt(hostBits);
+            const lastAddressInt = networkInt + totalAddresses - 1n;
+
+            const networkCompressed = compressIPv6(intToIPv6(networkInt));
+            const networkExpanded = expandIPv6(intToIPv6(networkInt));
+            const firstAddress = compressIPv6(intToIPv6(networkInt));
+            const lastAddress = compressIPv6(intToIPv6(lastAddressInt));
+
+            // Get address type
+            const addressType = getIPv6AddressType(ipInput);
+
+            // Get interface ID for /64
+            let interfaceId = 'N/A';
+            if (cidr === 64) {
+                const interfaceIdInt = ipInt & 0xffffffffffffffffn;
+                interfaceId = interfaceIdInt.toString(16).padStart(16, '0');
+                interfaceId = interfaceId.match(/.{1,4}/g).join(':');
+            }
+
+            // Update display
+            document.getElementById('networkCompressed').textContent = networkCompressed;
+            document.getElementById('networkExpanded').textContent = networkExpanded;
+            document.getElementById('firstAddress').textContent = firstAddress;
+            document.getElementById('lastAddress').textContent = lastAddress;
+            document.getElementById('prefix').textContent = '/' + cidr;
+            document.getElementById('totalAddresses').textContent = formatBigNumber(totalAddresses);
+            document.getElementById('addressType').textContent = addressType;
+            document.getElementById('interfaceId').textContent = interfaceId;
+
+            // Hex display
+            document.getElementById('hexIP').innerHTML = formatIPv6HexWithColors(ipInput, cidr);
+            document.getElementById('hexMask').textContent = expandIPv6(intToIPv6(maskInt));
+            document.getElementById('hexNetwork').innerHTML = formatIPv6HexWithColors(intToIPv6(networkInt), cidr);
+
+            // Show results
+            resultsDiv.classList.add('show');
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            // Announce results to screen readers
+            const announcement = I18nUtils.t('tools.subnetCalculatorIPv6.resultsAnnounce', {
+                network: networkCompressed,
+                cidr: cidr,
+                type: addressType
+            });
+            A11yUtils.announce(announcement, 'polite');
+
+            // Generate subnet list
+            generateSubnetList(ipInt, cidr, networkInt);
+        }
+
+        // Allow Enter key to calculate
+        document.getElementById('ipv6Address').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') calculate();
+        });
+
+        // Auto-calculate on CIDR change if IP is valid
+        document.getElementById('cidr').addEventListener('change', function() {
+            const ip = document.getElementById('ipv6Address').value.trim();
+            if (isValidIPv6(ip)) calculate();
+        });
+
+        // CSV Export Functions
+        function downloadCSV(filename, csvContent) {
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+
+            link.setAttribute('href', url);
+            link.setAttribute('download', filename);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function exportSubnetDetailsToCSV() {
+            const networkCompressed = document.getElementById('networkCompressed').textContent;
+            const networkExpanded = document.getElementById('networkExpanded').textContent;
+            const firstAddress = document.getElementById('firstAddress').textContent;
+            const lastAddress = document.getElementById('lastAddress').textContent;
+            const prefix = document.getElementById('prefix').textContent;
+            const totalAddresses = document.getElementById('totalAddresses').textContent;
+            const addressType = document.getElementById('addressType').textContent;
+            const interfaceId = document.getElementById('interfaceId').textContent;
+
+            const csvRows = [
+                ['Field', 'Value'],
+                ['Network Address (Compressed)', networkCompressed],
+                ['Network Address (Expanded)', networkExpanded],
+                ['First Address', firstAddress],
+                ['Last Address', lastAddress],
+                ['Prefix', prefix],
+                ['Total Addresses', totalAddresses],
+                ['Address Type', addressType],
+                ['Interface ID', interfaceId]
+            ];
+
+            const csvContent = csvRows.map(row => row.map(cell => `"${cell.replace(/"/g, '""')}"`).join(',')).join('\n');
+            const filename = `ipv6-subnet-${networkCompressed.replace(/:/g, '-')}${prefix}.csv`;
+
+            downloadCSV(filename, csvContent);
+            A11yUtils.announce('IPv6 subnet details exported to CSV file', 'polite');
+        }
+
+        function exportSubnetListToCSV() {
+            const tableBody = document.getElementById('subnetTableBody');
+            const rows = tableBody.querySelectorAll('tr');
+
+            if (rows.length === 0) {
+                alert(I18nUtils.t('tools.subnetCalculatorIPv6.noSubnetListToExport'));
+                return;
+            }
+
+            const csvRows = [
+                ['Subnet #', 'Network Address', 'First Address', 'Last Address', 'Total Addresses']
+            ];
+
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                const subnetNum = cells[0].querySelector('.subnet-number').textContent;
+                const networkAddr = cells[1].textContent;
+                const addressRange = cells[2].textContent.split(' - ');
+                const firstAddr = addressRange[0];
+                const lastAddr = addressRange[1];
+                const totalAddrs = cells[3].textContent;
+
+                csvRows.push([
+                    subnetNum,
+                    networkAddr,
+                    firstAddr,
+                    lastAddr,
+                    totalAddrs
+                ]);
+            });
+
+            const csvContent = csvRows.map(row => row.map(cell => `"${cell.replace(/"/g, '""')}"`).join(',')).join('\n');
+
+            const filename = `ipv6-subnet-list-${new Date().toISOString().split('T')[0]}.csv`;
+
+            downloadCSV(filename, csvContent);
+            A11yUtils.announce(`IPv6 subnet list exported to CSV file. ${rows.length} subnets exported.`, 'polite');
+        }
+
+        // localStorage persistence
+        const subnetCalcIPv6Fields = ['ipv6Address', 'cidr'];
+
+        function clearAllSavedData() {
+            StorageUtils.remove('subnet-calc-ipv6');
+            document.getElementById('ipv6Address').value = '';
+            document.getElementById('cidr').value = '64';
+            A11yUtils.announce(I18nUtils.t('common.allDataCleared'), 'polite');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            StorageUtils.loadFormInputs('subnet-calc-ipv6', subnetCalcIPv6Fields);
+            StorageUtils.autoSaveFormInputs('subnet-calc-ipv6', subnetCalcIPv6Fields);
+        });
+    </script>
+</body>
+</html>

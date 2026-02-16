@@ -1,0 +1,1987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Calculate monthly payments, total interest, and generate complete amortization schedules for fixed-rate mortgages and loans. Free, fast, offline-ready calculator.">
+    <meta name="keywords" content="amortization calculator, mortgage calculator, loan calculator, payment schedule, interest calculator, monthly payment, loan amortization">
+    <meta name="author" content="OldWeb LLC">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://oldweb.tech/financials/amortization-calculator.html">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Amortization Calculator - OldWeb.tech">
+    <meta property="og:description" content="Calculate monthly payments, total interest, and generate complete amortization schedules for fixed-rate mortgages and loans.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oldweb.tech/financials/amortization-calculator.html">
+    <meta property="og:site_name" content="OldWeb.tech">
+    <meta property="og:image" content="https://oldweb.tech/logo/og-image.png">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Amortization Calculator - OldWeb.tech">
+    <meta name="twitter:description" content="Calculate monthly payments, total interest, and generate complete amortization schedules for fixed-rate mortgages and loans.">
+    <meta name="twitter:image" content="https://oldweb.tech/logo/og-image.png">
+
+    <!-- Additional Meta Tags -->
+    <meta name="theme-color" content="#1a1a2e">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
+
+    <title>Amortization Calculator - OldWeb.tech</title>
+    <link rel="stylesheet" href="../a11y.css">
+    <script src="../a11y-utils.js"></script>
+    <script src="../storage-utils.js"></script>
+    <script src="../i18n-utils.js"></script>
+    <script src="../navigationv2.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            color: #4fc3f7;
+            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
+        }
+
+        .calculator {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .input-field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-field label {
+            display: block;
+            margin-bottom: 8px;
+            color: #90caf9;
+            font-weight: 500;
+        }
+
+        .input-field input, .input-field select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: #0f1419;
+            color: #fff;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .input-field select option {
+            background: #0f1419;
+            color: #fff;
+        }
+
+        .input-field input:focus, .input-field select:focus {
+            outline: none;
+            border-color: #4fc3f7;
+            box-shadow: 0 0 15px rgba(79, 195, 247, 0.2);
+        }
+
+        .input-field input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .input-prefix {
+            position: relative;
+        }
+
+        .input-prefix span {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.5);
+            pointer-events: none;
+        }
+
+        .input-prefix input {
+            padding-left: 30px;
+        }
+
+        .input-suffix {
+            position: relative;
+        }
+
+        .input-suffix span {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.5);
+            pointer-events: none;
+        }
+
+        .input-suffix input {
+            padding-right: 30px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
+            color: #fff;
+            border: none;
+            padding: 14px 40px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+            display: block;
+            width: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(79, 195, 247, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn.secondary {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: #90caf9;
+            margin-top: 10px;
+        }
+
+        .btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: none;
+            transform: none;
+        }
+
+        .results {
+            display: none;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .results.show {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .results h2 {
+            color: #4fc3f7;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .summary-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .summary-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        @media (max-width: 500px) {
+            .summary-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .summary-item {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #4fc3f7;
+            position: relative;
+        }
+
+        .summary-item.highlight {
+            border-left-color: #66bb6a;
+            background: rgba(102, 187, 106, 0.1);
+        }
+
+        .summary-item .label {
+            color: #90caf9;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .summary-item .value {
+            font-size: 1.5rem;
+            font-family: 'Consolas', 'Monaco', monospace;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .summary-item .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(79, 195, 247, 0.2);
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            color: #4fc3f7;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: all 0.2s;
+        }
+
+        .summary-item .copy-btn:hover {
+            background: rgba(79, 195, 247, 0.3);
+            border-color: #4fc3f7;
+        }
+
+        .summary-item .copy-btn.copied {
+            background: rgba(76, 175, 80, 0.3);
+            border-color: #4caf50;
+            color: #4caf50;
+        }
+
+        .breakdown {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .breakdown h3 {
+            color: #90caf9;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        .breakdown-bar {
+            display: flex;
+            height: 30px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .breakdown-principal {
+            background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #fff;
+            min-width: 60px;
+        }
+
+        .breakdown-interest {
+            background: linear-gradient(135deg, #ff7043 0%, #f4511e 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #fff;
+            min-width: 60px;
+        }
+
+        .breakdown-legend {
+            display: flex;
+            gap: 20px;
+            font-size: 0.9rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .breakdown-total {
+            margin-top: 12px;
+            padding: 10px 15px;
+            background: rgba(79, 195, 247, 0.1);
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .breakdown-total .total-label {
+            color: #90caf9;
+            font-size: 0.9rem;
+        }
+
+        .breakdown-total .total-value {
+            color: #4fc3f7;
+            font-size: 1.1rem;
+            font-weight: 600;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+        }
+
+        .legend-dot.principal {
+            background: #66bb6a;
+        }
+
+        .legend-dot.interest {
+            background: #ff7043;
+        }
+
+        .breakdown-tax {
+            background: linear-gradient(135deg, #9575cd 0%, #7e57c2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #fff;
+            min-width: 40px;
+        }
+
+        .breakdown-hoa {
+            background: linear-gradient(135deg, #4dd0e1 0%, #00acc1 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #fff;
+            min-width: 40px;
+        }
+
+        .legend-dot.tax {
+            background: #9575cd;
+        }
+
+        .legend-dot.hoa {
+            background: #4dd0e1;
+        }
+
+        .breakdown-pi {
+            background: linear-gradient(135deg, #42a5f5 0%, #1e88e5 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #fff;
+            min-width: 40px;
+        }
+
+        .legend-dot.pi {
+            background: #42a5f5;
+        }
+
+        .breakdown-spacer {
+            height: 20px;
+        }
+
+        .breakdown-legend {
+            flex-wrap: wrap;
+        }
+
+        .schedule-section {
+            display: none;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .schedule-section.show {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .section-header h2 {
+            color: #4fc3f7;
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .export-btn {
+            background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+        }
+
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 187, 106, 0.4);
+        }
+
+        .print-btn {
+            background: linear-gradient(135deg, #9575cd 0%, #7e57c2 100%);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+        }
+
+        .print-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(149, 117, 205, 0.4);
+        }
+
+        .schedule-table-wrapper {
+            overflow-x: auto;
+            max-height: 500px;
+            overflow-y: auto;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 700px;
+        }
+
+        .schedule-table th {
+            background: #1e3a5f;
+            color: #4fc3f7;
+            padding: 12px 15px;
+            text-align: right;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        .schedule-table th:first-child,
+        .schedule-table td:first-child {
+            text-align: center;
+        }
+
+        .schedule-table th:nth-child(2),
+        .schedule-table td:nth-child(2) {
+            text-align: left;
+        }
+
+        .schedule-table td {
+            padding: 12px 15px;
+            text-align: right;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+        }
+
+        .schedule-table tbody tr:hover {
+            background: rgba(79, 195, 247, 0.1);
+        }
+
+        .schedule-table tbody tr:nth-child(even) {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .schedule-table tbody tr:nth-child(even):hover {
+            background: rgba(79, 195, 247, 0.1);
+        }
+
+        .schedule-table .year-row {
+            background: rgba(79, 195, 247, 0.15) !important;
+            font-weight: 600;
+        }
+
+        .schedule-table .year-row td {
+            color: #4fc3f7;
+        }
+
+        #error {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid #f44336;
+            color: #ff8a80;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        #error.show {
+            display: block;
+        }
+
+        input.error {
+            border-color: #f44336 !important;
+        }
+
+        .savings-section {
+            display: none;
+            background: rgba(102, 187, 106, 0.1);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(102, 187, 106, 0.3);
+            margin-bottom: 30px;
+        }
+
+        .savings-section.show {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .savings-section h2 {
+            color: #66bb6a;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .savings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .savings-item {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #66bb6a;
+        }
+
+        .savings-item.highlight {
+            background: rgba(102, 187, 106, 0.15);
+        }
+
+        .savings-item .label {
+            color: #a5d6a7;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .savings-item .value {
+            font-size: 1.5rem;
+            font-family: 'Consolas', 'Monaco', monospace;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .savings-item .value.positive {
+            color: #66bb6a;
+        }
+
+        .quick-presets {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .quick-presets h3 {
+            color: #90caf9;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .preset-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .preset-btn {
+            background: rgba(79, 195, 247, 0.1);
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            color: #4fc3f7;
+            padding: 8px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .preset-btn:hover {
+            background: rgba(79, 195, 247, 0.2);
+            border-color: #4fc3f7;
+        }
+
+        .ascii-logo {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.65rem;
+            line-height: 1.1;
+            color: #4fc3f7;
+            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
+            opacity: 0.8;
+            white-space: pre;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85rem;
+        }
+
+        .formula-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .formula-section h2 {
+            color: #4fc3f7;
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+
+        .formula-intro {
+            color: #90caf9;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        .formula-card {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #4fc3f7;
+        }
+
+        .formula-card h3 {
+            color: #fff;
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+
+        .formula-card .formula-desc {
+            color: #90caf9;
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+        }
+
+        .formula-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #0f1419;
+            border-radius: 6px;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+        }
+
+        .formula-box code {
+            flex: 1;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.95rem;
+            color: #66bb6a;
+            word-break: break-all;
+        }
+
+        .formula-box .copy-btn {
+            background: rgba(79, 195, 247, 0.2);
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            color: #4fc3f7;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .formula-box .copy-btn:hover {
+            background: rgba(79, 195, 247, 0.3);
+            border-color: #4fc3f7;
+        }
+
+        .formula-box .copy-btn.copied {
+            background: rgba(76, 175, 80, 0.3);
+            border-color: #4caf50;
+            color: #4caf50;
+        }
+
+        .formula-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .formula-legend span {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .ascii-logo {
+                position: static;
+                text-align: center;
+                margin-bottom: 20px;
+                font-size: 0.5rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .input-group {
+                grid-template-columns: 1fr;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .header-actions {
+                width: 100%;
+            }
+
+            .header-actions button {
+                flex: 1;
+            }
+        }
+
+        /* Print header - hidden on screen, shown only when printing */
+        .print-header {
+            display: none;
+        }
+
+        @media print {
+            /* Page setup */
+            @page {
+                margin: 0.75in 0.5in;
+                size: letter portrait;
+            }
+
+            @page :first {
+                margin-top: 0.5in;
+            }
+
+            /* Base print styles */
+            body {
+                background: #fff !important;
+                color: #000;
+                padding: 0;
+                margin: 0;
+                font-size: 11pt;
+                line-height: 1.4;
+            }
+
+            .container {
+                max-width: 100%;
+                padding: 0;
+            }
+
+            /* Hide non-print elements */
+            .calculator,
+            .nav-bar,
+            .ascii-logo,
+            .skip-link,
+            footer,
+            .btn,
+            .export-btn,
+            .print-btn,
+            .copy-btn,
+            .quick-presets {
+                display: none !important;
+            }
+
+            /* Show print header */
+            .print-header {
+                display: block;
+                text-align: center;
+                margin-bottom: 20px;
+                padding-bottom: 15px;
+                border-bottom: 2px solid #333;
+            }
+
+            .print-header h1 {
+                font-size: 18pt;
+                color: #000;
+                margin: 0 0 5px 0;
+            }
+
+            .print-header .print-date {
+                font-size: 10pt;
+                color: #666;
+                margin: 0;
+            }
+
+            /* Results sections */
+            .results,
+            .schedule-section,
+            .savings-section {
+                display: block !important;
+                background: #fff !important;
+                border: none;
+                box-shadow: none;
+                backdrop-filter: none;
+                padding: 0;
+            }
+
+            .savings-section h2 {
+                color: #2e7d32;
+            }
+
+            .savings-item {
+                background: #f5f5f5 !important;
+                border-left-color: #4caf50;
+                break-inside: avoid;
+                page-break-inside: avoid;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .savings-item .label {
+                color: #666;
+            }
+
+            .savings-item .value {
+                color: #000;
+            }
+
+            .savings-item .value.positive {
+                color: #2e7d32;
+            }
+
+            .results h2,
+            .section-header h2 {
+                color: #333;
+            }
+
+            .summary-item {
+                background: #f5f5f5 !important;
+                border-left-color: #333;
+                break-inside: avoid;
+                page-break-inside: avoid;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .summary-item .label {
+                color: #666;
+            }
+
+            .summary-item .value {
+                color: #000;
+            }
+
+            /* Schedule table */
+            .schedule-table-wrapper {
+                max-height: none !important;
+                overflow: visible !important;
+                border: none;
+            }
+
+            .schedule-table {
+                width: 100%;
+                min-width: auto;
+                font-size: 9pt;
+                border-collapse: collapse;
+            }
+
+            .schedule-table thead {
+                display: table-header-group;
+            }
+
+            .schedule-table tbody {
+                display: table-row-group;
+            }
+
+            .schedule-table tr {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+
+            .schedule-table th {
+                background: #f0f0f0 !important;
+                color: #333;
+                padding: 8px 10px;
+                border: 1px solid #ccc;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .schedule-table td {
+                color: #000;
+                padding: 6px 10px;
+                border: 1px solid #ddd;
+            }
+
+            .breakdown-bar {
+                border: 1px solid #ccc;
+            }
+        }
+
+        /* Collapsible Section */
+        .collapsible {
+            margin-bottom: 12px;
+        }
+
+        .collapsible-header {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+        }
+
+        .collapsible-header:hover {
+            background: rgba(0, 0, 0, 0.3);
+            border-color: rgba(79, 195, 247, 0.3);
+        }
+
+        .collapsible-header h3 {
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .collapsible-icon {
+            color: #4fc3f7;
+            font-size: 1.2rem;
+            transition: transform 0.3s;
+        }
+
+        .collapsible.open .collapsible-icon {
+            transform: rotate(180deg);
+        }
+
+        .collapsible-content {
+            display: none;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .collapsible.open .collapsible-content {
+            display: block;
+        }
+    </style>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Amortization Calculator",
+      "description": "Calculate monthly payments, total interest, and generate complete amortization schedules for fixed-rate mortgages and loans.",
+      "url": "https://oldweb.tech/financials/amortization-calculator.html",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Web Browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "creator": {
+        "@type": "Organization",
+        "name": "OldWeb.tech"
+      }
+    }
+    </script>
+</head>
+<body>
+    <a href="#main-content" class="skip-link" data-i18n="common.skipToContent">Skip to main content</a>
+    <div class="ascii-logo" aria-hidden="true">  ___  _    _  __        __   _
+ / _ \| | _| | \ \      / /__| |__
+| | | | |/ _` | \ \ /\ / / _ \ '_ \
+| |_| | | (_| |  \ V  V /  __/ |_) |
+ \___/|_|\__,_|   \_/\_/ \___|_.__/
+</div>
+    <div class="print-header" aria-hidden="true">
+        <h1>Amortization Schedule Report</h1>
+        <p class="print-date"></p>
+    </div>
+
+    <main id="main-content" class="container">
+        <h1 data-i18n="tools.amortizationCalculator.title">Amortization Calculator</h1>
+
+        <div class="calculator">
+            <form id="amort-form" aria-label="Amortization Calculator Form">
+                <div class="input-group">
+                    <div class="input-field">
+                        <label for="principal" data-i18n="tools.amortizationCalculator.labels.loanAmount">Loan Amount</label>
+                        <div class="input-prefix">
+                            <span>$</span>
+                            <input type="text" id="principal" placeholder="200,000" aria-required="true" aria-describedby="principal-help" inputmode="decimal">
+                        </div>
+                        <span id="principal-help" class="sr-only">Enter the total loan amount in dollars</span>
+                    </div>
+                    <div class="input-field">
+                        <label for="rate" data-i18n="tools.amortizationCalculator.labels.interestRate">Annual Interest Rate</label>
+                        <div class="input-suffix">
+                            <input type="text" id="rate" placeholder="6.5" aria-required="true" aria-describedby="rate-help" inputmode="decimal">
+                            <span>%</span>
+                        </div>
+                        <span id="rate-help" class="sr-only">Enter the annual interest rate as a percentage</span>
+                    </div>
+                    <div class="input-field">
+                        <label for="term" data-i18n="tools.amortizationCalculator.labels.loanTerm">Loan Term</label>
+                        <input type="number" id="term" placeholder="30" value="30" min="1" max="50" aria-required="true" aria-describedby="term-help">
+                        <span id="term-help" class="sr-only">Enter the loan term in years</span>
+                    </div>
+                    <div class="input-field">
+                        <label for="term-unit" data-i18n="tools.amortizationCalculator.labels.termUnit">Term Unit</label>
+                        <select id="term-unit" aria-describedby="term-unit-help">
+                            <option value="years" selected data-i18n="tools.amortizationCalculator.termUnits.years">Years</option>
+                            <option value="months" data-i18n="tools.amortizationCalculator.termUnits.months">Months</option>
+                        </select>
+                        <span id="term-unit-help" class="sr-only">Select whether the term is in years or months</span>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <div class="input-field">
+                        <label for="start-date" data-i18n="tools.amortizationCalculator.labels.startDate">Start Date (Optional)</label>
+                        <input type="month" id="start-date" aria-describedby="start-date-help">
+                        <span id="start-date-help" class="sr-only">Optional: Enter the loan start date to show payment dates in the schedule</span>
+                    </div>
+                    <div class="input-field">
+                        <label for="extra-payment" data-i18n="tools.amortizationCalculator.labels.extraPayment">Extra Monthly Payment (Optional)</label>
+                        <div class="input-prefix">
+                            <span>$</span>
+                            <input type="text" id="extra-payment" placeholder="0" aria-describedby="extra-payment-help" inputmode="decimal">
+                        </div>
+                        <span id="extra-payment-help" class="sr-only">Optional: Enter additional monthly payment to pay off loan faster</span>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <div class="input-field">
+                        <label for="property-tax" data-i18n="tools.amortizationCalculator.labels.propertyTax">Annual Property Tax (Optional)</label>
+                        <div class="input-prefix">
+                            <span>$</span>
+                            <input type="text" id="property-tax" placeholder="0" aria-describedby="property-tax-help" inputmode="decimal">
+                        </div>
+                        <span id="property-tax-help" class="sr-only">Optional: Enter annual property tax to include in total monthly payment</span>
+                    </div>
+                    <div class="input-field">
+                        <label for="hoa-fee" data-i18n="tools.amortizationCalculator.labels.hoaFee">Monthly HOA Fee (Optional)</label>
+                        <div class="input-prefix">
+                            <span>$</span>
+                            <input type="text" id="hoa-fee" placeholder="0" aria-describedby="hoa-fee-help" inputmode="decimal">
+                        </div>
+                        <span id="hoa-fee-help" class="sr-only">Optional: Enter monthly HOA fee to include in total monthly payment</span>
+                    </div>
+                </div>
+
+                <button type="button" class="btn" onclick="calculate()" aria-label="Calculate amortization schedule" data-i18n="common.calculate">Calculate</button>
+                <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page" data-i18n="common.clearSavedData">Clear Saved Data</button>
+
+                <div class="quick-presets">
+                    <h3 id="presets-label" data-i18n="tools.amortizationCalculator.presets.title">Common Loan Examples:</h3>
+                    <div class="preset-buttons" role="group" aria-labelledby="presets-label">
+                        <button type="button" class="preset-btn" onclick="setPreset(200000, 6.5, 30)" aria-label="200 thousand dollar mortgage at 6.5 percent for 30 years" data-i18n="tools.amortizationCalculator.presets.mortgage200k">$200K @ 6.5% / 30yr</button>
+                        <button type="button" class="preset-btn" onclick="setPreset(300000, 7, 30)" aria-label="300 thousand dollar mortgage at 7 percent for 30 years" data-i18n="tools.amortizationCalculator.presets.mortgage300k">$300K @ 7% / 30yr</button>
+                        <button type="button" class="preset-btn" onclick="setPreset(400000, 6.75, 15)" aria-label="400 thousand dollar mortgage at 6.75 percent for 15 years" data-i18n="tools.amortizationCalculator.presets.mortgage400k">$400K @ 6.75% / 15yr</button>
+                        <button type="button" class="preset-btn" onclick="setPreset(25000, 8, 5)" aria-label="25 thousand dollar auto loan at 8 percent for 5 years" data-i18n="tools.amortizationCalculator.presets.auto25k">$25K Auto @ 8% / 5yr</button>
+                    </div>
+                </div>
+
+                <div class="error" id="error" role="alert" aria-live="assertive" aria-atomic="true"></div>
+            </form>
+        </div>
+
+        <div class="results" id="results" role="region" aria-live="polite" aria-label="Loan summary">
+            <h2 data-i18n="tools.amortizationCalculator.results.loanSummary">Loan Summary</h2>
+            <div class="summary-grid" id="summaryGrid">
+                <!-- Summary will be inserted here -->
+            </div>
+            <div class="breakdown" id="breakdown">
+                <!-- Breakdown bar will be inserted here -->
+            </div>
+        </div>
+
+        <div class="savings-section" id="savings-section" role="region" aria-live="polite" aria-label="Early payoff savings">
+            <h2 data-i18n="tools.amortizationCalculator.savings.title">Early Payoff Savings</h2>
+            <div class="savings-grid" id="savingsGrid">
+                <!-- Savings will be inserted here -->
+            </div>
+        </div>
+
+        <div class="schedule-section" id="schedule-section" role="region" aria-label="Amortization schedule">
+            <div class="section-header">
+                <h2 data-i18n="tools.amortizationCalculator.schedule.title">Amortization Schedule</h2>
+                <div class="header-actions">
+                    <button type="button" class="export-btn" onclick="exportToCSV()" aria-label="Export schedule to CSV file" data-i18n="common.exportCSV">Export CSV</button>
+                    <button type="button" class="print-btn" onclick="window.print()" aria-label="Print amortization schedule" data-i18n="tools.amortizationCalculator.schedule.print">Print</button>
+                </div>
+            </div>
+            <div class="schedule-table-wrapper">
+                <table class="schedule-table" id="scheduleTable" aria-label="Payment schedule">
+                    <thead>
+                        <tr>
+                            <th scope="col" data-i18n="tools.amortizationCalculator.schedule.paymentNum">#</th>
+                            <th scope="col" data-i18n="tools.amortizationCalculator.schedule.date">Date</th>
+                            <th scope="col" data-i18n="tools.amortizationCalculator.schedule.payment">Payment</th>
+                            <th scope="col" data-i18n="tools.amortizationCalculator.schedule.principal">Principal</th>
+                            <th scope="col" data-i18n="tools.amortizationCalculator.schedule.interest">Interest</th>
+                            <th scope="col" data-i18n="tools.amortizationCalculator.schedule.balance">Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody id="scheduleBody">
+                        <!-- Schedule rows will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="formula-section" id="formula-section">
+            <div class="collapsible" id="formula-collapsible">
+                <div class="collapsible-header" onclick="toggleCollapsible('formula-collapsible')" tabindex="0" role="button" aria-expanded="false" aria-controls="formula-content">
+                    <h3 data-i18n="tools.amortizationCalculator.formulas.title">Excel Formulas for Loan Amortization</h3>
+                    <span class="collapsible-icon" aria-hidden="true">&#9660;</span>
+                </div>
+                <div class="collapsible-content" id="formula-content">
+                    <p class="formula-intro" data-i18n="tools.amortizationCalculator.formulas.description">Copy these formulas into Excel or Google Sheets. Replace cell references with your values.</p>
+
+                    <div class="formula-card">
+                        <h3 data-i18n="tools.amortizationCalculator.formulas.monthlyPayment">Monthly Payment (PMT)</h3>
+                        <p class="formula-desc" data-i18n="tools.amortizationCalculator.formulas.monthlyPaymentDesc">Calculate monthly principal and interest payment</p>
+                        <div class="formula-box">
+                            <code id="formula-pmt">=PMT(B2/12, B3*12, -B1)</code>
+                            <button class="copy-btn" onclick="copyFormula('formula-pmt', this)" aria-label="Copy formula" data-i18n="common.copy">Copy</button>
+                        </div>
+                        <div class="formula-legend">
+                            <span data-i18n="tools.amortizationCalculator.formulas.legendLoanAmount">B1 = Loan Amount</span>
+                            <span data-i18n="tools.amortizationCalculator.formulas.legendAnnualRate">B2 = Annual Rate (decimal, e.g., 0.065)</span>
+                            <span data-i18n="tools.amortizationCalculator.formulas.legendTermYears">B3 = Term in Years</span>
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3 data-i18n="tools.amortizationCalculator.formulas.totalInterest">Total Interest Paid</h3>
+                        <p class="formula-desc" data-i18n="tools.amortizationCalculator.formulas.totalInterestDesc">Calculate total interest over the life of the loan</p>
+                        <div class="formula-box">
+                            <code id="formula-total-interest">=(PMT(B2/12,B3*12,-B1)*B3*12)-B1</code>
+                            <button class="copy-btn" onclick="copyFormula('formula-total-interest', this)" aria-label="Copy formula" data-i18n="common.copy">Copy</button>
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3 data-i18n="tools.amortizationCalculator.formulas.remainingBalance">Remaining Balance After N Payments</h3>
+                        <p class="formula-desc" data-i18n="tools.amortizationCalculator.formulas.remainingBalanceDesc">Calculate how much you still owe after a number of payments</p>
+                        <div class="formula-box">
+                            <code id="formula-balance">=FV(B2/12, B4, -PMT(B2/12,B3*12,-B1), B1)</code>
+                            <button class="copy-btn" onclick="copyFormula('formula-balance', this)" aria-label="Copy formula" data-i18n="common.copy">Copy</button>
+                        </div>
+                        <div class="formula-legend">
+                            <span data-i18n="tools.amortizationCalculator.formulas.legendPaymentsMade">B4 = Payments Made</span>
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3 data-i18n="tools.amortizationCalculator.formulas.interestPortion">Interest Portion of Payment N</h3>
+                        <p class="formula-desc" data-i18n="tools.amortizationCalculator.formulas.interestPortionDesc">Calculate interest portion of a specific payment</p>
+                        <div class="formula-box">
+                            <code id="formula-ipmt">=IPMT(B2/12, B4, B3*12, -B1)</code>
+                            <button class="copy-btn" onclick="copyFormula('formula-ipmt', this)" aria-label="Copy formula" data-i18n="common.copy">Copy</button>
+                        </div>
+                        <div class="formula-legend">
+                            <span data-i18n="tools.amortizationCalculator.formulas.legendPaymentNumber">B4 = Payment Number</span>
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3 data-i18n="tools.amortizationCalculator.formulas.principalPortion">Principal Portion of Payment N</h3>
+                        <p class="formula-desc" data-i18n="tools.amortizationCalculator.formulas.principalPortionDesc">Calculate principal portion of a specific payment</p>
+                        <div class="formula-box">
+                            <code id="formula-ppmt">=PPMT(B2/12, B4, B3*12, -B1)</code>
+                            <button class="copy-btn" onclick="copyFormula('formula-ppmt', this)" aria-label="Copy formula" data-i18n="common.copy">Copy</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer role="contentinfo">
+            <span data-i18n="common.worksOffline">Amortization Calculator - Works offline, no installation required</span>
+        </footer>
+    </main>
+
+    <script>
+        let scheduleData = [];
+
+        function formatCurrency(num) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }).format(num);
+        }
+
+        function formatCurrencyShort(num) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(num);
+        }
+
+        function parseNumber(str) {
+            if (!str) return null;
+            const cleaned = str.replace(/[,$\s]/g, '');
+            const num = parseFloat(cleaned);
+            return isNaN(num) || num <= 0 ? null : num;
+        }
+
+        function setPreset(principal, rate, years) {
+            document.getElementById('principal').value = principal.toLocaleString();
+            document.getElementById('rate').value = rate;
+            document.getElementById('term').value = years;
+            document.getElementById('term-unit').value = 'years';
+            calculate();
+        }
+
+        function calculateMonthlyPayment(principal, monthlyRate, totalPayments) {
+            if (monthlyRate === 0) {
+                return principal / totalPayments;
+            }
+            return principal * (monthlyRate * Math.pow(1 + monthlyRate, totalPayments)) /
+                   (Math.pow(1 + monthlyRate, totalPayments) - 1);
+        }
+
+        function calculate() {
+            const principalInput = document.getElementById('principal');
+            const rateInput = document.getElementById('rate');
+            const termInput = document.getElementById('term');
+            const termUnit = document.getElementById('term-unit').value;
+            const startDateInput = document.getElementById('start-date');
+            const extraPaymentInput = document.getElementById('extra-payment');
+            const errorDiv = document.getElementById('error');
+            const resultsDiv = document.getElementById('results');
+            const scheduleSection = document.getElementById('schedule-section');
+            const savingsSection = document.getElementById('savings-section');
+
+            // Clear previous state
+            resultsDiv.classList.remove('show');
+            scheduleSection.classList.remove('show');
+            savingsSection.classList.remove('show');
+            errorDiv.classList.remove('show');
+            errorDiv.textContent = '';
+            [principalInput, rateInput, termInput].forEach(input => {
+                input.classList.remove('error');
+                input.removeAttribute('aria-invalid');
+            });
+
+            // Validate principal
+            const principal = parseNumber(principalInput.value);
+            if (principal === null) {
+                const msg = I18nUtils.t('tools.amortizationCalculator.validation.invalidLoanAmount');
+                errorDiv.textContent = msg;
+                errorDiv.classList.add('show');
+                principalInput.classList.add('error');
+                principalInput.setAttribute('aria-invalid', 'true');
+                principalInput.focus();
+                A11yUtils.announce(msg, 'assertive');
+                return;
+            }
+
+            // Validate rate
+            const annualRate = parseNumber(rateInput.value);
+            if (annualRate === null || annualRate > 100) {
+                const msg = I18nUtils.t('tools.amortizationCalculator.validation.invalidInterestRate');
+                errorDiv.textContent = msg;
+                errorDiv.classList.add('show');
+                rateInput.classList.add('error');
+                rateInput.setAttribute('aria-invalid', 'true');
+                rateInput.focus();
+                A11yUtils.announce(msg, 'assertive');
+                return;
+            }
+
+            // Validate term
+            const termValue = parseInt(termInput.value);
+            if (isNaN(termValue) || termValue <= 0) {
+                const msg = I18nUtils.t('tools.amortizationCalculator.validation.invalidTerm');
+                errorDiv.textContent = msg;
+                errorDiv.classList.add('show');
+                termInput.classList.add('error');
+                termInput.setAttribute('aria-invalid', 'true');
+                termInput.focus();
+                A11yUtils.announce(msg, 'assertive');
+                return;
+            }
+
+            // Get extra payment (default to 0)
+            const extraPayment = parseNumber(extraPaymentInput.value) || 0;
+
+            // Get property tax and HOA fee (optional)
+            const annualPropertyTax = parseNumber(document.getElementById('property-tax').value) || 0;
+            const monthlyPropertyTax = annualPropertyTax / 12;
+            const hoaFee = parseNumber(document.getElementById('hoa-fee').value) || 0;
+
+            // Calculate months
+            const totalPayments = termUnit === 'years' ? termValue * 12 : termValue;
+            const monthlyRate = annualRate / 100 / 12;
+
+            // Calculate monthly payment (base payment without extra)
+            const baseMonthlyPayment = calculateMonthlyPayment(principal, monthlyRate, totalPayments);
+            const totalMonthlyPayment = baseMonthlyPayment + extraPayment;
+
+            // Calculate original totals (without extra payments)
+            const originalTotalPaid = baseMonthlyPayment * totalPayments;
+            const originalTotalInterest = originalTotalPaid - principal;
+
+            // Generate schedule with extra payments
+            scheduleData = [];
+            let balance = principal;
+            let startDate = startDateInput.value ? new Date(startDateInput.value + '-01') : null;
+            let actualPayments = 0;
+            let actualTotalInterest = 0;
+
+            while (balance > 0.01 && actualPayments < totalPayments * 2) { // Safety limit
+                actualPayments++;
+                const interestPayment = balance * monthlyRate;
+                actualTotalInterest += interestPayment;
+
+                // Calculate principal portion
+                let principalPayment = totalMonthlyPayment - interestPayment;
+                let payment = totalMonthlyPayment;
+
+                // Final payment adjustment
+                if (principalPayment >= balance) {
+                    principalPayment = balance;
+                    payment = principalPayment + interestPayment;
+                }
+
+                balance -= principalPayment;
+
+                let paymentDate = '';
+                if (startDate) {
+                    const date = new Date(startDate);
+                    date.setMonth(date.getMonth() + actualPayments);
+                    paymentDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+                }
+
+                scheduleData.push({
+                    number: actualPayments,
+                    date: paymentDate,
+                    payment: payment,
+                    principal: principalPayment,
+                    interest: interestPayment,
+                    balance: Math.max(0, balance)
+                });
+            }
+
+            const actualTotalPaid = scheduleData.reduce((sum, row) => sum + row.payment, 0);
+
+            // Display summary
+            displaySummary(totalMonthlyPayment, principal, actualTotalInterest, actualTotalPaid, actualPayments, annualRate, extraPayment > 0, monthlyPropertyTax, hoaFee, totalPayments);
+
+            // Display schedule
+            displaySchedule();
+
+            // Show results
+            resultsDiv.classList.add('show');
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            scheduleSection.classList.add('show');
+
+            // Show savings section if extra payment is provided
+            if (extraPayment > 0) {
+                const interestSaved = originalTotalInterest - actualTotalInterest;
+                const paymentsSaved = totalPayments - actualPayments;
+                const yearsSaved = Math.floor(paymentsSaved / 12);
+                const monthsSaved = paymentsSaved % 12;
+
+                displaySavings(interestSaved, paymentsSaved, yearsSaved, monthsSaved, extraPayment, baseMonthlyPayment);
+                savingsSection.classList.add('show');
+
+                A11yUtils.announce(`Calculated: Monthly payment ${formatCurrency(totalMonthlyPayment)}, Interest saved ${formatCurrency(interestSaved)}, Payoff ${yearsSaved} years ${monthsSaved} months sooner`, 'polite');
+            } else {
+                A11yUtils.announce(`Calculated: Monthly payment ${formatCurrency(baseMonthlyPayment)}, Total interest ${formatCurrency(originalTotalInterest)}`, 'polite');
+            }
+        }
+
+        function displaySavings(interestSaved, paymentsSaved, yearsSaved, monthsSaved, extraPayment, basePayment) {
+            const savingsGrid = document.getElementById('savingsGrid');
+
+            let timeString = '';
+            if (yearsSaved > 0) {
+                const yrsLabel = yearsSaved !== 1 ? I18nUtils.t('tools.amortizationCalculator.savings.yearsAbbr') : I18nUtils.t('tools.amortizationCalculator.savings.yearAbbr');
+                const moLabel = I18nUtils.t('tools.amortizationCalculator.savings.monthAbbr');
+                timeString = `${yearsSaved} ${yrsLabel} ${monthsSaved} ${moLabel}`;
+            } else {
+                const monthLabel = monthsSaved !== 1 ? I18nUtils.t('tools.amortizationCalculator.savings.monthsLabel') : I18nUtils.t('tools.amortizationCalculator.savings.monthLabel');
+                timeString = `${monthsSaved} ${monthLabel}`;
+            }
+
+            const paymentIncrease = ((extraPayment / basePayment) * 100).toFixed(1);
+
+            savingsGrid.innerHTML = `
+                <div class="savings-item highlight">
+                    <div class="label">${I18nUtils.t('tools.amortizationCalculator.savings.interestSaved')}</div>
+                    <div class="value positive">${formatCurrency(interestSaved)}</div>
+                </div>
+                <div class="savings-item highlight">
+                    <div class="label">${I18nUtils.t('tools.amortizationCalculator.savings.timeSaved')}</div>
+                    <div class="value positive">${timeString}</div>
+                </div>
+                <div class="savings-item">
+                    <div class="label">${I18nUtils.t('tools.amortizationCalculator.savings.paymentsEliminated')}</div>
+                    <div class="value">${paymentsSaved}</div>
+                </div>
+                <div class="savings-item">
+                    <div class="label">${I18nUtils.t('tools.amortizationCalculator.savings.extraPayment')}</div>
+                    <div class="value">${formatCurrency(extraPayment)}/${I18nUtils.t('tools.amortizationCalculator.savings.perMonth')}</div>
+                </div>
+                <div class="savings-item">
+                    <div class="label">${I18nUtils.t('tools.amortizationCalculator.savings.paymentIncrease')}</div>
+                    <div class="value">+${paymentIncrease}%</div>
+                </div>
+            `;
+        }
+
+        function displaySummary(monthlyPayment, principal, totalInterest, totalPaid, numPayments, rate, hasExtraPayment = false, monthlyPropertyTax = 0, hoaFee = 0, originalTermPayments = 0) {
+            const summaryGrid = document.getElementById('summaryGrid');
+            const breakdown = document.getElementById('breakdown');
+
+            const principalPercent = (principal / totalPaid * 100).toFixed(1);
+            const interestPercent = (totalInterest / totalPaid * 100).toFixed(1);
+
+            // Calculate total monthly payment including tax and HOA
+            const hasExtras = monthlyPropertyTax > 0 || hoaFee > 0;
+            const totalMonthlyWithExtras = monthlyPayment + monthlyPropertyTax + hoaFee;
+
+            const copyLabel = I18nUtils.t('common.copy');
+            let summaryHTML = `
+                <div class="summary-item">
+                    <div class="label">${I18nUtils.t('tools.amortizationCalculator.results.totalPrincipal')}</div>
+                    <div class="value">${formatCurrency(principal)}</div>
+                    <button class="copy-btn" onclick="copyValue('${principal.toFixed(2)}', this)" aria-label="Copy principal">${copyLabel}</button>
+                </div>
+                <div class="summary-item">
+                    <div class="label">${I18nUtils.t('tools.amortizationCalculator.results.totalInterest')}</div>
+                    <div class="value">${formatCurrency(totalInterest)}</div>
+                    <button class="copy-btn" onclick="copyValue('${totalInterest.toFixed(2)}', this)" aria-label="Copy total interest">${copyLabel}</button>
+                </div>
+                <div class="summary-item highlight">
+                    <div class="label">${I18nUtils.t('tools.amortizationCalculator.results.totalCost')}</div>
+                    <div class="value">${formatCurrency(totalPaid)}</div>
+                    <button class="copy-btn" onclick="copyValue('${totalPaid.toFixed(2)}', this)" aria-label="Copy total cost">${copyLabel}</button>
+                </div>
+                <div class="summary-item highlight">
+                    <div class="label">${hasExtras ? I18nUtils.t('tools.amortizationCalculator.results.piPayment') : I18nUtils.t('tools.amortizationCalculator.results.monthlyPayment')}</div>
+                    <div class="value" id="monthlyPaymentValue">${formatCurrency(monthlyPayment)}</div>
+                    <button class="copy-btn" onclick="copyValue('${monthlyPayment.toFixed(2)}', this)" aria-label="Copy monthly payment">${copyLabel}</button>
+                </div>`;
+
+            if (hasExtras) {
+                summaryHTML += `
+                <div class="summary-item highlight">
+                    <div class="label">${I18nUtils.t('tools.amortizationCalculator.results.totalMonthlyPayment')}</div>
+                    <div class="value">${formatCurrency(totalMonthlyWithExtras)}</div>
+                    <button class="copy-btn" onclick="copyValue('${totalMonthlyWithExtras.toFixed(2)}', this)" aria-label="Copy total monthly payment">${copyLabel}</button>
+                </div>`;
+            }
+
+            summaryHTML += `
+                <div class="summary-row">
+                    <div class="summary-item">
+                        <div class="label">${I18nUtils.t('tools.amortizationCalculator.results.totalPayments')}</div>
+                        <div class="value">${numPayments}</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="label">${I18nUtils.t('tools.amortizationCalculator.results.interestRate')}</div>
+                        <div class="value">${rate}%</div>
+                    </div>
+                </div>`;
+
+            if (monthlyPropertyTax > 0 || hoaFee > 0) {
+                summaryHTML += `<div class="summary-row">`;
+                if (monthlyPropertyTax > 0) {
+                    summaryHTML += `
+                    <div class="summary-item">
+                        <div class="label">${I18nUtils.t('tools.amortizationCalculator.results.monthlyTax')}</div>
+                        <div class="value">${formatCurrency(monthlyPropertyTax)}</div>
+                    </div>`;
+                }
+                if (hoaFee > 0) {
+                    summaryHTML += `
+                    <div class="summary-item">
+                        <div class="label">${I18nUtils.t('tools.amortizationCalculator.results.monthlyHOA')}</div>
+                        <div class="value">${formatCurrency(hoaFee)}</div>
+                    </div>`;
+                }
+                summaryHTML += `</div>`;
+            }
+
+            summaryGrid.innerHTML = summaryHTML;
+
+            // Build breakdown HTML
+            let breakdownHTML = '';
+
+            // Monthly cost breakdown (when extras are present)
+            if (hasExtras) {
+                const piPct = (monthlyPayment / totalMonthlyWithExtras * 100).toFixed(1);
+                const monthlyTaxPct = (monthlyPropertyTax / totalMonthlyWithExtras * 100).toFixed(1);
+                const monthlyHoaPct = (hoaFee / totalMonthlyWithExtras * 100).toFixed(1);
+
+                const piLabel = I18nUtils.t('tools.amortizationCalculator.breakdown.pi');
+                const taxLabel = I18nUtils.t('tools.amortizationCalculator.breakdown.tax');
+                const hoaLabel = I18nUtils.t('tools.amortizationCalculator.breakdown.hoa');
+
+                let monthlyBarHTML = `<div class="breakdown-pi" style="width: ${piPct}%">${piPct}%</div>`;
+                let monthlyLegendHTML = `
+                    <div class="legend-item">
+                        <span class="legend-dot pi"></span>
+                        <span>${piLabel}: ${formatCurrency(monthlyPayment)}</span>
+                    </div>`;
+                let monthlyAriaLabel = `${piLabel} ${piPct}%`;
+
+                if (monthlyPropertyTax > 0) {
+                    monthlyBarHTML += `<div class="breakdown-tax" style="width: ${monthlyTaxPct}%">${monthlyTaxPct}%</div>`;
+                    monthlyLegendHTML += `
+                    <div class="legend-item">
+                        <span class="legend-dot tax"></span>
+                        <span>${taxLabel}: ${formatCurrency(monthlyPropertyTax)}</span>
+                    </div>`;
+                    monthlyAriaLabel += `, ${taxLabel} ${monthlyTaxPct}%`;
+                }
+
+                if (hoaFee > 0) {
+                    monthlyBarHTML += `<div class="breakdown-hoa" style="width: ${monthlyHoaPct}%">${monthlyHoaPct}%</div>`;
+                    monthlyLegendHTML += `
+                    <div class="legend-item">
+                        <span class="legend-dot hoa"></span>
+                        <span>${hoaLabel}: ${formatCurrency(hoaFee)}</span>
+                    </div>`;
+                    monthlyAriaLabel += `, ${hoaLabel} ${monthlyHoaPct}%`;
+                }
+
+                breakdownHTML += `
+                    <h3>${I18nUtils.t('tools.amortizationCalculator.breakdown.monthlyBreakdown')}</h3>
+                    <div class="breakdown-bar" role="img" aria-label="${monthlyAriaLabel}">
+                        ${monthlyBarHTML}
+                    </div>
+                    <div class="breakdown-legend">
+                        ${monthlyLegendHTML}
+                    </div>
+                    <div class="breakdown-total">
+                        <span class="total-label">${I18nUtils.t('tools.amortizationCalculator.breakdown.totalMonthlyPayment')}</span>
+                        <span class="total-value">${formatCurrency(totalMonthlyWithExtras)}</span>
+                    </div>
+                    <div class="breakdown-spacer"></div>
+                `;
+            }
+
+            // Lifetime cost breakdown
+            const principalLabel = I18nUtils.t('tools.amortizationCalculator.breakdown.principal');
+            const interestLabel = I18nUtils.t('tools.amortizationCalculator.breakdown.interest');
+            const taxLabel = I18nUtils.t('tools.amortizationCalculator.breakdown.tax');
+            const hoaLabel = I18nUtils.t('tools.amortizationCalculator.breakdown.hoa');
+            const totalCostLabel = I18nUtils.t('tools.amortizationCalculator.breakdown.totalCost');
+
+            if (hasExtras) {
+                // Calculate total lifetime cost including tax and HOA over loan term
+                const totalTax = monthlyPropertyTax * numPayments;
+                const totalHOA = hoaFee * numPayments;
+                const grandTotal = totalPaid + totalTax + totalHOA;
+
+                const principalPct = (principal / grandTotal * 100).toFixed(1);
+                const interestPct = (totalInterest / grandTotal * 100).toFixed(1);
+                const taxPct = (totalTax / grandTotal * 100).toFixed(1);
+                const hoaPct = (totalHOA / grandTotal * 100).toFixed(1);
+
+                let barHTML = '';
+                let legendHTML = '';
+                let ariaLabel = `${principalLabel} ${principalPct}%, ${interestLabel} ${interestPct}%`;
+
+                barHTML += `<div class="breakdown-principal" style="width: ${principalPct}%">${principalPct}%</div>`;
+                barHTML += `<div class="breakdown-interest" style="width: ${interestPct}%">${interestPct}%</div>`;
+                legendHTML += `
+                    <div class="legend-item">
+                        <span class="legend-dot principal"></span>
+                        <span>${principalLabel}: ${formatCurrency(principal)}</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-dot interest"></span>
+                        <span>${interestLabel}: ${formatCurrency(totalInterest)}</span>
+                    </div>`;
+
+                if (monthlyPropertyTax > 0) {
+                    barHTML += `<div class="breakdown-tax" style="width: ${taxPct}%">${taxPct}%</div>`;
+                    legendHTML += `
+                    <div class="legend-item">
+                        <span class="legend-dot tax"></span>
+                        <span>${taxLabel}: ${formatCurrency(totalTax)}</span>
+                    </div>`;
+                    ariaLabel += `, ${taxLabel} ${taxPct}%`;
+                }
+
+                if (hoaFee > 0) {
+                    barHTML += `<div class="breakdown-hoa" style="width: ${hoaPct}%">${hoaPct}%</div>`;
+                    legendHTML += `
+                    <div class="legend-item">
+                        <span class="legend-dot hoa"></span>
+                        <span>${hoaLabel}: ${formatCurrency(totalHOA)}</span>
+                    </div>`;
+                    ariaLabel += `, ${hoaLabel} ${hoaPct}%`;
+                }
+
+                breakdownHTML += `
+                    <h3>${I18nUtils.t('tools.amortizationCalculator.breakdown.totalCostBreakdown')}</h3>
+                    <div class="breakdown-bar" role="img" aria-label="${ariaLabel}">
+                        ${barHTML}
+                    </div>
+                    <div class="breakdown-legend">
+                        ${legendHTML}
+                    </div>
+                    <div class="breakdown-total">
+                        <span class="total-label">${totalCostLabel}</span>
+                        <span class="total-value">${formatCurrency(grandTotal)}</span>
+                    </div>
+                `;
+            } else {
+                breakdownHTML += `
+                    <h3>${I18nUtils.t('tools.amortizationCalculator.breakdown.principalVsInterest')}</h3>
+                    <div class="breakdown-bar" role="img" aria-label="${principalLabel} ${principalPercent}%, ${interestLabel} ${interestPercent}%">
+                        <div class="breakdown-principal" style="width: ${principalPercent}%">${principalPercent}%</div>
+                        <div class="breakdown-interest" style="width: ${interestPercent}%">${interestPercent}%</div>
+                    </div>
+                    <div class="breakdown-legend">
+                        <div class="legend-item">
+                            <span class="legend-dot principal"></span>
+                            <span>${principalLabel}: ${formatCurrency(principal)}</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-dot interest"></span>
+                            <span>${interestLabel}: ${formatCurrency(totalInterest)}</span>
+                        </div>
+                    </div>
+                    <div class="breakdown-total">
+                        <span class="total-label">${totalCostLabel}</span>
+                        <span class="total-value">${formatCurrency(totalPaid)}</span>
+                    </div>
+                `;
+            }
+
+            breakdown.innerHTML = breakdownHTML;
+        }
+
+        function displaySchedule() {
+            const tbody = document.getElementById('scheduleBody');
+            tbody.innerHTML = '';
+
+            let currentYear = null;
+
+            scheduleData.forEach((row, index) => {
+                // Add year separator rows
+                if (row.date) {
+                    const year = row.date.split(' ')[1];
+                    if (year !== currentYear && index > 0 && (index) % 12 === 0) {
+                        currentYear = year;
+                    }
+                }
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${row.number}</td>
+                    <td>${row.date || '-'}</td>
+                    <td>${formatCurrency(row.payment)}</td>
+                    <td>${formatCurrency(row.principal)}</td>
+                    <td>${formatCurrency(row.interest)}</td>
+                    <td>${formatCurrency(row.balance)}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function copyValue(value, button) {
+            navigator.clipboard.writeText(value).then(() => {
+                const originalText = button.textContent;
+                button.textContent = '\u2713';
+                button.classList.add('copied');
+                A11yUtils.announce(I18nUtils.t('common.copiedToClipboard'), 'polite');
+
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.classList.remove('copied');
+                }, 1500);
+            });
+        }
+
+        function toggleCollapsible(id) {
+            const element = document.getElementById(id);
+            const header = element.querySelector('.collapsible-header');
+            const isOpen = element.classList.toggle('open');
+            header.setAttribute('aria-expanded', isOpen);
+        }
+
+        function copyFormula(elementId, button) {
+            const formula = document.getElementById(elementId).textContent;
+            navigator.clipboard.writeText(formula).then(() => {
+                const originalText = button.textContent;
+                button.textContent = '\u2713';
+                button.classList.add('copied');
+                A11yUtils.announce(I18nUtils.t('tools.amortizationCalculator.formulas.copiedFormula'), 'polite');
+
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.classList.remove('copied');
+                }, 1500);
+            });
+        }
+
+        function exportToCSV() {
+            if (scheduleData.length === 0) {
+                alert(I18nUtils.t('tools.amortizationCalculator.schedule.noScheduleToExport'));
+                return;
+            }
+
+            const headers = [
+                I18nUtils.t('tools.amortizationCalculator.schedule.csvPaymentNum'),
+                I18nUtils.t('tools.amortizationCalculator.schedule.date'),
+                I18nUtils.t('tools.amortizationCalculator.schedule.payment'),
+                I18nUtils.t('tools.amortizationCalculator.schedule.principal'),
+                I18nUtils.t('tools.amortizationCalculator.schedule.interest'),
+                I18nUtils.t('tools.amortizationCalculator.schedule.balance')
+            ];
+            const csvRows = [headers.join(',')];
+
+            scheduleData.forEach(row => {
+                csvRows.push([
+                    row.number,
+                    row.date || '',
+                    row.payment.toFixed(2),
+                    row.principal.toFixed(2),
+                    row.interest.toFixed(2),
+                    row.balance.toFixed(2)
+                ].join(','));
+            });
+
+            const csvContent = csvRows.join('\n');
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+
+            const principal = document.getElementById('principal').value.replace(/[,$]/g, '');
+            const filename = `amortization-schedule-${principal}.csv`;
+
+            link.setAttribute('href', url);
+            link.setAttribute('download', filename);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            A11yUtils.announce(I18nUtils.t('tools.amortizationCalculator.schedule.exportedToCSV'), 'polite');
+        }
+
+        // Format principal input with commas
+        document.getElementById('principal').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/[^\d.]/g, '');
+            if (value) {
+                const parts = value.split('.');
+                parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                e.target.value = parts.join('.');
+            }
+        });
+
+        // Format extra payment input with commas
+        document.getElementById('extra-payment').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/[^\d.]/g, '');
+            if (value) {
+                const parts = value.split('.');
+                parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                e.target.value = parts.join('.');
+            }
+        });
+
+        // Format property tax input with commas
+        document.getElementById('property-tax').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/[^\d.]/g, '');
+            if (value) {
+                const parts = value.split('.');
+                parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                e.target.value = parts.join('.');
+            }
+        });
+
+        // Format HOA fee input with commas
+        document.getElementById('hoa-fee').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/[^\d.]/g, '');
+            if (value) {
+                const parts = value.split('.');
+                parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                e.target.value = parts.join('.');
+            }
+        });
+
+        // Allow Enter key to calculate
+        document.querySelectorAll('#principal, #rate, #term, #extra-payment, #property-tax, #hoa-fee').forEach(input => {
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    calculate();
+                }
+            });
+        });
+
+        // Form field IDs to persist
+        const amortFormFields = ['principal', 'rate', 'term', 'term-unit', 'start-date', 'extra-payment', 'property-tax', 'hoa-fee'];
+
+        // Clear all saved data and reset form
+        function clearAllSavedData() {
+            StorageUtils.remove('amortization-calc');
+
+            // Reset form fields to defaults
+            document.getElementById('principal').value = '200,000';
+            document.getElementById('rate').value = '6.5';
+            document.getElementById('term').value = '30';
+            document.getElementById('term-unit').selectedIndex = 0;
+            document.getElementById('extra-payment').value = '';
+            document.getElementById('property-tax').value = '';
+            document.getElementById('hoa-fee').value = '';
+
+            // Reset start date to current month
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            document.getElementById('start-date').value = `${year}-${month}`;
+
+            // Hide results
+            document.getElementById('results').classList.remove('show');
+            document.getElementById('savings-section').classList.remove('show');
+            document.getElementById('schedule-section').classList.remove('show');
+
+            A11yUtils.announce(I18nUtils.t('common.allDataCleared'), 'polite');
+        }
+
+        // Set default start date to current month and load saved data
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set default start date
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const defaultDate = `${year}-${month}`;
+
+            // Load saved form data (will override defaults if exists)
+            StorageUtils.loadFormInputs('amortization-calc', amortFormFields, function(data) {
+                // Set defaults if no saved data
+                if (!data['principal']) document.getElementById('principal').value = '200,000';
+                if (!data['rate']) document.getElementById('rate').value = '6.5';
+                if (!data['start-date']) {
+                    document.getElementById('start-date').value = defaultDate;
+                }
+            });
+
+            // Auto-save form inputs on change
+            StorageUtils.autoSaveFormInputs('amortization-calc', amortFormFields);
+        });
+
+        // Skip link handler
+        document.querySelector('.skip-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.getElementById('main-content');
+            if (target) {
+                target.setAttribute('tabindex', '-1');
+                target.focus();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+
+        // Print handler - populate date in print header
+        window.addEventListener('beforeprint', function() {
+            const printDate = document.querySelector('.print-date');
+            if (printDate) {
+                printDate.textContent = 'Generated: ' + new Date().toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+            }
+        });
+    </script>
+</body>
+</html>

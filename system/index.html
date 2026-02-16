@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="System administration tools including chmod calculator, cron builder, RAID calculator, and password generator. Essential utilities for Linux/Unix sysadmins.">
+    <meta name="keywords" content="system tools, chmod calculator, cron expression, RAID calculator, password generator, regex tester, sysadmin utilities">
+    <meta name="author" content="OldWeb LLC">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://oldweb.tech/system/">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="System Tools - OldWeb.tech">
+    <meta property="og:description" content="System administration tools including chmod calculator, cron builder, RAID calculator, and password generator. Essential utilities for Linux/Unix sysadmins.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oldweb.tech/system/">
+    <meta property="og:site_name" content="OldWeb.tech">
+    <meta property="og:image" content="https://oldweb.tech/logo/og-image.png">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="System Tools - OldWeb.tech">
+    <meta name="twitter:description" content="System administration tools including chmod calculator, cron builder, RAID calculator, and password generator. Essential utilities for Linux/Unix sysadmins.">
+    <meta name="twitter:image" content="https://oldweb.tech/logo/og-image.png">
+
+    <!-- Additional Meta Tags -->
+    <meta name="theme-color" content="#1a1a2e">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
+
+    <title>System Tools - OldWeb.tech</title>
+
+    <!-- Accessibility -->
+    <link rel="stylesheet" href="../a11y.css">
+    <script src="../a11y-utils.js"></script>
+
+    <!-- Utilities -->
+    <script src="../storage-utils.js"></script>
+    <script src="../i18n-utils.js"></script>
+    <script src="../navigationv2.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .ascii-logo {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.65rem;
+            line-height: 1.1;
+            color: #4fc3f7;
+            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
+            opacity: 0.8;
+            white-space: pre;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 2.5rem;
+            color: #4fc3f7;
+            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #90caf9;
+            font-size: 1.1rem;
+            margin-bottom: 50px;
+            opacity: 0.9;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .tool-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(79, 195, 247, 0.3);
+            border-color: rgba(79, 195, 247, 0.5);
+        }
+
+        .tool-card h2 {
+            color: #4fc3f7;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .tool-card p {
+            color: #90caf9;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .tool-link {
+            display: inline-block;
+            color: #4fc3f7;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .tool-link:hover {
+            color: #2196f3;
+        }
+
+        .tool-link::after {
+            content: ' →';
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85rem;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .ascii-logo {
+                position: static;
+                text-align: center;
+                margin-bottom: 20px;
+                font-size: 0.5rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .tools-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .tool-card {
+                padding: 25px;
+            }
+
+            .tool-card h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": "System Tools",
+      "description": "System administration tools including chmod calculator, cron builder, RAID calculator, and password generator. Essential utilities for Linux/Unix sysadmins.",
+      "url": "https://oldweb.tech/system/",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "OldWeb.tech",
+        "url": "https://oldweb.tech/"
+      }
+    }
+    </script>
+</head>
+<body>
+    <a href="#main-content" class="skip-link" data-i18n="common.skipToContent">Skip to main content</a>
+    <div class="ascii-logo" aria-hidden="true">  ___  _    _  __        __   _
+ / _ \| | _| | \ \      / /__| |__
+| | | | |/ _` | \ \ /\ / / _ \ '_ \
+| |_| | | (_| |  \ V  V /  __/ |_) |
+ \___/|_|\__,_|   \_/\_/ \___|_.__/
+</div>
+    <main id="main-content" class="container">
+        <h1 data-i18n="categories.system.title">System Tools</h1>
+        <p class="subtitle" data-i18n="categories.system.subtitle">Essential utilities for Unix/Linux system administration and DevOps</p>
+
+        <div class="tools-grid">
+            <a href="chmod-calculator.html" class="tool-card">
+                <h2 data-i18n="tools.chmodCalculator.title">Chmod Calculator</h2>
+                <p data-i18n="tools.chmodCalculator.description">Visual permission calculator with checkboxes for owner/group/other. Bidirectional conversion between octal (755) and symbolic (-rwxr-xr-x) notation. Includes umask calculator and special permission bits.</p>
+                <span class="tool-link" data-i18n="common.openCalculator">Open Calculator</span>
+            </a>
+
+            <a href="cron-builder.html" class="tool-card">
+                <h2 data-i18n="tools.cronBuilder.title">Cron Builder</h2>
+                <p data-i18n="tools.cronBuilder.description">Build cron expressions visually or parse existing ones. Human-readable explanations, next 10 execution times, and common preset library. Essential for scheduling tasks on Linux systems.</p>
+                <span class="tool-link" data-i18n="common.openBuilder">Open Builder</span>
+            </a>
+
+            <a href="disk-tools.html" class="tool-card">
+                <h2 data-i18n="tools.diskTools.title">DISK Tools</h2>
+                <p data-i18n="tools.diskTools.description">Comprehensive storage and RAID calculator. Calculate RAID capacity and rebuild times, convert disk space units, analyze disk usage percentages, and estimate IOPS performance for various disk types and RAID configurations.</p>
+                <span class="tool-link" data-i18n="common.openTool">Open Tools</span>
+            </a>
+
+            <a href="password-generator.html" class="tool-card">
+                <h2 data-i18n="tools.passwordGenerator.title">Password Generator</h2>
+                <p data-i18n="tools.passwordGenerator.description">Generate secure random passwords with configurable length and complexity. Supports multiple policies (Active Directory, Linux PAM, custom), XKCD-style passphrases, and batch generation. Uses Web Crypto API for secure randomness.</p>
+                <span class="tool-link" data-i18n="common.openTool">Open Generator</span>
+            </a>
+
+            <a href="regex-tester.html" class="tool-card">
+                <h2 data-i18n="tools.regexTester.title">Regex Tester</h2>
+                <p data-i18n="tools.regexTester.description">Test regular expressions against multi-line text with real-time matching. Includes common network patterns for MAC addresses, IPs, VLANs, and interface names. View matches with highlighting or in list format.</p>
+                <span class="tool-link" data-i18n="common.openTool">Open Tester</span>
+            </a>
+
+            <a href="timestamp-converter.html" class="tool-card">
+                <h2 data-i18n="tools.timestampConverter.title">Log Timestamp Converter</h2>
+                <p data-i18n="tools.timestampConverter.description">Parse and convert log timestamps in batch mode. Auto-detects ISO8601, RFC3339, syslog, Windows Event Log, Apache/Nginx, and Unix formats. Convert to multiple timezones with CSV export.</p>
+                <span class="tool-link" data-i18n="common.openConverter">Open Converter</span>
+            </a>
+
+            <a href="certificate-parser.html" class="tool-card">
+                <h2 data-i18n="tools.certificateParser.title">Certificate Parser</h2>
+                <p data-i18n="tools.certificateParser.description">Parse and decode PEM certificates to view expiry dates, subject, issuer, and Subject Alternative Names (SANs). Parse existing CSRs or generate new Certificate Signing Requests with custom SANs.</p>
+                <span class="tool-link" data-i18n="common.openTool">Open Parser</span>
+            </a>
+        </div>
+
+        <footer role="contentinfo" data-i18n="common.worksOffline">
+            System Tools - Works offline, no installation required
+        </footer>
+    </main>
+
+    <script>
+        // Initialize accessibility - handle skip link
+        document.querySelector('.skip-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.getElementById('main-content');
+            if (target) {
+                target.setAttribute('tabindex', '-1');
+                target.focus();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    </script>
+</body>
+</html>

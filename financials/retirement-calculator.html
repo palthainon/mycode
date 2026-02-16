@@ -1,0 +1,1850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="FIRE retirement calculator for early retirement planning. Calculate your FIRE number, savings rate, and time to financial independence. Plan retirement at any age.">
+    <meta name="keywords" content="retirement calculator, FIRE calculator, early retirement, financial independence, savings rate, withdrawal rate, 4% rule, retire early">
+    <meta name="author" content="OldWeb LLC">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://oldweb.tech/financials/retirement-calculator.html">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Retirement Calculator - OldWeb.tech">
+    <meta property="og:description" content="FIRE retirement calculator for early retirement planning. Calculate your FIRE number, savings rate, and time to financial independence.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oldweb.tech/financials/retirement-calculator.html">
+    <meta property="og:site_name" content="OldWeb.tech">
+    <meta property="og:image" content="https://oldweb.tech/logo/og-image.png">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Retirement Calculator - OldWeb.tech">
+    <meta name="twitter:description" content="FIRE retirement calculator for early retirement planning. Calculate your FIRE number, savings rate, and time to financial independence.">
+    <meta name="twitter:image" content="https://oldweb.tech/logo/og-image.png">
+
+    <!-- Additional Meta Tags -->
+    <meta name="theme-color" content="#1a1a2e">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
+
+    <title>Retirement Calculator - OldWeb.tech</title>
+    <link rel="stylesheet" href="../a11y.css">
+    <script src="../a11y-utils.js"></script>
+    <script src="../storage-utils.js"></script>
+    <script src="../i18n-utils.js"></script>
+    <script src="../navigationv2.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+            color: #4fc3f7;
+            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #90caf9;
+            font-size: 1rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .calculator {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            color: #90caf9;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 8px;
+        }
+
+        .input-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .section-group {
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .info-section {
+            background: rgba(79, 195, 247, 0.08);
+            border-left: 4px solid rgba(79, 195, 247, 0.5);
+        }
+
+        .income-section {
+            background: rgba(139, 195, 74, 0.08);
+            border-left: 4px solid rgba(139, 195, 74, 0.5);
+        }
+
+        .savings-section {
+            background: rgba(46, 125, 50, 0.08);
+            border-left: 4px solid rgba(46, 125, 50, 0.5);
+        }
+
+        .input-field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-field label {
+            display: block;
+            margin-bottom: 8px;
+            color: #90caf9;
+            font-weight: 500;
+        }
+
+        .input-field input, .input-field select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: #0f1419;
+            color: #fff;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .input-field select option {
+            background: #0f1419;
+            color: #fff;
+        }
+
+        .input-field input:focus, .input-field select:focus {
+            outline: none;
+            border-color: #4fc3f7;
+            box-shadow: 0 0 15px rgba(79, 195, 247, 0.2);
+        }
+
+        .input-field input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .input-prefix {
+            position: relative;
+        }
+
+        .input-prefix span {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.5);
+            pointer-events: none;
+        }
+
+        .input-prefix input {
+            padding-left: 30px;
+        }
+
+        .input-suffix {
+            position: relative;
+        }
+
+        .input-suffix span {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.5);
+            pointer-events: none;
+        }
+
+        .input-suffix input {
+            padding-right: 35px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
+            color: #fff;
+            border: none;
+            padding: 14px 40px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+            display: block;
+            width: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(79, 195, 247, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn.secondary {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: #90caf9;
+            margin-top: 10px;
+        }
+
+        .btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: none;
+            transform: none;
+        }
+
+        .results {
+            display: none;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .results.show {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .results h2 {
+            color: #4fc3f7;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .summary-item {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #4fc3f7;
+            position: relative;
+        }
+
+        .summary-item.highlight {
+            border-left-color: #66bb6a;
+            background: rgba(102, 187, 106, 0.1);
+        }
+
+        .summary-item.warning {
+            border-left-color: #ffa726;
+            background: rgba(255, 167, 38, 0.1);
+        }
+
+        .summary-item.danger {
+            border-left-color: #f44336;
+            background: rgba(244, 67, 54, 0.1);
+        }
+
+        .summary-item .label {
+            color: #90caf9;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .summary-item .value {
+            font-size: 1.5rem;
+            font-family: 'Consolas', 'Monaco', monospace;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .summary-item .value.small {
+            font-size: 1.2rem;
+        }
+
+        .summary-item .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(79, 195, 247, 0.2);
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            color: #4fc3f7;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: all 0.2s;
+        }
+
+        .summary-item .copy-btn:hover {
+            background: rgba(79, 195, 247, 0.3);
+            border-color: #4fc3f7;
+        }
+
+        .summary-item .copy-btn.copied {
+            background: rgba(76, 175, 80, 0.3);
+            border-color: #4caf50;
+            color: #4caf50;
+        }
+
+        .status-message {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+        }
+
+        .status-message.success {
+            background: rgba(102, 187, 106, 0.2);
+            border: 1px solid rgba(102, 187, 106, 0.5);
+            color: #a5d6a7;
+        }
+
+        .status-message.warning {
+            background: rgba(255, 167, 38, 0.2);
+            border: 1px solid rgba(255, 167, 38, 0.5);
+            color: #ffcc80;
+        }
+
+        .status-message.danger {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid rgba(244, 67, 54, 0.5);
+            color: #ef9a9a;
+        }
+
+        .schedule-section {
+            display: none;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .schedule-section.show {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .section-header h2 {
+            color: #4fc3f7;
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .export-btn {
+            background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+        }
+
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 187, 106, 0.4);
+        }
+
+        .print-btn {
+            background: linear-gradient(135deg, #9575cd 0%, #7e57c2 100%);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+        }
+
+        .print-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(149, 117, 205, 0.4);
+        }
+
+        .schedule-table-wrapper {
+            overflow-x: auto;
+            max-height: 500px;
+            overflow-y: auto;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 700px;
+        }
+
+        .schedule-table th {
+            background: #1a3a5c;
+            color: #4fc3f7;
+            padding: 12px 15px;
+            text-align: right;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        .schedule-table th:first-child,
+        .schedule-table td:first-child {
+            text-align: center;
+        }
+
+        .schedule-table td {
+            padding: 12px 15px;
+            text-align: right;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+        }
+
+        .schedule-table tbody tr:hover {
+            background: rgba(79, 195, 247, 0.1);
+        }
+
+        .schedule-table tbody tr:nth-child(even) {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .schedule-table tbody tr:nth-child(even):hover {
+            background: rgba(79, 195, 247, 0.1);
+        }
+
+        .schedule-table tbody tr.fire-reached {
+            background: rgba(102, 187, 106, 0.2);
+            border-left: 3px solid #66bb6a;
+        }
+
+        .schedule-table tbody tr.fire-reached:hover {
+            background: rgba(102, 187, 106, 0.3);
+        }
+
+        .schedule-table tbody tr.retirement-year {
+            background: rgba(79, 195, 247, 0.2);
+            border-left: 3px solid #4fc3f7;
+        }
+
+        .schedule-table tbody tr.ss-start {
+            background: rgba(156, 39, 176, 0.2);
+            border-left: 3px solid #9c27b0;
+        }
+
+        #error {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid #f44336;
+            color: #ff8a80;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        #error.show {
+            display: block;
+        }
+
+        /* Input error state - red border for invalid fields */
+        input.error {
+            border-color: #f44336 !important;
+            box-shadow: 0 0 0 2px rgba(244, 67, 54, 0.2);
+        }
+
+        .quick-presets {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .quick-presets h3 {
+            color: #90caf9;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .preset-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .preset-btn {
+            background: rgba(79, 195, 247, 0.1);
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            color: #4fc3f7;
+            padding: 8px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .preset-btn:hover {
+            background: rgba(79, 195, 247, 0.2);
+            border-color: #4fc3f7;
+        }
+
+        .preset-btn.fire {
+            border-color: rgba(255, 152, 0, 0.5);
+            color: #ffb74d;
+            background: rgba(255, 152, 0, 0.1);
+        }
+
+        .preset-btn.fire:hover {
+            background: rgba(255, 152, 0, 0.2);
+            border-color: #ffb74d;
+        }
+
+        .ascii-logo {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.65rem;
+            line-height: 1.1;
+            color: #4fc3f7;
+            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
+            opacity: 0.8;
+            white-space: pre;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85rem;
+        }
+
+        .formula-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .formula-section h2 {
+            color: #4fc3f7;
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+
+        .formula-intro {
+            color: #90caf9;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        .formula-card {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #4fc3f7;
+        }
+
+        .formula-card h3 {
+            color: #fff;
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+
+        .formula-card .formula-desc {
+            color: #90caf9;
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+        }
+
+        .formula-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #0f1419;
+            border-radius: 6px;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+        }
+
+        .formula-box code {
+            flex: 1;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.95rem;
+            color: #66bb6a;
+            word-break: break-all;
+        }
+
+        .formula-box .copy-btn {
+            background: rgba(79, 195, 247, 0.2);
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            color: #4fc3f7;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .formula-box .copy-btn:hover {
+            background: rgba(79, 195, 247, 0.3);
+            border-color: #4fc3f7;
+        }
+
+        .formula-box .copy-btn.copied {
+            background: rgba(76, 175, 80, 0.3);
+            border-color: #4caf50;
+            color: #4caf50;
+        }
+
+        .formula-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .formula-legend span {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .required-indicator {
+            color: #f44336;
+            margin-left: 3px;
+            font-weight: bold;
+        }
+
+        .help-text {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .ascii-logo {
+                position: static;
+                text-align: center;
+                margin-bottom: 20px;
+                font-size: 0.5rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .input-group {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .header-actions {
+                width: 100%;
+            }
+
+            .header-actions button {
+                flex: 1;
+            }
+        }
+
+        /* Print header - hidden on screen, shown only when printing */
+        .print-header {
+            display: none;
+        }
+
+        @media print {
+            /* Page setup */
+            @page {
+                margin: 0.75in 0.5in;
+                size: letter portrait;
+            }
+
+            @page :first {
+                margin-top: 0.5in;
+            }
+
+            /* Base print styles */
+            body {
+                background: #fff !important;
+                color: #000;
+                padding: 0;
+                margin: 0;
+                font-size: 11pt;
+                line-height: 1.4;
+            }
+
+            .container {
+                max-width: 100%;
+                padding: 0;
+            }
+
+            /* Hide non-print elements */
+            .calculator,
+            .nav-bar,
+            .ascii-logo,
+            .skip-link,
+            footer,
+            .btn,
+            .export-btn,
+            .print-btn,
+            .copy-btn,
+            .quick-presets {
+                display: none !important;
+            }
+
+            /* Show print header */
+            .print-header {
+                display: block;
+                text-align: center;
+                margin-bottom: 20px;
+                padding-bottom: 15px;
+                border-bottom: 2px solid #333;
+            }
+
+            .print-header h1 {
+                font-size: 18pt;
+                color: #000;
+                margin: 0 0 5px 0;
+            }
+
+            .print-header .print-date {
+                font-size: 10pt;
+                color: #666;
+                margin: 0;
+            }
+
+            /* Results sections */
+            .results,
+            .schedule-section {
+                display: block !important;
+                background: #fff !important;
+                border: none;
+                box-shadow: none;
+                backdrop-filter: none;
+                padding: 0;
+            }
+
+            .results h2,
+            .section-header h2 {
+                color: #333;
+            }
+
+            .summary-item {
+                background: #f5f5f5 !important;
+                border-left-color: #333;
+                break-inside: avoid;
+                page-break-inside: avoid;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .summary-item .label {
+                color: #666;
+            }
+
+            .summary-item .value {
+                color: #000;
+            }
+
+            .status-message {
+                background: #f5f5f5 !important;
+                border-color: #ccc;
+                color: #333;
+                break-inside: avoid;
+                page-break-inside: avoid;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            /* Schedule table */
+            .schedule-table-wrapper {
+                max-height: none !important;
+                overflow: visible !important;
+                border: none;
+            }
+
+            .schedule-table {
+                width: 100%;
+                min-width: auto;
+                font-size: 9pt;
+                border-collapse: collapse;
+            }
+
+            .schedule-table thead {
+                display: table-header-group;
+            }
+
+            .schedule-table tbody {
+                display: table-row-group;
+            }
+
+            .schedule-table tr {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+
+            .schedule-table th {
+                background: #f0f0f0 !important;
+                color: #333;
+                padding: 8px 10px;
+                border: 1px solid #ccc;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .schedule-table td {
+                color: #000;
+                padding: 6px 10px;
+                border: 1px solid #ddd;
+            }
+
+            /* Milestone rows */
+            .schedule-table tbody tr.fire-reached,
+            .schedule-table tbody tr.retirement-year,
+            .schedule-table tbody tr.ss-start {
+                background: #e8f5e9 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .schedule-table tbody tr.fire-reached td,
+            .schedule-table tbody tr.retirement-year td,
+            .schedule-table tbody tr.ss-start td {
+                color: #2e7d32;
+                font-weight: 600;
+            }
+        }
+
+        /* Collapsible Section */
+        .collapsible {
+            margin-bottom: 12px;
+        }
+
+        .collapsible-header {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+        }
+
+        .collapsible-header:hover {
+            background: rgba(0, 0, 0, 0.3);
+            border-color: rgba(79, 195, 247, 0.3);
+        }
+
+        .collapsible-header h3 {
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .collapsible-icon {
+            color: #4fc3f7;
+            font-size: 1.2rem;
+            transition: transform 0.3s;
+        }
+
+        .collapsible.open .collapsible-icon {
+            transform: rotate(180deg);
+        }
+
+        .collapsible-content {
+            display: none;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .collapsible.open .collapsible-content {
+            display: block;
+        }
+    </style>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Retirement Calculator",
+      "description": "FIRE retirement calculator for early retirement planning. Calculate your FIRE number, savings rate, and time to financial independence.",
+      "url": "https://oldweb.tech/financials/retirement-calculator.html",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Web Browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "creator": {
+        "@type": "Organization",
+        "name": "OldWeb.tech"
+      }
+    }
+    </script>
+</head>
+<body>
+    <a href="#main-content" class="skip-link" data-i18n="common.skipToContent">Skip to main content</a>
+    <div class="ascii-logo" aria-hidden="true">  ___  _    _  __        __   _
+ / _ \| | _| | \ \      / /__| |__
+| | | | |/ _` | \ \ /\ / / _ \ '_ \
+| |_| | | (_| |  \ V  V /  __/ |_) |
+ \___/|_|\__,_|   \_/\_/ \___|_.__/
+</div>
+    <div class="print-header" aria-hidden="true">
+        <h1>Retirement Projection Report</h1>
+        <p class="print-date"></p>
+    </div>
+
+    <main id="main-content" class="container">
+        <h1 data-i18n="financials.retirement.title">Retirement Calculator</h1>
+        <p class="subtitle">Plan your retirement with realistic projections</p>
+
+        <div class="calculator">
+            <form id="retirement-form" aria-label="Retirement Calculator Form">
+                <div class="section-group info-section">
+                    <h3 class="section-title" data-i18n="tools.retirementCalculator.sections.yourInformation">Your Information</h3>
+                    <div class="input-group">
+                        <div class="input-field">
+                            <label for="current-age">Current Age<span class="required-indicator">*</span></label>
+                            <input type="number" id="current-age" placeholder="30" value="30" min="18" max="80" aria-required="true" aria-describedby="age-help">
+                            <span id="age-help" class="sr-only">Enter your current age between 18 and 80</span>
+                        </div>
+                        <div class="input-field">
+                            <label for="retirement-age">Target Retirement Age<span class="required-indicator">*</span></label>
+                            <input type="number" id="retirement-age" placeholder="60" value="60" min="25" max="80" aria-required="true" aria-describedby="retire-help">
+                            <span id="retire-help" class="sr-only">Enter your target retirement age, can be as early as 25</span>
+                        </div>
+                        <div class="input-field">
+                            <label for="life-expectancy">Life Expectancy<span class="required-indicator">*</span></label>
+                            <input type="number" id="life-expectancy" placeholder="90" value="90" min="60" max="120" aria-required="true" aria-describedby="life-help">
+                            <span id="life-help" class="sr-only">Estimate how long you expect to live for withdrawal planning</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-group income-section">
+                    <h3 class="section-title" data-i18n="tools.retirementCalculator.sections.incomeExpenses">Income & Expenses</h3>
+                    <div class="input-group">
+                        <div class="input-field">
+                            <label for="annual-income">Annual Income (Pre-tax)<span class="required-indicator">*</span></label>
+                            <div class="input-prefix">
+                                <span>$</span>
+                                <input type="text" id="annual-income" placeholder="75,000" value="75,000" aria-required="true" aria-describedby="income-help" inputmode="decimal">
+                            </div>
+                            <span id="income-help" class="sr-only">Enter your annual pre-tax income</span>
+                        </div>
+                        <div class="input-field">
+                            <label for="annual-expenses">Annual Expenses<span class="required-indicator">*</span></label>
+                            <div class="input-prefix">
+                                <span>$</span>
+                                <input type="text" id="annual-expenses" placeholder="40,000" value="40,000" aria-required="true" aria-describedby="expenses-help" inputmode="decimal">
+                            </div>
+                            <span id="expenses-help" class="sr-only">Enter your total annual expenses, this helps determine your retirement target</span>
+                            <span class="help-text">Key factor for your retirement target</span>
+                        </div>
+                        <div class="input-field">
+                            <label for="retirement-expenses">Post-Retirement Annual Expenses<span class="required-indicator">*</span></label>
+                            <div class="input-prefix">
+                                <span>$</span>
+                                <input type="text" id="retirement-expenses" placeholder="35,000" value="35,000" aria-required="true" aria-describedby="retirement-expenses-help" inputmode="decimal">
+                            </div>
+                            <span id="retirement-expenses-help" class="sr-only">Expected annual expenses in retirement (often 70-80% of current expenses)</span>
+                            <span class="help-text">Often lower than working years - no commute, paid-off mortgage</span>
+                        </div>
+                        <div class="input-field">
+                            <label for="current-savings">Current Retirement Savings<span class="required-indicator">*</span></label>
+                            <div class="input-prefix">
+                                <span>$</span>
+                                <input type="text" id="current-savings" placeholder="50,000" value="50,000" aria-required="true" aria-describedby="savings-help" inputmode="decimal">
+                            </div>
+                            <span id="savings-help" class="sr-only">Enter your current total retirement savings and investments</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-group savings-section">
+                    <h3 class="section-title" data-i18n="tools.retirementCalculator.sections.savingsReturns">Savings & Returns</h3>
+                    <div class="input-group">
+                        <div class="input-field">
+                            <label for="monthly-contribution">Monthly Contribution<span class="required-indicator">*</span></label>
+                            <div class="input-prefix">
+                                <span>$</span>
+                                <input type="text" id="monthly-contribution" placeholder="1,500" value="1,500" aria-required="true" aria-describedby="contrib-help" inputmode="decimal">
+                            </div>
+                            <span id="contrib-help" class="sr-only">Enter how much you save monthly toward retirement</span>
+                        </div>
+                        <div class="input-field">
+                            <label for="expected-return">Expected Annual Return<span class="required-indicator">*</span></label>
+                            <div class="input-suffix">
+                                <input type="text" id="expected-return" placeholder="7" value="7" aria-required="true" aria-describedby="return-help" inputmode="decimal">
+                                <span>%</span>
+                            </div>
+                            <span id="return-help" class="sr-only">Enter expected annual investment return, typically 7% for stocks</span>
+                        </div>
+                        <div class="input-field">
+                            <label for="inflation-rate">Inflation Rate<span class="required-indicator">*</span></label>
+                            <div class="input-suffix">
+                                <input type="text" id="inflation-rate" placeholder="3" value="3" aria-required="true" aria-describedby="inflation-help" inputmode="decimal">
+                                <span>%</span>
+                            </div>
+                            <span id="inflation-help" class="sr-only">Enter expected inflation rate, typically around 3%</span>
+                        </div>
+                    </div>
+
+                    <h3 class="section-title" data-i18n="tools.retirementCalculator.sections.withdrawalSettings">Withdrawal Settings</h3>
+                    <div class="input-group">
+                        <div class="input-field">
+                            <label for="withdrawal-rate">Safe Withdrawal Rate<span class="required-indicator">*</span></label>
+                            <div class="input-suffix">
+                                <input type="text" id="withdrawal-rate" placeholder="4" value="4" aria-required="true" aria-describedby="swr-help" inputmode="decimal">
+                                <span>%</span>
+                            </div>
+                            <span id="swr-help" class="sr-only">The 4% rule is standard, use 3.5% for longer retirements</span>
+                            <span class="help-text">4% rule is standard; use 3.5% for 40+ year retirements</span>
+                        </div>
+                        <div class="input-field">
+                            <label for="social-security" data-i18n="tools.retirementCalculator.labels.socialSecurity">Social Security (Monthly at 67)</label>
+                            <div class="input-prefix">
+                                <span>$</span>
+                                <input type="text" id="social-security" placeholder="0" value="0" aria-describedby="ss-help" inputmode="decimal">
+                            </div>
+                            <span id="ss-help" class="sr-only">Optional: Enter expected monthly Social Security benefit at age 67</span>
+                            <span class="help-text">Optional - leave at $0 if not claiming benefits</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="button" class="btn" onclick="calculate()" aria-label="Calculate retirement projection" data-i18n="common.calculate">Calculate</button>
+                <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page" data-i18n="common.clearSavedData">Clear Saved Data</button>
+
+                <div class="quick-presets">
+                    <h3 id="presets-label" data-i18n="tools.retirementCalculator.sections.savingsStrategyExamples">Savings Strategy Examples:</h3>
+                    <div class="preset-buttons" role="group" aria-labelledby="presets-label">
+                        <button type="button" class="preset-btn fire" onclick="setPreset('aggressive')" aria-label="Aggressive Saver: 50% savings rate, retire at 40">Aggressive Saver (50% savings, retire at 40)</button>
+                        <button type="button" class="preset-btn fire" onclick="setPreset('moderate')" aria-label="Moderate Saver: 35% savings rate, retire at 50">Moderate Saver (35% savings, retire at 50)</button>
+                        <button type="button" class="preset-btn" onclick="setPreset('traditional')" aria-label="Traditional: 15% savings rate, retire at 65">Traditional (15% savings, retire at 65)</button>
+                        <button type="button" class="preset-btn" onclick="setPreset('conservative')" aria-label="Conservative: 15% savings rate, retire at 65, 3.5% withdrawal">Conservative (3.5% withdrawal rate)</button>
+                    </div>
+                </div>
+
+                <div class="error" id="error" role="alert" aria-live="assertive" aria-atomic="true"></div>
+            </form>
+        </div>
+
+        <div class="results" id="results" role="region" aria-live="polite" aria-label="Retirement summary">
+            <h2 data-i18n="tools.retirementCalculator.sections.retirementSummary">Retirement Summary</h2>
+            <div class="summary-grid" id="summaryGrid">
+                <!-- Summary will be inserted here -->
+            </div>
+            <div class="status-message" id="statusMessage">
+                <!-- Status message will be inserted here -->
+            </div>
+        </div>
+
+        <div class="schedule-section" id="schedule-section" role="region" aria-label="Year by year projection">
+            <div class="section-header">
+                <h2 data-i18n="tools.retirementCalculator.sections.yearByYearProjection">Year-by-Year Projection</h2>
+                <div class="header-actions">
+                    <button type="button" class="export-btn" onclick="exportToCSV()" aria-label="Export projection to CSV file" data-i18n="common.exportCSV">Export CSV</button>
+                    <button type="button" class="print-btn" onclick="window.print()" aria-label="Print projection">Print</button>
+                </div>
+            </div>
+            <div class="schedule-table-wrapper">
+                <table class="schedule-table" id="scheduleTable" aria-label="Year by year retirement projection">
+                    <thead>
+                        <tr>
+                            <th scope="col">Year</th>
+                            <th scope="col">Age</th>
+                            <th scope="col">Contributions</th>
+                            <th scope="col">Growth</th>
+                            <th scope="col">Balance</th>
+                            <th scope="col">% of Target</th>
+                        </tr>
+                    </thead>
+                    <tbody id="scheduleBody">
+                        <!-- Schedule rows will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="formula-section" id="formula-section">
+            <div class="collapsible" id="formula-collapsible">
+                <div class="collapsible-header" onclick="toggleCollapsible('formula-collapsible')" tabindex="0" role="button" aria-expanded="false" aria-controls="formula-content">
+                    <h3 data-i18n="tools.retirementCalculator.formulas.title">Excel Formulas for Retirement Planning</h3>
+                    <span class="collapsible-icon" aria-hidden="true">&#9660;</span>
+                </div>
+                <div class="collapsible-content" id="formula-content">
+                    <p class="formula-intro">Copy these formulas into Excel or Google Sheets. Replace cell references with your values.</p>
+
+                    <div class="formula-card">
+                        <h3 data-i18n="tools.retirementCalculator.formulas.fireNumber">FIRE Number (Retirement Target)</h3>
+                        <p class="formula-desc" data-i18n="tools.retirementCalculator.formulas.fireNumberDesc">Calculate how much you need to retire based on the 4% rule</p>
+                        <div class="formula-box">
+                            <code id="formula-fire">=B1/B2</code>
+                            <button class="copy-btn" onclick="copyFormula('formula-fire', this)" aria-label="Copy formula">Copy</button>
+                        </div>
+                        <div class="formula-legend">
+                            <span>B1 = Annual Expenses</span>
+                            <span>B2 = Withdrawal Rate (decimal, e.g., 0.04)</span>
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3 data-i18n="tools.retirementCalculator.formulas.futureValue">Future Value of Savings</h3>
+                        <p class="formula-desc" data-i18n="tools.retirementCalculator.formulas.futureValueDesc">Calculate portfolio value at retirement with monthly contributions</p>
+                        <div class="formula-box">
+                            <code id="formula-fv">=FV(B3/12, B4*12, -B2, -B1)</code>
+                            <button class="copy-btn" onclick="copyFormula('formula-fv', this)" aria-label="Copy formula">Copy</button>
+                        </div>
+                        <div class="formula-legend">
+                            <span>B1 = Current Savings</span>
+                            <span>B2 = Monthly Contribution</span>
+                            <span>B3 = Annual Return (decimal, e.g., 0.07)</span>
+                            <span>B4 = Years to Retirement</span>
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3 data-i18n="tools.retirementCalculator.formulas.yearsToFire">Years to FIRE</h3>
+                        <p class="formula-desc" data-i18n="tools.retirementCalculator.formulas.yearsToFireDesc">Calculate how many years until you reach your FIRE number</p>
+                        <div class="formula-box">
+                            <code id="formula-nper">=NPER(B3/12, -B2, -B1, B4)/12</code>
+                            <button class="copy-btn" onclick="copyFormula('formula-nper', this)" aria-label="Copy formula">Copy</button>
+                        </div>
+                        <div class="formula-legend">
+                            <span>B1 = Current Savings</span>
+                            <span>B2 = Monthly Contribution</span>
+                            <span>B3 = Annual Return (decimal)</span>
+                            <span>B4 = FIRE Number (target)</span>
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3 data-i18n="tools.retirementCalculator.formulas.savingsRate">Savings Rate</h3>
+                        <p class="formula-desc" data-i18n="tools.retirementCalculator.formulas.savingsRateDesc">Calculate your savings rate as a percentage of income</p>
+                        <div class="formula-box">
+                            <code id="formula-savingsrate">=(B1*12)/B2</code>
+                            <button class="copy-btn" onclick="copyFormula('formula-savingsrate', this)" aria-label="Copy formula">Copy</button>
+                        </div>
+                        <div class="formula-legend">
+                            <span>B1 = Monthly Contribution</span>
+                            <span>B2 = Annual Income</span>
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3 data-i18n="tools.retirementCalculator.formulas.safeWithdrawal">Safe Withdrawal Amount (Annual)</h3>
+                        <p class="formula-desc" data-i18n="tools.retirementCalculator.formulas.safeWithdrawalDesc">Calculate how much you can withdraw annually in retirement</p>
+                        <div class="formula-box">
+                            <code id="formula-swr">=B1*B2</code>
+                            <button class="copy-btn" onclick="copyFormula('formula-swr', this)" aria-label="Copy formula">Copy</button>
+                        </div>
+                        <div class="formula-legend">
+                            <span>B1 = Portfolio Value</span>
+                            <span>B2 = Withdrawal Rate (decimal, e.g., 0.04)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer role="contentinfo">
+            <span data-i18n="common.worksOffline">Retirement Calculator - Works offline, no installation required</span>
+        </footer>
+    </main>
+
+    <script>
+        let scheduleData = [];
+        let fireNumber = 0;
+
+        function formatCurrency(num) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(num);
+        }
+
+        function formatCurrencyFull(num) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }).format(num);
+        }
+
+        function formatPercent(num) {
+            return num.toFixed(1) + '%';
+        }
+
+        function parseNumber(str) {
+            if (!str) return null;
+            const cleaned = str.toString().replace(/[,$\s%]/g, '');
+            const num = parseFloat(cleaned);
+            return isNaN(num) || num < 0 ? null : num;
+        }
+
+        function setPreset(type) {
+            const incomeField = document.getElementById('annual-income');
+            const income = parseNumber(incomeField.value) || 75000;
+
+            switch(type) {
+                case 'aggressive':
+                    // 50% savings rate, retire at 40
+                    document.getElementById('retirement-age').value = 40;
+                    document.getElementById('withdrawal-rate').value = 4;
+                    document.getElementById('annual-expenses').value = formatNumberWithCommas(income * 0.5);
+                    document.getElementById('monthly-contribution').value = formatNumberWithCommas((income * 0.5) / 12);
+                    break;
+                case 'moderate':
+                    // 35% savings rate, retire at 50
+                    document.getElementById('retirement-age').value = 50;
+                    document.getElementById('withdrawal-rate').value = 4;
+                    document.getElementById('annual-expenses').value = formatNumberWithCommas(income * 0.65);
+                    document.getElementById('monthly-contribution').value = formatNumberWithCommas((income * 0.35) / 12);
+                    break;
+                case 'traditional':
+                    // 15% savings rate, retire at 65
+                    document.getElementById('retirement-age').value = 65;
+                    document.getElementById('withdrawal-rate').value = 4;
+                    document.getElementById('annual-expenses').value = formatNumberWithCommas(income * 0.85);
+                    document.getElementById('monthly-contribution').value = formatNumberWithCommas((income * 0.15) / 12);
+                    break;
+                case 'conservative':
+                    // 15% savings rate, retire at 65, 3.5% SWR
+                    document.getElementById('retirement-age').value = 65;
+                    document.getElementById('withdrawal-rate').value = 3.5;
+                    document.getElementById('annual-expenses').value = formatNumberWithCommas(income * 0.85);
+                    document.getElementById('monthly-contribution').value = formatNumberWithCommas((income * 0.15) / 12);
+                    break;
+            }
+            calculate();
+        }
+
+        function formatNumberWithCommas(num) {
+            return Math.round(num).toLocaleString();
+        }
+
+        function calculate() {
+            // Get all inputs
+            const currentAgeInput = document.getElementById('current-age');
+            const retirementAgeInput = document.getElementById('retirement-age');
+            const lifeExpectancyInput = document.getElementById('life-expectancy');
+            const annualIncomeInput = document.getElementById('annual-income');
+            const annualExpensesInput = document.getElementById('annual-expenses');
+            const retirementExpensesInput = document.getElementById('retirement-expenses');
+            const currentSavingsInput = document.getElementById('current-savings');
+            const monthlyContributionInput = document.getElementById('monthly-contribution');
+            const expectedReturnInput = document.getElementById('expected-return');
+            const inflationRateInput = document.getElementById('inflation-rate');
+            const withdrawalRateInput = document.getElementById('withdrawal-rate');
+            const socialSecurityInput = document.getElementById('social-security');
+
+            const errorDiv = document.getElementById('error');
+            const resultsDiv = document.getElementById('results');
+            const scheduleSection = document.getElementById('schedule-section');
+
+            // Clear previous state
+            resultsDiv.classList.remove('show');
+            scheduleSection.classList.remove('show');
+            errorDiv.classList.remove('show');
+            errorDiv.textContent = '';
+
+            // Clear all error states
+            const inputs = [currentAgeInput, retirementAgeInput, lifeExpectancyInput,
+                           annualIncomeInput, annualExpensesInput, retirementExpensesInput,
+                           currentSavingsInput, monthlyContributionInput, expectedReturnInput,
+                           inflationRateInput, withdrawalRateInput];
+            inputs.forEach(input => {
+                input.classList.remove('error');
+                input.removeAttribute('aria-invalid');
+            });
+
+            // Validate current age
+            const currentAge = parseInt(currentAgeInput.value);
+            if (isNaN(currentAge) || currentAge < 18 || currentAge > 80) {
+                showError('Please enter a valid current age (18-80)', currentAgeInput);
+                return;
+            }
+
+            // Validate retirement age
+            const retirementAge = parseInt(retirementAgeInput.value);
+            if (isNaN(retirementAge) || retirementAge < 25 || retirementAge > 80) {
+                showError('Please enter a valid retirement age (25-80)', retirementAgeInput);
+                return;
+            }
+            if (retirementAge <= currentAge) {
+                showError('Retirement age must be greater than current age', retirementAgeInput);
+                return;
+            }
+
+            // Validate life expectancy
+            const lifeExpectancy = parseInt(lifeExpectancyInput.value);
+            if (isNaN(lifeExpectancy) || lifeExpectancy < 60 || lifeExpectancy > 120) {
+                showError('Please enter a valid life expectancy (60-120)', lifeExpectancyInput);
+                return;
+            }
+            if (lifeExpectancy <= retirementAge) {
+                showError('Life expectancy must be greater than retirement age', lifeExpectancyInput);
+                return;
+            }
+
+            // Validate annual income
+            const annualIncome = parseNumber(annualIncomeInput.value);
+            if (annualIncome === null || annualIncome <= 0) {
+                showError('Please enter a valid annual income', annualIncomeInput);
+                return;
+            }
+
+            // Validate annual expenses
+            const annualExpenses = parseNumber(annualExpensesInput.value);
+            if (annualExpenses === null || annualExpenses <= 0) {
+                showError('Please enter valid annual expenses', annualExpensesInput);
+                return;
+            }
+
+            // Validate retirement expenses (required)
+            const retirementExpenses = parseNumber(retirementExpensesInput.value);
+            if (retirementExpenses === null || retirementExpenses <= 0) {
+                showError('Please enter valid post-retirement annual expenses', retirementExpensesInput);
+                return;
+            }
+
+            // Validate current savings
+            const currentSavings = parseNumber(currentSavingsInput.value);
+            if (currentSavings === null) {
+                showError('Please enter a valid current savings amount', currentSavingsInput);
+                return;
+            }
+
+            // Validate monthly contribution
+            const monthlyContribution = parseNumber(monthlyContributionInput.value);
+            if (monthlyContribution === null) {
+                showError('Please enter a valid monthly contribution', monthlyContributionInput);
+                return;
+            }
+
+            // Validate expected return
+            const expectedReturn = parseNumber(expectedReturnInput.value);
+            if (expectedReturn === null || expectedReturn > 20) {
+                showError('Please enter a valid expected return (0-20%)', expectedReturnInput);
+                return;
+            }
+
+            // Validate inflation rate
+            const inflationRate = parseNumber(inflationRateInput.value);
+            if (inflationRate === null || inflationRate > 15) {
+                showError('Please enter a valid inflation rate (0-15%)', inflationRateInput);
+                return;
+            }
+
+            // Validate withdrawal rate
+            const withdrawalRate = parseNumber(withdrawalRateInput.value);
+            if (withdrawalRate === null || withdrawalRate < 2 || withdrawalRate > 6) {
+                showError('Please enter a valid withdrawal rate (2-6%)', withdrawalRateInput);
+                return;
+            }
+
+            // Get optional social security
+            const socialSecurity = parseNumber(socialSecurityInput.value) || 1000;
+
+            // Calculate retirement target using post-retirement expenses
+            fireNumber = retirementExpenses / (withdrawalRate / 100);
+
+            // Calculate savings rate
+            const annualSavings = monthlyContribution * 12;
+            const savingsRate = (annualSavings / annualIncome) * 100;
+
+            // Calculate real return (adjusted for inflation)
+            const realReturn = ((1 + expectedReturn / 100) / (1 + inflationRate / 100) - 1);
+
+            // Calculate years to retirement and generate schedule
+            const yearsToRetirement = retirementAge - currentAge;
+            const currentYear = new Date().getFullYear();
+
+            scheduleData = [];
+            let balance = currentSavings;
+            let yearsToFI = null;
+            let fiReachedAge = null;
+
+            // Project until life expectancy or reasonable max
+            const projectionYears = Math.max(yearsToRetirement + 30, lifeExpectancy - currentAge + 5);
+
+            for (let year = 1; year <= projectionYears; year++) {
+                const age = currentAge + year;
+                const calendarYear = currentYear + year;
+                let yearContributions = 0;
+                let yearGrowth = 0;
+                let yearWithdrawals = 0;
+                let yearSS = 0;
+
+                // Before retirement: contribute and grow
+                if (age <= retirementAge) {
+                    yearContributions = monthlyContribution * 12;
+                    balance += yearContributions;
+                    yearGrowth = balance * (expectedReturn / 100);
+                    balance += yearGrowth;
+                } else {
+                    // After retirement: withdraw and grow
+                    // Add SS at 67
+                    if (age >= 67 && socialSecurity > 0) {
+                        yearSS = socialSecurity * 12;
+                    }
+
+                    // Withdraw based on retirement expenses minus SS
+                    const expensesNeeded = retirementExpenses - yearSS;
+                    yearWithdrawals = Math.max(0, expensesNeeded);
+
+                    // Growth happens on balance
+                    yearGrowth = balance * (expectedReturn / 100);
+                    balance = balance + yearGrowth - yearWithdrawals;
+                }
+
+                // Check if retirement target reached
+                if (yearsToFI === null && balance >= fireNumber) {
+                    yearsToFI = year;
+                    fiReachedAge = age;
+                }
+
+                const percentOfFire = (balance / fireNumber) * 100;
+
+                scheduleData.push({
+                    year: calendarYear,
+                    age: age,
+                    contributions: yearContributions,
+                    growth: yearGrowth,
+                    withdrawals: yearWithdrawals,
+                    ssIncome: yearSS,
+                    balance: Math.max(0, balance),
+                    percentOfFire: percentOfFire,
+                    isFIReached: year === yearsToFI,
+                    isRetirementYear: age === retirementAge,
+                    isSSStart: age === 67 && socialSecurity > 0
+                });
+
+                // Stop if balance goes negative
+                if (balance < 0) break;
+            }
+
+            // Calculate projected balance at retirement
+            const retirementYearData = scheduleData.find(d => d.age === retirementAge);
+            const projectedAtRetirement = retirementYearData ? retirementYearData.balance : 0;
+
+            // Calculate monthly withdrawal
+            const monthlyWithdrawal = (projectedAtRetirement * (withdrawalRate / 100)) / 12;
+
+            // Determine status
+            const gap = projectedAtRetirement - fireNumber;
+            const gapPercent = (gap / fireNumber) * 100;
+
+            // Display results
+            displaySummary({
+                fireNumber,
+                savingsRate,
+                yearsToFI,
+                fiReachedAge,
+                projectedAtRetirement,
+                monthlyWithdrawal,
+                gap,
+                gapPercent,
+                yearsToRetirement,
+                retirementAge,
+                withdrawalRate,
+                annualExpenses,
+                retirementExpenses,
+                socialSecurity
+            });
+
+            displaySchedule();
+
+            resultsDiv.classList.add('show');
+            scheduleSection.classList.add('show');
+
+            // Scroll to results
+            setTimeout(() => {
+                resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+
+            // Announce to screen readers
+            const status = gap >= 0 ? 'on track' : 'shortfall';
+            A11yUtils.announce(
+                `Calculated: Retirement target ${formatCurrency(fireNumber)}, ` +
+                `${yearsToFI ? yearsToFI + ' years to reach goal' : 'Goal not reached in projection'}, ` +
+                `${status}`,
+                'polite'
+            );
+        }
+
+        function showError(message, input) {
+            const errorDiv = document.getElementById('error');
+            errorDiv.textContent = message;
+            errorDiv.classList.add('show');
+
+            // Mark input as invalid for styling (don't use A11yUtils.showError
+            // as it appends to parentNode which breaks layout for wrapped inputs)
+            input.classList.add('error');
+            input.setAttribute('aria-invalid', 'true');
+            input.focus();
+
+            // Announce to screen readers
+            A11yUtils.announce(message, 'assertive');
+        }
+
+        function displaySummary(data) {
+            const summaryGrid = document.getElementById('summaryGrid');
+            const statusMessage = document.getElementById('statusMessage');
+
+            const gapClass = data.gap >= 0 ? 'highlight' : (data.gap > -50000 ? 'warning' : 'danger');
+            const gapText = data.gap >= 0 ? 'Surplus' : 'Shortfall';
+
+            summaryGrid.innerHTML = `
+                <div class="summary-item highlight">
+                    <div class="label">Retirement Target</div>
+                    <div class="value">${formatCurrency(data.fireNumber)}</div>
+                    <button class="copy-btn" onclick="copyValue('${Math.round(data.fireNumber)}', this)" aria-label="Copy retirement target">Copy</button>
+                </div>
+                <div class="summary-item ${data.savingsRate >= 50 ? 'highlight' : (data.savingsRate >= 25 ? '' : 'warning')}">
+                    <div class="label">Your Savings Rate</div>
+                    <div class="value">${formatPercent(data.savingsRate)}</div>
+                    <button class="copy-btn" onclick="copyValue('${data.savingsRate.toFixed(1)}%', this)" aria-label="Copy savings rate">Copy</button>
+                </div>
+                <div class="summary-item ${data.yearsToFI && data.yearsToFI <= 15 ? 'highlight' : ''}">
+                    <div class="label">Years to Goal</div>
+                    <div class="value">${data.yearsToFI ? data.yearsToFI + ' years' : 'N/A'}</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">Target Reached At Age</div>
+                    <div class="value">${data.fiReachedAge ? data.fiReachedAge : 'Not in projection'}</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">Portfolio at Retirement</div>
+                    <div class="value">${formatCurrency(data.projectedAtRetirement)}</div>
+                    <button class="copy-btn" onclick="copyValue('${Math.round(data.projectedAtRetirement)}', this)" aria-label="Copy portfolio value">Copy</button>
+                </div>
+                <div class="summary-item">
+                    <div class="label">Monthly Withdrawal</div>
+                    <div class="value">${formatCurrency(data.monthlyWithdrawal)}</div>
+                    <button class="copy-btn" onclick="copyValue('${Math.round(data.monthlyWithdrawal)}', this)" aria-label="Copy monthly withdrawal">Copy</button>
+                </div>
+                <div class="summary-item ${gapClass}">
+                    <div class="label">${gapText} at Retirement</div>
+                    <div class="value">${formatCurrency(Math.abs(data.gap))}</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">Retirement Duration</div>
+                    <div class="value small">${document.getElementById('life-expectancy').value - data.retirementAge} years</div>
+                </div>
+            `;
+
+            // Status message
+            let statusClass, statusText;
+            if (data.gap >= 0) {
+                statusClass = 'success';
+                if (data.fiReachedAge && data.fiReachedAge < data.retirementAge) {
+                    statusText = `You're on track to reach your goal at age ${data.fiReachedAge}, ${data.retirementAge - data.fiReachedAge} years before your target retirement age! You'll have a ${formatCurrency(data.gap)} surplus.`;
+                } else {
+                    statusText = `You're on track! You'll reach your retirement target right around your target retirement age with a ${formatCurrency(data.gap)} surplus.`;
+                }
+            } else if (data.gapPercent > -20) {
+                statusClass = 'warning';
+                statusText = `You're close, but have a ${formatCurrency(Math.abs(data.gap))} shortfall. Consider increasing your savings rate by ${Math.ceil(Math.abs(data.gapPercent) / 5) * 2}% or delaying retirement by ${Math.ceil(Math.abs(data.gapPercent) / 10)} years.`;
+            } else {
+                statusClass = 'danger';
+                statusText = `With current savings, you'll have a ${formatCurrency(Math.abs(data.gap))} shortfall. To reach your goal: increase your savings rate significantly, reduce expenses, or adjust your retirement timeline.`;
+            }
+
+            if (data.socialSecurity > 0) {
+                statusText += ` Social Security of ${formatCurrency(data.socialSecurity)}/month will supplement your income starting at age 67.`;
+            }
+
+            statusMessage.className = `status-message ${statusClass}`;
+            statusMessage.textContent = statusText;
+        }
+
+        function displaySchedule() {
+            const tbody = document.getElementById('scheduleBody');
+            tbody.innerHTML = '';
+
+            scheduleData.forEach(row => {
+                const tr = document.createElement('tr');
+
+                // Add special classes for milestone rows
+                if (row.isFIReached) tr.classList.add('fire-reached');
+                if (row.isRetirementYear) tr.classList.add('retirement-year');
+                if (row.isSSStart) tr.classList.add('ss-start');
+
+                // Format contributions/withdrawals column
+                let contribCell = '';
+                if (row.contributions > 0) {
+                    contribCell = formatCurrency(row.contributions);
+                } else if (row.withdrawals > 0) {
+                    contribCell = `(${formatCurrency(row.withdrawals)})`;
+                } else {
+                    contribCell = '-';
+                }
+
+                tr.innerHTML = `
+                    <td>${row.year}</td>
+                    <td>${row.age}${row.isRetirementYear ? ' (Retire)' : ''}${row.isSSStart ? ' (SS)' : ''}</td>
+                    <td>${contribCell}</td>
+                    <td>${formatCurrency(row.growth)}</td>
+                    <td>${formatCurrency(row.balance)}</td>
+                    <td>${formatPercent(row.percentOfFire)}${row.isFIReached ? ' (Goal!)' : ''}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function copyValue(value, button) {
+            navigator.clipboard.writeText(value).then(() => {
+                const originalText = button.textContent;
+                button.textContent = '\u2713';
+                button.classList.add('copied');
+                A11yUtils.announce('Value copied to clipboard', 'polite');
+
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.classList.remove('copied');
+                }, 1500);
+            });
+        }
+
+        function toggleCollapsible(id) {
+            const element = document.getElementById(id);
+            const header = element.querySelector('.collapsible-header');
+            const isOpen = element.classList.toggle('open');
+            header.setAttribute('aria-expanded', isOpen);
+        }
+
+        function copyFormula(elementId, button) {
+            const formula = document.getElementById(elementId).textContent;
+            navigator.clipboard.writeText(formula).then(() => {
+                const originalText = button.textContent;
+                button.textContent = '\u2713';
+                button.classList.add('copied');
+                A11yUtils.announce('Formula copied to clipboard', 'polite');
+
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.classList.remove('copied');
+                }, 1500);
+            });
+        }
+
+        function exportToCSV() {
+            if (scheduleData.length === 0) {
+                alert('No projection to export. Please calculate first.');
+                return;
+            }
+
+            const headers = ['Year', 'Age', 'Contributions', 'Withdrawals', 'Growth', 'Balance', '% of Target'];
+            const csvRows = [headers.join(',')];
+
+            scheduleData.forEach(row => {
+                csvRows.push([
+                    row.year,
+                    row.age,
+                    row.contributions.toFixed(0),
+                    row.withdrawals ? row.withdrawals.toFixed(0) : 0,
+                    row.growth.toFixed(0),
+                    row.balance.toFixed(0),
+                    row.percentOfFire.toFixed(1)
+                ].join(','));
+            });
+
+            const csvContent = csvRows.join('\n');
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+
+            const retireAge = document.getElementById('retirement-age').value;
+            const filename = `retirement-projection-retire-at-${retireAge}.csv`;
+
+            link.setAttribute('href', url);
+            link.setAttribute('download', filename);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            A11yUtils.announce('Retirement projection exported to CSV file', 'polite');
+        }
+
+        // Format currency inputs with commas
+        ['annual-income', 'annual-expenses', 'retirement-expenses', 'current-savings', 'monthly-contribution', 'social-security'].forEach(id => {
+            document.getElementById(id).addEventListener('input', function(e) {
+                let value = e.target.value.replace(/[^\d.]/g, '');
+                if (value) {
+                    const parts = value.split('.');
+                    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                    e.target.value = parts.join('.');
+                }
+            });
+        });
+
+        // Allow Enter key to calculate
+        document.querySelectorAll('#retirement-form input').forEach(input => {
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    calculate();
+                }
+            });
+        });
+
+        // Skip link handler
+        document.querySelector('.skip-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.getElementById('main-content');
+            if (target) {
+                target.setAttribute('tabindex', '-1');
+                target.focus();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+
+        // Print handler - populate date in print header
+        window.addEventListener('beforeprint', function() {
+            const printDate = document.querySelector('.print-date');
+            if (printDate) {
+                printDate.textContent = 'Generated: ' + new Date().toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+            }
+        });
+
+        // Form field IDs to persist
+        const retirementCalcFields = [
+            'current-age', 'retirement-age', 'life-expectancy',
+            'annual-income', 'annual-expenses', 'retirement-expenses',
+            'current-savings', 'monthly-contribution', 'expected-return',
+            'inflation-rate', 'withdrawal-rate', 'social-security'
+        ];
+
+        // Clear all saved data and reset form
+        function clearAllSavedData() {
+            StorageUtils.remove('retirement-calc');
+
+            retirementCalcFields.forEach(id => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                // Reset to default values or empty
+                if (id === 'retirement-age') el.value = '50';
+                else if (id === 'life-expectancy') el.value = '90';
+                else if (id === 'expected-return') el.value = '7';
+                else if (id === 'inflation-rate') el.value = '3';
+                else if (id === 'withdrawal-rate') el.value = '4';
+                else if (id === 'social-security') el.value = '0';
+                else el.value = '';
+            });
+
+            // Hide results sections
+            document.getElementById('results').classList.remove('show');
+            document.getElementById('schedule-section').classList.remove('show');
+
+            A11yUtils.announce('All saved data has been cleared', 'polite');
+        }
+
+        // Initialize localStorage persistence
+        document.addEventListener('DOMContentLoaded', function() {
+            StorageUtils.loadFormInputs('retirement-calc', retirementCalcFields);
+            StorageUtils.autoSaveFormInputs('retirement-calc', retirementCalcFields);
+        });
+
+        // Select all text on focus for all input fields
+        document.querySelectorAll('#retirement-form input').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.select();
+            });
+        });
+    </script>
+</body>
+</html>

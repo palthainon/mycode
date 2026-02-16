@@ -1,0 +1,4061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Compare debt snowball vs avalanche payoff methods. See which strategy saves you more money and time. Free calculator for credit cards, auto loans, student loans, and more.">
+    <meta name="keywords" content="debt payoff calculator, debt snowball, debt avalanche, debt comparison, credit card payoff, loan payoff calculator, debt free calculator">
+    <meta name="author" content="OldWeb LLC">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://oldweb.tech/financials/debt-payoff-comparison.html">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Debt Payoff Comparison - Snowball vs Avalanche - OldWeb.tech">
+    <meta property="og:description" content="Compare debt snowball vs avalanche payoff methods. See which strategy saves you more money and time with our free calculator.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oldweb.tech/financials/debt-payoff-comparison.html">
+    <meta property="og:site_name" content="OldWeb.tech">
+    <meta property="og:image" content="https://oldweb.tech/logo/og-image.png">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Debt Payoff Comparison - Snowball vs Avalanche - OldWeb.tech">
+    <meta name="twitter:description" content="Compare debt snowball vs avalanche payoff methods. See which strategy saves you more money and time.">
+    <meta name="twitter:image" content="https://oldweb.tech/logo/og-image.png">
+
+    <!-- Additional Meta Tags -->
+    <meta name="theme-color" content="#1a1a2e">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
+
+    <title>Debt Payoff Comparison - Snowball vs Avalanche - OldWeb.tech</title>
+    <link rel="stylesheet" href="../a11y.css">
+    <script src="../a11y-utils.js"></script>
+    <script src="../storage-utils.js"></script>
+    <script src="../i18n-utils.js"></script>
+    <script src="../navigationv2.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+            color: #4fc3f7;
+            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #90caf9;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .calculator {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            color: #4fc3f7;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .debt-list {
+            margin-bottom: 25px;
+        }
+
+        .debt-item {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: grid;
+            grid-template-columns: 1fr 140px 140px 120px 120px 40px;
+            gap: 12px;
+            align-items: end;
+        }
+
+        .debt-item .input-field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .debt-item .input-field label {
+            display: block;
+            margin-bottom: 6px;
+            color: #90caf9;
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+
+        .debt-item .input-field input,
+        .debt-item .input-field select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            background: #0f1419;
+            color: #fff;
+            font-size: 0.95rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .debt-item .input-field select option {
+            background: #0f1419;
+            color: #fff;
+        }
+
+        .debt-item .input-field input:focus,
+        .debt-item .input-field select:focus {
+            outline: none;
+            border-color: #4fc3f7;
+            box-shadow: 0 0 10px rgba(79, 195, 247, 0.2);
+        }
+
+        .debt-item .input-field input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .input-prefix {
+            position: relative;
+        }
+
+        .input-prefix span {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.5);
+            pointer-events: none;
+        }
+
+        .input-prefix input {
+            padding-left: 26px !important;
+        }
+
+        .input-suffix {
+            position: relative;
+        }
+
+        .input-suffix span {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.5);
+            pointer-events: none;
+        }
+
+        .input-suffix input {
+            padding-right: 26px !important;
+        }
+
+        .remove-btn {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid rgba(244, 67, 54, 0.3);
+            color: #ff8a80;
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            align-self: end;
+            margin-bottom: 2px;
+        }
+
+        .remove-btn:hover {
+            background: rgba(244, 67, 54, 0.3);
+            border-color: #f44336;
+        }
+
+        .remove-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .add-btn {
+            background: rgba(102, 187, 106, 0.2);
+            border: 1px solid rgba(102, 187, 106, 0.3);
+            color: #81c784;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .add-btn:hover {
+            background: rgba(102, 187, 106, 0.3);
+            border-color: #66bb6a;
+        }
+
+        .extra-payment-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: rgba(79, 195, 247, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(79, 195, 247, 0.2);
+        }
+
+        .extra-payment-section .input-field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .extra-payment-section .input-field label {
+            display: block;
+            margin-bottom: 8px;
+            color: #90caf9;
+            font-weight: 500;
+        }
+
+        .extra-payment-section .input-field input {
+            width: 100%;
+            padding: 12px 16px;
+            padding-left: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: #0f1419;
+            color: #fff;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .extra-payment-section .input-field input:focus {
+            outline: none;
+            border-color: #4fc3f7;
+            box-shadow: 0 0 15px rgba(79, 195, 247, 0.2);
+        }
+
+        .minimum-summary {
+            color: #90caf9;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .minimum-summary strong {
+            color: #fff;
+            font-size: 1.1rem;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
+            color: #fff;
+            border: none;
+            padding: 14px 40px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+            display: block;
+            width: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(79, 195, 247, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn.secondary {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: #90caf9;
+            margin-top: 10px;
+        }
+
+        .btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: none;
+            transform: none;
+        }
+
+        .quick-presets {
+            margin-bottom: 20px;
+        }
+
+        .quick-presets h3 {
+            color: #90caf9;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .preset-checkboxes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .preset-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(79, 195, 247, 0.1);
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            color: #4fc3f7;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .preset-checkbox:hover {
+            background: rgba(79, 195, 247, 0.2);
+            border-color: #4fc3f7;
+        }
+
+        .preset-checkbox:has(input:checked) {
+            background: rgba(79, 195, 247, 0.25);
+            border-color: #4fc3f7;
+            box-shadow: 0 0 8px rgba(79, 195, 247, 0.3);
+        }
+
+        .preset-checkbox input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: #4fc3f7;
+            cursor: pointer;
+        }
+
+        .preset-checkbox span {
+            cursor: pointer;
+        }
+
+        .preset-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .preset-btn {
+            background: rgba(79, 195, 247, 0.1);
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            color: #4fc3f7;
+            padding: 8px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .preset-btn:hover {
+            background: rgba(79, 195, 247, 0.2);
+            border-color: #4fc3f7;
+        }
+
+        .error {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid #f44336;
+            color: #ff8a80;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .error.show {
+            display: block;
+        }
+
+        /* Results Section */
+        .results {
+            display: none;
+            margin-bottom: 30px;
+        }
+
+        .results.show {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .method-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .method-card.snowball {
+            border-color: rgba(100, 181, 246, 0.4);
+        }
+
+        .method-card.avalanche {
+            border-color: rgba(129, 199, 132, 0.4);
+        }
+
+        .method-card.winner {
+            box-shadow: 0 0 25px rgba(102, 187, 106, 0.3);
+        }
+
+        .method-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .method-icon {
+            font-size: 2rem;
+        }
+
+        .method-title {
+            font-size: 1.4rem;
+            color: #fff;
+        }
+
+        .method-card.snowball .method-title {
+            color: #64b5f6;
+        }
+
+        .method-card.avalanche .method-title {
+            color: #81c784;
+        }
+
+        .winner-badge {
+            background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%);
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .method-stats {
+            display: grid;
+            gap: 12px;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-row:last-child {
+            border-bottom: none;
+        }
+
+        .stat-label {
+            color: #90caf9;
+            font-size: 0.9rem;
+        }
+
+        .stat-value {
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .stat-value.highlight {
+            color: #66bb6a;
+        }
+
+        .payoff-order {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .payoff-order h4 {
+            color: #90caf9;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .payoff-order ol {
+            list-style: none;
+            counter-reset: payoff-counter;
+        }
+
+        .payoff-order li {
+            counter-increment: payoff-counter;
+            padding: 8px 0;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .payoff-order li::before {
+            content: counter(payoff-counter);
+            background: rgba(79, 195, 247, 0.2);
+            color: #4fc3f7;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .payoff-detail {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.85rem;
+        }
+
+        /* Comparison Summary */
+        .comparison-summary {
+            background: rgba(102, 187, 106, 0.1);
+            border: 1px solid rgba(102, 187, 106, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .comparison-summary h3 {
+            color: #81c784;
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .comparison-summary p {
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        .comparison-summary .highlight-number {
+            color: #66bb6a;
+            font-weight: 600;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .action-btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: all 0.2s;
+            border: none;
+        }
+
+        .action-btn.primary {
+            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
+            color: #fff;
+        }
+
+        .action-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(79, 195, 247, 0.4);
+        }
+
+        .action-btn.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .action-btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* Schedule Section */
+        .schedule-section {
+            display: none;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .schedule-section.show {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .schedule-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .schedule-tab {
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #fff;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+
+        .schedule-tab:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .schedule-tab.active {
+            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
+            border-color: transparent;
+        }
+
+        /* Education Section Tabs */
+        .education-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .education-tab {
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #fff;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .education-tab:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .education-tab.active {
+            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
+            border-color: transparent;
+        }
+
+        .education-tab-content {
+            display: none;
+        }
+
+        .education-tab-content.show {
+            display: block;
+        }
+
+        /* Main page tabs (Calculator / Learn More) */
+        .main-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            justify-content: center;
+        }
+
+        .main-tab {
+            padding: 14px 32px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #fff;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .main-tab:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(79, 195, 247, 0.4);
+        }
+
+        .main-tab.active {
+            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
+            border-color: transparent;
+            box-shadow: 0 4px 15px rgba(79, 195, 247, 0.3);
+        }
+
+        .main-tab-content {
+            display: none;
+        }
+
+        .main-tab-content.show {
+            display: block;
+        }
+
+        /* Visible section styling (non-collapsible) */
+        .visible-section {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .visible-section h3 {
+            color: #4fc3f7;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        .visible-section p {
+            color: #b0bec5;
+            line-height: 1.7;
+            margin-bottom: 12px;
+        }
+
+        .visible-section p:last-child {
+            margin-bottom: 0;
+        }
+
+        .schedule-table-wrapper {
+            overflow-x: auto;
+            max-height: 500px;
+            overflow-y: auto;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+
+        .schedule-table th {
+            background: rgba(79, 195, 247, 0.9);
+            color: #0f1419;
+            padding: 12px 15px;
+            text-align: right;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        .schedule-table th:first-child,
+        .schedule-table td:first-child {
+            text-align: center;
+        }
+
+        .schedule-table th:nth-child(2),
+        .schedule-table td:nth-child(2) {
+            text-align: left;
+        }
+
+        .schedule-table td {
+            padding: 10px 15px;
+            text-align: right;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+        }
+
+        .schedule-table tbody tr:hover {
+            background: rgba(79, 195, 247, 0.1);
+        }
+
+        .schedule-table tbody tr:nth-child(even) {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .schedule-table tbody tr:nth-child(even):hover {
+            background: rgba(79, 195, 247, 0.1);
+        }
+
+        .schedule-table .debt-paid-row {
+            background: rgba(102, 187, 106, 0.15) !important;
+        }
+
+        .schedule-table .debt-paid-row td {
+            color: #81c784;
+        }
+
+        /* Educational Section */
+        .education-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .education-section h2 {
+            color: #4fc3f7;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        /* Education Link Cards */
+        .education-link-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .education-link-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(79, 195, 247, 0.2);
+            border-radius: 12px;
+            text-decoration: none;
+            color: #fff;
+            transition: all 0.2s;
+        }
+
+        .education-link-card:hover {
+            background: rgba(79, 195, 247, 0.1);
+            border-color: rgba(79, 195, 247, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(79, 195, 247, 0.2);
+        }
+
+        .education-link-card .card-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .education-link-card .card-content {
+            flex: 1;
+        }
+
+        .education-link-card .card-content h3 {
+            color: #4fc3f7;
+            font-size: 1.1rem;
+            margin-bottom: 6px;
+        }
+
+        .education-link-card .card-content p {
+            color: #90caf9;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .education-link-card .card-arrow {
+            color: #4fc3f7;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+            opacity: 0.6;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+
+        .education-link-card:hover .card-arrow {
+            opacity: 1;
+            transform: translateX(5px);
+        }
+
+        .collapsible {
+            margin-bottom: 12px;
+        }
+
+        .collapsible-header {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+        }
+
+        .collapsible-header:hover {
+            background: rgba(0, 0, 0, 0.3);
+            border-color: rgba(79, 195, 247, 0.3);
+        }
+
+        .collapsible-header h3 {
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .collapsible-icon {
+            color: #4fc3f7;
+            font-size: 1.2rem;
+            transition: transform 0.3s;
+        }
+
+        .collapsible.open .collapsible-icon {
+            transform: rotate(180deg);
+        }
+
+        .collapsible-content {
+            display: none;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            color: #b0bec5;
+            line-height: 1.7;
+        }
+
+        .collapsible.open .collapsible-content {
+            display: block;
+        }
+
+        .collapsible-content p {
+            margin-bottom: 12px;
+        }
+
+        .collapsible-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .collapsible-content strong {
+            color: #4fc3f7;
+        }
+
+        .collapsible-content ul {
+            margin: 12px 0;
+            padding-left: 20px;
+        }
+
+        .collapsible-content li {
+            margin-bottom: 8px;
+        }
+
+        .best-for {
+            background: rgba(79, 195, 247, 0.1);
+            border-left: 3px solid #4fc3f7;
+            padding: 12px 15px;
+            margin-top: 15px;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .best-for strong {
+            color: #4fc3f7;
+        }
+
+        /* Quiz Section */
+        .quiz-section {
+            background: rgba(156, 39, 176, 0.1);
+            border: 1px solid rgba(156, 39, 176, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .quiz-section h3 {
+            color: #ce93d8;
+            margin-bottom: 15px;
+        }
+
+        .quiz-questions {
+            display: grid;
+            gap: 12px;
+        }
+
+        .quiz-question {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+
+        .quiz-question:hover {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .quiz-question.selected {
+            border-color: rgba(156, 39, 176, 0.5);
+            background: rgba(156, 39, 176, 0.15);
+        }
+
+        .quiz-question input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #9c27b0;
+        }
+
+        .quiz-question label {
+            cursor: pointer;
+            color: #fff;
+            font-size: 0.95rem;
+            flex: 1;
+        }
+
+        .quiz-result {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .quiz-result.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .quiz-result.snowball {
+            background: rgba(100, 181, 246, 0.2);
+            border: 1px solid rgba(100, 181, 246, 0.4);
+        }
+
+        .quiz-result.avalanche {
+            background: rgba(129, 199, 132, 0.2);
+            border: 1px solid rgba(129, 199, 132, 0.4);
+        }
+
+        .quiz-result h4 {
+            margin-bottom: 8px;
+        }
+
+        .quiz-result.snowball h4 {
+            color: #64b5f6;
+        }
+
+        .quiz-result.avalanche h4 {
+            color: #81c784;
+        }
+
+        /* Loan Education Section */
+        .warning-box {
+            background: rgba(244, 67, 54, 0.15);
+            border-left: 4px solid #f44336;
+            padding: 15px 20px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .warning-box h4 {
+            color: #ff8a80;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .warning-box ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .warning-box li {
+            color: #ffcdd2;
+            margin-bottom: 6px;
+        }
+
+        .safe-box {
+            background: rgba(76, 175, 80, 0.15);
+            border-left: 4px solid #4caf50;
+            padding: 15px 20px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .safe-box h4 {
+            color: #81c784;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .safe-box ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .safe-box li {
+            color: #c8e6c9;
+            margin-bottom: 6px;
+        }
+
+        .loan-comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.9rem;
+        }
+
+        .loan-comparison-table th {
+            background: rgba(79, 195, 247, 0.2);
+            color: #4fc3f7;
+            padding: 12px 10px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid rgba(79, 195, 247, 0.3);
+        }
+
+        .loan-comparison-table td {
+            padding: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: #b0bec5;
+        }
+
+        .loan-comparison-table tr:hover {
+            background: rgba(79, 195, 247, 0.05);
+        }
+
+        .loan-comparison-table .danger-row {
+            background: rgba(244, 67, 54, 0.1);
+        }
+
+        .loan-comparison-table .danger-row td {
+            color: #ff8a80;
+        }
+
+        .loan-comparison-table .good-row td:first-child {
+            color: #81c784;
+        }
+
+        .apr-pill {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .apr-pill.good {
+            background: rgba(76, 175, 80, 0.3);
+            color: #81c784;
+        }
+
+        .apr-pill.caution {
+            background: rgba(255, 193, 7, 0.3);
+            color: #ffd54f;
+        }
+
+        .apr-pill.danger {
+            background: rgba(244, 67, 54, 0.3);
+            color: #ff8a80;
+        }
+
+        .red-flag-checker {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .red-flag-checker h4 {
+            color: #ffd54f;
+            margin-bottom: 15px;
+        }
+
+        .flag-checklist {
+            display: grid;
+            gap: 10px;
+        }
+
+        .flag-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+
+        .flag-item:hover {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .flag-item.checked {
+            border-color: rgba(244, 67, 54, 0.5);
+            background: rgba(244, 67, 54, 0.1);
+        }
+
+        .flag-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #f44336;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .flag-item label {
+            cursor: pointer;
+            color: #fff;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .flag-item .flag-explanation {
+            display: block;
+            color: #90caf9;
+            font-size: 0.85rem;
+            margin-top: 4px;
+        }
+
+        .flag-result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .flag-result.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .flag-result.safe {
+            background: rgba(76, 175, 80, 0.2);
+            border: 1px solid rgba(76, 175, 80, 0.4);
+        }
+
+        .flag-result.caution {
+            background: rgba(255, 193, 7, 0.2);
+            border: 1px solid rgba(255, 193, 7, 0.4);
+        }
+
+        .flag-result.danger {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid rgba(244, 67, 54, 0.4);
+        }
+
+        .flag-result h5 {
+            margin-bottom: 8px;
+        }
+
+        .flag-result.safe h5 { color: #81c784; }
+        .flag-result.caution h5 { color: #ffd54f; }
+        .flag-result.danger h5 { color: #ff8a80; }
+
+        .loan-cost-calculator {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .loan-cost-calculator h4 {
+            color: #4fc3f7;
+            margin-bottom: 15px;
+        }
+
+        .calc-inputs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .calc-input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .calc-input-group label {
+            color: #90caf9;
+            font-size: 0.85rem;
+            margin-bottom: 6px;
+        }
+
+        .calc-input-group input,
+        .calc-input-group select {
+            padding: 10px 12px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            background: #0f1419;
+            color: #fff;
+            font-size: 0.95rem;
+        }
+
+        .calc-input-group input:focus,
+        .calc-input-group select:focus {
+            outline: none;
+            border-color: #4fc3f7;
+        }
+
+        .calc-input-group select option {
+            background: #0f1419;
+            color: #fff;
+        }
+
+        .calc-results {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .calc-result-box {
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .calc-result-box.good {
+            background: rgba(76, 175, 80, 0.15);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+        }
+
+        .calc-result-box.bad {
+            background: rgba(244, 67, 54, 0.15);
+            border: 1px solid rgba(244, 67, 54, 0.3);
+        }
+
+        .calc-result-box .result-label {
+            color: #90caf9;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+
+        .calc-result-box.good .result-value {
+            color: #81c784;
+            font-size: 1.3rem;
+            font-weight: 600;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        .calc-result-box.bad .result-value {
+            color: #ff8a80;
+            font-size: 1.3rem;
+            font-weight: 600;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        .calc-result-box .result-detail {
+            color: #78909c;
+            font-size: 0.85rem;
+            margin-top: 5px;
+        }
+
+        .calc-savings {
+            margin-top: 15px;
+            padding: 12px;
+            background: rgba(76, 175, 80, 0.1);
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .calc-savings .savings-amount {
+            color: #66bb6a;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .scenario-quiz {
+            background: rgba(156, 39, 176, 0.1);
+            border: 1px solid rgba(156, 39, 176, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .scenario-quiz h4 {
+            color: #ce93d8;
+            margin-bottom: 15px;
+        }
+
+        .scenario-card {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .scenario-card .scenario-text {
+            color: #fff;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: rgba(79, 195, 247, 0.1);
+            border-radius: 6px;
+            border-left: 3px solid #4fc3f7;
+        }
+
+        .scenario-options {
+            display: grid;
+            gap: 10px;
+        }
+
+        .scenario-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+
+        .scenario-option:hover {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .scenario-option.selected {
+            border-color: rgba(156, 39, 176, 0.5);
+            background: rgba(156, 39, 176, 0.15);
+        }
+
+        .scenario-option.correct {
+            border-color: rgba(76, 175, 80, 0.5);
+            background: rgba(76, 175, 80, 0.15);
+        }
+
+        .scenario-option.incorrect {
+            border-color: rgba(244, 67, 54, 0.5);
+            background: rgba(244, 67, 54, 0.15);
+        }
+
+        .scenario-option input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #9c27b0;
+        }
+
+        .scenario-option label {
+            cursor: pointer;
+            color: #fff;
+            font-size: 0.95rem;
+            flex: 1;
+        }
+
+        .scenario-feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .scenario-feedback.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .scenario-feedback.correct {
+            background: rgba(76, 175, 80, 0.2);
+            border: 1px solid rgba(76, 175, 80, 0.4);
+        }
+
+        .scenario-feedback.correct h5 {
+            color: #81c784;
+        }
+
+        .scenario-feedback.incorrect {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid rgba(244, 67, 54, 0.4);
+        }
+
+        .scenario-feedback.incorrect h5 {
+            color: #ff8a80;
+        }
+
+        .scenario-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+
+        .scenario-nav button {
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .scenario-nav .prev-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+
+        .scenario-nav .prev-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .scenario-nav .prev-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .scenario-nav .next-btn {
+            background: linear-gradient(135deg, #9c27b0 0%, #7b1fa2 100%);
+            border: none;
+            color: #fff;
+        }
+
+        .scenario-nav .next-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(156, 39, 176, 0.3);
+        }
+
+        .scenario-progress {
+            text-align: center;
+            color: #90caf9;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+        }
+
+        .analogy-box {
+            background: rgba(79, 195, 247, 0.1);
+            border: 1px dashed rgba(79, 195, 247, 0.4);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .analogy-box .analogy-icon {
+            font-size: 1.5rem;
+            margin-right: 10px;
+        }
+
+        .analogy-box p {
+            color: #b3e5fc;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .example-box {
+            background: rgba(255, 193, 7, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .example-box h5 {
+            color: #ffd54f;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+
+        .example-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .example-item {
+            padding: 12px;
+            border-radius: 6px;
+        }
+
+        .example-item.good {
+            background: rgba(76, 175, 80, 0.15);
+        }
+
+        .example-item.bad {
+            background: rgba(244, 67, 54, 0.15);
+        }
+
+        .example-item .item-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .example-item.good .item-title { color: #81c784; }
+        .example-item.bad .item-title { color: #ff8a80; }
+
+        .example-item .item-detail {
+            font-size: 0.85rem;
+            color: #b0bec5;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 768px) {
+            .calc-results {
+                grid-template-columns: 1fr;
+            }
+
+            .example-comparison {
+                grid-template-columns: 1fr;
+            }
+
+            .loan-comparison-table {
+                font-size: 0.8rem;
+            }
+
+            .loan-comparison-table th,
+            .loan-comparison-table td {
+                padding: 8px 6px;
+            }
+        }
+
+        /* Expense Tracking Section */
+        .expense-section {
+            background: rgba(255, 152, 0, 0.1);
+            border: 1px solid rgba(255, 152, 0, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .expense-section .section-title {
+            color: #ffb74d;
+        }
+
+        .expense-section .section-subtitle {
+            color: #90caf9;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+
+        .expense-list {
+            margin-bottom: 15px;
+        }
+
+        .expense-item {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: grid;
+            grid-template-columns: 1fr 120px 100px 120px 40px;
+            gap: 10px;
+            align-items: end;
+        }
+
+        .expense-item .input-field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .expense-item .input-field label {
+            display: block;
+            margin-bottom: 5px;
+            color: #ffb74d;
+            font-weight: 500;
+            font-size: 0.8rem;
+        }
+
+        .expense-item .input-field input {
+            width: 100%;
+            padding: 8px 10px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            background: #0f1419;
+            color: #fff;
+            font-size: 0.9rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .expense-item .input-field input:focus {
+            outline: none;
+            border-color: #ffb74d;
+            box-shadow: 0 0 10px rgba(255, 152, 0, 0.2);
+        }
+
+        .expense-item .input-field input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .expense-item .input-field.monthly-total input {
+            background: rgba(255, 152, 0, 0.15);
+            color: #ffb74d;
+            font-weight: 600;
+        }
+
+        .expense-item .remove-expense-btn {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid rgba(244, 67, 54, 0.3);
+            color: #ff8a80;
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            align-self: end;
+            margin-bottom: 2px;
+        }
+
+        .expense-item .remove-expense-btn:hover {
+            background: rgba(244, 67, 54, 0.3);
+            border-color: #f44336;
+        }
+
+        .add-expense-btn {
+            background: rgba(255, 152, 0, 0.2);
+            border: 1px solid rgba(255, 152, 0, 0.3);
+            color: #ffb74d;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .add-expense-btn:hover {
+            background: rgba(255, 152, 0, 0.3);
+            border-color: #ff9800;
+        }
+
+        .expense-presets {
+            margin-bottom: 15px;
+        }
+
+        .expense-presets h3 {
+            color: #ffb74d;
+        }
+
+        .expense-presets .preset-btn {
+            background: rgba(255, 152, 0, 0.15);
+            border-color: rgba(255, 152, 0, 0.4);
+            color: #ffb74d;
+        }
+
+        .expense-presets .preset-btn:hover {
+            background: rgba(255, 152, 0, 0.25);
+            border-color: #ff9800;
+        }
+
+        .expense-summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 152, 0, 0.3);
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .expense-total {
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .expense-total strong {
+            color: #ffb74d;
+            font-size: 1.2rem;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        .debt-summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding: 15px 20px;
+            background: rgba(79, 195, 247, 0.1);
+            border: 1px solid rgba(79, 195, 247, 0.2);
+            border-radius: 8px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .debt-total {
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .debt-total strong {
+            color: #4fc3f7;
+            font-size: 1.2rem;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        .apply-expense-btn {
+            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+            border: none;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .apply-expense-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(255, 152, 0, 0.4);
+        }
+
+        .apply-expense-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .export-expenses-btn {
+            background: rgba(255, 152, 0, 0.2);
+            border: 1px solid rgba(255, 152, 0, 0.3);
+            color: #ffb74d;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .export-expenses-btn:hover {
+            background: rgba(255, 152, 0, 0.3);
+        }
+
+        @media (max-width: 992px) {
+            .expense-item {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .expense-item .input-field:first-child {
+                grid-column: span 2;
+            }
+
+            .expense-item .remove-expense-btn {
+                grid-column: 2;
+                justify-self: end;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .expense-item {
+                grid-template-columns: 1fr;
+            }
+
+            .expense-item .input-field:first-child {
+                grid-column: 1;
+            }
+
+            .expense-item .remove-expense-btn {
+                grid-column: 1;
+                width: 100%;
+            }
+
+            .expense-summary {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+
+        /* Print header - hidden on screen, shown only when printing */
+        .print-header {
+            display: none;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85rem;
+        }
+
+        .ascii-logo {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.65rem;
+            line-height: 1.1;
+            color: #4fc3f7;
+            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
+            opacity: 0.8;
+            white-space: pre;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .debt-item {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            }
+
+            .debt-item .input-field:first-child {
+                grid-column: span 2;
+            }
+
+            .remove-btn {
+                grid-column: 2;
+                justify-self: end;
+            }
+
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .ascii-logo {
+                position: static;
+                text-align: center;
+                margin-bottom: 20px;
+                font-size: 0.5rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .debt-item {
+                grid-template-columns: 1fr;
+            }
+
+            .debt-item .input-field:first-child {
+                grid-column: 1;
+            }
+
+            .remove-btn {
+                grid-column: 1;
+                width: 100%;
+                justify-self: stretch;
+            }
+
+            .extra-payment-section {
+                gap: 12px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .schedule-tabs {
+                flex-wrap: wrap;
+            }
+
+            .education-tabs {
+                flex-wrap: wrap;
+            }
+
+            .education-tab {
+                flex: 1;
+                text-align: center;
+                min-width: 120px;
+            }
+
+            .main-tabs {
+                flex-wrap: wrap;
+            }
+
+            .main-tab {
+                flex: 1;
+                text-align: center;
+                padding: 12px 20px;
+                font-size: 1rem;
+            }
+        }
+
+        @media print {
+            /* Page setup */
+            @page {
+                margin: 0.75in 0.5in;
+                size: letter portrait;
+            }
+
+            @page :first {
+                margin-top: 0.5in;
+            }
+
+            /* Base print styles */
+            body {
+                background: #fff !important;
+                color: #000;
+                padding: 0;
+                margin: 0;
+                font-size: 11pt;
+                line-height: 1.4;
+            }
+
+            .container {
+                max-width: 100%;
+                padding: 0;
+            }
+
+            /* Hide non-print elements */
+            .calculator,
+            .nav-bar,
+            .ascii-logo,
+            .skip-link,
+            footer,
+            .btn,
+            .action-btn,
+            .action-buttons,
+            .add-btn,
+            .remove-btn,
+            .preset-buttons,
+            .quick-presets,
+            .education-section,
+            .schedule-tabs,
+            .expense-section,
+            .main-tabs {
+                display: none !important;
+            }
+
+            /* Show print header */
+            .print-header {
+                display: block;
+                text-align: center;
+                margin-bottom: 20px;
+                padding-bottom: 15px;
+                border-bottom: 2px solid #333;
+            }
+
+            .print-header h1 {
+                font-size: 18pt;
+                color: #000;
+                margin: 0 0 5px 0;
+            }
+
+            .print-header .print-date {
+                font-size: 10pt;
+                color: #666;
+                margin: 0;
+            }
+
+            /* Results section */
+            #calculator-section,
+            .results,
+            .schedule-section {
+                display: block !important;
+                background: #fff !important;
+                border: none;
+                box-shadow: none;
+                backdrop-filter: none;
+                padding: 0;
+            }
+
+            /* Stack method cards vertically */
+            .comparison-grid {
+                display: block;
+            }
+
+            /* Method cards - prevent breaking */
+            .method-card {
+                background: #f9f9f9 !important;
+                border: 1px solid #ccc;
+                width: 100%;
+                margin-bottom: 20px;
+                padding: 20px;
+                break-inside: avoid;
+                page-break-inside: avoid;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .method-title,
+            .stat-label,
+            .stat-value {
+                color: #333 !important;
+            }
+
+            .winner-badge {
+                background: #4caf50 !important;
+                color: #fff !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            /* Payoff order lists - keep together */
+            .payoff-order {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+
+            .payoff-order h4 {
+                color: #333;
+            }
+
+            .payoff-order li {
+                break-inside: avoid;
+                page-break-inside: avoid;
+                color: #000;
+            }
+
+            .payoff-order li::before {
+                background: #e3f2fd !important;
+                color: #1976d2 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .payoff-detail {
+                color: #666;
+            }
+
+            /* Comparison summary - keep together */
+            .comparison-summary {
+                background: #e8f5e9 !important;
+                border: 1px solid #4caf50;
+                margin: 20px 0;
+                padding: 15px;
+                break-inside: avoid;
+                page-break-inside: avoid;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .comparison-summary h3 {
+                color: #2e7d32;
+            }
+
+            .comparison-summary p {
+                color: #000;
+                orphans: 3;
+                widows: 3;
+            }
+
+            .comparison-summary .highlight-number {
+                color: #2e7d32;
+            }
+
+            /* Schedule table */
+            .schedule-table-wrapper {
+                max-height: none !important;
+                overflow: visible !important;
+                border: none;
+            }
+
+            .schedule-table {
+                width: 100%;
+                min-width: auto;
+                font-size: 9pt;
+                border-collapse: collapse;
+            }
+
+            .schedule-table thead {
+                display: table-header-group;
+            }
+
+            .schedule-table tbody {
+                display: table-row-group;
+            }
+
+            .schedule-table tr {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+
+            .schedule-table th {
+                background: #f0f0f0 !important;
+                color: #333;
+                padding: 8px 10px;
+                border: 1px solid #ccc;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .schedule-table td {
+                color: #000;
+                padding: 6px 10px;
+                border: 1px solid #ddd;
+            }
+
+            .schedule-table .debt-paid-row {
+                background: #e8f5e9 !important;
+                break-before: avoid;
+                page-break-before: avoid;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .schedule-table .debt-paid-row td {
+                color: #2e7d32;
+                font-weight: 600;
+            }
+        }
+
+        /* Formula Section */
+        .formula-section {
+            margin-top: 30px;
+        }
+
+        .formula-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .formula-card {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .formula-card h3 {
+            color: #4fc3f7;
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        .formula-desc {
+            color: #90caf9;
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+        }
+
+        .formula-box {
+            background: #0f1419;
+            border-radius: 6px;
+            padding: 12px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .formula-box code {
+            font-family: 'Consolas', 'Monaco', monospace;
+            color: #81c784;
+            font-size: 0.9rem;
+            word-break: break-all;
+        }
+
+        .formula-box .copy-btn {
+            background: rgba(79, 195, 247, 0.2);
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            color: #4fc3f7;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+
+        .formula-box .copy-btn:hover {
+            background: rgba(79, 195, 247, 0.3);
+        }
+
+        .formula-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 15px;
+            font-size: 0.8rem;
+            color: #78909c;
+        }
+    </style>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Debt Payoff Comparison Calculator",
+      "description": "Compare debt snowball vs avalanche payoff methods. See which strategy saves you more money and time.",
+      "url": "https://oldweb.tech/financials/debt-payoff-comparison.html",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Web Browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "creator": {
+        "@type": "Organization",
+        "name": "OldWeb.tech"
+      }
+    }
+    </script>
+</head>
+<body>
+    <a href="#main-content" class="skip-link" data-i18n="common.skipToContent">Skip to main content</a>
+    <div class="ascii-logo" aria-hidden="true">  ___  _    _  __        __   _
+ / _ \| | _| | \ \      / /__| |__
+| | | | |/ _` | \ \ /\ / / _ \ '_ \
+| |_| | | (_| |  \ V  V /  __/ |_) |
+ \___/|_|\__,_|   \_/\_/ \___|_.__/
+</div>
+    <div class="print-header" aria-hidden="true">
+        <h1 data-i18n="tools.debtPayoffComparison.print.reportTitle">Debt Payoff Comparison Report</h1>
+        <p class="print-date"></p>
+    </div>
+
+    <main id="main-content" class="container">
+        <h1 data-i18n="tools.debtPayoffComparison.title">Debt Payoff Comparison</h1>
+        <p class="subtitle" data-i18n="tools.debtPayoffComparison.subtitle">Compare Snowball vs Avalanche methods to find your fastest path to debt freedom</p>
+
+        <div class="main-tabs" role="tablist" aria-label="Main content sections">
+            <button type="button" class="main-tab active" onclick="switchMainTab('calculator')"
+                    role="tab" aria-selected="true" aria-controls="calculator-section" id="main-tab-calculator"
+                    data-i18n="tools.debtPayoffComparison.tabs.calculator">
+                Calculator
+            </button>
+            <button type="button" class="main-tab" onclick="switchMainTab('learn-more')"
+                    role="tab" aria-selected="false" aria-controls="learn-more-section" id="main-tab-learn-more"
+                    data-i18n="tools.debtPayoffComparison.tabs.understandLoans">
+                Understand Loans
+            </button>
+        </div>
+
+        <div id="calculator-section" class="main-tab-content show" role="tabpanel" aria-labelledby="main-tab-calculator">
+
+        <div class="calculator">
+            <form id="debt-form" aria-label="Debt Payoff Comparison Form">
+                <div class="section-title">
+                    <span data-i18n="tools.debtPayoffComparison.sections.yourDebts">Your Debts</span>
+                    <button type="button" class="add-btn" onclick="addDebt()" aria-label="Add another debt" data-i18n="tools.debtPayoffComparison.buttons.addDebt">+ Add Debt</button>
+                </div>
+
+                <div class="quick-presets">
+                    <h3 id="presets-label" data-i18n="tools.debtPayoffComparison.presets.quickExamples">Quick Examples:</h3>
+                    <div class="preset-checkboxes" role="group" aria-labelledby="presets-label">
+                        <label class="preset-checkbox">
+                            <input type="checkbox" id="preset-typical" onchange="toggleDebtPreset('typical', this.checked)">
+                            <span data-i18n="tools.debtPayoffComparison.presets.typical3Debt">Typical 3-Debt</span>
+                        </label>
+                        <label class="preset-checkbox">
+                            <input type="checkbox" id="preset-credit-cards" onchange="toggleDebtPreset('credit-cards', this.checked)">
+                            <span data-i18n="tools.debtPayoffComparison.presets.creditCards">Credit Cards</span>
+                        </label>
+                        <label class="preset-checkbox">
+                            <input type="checkbox" id="preset-mixed" onchange="toggleDebtPreset('mixed', this.checked)">
+                            <span data-i18n="tools.debtPayoffComparison.presets.mixedTypes">Mixed Types</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="debt-list" id="debtList" role="list" aria-label="List of debts">
+                    <!-- Debt items will be added here -->
+                </div>
+
+                <div class="debt-summary">
+                    <div class="debt-total">
+                        <span data-i18n="tools.debtPayoffComparison.labels.totalDebtBalance">Total debt balance:</span>
+                        <strong id="totalDebtBalance">$0.00</strong>
+                    </div>
+                    <div class="debt-total">
+                        <span data-i18n="tools.debtPayoffComparison.labels.totalMinimumPayments">Total minimum payments:</span>
+                        <strong id="totalDebtMinimum">$0.00</strong>
+                    </div>
+                </div>
+
+                <!-- Expense Tracking Section -->
+                <div class="expense-section">
+                    <div class="section-title">
+                        <span data-i18n="tools.debtPayoffComparison.sections.expensesToCut">Expenses to Cut (Optional)</span>
+                        <button type="button" class="add-expense-btn" onclick="addExpense()" aria-label="Add an expense to cut" data-i18n="tools.debtPayoffComparison.buttons.addExpense">+ Add Expense</button>
+                    </div>
+                    <p class="section-subtitle" data-i18n="tools.debtPayoffComparison.sections.expensesSubtitle">Track expenses you can eliminate to put toward debt. Americans waste ~$200/year on unused subscriptions alone.</p>
+
+                    <div class="quick-presets expense-presets">
+                        <h3 id="expense-presets-label" data-i18n="tools.debtPayoffComparison.presets.commonCuts">Common Cuts:</h3>
+                        <div class="preset-buttons" role="group" aria-labelledby="expense-presets-label">
+                            <button type="button" class="preset-btn" onclick="loadExpensePreset('subscriptions')" aria-label="Load subscription audit example" data-i18n="tools.debtPayoffComparison.presets.subscriptionAudit">Subscription Audit</button>
+                            <button type="button" class="preset-btn" onclick="loadExpensePreset('daily')" aria-label="Load daily habits example" data-i18n="tools.debtPayoffComparison.presets.dailyHabits">Daily Habits</button>
+                            <button type="button" class="preset-btn" onclick="loadExpensePreset('lifestyle')" aria-label="Load lifestyle cuts example" data-i18n="tools.debtPayoffComparison.presets.lifestyleCuts">Lifestyle Cuts</button>
+                        </div>
+                    </div>
+
+                    <div class="expense-list" id="expenseList" role="list" aria-label="List of expenses to cut">
+                        <!-- Expense items will be added here -->
+                    </div>
+
+                    <div class="expense-summary">
+                        <div class="expense-total">
+                            <span data-i18n="tools.debtPayoffComparison.labels.totalMonthlySavings">Total monthly savings:</span>
+                            <strong id="totalExpenseSavings">$0.00</strong>
+                        </div>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <button type="button" class="apply-expense-btn" onclick="applyExpensesToExtra()" id="applyExpenseBtn" disabled aria-label="Apply expense savings to extra payment" data-i18n="tools.debtPayoffComparison.buttons.applyToExtraPayment">Apply to Extra Payment</button>
+                            <button type="button" class="export-expenses-btn" onclick="exportDebtsToCSV()" aria-label="Export debts to CSV" data-i18n="tools.debtPayoffComparison.buttons.exportDebts">Export Debts</button>
+                            <button type="button" class="export-expenses-btn" onclick="exportExpensesToCSV()" aria-label="Export expenses to CSV" data-i18n="tools.debtPayoffComparison.buttons.exportExpenses">Export Expenses</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="extra-payment-section">
+                    <div class="minimum-summary">
+                        <span data-i18n="tools.debtPayoffComparison.labels.yourMinimumPaymentsTotal">Your minimum payments total:</span>
+                        <strong id="totalMinimum">$0.00</strong>
+                        <span data-i18n="tools.debtPayoffComparison.labels.perMonth">per month</span>
+                    </div>
+                    <div class="input-field">
+                        <label for="extraPayment" data-i18n="tools.debtPayoffComparison.sections.extraPayment">Extra Monthly Payment</label>
+                        <div class="input-prefix">
+                            <span>$</span>
+                            <input type="text" id="extraPayment" placeholder="0" aria-describedby="extra-help" inputmode="decimal">
+                        </div>
+                        <span id="extra-help" class="sr-only">Enter additional monthly payment beyond minimums</span>
+                    </div>
+                </div>
+
+                <button type="button" class="btn" onclick="calculate()" aria-label="Compare payoff methods" data-i18n="tools.debtPayoffComparison.buttons.compareMethods">Compare Methods</button>
+                <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page" data-i18n="common.clearSavedData">Clear Saved Data</button>
+
+                <div class="error" id="error" role="alert" aria-live="assertive" aria-atomic="true"></div>
+            </form>
+        </div>
+
+        <!-- Results Section -->
+        <div class="results" id="results" role="region" aria-live="polite" aria-label="Comparison results">
+            <div class="comparison-grid">
+                <div class="method-card snowball" id="snowballCard">
+                    <div class="method-header">
+                        <span class="method-icon" aria-hidden="true">&#10052;</span>
+                        <h2 class="method-title" data-i18n="tools.debtPayoffComparison.methods.snowball">Snowball Method</h2>
+                    </div>
+                    <div class="method-stats" id="snowballStats">
+                        <!-- Stats populated by JS -->
+                    </div>
+                    <div class="payoff-order">
+                        <h4 data-i18n="tools.debtPayoffComparison.stats.payoffOrder">Payoff Order</h4>
+                        <ol id="snowballOrder">
+                            <!-- Order populated by JS -->
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="method-card avalanche" id="avalancheCard">
+                    <div class="method-header">
+                        <span class="method-icon" aria-hidden="true">&#9968;</span>
+                        <h2 class="method-title" data-i18n="tools.debtPayoffComparison.methods.avalanche">Avalanche Method</h2>
+                        <span class="winner-badge" id="winnerBadge" style="display: none;" data-i18n="tools.debtPayoffComparison.methods.savesMore">Saves More</span>
+                    </div>
+                    <div class="method-stats" id="avalancheStats">
+                        <!-- Stats populated by JS -->
+                    </div>
+                    <div class="payoff-order">
+                        <h4 data-i18n="tools.debtPayoffComparison.stats.payoffOrder">Payoff Order</h4>
+                        <ol id="avalancheOrder">
+                            <!-- Order populated by JS -->
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <div class="comparison-summary" id="comparisonSummary">
+                <!-- Summary populated by JS -->
+            </div>
+
+            <div class="action-buttons">
+                <button type="button" class="action-btn primary" onclick="toggleSchedule()" id="scheduleToggle" aria-expanded="false" aria-controls="scheduleSection" data-i18n="tools.debtPayoffComparison.buttons.viewDetailedSchedule">
+                    View Detailed Schedule
+                </button>
+                <button type="button" class="action-btn secondary" onclick="exportToCSV()" aria-label="Export comparison to CSV" data-i18n="common.exportCSV">Export CSV</button>
+                <button type="button" class="action-btn secondary" onclick="window.print()" aria-label="Print comparison" data-i18n="tools.debtPayoffComparison.buttons.print">Print</button>
+            </div>
+        </div>
+
+        <!-- Schedule Section -->
+        <div class="schedule-section" id="scheduleSection" role="region" aria-label="Detailed payment schedule">
+            <div class="schedule-tabs" role="tablist">
+                <button type="button" class="schedule-tab active" onclick="showSchedule('snowball')" role="tab" aria-selected="true" aria-controls="scheduleTable" id="tab-snowball" data-i18n="tools.debtPayoffComparison.schedule.snowballSchedule">Snowball Schedule</button>
+                <button type="button" class="schedule-tab" onclick="showSchedule('avalanche')" role="tab" aria-selected="false" aria-controls="scheduleTable" id="tab-avalanche" data-i18n="tools.debtPayoffComparison.schedule.avalancheSchedule">Avalanche Schedule</button>
+            </div>
+            <div class="schedule-table-wrapper">
+                <table class="schedule-table" id="scheduleTable" aria-label="Monthly payment schedule">
+                    <thead>
+                        <tr>
+                            <th scope="col" data-i18n="tools.debtPayoffComparison.schedule.month">Month</th>
+                            <th scope="col" data-i18n="tools.debtPayoffComparison.schedule.targetDebt">Target Debt</th>
+                            <th scope="col" data-i18n="tools.debtPayoffComparison.schedule.payment">Payment</th>
+                            <th scope="col" data-i18n="tools.debtPayoffComparison.schedule.principal">Principal</th>
+                            <th scope="col" data-i18n="tools.debtPayoffComparison.schedule.interest">Interest</th>
+                            <th scope="col" data-i18n="tools.debtPayoffComparison.schedule.totalBalance">Total Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody id="scheduleBody">
+                        <!-- Schedule rows populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        </div><!-- End calculator-section -->
+
+        <!-- Educational Section - Links to separate pages -->
+        <div id="learn-more-section" class="education-section main-tab-content" role="tabpanel" aria-labelledby="main-tab-learn-more" aria-label="Learn about debt payoff methods">
+            <h2 data-i18n="tools.debtPayoffComparison.sections.learnAboutDebtPayoff">Learn About Debt Payoff</h2>
+            <p style="color: #90caf9; margin-bottom: 25px;" data-i18n="tools.debtPayoffComparison.sections.learnAboutDescription">Explore our educational guides to understand different payoff strategies and learn how to evaluate loan offers.</p>
+
+            <div class="education-link-cards">
+                <a href="loan-payoff-methods.html" class="education-link-card">
+                    <div class="card-icon" aria-hidden="true">&#10052;</div>
+                    <div class="card-content">
+                        <h3 data-i18n="tools.debtPayoffComparison.education.payoffMethods">Payoff Methods</h3>
+                        <p data-i18n="tools.debtPayoffComparison.education.payoffMethodsDesc">Snowball vs Avalanche: Compare strategies, understand the psychology of debt payoff, and find the approach that works for you.</p>
+                    </div>
+                    <span class="card-arrow" aria-hidden="true">&#8594;</span>
+                </a>
+                <a href="loan-reference.html" class="education-link-card">
+                    <div class="card-icon" aria-hidden="true">&#128218;</div>
+                    <div class="card-content">
+                        <h3 data-i18n="tools.debtPayoffComparison.education.loanReferenceGuide">Loan Reference Guide</h3>
+                        <p data-i18n="tools.debtPayoffComparison.education.loanReferenceDesc">Learn about different loan types, spot predatory lending warning signs, and use our interactive tools to evaluate loan offers.</p>
+                    </div>
+                    <span class="card-arrow" aria-hidden="true">&#8594;</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Excel Formula Section -->
+        <div class="formula-section">
+            <div class="collapsible" id="formula-collapsible">
+                <div class="collapsible-header" onclick="toggleCollapsible('formula-collapsible')" tabindex="0" role="button" aria-expanded="false" aria-controls="formula-content">
+                    <h3 data-i18n="tools.debtPayoffComparison.sections.excelFormulas">Excel Formulas for Debt Calculations</h3>
+                    <span class="collapsible-icon" aria-hidden="true">&#9660;</span>
+                </div>
+                <div class="collapsible-content" id="formula-content">
+                    <p data-i18n="tools.debtPayoffComparison.sections.excelFormulasDesc">Use these Excel formulas to recreate debt payoff calculations in your own spreadsheets.</p>
+                    <div class="formula-grid">
+                        <div class="formula-card">
+                            <h3 data-i18n="tools.debtPayoffComparison.formulas.monthlyPaymentPMT">Monthly Payment (PMT)</h3>
+                            <p class="formula-desc" data-i18n="tools.debtPayoffComparison.formulas.monthlyPaymentDesc">Calculate required monthly payment for a loan</p>
+                            <div class="formula-box">
+                                <code id="formula-pmt">=PMT(B2/12, B3, -B1)</code>
+                                <button class="copy-btn" onclick="copyFormula('formula-pmt', this)" data-i18n="common.copy">Copy</button>
+                            </div>
+                            <div class="formula-legend">
+                                <span>B1 = <span data-i18n="tools.debtPayoffComparison.formulas.loanBalance">Loan Balance</span></span>
+                                <span>B2 = <span data-i18n="tools.debtPayoffComparison.formulas.annualRateDecimal">Annual Rate (decimal)</span></span>
+                                <span>B3 = <span data-i18n="tools.debtPayoffComparison.formulas.monthsRemaining">Months Remaining</span></span>
+                            </div>
+                        </div>
+
+                        <div class="formula-card">
+                            <h3 data-i18n="tools.debtPayoffComparison.formulas.monthsToPayoffNPER">Months to Payoff (NPER)</h3>
+                            <p class="formula-desc" data-i18n="tools.debtPayoffComparison.formulas.monthsToPayoffDesc">Calculate how many months to pay off a debt</p>
+                            <div class="formula-box">
+                                <code id="formula-nper">=NPER(B2/12, -B3, B1)</code>
+                                <button class="copy-btn" onclick="copyFormula('formula-nper', this)" data-i18n="common.copy">Copy</button>
+                            </div>
+                            <div class="formula-legend">
+                                <span>B1 = <span data-i18n="tools.debtPayoffComparison.formulas.currentBalance">Current Balance</span></span>
+                                <span>B2 = <span data-i18n="tools.debtPayoffComparison.formulas.annualRateDecimal">Annual Rate (decimal)</span></span>
+                                <span>B3 = <span data-i18n="tools.debtPayoffComparison.formulas.monthlyPayment">Monthly Payment</span></span>
+                            </div>
+                        </div>
+
+                        <div class="formula-card">
+                            <h3 data-i18n="tools.debtPayoffComparison.formulas.totalInterestCUMIPMT">Total Interest (CUMIPMT)</h3>
+                            <p class="formula-desc" data-i18n="tools.debtPayoffComparison.formulas.totalInterestDesc">Calculate total interest over the life of the loan</p>
+                            <div class="formula-box">
+                                <code id="formula-cumipmt">=CUMIPMT(B2/12, B3, B1, 1, B3, 0)</code>
+                                <button class="copy-btn" onclick="copyFormula('formula-cumipmt', this)" data-i18n="common.copy">Copy</button>
+                            </div>
+                            <div class="formula-legend">
+                                <span>B1 = <span data-i18n="tools.debtPayoffComparison.formulas.loanBalance">Loan Balance</span></span>
+                                <span>B2 = <span data-i18n="tools.debtPayoffComparison.formulas.annualRateDecimal">Annual Rate (decimal)</span></span>
+                                <span>B3 = <span data-i18n="tools.debtPayoffComparison.formulas.totalMonths">Total Months</span></span>
+                            </div>
+                        </div>
+
+                        <div class="formula-card">
+                            <h3 data-i18n="tools.debtPayoffComparison.formulas.interestForMonth">Interest for Specific Month (IPMT)</h3>
+                            <p class="formula-desc" data-i18n="tools.debtPayoffComparison.formulas.interestForMonthDesc">Calculate interest portion of a specific payment</p>
+                            <div class="formula-box">
+                                <code id="formula-ipmt">=IPMT(B2/12, B4, B3, -B1)</code>
+                                <button class="copy-btn" onclick="copyFormula('formula-ipmt', this)" data-i18n="common.copy">Copy</button>
+                            </div>
+                            <div class="formula-legend">
+                                <span>B1 = <span data-i18n="tools.debtPayoffComparison.formulas.loanBalance">Loan Balance</span></span>
+                                <span>B2 = <span data-i18n="tools.debtPayoffComparison.formulas.annualRateDecimal">Annual Rate (decimal)</span></span>
+                                <span>B3 = <span data-i18n="tools.debtPayoffComparison.formulas.totalMonths">Total Months</span></span>
+                                <span>B4 = <span data-i18n="tools.debtPayoffComparison.formulas.paymentNumber">Payment Number</span></span>
+                            </div>
+                        </div>
+
+                        <div class="formula-card">
+                            <h3 data-i18n="tools.debtPayoffComparison.formulas.principalForMonth">Principal for Specific Month (PPMT)</h3>
+                            <p class="formula-desc" data-i18n="tools.debtPayoffComparison.formulas.principalForMonthDesc">Calculate principal portion of a specific payment</p>
+                            <div class="formula-box">
+                                <code id="formula-ppmt">=PPMT(B2/12, B4, B3, -B1)</code>
+                                <button class="copy-btn" onclick="copyFormula('formula-ppmt', this)" data-i18n="common.copy">Copy</button>
+                            </div>
+                            <div class="formula-legend">
+                                <span>B1 = <span data-i18n="tools.debtPayoffComparison.formulas.loanBalance">Loan Balance</span></span>
+                                <span>B2 = <span data-i18n="tools.debtPayoffComparison.formulas.annualRateDecimal">Annual Rate (decimal)</span></span>
+                                <span>B3 = <span data-i18n="tools.debtPayoffComparison.formulas.totalMonths">Total Months</span></span>
+                                <span>B4 = <span data-i18n="tools.debtPayoffComparison.formulas.paymentNumber">Payment Number</span></span>
+                            </div>
+                        </div>
+
+                        <div class="formula-card">
+                            <h3 data-i18n="tools.debtPayoffComparison.formulas.remainingBalanceFV">Remaining Balance (FV)</h3>
+                            <p class="formula-desc" data-i18n="tools.debtPayoffComparison.formulas.remainingBalanceDesc">Calculate remaining balance after N payments</p>
+                            <div class="formula-box">
+                                <code id="formula-fv">=FV(B2/12, B4, -B3, B1)</code>
+                                <button class="copy-btn" onclick="copyFormula('formula-fv', this)" data-i18n="common.copy">Copy</button>
+                            </div>
+                            <div class="formula-legend">
+                                <span>B1 = <span data-i18n="tools.debtPayoffComparison.formulas.originalBalance">Original Balance</span></span>
+                                <span>B2 = <span data-i18n="tools.debtPayoffComparison.formulas.annualRateDecimal">Annual Rate (decimal)</span></span>
+                                <span>B3 = <span data-i18n="tools.debtPayoffComparison.formulas.monthlyPayment">Monthly Payment</span></span>
+                                <span>B4 = <span data-i18n="tools.debtPayoffComparison.formulas.paymentsMade">Payments Made</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer role="contentinfo">
+            <span data-i18n="tools.debtPayoffComparison.footer">Debt Payoff Comparison - Works offline, no data stored, no sign-up required</span>
+        </footer>
+    </main>
+
+    <script>
+        // Debt data structure
+        let debts = [];
+        let nextDebtId = 1;
+        let snowballSchedule = [];
+        let avalancheSchedule = [];
+        let currentScheduleView = 'snowball';
+
+        // Expense tracking data structure
+        let expenses = [];
+        let nextExpenseId = 1;
+
+        // Save all form data to localStorage
+        function saveFormData() {
+            StorageUtils.save('debt-payoff-debts', debts);
+            StorageUtils.save('debt-payoff-expenses', expenses);
+            StorageUtils.save('debt-payoff-extra', document.getElementById('extraPayment')?.value || '');
+        }
+
+        // Clear all saved data and reset form
+        function clearAllSavedData() {
+            // Clear storage
+            StorageUtils.remove('debt-payoff-debts');
+            StorageUtils.remove('debt-payoff-expenses');
+            StorageUtils.remove('debt-payoff-extra');
+
+            // Clear UI - remove all debts and expenses
+            document.getElementById('debtList').innerHTML = '';
+            document.getElementById('expenseList').innerHTML = '';
+            document.getElementById('extraPayment').value = '';
+
+            // Uncheck all preset checkboxes
+            document.querySelectorAll('.preset-checkboxes input[type="checkbox"]').forEach(cb => cb.checked = false);
+
+            // Reset arrays and add one empty debt
+            debts = [];
+            expenses = [];
+            nextDebtId = 1;
+            nextExpenseId = 1;
+            addDebt(null, true);
+
+            // Update totals
+            updateTotalMinimum();
+            updateExpenseTotal();
+
+            // Hide results
+            document.getElementById('results').classList.remove('show');
+
+            A11yUtils.announce(I18nUtils.t('common.allDataCleared', 'All saved data has been cleared'), 'polite');
+        }
+
+        // Debt types with typical APRs for reference
+        function getDebtTypes() {
+            return {
+                'credit-card': { label: I18nUtils.t('tools.debtPayoffComparison.debtTypes.creditCard', 'Credit Card'), typicalApr: 19.72 },
+                'auto-loan': { label: I18nUtils.t('tools.debtPayoffComparison.debtTypes.autoLoan', 'Auto Loan'), typicalApr: 8.0 },
+                'personal-loan': { label: I18nUtils.t('tools.debtPayoffComparison.debtTypes.personalLoan', 'Personal Loan'), typicalApr: 12.21 },
+                'student-loan': { label: I18nUtils.t('tools.debtPayoffComparison.debtTypes.studentLoan', 'Student Loan'), typicalApr: 6.0 },
+                'medical': { label: I18nUtils.t('tools.debtPayoffComparison.debtTypes.medicalDebt', 'Medical Debt'), typicalApr: 0 },
+                'other': { label: I18nUtils.t('tools.debtPayoffComparison.debtTypes.other', 'Other'), typicalApr: 10.0 }
+            };
+        }
+        // For backward compatibility with existing code
+        let debtTypes = {};
+
+        // Preset examples
+        const presets = {
+            'typical': [
+                { name: 'Credit Card', type: 'credit-card', balance: 5200, apr: 19.72, minPayment: 150 },
+                { name: 'Car Loan', type: 'auto-loan', balance: 12400, apr: 7.5, minPayment: 285 },
+                { name: 'Personal Loan', type: 'personal-loan', balance: 8000, apr: 11.99, minPayment: 180 }
+            ],
+            'credit-cards': [
+                { name: 'Store Card', type: 'credit-card', balance: 800, apr: 24.99, minPayment: 35 },
+                { name: 'Visa', type: 'credit-card', balance: 4500, apr: 18.99, minPayment: 120 },
+                { name: 'Mastercard', type: 'credit-card', balance: 7200, apr: 21.49, minPayment: 180 },
+                { name: 'Amex', type: 'credit-card', balance: 3100, apr: 16.99, minPayment: 85 }
+            ],
+            'mixed': [
+                { name: 'Medical Bill', type: 'medical', balance: 1500, apr: 0, minPayment: 100 },
+                { name: 'Credit Card', type: 'credit-card', balance: 6000, apr: 19.99, minPayment: 150 },
+                { name: 'Student Loan', type: 'student-loan', balance: 15000, apr: 5.5, minPayment: 175 },
+                { name: 'Car Payment', type: 'auto-loan', balance: 8500, apr: 6.9, minPayment: 225 }
+            ]
+        };
+
+        // Expense preset examples (based on 2025 average costs)
+        const expensePresets = {
+            'subscriptions': [
+                { label: 'Netflix', amount: 15.49, timesPerMonth: 1 },
+                { label: 'Spotify/Apple Music', amount: 10.99, timesPerMonth: 1 },
+                { label: 'Disney+', amount: 9.99, timesPerMonth: 1 },
+                { label: 'HBO Max', amount: 15.99, timesPerMonth: 1 },
+                { label: 'Amazon Prime', amount: 14.99, timesPerMonth: 1 },
+                { label: 'Cloud Storage', amount: 2.99, timesPerMonth: 1 }
+            ],
+            'daily': [
+                { label: 'Morning Coffee', amount: 5.50, timesPerMonth: 20 },
+                { label: 'Lunch Out', amount: 15, timesPerMonth: 12 },
+                { label: 'Afternoon Snack/Drink', amount: 4, timesPerMonth: 15 },
+                { label: 'Vending Machine', amount: 2, timesPerMonth: 10 }
+            ],
+            'lifestyle': [
+                { label: 'Gym Membership', amount: 45, timesPerMonth: 1 },
+                { label: 'Food Delivery (DoorDash/Uber Eats)', amount: 35, timesPerMonth: 4 },
+                { label: 'Dining Out', amount: 60, timesPerMonth: 4 },
+                { label: 'Impulse Amazon Purchases', amount: 30, timesPerMonth: 2 }
+            ]
+        };
+
+        function formatCurrency(num) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }).format(num);
+        }
+
+        function parseNumber(str) {
+            if (!str) return 0;
+            const cleaned = str.replace(/[,$\s]/g, '');
+            const num = parseFloat(cleaned);
+            return isNaN(num) ? 0 : num;
+        }
+
+        function formatInput(input) {
+            let value = input.value.replace(/[^\d.]/g, '');
+            if (value) {
+                const parts = value.split('.');
+                parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                if (parts[1]) {
+                    parts[1] = parts[1].substring(0, 2);
+                }
+                input.value = parts.join('.');
+            }
+        }
+
+        function addDebt(data = null, skipSave = false) {
+            const id = nextDebtId++;
+            const debt = data || {
+                id: id,
+                name: '',
+                type: 'credit-card',
+                balance: 0,
+                apr: 0,
+                minPayment: 0
+            };
+            debt.id = id;
+            debts.push(debt);
+            renderDebtItem(debt);
+            updateTotalMinimum();
+            if (!skipSave) saveFormData();
+        }
+
+        function renderDebtItem(debt) {
+            const container = document.getElementById('debtList');
+            const item = document.createElement('div');
+            item.className = 'debt-item';
+            item.id = `debt-${debt.id}`;
+            item.setAttribute('role', 'listitem');
+            const types = getDebtTypes();
+
+            item.innerHTML = `
+                <div class="input-field">
+                    <label for="name-${debt.id}" data-i18n="tools.debtPayoffComparison.labels.debtName">${I18nUtils.t('tools.debtPayoffComparison.labels.debtName', 'Debt Name')}</label>
+                    <input type="text" id="name-${debt.id}" placeholder="${I18nUtils.t('tools.debtPayoffComparison.placeholders.debtNameExample', 'e.g., Chase Visa')}" value="${debt.name}" onchange="updateDebt(${debt.id}, 'name', this.value)" aria-required="true">
+                </div>
+                <div class="input-field">
+                    <label for="type-${debt.id}" data-i18n="tools.debtPayoffComparison.labels.type">${I18nUtils.t('tools.debtPayoffComparison.labels.type', 'Type')}</label>
+                    <select id="type-${debt.id}" onchange="updateDebt(${debt.id}, 'type', this.value)">
+                        ${Object.entries(types).map(([key, val]) =>
+                            `<option value="${key}" ${debt.type === key ? 'selected' : ''}>${val.label}</option>`
+                        ).join('')}
+                    </select>
+                </div>
+                <div class="input-field">
+                    <label for="balance-${debt.id}" data-i18n="tools.debtPayoffComparison.labels.balance">${I18nUtils.t('tools.debtPayoffComparison.labels.balance', 'Balance')}</label>
+                    <div class="input-prefix">
+                        <span>$</span>
+                        <input type="text" id="balance-${debt.id}" placeholder="0.00" value="${debt.balance ? debt.balance.toLocaleString() : ''}" oninput="formatInput(this)" onchange="updateDebt(${debt.id}, 'balance', parseNumber(this.value))" inputmode="decimal" aria-required="true">
+                    </div>
+                </div>
+                <div class="input-field">
+                    <label for="apr-${debt.id}" data-i18n="tools.debtPayoffComparison.labels.apr">${I18nUtils.t('tools.debtPayoffComparison.labels.apr', 'APR')}</label>
+                    <div class="input-suffix">
+                        <input type="text" id="apr-${debt.id}" placeholder="0.00" value="${debt.apr || ''}" onchange="updateDebt(${debt.id}, 'apr', parseNumber(this.value))" inputmode="decimal" aria-required="true">
+                        <span>%</span>
+                    </div>
+                </div>
+                <div class="input-field">
+                    <label for="min-${debt.id}" data-i18n="tools.debtPayoffComparison.labels.minPayment">${I18nUtils.t('tools.debtPayoffComparison.labels.minPayment', 'Min Payment')}</label>
+                    <div class="input-prefix">
+                        <span>$</span>
+                        <input type="text" id="min-${debt.id}" placeholder="0.00" value="${debt.minPayment ? debt.minPayment.toLocaleString() : ''}" oninput="formatInput(this)" onchange="updateDebt(${debt.id}, 'minPayment', parseNumber(this.value))" inputmode="decimal" aria-required="true">
+                    </div>
+                </div>
+                <button type="button" class="remove-btn" onclick="removeDebt(${debt.id})" aria-label="Remove this debt" ${debts.length <= 1 ? 'disabled' : ''}>&#10005;</button>
+            `;
+
+            container.appendChild(item);
+        }
+
+        function updateDebt(id, field, value) {
+            const debt = debts.find(d => d.id === id);
+            if (debt) {
+                debt[field] = value;
+                updateTotalMinimum();
+                saveFormData();
+            }
+        }
+
+        function removeDebt(id) {
+            if (debts.length <= 1) return;
+
+            // Check if this debt was from a preset
+            const debtToRemove = debts.find(d => d.id === id);
+            const presetSource = debtToRemove?.presetSource;
+
+            debts = debts.filter(d => d.id !== id);
+            document.getElementById(`debt-${id}`).remove();
+
+            // If this was the last debt from a preset, uncheck that preset
+            if (presetSource && !debts.some(d => d.presetSource === presetSource)) {
+                const checkbox = document.getElementById(`preset-${presetSource}`);
+                if (checkbox) checkbox.checked = false;
+            }
+
+            updateRemoveButtons();
+            updateTotalMinimum();
+            saveFormData();
+        }
+
+        function updateRemoveButtons() {
+            const buttons = document.querySelectorAll('.remove-btn');
+            buttons.forEach(btn => {
+                btn.disabled = debts.length <= 1;
+            });
+        }
+
+        function updateTotalMinimum() {
+            const totalBalance = debts.reduce((sum, d) => sum + (d.balance || 0), 0);
+            const total = debts.reduce((sum, d) => sum + (d.minPayment || 0), 0);
+            document.getElementById('totalMinimum').textContent = formatCurrency(total);
+            // Update debt summary elements
+            const balanceEl = document.getElementById('totalDebtBalance');
+            const minEl = document.getElementById('totalDebtMinimum');
+            if (balanceEl) balanceEl.textContent = formatCurrency(totalBalance);
+            if (minEl) minEl.textContent = formatCurrency(total);
+        }
+
+        function toggleDebtPreset(presetName, isChecked) {
+            const preset = presets[presetName];
+            if (!preset) return;
+
+            if (isChecked) {
+                // Remove empty debt rows first (no name and no balance)
+                const emptyDebts = debts.filter(d => !d.name && !d.balance && !d.presetSource);
+                emptyDebts.forEach(debt => {
+                    const element = document.getElementById(`debt-${debt.id}`);
+                    if (element) element.remove();
+                });
+                debts = debts.filter(d => d.name || d.balance || d.presetSource);
+
+                // Add preset debts
+                preset.forEach(debtData => {
+                    addDebt({ ...debtData, presetSource: presetName });
+                });
+                A11yUtils.announce(I18nUtils.t('tools.debtPayoffComparison.announcements.addedDebts', 'Added {{count}} debts from {{preset}} example').replace('{{count}}', preset.length).replace('{{preset}}', presetName.replace('-', ' ')), 'polite');
+            } else {
+                // Remove debts from this preset
+                const debtsToRemove = debts.filter(d => d.presetSource === presetName);
+                debtsToRemove.forEach(debt => {
+                    const element = document.getElementById(`debt-${debt.id}`);
+                    if (element) element.remove();
+                });
+                debts = debts.filter(d => d.presetSource !== presetName);
+                A11yUtils.announce(I18nUtils.t('tools.debtPayoffComparison.announcements.removedDebts', 'Removed {{count}} debts from {{preset}} example').replace('{{count}}', debtsToRemove.length).replace('{{preset}}', presetName.replace('-', ' ')), 'polite');
+            }
+
+            // Ensure at least one empty debt row if all removed
+            if (debts.length === 0) {
+                addDebt();
+            }
+
+            updateRemoveButtons();
+            updateTotalMinimum();
+        }
+
+        function loadPreset(presetName) {
+            const preset = presets[presetName];
+            if (!preset) return;
+
+            // Clear existing debts
+            debts = [];
+            nextDebtId = 1;
+            document.getElementById('debtList').innerHTML = '';
+
+            // Uncheck all preset checkboxes
+            document.querySelectorAll('.preset-checkbox input').forEach(cb => cb.checked = false);
+
+            // Add preset debts
+            preset.forEach(debtData => {
+                addDebt({ ...debtData });
+            });
+
+            // Set extra payment
+            document.getElementById('extraPayment').value = '300';
+
+            // Update UI
+            updateRemoveButtons();
+            updateTotalMinimum();
+
+            A11yUtils.announce(I18nUtils.t('tools.debtPayoffComparison.announcements.loadedPreset', 'Loaded {{preset}} example with {{count}} debts').replace('{{preset}}', presetName.replace('-', ' ')).replace('{{count}}', preset.length), 'polite');
+        }
+
+        function loadExpensePreset(presetName) {
+            const preset = expensePresets[presetName];
+            if (!preset) return;
+
+            // Clear existing expenses
+            expenses = [];
+            nextExpenseId = 1;
+            document.getElementById('expenseList').innerHTML = '';
+
+            // Add preset expenses
+            preset.forEach(expenseData => {
+                const expense = {
+                    ...expenseData,
+                    monthlyTotal: expenseData.amount * expenseData.timesPerMonth
+                };
+                addExpense(expense);
+            });
+
+            updateExpenseTotal();
+            A11yUtils.announce(I18nUtils.t('tools.debtPayoffComparison.announcements.loadedExpensePreset', 'Loaded {{preset}} example with {{count}} expenses').replace('{{preset}}', presetName).replace('{{count}}', preset.length), 'polite');
+        }
+
+        function validateDebts() {
+            const errorDiv = document.getElementById('error');
+            errorDiv.classList.remove('show');
+            errorDiv.textContent = '';
+
+            for (const debt of debts) {
+                if (!debt.name.trim()) {
+                    errorDiv.textContent = I18nUtils.t('tools.debtPayoffComparison.validation.enterNameForAllDebts', 'Please enter a name for all debts');
+                    errorDiv.classList.add('show');
+                    document.getElementById(`name-${debt.id}`).focus();
+                    return false;
+                }
+                if (debt.balance <= 0) {
+                    errorDiv.textContent = I18nUtils.t('tools.debtPayoffComparison.validation.enterValidBalance', 'Please enter a valid balance for "{{name}}"').replace('{{name}}', debt.name);
+                    errorDiv.classList.add('show');
+                    document.getElementById(`balance-${debt.id}`).focus();
+                    return false;
+                }
+                if (debt.minPayment <= 0) {
+                    errorDiv.textContent = I18nUtils.t('tools.debtPayoffComparison.validation.enterMinPayment', 'Please enter a minimum payment for "{{name}}"').replace('{{name}}', debt.name);
+                    errorDiv.classList.add('show');
+                    document.getElementById(`min-${debt.id}`).focus();
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        function calculate() {
+            if (!validateDebts()) return;
+
+            const extraPayment = parseNumber(document.getElementById('extraPayment').value) || 0;
+
+            // Calculate both methods
+            const snowballResult = calculatePayoff(debts, extraPayment, 'snowball');
+            const avalancheResult = calculatePayoff(debts, extraPayment, 'avalanche');
+
+            snowballSchedule = snowballResult.schedule;
+            avalancheSchedule = avalancheResult.schedule;
+
+            // Display results
+            displayResults(snowballResult, avalancheResult);
+
+            // Show results section
+            document.getElementById('results').classList.add('show');
+            document.getElementById('scheduleSection').classList.remove('show');
+            document.getElementById('scheduleToggle').setAttribute('aria-expanded', 'false');
+
+            // Scroll to results
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            // Announce results
+            const savings = avalancheResult.totalInterest < snowballResult.totalInterest
+                ? formatCurrency(snowballResult.totalInterest - avalancheResult.totalInterest)
+                : formatCurrency(avalancheResult.totalInterest - snowballResult.totalInterest);
+            A11yUtils.announce(I18nUtils.t('tools.debtPayoffComparison.announcements.comparisonComplete', 'Comparison complete. Avalanche method saves {{amount}} in interest.').replace('{{amount}}', savings), 'polite');
+        }
+
+        function calculatePayoff(debtsInput, extraPayment, method) {
+            // Deep copy and sort debts based on method
+            let activeDebts = debtsInput.map(d => ({
+                ...d,
+                currentBalance: d.balance,
+                monthlyRate: d.apr / 100 / 12
+            }));
+
+            if (method === 'snowball') {
+                activeDebts.sort((a, b) => a.balance - b.balance);
+            } else {
+                activeDebts.sort((a, b) => b.apr - a.apr);
+            }
+
+            const payoffOrder = activeDebts.map(d => ({
+                name: d.name,
+                balance: d.balance,
+                apr: d.apr
+            }));
+
+            const schedule = [];
+            let month = 0;
+            let totalInterest = 0;
+            const totalMinPayments = activeDebts.reduce((sum, d) => sum + d.minPayment, 0);
+            const totalMonthlyBudget = totalMinPayments + extraPayment;
+
+            // Track when each debt is paid off
+            const debtPaidOffMonths = {};
+
+            while (activeDebts.some(d => d.currentBalance > 0.01) && month < 600) {
+                month++;
+                let availablePayment = totalMonthlyBudget;
+                let monthlyInterest = 0;
+                let monthlyPrincipal = 0;
+                let targetDebt = null;
+
+                // Find first debt with balance (our target)
+                const targetIndex = activeDebts.findIndex(d => d.currentBalance > 0.01);
+                if (targetIndex >= 0) {
+                    targetDebt = activeDebts[targetIndex];
+                }
+
+                // Process each debt
+                for (let i = 0; i < activeDebts.length; i++) {
+                    const debt = activeDebts[i];
+                    if (debt.currentBalance <= 0.01) continue;
+
+                    // Calculate interest for this month
+                    const interest = debt.currentBalance * debt.monthlyRate;
+                    monthlyInterest += interest;
+                    totalInterest += interest;
+
+                    // Determine payment for this debt
+                    let payment;
+                    if (i === targetIndex) {
+                        // Target debt gets all remaining budget
+                        payment = availablePayment;
+                    } else {
+                        // Other debts get minimum payment
+                        payment = Math.min(debt.minPayment, availablePayment);
+                    }
+
+                    // Can't pay more than balance + interest
+                    payment = Math.min(payment, debt.currentBalance + interest);
+                    availablePayment -= payment;
+
+                    const principal = payment - interest;
+                    monthlyPrincipal += principal;
+                    debt.currentBalance -= principal;
+
+                    // Track if debt was paid off this month
+                    if (debt.currentBalance <= 0.01 && !debtPaidOffMonths[debt.name]) {
+                        debtPaidOffMonths[debt.name] = month;
+                    }
+                }
+
+                const totalBalance = activeDebts.reduce((sum, d) => Math.max(0, d.currentBalance), 0);
+
+                schedule.push({
+                    month: month,
+                    targetDebt: targetDebt ? targetDebt.name : '',
+                    payment: totalMonthlyBudget - availablePayment,
+                    principal: monthlyPrincipal,
+                    interest: monthlyInterest,
+                    totalBalance: totalBalance,
+                    debtPaidOff: Object.entries(debtPaidOffMonths).find(([name, m]) => m === month)?.[0] || null
+                });
+            }
+
+            return {
+                months: month,
+                totalInterest: totalInterest,
+                totalPaid: debtsInput.reduce((sum, d) => sum + d.balance, 0) + totalInterest,
+                payoffOrder: payoffOrder,
+                schedule: schedule,
+                firstDebtPaidMonth: Math.min(...Object.values(debtPaidOffMonths))
+            };
+        }
+
+        function displayResults(snowball, avalanche) {
+            // Determine winner
+            const avalancheWins = avalanche.totalInterest < snowball.totalInterest;
+
+            // Update winner badge
+            const badge = document.getElementById('winnerBadge');
+            if (avalancheWins && snowball.totalInterest > avalanche.totalInterest + 1) {
+                badge.style.display = 'inline-block';
+                document.getElementById('avalancheCard').classList.add('winner');
+                document.getElementById('snowballCard').classList.remove('winner');
+            } else {
+                badge.style.display = 'none';
+                document.getElementById('avalancheCard').classList.remove('winner');
+                document.getElementById('snowballCard').classList.remove('winner');
+            }
+
+            // Format months to years/months
+            const formatTime = (months) => {
+                const years = Math.floor(months / 12);
+                const remainingMonths = months % 12;
+                const monthLabel = remainingMonths !== 1 ? I18nUtils.t('tools.debtPayoffComparison.results.months', 'months') : I18nUtils.t('tools.debtPayoffComparison.results.monthSingular', 'month');
+                const yearLabel = years !== 1 ? I18nUtils.t('tools.debtPayoffComparison.results.years', 'years') : I18nUtils.t('tools.debtPayoffComparison.results.year', 'year');
+                if (years === 0) return `${remainingMonths} ${monthLabel}`;
+                if (remainingMonths === 0) return `${years} ${yearLabel}`;
+                return `${years} ${I18nUtils.t('tools.debtPayoffComparison.results.yr', 'yr')} ${remainingMonths} ${I18nUtils.t('tools.debtPayoffComparison.results.mo', 'mo')}`;
+            };
+
+            // Calculate debt-free date as years from now
+            const getDebtFreeDate = (months) => {
+                const years = Math.ceil(months / 12);
+                if (years === 0) return I18nUtils.t('tools.debtPayoffComparison.results.thisYear', 'This year');
+                if (years === 1) return `${I18nUtils.t('tools.debtPayoffComparison.results.year', 'Year')} 1`;
+                return `${I18nUtils.t('tools.debtPayoffComparison.results.year', 'Year')} ${years}`;
+            };
+
+            const debtFreeDateLabel = I18nUtils.t('tools.debtPayoffComparison.stats.debtFreeDate', 'Debt-Free Date');
+            const timeToPayOffLabel = I18nUtils.t('tools.debtPayoffComparison.stats.timeToPayOff', 'Time to Pay Off');
+            const totalInterestLabel = I18nUtils.t('tools.debtPayoffComparison.stats.totalInterest', 'Total Interest');
+            const totalPaidLabel = I18nUtils.t('tools.debtPayoffComparison.stats.totalPaid', 'Total Paid');
+            const firstDebtPaidOffLabel = I18nUtils.t('tools.debtPayoffComparison.stats.firstDebtPaidOff', 'First Debt Paid Off');
+            const monthsLabel = I18nUtils.t('tools.debtPayoffComparison.results.months', 'months');
+
+            // Display snowball stats
+            document.getElementById('snowballStats').innerHTML = `
+                <div class="stat-row">
+                    <span class="stat-label">${debtFreeDateLabel}</span>
+                    <span class="stat-value">${getDebtFreeDate(snowball.months)}</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">${timeToPayOffLabel}</span>
+                    <span class="stat-value">${formatTime(snowball.months)}</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">${totalInterestLabel}</span>
+                    <span class="stat-value">${formatCurrency(snowball.totalInterest)}</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">${totalPaidLabel}</span>
+                    <span class="stat-value">${formatCurrency(snowball.totalPaid)}</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">${firstDebtPaidOffLabel}</span>
+                    <span class="stat-value highlight">${snowball.firstDebtPaidMonth} ${monthsLabel}</span>
+                </div>
+            `;
+
+            // Display avalanche stats
+            document.getElementById('avalancheStats').innerHTML = `
+                <div class="stat-row">
+                    <span class="stat-label">${debtFreeDateLabel}</span>
+                    <span class="stat-value">${getDebtFreeDate(avalanche.months)}</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">${timeToPayOffLabel}</span>
+                    <span class="stat-value">${formatTime(avalanche.months)}</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">${totalInterestLabel}</span>
+                    <span class="stat-value ${avalancheWins ? 'highlight' : ''}">${formatCurrency(avalanche.totalInterest)}</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">${totalPaidLabel}</span>
+                    <span class="stat-value">${formatCurrency(avalanche.totalPaid)}</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">${firstDebtPaidOffLabel}</span>
+                    <span class="stat-value">${avalanche.firstDebtPaidMonth} ${monthsLabel}</span>
+                </div>
+            `;
+
+            // Display payoff orders
+            document.getElementById('snowballOrder').innerHTML = snowball.payoffOrder.map(d => `
+                <li>${d.name} <span class="payoff-detail">(${formatCurrency(d.balance)})</span></li>
+            `).join('');
+
+            document.getElementById('avalancheOrder').innerHTML = avalanche.payoffOrder.map(d => `
+                <li>${d.name} <span class="payoff-detail">(${d.apr}% APR)</span></li>
+            `).join('');
+
+            // Display comparison summary
+            const interestDiff = Math.abs(snowball.totalInterest - avalanche.totalInterest);
+            const monthsDiff = Math.abs(snowball.months - avalanche.months);
+            const firstDebtDiff = Math.abs(snowball.firstDebtPaidMonth - avalanche.firstDebtPaidMonth);
+            const monthsDiffLabel = monthsDiff !== 1
+                ? `${monthsDiff} ${I18nUtils.t('tools.debtPayoffComparison.results.months', 'months')}`
+                : `${monthsDiff} ${I18nUtils.t('tools.debtPayoffComparison.results.monthSingular', 'month')}`;
+            const firstDebtDiffLabel = firstDebtDiff !== 1
+                ? `${firstDebtDiff} ${I18nUtils.t('tools.debtPayoffComparison.results.months', 'months')}`
+                : `${firstDebtDiff} ${I18nUtils.t('tools.debtPayoffComparison.results.monthSingular', 'month')}`;
+
+            let summaryHtml = `<h3>&#128161; ${I18nUtils.t('tools.debtPayoffComparison.results.keyInsights', 'Key Insights')}</h3>`;
+
+            if (avalancheWins) {
+                summaryHtml += `<p>${I18nUtils.t('tools.debtPayoffComparison.results.avalancheSaves', 'The <strong>Avalanche method</strong> saves you <span class="highlight-number">{{amount}}</span> in interest').replace('{{amount}}', formatCurrency(interestDiff))}`;
+                if (monthsDiff > 0) {
+                    summaryHtml += `${I18nUtils.t('tools.debtPayoffComparison.results.andPaysFaster', ' and pays off your debt <span class="highlight-number">{{months}}</span> sooner.').replace('{{months}}', monthsDiffLabel)}`;
+                } else {
+                    summaryHtml += `.`;
+                }
+            } else if (interestDiff < 1) {
+                summaryHtml += `<p>${I18nUtils.t('tools.debtPayoffComparison.results.bothIdentical', 'Both methods produce <strong>nearly identical results</strong> for your debt mix. Choose based on which approach fits your personality better.')}</p>`;
+            } else {
+                summaryHtml += `<p>${I18nUtils.t('tools.debtPayoffComparison.results.snowballSaves', 'The <strong>Snowball method</strong> saves you <span class="highlight-number">{{amount}}</span> in interest for this debt mix.').replace('{{amount}}', formatCurrency(interestDiff))}`;
+            }
+
+            if (snowball.firstDebtPaidMonth < avalanche.firstDebtPaidMonth) {
+                summaryHtml += `${I18nUtils.t('tools.debtPayoffComparison.results.snowballFirstDebtFaster', ' However, <strong>Snowball</strong> pays off your first debt <span class="highlight-number">{{months}}</span> sooner, giving you an early win.').replace('{{months}}', firstDebtDiffLabel)}</p>`;
+            } else if (avalanche.firstDebtPaidMonth < snowball.firstDebtPaidMonth) {
+                summaryHtml += `${I18nUtils.t('tools.debtPayoffComparison.results.avalancheFirstDebtFaster', ' <strong>Avalanche</strong> also pays off your first debt <span class="highlight-number">{{months}}</span> sooner.').replace('{{months}}', firstDebtDiffLabel)}</p>`;
+            } else {
+                summaryHtml += `</p>`;
+            }
+
+            document.getElementById('comparisonSummary').innerHTML = summaryHtml;
+        }
+
+        function toggleSchedule() {
+            const section = document.getElementById('scheduleSection');
+            const toggle = document.getElementById('scheduleToggle');
+            const isShowing = section.classList.toggle('show');
+            toggle.setAttribute('aria-expanded', isShowing);
+            toggle.textContent = isShowing
+                ? I18nUtils.t('tools.debtPayoffComparison.buttons.hideDetailedSchedule', 'Hide Detailed Schedule')
+                : I18nUtils.t('tools.debtPayoffComparison.buttons.viewDetailedSchedule', 'View Detailed Schedule');
+
+            if (isShowing) {
+                showSchedule(currentScheduleView);
+                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        function showSchedule(method) {
+            currentScheduleView = method;
+            const schedule = method === 'snowball' ? snowballSchedule : avalancheSchedule;
+
+            // Update tabs
+            document.querySelectorAll('.schedule-tab').forEach(tab => {
+                tab.classList.remove('active');
+                tab.setAttribute('aria-selected', 'false');
+            });
+            document.getElementById(`tab-${method}`).classList.add('active');
+            document.getElementById(`tab-${method}`).setAttribute('aria-selected', 'true');
+
+            // Render schedule
+            const tbody = document.getElementById('scheduleBody');
+            tbody.innerHTML = schedule.map(row => `
+                <tr class="${row.debtPaidOff ? 'debt-paid-row' : ''}">
+                    <td>${row.month}</td>
+                    <td>${row.targetDebt}${row.debtPaidOff ? ' &#10003;' : ''}</td>
+                    <td>${formatCurrency(row.payment)}</td>
+                    <td>${formatCurrency(row.principal)}</td>
+                    <td>${formatCurrency(row.interest)}</td>
+                    <td>${formatCurrency(row.totalBalance)}</td>
+                </tr>
+            `).join('');
+        }
+
+        function exportToCSV() {
+            const snowball = snowballSchedule;
+            const avalanche = avalancheSchedule;
+
+            // Create CSV with both schedules
+            let csv = 'Debt Payoff Comparison Export\n\n';
+
+            // Debts Summary
+            csv += 'YOUR DEBTS\n';
+            csv += 'Name,Type,Balance,APR,Minimum Payment\n';
+            debts.forEach(debt => {
+                csv += `"${debt.name}","${debtTypes[debt.type]?.label || debt.type}",${debt.balance.toFixed(2)},${debt.apr}%,${debt.minPayment.toFixed(2)}\n`;
+            });
+            csv += '\n';
+
+            // Expenses (if any)
+            if (expenses.length > 0) {
+                csv += 'EXPENSES TO CUT\n';
+                csv += 'Expense,Cost Each,Times Per Month,Monthly Total\n';
+                expenses.forEach(expense => {
+                    csv += `"${expense.label || 'Unnamed'}",${expense.amount.toFixed(2)},${expense.timesPerMonth},${expense.monthlyTotal.toFixed(2)}\n`;
+                });
+                const expenseTotal = expenses.reduce((sum, e) => sum + (e.monthlyTotal || 0), 0);
+                csv += `Total Monthly Savings,,,${expenseTotal.toFixed(2)}\n\n`;
+            }
+
+            // Summary
+            csv += 'COMPARISON SUMMARY\n';
+            csv += 'Method,Months,Total Interest,Total Paid\n';
+            const snowballInterest = snowball.reduce((sum, r) => sum + r.interest, 0);
+            const avalancheInterest = avalanche.reduce((sum, r) => sum + r.interest, 0);
+            const totalDebt = debts.reduce((sum, d) => sum + d.balance, 0);
+
+            csv += `Snowball,${snowball.length},${snowballInterest.toFixed(2)},${(totalDebt + snowballInterest).toFixed(2)}\n`;
+            csv += `Avalanche,${avalanche.length},${avalancheInterest.toFixed(2)},${(totalDebt + avalancheInterest).toFixed(2)}\n\n`;
+
+            // Snowball Schedule
+            csv += 'SNOWBALL SCHEDULE\n';
+            csv += 'Month,Target Debt,Payment,Principal,Interest,Remaining Balance\n';
+            snowball.forEach(row => {
+                csv += `${row.month},"${row.targetDebt}",${row.payment.toFixed(2)},${row.principal.toFixed(2)},${row.interest.toFixed(2)},${row.totalBalance.toFixed(2)}\n`;
+            });
+
+            csv += '\nAVALANCHE SCHEDULE\n';
+            csv += 'Month,Target Debt,Payment,Principal,Interest,Remaining Balance\n';
+            avalanche.forEach(row => {
+                csv += `${row.month},"${row.targetDebt}",${row.payment.toFixed(2)},${row.principal.toFixed(2)},${row.interest.toFixed(2)},${row.totalBalance.toFixed(2)}\n`;
+            });
+
+            // Download
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', 'debt-payoff-comparison.csv');
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            A11yUtils.announce(I18nUtils.t('tools.debtPayoffComparison.announcements.comparisonExported', 'Comparison exported to CSV file'), 'polite');
+        }
+
+        function toggleCollapsible(id) {
+            const element = document.getElementById(id);
+            const header = element.querySelector('.collapsible-header');
+            const isOpen = element.classList.toggle('open');
+            header.setAttribute('aria-expanded', isOpen);
+        }
+
+        function copyFormula(elementId, button) {
+            const code = document.getElementById(elementId);
+            const text = code.textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = I18nUtils.t('common.copied', 'Copied!');
+                button.style.background = 'rgba(129, 199, 132, 0.3)';
+                button.style.borderColor = 'rgba(129, 199, 132, 0.5)';
+                button.style.color = '#81c784';
+                A11yUtils.announce(I18nUtils.t('tools.debtPayoffComparison.announcements.formulaCopied', 'Formula copied to clipboard'), 'polite');
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '';
+                    button.style.borderColor = '';
+                    button.style.color = '';
+                }, 2000);
+            });
+        }
+
+        function switchEducationTab(tabName) {
+            // Update tabs
+            document.querySelectorAll('.education-tab').forEach(tab => {
+                tab.classList.remove('active');
+                tab.setAttribute('aria-selected', 'false');
+            });
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+            document.getElementById(`tab-${tabName}`).setAttribute('aria-selected', 'true');
+
+            // Update content panels
+            document.querySelectorAll('.education-tab-content').forEach(panel => {
+                panel.classList.remove('show');
+            });
+            document.getElementById(`${tabName}-tab`).classList.add('show');
+
+            // Initialize loan calculator if switching to loan reference tab
+            if (tabName === 'loan-reference' && document.getElementById('eduLoanAmount')) {
+                calculateEducationLoanCost();
+            }
+
+            // Announce tab change for screen readers
+            const tabLabel = tabName === 'methods' ? 'Payoff Methods' : 'Loan Reference';
+            A11yUtils.announce(`${tabLabel} tab selected`, 'polite');
+        }
+
+        function switchMainTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.main-tab').forEach(tab => {
+                tab.classList.remove('active');
+                tab.setAttribute('aria-selected', 'false');
+            });
+            document.getElementById(`main-tab-${tabName}`).classList.add('active');
+            document.getElementById(`main-tab-${tabName}`).setAttribute('aria-selected', 'true');
+
+            // Update content visibility
+            document.querySelectorAll('.main-tab-content').forEach(content => {
+                content.classList.remove('show');
+            });
+            document.getElementById(`${tabName}-section`).classList.add('show');
+
+            // Announce for screen readers
+            const label = tabName === 'calculator'
+                ? I18nUtils.t('tools.debtPayoffComparison.announcements.calculatorSectionSelected', 'Calculator section selected')
+                : I18nUtils.t('tools.debtPayoffComparison.announcements.understandLoansSectionSelected', 'Understand Loans section selected');
+            A11yUtils.announce(label, 'polite');
+
+            // Initialize loan calculator if switching to Learn More
+            if (tabName === 'learn-more' && document.getElementById('eduLoanAmount')) {
+                calculateEducationLoanCost();
+            }
+        }
+
+        function selectQuizOption(id) {
+            const radio = document.getElementById(id);
+            radio.checked = true;
+            updateQuiz();
+        }
+
+        function updateQuiz() {
+            const selectedRadio = document.querySelector('input[name="quiz"]:checked');
+
+            // Update visual selection
+            document.querySelectorAll('.quiz-question').forEach(q => q.classList.remove('selected'));
+            if (selectedRadio) {
+                selectedRadio.closest('.quiz-question').classList.add('selected');
+            }
+
+            const snowballResult = document.getElementById('quizResultSnowball');
+            const avalancheResult = document.getElementById('quizResultAvalanche');
+
+            snowballResult.classList.remove('show');
+            avalancheResult.classList.remove('show');
+
+            if (selectedRadio) {
+                if (selectedRadio.value === 'snowball') {
+                    snowballResult.classList.add('show');
+                } else {
+                    avalancheResult.classList.add('show');
+                }
+            }
+        }
+
+        // ============================================
+        // LOAN EDUCATION INTERACTIVE FUNCTIONS
+        // ============================================
+
+        // Red Flag Checker Functions
+        function toggleFlag(element) {
+            const checkbox = element.querySelector('input[type="checkbox"]');
+            checkbox.checked = !checkbox.checked;
+            element.classList.toggle('checked', checkbox.checked);
+            updateFlagResult();
+        }
+
+        function updateFlagResult() {
+            const checkboxes = document.querySelectorAll('#flagChecklist input[type="checkbox"]');
+            const checkedCount = Array.from(checkboxes).filter(cb => cb.checked).length;
+
+            // Update visual state of flag items
+            document.querySelectorAll('.flag-item').forEach(item => {
+                const cb = item.querySelector('input[type="checkbox"]');
+                item.classList.toggle('checked', cb.checked);
+            });
+
+            // Hide all results first
+            document.getElementById('flagResultSafe').classList.remove('show');
+            document.getElementById('flagResultCaution').classList.remove('show');
+            document.getElementById('flagResultDanger').classList.remove('show');
+
+            // Show appropriate result
+            if (checkedCount === 0) {
+                document.getElementById('flagResultSafe').classList.add('show');
+            } else if (checkedCount <= 2) {
+                document.getElementById('flagResultCaution').classList.add('show');
+            } else {
+                document.getElementById('flagResultDanger').classList.add('show');
+            }
+
+            // Announce result to screen readers
+            let message = '';
+            if (checkedCount === 0) {
+                message = 'No red flags detected. This loan may be reasonable.';
+            } else if (checkedCount <= 2) {
+                message = checkedCount + ' warning sign' + (checkedCount > 1 ? 's' : '') + ' detected. Proceed with caution.';
+            } else {
+                message = checkedCount + ' red flags detected. High risk - consider walking away.';
+            }
+            A11yUtils.announce(message, 'polite');
+        }
+
+        function resetFlagChecker() {
+            document.querySelectorAll('#flagChecklist input[type="checkbox"]').forEach(cb => {
+                cb.checked = false;
+            });
+            document.querySelectorAll('.flag-item').forEach(item => {
+                item.classList.remove('checked');
+            });
+            document.getElementById('flagResultSafe').classList.remove('show');
+            document.getElementById('flagResultCaution').classList.remove('show');
+            document.getElementById('flagResultDanger').classList.remove('show');
+            A11yUtils.announce('Red flag checker has been reset', 'polite');
+        }
+
+        // Loan Cost Calculator Functions
+        function calculateEducationLoanCost() {
+            const amountEl = document.getElementById('eduLoanAmount');
+            if (!amountEl) return;
+
+            const amount = parseNumber(amountEl.value) || 1000;
+            const goodApr = parseFloat(document.getElementById('goodApr').value) / 100;
+            const badApr = parseFloat(document.getElementById('badApr').value) / 100;
+            const termMonths = parseInt(document.getElementById('eduLoanTerm').value);
+
+            // Calculate monthly payments and totals using amortization formula
+            const goodMonthlyRate = goodApr / 12;
+            const badMonthlyRate = badApr / 12;
+
+            let goodMonthly, goodTotal, badMonthly, badTotal;
+
+            if (goodMonthlyRate > 0) {
+                goodMonthly = amount * (goodMonthlyRate * Math.pow(1 + goodMonthlyRate, termMonths)) / (Math.pow(1 + goodMonthlyRate, termMonths) - 1);
+                goodTotal = goodMonthly * termMonths;
+            } else {
+                goodMonthly = amount / termMonths;
+                goodTotal = amount;
+            }
+
+            if (badMonthlyRate > 0) {
+                badMonthly = amount * (badMonthlyRate * Math.pow(1 + badMonthlyRate, termMonths)) / (Math.pow(1 + badMonthlyRate, termMonths) - 1);
+                badTotal = badMonthly * termMonths;
+            } else {
+                badMonthly = amount / termMonths;
+                badTotal = amount;
+            }
+
+            // Update display
+            document.getElementById('goodLoanTotal').textContent = formatCurrency(goodTotal);
+            document.getElementById('goodLoanDetail').textContent = 'Monthly: ' + formatCurrency(goodMonthly);
+            document.getElementById('badLoanTotal').textContent = formatCurrency(badTotal);
+            document.getElementById('badLoanDetail').textContent = 'Monthly: ' + formatCurrency(badMonthly);
+
+            const savings = badTotal - goodTotal;
+            document.getElementById('loanSavings').textContent = formatCurrency(savings);
+
+            // Fun comparison
+            updateSavingsComparison(savings);
+        }
+
+        function updateSavingsComparison(savings) {
+            const comparisons = [];
+
+            const dinners = Math.floor(savings / 50);
+            if (dinners >= 1) comparisons.push(dinners + ' nice dinner' + (dinners > 1 ? 's' : '') + ' out');
+
+            const streaming = Math.floor(savings / 180);
+            if (streaming >= 1) comparisons.push(streaming + ' year' + (streaming > 1 ? 's' : '') + ' of streaming services');
+
+            const concerts = Math.floor(savings / 100);
+            if (concerts >= 1) comparisons.push(concerts + ' concert ticket' + (concerts > 1 ? 's' : ''));
+
+            const phones = Math.floor(savings / 800);
+            if (phones >= 1) comparisons.push(phones + ' new phone' + (phones > 1 ? 's' : ''));
+
+            document.getElementById('savingsComparison').textContent =
+                comparisons.length > 0 ? comparisons.slice(0, 3).join(', or ') : 'a nice treat for yourself';
+        }
+
+        // Scenario Quiz Functions
+        let currentScenarioIndex = 1;
+        let scenarioAnswers = {};
+        const totalScenarios = 4;
+
+        const scenarioFeedback = {
+            1: {
+                correct: 'b',
+                correctTitle: 'Correct!',
+                correctText: 'The credit union loan costs about $932 total ($800 + $132 interest). The payday loan\'s "$100 fee" is actually 650% APR! If you can\'t pay in 2 weeks, fees compound and you could owe $1,500+ in months. Always calculate the true APR.',
+                incorrectTitle: 'Not quite!',
+                incorrectText: 'That $100 "fee" on an $800 loan for 2 weeks equals 650% APR! The credit union loan at 18% costs about $932 total over 18 months. The payday loan could cost $1,500+ if you need to "roll it over." Always calculate the true APR, not just the upfront fee.'
+            },
+            2: {
+                correct: 'c',
+                correctTitle: 'Great thinking!',
+                correctText: 'Being an authorized user lets you build credit history with zero risk - you don\'t even need to use the card. Then you can get your own secured card to establish independent credit. Store cards often have predatory rates and should be avoided when starting out.',
+                incorrectTitle: 'Consider this:',
+                incorrectText: 'Store cards have some of the highest APRs (29.99%!) and tempt you to overspend at one store. The smartest path is: become an authorized user first (free credit building), then get a secured card. This builds credit with minimal risk of debt.'
+            },
+            3: {
+                correct: 'b',
+                correctTitle: 'Excellent math!',
+                correctText: 'At $275/month for 11 months = $3,025 total (including the $90 fee). Without the transfer, at 24% APR paying $275/month, you\'d pay about $360 in interest. The transfer saves you ~$270! The key is paying it off BEFORE the 0% period ends.',
+                incorrectTitle: 'Let\'s do the math:',
+                incorrectText: 'Transfer + pay $275/month = $3,025 total (11 months). Without transfer at 24% APR = ~$3,360 total. That\'s $270 saved! BUT if you only pay minimums, you won\'t finish before 0% ends, and 26% APR kicks in on the remaining balance. The transfer only works if you commit to paying it off fast.'
+            },
+            4: {
+                correct: 'a',
+                correctTitle: 'Smart call!',
+                correctText: 'Legitimate debt consolidation is a loan that pays off your other debts. "Debt settlement" companies that want you to stop paying creditors are often scams - they pocket your money while your credit tanks and creditors sue you. If you need help, try a non-profit credit counseling agency instead.',
+                incorrectTitle: 'Watch out!',
+                incorrectText: 'This is a debt settlement scam, not consolidation. They\'ll take your money, tell creditors to wait, and your credit score will plummet. Many of these companies fold before helping you, leaving you worse off. Real help comes from non-profit credit counseling agencies or legitimate consolidation loans from banks/credit unions.'
+            }
+        };
+
+        function selectScenarioOption(scenarioNum, answer, element) {
+            const scenario = document.getElementById('scenario' + scenarioNum);
+            const correctAnswer = scenario.dataset.correct;
+
+            // Clear previous selections
+            scenario.querySelectorAll('.scenario-option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+                opt.querySelector('input').checked = false;
+            });
+
+            // Mark selected
+            element.classList.add('selected');
+            element.querySelector('input').checked = true;
+            scenarioAnswers[scenarioNum] = answer;
+
+            // Show feedback
+            const feedback = document.getElementById('feedback' + scenarioNum);
+            const feedbackData = scenarioFeedback[scenarioNum];
+            const isCorrect = answer === correctAnswer;
+
+            feedback.classList.remove('show', 'correct', 'incorrect');
+            element.classList.add(isCorrect ? 'correct' : 'incorrect');
+
+            feedback.classList.add('show', isCorrect ? 'correct' : 'incorrect');
+            feedback.querySelector('h5').textContent = isCorrect ? feedbackData.correctTitle : feedbackData.incorrectTitle;
+            feedback.querySelector('p').textContent = isCorrect ? feedbackData.correctText : feedbackData.incorrectText;
+
+            // Show correct answer if wrong
+            if (!isCorrect) {
+                scenario.querySelectorAll('.scenario-option').forEach(opt => {
+                    if (opt.querySelector('input').value === correctAnswer) {
+                        opt.classList.add('correct');
+                    }
+                });
+            }
+
+            A11yUtils.announce(isCorrect ? 'Correct!' : 'Incorrect. See explanation below.', 'polite');
+        }
+
+        function navigateScenario(direction) {
+            const newIndex = currentScenarioIndex + direction;
+
+            if (newIndex < 1 || newIndex > totalScenarios + 1) return;
+
+            // Hide current scenario
+            const currentEl = document.getElementById('scenario' + currentScenarioIndex);
+            if (currentEl) currentEl.style.display = 'none';
+
+            if (newIndex > totalScenarios) {
+                // Show final score
+                showScenarioScore();
+            } else {
+                // Show new scenario
+                document.getElementById('scenario' + newIndex).style.display = 'block';
+                document.getElementById('currentScenario').textContent = newIndex;
+                currentScenarioIndex = newIndex;
+
+                // Update nav buttons
+                document.getElementById('prevScenarioBtn').disabled = newIndex === 1;
+                document.getElementById('nextScenarioBtn').textContent = newIndex === totalScenarios ? 'See Results' : 'Next Question';
+
+                A11yUtils.announce('Question ' + newIndex + ' of ' + totalScenarios, 'polite');
+            }
+        }
+
+        function showScenarioScore() {
+            document.querySelector('.scenario-nav').style.display = 'none';
+            document.querySelector('.scenario-progress').style.display = 'none';
+            document.getElementById('scenarioFinalScore').style.display = 'block';
+
+            // Calculate score
+            let correct = 0;
+            for (let i = 1; i <= totalScenarios; i++) {
+                const scenario = document.getElementById('scenario' + i);
+                if (scenarioAnswers[i] === scenario.dataset.correct) {
+                    correct++;
+                }
+            }
+
+            document.getElementById('scenarioScore').textContent = correct;
+
+            let message = '';
+            if (correct === totalScenarios) {
+                message = 'Perfect score! You have excellent financial instincts. Keep that skeptical eye on loan offers!';
+            } else if (correct >= totalScenarios * 0.75) {
+                message = 'Great job! You know how to spot most financial traps. Review the explanations for the ones you missed.';
+            } else if (correct >= totalScenarios * 0.5) {
+                message = 'Not bad! You caught some red flags but missed a few. Review the scenarios above to strengthen your knowledge.';
+            } else {
+                message = 'You might be vulnerable to predatory lending. Please review all the explanations above - this knowledge could save you thousands!';
+            }
+            document.getElementById('scoreMessage').textContent = message;
+
+            A11yUtils.announce('Quiz complete! You scored ' + correct + ' out of ' + totalScenarios + '. ' + message, 'polite');
+        }
+
+        function resetScenarioQuiz() {
+            currentScenarioIndex = 1;
+            scenarioAnswers = {};
+
+            // Reset all scenarios
+            for (let i = 1; i <= totalScenarios; i++) {
+                const scenario = document.getElementById('scenario' + i);
+                scenario.style.display = i === 1 ? 'block' : 'none';
+                scenario.querySelectorAll('.scenario-option').forEach(opt => {
+                    opt.classList.remove('selected', 'correct', 'incorrect');
+                    opt.querySelector('input').checked = false;
+                });
+                document.getElementById('feedback' + i).classList.remove('show', 'correct', 'incorrect');
+            }
+
+            // Reset nav
+            document.querySelector('.scenario-nav').style.display = 'flex';
+            document.querySelector('.scenario-progress').style.display = 'block';
+            document.getElementById('scenarioFinalScore').style.display = 'none';
+            document.getElementById('currentScenario').textContent = '1';
+            document.getElementById('prevScenarioBtn').disabled = true;
+            document.getElementById('nextScenarioBtn').textContent = 'Next Question';
+
+            A11yUtils.announce('Quiz has been reset. Starting from question 1.', 'polite');
+        }
+
+        // Expense tracking functions
+        function addExpense(data = null, skipSave = false) {
+            const id = nextExpenseId++;
+            const expense = data || {
+                id: id,
+                label: '',
+                amount: 0,
+                timesPerMonth: 1,
+                monthlyTotal: 0
+            };
+            expense.id = id;
+            expenses.push(expense);
+            renderExpenseItem(expense);
+            updateExpenseTotal();
+            if (!skipSave) saveFormData();
+        }
+
+        function renderExpenseItem(expense) {
+            const container = document.getElementById('expenseList');
+            const item = document.createElement('div');
+            item.className = 'expense-item';
+            item.id = `expense-${expense.id}`;
+            item.setAttribute('role', 'listitem');
+
+            item.innerHTML = `
+                <div class="input-field">
+                    <label for="expense-label-${expense.id}" data-i18n="tools.debtPayoffComparison.labels.expense">${I18nUtils.t('tools.debtPayoffComparison.labels.expense', 'Expense')}</label>
+                    <input type="text" id="expense-label-${expense.id}" placeholder="${I18nUtils.t('tools.debtPayoffComparison.placeholders.expenseExample', 'e.g., Morning coffee')}" value="${expense.label}" onchange="updateExpense(${expense.id}, 'label', this.value)">
+                </div>
+                <div class="input-field">
+                    <label for="expense-amount-${expense.id}" data-i18n="tools.debtPayoffComparison.labels.costEach">${I18nUtils.t('tools.debtPayoffComparison.labels.costEach', 'Cost Each')}</label>
+                    <div class="input-prefix">
+                        <span>$</span>
+                        <input type="text" id="expense-amount-${expense.id}" placeholder="0.00" value="${expense.amount || ''}" oninput="formatInput(this)" onchange="updateExpenseAmount(${expense.id})" inputmode="decimal">
+                    </div>
+                </div>
+                <div class="input-field">
+                    <label for="expense-times-${expense.id}" data-i18n="tools.debtPayoffComparison.labels.timesPerMonth">${I18nUtils.t('tools.debtPayoffComparison.labels.timesPerMonth', 'Times/Month')}</label>
+                    <input type="number" id="expense-times-${expense.id}" placeholder="1" value="${expense.timesPerMonth || 1}" min="1" onchange="updateExpenseAmount(${expense.id})" inputmode="numeric">
+                </div>
+                <div class="input-field monthly-total">
+                    <label for="expense-total-${expense.id}" data-i18n="tools.debtPayoffComparison.labels.monthly">${I18nUtils.t('tools.debtPayoffComparison.labels.monthly', 'Monthly')}</label>
+                    <div class="input-prefix">
+                        <span>$</span>
+                        <input type="text" id="expense-total-${expense.id}" value="${expense.monthlyTotal.toFixed(2)}" readonly tabindex="-1">
+                    </div>
+                </div>
+                <button type="button" class="remove-expense-btn" onclick="removeExpense(${expense.id})" aria-label="Remove this expense">&#10005;</button>
+            `;
+
+            container.appendChild(item);
+        }
+
+        function updateExpense(id, field, value) {
+            const expense = expenses.find(e => e.id === id);
+            if (expense) {
+                expense[field] = value;
+                saveFormData();
+            }
+        }
+
+        function updateExpenseAmount(id) {
+            const expense = expenses.find(e => e.id === id);
+            if (expense) {
+                const amount = parseNumber(document.getElementById(`expense-amount-${id}`).value) || 0;
+                const times = parseInt(document.getElementById(`expense-times-${id}`).value) || 1;
+                expense.amount = amount;
+                expense.timesPerMonth = times;
+                expense.monthlyTotal = amount * times;
+                document.getElementById(`expense-total-${id}`).value = expense.monthlyTotal.toFixed(2);
+                updateExpenseTotal();
+                saveFormData();
+            }
+        }
+
+        function removeExpense(id) {
+            expenses = expenses.filter(e => e.id !== id);
+            document.getElementById(`expense-${id}`).remove();
+            updateExpenseTotal();
+            saveFormData();
+        }
+
+        function updateExpenseTotal() {
+            const total = expenses.reduce((sum, e) => sum + (e.monthlyTotal || 0), 0);
+            document.getElementById('totalExpenseSavings').textContent = formatCurrency(total);
+            document.getElementById('applyExpenseBtn').disabled = total <= 0;
+        }
+
+        function applyExpensesToExtra() {
+            const total = expenses.reduce((sum, e) => sum + (e.monthlyTotal || 0), 0);
+            if (total > 0) {
+                const currentExtra = parseNumber(document.getElementById('extraPayment').value) || 0;
+                document.getElementById('extraPayment').value = (currentExtra + total).toFixed(2);
+                A11yUtils.announce(I18nUtils.t('tools.debtPayoffComparison.announcements.addedToExtraPayment', 'Added {{amount}} to extra payment. New total: {{total}}').replace('{{amount}}', formatCurrency(total)).replace('{{total}}', formatCurrency(currentExtra + total)), 'polite');
+            }
+        }
+
+        function exportDebtsToCSV() {
+            if (debts.length === 0 || !debts.some(d => d.name && d.balance > 0)) {
+                A11yUtils.announce(I18nUtils.t('tools.debtPayoffComparison.announcements.noDebtsToExport', 'No debts to export. Add some debts first.'), 'polite');
+                return;
+            }
+
+            let csv = 'Debt Summary Export\n\n';
+            csv += 'Name,Type,Balance,APR,Minimum Payment\n';
+
+            debts.forEach(debt => {
+                if (debt.name && debt.balance > 0) {
+                    const debtType = debtTypes[debt.type]?.label || debt.type;
+                    csv += `"${debt.name}","${debtType}",${debt.balance.toFixed(2)},${debt.apr}%,${debt.minPayment.toFixed(2)}\n`;
+                }
+            });
+
+            const totalDebt = debts.reduce((sum, d) => sum + (d.balance || 0), 0);
+            const totalMinPayment = debts.reduce((sum, d) => sum + (d.minPayment || 0), 0);
+            csv += `\nTOTAL,,$${totalDebt.toFixed(2)},,$${totalMinPayment.toFixed(2)}\n`;
+
+            // Download
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', 'my-debts.csv');
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            A11yUtils.announce(I18nUtils.t('tools.debtPayoffComparison.announcements.debtsExported', 'Debts exported to CSV file'), 'polite');
+        }
+
+        function exportExpensesToCSV() {
+            if (expenses.length === 0) {
+                A11yUtils.announce(I18nUtils.t('tools.debtPayoffComparison.announcements.noExpensesToExport', 'No expenses to export. Add some expenses first.'), 'polite');
+                return;
+            }
+
+            let csv = 'Expenses to Cut Export\n\n';
+            csv += 'Expense,Cost Each,Times Per Month,Monthly Total\n';
+
+            expenses.forEach(expense => {
+                csv += `"${expense.label || 'Unnamed'}",${expense.amount.toFixed(2)},${expense.timesPerMonth},${expense.monthlyTotal.toFixed(2)}\n`;
+            });
+
+            const total = expenses.reduce((sum, e) => sum + (e.monthlyTotal || 0), 0);
+            csv += `\nTOTAL MONTHLY SAVINGS,,,$${total.toFixed(2)}\n`;
+            csv += `ANNUAL SAVINGS,,,$${(total * 12).toFixed(2)}\n`;
+
+            // Download
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', 'expenses-to-cut.csv');
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            A11yUtils.announce(I18nUtils.t('tools.debtPayoffComparison.announcements.expensesExported', 'Expenses exported to CSV file'), 'polite');
+        }
+
+        // Initialize - load saved data or start with empty debt
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize debtTypes with translations
+            debtTypes = getDebtTypes();
+
+            // Load saved debts or add empty one
+            const savedDebts = StorageUtils.load('debt-payoff-debts', []);
+            if (savedDebts.length > 0) {
+                savedDebts.forEach(debt => addDebt(debt, true));
+                // Update nextDebtId to be higher than any saved debt id
+                nextDebtId = Math.max(...savedDebts.map(d => d.id)) + 1;
+            } else {
+                addDebt(null, true);
+            }
+
+            // Load saved expenses
+            const savedExpenses = StorageUtils.load('debt-payoff-expenses', []);
+            if (savedExpenses.length > 0) {
+                savedExpenses.forEach(expense => addExpense(expense, true));
+                nextExpenseId = Math.max(...savedExpenses.map(e => e.id)) + 1;
+            }
+
+            // Load saved extra payment
+            const savedExtra = StorageUtils.load('debt-payoff-extra', '');
+            if (savedExtra) {
+                document.getElementById('extraPayment').value = savedExtra;
+            }
+
+            // Save extra payment when changed
+            const extraPaymentInput = document.getElementById('extraPayment');
+            extraPaymentInput.addEventListener('input', saveFormData);
+            extraPaymentInput.addEventListener('change', saveFormData);
+
+            // Handle Enter key
+            document.querySelectorAll('#debt-form input').forEach(input => {
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        calculate();
+                    }
+                });
+            });
+
+            // Handle keyboard navigation for collapsibles
+            document.querySelectorAll('.collapsible-header').forEach(header => {
+                header.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        header.click();
+                    }
+                });
+            });
+
+            // Handle keyboard navigation for education tabs
+            document.querySelectorAll('.education-tab').forEach(tab => {
+                tab.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        tab.click();
+                    }
+                });
+            });
+
+            // Handle keyboard navigation for main tabs
+            document.querySelectorAll('.main-tab').forEach(tab => {
+                tab.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        tab.click();
+                    }
+                });
+            });
+
+            // Initialize loan education calculator
+            if (document.getElementById('eduLoanAmount')) {
+                calculateEducationLoanCost();
+            }
+        });
+
+        // Skip link handler
+        document.querySelector('.skip-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.getElementById('main-content');
+            if (target) {
+                target.setAttribute('tabindex', '-1');
+                target.focus();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+
+        // Print handler - populate date in print header
+        window.addEventListener('beforeprint', function() {
+            const printDate = document.querySelector('.print-date');
+            if (printDate) {
+                printDate.textContent = I18nUtils.t('tools.debtPayoffComparison.print.generated', 'Generated:') + ' ' + new Date().toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+            }
+        });
+    </script>
+</body>
+</html>
