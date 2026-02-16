@@ -741,6 +741,29 @@
             z-index: 100;
         }
 
+        /* ASCII Logo */
+        .ascii-logo {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.65rem;
+            line-height: 1.1;
+            color: #4fc3f7;
+            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
+            opacity: 0.8;
+            white-space: pre;
+        }
+
+        @media (max-width: 768px) {
+            .ascii-logo {
+                position: static;
+                text-align: center;
+                margin-bottom: 20px;
+                font-size: 0.5rem;
+            }
+        }
+
         /* Responsive */
         @media (max-width: 480px) {
             h1 {
@@ -769,6 +792,12 @@
 </head>
 <body>
     <a href="#main-content" class="skip-link" data-i18n="common.skipToContent">Skip to main content</a>
+    <div class="ascii-logo" aria-hidden="true">  ___  _    _  __        __   _
+ / _ \| | _| | \ \      / /__| |__
+| | | | |/ _` | \ \ /\ / / _ \ '_ \
+| |_| | | (_| |  \ V  V /  __/ |_) |
+ \___/|_|\__,_|   \_/\_/ \___|_.__/
+</div>
     <main id="main-content" class="container" role="main" aria-label="Pomodoro Timer Application">
         <h1 data-i18n="tools.pomodoroTimer.title">Pomodoro Timer</h1>
         <p class="subtitle" data-i18n="tools.pomodoroTimer.subtitle">Stay focused with the Pomodoro Technique</p>
