@@ -1052,7 +1052,7 @@
             ];
 
             const lines = fields.map(([label, id]) => {
-                return label.padEnd(22) + document.getElementById(id).textContent;
+                return label + ', ' + document.getElementById(id).textContent;
             });
 
             const text = lines.join('\n');
