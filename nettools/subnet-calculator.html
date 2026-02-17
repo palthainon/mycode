@@ -189,31 +189,31 @@
             font-size: 1.5rem;
         }
 
-        .results-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 15px;
+        .details-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
         }
 
-        .result-item {
-            background: rgba(0, 0, 0, 0.2);
-            padding: 15px 20px;
-            border-radius: 8px;
-            border-left: 4px solid #4fc3f7;
+        .details-table td {
+            padding: 8px 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
         }
 
-        .result-item .label {
+        .details-table td:first-child {
             color: #90caf9;
-            font-size: 0.85rem;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            white-space: nowrap;
+            width: 1%;
+            padding-right: 24px;
         }
 
-        .result-item .value {
-            font-size: 1.2rem;
+        .details-table td:last-child {
             font-family: 'Consolas', 'Monaco', monospace;
             color: #fff;
+        }
+
+        .details-table tr:last-child td {
+            border-bottom: none;
         }
 
         .error-alert {
@@ -241,6 +241,7 @@
             margin-bottom: 15px;
             font-size: 1.2rem;
         }
+
 
         .binary-item {
             font-family: 'Consolas', 'Monaco', monospace;
@@ -496,6 +497,16 @@
             color: #ff6b6b;
         }
 
+        .export-btn.copy-flash {
+            animation: copyFlash 1s ease;
+        }
+
+        @keyframes copyFlash {
+            0% { box-shadow: 0 0 0 0 rgba(102, 187, 106, 0.7); }
+            30% { box-shadow: 0 0 12px 4px rgba(102, 187, 106, 0.5); background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%); }
+            100% { box-shadow: 0 0 0 0 rgba(102, 187, 106, 0); }
+        }
+
         .protocol-toggle-ipv6:hover {
             background: rgba(244, 67, 54, 0.3);
             border-color: #f44336;
@@ -613,50 +624,34 @@
         <div class="results" id="results" role="region" aria-live="polite" aria-label="Subnet calculation results" data-i18n-aria="tools.subnetCalculator.resultsAriaLabel">
             <div class="section-header">
                 <h2 data-i18n="tools.subnetCalculator.subnetDetails">Subnet Details</h2>
-                <button type="button" class="export-btn" onclick="exportSubnetDetailsToCSV()" aria-label="Export subnet details to CSV file" data-i18n="common.exportToCSV" data-i18n-aria="tools.subnetCalculator.exportSubnetDetailsAriaLabel">Export to CSV</button>
-            </div>
-            <div class="results-grid">
-                <div class="result-item">
-                    <div class="label" data-i18n="tools.subnetCalculator.networkAddress">Network Address</div>
-                    <div class="value" id="networkAddress">-</div>
-                </div>
-                <div class="result-item">
-                    <div class="label" data-i18n="tools.subnetCalculator.broadcastAddress">Broadcast Address</div>
-                    <div class="value" id="broadcastAddress">-</div>
-                </div>
-                <div class="result-item">
-                    <div class="label" data-i18n="tools.subnetCalculator.firstHost">First Usable Host</div>
-                    <div class="value" id="firstHost">-</div>
-                </div>
-                <div class="result-item">
-                    <div class="label" data-i18n="tools.subnetCalculator.lastHost">Last Usable Host</div>
-                    <div class="value" id="lastHost">-</div>
-                </div>
-                <div class="result-item">
-                    <div class="label" data-i18n="tools.subnetCalculator.subnetMask">Subnet Mask</div>
-                    <div class="value" id="subnetMask">-</div>
-                </div>
-                <div class="result-item">
-                    <div class="label" data-i18n="tools.subnetCalculator.wildcardMask">Wildcard Mask</div>
-                    <div class="value" id="wildcardMask">-</div>
-                </div>
-                <div class="result-item">
-                    <div class="label" data-i18n="tools.subnetCalculator.cidrNotation">CIDR Notation</div>
-                    <div class="value" id="cidrNotation">-</div>
-                </div>
-                <div class="result-item">
-                    <div class="label" data-i18n="tools.subnetCalculator.totalHosts">Total Hosts</div>
-                    <div class="value" id="totalHosts">-</div>
-                </div>
-                <div class="result-item">
-                    <div class="label" data-i18n="tools.subnetCalculator.usableHosts">Usable Hosts</div>
-                    <div class="value" id="usableHosts">-</div>
-                </div>
-                <div class="result-item">
-                    <div class="label" data-i18n="tools.subnetCalculator.ipClass">IP Class</div>
-                    <div class="value" id="ipClass">-</div>
+                <div>
+                    <button type="button" class="export-btn" onclick="copySubnetDetails()" aria-label="Copy subnet details to clipboard" data-i18n="tools.subnetCalculator.copyResults" data-i18n-aria="tools.subnetCalculator.copyResultsAriaLabel">Copy Results</button>
+                    <button type="button" class="export-btn" onclick="exportSubnetDetailsToCSV()" aria-label="Export subnet details to CSV file" data-i18n="common.exportToCSV" data-i18n-aria="tools.subnetCalculator.exportSubnetDetailsAriaLabel">Export to CSV</button>
                 </div>
             </div>
+            <span id="firstHost" hidden>-</span>
+            <span id="lastHost" hidden>-</span>
+            <table class="details-table">
+                <tbody>
+                    <tr><td data-i18n="tools.subnetCalculator.networkAddress">Network Address</td><td id="networkAddress">-</td></tr>
+                    <tr><td data-i18n="tools.subnetCalculator.broadcastAddress">Broadcast Address</td><td id="broadcastAddress">-</td></tr>
+                    <tr><td data-i18n="tools.subnetCalculator.usableHostRange">Usable Host Range</td><td id="usableHostRange">-</td></tr>
+                    <tr><td data-i18n="tools.subnetCalculator.subnetMask">Subnet Mask</td><td id="subnetMask">-</td></tr>
+                    <tr><td data-i18n="tools.subnetCalculator.wildcardMask">Wildcard Mask</td><td id="wildcardMask">-</td></tr>
+                    <tr><td data-i18n="tools.subnetCalculator.cidrNotation">CIDR Notation</td><td id="cidrNotation">-</td></tr>
+                    <tr><td data-i18n="tools.subnetCalculator.totalHosts">Total Hosts</td><td id="totalHosts">-</td></tr>
+                    <tr><td data-i18n="tools.subnetCalculator.usableHosts">Usable Hosts</td><td id="usableHosts">-</td></tr>
+                    <tr><td data-i18n="tools.subnetCalculator.ipClass">IP Class</td><td id="ipClass">-</td></tr>
+                    <tr><td data-i18n="tools.subnetCalculator.ipType">IP Type</td><td id="ipType">-</td></tr>
+                    <tr><td data-i18n="tools.subnetCalculator.shortNotation">Short Notation</td><td id="shortNotation">-</td></tr>
+                    <tr><td data-i18n="tools.subnetCalculator.binaryId">Binary ID</td><td id="binaryId">-</td></tr>
+                    <tr><td data-i18n="tools.subnetCalculator.integerId">Integer ID</td><td id="integerId">-</td></tr>
+                    <tr><td data-i18n="tools.subnetCalculator.hexId">Hex ID</td><td id="hexId">-</td></tr>
+                    <tr><td data-i18n="tools.subnetCalculator.inAddrArpa">in-addr.arpa</td><td id="inAddrArpa">-</td></tr>
+                    <tr><td data-i18n="tools.subnetCalculator.ipv4Mapped">IPv4-Mapped Address</td><td id="ipv4Mapped">-</td></tr>
+                    <tr><td data-i18n="tools.subnetCalculator.sixToFourPrefix">6to4 Prefix</td><td id="sixToFourPrefix">-</td></tr>
+                </tbody>
+            </table>
 
             <div class="binary-display">
                 <h3 data-i18n="tools.subnetCalculator.binaryRepresentation">Binary Representation</h3>
@@ -678,7 +673,10 @@
         <div class="subnet-list" id="subnetList" role="region" aria-label="All subnets in network" data-i18n-aria="tools.subnetCalculator.subnetListAriaLabel">
             <div class="section-header">
                 <h2 data-i18n="tools.subnetCalculator.allSubnets">All Subnets in Network</h2>
-                <button type="button" class="export-btn" onclick="exportSubnetListToCSV()" aria-label="Export subnet list to CSV file" data-i18n="common.exportToCSV" data-i18n-aria="tools.subnetCalculator.exportSubnetListAriaLabel">Export to CSV</button>
+                <div>
+                    <button type="button" class="export-btn" onclick="copySubnetList()" aria-label="Copy subnet list to clipboard" data-i18n="tools.subnetCalculator.copyResults" data-i18n-aria="tools.subnetCalculator.copySubnetListAriaLabel">Copy Results</button>
+                    <button type="button" class="export-btn" onclick="exportSubnetListToCSV()" aria-label="Export subnet list to CSV file" data-i18n="common.exportToCSV" data-i18n-aria="tools.subnetCalculator.exportSubnetListAriaLabel">Export to CSV</button>
+                </div>
             </div>
             <div class="subnet-list-info" id="subnetListInfo"></div>
             <div class="subnet-table-container">
@@ -766,6 +764,46 @@
             if (firstOctet >= 192 && firstOctet <= 223) return I18nUtils.t('tools.subnetCalculator.classC', 'Class C');
             if (firstOctet >= 224 && firstOctet <= 239) return I18nUtils.t('tools.subnetCalculator.classD', 'Class D (Multicast)');
             return I18nUtils.t('tools.subnetCalculator.classE', 'Class E (Reserved)');
+        }
+
+        // Get IP type classification (Public, Private, Loopback, etc.)
+        function getIPType(ipInt) {
+            const a = (ipInt >>> 24) & 255;
+            const b = (ipInt >>> 16) & 255;
+
+            // 10.0.0.0/8
+            if (a === 10) return I18nUtils.t('tools.subnetCalculator.ipTypePrivate', 'Private (RFC 1918)');
+            // 172.16.0.0/12
+            if (a === 172 && b >= 16 && b <= 31) return I18nUtils.t('tools.subnetCalculator.ipTypePrivate', 'Private (RFC 1918)');
+            // 192.168.0.0/16
+            if (a === 192 && b === 168) return I18nUtils.t('tools.subnetCalculator.ipTypePrivate', 'Private (RFC 1918)');
+            // 127.0.0.0/8
+            if (a === 127) return I18nUtils.t('tools.subnetCalculator.ipTypeLoopback', 'Loopback');
+            // 169.254.0.0/16
+            if (a === 169 && b === 254) return I18nUtils.t('tools.subnetCalculator.ipTypeLinkLocal', 'Link-Local');
+            // 224.0.0.0/4
+            if (a >= 224 && a <= 239) return I18nUtils.t('tools.subnetCalculator.ipTypeMulticast', 'Multicast');
+            // 240.0.0.0/4 and 0.0.0.0/8
+            if (a >= 240 || a === 0) return I18nUtils.t('tools.subnetCalculator.ipTypeReserved', 'Reserved');
+
+            return I18nUtils.t('tools.subnetCalculator.ipTypePublic', 'Public');
+        }
+
+        // Convert IP integer to hex string
+        function ipToHex(ipInt) {
+            return '0x' + ipInt.toString(16).padStart(8, '0');
+        }
+
+        // Get IPv4-mapped IPv6 address
+        function getIPv4MappedAddress(ipInt) {
+            const hex = ipInt.toString(16).padStart(8, '0');
+            return '::ffff:' + hex.substring(0, 4) + ':' + hex.substring(4);
+        }
+
+        // Get 6to4 prefix
+        function get6to4Prefix(ipInt) {
+            const hex = ipInt.toString(16).padStart(8, '0');
+            return '2002:' + hex.substring(0, 4) + ':' + hex.substring(4) + '::/48';
         }
 
         // Get parent network CIDR (for subnet listing)
@@ -916,6 +954,9 @@
             document.getElementById('broadcastAddress').textContent = cidr === 32 ? naText : intToIP(broadcastInt);
             document.getElementById('firstHost').textContent = intToIP(firstHostInt);
             document.getElementById('lastHost').textContent = cidr === 32 ? intToIP(firstHostInt) : intToIP(lastHostInt);
+            const firstHostStr = intToIP(firstHostInt);
+            const lastHostStr = cidr === 32 ? firstHostStr : intToIP(lastHostInt);
+            document.getElementById('usableHostRange').textContent = firstHostStr + ' - ' + lastHostStr;
             document.getElementById('subnetMask').textContent = intToIP(maskInt);
             document.getElementById('wildcardMask').textContent = intToIP(wildcardInt);
             document.getElementById('cidrNotation').textContent = '/' + cidr;
@@ -927,6 +968,16 @@
             document.getElementById('binaryIP').innerHTML = formatBinaryWithColors(intToBinary(ipInt), cidr);
             document.getElementById('binaryMask').textContent = intToBinary(maskInt);
             document.getElementById('binaryNetwork').innerHTML = formatBinaryWithColors(intToBinary(networkInt), cidr);
+
+            // Additional IP details
+            document.getElementById('ipType').textContent = getIPType(ipInt);
+            document.getElementById('shortNotation').textContent = ipInput + ' /' + cidr;
+            document.getElementById('binaryId').textContent = ipInt.toString(2).padStart(32, '0');
+            document.getElementById('integerId').textContent = ipInt.toString(10);
+            document.getElementById('hexId').textContent = ipToHex(ipInt);
+            document.getElementById('inAddrArpa').textContent = ipInput.split('.').reverse().join('.') + '.in-addr.arpa';
+            document.getElementById('ipv4Mapped').textContent = getIPv4MappedAddress(ipInt);
+            document.getElementById('sixToFourPrefix').textContent = get6to4Prefix(ipInt);
 
             // Show results
             resultsDiv.classList.add('show');
@@ -979,6 +1030,68 @@
             document.body.removeChild(link);
         }
 
+        function copySubnetDetails() {
+            const fields = [
+                ['Network Address', 'networkAddress'],
+                ['Broadcast Address', 'broadcastAddress'],
+                ['Usable Host Range', 'usableHostRange'],
+                ['Subnet Mask', 'subnetMask'],
+                ['Wildcard Mask', 'wildcardMask'],
+                ['CIDR Notation', 'cidrNotation'],
+                ['Total Hosts', 'totalHosts'],
+                ['Usable Hosts', 'usableHosts'],
+                ['IP Class', 'ipClass'],
+                ['IP Type', 'ipType'],
+                ['Short Notation', 'shortNotation'],
+                ['Binary ID', 'binaryId'],
+                ['Integer ID', 'integerId'],
+                ['Hex ID', 'hexId'],
+                ['in-addr.arpa', 'inAddrArpa'],
+                ['IPv4-Mapped Address', 'ipv4Mapped'],
+                ['6to4 Prefix', 'sixToFourPrefix']
+            ];
+
+            const lines = fields.map(([label, id]) => {
+                return label.padEnd(22) + document.getElementById(id).textContent;
+            });
+
+            const text = lines.join('\n');
+            copyToClipboardWithFlash(text, event.target);
+        }
+
+        function copySubnetList() {
+            const rows = document.getElementById('subnetTableBody').querySelectorAll('tr');
+            if (rows.length === 0) return;
+
+            const header = '#        Network Address          Host Range                        Broadcast        Hosts';
+            const lines = [header];
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                const num = cells[0].textContent.trim();
+                const net = cells[1].textContent.trim();
+                const range = cells[2].textContent.trim();
+                const bcast = cells[3].textContent.trim();
+                const hosts = cells[4].textContent.trim();
+                lines.push(num.padEnd(9) + net.padEnd(24) + range.padEnd(34) + bcast.padEnd(17) + hosts);
+            });
+            copyToClipboardWithFlash(lines.join('\n'), event.target);
+        }
+
+        function copyToClipboardWithFlash(text, btn) {
+            navigator.clipboard.writeText(text).then(() => {
+                const original = btn.textContent;
+                btn.textContent = I18nUtils.t('common.copied', 'Copied!');
+                btn.classList.remove('copy-flash');
+                void btn.offsetWidth;
+                btn.classList.add('copy-flash');
+                A11yUtils.announce(I18nUtils.t('common.copiedToClipboard', 'Copied to clipboard'), 'polite');
+                setTimeout(() => {
+                    btn.textContent = original;
+                    btn.classList.remove('copy-flash');
+                }, 1500);
+            });
+        }
+
         function exportSubnetDetailsToCSV() {
             // Get all the values from the subnet details
             const networkAddress = document.getElementById('networkAddress').textContent;
@@ -999,12 +1112,21 @@
                 ['Broadcast Address', broadcastAddress],
                 ['First Usable Host', firstHost],
                 ['Last Usable Host', lastHost],
+                ['Usable Host Range', document.getElementById('usableHostRange').textContent],
                 ['Subnet Mask', subnetMask],
                 ['Wildcard Mask', wildcardMask],
                 ['CIDR Notation', cidrNotation],
                 ['Total Hosts', totalHosts],
                 ['Usable Hosts', usableHosts],
-                ['IP Class', ipClass]
+                ['IP Class', ipClass],
+                ['IP Type', document.getElementById('ipType').textContent],
+                ['Short Notation', document.getElementById('shortNotation').textContent],
+                ['Binary ID', document.getElementById('binaryId').textContent],
+                ['Integer ID', document.getElementById('integerId').textContent],
+                ['Hex ID', document.getElementById('hexId').textContent],
+                ['in-addr.arpa', document.getElementById('inAddrArpa').textContent],
+                ['IPv4-Mapped Address', document.getElementById('ipv4Mapped').textContent],
+                ['6to4 Prefix', document.getElementById('sixToFourPrefix').textContent]
             ];
 
             const csvContent = csvRows.map(row => row.join(',')).join('\n');
