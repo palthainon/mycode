@@ -1051,12 +1051,12 @@
                 ['6to4 Prefix', 'sixToFourPrefix']
             ];
 
-            const lines = fields.map(([label, id]) => {
-                return label + ', ' + document.getElementById(id).textContent;
+            const header = 'Field, Value';
+            const lines = [header];
+            fields.forEach(([label, id]) => {
+                lines.push(label + ', ' + document.getElementById(id).textContent);
             });
-
-            const text = lines.join('\n');
-            copyToClipboardWithFlash(text, event.target);
+            copyToClipboardWithFlash(lines.join('\n'), event.target);
         }
 
         function copySubnetList() {
