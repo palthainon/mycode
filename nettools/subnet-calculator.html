@@ -396,12 +396,18 @@
             position: sticky;
             top: 0;
             z-index: 1;
+            white-space: nowrap;
+        }
+
+        .subnet-table th:first-child {
+            width: 1%;
         }
 
         .subnet-table td {
             padding: 10px 15px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             color: #fff;
+            white-space: nowrap;
         }
 
         .subnet-table tr:hover {
@@ -683,7 +689,7 @@
                             <th data-i18n="tools.subnetCalculator.networkAddress">Network Address</th>
                             <th data-i18n="tools.subnetCalculator.hostRange">Host Range</th>
                             <th data-i18n="tools.subnetCalculator.broadcast">Broadcast</th>
-                            <th data-i18n="tools.subnetCalculator.usableHosts">Usable Hosts</th>
+                            <th data-i18n="tools.subnetCalculator.hosts">Hosts</th>
                         </tr>
                     </thead>
                     <tbody id="subnetTableBody">
@@ -825,14 +831,13 @@
                     row.className = 'current-subnet';
                 }
 
-                const currentBadge = isCurrent ? `<span class="subnet-badge">${I18nUtils.t('tools.subnetCalculator.current', 'Current')}</span>` : '';
                 const naText = I18nUtils.t('tools.subnetCalculator.notApplicable', 'N/A');
                 row.innerHTML = `
-                    <td><span class="subnet-number">${i + 1}</span>${currentBadge}</td>
+                    <td><span class="subnet-number">${i + 1}</span></td>
                     <td>${intToIP(subnetNetwork)}/${cidr}</td>
                     <td>${intToIP(firstHost)} - ${intToIP(lastHost)}</td>
                     <td>${cidr === 32 ? naText : intToIP(subnetBroadcast)}</td>
-                    <td>${usableHostsPerSubnet.toLocaleString()}</td>
+                    <td>${usableHostsPerSubnet}</td>
                 `;
 
                 tableBody.appendChild(row);
@@ -914,8 +919,8 @@
             document.getElementById('subnetMask').textContent = intToIP(maskInt);
             document.getElementById('wildcardMask').textContent = intToIP(wildcardInt);
             document.getElementById('cidrNotation').textContent = '/' + cidr;
-            document.getElementById('totalHosts').textContent = totalHosts.toLocaleString();
-            document.getElementById('usableHosts').textContent = usableHosts.toLocaleString();
+            document.getElementById('totalHosts').textContent = totalHosts;
+            document.getElementById('usableHosts').textContent = usableHosts;
             document.getElementById('ipClass').textContent = getIPClass(ipInput);
 
             // Binary display
