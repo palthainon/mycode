@@ -1063,7 +1063,7 @@
             const rows = document.getElementById('subnetTableBody').querySelectorAll('tr');
             if (rows.length === 0) return;
 
-            const header = '#        Network Address          Host Range                        Broadcast        Hosts';
+            const header = '#, Network Address, Host Range, Broadcast, Hosts';
             const lines = [header];
             rows.forEach(row => {
                 const cells = row.querySelectorAll('td');
@@ -1072,7 +1072,7 @@
                 const range = cells[2].textContent.trim();
                 const bcast = cells[3].textContent.trim();
                 const hosts = cells[4].textContent.trim();
-                lines.push(num.padEnd(9) + net.padEnd(24) + range.padEnd(34) + bcast.padEnd(17) + hosts);
+                lines.push(num + ', ' + net + ', ' + range + ', ' + bcast + ', ' + hosts);
             });
             copyToClipboardWithFlash(lines.join('\n'), event.target);
         }

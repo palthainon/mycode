@@ -1093,7 +1093,7 @@
         function copySubnetList() {
             const rows = document.getElementById('subnetTableBody').querySelectorAll('tr');
             if (rows.length === 0) return;
-            const header = '#        Network Address                          Address Range                                                       Total Addresses';
+            const header = '#, Network Address, Address Range, Total Addresses';
             const lines = [header];
             rows.forEach(row => {
                 const cells = row.querySelectorAll('td');
@@ -1101,7 +1101,7 @@
                 const net = cells[1].textContent.trim();
                 const range = cells[2].textContent.trim();
                 const total = cells[3].textContent.trim();
-                lines.push(num.padEnd(9) + net.padEnd(41) + range.padEnd(60) + total);
+                lines.push(num + ', ' + net + ', ' + range + ', ' + total);
             });
             copyToClipboardWithFlash(lines.join('\n'), event.target);
         }
