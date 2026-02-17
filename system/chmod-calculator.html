@@ -1172,11 +1172,11 @@
         function copyValue(elementId, button) {
             const value = document.getElementById(elementId).textContent;
             navigator.clipboard.writeText(value).then(() => {
-                const copiedText = I18nUtils.t('common.copied') || 'Copied!';
-                const copyText = I18nUtils.t('common.copy') || 'Copy';
+                const copiedText = I18nUtils.t('common.copied', 'Copied!');
+                const copyText = I18nUtils.t('common.copy', 'Copy');
                 button.textContent = copiedText;
                 button.classList.add('copied');
-                A11yUtils.announce(I18nUtils.t('common.copiedToClipboard') || `Copied ${value} to clipboard`, 'polite');
+                A11yUtils.announce(I18nUtils.t('common.copiedToClipboard', 'Copied to clipboard'), 'polite');
                 setTimeout(() => {
                     button.textContent = copyText;
                     button.classList.remove('copied');
@@ -1219,7 +1219,7 @@
             // Update display
             updateFromCheckboxes();
             calculateUmask();
-            A11yUtils.announce(I18nUtils.t('common.allDataCleared') || 'All saved data has been cleared', 'polite');
+            A11yUtils.announce(I18nUtils.t('common.allDataCleared', 'All saved data has been cleared'), 'polite');
         }
 
         document.addEventListener('DOMContentLoaded', function() {

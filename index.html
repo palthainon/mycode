@@ -771,7 +771,7 @@
             function updateSelectionCount() {
                 if (selectionCount) {
                     if (typeof I18nUtils !== 'undefined' && I18nUtils.isReady()) {
-                        selectionCount.textContent = I18nUtils.t('home.quickAccessModal.selectionCount', { count: selectedTools.length, max: MAX_TOOLS });
+                        selectionCount.textContent = I18nUtils.t('home.quickAccessModal.selectionCount', '{{count}} of {{max}} selected', { count: selectedTools.length, max: MAX_TOOLS });
                     } else {
                         selectionCount.textContent = `${selectedTools.length} of ${MAX_TOOLS} selected`;
                     }
@@ -832,7 +832,7 @@
                     });
                     updateSelectionCount();
                     if (typeof A11yUtils !== 'undefined') {
-                        const msg = typeof I18nUtils !== 'undefined' ? I18nUtils.t('home.quickAccessModal.toolsCleared') : 'All quick access tools cleared';
+                        const msg = typeof I18nUtils !== 'undefined' ? I18nUtils.t('home.quickAccessModal.toolsCleared', 'All quick access tools cleared') : 'All quick access tools cleared';
                         A11yUtils.announce(msg, 'polite');
                     }
                 });
@@ -843,7 +843,7 @@
                     renderQuickAccessButtons();
                     closeModal();
                     if (typeof A11yUtils !== 'undefined') {
-                        const msg = typeof I18nUtils !== 'undefined' ? I18nUtils.t('home.quickAccessModal.toolsSaved') : 'Quick access tools saved';
+                        const msg = typeof I18nUtils !== 'undefined' ? I18nUtils.t('home.quickAccessModal.toolsSaved', 'Quick access tools saved') : 'Quick access tools saved';
                         A11yUtils.announce(msg, 'polite');
                     }
                 });

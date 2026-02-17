@@ -930,13 +930,13 @@
 
             // Show warning if limiting
             if (numSubnets > maxDisplay) {
-                const warningText = I18nUtils.t('tools.subnetCalculatorIPv6.performanceLimitWarning', { max: maxDisplay, total: formatBigNumber(numSubnets) });
+                const warningText = I18nUtils.t('tools.subnetCalculatorIPv6.performanceLimitWarning', 'Performance limit: Showing first {{max}} of {{total}} possible subnets', { max: maxDisplay, total: formatBigNumber(numSubnets) });
                 warningDiv.textContent = warningText;
                 warningDiv.classList.add('show');
             }
 
             // Update info text
-            const infoText = I18nUtils.t('tools.subnetCalculatorIPv6.subnetListInfo', {
+            const infoText = I18nUtils.t('tools.subnetCalculatorIPv6.subnetListInfo', 'Showing {{shown}} of {{total}} possible /{{cidr}} subnets within {{network}}', {
                 shown: displayCount.toLocaleString(),
                 total: formatBigNumber(numSubnets),
                 cidr: cidr,
@@ -956,7 +956,7 @@
                     row.className = 'current-subnet';
                 }
 
-                const currentBadge = isCurrent ? `<span class="subnet-badge">${I18nUtils.t('tools.subnetCalculatorIPv6.current')}</span>` : '';
+                const currentBadge = isCurrent ? `<span class="subnet-badge">${I18nUtils.t('tools.subnetCalculatorIPv6.current', 'Current')}</span>` : '';
                 row.innerHTML = `
                     <td><span class="subnet-number">${i + 1}</span>${currentBadge}</td>
                     <td>${compressIPv6(intToIPv6(subnetNetwork))}/${cidr}</td>
@@ -970,13 +970,6 @@
             // Show the subnet list
             subnetListDiv.classList.add('show');
 
-            // Scroll to current subnet if not visible
-            setTimeout(() => {
-                const currentRow = tableBody.querySelector('.current-subnet');
-                if (currentRow) {
-                    currentRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
-            }, 100);
         }
 
         // Main calculate function
@@ -998,7 +991,7 @@
 
             // Validate IP
             if (!isValidIPv6(ipInput)) {
-                const errorMsg = I18nUtils.t('tools.subnetCalculatorIPv6.invalidIPv6');
+                const errorMsg = I18nUtils.t('tools.subnetCalculatorIPv6.invalidIPv6', 'Please enter a valid IPv6 address (e.g., 2001:db8::1)');
                 errorDiv.textContent = errorMsg;
                 errorDiv.classList.add('show');
                 A11yUtils.showError(ipv6AddressField, errorMsg);
@@ -1048,10 +1041,9 @@
 
             // Show results
             resultsDiv.classList.add('show');
-            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
             // Announce results to screen readers
-            const announcement = I18nUtils.t('tools.subnetCalculatorIPv6.resultsAnnounce', {
+            const announcement = I18nUtils.t('tools.subnetCalculatorIPv6.resultsAnnounce', 'IPv6 subnet calculation complete. Network address is {{network}} slash {{cidr}}. Address type is {{type}}.', {
                 network: networkCompressed,
                 cidr: cidr,
                 type: addressType
@@ -1121,7 +1113,7 @@
             const rows = tableBody.querySelectorAll('tr');
 
             if (rows.length === 0) {
-                alert(I18nUtils.t('tools.subnetCalculatorIPv6.noSubnetListToExport'));
+                alert(I18nUtils.t('tools.subnetCalculatorIPv6.noSubnetListToExport', 'No subnet list to export'));
                 return;
             }
 
@@ -1162,7 +1154,7 @@
             StorageUtils.remove('subnet-calc-ipv6');
             document.getElementById('ipv6Address').value = '';
             document.getElementById('cidr').value = '64';
-            A11yUtils.announce(I18nUtils.t('common.allDataCleared'), 'polite');
+            A11yUtils.announce(I18nUtils.t('common.allDataCleared', 'All saved data has been cleared'), 'polite');
         }
 
         document.addEventListener('DOMContentLoaded', function() {

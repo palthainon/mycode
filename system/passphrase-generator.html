@@ -693,7 +693,7 @@
             }
 
             resultsGrid.innerHTML = '';
-            const copyText = I18nUtils.t('common.copy');
+            const copyText = I18nUtils.t('common.copy', 'Copy');
             generatedItems.forEach((item, index) => {
                 const resultItem = document.createElement('div');
                 resultItem.className = 'result-item';
@@ -708,7 +708,7 @@
             resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
             // Announce generation complete
-            A11yUtils.announce(I18nUtils.t('tools.passphraseGenerator.generated', { count: generatedItems.length }), 'polite');
+            A11yUtils.announce(I18nUtils.t('tools.passphraseGenerator.generated', 'Generated {{count}} passphrases', { count: generatedItems.length }), 'polite');
         }
 
         function escapeHtml(text) {
@@ -720,9 +720,9 @@
         function copyToClipboard(value, button) {
             navigator.clipboard.writeText(value).then(() => {
                 const originalText = button.textContent;
-                button.textContent = I18nUtils.t('common.copied');
+                button.textContent = I18nUtils.t('common.copied', 'Copied!');
                 button.classList.add('copied');
-                A11yUtils.announce(I18nUtils.t('tools.passphraseGenerator.copiedPassphrase'), 'polite');
+                A11yUtils.announce(I18nUtils.t('tools.passphraseGenerator.copiedPassphrase', 'Copied passphrase to clipboard'), 'polite');
 
                 setTimeout(() => {
                     button.textContent = originalText;
@@ -738,8 +738,8 @@
             navigator.clipboard.writeText(text).then(() => {
                 const btn = document.querySelector('.copy-all-btn');
                 const originalText = btn.textContent;
-                btn.textContent = I18nUtils.t('common.copied');
-                A11yUtils.announce(I18nUtils.t('tools.passphraseGenerator.copiedAll', { count: generatedItems.length }), 'polite');
+                btn.textContent = I18nUtils.t('common.copied', 'Copied!');
+                A11yUtils.announce(I18nUtils.t('tools.passphraseGenerator.copiedAll', 'Copied all {{count}} passphrases to clipboard', { count: generatedItems.length }), 'polite');
                 setTimeout(() => {
                     btn.textContent = originalText;
                 }, 1500);
@@ -748,15 +748,15 @@
 
         function exportToCSV() {
             if (generatedItems.length === 0) {
-                alert(I18nUtils.t('tools.passphraseGenerator.noItemsToExport'));
+                alert(I18nUtils.t('tools.passphraseGenerator.noItemsToExport', 'No items to export'));
                 return;
             }
 
-            const csvRows = [[I18nUtils.t('tools.passphraseGenerator.csvHeaderPassphrase'), I18nUtils.t('tools.passphraseGenerator.csvHeaderStrength')]];
+            const csvRows = [[I18nUtils.t('tools.passphraseGenerator.csvHeaderPassphrase', 'Passphrase'), I18nUtils.t('tools.passphraseGenerator.csvHeaderStrength', 'Strength')]];
 
             generatedItems.forEach(item => {
                 const strength = calculateStrength(item);
-                csvRows.push([`"${item}"`, I18nUtils.t('strength.' + strength.level.replace('-', ''))]);
+                csvRows.push([`"${item}"`, I18nUtils.t('strength.' + strength.level.replace('-', ''), strength.level)]);
             });
 
             const csvContent = csvRows.map(row => row.join(',')).join('\n');
@@ -773,7 +773,7 @@
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-            A11yUtils.announce(I18nUtils.t('tools.passphraseGenerator.exported', { count: generatedItems.length, filename: filename }), 'polite');
+            A11yUtils.announce(I18nUtils.t('tools.passphraseGenerator.exported', 'Exported {{count}} passphrases to CSV file {{filename}}', { count: generatedItems.length, filename: filename }), 'polite');
         }
 
         // Keyboard shortcut: Enter to generate

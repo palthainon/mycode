@@ -1664,28 +1664,28 @@
                     daysEl.textContent = daysUntilExpiry;
 
                     if (now < certData.notBefore) {
-                        statusEl.textContent = I18nUtils.t('tools.certificateParser.status.notYetValid');
+                        statusEl.textContent = I18nUtils.t('tools.certificateParser.status.notYetValid', 'Not Yet Valid');
                         statusEl.className = 'status-badge expiring';
                         statusCard.className = 'result-card warning';
                         daysCard.className = 'result-card warning';
                     } else if (now > certData.notAfter) {
-                        statusEl.textContent = I18nUtils.t('tools.certificateParser.status.expired');
+                        statusEl.textContent = I18nUtils.t('tools.certificateParser.status.expired', 'Expired');
                         statusEl.className = 'status-badge expired';
                         statusCard.className = 'result-card expired';
                         daysCard.className = 'result-card expired';
                     } else if (daysUntilExpiry <= 30) {
-                        statusEl.textContent = I18nUtils.t('tools.certificateParser.status.expiringSoon');
+                        statusEl.textContent = I18nUtils.t('tools.certificateParser.status.expiringSoon', 'Expiring Soon');
                         statusEl.className = 'status-badge expiring';
                         statusCard.className = 'result-card warning';
                         daysCard.className = 'result-card warning';
                     } else {
-                        statusEl.textContent = I18nUtils.t('tools.certificateParser.status.valid');
+                        statusEl.textContent = I18nUtils.t('tools.certificateParser.status.valid', 'Valid');
                         statusEl.className = 'status-badge valid';
                         statusCard.className = 'result-card valid';
                         daysCard.className = 'result-card valid';
                     }
                 } else {
-                    statusEl.textContent = I18nUtils.t('tools.certificateParser.status.unknown');
+                    statusEl.textContent = I18nUtils.t('tools.certificateParser.status.unknown', 'Unknown');
                     statusEl.className = 'status-badge';
                     daysEl.textContent = '-';
                 }

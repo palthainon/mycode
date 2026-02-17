@@ -855,10 +855,10 @@
                         })));
 
                     // UTC
-                    conversions.push(createConversionRow(I18nUtils.t('tools.timestampConverter.results.utcTime'), formatTimezone(result.date, 'UTC')));
+                    conversions.push(createConversionRow(I18nUtils.t('tools.timestampConverter.results.utcTime', 'UTC Time'), formatTimezone(result.date, 'UTC')));
 
                     // Local
-                    conversions.push(createConversionRow(I18nUtils.t('tools.timestampConverter.results.localTime'),
+                    conversions.push(createConversionRow(I18nUtils.t('tools.timestampConverter.results.localTime', 'Local Time'),
                         result.date.toLocaleString('en-US', {
                             year: 'numeric',
                             month: 'short',
@@ -905,7 +905,7 @@
         }
 
         function createConversionRow(label, value) {
-            const copyText = I18nUtils.t('common.copy');
+            const copyText = I18nUtils.t('common.copy', 'Copy');
             return `<div class="conversion-row">
                 <span class="conversion-label">${label}:</span>
                 <span class="conversion-value">${value}</span>
@@ -940,11 +940,11 @@
                                   .replace(/&gt;/g, '>');
 
             navigator.clipboard.writeText(unescaped).then(() => {
-                button.textContent = I18nUtils.t('common.copied');
+                button.textContent = I18nUtils.t('common.copied', 'Copied!');
                 button.classList.add('copied');
-                A11yUtils.announce(I18nUtils.t('common.copiedToClipboard'), 'polite');
+                A11yUtils.announce(I18nUtils.t('common.copiedToClipboard', 'Copied to clipboard'), 'polite');
                 setTimeout(() => {
-                    button.textContent = I18nUtils.t('common.copy');
+                    button.textContent = I18nUtils.t('common.copy', 'Copy');
                     button.classList.remove('copied');
                 }, 2000);
             }).catch(err => {

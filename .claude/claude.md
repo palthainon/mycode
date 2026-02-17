@@ -201,12 +201,22 @@ Mark translatable content with data attributes:
 #### 3. **JavaScript API (I18nUtils)**
 For dynamic content generated in JavaScript:
 
-```javascript
-// Get translated string
-const label = I18nUtils.t('tools.myTool.results.total');
+**IMPORTANT: Always provide English fallback strings** when calling `I18nUtils.t()` in JavaScript.
+The i18n system loads translations asynchronously via `fetch()`. If `calculate()` or any dynamic
+rendering function runs before translations finish loading, `I18nUtils.t('key')` returns the raw
+key string (e.g., `tools.myTool.current`) instead of the translated text. Providing a fallback
+ensures the UI always shows readable English text regardless of timing.
 
-// With interpolation (use {{variable}} in translation strings)
-const msg = I18nUtils.t('nav.languageChanged', { language: 'Spanish' });
+```javascript
+// CORRECT - Always provide English fallback as second argument
+const label = I18nUtils.t('tools.myTool.results.total', 'Total');
+
+// CORRECT - With interpolation: fallback string + params object
+const msg = I18nUtils.t('tools.myTool.announce', 'Result: {{value}} items', { value: count });
+
+// WRONG - No fallback, will show raw key if translations haven't loaded
+const label = I18nUtils.t('tools.myTool.results.total');
+const msg = I18nUtils.t('tools.myTool.announce', { value: count });
 
 // Format numbers/currency/dates for current locale
 const num = I18nUtils.formatNumber(12345.67);           // "12,345.67" (en)
@@ -214,7 +224,7 @@ const money = I18nUtils.formatCurrency(5000, 'USD');    // "$5,000.00" (en)
 const date = I18nUtils.formatDate(new Date());          // Locale-formatted date
 
 // Check current language
-const lang = I18nUtils.getCurrentLang();  // "en", "es", or "hi"
+const lang = I18nUtils.getCurrentLang();  // "en", "es", "hi", or "zh"
 
 // Listen for language changes
 document.addEventListener('langchange', (e) => {
@@ -302,9 +312,10 @@ The language selector is automatically included in navigation via `navigationv2.
 - [ ] All visible text has `data-i18n` attributes
 - [ ] All input placeholders use `data-i18n-placeholder`
 - [ ] All aria-labels use `data-i18n-aria-label`
-- [ ] Dynamic JS content uses `I18nUtils.t()`
+- [ ] Dynamic JS content uses `I18nUtils.t()` **with English fallback strings** (e.g., `I18nUtils.t('key', 'Fallback')`)
+- [ ] All `I18nUtils.t()` calls with interpolation use 3-arg form: `t('key', 'Fallback {{var}}', { var: val })`
 - [ ] Numbers/currency use `I18nUtils.formatNumber()`/`formatCurrency()`
-- [ ] New translation keys added to ALL language files (en, es, hi)
+- [ ] New translation keys added to ALL language files (en, es, hi, zh)
 - [ ] Test language switching works without page reload
 - [ ] Verify `langchange` event handler updates dynamic content
 - [ ] Default English text provided as fallback in HTML

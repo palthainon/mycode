@@ -1236,7 +1236,7 @@
             errorDiv.classList.remove('show');
 
             if (isNaN(mtu) || mtu < 68) {
-                const msg = I18nUtils.t('tools.mtuCalculator.validation.mtuMinimum');
+                const msg = I18nUtils.t('tools.mtuCalculator.validation.mtuMinimum', 'MTU must be at least 68 bytes (IPv4 minimum)');
                 A11yUtils.showError(field, msg);
                 errorDiv.textContent = msg;
                 errorDiv.classList.add('show');
@@ -1244,7 +1244,7 @@
             }
 
             if (mtu > 9000) {
-                const msg = I18nUtils.t('tools.mtuCalculator.validation.mtuMaximum');
+                const msg = I18nUtils.t('tools.mtuCalculator.validation.mtuMaximum', 'MTU cannot exceed 9000 bytes (Jumbo frame maximum)');
                 A11yUtils.showError(field, msg);
                 errorDiv.textContent = msg;
                 errorDiv.classList.add('show');
@@ -1316,17 +1316,17 @@
 
             // Layer 2 overhead (reduces available MTU)
             if (document.getElementById('basicPppoe').checked) {
-                layers.push({ name: I18nUtils.t('tools.mtuCalculator.protocols.pppoe'), bytes: OVERHEAD.pppoe, type: 'l2' });
+                layers.push({ name: I18nUtils.t('tools.mtuCalculator.protocols.pppoe', 'PPPoE'), bytes: OVERHEAD.pppoe, type: 'l2' });
                 totalOverhead += OVERHEAD.pppoe;
                 l2Overhead += OVERHEAD.pppoe;
             }
             if (document.getElementById('basicVlan').checked && !document.getElementById('basicQinq').checked) {
-                layers.push({ name: I18nUtils.t('tools.mtuCalculator.protocols.vlan8021q'), bytes: OVERHEAD.vlan, type: 'l2' });
+                layers.push({ name: I18nUtils.t('tools.mtuCalculator.protocols.vlan8021q', 'VLAN 802.1Q'), bytes: OVERHEAD.vlan, type: 'l2' });
                 totalOverhead += OVERHEAD.vlan;
                 l2Overhead += OVERHEAD.vlan;
             }
             if (document.getElementById('basicQinq').checked) {
-                layers.push({ name: I18nUtils.t('tools.mtuCalculator.protocols.qinqDoubleTag'), bytes: OVERHEAD.qinq, type: 'l2' });
+                layers.push({ name: I18nUtils.t('tools.mtuCalculator.protocols.qinqDoubleTag', 'QinQ Double Tag'), bytes: OVERHEAD.qinq, type: 'l2' });
                 totalOverhead += OVERHEAD.qinq;
                 l2Overhead += OVERHEAD.qinq;
             }
@@ -1335,7 +1335,7 @@
             const VPN_DETAILS = getVpnDetails();
             if (tunnelType !== 'none') {
                 if (tunnelType === 'gre') {
-                    layers.push({ name: I18nUtils.t('tools.mtuCalculator.protocols.greTunnel'), bytes: OVERHEAD.gre, type: 'tunnel' });
+                    layers.push({ name: I18nUtils.t('tools.mtuCalculator.protocols.greTunnel', 'GRE Tunnel'), bytes: OVERHEAD.gre, type: 'tunnel' });
                     totalOverhead += OVERHEAD.gre;
                     tunnelOverhead = OVERHEAD.gre;
                 } else if (VPN_DETAILS[tunnelType]) {
@@ -1349,7 +1349,7 @@
 
             // IP Layer
             const ipOverhead = ipVersion === 'ipv4' ? OVERHEAD.ipv4 : OVERHEAD.ipv6;
-            layers.push({ name: I18nUtils.t(ipVersion === 'ipv4' ? 'tools.mtuCalculator.protocols.ipv4Header' : 'tools.mtuCalculator.protocols.ipv6Header'), bytes: ipOverhead, type: 'ip' });
+            layers.push({ name: ipVersion === 'ipv4' ? I18nUtils.t('tools.mtuCalculator.protocols.ipv4Header', 'IPv4 Header') : I18nUtils.t('tools.mtuCalculator.protocols.ipv6Header', 'IPv6 Header'), bytes: ipOverhead, type: 'ip' });
             totalOverhead += ipOverhead;
 
             // Transport Layer
@@ -1395,13 +1395,13 @@
 
             // Check for warnings
             if (results.payload < 0) {
-                warningHtml = `<div class="warning-badge">${I18nUtils.t('tools.mtuCalculator.warnings.negativePayload')}</div>`;
+                warningHtml = `<div class="warning-badge">${I18nUtils.t('tools.mtuCalculator.warnings.negativePayload', 'Negative payload! MTU is too small for selected protocols.')}</div>`;
             } else if (results.tunnelMtu !== null && results.tunnelMtu < 1280) {
-                warningHtml = `<div class="warning-badge">${I18nUtils.t('tools.mtuCalculator.warnings.tunnelMtuBelow1280')}</div>`;
+                warningHtml = `<div class="warning-badge">${I18nUtils.t('tools.mtuCalculator.warnings.tunnelMtuBelow1280', 'Tunnel MTU is below 1280 bytes. Consider adjusting your base MTU or tunnel settings.')}</div>`;
             } else if (results.effectiveMtu < 576 && results.ipVersion === 'ipv4') {
-                warningHtml = `<div class="warning-badge">${I18nUtils.t('tools.mtuCalculator.warnings.effectiveMtuBelowIpv4Min')}</div>`;
+                warningHtml = `<div class="warning-badge">${I18nUtils.t('tools.mtuCalculator.warnings.effectiveMtuBelowIpv4Min', 'Effective MTU is below IPv4 minimum (576 bytes). Fragmentation may occur.')}</div>`;
             } else if (results.effectiveMtu < 1280 && results.ipVersion === 'ipv6') {
-                warningHtml = `<div class="warning-badge">${I18nUtils.t('tools.mtuCalculator.warnings.effectiveMtuBelowIpv6Min')}</div>`;
+                warningHtml = `<div class="warning-badge">${I18nUtils.t('tools.mtuCalculator.warnings.effectiveMtuBelowIpv6Min', 'Effective MTU is below IPv6 minimum (1280 bytes). Connection issues may occur.')}</div>`;
             }
 
             let layersHtml = results.layers.map(layer => `
@@ -1414,7 +1414,7 @@
             if (results.payload > 0) {
                 layersHtml += `
                     <div class="layer-item payload">
-                        <span class="layer-name">${I18nUtils.t('tools.mtuCalculator.results.availablePayload')}</span>
+                        <span class="layer-name">${I18nUtils.t('tools.mtuCalculator.results.availablePayload', 'Available Payload')}</span>
                         <span class="layer-bytes">${results.payload} bytes</span>
                     </div>
                 `;
@@ -1427,7 +1427,7 @@
                 const vpnName = I18nUtils.t(VPN_DETAILS[results.tunnelType]?.nameKey) || 'VPN';
                 vpnBreakdownHtml = `
                     <div class="overhead-breakdown" style="margin-top: 15px;">
-                        <h3>${I18nUtils.t('tools.mtuCalculator.results.componentBreakdown', {name: vpnName})}</h3>
+                        <h3>${I18nUtils.t('tools.mtuCalculator.results.componentBreakdown', '{{name}} Component Breakdown', {name: vpnName})}</h3>
                         ${results.vpnComponents.map(c => `
                             <div class="layer-item overhead">
                                 <span class="layer-name">${I18nUtils.t(c.nameKey)}</span>
@@ -1439,84 +1439,84 @@
             }
 
             resultsDiv.innerHTML = `
-                <h2>${I18nUtils.t('tools.mtuCalculator.results.title')}</h2>
+                <h2>${I18nUtils.t('tools.mtuCalculator.results.title', 'MTU Calculation Results')}</h2>
                 <div class="summary-grid">
                     <div class="summary-card">
                         <div class="stat-value">${results.baseMtu}</div>
-                        <div class="stat-label">${I18nUtils.t('tools.mtuCalculator.results.baseMtu')}</div>
+                        <div class="stat-label">${I18nUtils.t('tools.mtuCalculator.results.baseMtu', 'Base MTU')}</div>
                     </div>
                     <div class="summary-card ${results.effectiveMtu < 576 ? 'warning' : ''}">
                         <div class="stat-value">${results.effectiveMtu}</div>
-                        <div class="stat-label">${I18nUtils.t('tools.mtuCalculator.results.effectiveMtu')}</div>
+                        <div class="stat-label">${I18nUtils.t('tools.mtuCalculator.results.effectiveMtu', 'Effective MTU')}</div>
                     </div>
                     ${results.tunnelMtu !== null ? `
                     <div class="summary-card ${results.tunnelMtu < 1280 ? 'warning' : ''}">
                         <div class="stat-value">${results.tunnelMtu}</div>
-                        <div class="stat-label">${I18nUtils.t('tools.mtuCalculator.results.tunnelMtu')}</div>
+                        <div class="stat-label">${I18nUtils.t('tools.mtuCalculator.results.tunnelMtu', 'Tunnel MTU')}</div>
                     </div>
                     ` : ''}
                     <div class="summary-card ${results.payload < 0 ? 'error' : 'success'}">
                         <div class="stat-value">${results.payload}</div>
-                        <div class="stat-label">${I18nUtils.t('tools.mtuCalculator.results.payload')}</div>
+                        <div class="stat-label">${I18nUtils.t('tools.mtuCalculator.results.payload', 'Payload')}</div>
                     </div>
                     ${results.mss !== null ? `
                     <div class="summary-card">
                         <div class="stat-value">${results.mss}</div>
-                        <div class="stat-label">${I18nUtils.t('tools.mtuCalculator.results.tcpMss')}</div>
+                        <div class="stat-label">${I18nUtils.t('tools.mtuCalculator.results.tcpMss', 'TCP MSS')}</div>
                     </div>
                     ` : ''}
                     ${results.tunnelOverhead > 0 ? `
                     <div class="summary-card">
                         <div class="stat-value">${results.tunnelOverhead}</div>
-                        <div class="stat-label">${I18nUtils.t('tools.mtuCalculator.results.tunnelOverhead')}</div>
+                        <div class="stat-label">${I18nUtils.t('tools.mtuCalculator.results.tunnelOverhead', 'Tunnel Overhead')}</div>
                     </div>
                     ` : ''}
                     <div class="summary-card">
                         <div class="stat-value">${results.totalOverhead}</div>
-                        <div class="stat-label">${I18nUtils.t('tools.mtuCalculator.results.totalOverhead')}</div>
+                        <div class="stat-label">${I18nUtils.t('tools.mtuCalculator.results.totalOverhead', 'Total Overhead')}</div>
                     </div>
                 </div>
 
                 ${warningHtml}
 
                 <div class="overhead-breakdown">
-                    <h3>${I18nUtils.t('tools.mtuCalculator.results.protocolOverheadBreakdown')}</h3>
+                    <h3>${I18nUtils.t('tools.mtuCalculator.results.protocolOverheadBreakdown', 'Protocol Overhead Breakdown')}</h3>
                     ${layersHtml}
                 </div>
 
                 ${vpnBreakdownHtml}
 
                 <div class="overhead-breakdown">
-                    <h3>${I18nUtils.t('tools.mtuCalculator.results.recommendedInterfaceSettings')}</h3>
+                    <h3>${I18nUtils.t('tools.mtuCalculator.results.recommendedInterfaceSettings', 'Recommended Interface Settings')}</h3>
                     <div class="layer-item" style="border-left-color: #66bb6a;">
-                        <span class="layer-name">${I18nUtils.t('tools.mtuCalculator.results.physicalInterfaceMtu')}</span>
+                        <span class="layer-name">${I18nUtils.t('tools.mtuCalculator.results.physicalInterfaceMtu', 'Physical Interface MTU')}</span>
                         <span class="layer-bytes">${results.effectiveMtu} bytes</span>
                     </div>
                     ${results.tunnelMtu !== null ? `
                     <div class="layer-item" style="border-left-color: #66bb6a;">
-                        <span class="layer-name">${I18nUtils.t('tools.mtuCalculator.results.vpnTunnelInterfaceMtu')}</span>
+                        <span class="layer-name">${I18nUtils.t('tools.mtuCalculator.results.vpnTunnelInterfaceMtu', 'VPN/Tunnel Interface MTU')}</span>
                         <span class="layer-bytes">${results.tunnelMtu} bytes</span>
                     </div>
                     <div class="layer-item" style="border-left-color: #66bb6a;">
-                        <span class="layer-name">${I18nUtils.t('tools.mtuCalculator.results.clientDeviceMtu')}</span>
+                        <span class="layer-name">${I18nUtils.t('tools.mtuCalculator.results.clientDeviceMtu', 'Client Device MTU')}</span>
                         <span class="layer-bytes">${results.tunnelMtu} bytes</span>
                     </div>
                     <p style="color: #90caf9; font-size: 0.85rem; margin-top: 12px; line-height: 1.5;">
-                        <strong>${I18nUtils.t('tools.mtuCalculator.results.clientDeviceMtu')}:</strong> ${I18nUtils.t('tools.mtuCalculator.results.clientDeviceMtuNote')}
+                        <strong>${I18nUtils.t('tools.mtuCalculator.results.clientDeviceMtu', 'Client Device MTU')}:</strong> ${I18nUtils.t('tools.mtuCalculator.results.clientDeviceMtuNote', 'Use this value for devices behind the VPN gateway when Path MTU Discovery (PMTUD) is blocked or unreliable. This prevents packet fragmentation and black-holing.')}
                     </p>
                     ` : ''}
                 </div>
 
                 <div class="export-section">
-                    <button type="button" class="export-btn" onclick="exportCSV()" aria-label="${I18nUtils.t('tools.mtuCalculator.export.csvExported')}">${I18nUtils.t('tools.mtuCalculator.export.csv')}</button>
-                    <button type="button" class="export-btn json" onclick="exportJSON()" aria-label="${I18nUtils.t('tools.mtuCalculator.export.jsonExported')}">${I18nUtils.t('tools.mtuCalculator.export.json')}</button>
+                    <button type="button" class="export-btn" onclick="exportCSV()" aria-label="${I18nUtils.t('tools.mtuCalculator.export.csvExported', 'Results exported to CSV file')}">${I18nUtils.t('tools.mtuCalculator.export.csv', 'Export CSV')}</button>
+                    <button type="button" class="export-btn json" onclick="exportJSON()" aria-label="${I18nUtils.t('tools.mtuCalculator.export.jsonExported', 'Results exported to JSON file')}">${I18nUtils.t('tools.mtuCalculator.export.json', 'Export JSON')}</button>
                 </div>
             `;
 
             resultsDiv.classList.add('show');
             resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            const tunnelInfo = results.tunnelMtu !== null ? ' ' + I18nUtils.t('tools.mtuCalculator.accessibility.resultsAnnounceTunnel', {tunnelMtu: results.tunnelMtu}) : '';
-            A11yUtils.announce(I18nUtils.t('tools.mtuCalculator.accessibility.resultsAnnounce', {effectiveMtu: results.effectiveMtu, payload: results.payload}) + tunnelInfo, 'polite');
+            const tunnelInfo = results.tunnelMtu !== null ? ' ' + I18nUtils.t('tools.mtuCalculator.accessibility.resultsAnnounceTunnel', 'Tunnel MTU is {{tunnelMtu}} bytes.', {tunnelMtu: results.tunnelMtu}) : '';
+            A11yUtils.announce(I18nUtils.t('tools.mtuCalculator.accessibility.resultsAnnounce', 'MTU calculation complete. Effective MTU is {{effectiveMtu}} bytes with {{payload}} bytes available payload.', {effectiveMtu: results.effectiveMtu, payload: results.payload}) + tunnelInfo, 'polite');
         }
 
         // Protocol Stack Builder
@@ -1529,35 +1529,35 @@
 
             // Check each layer in order
             if (document.getElementById('stackPppoe').checked) {
-                layers.push({ name: I18nUtils.t('tools.mtuCalculator.protocols.pppoe'), bytes: OVERHEAD.pppoe });
+                layers.push({ name: I18nUtils.t('tools.mtuCalculator.protocols.pppoe', 'PPPoE'), bytes: OVERHEAD.pppoe });
                 totalOverhead += OVERHEAD.pppoe;
             }
             if (document.getElementById('stackVlan').checked) {
-                layers.push({ name: I18nUtils.t('tools.mtuCalculator.protocols.vlan8021q'), bytes: OVERHEAD.vlan });
+                layers.push({ name: I18nUtils.t('tools.mtuCalculator.protocols.vlan8021q', 'VLAN 802.1Q'), bytes: OVERHEAD.vlan });
                 totalOverhead += OVERHEAD.vlan;
             }
             if (document.getElementById('stackGre').checked) {
-                layers.push({ name: I18nUtils.t('tools.mtuCalculator.protocols.greTunnel'), bytes: OVERHEAD.gre });
+                layers.push({ name: I18nUtils.t('tools.mtuCalculator.protocols.greTunnel', 'GRE Tunnel'), bytes: OVERHEAD.gre });
                 totalOverhead += OVERHEAD.gre;
             }
             if (document.getElementById('stackIpsec').checked) {
-                layers.push({ name: I18nUtils.t('tools.mtuCalculator.protocols.ipsecEspTunnelMode'), bytes: OVERHEAD.ipsecTunnel });
+                layers.push({ name: I18nUtils.t('tools.mtuCalculator.protocols.ipsecEspTunnelMode', 'IPsec ESP Tunnel Mode'), bytes: OVERHEAD.ipsecTunnel });
                 totalOverhead += OVERHEAD.ipsecTunnel;
             }
             if (document.getElementById('stackIpv4').checked) {
-                layers.push({ name: I18nUtils.t('tools.mtuCalculator.protocols.ipv4Header'), bytes: OVERHEAD.ipv4 });
+                layers.push({ name: I18nUtils.t('tools.mtuCalculator.protocols.ipv4Header', 'IPv4 Header'), bytes: OVERHEAD.ipv4 });
                 totalOverhead += OVERHEAD.ipv4;
             }
             if (document.getElementById('stackIpv6').checked) {
-                layers.push({ name: I18nUtils.t('tools.mtuCalculator.protocols.ipv6Header'), bytes: OVERHEAD.ipv6 });
+                layers.push({ name: I18nUtils.t('tools.mtuCalculator.protocols.ipv6Header', 'IPv6 Header'), bytes: OVERHEAD.ipv6 });
                 totalOverhead += OVERHEAD.ipv6;
             }
             if (document.getElementById('stackTcp').checked) {
-                layers.push({ name: I18nUtils.t('tools.mtuCalculator.protocols.tcpHeader'), bytes: OVERHEAD.tcp });
+                layers.push({ name: I18nUtils.t('tools.mtuCalculator.protocols.tcpHeader', 'TCP Header'), bytes: OVERHEAD.tcp });
                 totalOverhead += OVERHEAD.tcp;
             }
             if (document.getElementById('stackUdp').checked) {
-                layers.push({ name: I18nUtils.t('tools.mtuCalculator.protocols.udpHeader'), bytes: OVERHEAD.udp });
+                layers.push({ name: I18nUtils.t('tools.mtuCalculator.protocols.udpHeader', 'UDP Header'), bytes: OVERHEAD.udp });
                 totalOverhead += OVERHEAD.udp;
             }
 
@@ -1583,9 +1583,9 @@
             let warningHtml = '';
 
             if (results.payload < 0) {
-                warningHtml = `<div class="warning-badge">${I18nUtils.t('tools.mtuCalculator.warnings.negativePayloadStack')}</div>`;
+                warningHtml = `<div class="warning-badge">${I18nUtils.t('tools.mtuCalculator.warnings.negativePayloadStack', 'Negative payload! Remove some layers or increase MTU.')}</div>`;
             } else if (results.payload < 100) {
-                warningHtml = `<div class="warning-badge">${I18nUtils.t('tools.mtuCalculator.warnings.verySmallPayload', {bytes: results.payload})}</div>`;
+                warningHtml = `<div class="warning-badge">${I18nUtils.t('tools.mtuCalculator.warnings.verySmallPayload', 'Very small payload ({{bytes}} bytes). Consider optimizing your stack.', {bytes: results.payload})}</div>`;
             }
 
             const layersHtml = results.layers.map(layer => `
@@ -1596,58 +1596,58 @@
             `).join('');
 
             resultsDiv.innerHTML = `
-                <h2>${I18nUtils.t('tools.mtuCalculator.results.protocolStackAnalysis')}</h2>
+                <h2>${I18nUtils.t('tools.mtuCalculator.results.protocolStackAnalysis', 'Protocol Stack Analysis')}</h2>
                 <div class="summary-grid">
                     <div class="summary-card">
                         <div class="stat-value">${results.baseMtu}</div>
-                        <div class="stat-label">${I18nUtils.t('tools.mtuCalculator.results.physicalMtu')}</div>
+                        <div class="stat-label">${I18nUtils.t('tools.mtuCalculator.results.physicalMtu', 'Physical MTU')}</div>
                     </div>
                     <div class="summary-card">
                         <div class="stat-value">${results.totalOverhead}</div>
-                        <div class="stat-label">${I18nUtils.t('tools.mtuCalculator.results.totalOverhead')}</div>
+                        <div class="stat-label">${I18nUtils.t('tools.mtuCalculator.results.totalOverhead', 'Total Overhead')}</div>
                     </div>
                     <div class="summary-card ${results.payload < 0 ? 'error' : results.payload < 100 ? 'warning' : 'success'}">
                         <div class="stat-value">${results.payload}</div>
-                        <div class="stat-label">${I18nUtils.t('tools.mtuCalculator.results.availablePayload')}</div>
+                        <div class="stat-label">${I18nUtils.t('tools.mtuCalculator.results.availablePayload', 'Available Payload')}</div>
                     </div>
                     <div class="summary-card">
                         <div class="stat-value">${results.layers.length}</div>
-                        <div class="stat-label">${I18nUtils.t('tools.mtuCalculator.results.protocolLayers')}</div>
+                        <div class="stat-label">${I18nUtils.t('tools.mtuCalculator.results.protocolLayers', 'Protocol Layers')}</div>
                     </div>
                 </div>
 
                 ${warningHtml}
 
                 <div class="overhead-breakdown">
-                    <h3>${I18nUtils.t('tools.mtuCalculator.results.layerByLayerBreakdown')}</h3>
+                    <h3>${I18nUtils.t('tools.mtuCalculator.results.layerByLayerBreakdown', 'Layer-by-Layer Breakdown')}</h3>
                     <div class="layer-item" style="border-left-color: #4fc3f7;">
-                        <span class="layer-name">${I18nUtils.t('tools.mtuCalculator.results.physicalMtu')}</span>
+                        <span class="layer-name">${I18nUtils.t('tools.mtuCalculator.results.physicalMtu', 'Physical MTU')}</span>
                         <span class="layer-bytes">${results.baseMtu} bytes</span>
                     </div>
                     ${layersHtml}
                     <div class="layer-item payload">
-                        <span class="layer-name">${I18nUtils.t('tools.mtuCalculator.results.availablePayload')}</span>
+                        <span class="layer-name">${I18nUtils.t('tools.mtuCalculator.results.availablePayload', 'Available Payload')}</span>
                         <span class="layer-bytes">${results.payload} bytes</span>
                     </div>
                 </div>
 
                 <div class="overhead-breakdown">
-                    <h3>${I18nUtils.t('tools.mtuCalculator.results.recommendedInterfaceSettings')}</h3>
+                    <h3>${I18nUtils.t('tools.mtuCalculator.results.recommendedInterfaceSettings', 'Recommended Interface Settings')}</h3>
                     <div class="layer-item" style="border-left-color: #66bb6a;">
-                        <span class="layer-name">${I18nUtils.t('tools.mtuCalculator.results.interfaceMtu')}</span>
+                        <span class="layer-name">${I18nUtils.t('tools.mtuCalculator.results.interfaceMtu', 'Interface MTU')}</span>
                         <span class="layer-bytes">${results.baseMtu} bytes</span>
                     </div>
                 </div>
 
                 <div class="export-section">
-                    <button type="button" class="export-btn" onclick="exportCSV()" aria-label="${I18nUtils.t('tools.mtuCalculator.export.csvExported')}">${I18nUtils.t('tools.mtuCalculator.export.csv')}</button>
-                    <button type="button" class="export-btn json" onclick="exportJSON()" aria-label="${I18nUtils.t('tools.mtuCalculator.export.jsonExported')}">${I18nUtils.t('tools.mtuCalculator.export.json')}</button>
+                    <button type="button" class="export-btn" onclick="exportCSV()" aria-label="${I18nUtils.t('tools.mtuCalculator.export.csvExported', 'Results exported to CSV file')}">${I18nUtils.t('tools.mtuCalculator.export.csv', 'Export CSV')}</button>
+                    <button type="button" class="export-btn json" onclick="exportJSON()" aria-label="${I18nUtils.t('tools.mtuCalculator.export.jsonExported', 'Results exported to JSON file')}">${I18nUtils.t('tools.mtuCalculator.export.json', 'Export JSON')}</button>
                 </div>
             `;
 
             resultsDiv.classList.add('show');
             resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            A11yUtils.announce(I18nUtils.t('tools.mtuCalculator.accessibility.stackResultsAnnounce', {layers: results.layers.length, overhead: results.totalOverhead, payload: results.payload}), 'polite');
+            A11yUtils.announce(I18nUtils.t('tools.mtuCalculator.accessibility.stackResultsAnnounce', 'Protocol stack built with {{layers}} layers. Total overhead is {{overhead}} bytes with {{payload}} bytes payload.', {layers: results.layers.length, overhead: results.totalOverhead, payload: results.payload}), 'polite');
         }
 
         // Path MTU Discovery
@@ -1662,7 +1662,7 @@
             A11yUtils.clearError(hostField);
 
             if (!host) {
-                const msg = I18nUtils.t('tools.mtuCalculator.validation.enterTargetHost');
+                const msg = I18nUtils.t('tools.mtuCalculator.validation.enterTargetHost', 'Please enter a target host');
                 A11yUtils.showError(hostField, msg);
                 errorDiv.textContent = msg;
                 errorDiv.classList.add('show');
@@ -1707,67 +1707,67 @@
             const resultsDiv = document.getElementById('results');
 
             resultsDiv.innerHTML = `
-                <h2>${I18nUtils.t('tools.mtuCalculator.pmtud.title')}</h2>
+                <h2>${I18nUtils.t('tools.mtuCalculator.pmtud.title', 'Path MTU Discovery Commands')}</h2>
                 <div class="summary-grid">
                     <div class="summary-card">
                         <div class="stat-value">${results.mtu}</div>
-                        <div class="stat-label">${I18nUtils.t('tools.mtuCalculator.pmtud.testMtu')}</div>
+                        <div class="stat-label">${I18nUtils.t('tools.mtuCalculator.pmtud.testMtu', 'Test MTU')}</div>
                     </div>
                     <div class="summary-card">
                         <div class="stat-value">${results.payloadSize}</div>
-                        <div class="stat-label">${I18nUtils.t('tools.mtuCalculator.pmtud.icmpPayload')}</div>
+                        <div class="stat-label">${I18nUtils.t('tools.mtuCalculator.pmtud.icmpPayload', 'ICMP Payload')}</div>
                     </div>
                     <div class="summary-card">
                         <div class="stat-value">${results.ipVersion.toUpperCase()}</div>
-                        <div class="stat-label">${I18nUtils.t('tools.mtuCalculator.labels.ipVersion')}</div>
+                        <div class="stat-label">${I18nUtils.t('tools.mtuCalculator.labels.ipVersion', 'IP Version')}</div>
                     </div>
                 </div>
 
                 <div class="icmp-commands">
-                    <h3>${I18nUtils.t('tools.mtuCalculator.pmtud.testCommands')}</h3>
+                    <h3>${I18nUtils.t('tools.mtuCalculator.pmtud.testCommands', 'Test Commands (with Don\'t Fragment flag)')}</h3>
                     <p style="color: #90caf9; margin-bottom: 15px; font-size: 0.9rem;">
-                        ${I18nUtils.t('tools.mtuCalculator.pmtud.testCommandsHelp')}
+                        ${I18nUtils.t('tools.mtuCalculator.pmtud.testCommandsHelp', 'Run these commands to test if packets of this size can reach the target without fragmentation. If you receive \"Packet needs to be fragmented\" or similar errors, reduce the MTU and try again.')}
                     </p>
 
                     <div class="command-box">
-                        <div class="os-label">${I18nUtils.t('tools.mtuCalculator.os.linux')}</div>
+                        <div class="os-label">${I18nUtils.t('tools.mtuCalculator.os.linux', 'Linux')}</div>
                         <code id="cmd-linux">${results.commands.linux}</code>
-                        <button type="button" class="copy-btn" onclick="copyCommand('linux')" aria-label="${I18nUtils.t('tools.mtuCalculator.accessibility.copyButton', {os: 'Linux'})}">${I18nUtils.t('common.copy')}</button>
+                        <button type="button" class="copy-btn" onclick="copyCommand('linux')" aria-label="${I18nUtils.t('tools.mtuCalculator.accessibility.copyButton', 'Copy {{os}} command', {os: 'Linux'})}">${I18nUtils.t('common.copy', 'Copy')}</button>
                     </div>
 
                     <div class="command-box">
-                        <div class="os-label">${I18nUtils.t('tools.mtuCalculator.os.windows')}</div>
+                        <div class="os-label">${I18nUtils.t('tools.mtuCalculator.os.windows', 'Windows')}</div>
                         <code id="cmd-windows">${results.commands.windows}</code>
-                        <button type="button" class="copy-btn" onclick="copyCommand('windows')" aria-label="${I18nUtils.t('tools.mtuCalculator.accessibility.copyButton', {os: 'Windows'})}">${I18nUtils.t('common.copy')}</button>
+                        <button type="button" class="copy-btn" onclick="copyCommand('windows')" aria-label="${I18nUtils.t('tools.mtuCalculator.accessibility.copyButton', 'Copy {{os}} command', {os: 'Windows'})}">${I18nUtils.t('common.copy', 'Copy')}</button>
                     </div>
 
                     <div class="command-box">
-                        <div class="os-label">${I18nUtils.t('tools.mtuCalculator.os.macos')}</div>
+                        <div class="os-label">${I18nUtils.t('tools.mtuCalculator.os.macos', 'macOS')}</div>
                         <code id="cmd-macos">${results.commands.macos}</code>
-                        <button type="button" class="copy-btn" onclick="copyCommand('macos')" aria-label="${I18nUtils.t('tools.mtuCalculator.accessibility.copyButton', {os: 'macOS'})}">${I18nUtils.t('common.copy')}</button>
+                        <button type="button" class="copy-btn" onclick="copyCommand('macos')" aria-label="${I18nUtils.t('tools.mtuCalculator.accessibility.copyButton', 'Copy {{os}} command', {os: 'macOS'})}">${I18nUtils.t('common.copy', 'Copy')}</button>
                     </div>
                 </div>
 
                 <div class="overhead-breakdown">
-                    <h3>${I18nUtils.t('tools.mtuCalculator.pmtud.howToFind')}</h3>
+                    <h3>${I18nUtils.t('tools.mtuCalculator.pmtud.howToFind', 'How to Find Your Path MTU')}</h3>
                     <ol style="color: #90caf9; padding-left: 20px; line-height: 1.8;">
-                        <li>${I18nUtils.t('tools.mtuCalculator.pmtud.step1')}</li>
-                        <li>${I18nUtils.t('tools.mtuCalculator.pmtud.step2')}</li>
-                        <li>${I18nUtils.t('tools.mtuCalculator.pmtud.step3')}</li>
-                        <li>${I18nUtils.t('tools.mtuCalculator.pmtud.step4')}</li>
-                        <li>${I18nUtils.t('tools.mtuCalculator.pmtud.step5')}</li>
+                        <li>${I18nUtils.t('tools.mtuCalculator.pmtud.step1', 'Start with your current MTU (usually 1500)')}</li>
+                        <li>${I18nUtils.t('tools.mtuCalculator.pmtud.step2', 'Run the command for your OS')}</li>
+                        <li>${I18nUtils.t('tools.mtuCalculator.pmtud.step3', 'If packets get through, your path MTU is at least this size')}</li>
+                        <li>${I18nUtils.t('tools.mtuCalculator.pmtud.step4', 'If you get fragmentation errors, reduce MTU by 10-20 bytes and retry')}</li>
+                        <li>${I18nUtils.t('tools.mtuCalculator.pmtud.step5', 'The largest size that works is your path MTU')}</li>
                     </ol>
                 </div>
 
                 <div class="export-section">
-                    <button type="button" class="export-btn" onclick="exportCSV()" aria-label="${I18nUtils.t('tools.mtuCalculator.export.csvExported')}">${I18nUtils.t('tools.mtuCalculator.export.csv')}</button>
-                    <button type="button" class="export-btn json" onclick="exportJSON()" aria-label="${I18nUtils.t('tools.mtuCalculator.export.jsonExported')}">${I18nUtils.t('tools.mtuCalculator.export.json')}</button>
+                    <button type="button" class="export-btn" onclick="exportCSV()" aria-label="${I18nUtils.t('tools.mtuCalculator.export.csvExported', 'Results exported to CSV file')}">${I18nUtils.t('tools.mtuCalculator.export.csv', 'Export CSV')}</button>
+                    <button type="button" class="export-btn json" onclick="exportJSON()" aria-label="${I18nUtils.t('tools.mtuCalculator.export.jsonExported', 'Results exported to JSON file')}">${I18nUtils.t('tools.mtuCalculator.export.json', 'Export JSON')}</button>
                 </div>
             `;
 
             resultsDiv.classList.add('show');
             resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            A11yUtils.announce(I18nUtils.t('tools.mtuCalculator.accessibility.pmtudResultsAnnounce', {host: results.host, payloadSize: results.payloadSize}), 'polite');
+            A11yUtils.announce(I18nUtils.t('tools.mtuCalculator.accessibility.pmtudResultsAnnounce', 'Path MTU Discovery commands generated for {{host}}. ICMP payload size is {{payloadSize}} bytes.', {host: results.host, payloadSize: results.payloadSize}), 'polite');
         }
 
         // Copy command to clipboard
@@ -1777,12 +1777,12 @@
             const osName = os.charAt(0).toUpperCase() + os.slice(1);
 
             navigator.clipboard.writeText(code.textContent).then(() => {
-                btn.textContent = I18nUtils.t('common.copied');
+                btn.textContent = I18nUtils.t('common.copied', 'Copied!');
                 btn.classList.add('copied');
-                A11yUtils.announce(I18nUtils.t('tools.mtuCalculator.accessibility.commandCopied', {os: osName}), 'polite');
+                A11yUtils.announce(I18nUtils.t('tools.mtuCalculator.accessibility.commandCopied', '{{os}} command copied to clipboard', {os: osName}), 'polite');
 
                 setTimeout(() => {
-                    btn.textContent = I18nUtils.t('common.copy');
+                    btn.textContent = I18nUtils.t('common.copy', 'Copy');
                     btn.classList.remove('copied');
                 }, 2000);
             }).catch(err => {

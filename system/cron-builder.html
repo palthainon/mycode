@@ -715,7 +715,7 @@
             document.getElementById('error').classList.remove('show');
 
             if (!input) {
-                const errorMsg = I18nUtils.t('tools.cronBuilder.validation.enterExpression');
+                const errorMsg = I18nUtils.t('tools.cronBuilder.validation.enterExpression', 'Please enter a cron expression');
                 showError(errorMsg);
                 A11yUtils.showError(parseInputField, errorMsg);
                 parseInputField.focus();
@@ -753,11 +753,11 @@
             const parts = expression.trim().split(/\s+/);
 
             if (parts.length === 6) {
-                return { valid: false, error: I18nUtils.t('tools.cronBuilder.validation.sixFields') };
+                return { valid: false, error: I18nUtils.t('tools.cronBuilder.validation.sixFields', 'This appears to be a 6-field cron (with seconds). This tool supports standard 5-field cron expressions.') };
             }
 
             if (parts.length !== 5) {
-                return { valid: false, error: I18nUtils.t('tools.cronBuilder.validation.wrongFieldCount', { count: parts.length }) };
+                return { valid: false, error: I18nUtils.t('tools.cronBuilder.validation.wrongFieldCount', 'Expected 5 fields, got {{count}}. Format: minute hour day month weekday', { count: parts.length }) };
             }
 
             const [minute, hour, day, month, weekday] = parts;
@@ -897,13 +897,13 @@
 
         function cronToHuman(expression) {
             const parts = expression.trim().split(/\s+/);
-            if (parts.length !== 5) return I18nUtils.t('tools.cronBuilder.validation.invalid');
+            if (parts.length !== 5) return I18nUtils.t('tools.cronBuilder.validation.invalid', 'Invalid cron expression');
 
             const [minute, hour, day, month, weekday] = parts;
 
             // Common patterns
             if (minute === '*' && hour === '*' && day === '*' && month === '*' && weekday === '*') {
-                return I18nUtils.t('tools.cronBuilder.humanReadable.everyMinute');
+                return I18nUtils.t('tools.cronBuilder.humanReadable.everyMinute', 'Runs every minute');
             }
 
             if (minute.startsWith('*/') && hour === '*' && day === '*' && month === '*' && weekday === '*') {
@@ -912,7 +912,7 @@
             }
 
             if (minute === '0' && hour === '*' && day === '*' && month === '*' && weekday === '*') {
-                return I18nUtils.t('tools.cronBuilder.humanReadable.everyHour');
+                return I18nUtils.t('tools.cronBuilder.humanReadable.everyHour', 'Runs every hour');
             }
 
             if (minute === '0' && hour.startsWith('*/') && day === '*' && month === '*' && weekday === '*') {
@@ -1111,11 +1111,11 @@
             const expression = document.getElementById('expressionOutput').textContent;
             navigator.clipboard.writeText(expression).then(() => {
                 const btn = document.querySelector('.copy-btn');
-                btn.textContent = I18nUtils.t('common.copied');
+                btn.textContent = I18nUtils.t('common.copied', 'Copied!');
                 btn.classList.add('copied');
-                A11yUtils.announce(I18nUtils.t('common.copiedToClipboard'), 'polite');
+                A11yUtils.announce(I18nUtils.t('common.copiedToClipboard', 'Copied to clipboard'), 'polite');
                 setTimeout(() => {
-                    btn.textContent = I18nUtils.t('common.copy');
+                    btn.textContent = I18nUtils.t('common.copy', 'Copy');
                     btn.classList.remove('copied');
                 }, 1500);
             });
@@ -1135,7 +1135,7 @@
             document.getElementById('parseInput').value = '';
             // Update display
             updateExpression();
-            A11yUtils.announce(I18nUtils.t('common.allDataCleared'), 'polite');
+            A11yUtils.announce(I18nUtils.t('common.allDataCleared', 'All saved data has been cleared'), 'polite');
         }
 
         document.addEventListener('DOMContentLoaded', function() {
