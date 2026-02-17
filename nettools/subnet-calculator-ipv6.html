@@ -181,32 +181,32 @@
             font-size: 1.5rem;
         }
 
-        .results-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 15px;
+        .details-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
         }
 
-        .result-item {
-            background: rgba(0, 0, 0, 0.2);
-            padding: 15px 20px;
-            border-radius: 8px;
-            border-left: 4px solid #4fc3f7;
+        .details-table td {
+            padding: 8px 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
         }
 
-        .result-item .label {
+        .details-table td:first-child {
             color: #90caf9;
-            font-size: 0.85rem;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            white-space: nowrap;
+            width: 1%;
+            padding-right: 24px;
         }
 
-        .result-item .value {
-            font-size: 1.1rem;
+        .details-table td:last-child {
             font-family: 'Consolas', 'Monaco', monospace;
             color: #fff;
             word-break: break-all;
+        }
+
+        .details-table tr:last-child td {
+            border-bottom: none;
         }
 
         .error-alert {
@@ -449,6 +449,16 @@
             transform: translateY(0);
         }
 
+        .export-btn.copy-flash {
+            animation: copyFlash 1s ease;
+        }
+
+        @keyframes copyFlash {
+            0% { box-shadow: 0 0 0 0 rgba(102, 187, 106, 0.7); }
+            30% { box-shadow: 0 0 12px 4px rgba(102, 187, 106, 0.5); background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%); }
+            100% { box-shadow: 0 0 0 0 rgba(102, 187, 106, 0); }
+        }
+
         .section-header {
             display: flex;
             justify-content: space-between;
@@ -601,42 +611,23 @@
         <div class="results" id="results" role="region" aria-live="polite" aria-label="IPv6 subnet calculation results">
             <div class="section-header">
                 <h2 data-i18n="tools.subnetCalculator.subnetDetails">Subnet Details</h2>
-                <button type="button" class="export-btn" onclick="exportSubnetDetailsToCSV()" aria-label="Export IPv6 subnet details to CSV file" data-i18n="common.exportToCSV">Export to CSV</button>
-            </div>
-            <div class="results-grid">
-                <div class="result-item">
-                    <div class="label" data-i18n="tools.subnetCalculatorIPv6.networkCompressed">Network Address (Compressed)</div>
-                    <div class="value" id="networkCompressed">-</div>
-                </div>
-                <div class="result-item">
-                    <div class="label" data-i18n="tools.subnetCalculatorIPv6.networkExpanded">Network Address (Expanded)</div>
-                    <div class="value" id="networkExpanded">-</div>
-                </div>
-                <div class="result-item">
-                    <div class="label" data-i18n="tools.subnetCalculator.firstHost">First Address</div>
-                    <div class="value" id="firstAddress">-</div>
-                </div>
-                <div class="result-item">
-                    <div class="label" data-i18n="tools.subnetCalculator.lastHost">Last Address</div>
-                    <div class="value" id="lastAddress">-</div>
-                </div>
-                <div class="result-item">
-                    <div class="label" data-i18n="tools.subnetCalculator.cidrNotation">Prefix</div>
-                    <div class="value" id="prefix">-</div>
-                </div>
-                <div class="result-item">
-                    <div class="label" data-i18n="tools.subnetCalculator.totalHosts">Total Addresses</div>
-                    <div class="value" id="totalAddresses">-</div>
-                </div>
-                <div class="result-item">
-                    <div class="label" data-i18n="tools.subnetCalculator.ipClass">Address Type</div>
-                    <div class="value" id="addressType">-</div>
-                </div>
-                <div class="result-item">
-                    <div class="label" data-i18n="tools.subnetCalculatorIPv6.interfaceId">Interface ID</div>
-                    <div class="value" id="interfaceId">-</div>
+                <div>
+                    <button type="button" class="export-btn" onclick="copySubnetDetails()" aria-label="Copy IPv6 subnet details to clipboard" data-i18n="tools.subnetCalculator.copyResults" data-i18n-aria-label="tools.subnetCalculator.copyResultsAriaLabel">Copy Results</button>
+                    <button type="button" class="export-btn" onclick="exportSubnetDetailsToCSV()" aria-label="Export IPv6 subnet details to CSV file" data-i18n="common.exportToCSV">Export to CSV</button>
                 </div>
             </div>
+            <table class="details-table">
+                <tbody>
+                    <tr><td data-i18n="tools.subnetCalculatorIPv6.networkCompressed">Network (Compressed)</td><td id="networkCompressed">-</td></tr>
+                    <tr><td data-i18n="tools.subnetCalculatorIPv6.networkExpanded">Network (Expanded)</td><td id="networkExpanded">-</td></tr>
+                    <tr><td data-i18n="tools.subnetCalculator.firstHost">First Address</td><td id="firstAddress">-</td></tr>
+                    <tr><td data-i18n="tools.subnetCalculator.lastHost">Last Address</td><td id="lastAddress">-</td></tr>
+                    <tr><td data-i18n="tools.subnetCalculator.cidrNotation">Prefix</td><td id="prefix">-</td></tr>
+                    <tr><td data-i18n="tools.subnetCalculator.totalHosts">Total Addresses</td><td id="totalAddresses">-</td></tr>
+                    <tr><td data-i18n="tools.subnetCalculator.ipClass">Address Type</td><td id="addressType">-</td></tr>
+                    <tr><td data-i18n="tools.subnetCalculatorIPv6.interfaceId">Interface ID</td><td id="interfaceId">-</td></tr>
+                </tbody>
+            </table>
 
             <div class="hex-display">
                 <h3 data-i18n="tools.subnetCalculatorIPv6.hexRepresentation">Hexadecimal Representation</h3>
@@ -658,7 +649,10 @@
         <div class="subnet-list" id="subnetList" role="region" aria-label="All IPv6 subnets in network">
             <div class="section-header">
                 <h2 data-i18n="tools.subnetCalculator.allSubnets">All Subnets in Network</h2>
-                <button type="button" class="export-btn" onclick="exportSubnetListToCSV()" aria-label="Export IPv6 subnet list to CSV file" data-i18n="common.exportToCSV">Export to CSV</button>
+                <div>
+                    <button type="button" class="export-btn" onclick="copySubnetList()" aria-label="Copy IPv6 subnet list to clipboard" data-i18n="tools.subnetCalculator.copyResults" data-i18n-aria-label="tools.subnetCalculatorIPv6.copySubnetListAriaLabel">Copy Results</button>
+                    <button type="button" class="export-btn" onclick="exportSubnetListToCSV()" aria-label="Export IPv6 subnet list to CSV file" data-i18n="common.exportToCSV">Export to CSV</button>
+                </div>
             </div>
             <div class="warning" id="subnetWarning"></div>
             <div class="subnet-list-info" id="subnetListInfo"></div>
@@ -1077,6 +1071,54 @@
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+        }
+
+        function copySubnetDetails() {
+            const fields = [
+                ['Network (Compressed)', 'networkCompressed'],
+                ['Network (Expanded)', 'networkExpanded'],
+                ['First Address', 'firstAddress'],
+                ['Last Address', 'lastAddress'],
+                ['Prefix', 'prefix'],
+                ['Total Addresses', 'totalAddresses'],
+                ['Address Type', 'addressType'],
+                ['Interface ID', 'interfaceId']
+            ];
+            const lines = fields.map(([label, id]) => {
+                return label + ', ' + document.getElementById(id).textContent;
+            });
+            copyToClipboardWithFlash(lines.join('\n'), event.target);
+        }
+
+        function copySubnetList() {
+            const rows = document.getElementById('subnetTableBody').querySelectorAll('tr');
+            if (rows.length === 0) return;
+            const header = '#        Network Address                          Address Range                                                       Total Addresses';
+            const lines = [header];
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                const num = cells[0].textContent.trim();
+                const net = cells[1].textContent.trim();
+                const range = cells[2].textContent.trim();
+                const total = cells[3].textContent.trim();
+                lines.push(num.padEnd(9) + net.padEnd(41) + range.padEnd(60) + total);
+            });
+            copyToClipboardWithFlash(lines.join('\n'), event.target);
+        }
+
+        function copyToClipboardWithFlash(text, btn) {
+            navigator.clipboard.writeText(text).then(() => {
+                const original = btn.textContent;
+                btn.textContent = I18nUtils.t('common.copied', 'Copied!');
+                btn.classList.remove('copy-flash');
+                void btn.offsetWidth;
+                btn.classList.add('copy-flash');
+                A11yUtils.announce(I18nUtils.t('common.copiedToClipboard', 'Copied to clipboard'), 'polite');
+                setTimeout(() => {
+                    btn.textContent = original;
+                    btn.classList.remove('copy-flash');
+                }, 1500);
+            });
         }
 
         function exportSubnetDetailsToCSV() {
