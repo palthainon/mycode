@@ -48,17 +48,23 @@
             box-sizing: border-box;
         }
 
+        html {
+            overflow-x: hidden;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             min-height: 100vh;
             padding: 40px 20px;
             color: #fff;
+            overflow-x: hidden;
         }
 
         .container {
             max-width: 800px;
             margin: 0 auto;
+            overflow-x: hidden;
         }
 
         h1 {
@@ -327,6 +333,72 @@
                 text-align: center;
                 margin-bottom: 20px;
                 font-size: 0.5rem;
+            }
+
+            body {
+                padding: 20px 10px;
+            }
+
+            .calculator, .results, .subnet-list {
+                padding: 15px;
+                border-radius: 12px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .results {
+                overflow-x: auto;
+            }
+
+            .details-table {
+                display: block;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .details-table td:first-child {
+                white-space: nowrap;
+                padding-right: 12px;
+                font-size: 0.85rem;
+            }
+
+            .details-table td:last-child {
+                font-size: 0.8rem;
+                word-break: break-all;
+            }
+
+            .binary-item {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                font-size: 0.75rem;
+                white-space: nowrap;
+            }
+
+            .binary-item .bin-label {
+                width: auto;
+                display: block;
+                margin-bottom: 4px;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .subnet-table-container {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .subnet-table {
+                font-size: 0.8rem;
+            }
+
+            .subnet-table th, .subnet-table td {
+                padding: 8px 10px;
             }
         }
 
