@@ -521,9 +521,18 @@
                 <textarea
                     id="timestampInput"
                     class="timestamp-input"
-                    placeholder="2024-01-07T15:30:00Z&#10;Jan  7 15:30:00 router1 kernel: eth0 link up&#10;07/Jan/2024:15:30:00 +0000&#10;1704641400&#10;1/7/2024 3:30:00 PM"
+                    placeholder="Paste timestamps here, one per line..."
                     aria-required="true"
-                    aria-describedby="timestamp-help char-counter"></textarea>
+                    aria-describedby="timestamp-help char-counter">2024-01-07T15:30:00Z
+2024-01-07T15:30:00.123+00:00
+Jan  7 15:30:00 router1 kernel: eth0 link up
+Jan 15 08:45:22 switch1 %LINK-3-UPDOWN: Interface Gi0/1 changed state
+07/Jan/2024:15:30:00 +0000 GET /index.html 200
+1704641400
+1704641400000
+1/7/2024 3:30:00 PM Application started successfully
+Mon Jan 07 15:30:00 2024
+12/31/2025 11:59:59 PM New Year's Eve log entry</textarea>
                 <span id="timestamp-help" class="sr-only">Enter log timestamps in any format, one per line. Supports ISO 8601, Unix epoch, syslog, Apache, and custom formats</span>
                 <div class="char-counter" id="charCounter" aria-live="polite">0 lines | 0 characters</div>
             </div>
@@ -533,10 +542,11 @@
                 <div class="timezone-selectors" role="group" aria-labelledby="timezone-label">
                     <select id="tz1" aria-label="Additional timezone 1 for conversion">
                         <option value="">-- Timezone 1 --</option>
-                        <option value="America/New_York" data-i18n="tools.timestampConverter.timezones.usEastern">US Eastern</option>
+                        <option value="America/New_York" selected data-i18n="tools.timestampConverter.timezones.usEastern">US Eastern</option>
                         <option value="America/Chicago" data-i18n="tools.timestampConverter.timezones.usCentral">US Central</option>
                         <option value="America/Denver" data-i18n="tools.timestampConverter.timezones.usMountain">US Mountain</option>
                         <option value="America/Los_Angeles" data-i18n="tools.timestampConverter.timezones.usPacific">US Pacific</option>
+                        <option value="UTC">UTC</option>
                         <option value="Europe/London" data-i18n="tools.timestampConverter.timezones.london">London (GMT/BST)</option>
                         <option value="Europe/Paris" data-i18n="tools.timestampConverter.timezones.paris">Paris (CET/CEST)</option>
                         <option value="Europe/Berlin" data-i18n="tools.timestampConverter.timezones.berlin">Berlin (CET/CEST)</option>
@@ -553,6 +563,7 @@
                         <option value="America/Chicago" data-i18n="tools.timestampConverter.timezones.usCentral">US Central</option>
                         <option value="America/Denver" data-i18n="tools.timestampConverter.timezones.usMountain">US Mountain</option>
                         <option value="America/Los_Angeles" data-i18n="tools.timestampConverter.timezones.usPacific">US Pacific</option>
+                        <option value="UTC" selected>UTC</option>
                         <option value="Europe/London" data-i18n="tools.timestampConverter.timezones.london">London (GMT/BST)</option>
                         <option value="Europe/Paris" data-i18n="tools.timestampConverter.timezones.paris">Paris (CET/CEST)</option>
                         <option value="Europe/Berlin" data-i18n="tools.timestampConverter.timezones.berlin">Berlin (CET/CEST)</option>
@@ -568,7 +579,8 @@
                         <option value="America/New_York" data-i18n="tools.timestampConverter.timezones.usEastern">US Eastern</option>
                         <option value="America/Chicago" data-i18n="tools.timestampConverter.timezones.usCentral">US Central</option>
                         <option value="America/Denver" data-i18n="tools.timestampConverter.timezones.usMountain">US Mountain</option>
-                        <option value="America/Los_Angeles" data-i18n="tools.timestampConverter.timezones.usPacific">US Pacific</option>
+                        <option value="America/Los_Angeles" selected data-i18n="tools.timestampConverter.timezones.usPacific">US Pacific</option>
+                        <option value="UTC">UTC</option>
                         <option value="Europe/London" data-i18n="tools.timestampConverter.timezones.london">London (GMT/BST)</option>
                         <option value="Europe/Paris" data-i18n="tools.timestampConverter.timezones.paris">Paris (CET/CEST)</option>
                         <option value="Europe/Berlin" data-i18n="tools.timestampConverter.timezones.berlin">Berlin (CET/CEST)</option>
@@ -1071,25 +1083,19 @@ Mon Jan 07 15:30:00 2024
 
         function clearAllSavedData() {
             StorageUtils.remove('timestamp-converter');
-            // Reset to defaults
-            document.getElementById('timestampInput').value = '';
-            document.getElementById('tz1').selectedIndex = 0;
-            document.getElementById('tz2').selectedIndex = 0;
-            document.getElementById('tz3').selectedIndex = 0;
+            // Restore default sample data and timezones
+            loadSampleData();
+            document.getElementById('tz1').value = 'America/New_York';
+            document.getElementById('tz2').value = 'UTC';
+            document.getElementById('tz3').value = 'America/Los_Angeles';
             // Clear results
             document.getElementById('results').classList.remove('show');
-            updateCharCounter();
             A11yUtils.announce('All saved data has been cleared', 'polite');
         }
 
         document.addEventListener('DOMContentLoaded', function() {
             StorageUtils.loadFormInputs('timestamp-converter', timestampConverterFields, function() {
-                // After loading, update char counter
                 updateCharCounter();
-                // If no saved data, pre-populate with sample timestamps so users can click Convert right away
-                if (!document.getElementById('timestampInput').value.trim()) {
-                    loadSampleData();
-                }
             });
             StorageUtils.autoSaveFormInputs('timestamp-converter', timestampConverterFields);
         });
