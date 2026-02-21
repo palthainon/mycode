@@ -532,21 +532,27 @@
             </div>
 
             <div class="presets-section">
-                <label class="presets-label" id="presets-label" data-i18n="tools.regexTester.presets.title">Common Network Patterns</label>
+                <label class="presets-label" id="presets-label" data-i18n="tools.regexTester.presets.title">Quick Patterns</label>
                 <div class="presets-grid" role="group" aria-labelledby="presets-label">
-                    <button type="button" class="preset-btn" data-pattern="^.*$" data-flags="" aria-label="Apply pattern to match entire line" data-i18n="tools.regexTester.presets.entireLine">Entire Line</button>
+                    <button type="button" class="preset-btn" data-pattern="\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b" data-flags="g" aria-label="Apply pattern to match IPv4 addresses" data-i18n="tools.regexTester.presets.ipv4">IPv4 Address</button>
+                    <button type="button" class="preset-btn" data-pattern="\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\/(?:[0-9]|[12][0-9]|3[0-2])\b" data-flags="g" data-i18n="tools.regexTester.presets.ipv4Cidr">IPv4 CIDR</button>
+                    <button type="button" class="preset-btn" data-pattern="(?:[0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4}|(?:[0-9A-Fa-f]{1,4}:){1,7}:|::(?:[0-9A-Fa-f]{1,4}:){0,6}[0-9A-Fa-f]{1,4}|::1" data-flags="g" aria-label="Apply pattern to match IPv6 addresses">IPv6 Address</button>
                     <button type="button" class="preset-btn" data-pattern="([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}" data-flags="g" aria-label="Apply pattern to match MAC addresses with colon separators" data-i18n="tools.regexTester.presets.macColon">MAC (colon)</button>
                     <button type="button" class="preset-btn" data-pattern="([0-9A-Fa-f]{2}-){5}[0-9A-Fa-f]{2}" data-flags="g" data-i18n="tools.regexTester.presets.macDash">MAC (dash)</button>
                     <button type="button" class="preset-btn" data-pattern="([0-9A-Fa-f]{4}\.){2}[0-9A-Fa-f]{4}" data-flags="g" data-i18n="tools.regexTester.presets.macDot">MAC (dot)</button>
-                    <button type="button" class="preset-btn" data-pattern="([0-9A-Fa-f]{4}:){2}[0-9A-Fa-f]{4}" data-flags="g" data-i18n="tools.regexTester.presets.mac4digit">MAC (4-digit)</button>
                     <button type="button" class="preset-btn" data-pattern="([0-9A-Fa-f]{2}[:-]){5}[0-9A-Fa-f]{2}|([0-9A-Fa-f]{4}\.){2}[0-9A-Fa-f]{4}" data-flags="g" data-i18n="tools.regexTester.presets.macAny">MAC (any)</button>
-                    <button type="button" class="preset-btn" data-pattern="\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b" data-flags="g" data-i18n="tools.regexTester.presets.ipv4">IPv4</button>
-                    <button type="button" class="preset-btn" data-pattern="\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\/(?:[0-9]|[12][0-9]|3[0-2])\b" data-flags="g" data-i18n="tools.regexTester.presets.ipv4Cidr">IPv4 CIDR</button>
+                    <button type="button" class="preset-btn" data-pattern="\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b" data-flags="g" aria-label="Apply pattern to match email addresses">Email Address</button>
+                    <button type="button" class="preset-btn" data-pattern="https?://[^\s/$.?#][^\s]*" data-flags="g" aria-label="Apply pattern to match HTTP and HTTPS URLs">URL (http/https)</button>
+                    <button type="button" class="preset-btn" data-pattern="[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}" data-flags="gi" aria-label="Apply pattern to match UUID/GUID values">UUID / GUID</button>
+                    <button type="button" class="preset-btn" data-pattern="\b(ERROR|WARN(?:ING)?|INFO|DEBUG|CRITICAL|FATAL)\b" data-flags="g" aria-label="Apply pattern to match log severity levels">Log Level</button>
+                    <button type="button" class="preset-btn" data-pattern="\b[1-5][0-9]{2}\b" data-flags="g" aria-label="Apply pattern to match HTTP status codes">HTTP Status</button>
+                    <button type="button" class="preset-btn" data-pattern="\+?1?[\s.-]?\(?[0-9]{3}\)?[\s.-]?[0-9]{3}[\s.-]?[0-9]{4}" data-flags="g" aria-label="Apply pattern to match US phone numbers">Phone (US)</button>
+                    <button type="button" class="preset-btn" data-pattern="\bAS[0-9]{1,10}\b" data-flags="gi" aria-label="Apply pattern to match BGP autonomous system numbers">AS Number</button>
                     <button type="button" class="preset-btn" data-pattern="\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\s+(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b" data-flags="g" data-i18n="tools.regexTester.presets.ipMask">IP + Mask</button>
                     <button type="button" class="preset-btn" data-pattern="\bvlan\s*(\d{1,4})\b" data-flags="gi" data-i18n="tools.regexTester.presets.vlanId">VLAN ID</button>
                     <button type="button" class="preset-btn" data-pattern="\b(?:Ethernet|FastEthernet|GigabitEthernet|eth|ge|fe)\s*[\d/]+" data-flags="gi" data-i18n="tools.regexTester.presets.interface">Interface</button>
-                    <button type="button" class="preset-btn" data-pattern="\s+" data-flags="g" data-i18n="tools.regexTester.presets.allSpaces">All Spaces</button>
                     <button type="button" class="preset-btn" data-pattern="^\s*$" data-flags="gm" data-i18n="tools.regexTester.presets.blankLines">Blank Lines</button>
+                    <button type="button" class="preset-btn" data-pattern="^.*$" data-flags="gm" aria-label="Apply pattern to match each line" data-i18n="tools.regexTester.presets.entireLine">Every Line</button>
                 </div>
             </div>
 
@@ -840,27 +846,43 @@
             const sample = `interface GigabitEthernet0/1
  description Uplink to Core Switch
  ip address 192.168.1.1 255.255.255.0
+ ipv6 address 2001:db8::1/64
  mac-address 00:1A:2B:3C:4D:5E
  vlan 100
 
 interface FastEthernet0/2
  description Access Port
- ip address 192.168.2.1 255.255.255.0
+ ip address 10.0.0.254 255.255.255.0
  mac-address aa-bb-cc-dd-ee-ff
  vlan 200
 
-Jan 15 14:23:45 router1 %SYS-5-CONFIG_I: Configured from console
+Jan 15 14:23:45 router1 %SYS-5-CONFIG_I: Configured from console by admin
 Jan 15 14:24:12 switch1 %LINK-3-UPDOWN: Interface GigabitEthernet0/1, changed state to up
+2024-01-15T14:25:00Z ERROR: Connection timeout to 172.16.0.1 after 30s
+2024-01-15T14:25:01Z INFO: BGP session with AS65001 established via 203.0.113.1
+2024-01-15T14:25:02Z WARN: Interface FastEthernet0/2 utilization at 92%
+2024-01-15T14:25:03Z DEBUG: Received OSPF hello from 10.0.0.1 on GigabitEthernet0/1
+2024-01-15T14:25:04Z CRITICAL: Core temperature threshold exceeded
+
+User: admin@example.com logged in from 198.51.100.42:8080
+Failed login for user@company.org from 203.0.113.7 - HTTP 401 Unauthorized
+API call to https://api.example.com/v1/status returned 200 OK
+Redirect: https://oldweb.tech/tools
+
+Device UUID: f47ac10b-58cc-4372-a567-0e02b2c3d479
+Certificate SN: 3d6f-4a21-b9c0-1234-5678-90ab-cdef-0001
+Support hotline: +1 (555) 123-4567 | Backup: 800-555-0100
 
 Routing Table:
 10.0.0.0/8 via 192.168.1.254
 172.16.0.0/12 via 192.168.1.254
-192.168.0.0/16 is directly connected`;
+192.168.0.0/16 is directly connected
+2001:db8::/32 via fe80::1`;
 
             testInput.textContent = sample;
             clearHighlights();
             updateCharCounter();
-            A11yUtils.announce('Loaded sample network configuration data', 'polite');
+            A11yUtils.announce('Loaded sample data', 'polite');
         }
 
         // Form field IDs to persist
@@ -893,6 +915,18 @@ Routing Table:
         document.addEventListener('DOMContentLoaded', function() {
             StorageUtils.loadFormInputs('regex-tester', regexFormFields, function() {
                 updateCharCounter();
+                // If no saved data, pre-populate with sample data and a default pattern
+                const hasPattern = patternInput.value.trim();
+                const hasTestString = getPlainText().trim();
+                if (!hasPattern && !hasTestString) {
+                    loadSample();
+                    // Default to IPv4 pattern so users can click Test Pattern immediately
+                    patternInput.value = '\\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b';
+                    document.getElementById('flagG').checked = true;
+                    document.getElementById('flagI').checked = false;
+                    document.getElementById('flagM').checked = false;
+                    document.getElementById('flagS').checked = false;
+                }
             });
 
             // Auto-save form inputs on change
