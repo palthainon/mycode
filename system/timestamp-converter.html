@@ -1086,6 +1086,10 @@ Mon Jan 07 15:30:00 2024
             StorageUtils.loadFormInputs('timestamp-converter', timestampConverterFields, function() {
                 // After loading, update char counter
                 updateCharCounter();
+                // If no saved data, pre-populate with sample timestamps so users can click Convert right away
+                if (!document.getElementById('timestampInput').value.trim()) {
+                    loadSampleData();
+                }
             });
             StorageUtils.autoSaveFormInputs('timestamp-converter', timestampConverterFields);
         });
