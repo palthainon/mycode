@@ -927,8 +927,6 @@ Mon Jan 07 15:30:00 2024
             resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
             // Announce results
-            const validCount = resultsData.filter(r => !r.error).length;
-            const errorCount = resultsData.filter(r => r.error).length;
             let announcement = `Conversion complete. ${validCount} timestamp${validCount !== 1 ? 's' : ''} converted successfully`;
             if (errorCount > 0) {
                 announcement += `, ${errorCount} error${errorCount !== 1 ? 's' : ''}`;
