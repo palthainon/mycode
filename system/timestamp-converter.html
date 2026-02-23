@@ -543,6 +543,30 @@ Mon Jan 07 15:30:00 2024
             </div>
 
             <div class="input-group">
+                <label for="sourceTz">Source Timezone:</label>
+                <p class="help-text">Applies to formats without embedded timezone info (syslog, Windows event logs, common date strings). Unix epochs and ISO 8601 with offsets are unaffected.</p>
+                <div class="timezone-selectors">
+                    <select id="sourceTz" aria-label="Timezone of the input timestamps">
+                        <option value="">Local (browser)</option>
+                        <option value="UTC">UTC</option>
+                        <option value="America/New_York">US Eastern</option>
+                        <option value="America/Chicago">US Central</option>
+                        <option value="America/Denver">US Mountain</option>
+                        <option value="America/Los_Angeles">US Pacific</option>
+                        <option value="Europe/London">London (GMT/BST)</option>
+                        <option value="Europe/Paris">Paris (CET/CEST)</option>
+                        <option value="Europe/Berlin">Berlin (CET/CEST)</option>
+                        <option value="Asia/Tokyo">Tokyo (JST)</option>
+                        <option value="Asia/Shanghai">Shanghai (CST)</option>
+                        <option value="Asia/Dubai">Dubai (GST)</option>
+                        <option value="Asia/Singapore">Singapore (SGT)</option>
+                        <option value="Australia/Sydney">Sydney (AEST/AEDT)</option>
+                        <option value="Pacific/Auckland">Auckland (NZST/NZDT)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="input-group">
                 <label id="timezone-label">Additional Timezones (optional):</label>
                 <p class="help-text">Every conversion already shows UTC and your local time. Select additional timezones below to add extra columns to the results.</p>
                 <div class="timezone-selectors" role="group" aria-labelledby="timezone-label">
@@ -684,16 +708,69 @@ Mon Jan 07 15:30:00 2024
             }
         });
 
-        function detectAndParse(timestampStr) {
+        // Build a Date from calendar parts interpreted in a given IANA timezone.
+        // Uses only the browser's built-in Intl API — no library needed.
+        function dateInTimezone(year, month, day, hour, minute, second, tzName) {
+            // Start with a UTC guess
+            const utcGuess = new Date(Date.UTC(year, month, day, hour, minute, second));
+
+            // Ask the browser what the UTC offset is for that timezone at that moment
+            const formatter = new Intl.DateTimeFormat('en-US', {
+                timeZone: tzName,
+                year: 'numeric', month: '2-digit', day: '2-digit',
+                hour: '2-digit', minute: '2-digit', second: '2-digit',
+                hour12: false
+            });
+            const parts = formatter.formatToParts(utcGuess);
+            const get = (type) => parseInt(parts.find(p => p.type === type).value);
+            const tzYear = get('year');
+            const tzMonth = get('month') - 1;
+            const tzDay = get('day');
+            let tzHour = get('hour');
+            if (tzHour === 24) tzHour = 0;
+            const tzMinute = get('minute');
+            const tzSecond = get('second');
+
+            // Difference between what the tz shows and what we wanted
+            const tzRendered = Date.UTC(tzYear, tzMonth, tzDay, tzHour, tzMinute, tzSecond);
+            const utcTarget = Date.UTC(year, month, day, hour, minute, second);
+            const offsetMs = tzRendered - utcTarget;
+
+            // Adjust by the offset to get the correct UTC instant
+            return new Date(utcGuess.getTime() - offsetMs);
+        }
+
+        function detectAndParse(timestampStr, sourceTz) {
             const ts = timestampStr.trim();
             let match;
 
-            // ISO8601/RFC3339
-            match = ts.match(patterns.iso8601) || ts.match(patterns.iso8601_simple);
+            // ISO8601/RFC3339 with offset — unaffected by source timezone
+            match = ts.match(patterns.iso8601);
             if (match) {
                 const date = new Date(match[1]);
                 if (!isNaN(date.getTime())) {
                     return { format: 'ISO8601/RFC3339', date: date };
+                }
+            }
+
+            // ISO8601 without offset — apply source timezone
+            match = ts.match(patterns.iso8601_simple);
+            if (match) {
+                if (sourceTz) {
+                    const p = match[1].match(/(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})/);
+                    if (p) {
+                        const date = dateInTimezone(
+                            parseInt(p[1]), parseInt(p[2]) - 1, parseInt(p[3]),
+                            parseInt(p[4]), parseInt(p[5]), parseInt(p[6]), sourceTz
+                        );
+                        if (!isNaN(date.getTime())) {
+                            return { format: 'ISO8601 (no offset)', date: date };
+                        }
+                    }
+                }
+                const date = new Date(match[1]);
+                if (!isNaN(date.getTime())) {
+                    return { format: 'ISO8601 (no offset)', date: date };
                 }
             }
 
@@ -737,6 +814,22 @@ Mon Jan 07 15:30:00 2024
             // Windows Event Log
             match = ts.match(patterns.windows);
             if (match) {
+                if (sourceTz) {
+                    const wp = match[1].match(/(\d{1,2})\/(\d{1,2})\/(\d{4})\s+(\d{1,2}):(\d{2}):(\d{2})\s+(AM|PM)/i);
+                    if (wp) {
+                        let hour = parseInt(wp[4]);
+                        const isPM = wp[7].toUpperCase() === 'PM';
+                        if (isPM && hour !== 12) hour += 12;
+                        if (!isPM && hour === 12) hour = 0;
+                        const date = dateInTimezone(
+                            parseInt(wp[3]), parseInt(wp[1]) - 1, parseInt(wp[2]),
+                            hour, parseInt(wp[5]), parseInt(wp[6]), sourceTz
+                        );
+                        if (!isNaN(date.getTime())) {
+                            return { format: 'Windows Event Log', date: date };
+                        }
+                    }
+                }
                 const date = new Date(match[1]);
                 if (!isNaN(date.getTime())) {
                     return { format: 'Windows Event Log', date: date };
@@ -752,8 +845,11 @@ Mon Jan 07 15:30:00 2024
                     const monthNum = monthMap[month];
                     if (monthNum !== undefined) {
                         const currentYear = new Date().getFullYear();
-                        const date = new Date(currentYear, monthNum, parseInt(day),
-                            parseInt(hour), parseInt(minute), parseInt(second));
+                        const date = sourceTz
+                            ? dateInTimezone(currentYear, monthNum, parseInt(day),
+                                parseInt(hour), parseInt(minute), parseInt(second), sourceTz)
+                            : new Date(currentYear, monthNum, parseInt(day),
+                                parseInt(hour), parseInt(minute), parseInt(second));
                         return {
                             format: 'Syslog (assumed year: ' + currentYear + ')',
                             date: date
@@ -765,6 +861,21 @@ Mon Jan 07 15:30:00 2024
             // Common date string format
             match = ts.match(patterns.commonDate);
             if (match) {
+                if (sourceTz) {
+                    const cp = match[1].match(/[A-Za-z]{3}\s+([A-Za-z]{3})\s+(\d{1,2})\s+(\d{2}):(\d{2}):(\d{2})\s+(\d{4})/);
+                    if (cp) {
+                        const cMonthNum = monthMap[cp[1]];
+                        if (cMonthNum !== undefined) {
+                            const date = dateInTimezone(
+                                parseInt(cp[6]), cMonthNum, parseInt(cp[2]),
+                                parseInt(cp[3]), parseInt(cp[4]), parseInt(cp[5]), sourceTz
+                            );
+                            if (!isNaN(date.getTime())) {
+                                return { format: 'Common Date String', date: date };
+                            }
+                        }
+                    }
+                }
                 const date = new Date(match[1]);
                 if (!isNaN(date.getTime())) {
                     return { format: 'Common Date String', date: date };
@@ -772,6 +883,20 @@ Mon Jan 07 15:30:00 2024
             }
 
             // Try generic Date parsing as last resort
+            if (sourceTz) {
+                const fallback = new Date(ts);
+                if (!isNaN(fallback.getTime()) && ts.length > 8) {
+                    // Re-interpret: get the local-time components the browser parsed,
+                    // then re-anchor them in the source timezone
+                    const date = dateInTimezone(
+                        fallback.getFullYear(), fallback.getMonth(), fallback.getDate(),
+                        fallback.getHours(), fallback.getMinutes(), fallback.getSeconds(), sourceTz
+                    );
+                    if (!isNaN(date.getTime())) {
+                        return { format: 'Generic Date', date: date };
+                    }
+                }
+            }
             const date = new Date(ts);
             if (!isNaN(date.getTime()) && ts.length > 8) {
                 return { format: 'Generic Date', date: date };
@@ -797,8 +922,10 @@ Mon Jan 07 15:30:00 2024
                 showError(`Processing first ${maxLines} of ${lines.length} timestamps (max limit reached)`);
             }
 
+            const sourceTz = document.getElementById('sourceTz').value || '';
+
             resultsData = processLines.map((line, index) => {
-                const detection = detectAndParse(line);
+                const detection = detectAndParse(line, sourceTz);
                 if (detection.date && !isNaN(detection.date.getTime())) {
                     return {
                         index: index + 1,
@@ -1080,12 +1207,13 @@ Mon Jan 07 15:30:00 2024
         }
 
         // localStorage persistence
-        const timestampConverterFields = ['timestampInput', 'tz1', 'tz2', 'tz3'];
+        const timestampConverterFields = ['timestampInput', 'sourceTz', 'tz1', 'tz2', 'tz3'];
 
         function clearAllSavedData() {
             try { if (typeof StorageUtils !== 'undefined') StorageUtils.remove('timestamp-converter'); } catch(e) {}
             // Reset to defaults
             document.getElementById('timestampInput').value = '';
+            document.getElementById('sourceTz').value = '';
             document.getElementById('tz1').value = 'America/New_York';
             document.getElementById('tz2').value = 'UTC';
             document.getElementById('tz3').value = '';
