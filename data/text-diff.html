@@ -36,7 +36,7 @@
     <link rel="stylesheet" href="../a11y.css">
     <script src="../a11y-utils.js"></script>
     <script src="../storage-utils.js"></script>
-    <script src="../i18n-utils.js"></script>
+
     <script src="../navigationv2.js"></script>
     <style>
         * {
@@ -537,7 +537,7 @@
     </script>
 </head>
 <body>
-    <a href="#main-content" class="skip-link" data-i18n="common.skipToContent">Skip to main content</a>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
 
     <div class="ascii-logo" aria-hidden="true">  ___  _     _  __        __   _
  / _ \| | __| | \ \      / /__| |__
@@ -547,23 +547,23 @@
 </div>
 
     <main id="main-content" class="container">
-        <h1 data-i18n="tools.textDiff.title">Text Diff Tool</h1>
-        <p class="subtitle" data-i18n="tools.textDiff.subtitle">Compare text and highlight differences</p>
+        <h1>Text Diff Tool</h1>
+        <p class="subtitle">Compare text and highlight differences</p>
 
         <!-- Stats Section -->
         <div class="stats-section" id="statsSection" role="region" aria-label="Comparison statistics" aria-live="polite">
             <div class="stats-grid">
                 <div class="stat-item">
                     <div class="stat-value added" id="linesAdded">0</div>
-                    <div class="stat-label" data-i18n="tools.textDiff.results.additions">Added</div>
+                    <div class="stat-label">Added</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-value removed" id="linesRemoved">0</div>
-                    <div class="stat-label" data-i18n="tools.textDiff.results.deletions">Removed</div>
+                    <div class="stat-label">Removed</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-value" id="linesUnchanged">0</div>
-                    <div class="stat-label" data-i18n="tools.textDiff.results.unchanged">Unchanged</div>
+                    <div class="stat-label">Unchanged</div>
                 </div>
             </div>
         </div>
@@ -574,14 +574,13 @@
                 <div class="text-panels">
                     <div class="panel-group">
                         <div class="panel-header">
-                            <label for="leftPanel" data-i18n="tools.textDiff.labels.originalText">Original Text</label>
+                            <label for="leftPanel">Original Text</label>
                             <span class="panel-status" id="leftStatus" role="status" aria-live="polite"></span>
                         </div>
                         <div class="text-panel"
                              id="leftPanel"
                              contenteditable="true"
                              data-placeholder="Paste or type your original text here..."
-                             data-i18n-placeholder="tools.textDiff.placeholders.original"
                              role="textbox"
                              aria-label="Original text input"
                              aria-multiline="true"
@@ -598,14 +597,13 @@ Passed by Congress March 22, 1972. Ratification deadline: March 22, 1979 (extend
                     </div>
                     <div class="panel-group">
                         <div class="panel-header">
-                            <label for="rightPanel" data-i18n="tools.textDiff.labels.modifiedText">Modified Text</label>
+                            <label for="rightPanel">Modified Text</label>
                             <span class="panel-status" id="rightStatus" role="status" aria-live="polite"></span>
                         </div>
                         <div class="text-panel"
                              id="rightPanel"
                              contenteditable="true"
                              data-placeholder="Paste or type your modified text here..."
-                             data-i18n-placeholder="tools.textDiff.placeholders.modified"
                              role="textbox"
                              aria-label="Modified text input"
                              aria-multiline="true"
@@ -641,42 +639,42 @@ Passed by Congress March 22, 1972. Ratification deadline extended to June 30, 19
                 <div class="options" role="group" aria-label="Comparison options">
                     <div class="option-group">
                         <input type="checkbox" id="syncScroll" name="syncScroll" checked aria-describedby="syncScroll-help">
-                        <label for="syncScroll" data-i18n="tools.textDiff.labels.syncScroll">Sync Scroll</label>
+                        <label for="syncScroll">Sync Scroll</label>
                         <span id="syncScroll-help" class="sr-only">When enabled, both panels scroll together</span>
                     </div>
                     <div class="option-group">
                         <input type="checkbox" id="ignoreWhitespace" name="ignoreWhitespace" aria-describedby="ignoreWhitespace-help">
-                        <label for="ignoreWhitespace" data-i18n="tools.textDiff.labels.ignoreWhitespace">Ignore Whitespace</label>
+                        <label for="ignoreWhitespace">Ignore Whitespace</label>
                         <span id="ignoreWhitespace-help" class="sr-only">When enabled, whitespace differences are ignored during comparison</span>
                     </div>
                     <div class="option-group">
                         <input type="checkbox" id="ignoreCase" name="ignoreCase" aria-describedby="ignoreCase-help">
-                        <label for="ignoreCase" data-i18n="tools.textDiff.labels.ignoreCase">Ignore Case</label>
+                        <label for="ignoreCase">Ignore Case</label>
                         <span id="ignoreCase-help" class="sr-only">When enabled, uppercase and lowercase differences are ignored</span>
                     </div>
                     <div class="option-group">
                         <input type="checkbox" id="trimLines" name="trimLines" aria-describedby="trimLines-help">
-                        <label for="trimLines" data-i18n="tools.textDiff.labels.trimLines">Trim Lines</label>
+                        <label for="trimLines">Trim Lines</label>
                         <span id="trimLines-help" class="sr-only">When enabled, leading and trailing whitespace on each line is removed before comparison</span>
                     </div>
                     <div class="option-group">
                         <input type="checkbox" id="showChangesOnly" name="showChangesOnly" aria-describedby="showChangesOnly-help">
-                        <label for="showChangesOnly" data-i18n="tools.textDiff.labels.changesOnly">Changes Only</label>
+                        <label for="showChangesOnly">Changes Only</label>
                         <span id="showChangesOnly-help" class="sr-only">When enabled, only changed lines are shown, hiding unchanged content</span>
                     </div>
                 </div>
 
                 <div class="button-group" role="group" aria-label="Actions">
-                    <button type="button" class="btn" onclick="compareDiff()" aria-label="Compare the two texts and show differences" data-i18n="buttons.compare">
+                    <button type="button" class="btn" onclick="compareDiff()" aria-label="Compare the two texts and show differences">
                         Compare
                     </button>
-                    <button type="button" class="btn secondary" onclick="copyResults()" id="copyBtn" style="display: none;" aria-label="Copy diff results to clipboard" data-i18n="common.copy">
+                    <button type="button" class="btn secondary" onclick="copyResults()" id="copyBtn" style="display: none;" aria-label="Copy diff results to clipboard">
                         Copy Results
                     </button>
                     <button type="button" class="btn tertiary" onclick="editMode()" id="editBtn" style="display: none;" aria-label="Return to edit mode to make changes">
                         Edit
                     </button>
-                    <button type="button" class="btn tertiary" onclick="clearAll()" aria-label="Clear all text inputs and comparison results" data-i18n="common.clear">
+                    <button type="button" class="btn tertiary" onclick="clearAll()" aria-label="Clear all text inputs and comparison results">
                         Clear All
                     </button>
                 </div>
@@ -684,7 +682,7 @@ Passed by Congress March 22, 1972. Ratification deadline extended to June 30, 19
         </div>
 
         <footer role="contentinfo">
-            <span data-i18n="tools.textDiff.title">Text Diff Tool</span> - <span data-i18n="common.worksOffline">Works offline, no installation required</span>
+            <span>Text Diff Tool</span> - <span>Works offline, no installation required</span>
         </footer>
     </main>
 

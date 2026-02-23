@@ -36,7 +36,6 @@
     <link rel="stylesheet" href="../a11y.css">
     <script src="../a11y-utils.js"></script>
     <script src="../storage-utils.js"></script>
-    <script src="../i18n-utils.js"></script>
     <script src="../navigationv2.js"></script>
     <style>
         * {
@@ -679,7 +678,7 @@
     </script>
 </head>
 <body>
-    <a href="#main-content" class="skip-link" data-i18n="common.skipToContent">Skip to main content</a>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <div class="ascii-logo" aria-hidden="true">  ___  _    _  __        __   _
  / _ \| | _| | \ \      / /__| |__
 | | | | |/ _` | \ \ /\ / / _ \ '_ \
@@ -687,15 +686,15 @@
  \___/|_|\__,_|   \_/\_/ \___|_.__/
 </div>
     <main id="main-content" class="container">
-        <h1 data-i18n="tools.iopsCalc.title">IOPS Calculator</h1>
-        <p class="subtitle" data-i18n="tools.iopsCalc.subtitle">Estimate storage read/write IOPS for on-premises and cloud disks</p>
+        <h1>IOPS Calculator</h1>
+        <p class="subtitle">Estimate storage read/write IOPS for on-premises and cloud disks</p>
 
         <div class="calculator">
             <div class="tabs" role="tablist" aria-label="Storage platform tabs">
-                <button type="button" class="tab-btn active" onclick="switchTab('onprem')" role="tab" aria-selected="true" aria-controls="onprem-tab" id="tab-onprem" data-i18n="tools.iopsCalc.tabs.onprem">On-Premises</button>
-                <button type="button" class="tab-btn" onclick="switchTab('aws')" role="tab" aria-selected="false" aria-controls="aws-tab" id="tab-aws" data-i18n="tools.iopsCalc.tabs.aws">AWS EBS</button>
-                <button type="button" class="tab-btn" onclick="switchTab('azure')" role="tab" aria-selected="false" aria-controls="azure-tab" id="tab-azure" data-i18n="tools.iopsCalc.tabs.azure">Azure Disks</button>
-                <button type="button" class="tab-btn" onclick="switchTab('gcp')" role="tab" aria-selected="false" aria-controls="gcp-tab" id="tab-gcp" data-i18n="tools.iopsCalc.tabs.gcp">Google Cloud PD</button>
+                <button type="button" class="tab-btn active" onclick="switchTab('onprem')" role="tab" aria-selected="true" aria-controls="onprem-tab" id="tab-onprem">On-Premises</button>
+                <button type="button" class="tab-btn" onclick="switchTab('aws')" role="tab" aria-selected="false" aria-controls="aws-tab" id="tab-aws">AWS EBS</button>
+                <button type="button" class="tab-btn" onclick="switchTab('azure')" role="tab" aria-selected="false" aria-controls="azure-tab" id="tab-azure">Azure Disks</button>
+                <button type="button" class="tab-btn" onclick="switchTab('gcp')" role="tab" aria-selected="false" aria-controls="gcp-tab" id="tab-gcp">Google Cloud PD</button>
             </div>
 
             <!-- ==================== ON-PREMISES TAB ==================== -->
@@ -705,23 +704,23 @@
                     <div class="input-group">
                         <div class="input-row">
                             <div class="input-field">
-                                <label for="onprem-disk-type" data-i18n="tools.iopsCalc.labels.diskType">Disk Type</label>
+                                <label for="onprem-disk-type">Disk Type</label>
                                 <select id="onprem-disk-type">
-                                    <option value="hdd7200" data-i18n="tools.iopsCalc.diskTypes.hdd7200">HDD 7,200 RPM (~75-100 IOPS)</option>
-                                    <option value="hdd10k" data-i18n="tools.iopsCalc.diskTypes.hdd10k">HDD 10,000 RPM (~125-150 IOPS)</option>
-                                    <option value="hdd15k" data-i18n="tools.iopsCalc.diskTypes.hdd15k">HDD 15,000 RPM (~175-210 IOPS)</option>
-                                    <option value="ssdSata" data-i18n="tools.iopsCalc.diskTypes.ssdSata">SSD SATA (~50,000 IOPS)</option>
-                                    <option value="ssdSas" data-i18n="tools.iopsCalc.diskTypes.ssdSas">SSD SAS (~90,000 IOPS)</option>
-                                    <option value="nvme" data-i18n="tools.iopsCalc.diskTypes.nvme">NVMe SSD (~300,000 IOPS)</option>
+                                    <option value="hdd7200">HDD 7,200 RPM (~75-100 IOPS)</option>
+                                    <option value="hdd10k">HDD 10,000 RPM (~125-150 IOPS)</option>
+                                    <option value="hdd15k">HDD 15,000 RPM (~175-210 IOPS)</option>
+                                    <option value="ssdSata">SSD SATA (~50,000 IOPS)</option>
+                                    <option value="ssdSas">SSD SAS (~90,000 IOPS)</option>
+                                    <option value="nvme">NVMe SSD (~300,000 IOPS)</option>
                                 </select>
                             </div>
                             <div class="input-field">
-                                <label for="onprem-num-disks" data-i18n="tools.iopsCalc.labels.numDisks">Number of Disks</label>
+                                <label for="onprem-num-disks">Number of Disks</label>
                                 <input type="number" id="onprem-num-disks" value="6" min="1" max="999" placeholder="6" aria-required="true">
                             </div>
                         </div>
                         <div class="input-field">
-                            <label for="onprem-raid" data-i18n="tools.iopsCalc.labels.raidLevel">RAID Level</label>
+                            <label for="onprem-raid">RAID Level</label>
                             <select id="onprem-raid">
                                 <option value="jbod">None / JBOD (No RAID)</option>
                                 <option value="0">RAID 0 - Striping</option>
@@ -735,17 +734,17 @@
 
                     <!-- R/W Slider -->
                     <div class="rw-slider-group">
-                        <label for="onprem-rw-slider" data-i18n="tools.iopsCalc.labels.rwRatio">Read / Write Ratio</label>
+                        <label for="onprem-rw-slider">Read / Write Ratio</label>
                         <div class="rw-slider-row">
                             <span class="rw-label" id="onprem-read-pct">Read 70%</span>
                             <input type="range" id="onprem-rw-slider" min="0" max="100" value="70" style="--val: 70%;" aria-label="Read percentage" oninput="updateRWSlider('onprem')">
                             <span class="rw-label" id="onprem-write-pct">Write 30%</span>
                         </div>
                         <div class="rw-presets">
-                            <button type="button" class="rw-preset-btn" onclick="setRWPreset('onprem', 100)" data-i18n="tools.iopsCalc.presets.readOnly">Read-Only</button>
-                            <button type="button" class="rw-preset-btn" onclick="setRWPreset('onprem', 70)" data-i18n="tools.iopsCalc.presets.mixed">Mixed 70/30</button>
-                            <button type="button" class="rw-preset-btn" onclick="setRWPreset('onprem', 50)" data-i18n="tools.iopsCalc.presets.balanced">Balanced 50/50</button>
-                            <button type="button" class="rw-preset-btn" onclick="setRWPreset('onprem', 20)" data-i18n="tools.iopsCalc.presets.writeHeavy">Write-Heavy</button>
+                            <button type="button" class="rw-preset-btn" onclick="setRWPreset('onprem', 100)">Read-Only</button>
+                            <button type="button" class="rw-preset-btn" onclick="setRWPreset('onprem', 70)">Mixed 70/30</button>
+                            <button type="button" class="rw-preset-btn" onclick="setRWPreset('onprem', 50)">Balanced 50/50</button>
+                            <button type="button" class="rw-preset-btn" onclick="setRWPreset('onprem', 20)">Write-Heavy</button>
                         </div>
                     </div>
 
@@ -755,19 +754,19 @@
                             <input type="checkbox" id="onprem-advanced-toggle" onchange="toggleAdvanced('onprem')">
                             <span class="toggle-slider"></span>
                         </label>
-                        <span class="advanced-label" data-i18n="tools.iopsCalc.labels.advancedMode">Advanced Mode</span>
+                        <span class="advanced-label">Advanced Mode</span>
                     </div>
 
                     <!-- Advanced fields -->
                     <div class="advanced-fields" id="onprem-advanced">
                         <div class="input-row">
                             <div class="input-field">
-                                <label for="onprem-custom-iops" data-i18n="tools.iopsCalc.labels.customIops">Custom IOPS per Disk</label>
+                                <label for="onprem-custom-iops">Custom IOPS per Disk</label>
                                 <input type="number" id="onprem-custom-iops" min="1" placeholder="Override disk type IOPS">
-                                <div class="help-text" data-i18n="tools.iopsCalc.help.customIops">Leave blank to use disk type default</div>
+                                <div class="help-text">Leave blank to use disk type default</div>
                             </div>
                             <div class="input-field">
-                                <label for="onprem-block-size" data-i18n="tools.iopsCalc.labels.blockSize">IO Block Size</label>
+                                <label for="onprem-block-size">IO Block Size</label>
                                 <select id="onprem-block-size">
                                     <option value="4096" selected>4 KB</option>
                                     <option value="8192">8 KB</option>
@@ -783,49 +782,49 @@
                         </div>
                         <div class="input-row">
                             <div class="input-field">
-                                <label for="onprem-cache-rate" data-i18n="tools.iopsCalc.labels.cacheHitRate">Cache Hit Rate (%)</label>
+                                <label for="onprem-cache-rate">Cache Hit Rate (%)</label>
                                 <input type="number" id="onprem-cache-rate" value="0" min="0" max="99" placeholder="0">
-                                <div class="help-text" data-i18n="tools.iopsCalc.help.cacheHitRate">Percentage of reads served from cache</div>
+                                <div class="help-text">Percentage of reads served from cache</div>
                             </div>
                             <div class="input-field">
-                                <label for="onprem-overhead" data-i18n="tools.iopsCalc.labels.controllerOverhead">Controller Overhead (%)</label>
+                                <label for="onprem-overhead">Controller Overhead (%)</label>
                                 <input type="number" id="onprem-overhead" value="10" min="0" max="50" placeholder="10">
-                                <div class="help-text" data-i18n="tools.iopsCalc.help.overhead">Typical: 5-15%</div>
+                                <div class="help-text">Typical: 5-15%</div>
                             </div>
                         </div>
                     </div>
 
                     <div class="button-row">
-                        <button type="submit" class="btn" data-i18n="common.calculate">Calculate</button>
-                        <button type="button" class="btn secondary" onclick="clearAllSavedData()" data-i18n="common.clearSavedData">Clear Saved Data</button>
+                        <button type="submit" class="btn">Calculate</button>
+                        <button type="button" class="btn secondary" onclick="clearAllSavedData()">Clear Saved Data</button>
                     </div>
                 </form>
 
                 <div class="results" id="onprem-results" aria-live="polite">
                     <div class="results-header">
-                        <div class="big-label" data-i18n="tools.iopsCalc.results.totalEffective">Total Effective IOPS</div>
+                        <div class="big-label">Total Effective IOPS</div>
                         <div class="big-number" id="onprem-total-iops">-</div>
                     </div>
                     <div class="results-grid">
                         <div class="result-card read">
-                            <div class="rc-label" data-i18n="tools.iopsCalc.results.readIops">Read IOPS</div>
+                            <div class="rc-label">Read IOPS</div>
                             <div class="rc-value" id="onprem-read-iops">-</div>
                         </div>
                         <div class="result-card write">
-                            <div class="rc-label" data-i18n="tools.iopsCalc.results.writeIops">Write IOPS</div>
+                            <div class="rc-label">Write IOPS</div>
                             <div class="rc-value" id="onprem-write-iops">-</div>
                         </div>
                         <div class="result-card throughput">
-                            <div class="rc-label" data-i18n="tools.iopsCalc.results.throughput">Throughput</div>
+                            <div class="rc-label">Throughput</div>
                             <div class="rc-value" id="onprem-throughput">-</div>
                         </div>
                         <div class="result-card">
-                            <div class="rc-label" data-i18n="tools.iopsCalc.results.rawIops">Raw Disk IOPS</div>
+                            <div class="rc-label">Raw Disk IOPS</div>
                             <div class="rc-value" id="onprem-raw-iops">-</div>
                         </div>
                     </div>
                     <div id="onprem-info-boxes"></div>
-                    <button type="button" class="copy-results-btn" onclick="copyResults('onprem')" data-i18n="tools.iopsCalc.results.copyResults">Copy Results</button>
+                    <button type="button" class="copy-results-btn" onclick="copyResults('onprem')">Copy Results</button>
                 </div>
             </div>
 
@@ -835,7 +834,7 @@
                 <form aria-label="AWS EBS IOPS calculator" onsubmit="event.preventDefault(); calculateAWS();">
                     <div class="input-group">
                         <div class="input-field">
-                            <label for="aws-volume-type" data-i18n="tools.iopsCalc.labels.volumeType">Volume Type</label>
+                            <label for="aws-volume-type">Volume Type</label>
                             <select id="aws-volume-type" onchange="awsVolumeTypeChanged()">
                                 <option value="gp3">gp3 - General Purpose SSD</option>
                                 <option value="gp2">gp2 - General Purpose SSD (prev gen)</option>
@@ -848,12 +847,12 @@
                         </div>
                         <div class="input-row">
                             <div class="input-field">
-                                <label for="aws-volume-size" data-i18n="tools.iopsCalc.labels.volumeSize">Volume Size (GiB)</label>
+                                <label for="aws-volume-size">Volume Size (GiB)</label>
                                 <input type="number" id="aws-volume-size" value="500" min="1" max="65536" placeholder="500" aria-required="true">
                                 <div class="help-text" id="aws-size-help">1 GiB - 16,384 GiB</div>
                             </div>
                             <div class="input-field" id="aws-piops-field">
-                                <label for="aws-piops" data-i18n="tools.iopsCalc.labels.provisionedIops">Provisioned IOPS</label>
+                                <label for="aws-piops">Provisioned IOPS</label>
                                 <input type="number" id="aws-piops" value="3000" min="3000" max="16000" placeholder="3000">
                                 <div class="help-text" id="aws-piops-help">3,000 - 16,000</div>
                             </div>
@@ -862,7 +861,7 @@
 
                     <!-- R/W Slider -->
                     <div class="rw-slider-group">
-                        <label for="aws-rw-slider" data-i18n="tools.iopsCalc.labels.rwRatio">Read / Write Ratio</label>
+                        <label for="aws-rw-slider">Read / Write Ratio</label>
                         <div class="rw-slider-row">
                             <span class="rw-label" id="aws-read-pct">Read 70%</span>
                             <input type="range" id="aws-rw-slider" min="0" max="100" value="70" style="--val: 70%;" aria-label="Read percentage" oninput="updateRWSlider('aws')">
@@ -882,17 +881,17 @@
                             <input type="checkbox" id="aws-advanced-toggle" onchange="toggleAdvanced('aws')">
                             <span class="toggle-slider"></span>
                         </label>
-                        <span class="advanced-label" data-i18n="tools.iopsCalc.labels.advancedMode">Advanced Mode</span>
+                        <span class="advanced-label">Advanced Mode</span>
                     </div>
 
                     <div class="advanced-fields" id="aws-advanced">
                         <div class="input-row">
                             <div class="input-field">
-                                <label for="aws-num-volumes" data-i18n="tools.iopsCalc.labels.numVolumes">Number of Volumes</label>
+                                <label for="aws-num-volumes">Number of Volumes</label>
                                 <input type="number" id="aws-num-volumes" value="1" min="1" max="100" placeholder="1">
                             </div>
                             <div class="input-field">
-                                <label for="aws-io-size" data-i18n="tools.iopsCalc.labels.avgIoSize">Average IO Size (KB)</label>
+                                <label for="aws-io-size">Average IO Size (KB)</label>
                                 <select id="aws-io-size">
                                     <option value="4">4 KB</option>
                                     <option value="8">8 KB</option>
@@ -907,36 +906,36 @@
                     </div>
 
                     <div class="button-row">
-                        <button type="submit" class="btn" data-i18n="common.calculate">Calculate</button>
-                        <button type="button" class="btn secondary" onclick="clearAllSavedData()" data-i18n="common.clearSavedData">Clear Saved Data</button>
+                        <button type="submit" class="btn">Calculate</button>
+                        <button type="button" class="btn secondary" onclick="clearAllSavedData()">Clear Saved Data</button>
                     </div>
                 </form>
 
                 <div class="results" id="aws-results" aria-live="polite">
                     <div class="results-header">
-                        <div class="big-label" data-i18n="tools.iopsCalc.results.totalEffective">Total Effective IOPS</div>
+                        <div class="big-label">Total Effective IOPS</div>
                         <div class="big-number" id="aws-total-iops">-</div>
                     </div>
                     <div class="results-grid">
                         <div class="result-card read">
-                            <div class="rc-label" data-i18n="tools.iopsCalc.results.readIops">Read IOPS</div>
+                            <div class="rc-label">Read IOPS</div>
                             <div class="rc-value" id="aws-read-iops">-</div>
                         </div>
                         <div class="result-card write">
-                            <div class="rc-label" data-i18n="tools.iopsCalc.results.writeIops">Write IOPS</div>
+                            <div class="rc-label">Write IOPS</div>
                             <div class="rc-value" id="aws-write-iops">-</div>
                         </div>
                         <div class="result-card throughput">
-                            <div class="rc-label" data-i18n="tools.iopsCalc.results.throughput">Throughput</div>
+                            <div class="rc-label">Throughput</div>
                             <div class="rc-value" id="aws-throughput">-</div>
                         </div>
                         <div class="result-card">
-                            <div class="rc-label" data-i18n="tools.iopsCalc.results.baselineIops">Baseline IOPS</div>
+                            <div class="rc-label">Baseline IOPS</div>
                             <div class="rc-value" id="aws-baseline-iops">-</div>
                         </div>
                     </div>
                     <div id="aws-info-boxes"></div>
-                    <button type="button" class="copy-results-btn" onclick="copyResults('aws')" data-i18n="tools.iopsCalc.results.copyResults">Copy Results</button>
+                    <button type="button" class="copy-results-btn" onclick="copyResults('aws')">Copy Results</button>
                 </div>
             </div>
 
@@ -946,7 +945,7 @@
                 <form aria-label="Azure Managed Disks IOPS calculator" onsubmit="event.preventDefault(); calculateAzure();">
                     <div class="input-group">
                         <div class="input-field">
-                            <label for="azure-disk-type" data-i18n="tools.iopsCalc.labels.azureDiskType">Disk Type</label>
+                            <label for="azure-disk-type">Disk Type</label>
                             <select id="azure-disk-type" onchange="azureDiskTypeChanged()">
                                 <option value="premiumv2">Premium SSD v2</option>
                                 <option value="premium" selected>Premium SSD</option>
@@ -957,7 +956,7 @@
                         </div>
                         <div class="input-row">
                             <div class="input-field" id="azure-tier-field">
-                                <label for="azure-tier" data-i18n="tools.iopsCalc.labels.diskTier">Disk Tier (Premium SSD)</label>
+                                <label for="azure-tier">Disk Tier (Premium SSD)</label>
                                 <select id="azure-tier" onchange="azureTierChanged()">
                                     <option value="P4">P4 - 32 GiB (120 IOPS)</option>
                                     <option value="P6">P6 - 64 GiB (240 IOPS)</option>
@@ -973,11 +972,11 @@
                                 </select>
                             </div>
                             <div class="input-field" id="azure-size-field" style="display:none;">
-                                <label for="azure-disk-size" data-i18n="tools.iopsCalc.labels.diskSize">Disk Size (GiB)</label>
+                                <label for="azure-disk-size">Disk Size (GiB)</label>
                                 <input type="number" id="azure-disk-size" value="256" min="1" max="65536" placeholder="256">
                             </div>
                             <div class="input-field" id="azure-piops-field" style="display:none;">
-                                <label for="azure-piops" data-i18n="tools.iopsCalc.labels.provisionedIops">Provisioned IOPS</label>
+                                <label for="azure-piops">Provisioned IOPS</label>
                                 <input type="number" id="azure-piops" value="3000" min="3000" max="80000" placeholder="3000">
                                 <div class="help-text" id="azure-piops-help">3,000 - 80,000</div>
                             </div>
@@ -986,7 +985,7 @@
 
                     <!-- R/W Slider -->
                     <div class="rw-slider-group">
-                        <label for="azure-rw-slider" data-i18n="tools.iopsCalc.labels.rwRatio">Read / Write Ratio</label>
+                        <label for="azure-rw-slider">Read / Write Ratio</label>
                         <div class="rw-slider-row">
                             <span class="rw-label" id="azure-read-pct">Read 70%</span>
                             <input type="range" id="azure-rw-slider" min="0" max="100" value="70" style="--val: 70%;" aria-label="Read percentage" oninput="updateRWSlider('azure')">
@@ -1006,17 +1005,17 @@
                             <input type="checkbox" id="azure-advanced-toggle" onchange="toggleAdvanced('azure')">
                             <span class="toggle-slider"></span>
                         </label>
-                        <span class="advanced-label" data-i18n="tools.iopsCalc.labels.advancedMode">Advanced Mode</span>
+                        <span class="advanced-label">Advanced Mode</span>
                     </div>
 
                     <div class="advanced-fields" id="azure-advanced">
                         <div class="input-row">
                             <div class="input-field">
-                                <label for="azure-num-disks" data-i18n="tools.iopsCalc.labels.numDisks">Number of Disks</label>
+                                <label for="azure-num-disks">Number of Disks</label>
                                 <input type="number" id="azure-num-disks" value="1" min="1" max="100" placeholder="1">
                             </div>
                             <div class="input-field">
-                                <label for="azure-caching" data-i18n="tools.iopsCalc.labels.hostCaching">Host Caching</label>
+                                <label for="azure-caching">Host Caching</label>
                                 <select id="azure-caching">
                                     <option value="none" selected>None</option>
                                     <option value="readonly">ReadOnly</option>
@@ -1027,36 +1026,36 @@
                     </div>
 
                     <div class="button-row">
-                        <button type="submit" class="btn" data-i18n="common.calculate">Calculate</button>
-                        <button type="button" class="btn secondary" onclick="clearAllSavedData()" data-i18n="common.clearSavedData">Clear Saved Data</button>
+                        <button type="submit" class="btn">Calculate</button>
+                        <button type="button" class="btn secondary" onclick="clearAllSavedData()">Clear Saved Data</button>
                     </div>
                 </form>
 
                 <div class="results" id="azure-results" aria-live="polite">
                     <div class="results-header">
-                        <div class="big-label" data-i18n="tools.iopsCalc.results.totalEffective">Total Effective IOPS</div>
+                        <div class="big-label">Total Effective IOPS</div>
                         <div class="big-number" id="azure-total-iops">-</div>
                     </div>
                     <div class="results-grid">
                         <div class="result-card read">
-                            <div class="rc-label" data-i18n="tools.iopsCalc.results.readIops">Read IOPS</div>
+                            <div class="rc-label">Read IOPS</div>
                             <div class="rc-value" id="azure-read-iops">-</div>
                         </div>
                         <div class="result-card write">
-                            <div class="rc-label" data-i18n="tools.iopsCalc.results.writeIops">Write IOPS</div>
+                            <div class="rc-label">Write IOPS</div>
                             <div class="rc-value" id="azure-write-iops">-</div>
                         </div>
                         <div class="result-card throughput">
-                            <div class="rc-label" data-i18n="tools.iopsCalc.results.throughput">Throughput</div>
+                            <div class="rc-label">Throughput</div>
                             <div class="rc-value" id="azure-throughput">-</div>
                         </div>
                         <div class="result-card">
-                            <div class="rc-label" data-i18n="tools.iopsCalc.results.maxIops">Max IOPS (Tier)</div>
+                            <div class="rc-label">Max IOPS (Tier)</div>
                             <div class="rc-value" id="azure-max-iops">-</div>
                         </div>
                     </div>
                     <div id="azure-info-boxes"></div>
-                    <button type="button" class="copy-results-btn" onclick="copyResults('azure')" data-i18n="tools.iopsCalc.results.copyResults">Copy Results</button>
+                    <button type="button" class="copy-results-btn" onclick="copyResults('azure')">Copy Results</button>
                 </div>
             </div>
 
@@ -1066,7 +1065,7 @@
                 <form aria-label="Google Cloud Persistent Disk IOPS calculator" onsubmit="event.preventDefault(); calculateGCP();">
                     <div class="input-group">
                         <div class="input-field">
-                            <label for="gcp-disk-type" data-i18n="tools.iopsCalc.labels.gcpDiskType">Disk Type</label>
+                            <label for="gcp-disk-type">Disk Type</label>
                             <select id="gcp-disk-type" onchange="gcpDiskTypeChanged()">
                                 <option value="pd-ssd" selected>pd-ssd - SSD Persistent Disk</option>
                                 <option value="pd-balanced">pd-balanced - Balanced Persistent Disk</option>
@@ -1076,11 +1075,11 @@
                         </div>
                         <div class="input-row">
                             <div class="input-field">
-                                <label for="gcp-disk-size" data-i18n="tools.iopsCalc.labels.diskSizeGB">Disk Size (GB)</label>
+                                <label for="gcp-disk-size">Disk Size (GB)</label>
                                 <input type="number" id="gcp-disk-size" value="500" min="10" max="65536" placeholder="500" aria-required="true">
                             </div>
                             <div class="input-field">
-                                <label for="gcp-vcpus" data-i18n="tools.iopsCalc.labels.vmVcpus">VM vCPU Count</label>
+                                <label for="gcp-vcpus">VM vCPU Count</label>
                                 <select id="gcp-vcpus">
                                     <option value="1">1 vCPU</option>
                                     <option value="2">2 vCPUs</option>
@@ -1095,7 +1094,7 @@
                             </div>
                         </div>
                         <div class="input-field" id="gcp-piops-field" style="display:none;">
-                            <label for="gcp-piops" data-i18n="tools.iopsCalc.labels.provisionedIops">Provisioned IOPS</label>
+                            <label for="gcp-piops">Provisioned IOPS</label>
                             <input type="number" id="gcp-piops" value="100000" min="10000" max="120000" placeholder="100000">
                             <div class="help-text">10,000 - 120,000 (pd-extreme)</div>
                         </div>
@@ -1103,7 +1102,7 @@
 
                     <!-- R/W Slider -->
                     <div class="rw-slider-group">
-                        <label for="gcp-rw-slider" data-i18n="tools.iopsCalc.labels.rwRatio">Read / Write Ratio</label>
+                        <label for="gcp-rw-slider">Read / Write Ratio</label>
                         <div class="rw-slider-row">
                             <span class="rw-label" id="gcp-read-pct">Read 70%</span>
                             <input type="range" id="gcp-rw-slider" min="0" max="100" value="70" style="--val: 70%;" aria-label="Read percentage" oninput="updateRWSlider('gcp')">
@@ -1123,17 +1122,17 @@
                             <input type="checkbox" id="gcp-advanced-toggle" onchange="toggleAdvanced('gcp')">
                             <span class="toggle-slider"></span>
                         </label>
-                        <span class="advanced-label" data-i18n="tools.iopsCalc.labels.advancedMode">Advanced Mode</span>
+                        <span class="advanced-label">Advanced Mode</span>
                     </div>
 
                     <div class="advanced-fields" id="gcp-advanced">
                         <div class="input-row">
                             <div class="input-field">
-                                <label for="gcp-num-disks" data-i18n="tools.iopsCalc.labels.numDisks">Number of Disks</label>
+                                <label for="gcp-num-disks">Number of Disks</label>
                                 <input type="number" id="gcp-num-disks" value="1" min="1" max="128" placeholder="1">
                             </div>
                             <div class="input-field">
-                                <label for="gcp-io-size" data-i18n="tools.iopsCalc.labels.avgIoSize">Average IO Size (KB)</label>
+                                <label for="gcp-io-size">Average IO Size (KB)</label>
                                 <select id="gcp-io-size">
                                     <option value="4" selected>4 KB</option>
                                     <option value="8">8 KB</option>
@@ -1147,43 +1146,43 @@
                     </div>
 
                     <div class="button-row">
-                        <button type="submit" class="btn" data-i18n="common.calculate">Calculate</button>
-                        <button type="button" class="btn secondary" onclick="clearAllSavedData()" data-i18n="common.clearSavedData">Clear Saved Data</button>
+                        <button type="submit" class="btn">Calculate</button>
+                        <button type="button" class="btn secondary" onclick="clearAllSavedData()">Clear Saved Data</button>
                     </div>
                 </form>
 
                 <div class="results" id="gcp-results" aria-live="polite">
                     <div class="results-header">
-                        <div class="big-label" data-i18n="tools.iopsCalc.results.totalEffective">Total Effective IOPS</div>
+                        <div class="big-label">Total Effective IOPS</div>
                         <div class="big-number" id="gcp-total-iops">-</div>
                     </div>
                     <div class="results-grid">
                         <div class="result-card read">
-                            <div class="rc-label" data-i18n="tools.iopsCalc.results.readIops">Read IOPS</div>
+                            <div class="rc-label">Read IOPS</div>
                             <div class="rc-value" id="gcp-read-iops">-</div>
                         </div>
                         <div class="result-card write">
-                            <div class="rc-label" data-i18n="tools.iopsCalc.results.writeIops">Write IOPS</div>
+                            <div class="rc-label">Write IOPS</div>
                             <div class="rc-value" id="gcp-write-iops">-</div>
                         </div>
                         <div class="result-card throughput">
-                            <div class="rc-label" data-i18n="tools.iopsCalc.results.throughput">Throughput</div>
+                            <div class="rc-label">Throughput</div>
                             <div class="rc-value" id="gcp-throughput">-</div>
                         </div>
                         <div class="result-card limit">
-                            <div class="rc-label" data-i18n="tools.iopsCalc.results.limitingFactor">Limiting Factor</div>
+                            <div class="rc-label">Limiting Factor</div>
                             <div class="rc-value" id="gcp-limiting-factor">-</div>
                         </div>
                     </div>
                     <div id="gcp-info-boxes"></div>
-                    <button type="button" class="copy-results-btn" onclick="copyResults('gcp')" data-i18n="tools.iopsCalc.results.copyResults">Copy Results</button>
+                    <button type="button" class="copy-results-btn" onclick="copyResults('gcp')">Copy Results</button>
                 </div>
             </div>
         </div>
     </main>
 
     <footer>
-        <p data-i18n="home.footer">OldWeb Tools - Works offline, no installation required</p>
+        <p>OldWeb Tools - Works offline, no installation required</p>
     </footer>
 
     <script>
@@ -1510,9 +1509,6 @@
     }
 
     function formatNumber(n) {
-        if (typeof I18nUtils !== 'undefined' && I18nUtils.isReady()) {
-            return I18nUtils.formatNumber(Math.round(n));
-        }
         return Math.round(n).toLocaleString();
     }
 
@@ -2220,10 +2216,6 @@
             }
         });
 
-        // Language change handler: re-translate copy buttons that might be in "Copied!" state
-        document.addEventListener('langchange', function() {
-            // No dynamic content besides results which are numbers
-        });
     });
     </script>
 </body>

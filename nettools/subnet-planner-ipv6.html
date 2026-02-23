@@ -34,7 +34,6 @@
     <link rel="stylesheet" href="../a11y.css">
     <script src="../a11y-utils.js"></script>
     <script src="../storage-utils.js"></script>
-    <script src="../i18n-utils.js"></script>
     <script src="../navigationv2.js"></script>
     <style>
         * {
@@ -840,7 +839,7 @@
     </script>
 </head>
 <body>
-    <a href="#main-content" class="skip-link" data-i18n="common.skipToContent">Skip to main content</a>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
 
     <div class="ascii-logo" aria-hidden="true">  ___  _     _  __        __   _
  / _ \| | __| | \ \      / /__| |__
@@ -850,7 +849,7 @@
 </div>
 
     <main id="main-content" class="container">
-        <h1 data-i18n="tools.subnetPlannerIPv6.title">IPv6 Subnet Planner</h1>
+        <h1>IPv6 Subnet Planner</h1>
         <div class="protocol-toggle-container">
             <a href="subnet-planner.html" class="protocol-toggle-link protocol-toggle-ipv4">← Switch to IPv4</a>
         </div>
@@ -860,7 +859,7 @@
             <form id="planner-form" aria-label="IPv6 Subnet Planner Configuration Form">
                 <div class="input-group">
                     <div class="input-field">
-                        <label for="parentIP" data-i18n="tools.subnetPlannerIPv6.parentIP">Parent Network IPv6 Address</label>
+                        <label for="parentIP">Parent Network IPv6 Address</label>
                         <input type="text"
                                id="parentIP"
                                placeholder="2001:db8::"
@@ -869,7 +868,7 @@
                         <span id="parent-ip-help" class="sr-only">Enter the parent network IPv6 address for subnet planning, for example 2001:db8::</span>
                     </div>
                     <div class="input-field">
-                        <label for="parentCIDR" data-i18n="tools.subnetPlannerIPv6.cidrPrefix">CIDR Prefix</label>
+                        <label for="parentCIDR">CIDR Prefix</label>
                         <select id="parentCIDR"
                                 aria-required="true"
                                 aria-describedby="parent-cidr-help">
@@ -889,16 +888,14 @@
             <button type="button"
                     class="btn"
                     onclick="initializePlanner()"
-                    aria-label="Initialize subnet planner with parent network configuration"
-                    data-i18n="tools.subnetPlannerIPv6.initializePlanner">Initialize Planner</button>
+                    aria-label="Initialize subnet planner with parent network configuration">Initialize Planner</button>
             <button type="button"
                     class="btn secondary"
                     onclick="clearAllSavedData()"
-                    aria-label="Clear all saved form data from this page"
-                    data-i18n="common.clearSavedData">Clear Saved Data</button>
+                    aria-label="Clear all saved form data from this page">Clear Saved Data</button>
 
             <div class="quick-templates">
-                <h3 id="quick-templates-label" data-i18n="tools.subnetPlannerIPv6.quickTemplates">Quick Templates - Load a Pre-configured Site Layout:</h3>
+                <h3 id="quick-templates-label">Quick Templates - Load a Pre-configured Site Layout:</h3>
                 <div class="template-buttons" role="group" aria-labelledby="quick-templates-label">
                     <button type="button"
                             class="template-btn"
@@ -920,29 +917,26 @@
         <!-- Planner Section -->
         <div class="planner-section" id="plannerSection">
             <div class="section-header">
-                <h2 data-i18n="tools.subnetPlannerIPv6.subnetAllocations">Subnet Allocations</h2>
+                <h2>Subnet Allocations</h2>
                 <div class="view-toggle" role="group" aria-label="Visualization view selection">
                     <button type="button"
                             class="toggle-btn active"
                             data-view="table"
                             onclick="switchView('table')"
                             aria-pressed="true"
-                            aria-label="View subnet allocations in table format"
-                            data-i18n="tools.subnetPlannerIPv6.tableView">Table View</button>
+                            aria-label="View subnet allocations in table format">Table View</button>
                     <button type="button"
                             class="toggle-btn"
                             data-view="bar"
                             onclick="switchView('bar')"
                             aria-pressed="false"
-                            aria-label="View subnet allocations in bar chart format"
-                            data-i18n="tools.subnetPlannerIPv6.barChart">Bar Chart</button>
+                            aria-label="View subnet allocations in bar chart format">Bar Chart</button>
                     <button type="button"
                             class="toggle-btn"
                             data-view="tree"
                             onclick="switchView('tree')"
                             aria-pressed="false"
-                            aria-label="View subnet allocations in tree hierarchy format"
-                            data-i18n="tools.subnetPlannerIPv6.treeView">Tree View</button>
+                            aria-label="View subnet allocations in tree hierarchy format">Tree View</button>
                 </div>
             </div>
 
@@ -956,21 +950,20 @@
                     <button type="button"
                             class="btn-small"
                             onclick="addAllocation()"
-                            aria-label="Add a new subnet allocation to the plan"
-                            data-i18n="tools.subnetPlannerIPv6.addSubnet">+ Add Subnet</button>
+                            aria-label="Add a new subnet allocation to the plan">+ Add Subnet</button>
                 </div>
                 <div class="table-container">
                     <table class="allocation-table">
                         <thead>
                             <tr>
-                                <th data-i18n="tools.subnetPlannerIPv6.label">Label</th>
-                                <th data-i18n="tools.subnetPlannerIPv6.cidr">CIDR</th>
-                                <th data-i18n="tools.subnetPlannerIPv6.networkAddress">Network Address</th>
-                                <th data-i18n="tools.subnetPlannerIPv6.sizeIPs">Size (IPs)</th>
-                                <th data-i18n="tools.subnetPlannerIPv6.vlan">VLAN</th>
-                                <th data-i18n="tools.subnetPlannerIPv6.description">Description</th>
-                                <th data-i18n="tools.subnetPlannerIPv6.color">Color</th>
-                                <th data-i18n="tools.subnetPlannerIPv6.actions">Actions</th>
+                                <th>Label</th>
+                                <th>CIDR</th>
+                                <th>Network Address</th>
+                                <th>Size (IPs)</th>
+                                <th>VLAN</th>
+                                <th>Description</th>
+                                <th>Color</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody id="allocationTableBody">
@@ -1012,111 +1005,109 @@
                 <button type="button"
                         class="export-btn"
                         onclick="exportCSV()"
-                        aria-label="Export subnet allocation plan to CSV file"
-                        data-i18n="common.exportCSV">Export CSV</button>
+                        aria-label="Export subnet allocation plan to CSV file">Export CSV</button>
                 <button type="button"
                         class="export-btn json"
                         onclick="exportJSON()"
-                        aria-label="Export subnet allocation plan to JSON file"
-                        data-i18n="tools.subnetPlannerIPv6.exportJSON">Export JSON</button>
+                        aria-label="Export subnet allocation plan to JSON file">Export JSON</button>
             </div>
         </div>
 
         <!-- Reference Section -->
         <div class="reference-section">
             <div class="reference-toggle" onclick="toggleReference()" role="button" tabindex="0" aria-expanded="false" aria-controls="referenceContent">
-                <h2 data-i18n="tools.subnetPlannerIPv6.ipv6Reference">IPv6 Reserved Address Reference</h2>
+                <h2>IPv6 Reserved Address Reference</h2>
                 <span class="toggle-icon" aria-hidden="true">▼</span>
             </div>
             <div class="reference-content" id="referenceContent">
                 <div class="reference-grid">
                     <div class="reference-block">
-                        <h3 data-i18n="tools.subnetPlannerIPv6.reference.specialAddresses">Special Addresses</h3>
+                        <h3>Special Addresses</h3>
                         <div class="reference-item">
                             <div class="reference-network">::1/128</div>
-                            <div class="reference-desc" data-i18n="tools.subnetPlannerIPv6.reference.loopbackDesc">Loopback address (localhost)</div>
-                            <div class="reference-rfc" data-i18n="tools.subnetPlannerIPv6.reference.loopbackRfc">RFC 4291 - Equivalent to IPv4 127.0.0.1</div>
+                            <div class="reference-desc">Loopback address (localhost)</div>
+                            <div class="reference-rfc">RFC 4291 - Equivalent to IPv4 127.0.0.1</div>
                         </div>
                         <div class="reference-item">
                             <div class="reference-network">::/128</div>
-                            <div class="reference-desc" data-i18n="tools.subnetPlannerIPv6.reference.unspecifiedDesc">Unspecified address</div>
-                            <div class="reference-rfc" data-i18n="tools.subnetPlannerIPv6.reference.unspecifiedRfc">RFC 4291 - Used when no address available</div>
+                            <div class="reference-desc">Unspecified address</div>
+                            <div class="reference-rfc">RFC 4291 - Used when no address available</div>
                         </div>
                         <div class="reference-item">
                             <div class="reference-network">::ffff:0:0/96</div>
-                            <div class="reference-desc" data-i18n="tools.subnetPlannerIPv6.reference.ipv4MappedDesc">IPv4-mapped IPv6 addresses</div>
-                            <div class="reference-rfc" data-i18n="tools.subnetPlannerIPv6.reference.ipv4MappedRfc">RFC 4291 - Hybrid dual-stack environments</div>
+                            <div class="reference-desc">IPv4-mapped IPv6 addresses</div>
+                            <div class="reference-rfc">RFC 4291 - Hybrid dual-stack environments</div>
                         </div>
                     </div>
 
                     <div class="reference-block">
-                        <h3 data-i18n="tools.subnetPlannerIPv6.reference.linkLocalUniqueLocal">Link-Local & Unique Local</h3>
+                        <h3>Link-Local & Unique Local</h3>
                         <div class="reference-item">
                             <div class="reference-network">fe80::/10</div>
-                            <div class="reference-desc" data-i18n="tools.subnetPlannerIPv6.reference.linkLocalDesc">Link-local addresses</div>
-                            <div class="reference-rfc" data-i18n="tools.subnetPlannerIPv6.reference.linkLocalRfc">RFC 4291 - Valid only on local subnet</div>
+                            <div class="reference-desc">Link-local addresses</div>
+                            <div class="reference-rfc">RFC 4291 - Valid only on local subnet</div>
                         </div>
                         <div class="reference-item">
                             <div class="reference-network">fc00::/7</div>
-                            <div class="reference-desc" data-i18n="tools.subnetPlannerIPv6.reference.ulaDesc">Unique Local Addresses (ULA)</div>
-                            <div class="reference-rfc" data-i18n="tools.subnetPlannerIPv6.reference.ulaRfc">RFC 4193 - Private IPv6 addresses</div>
+                            <div class="reference-desc">Unique Local Addresses (ULA)</div>
+                            <div class="reference-rfc">RFC 4193 - Private IPv6 addresses</div>
                         </div>
                         <div class="reference-item">
                             <div class="reference-network">fd00::/8</div>
-                            <div class="reference-desc" data-i18n="tools.subnetPlannerIPv6.reference.ulaLocalDesc">ULA with locally assigned prefix</div>
-                            <div class="reference-rfc" data-i18n="tools.subnetPlannerIPv6.reference.ulaLocalRfc">RFC 4193 - Most common ULA implementation</div>
+                            <div class="reference-desc">ULA with locally assigned prefix</div>
+                            <div class="reference-rfc">RFC 4193 - Most common ULA implementation</div>
                         </div>
                     </div>
 
                     <div class="reference-block">
-                        <h3 data-i18n="tools.subnetPlannerIPv6.reference.multicast">Multicast</h3>
+                        <h3>Multicast</h3>
                         <div class="reference-item">
                             <div class="reference-network">ff00::/8</div>
-                            <div class="reference-desc" data-i18n="tools.subnetPlannerIPv6.reference.allMulticastDesc">All multicast addresses</div>
-                            <div class="reference-rfc" data-i18n="tools.subnetPlannerIPv6.reference.allMulticastRfc">RFC 4291 - Various scopes defined</div>
+                            <div class="reference-desc">All multicast addresses</div>
+                            <div class="reference-rfc">RFC 4291 - Various scopes defined</div>
                         </div>
                         <div class="reference-item">
                             <div class="reference-network">ff02::1</div>
-                            <div class="reference-desc" data-i18n="tools.subnetPlannerIPv6.reference.allNodesDesc">All nodes (link-local scope)</div>
-                            <div class="reference-rfc" data-i18n="tools.subnetPlannerIPv6.reference.allNodesRfc">RFC 4291 - Equivalent to broadcast</div>
+                            <div class="reference-desc">All nodes (link-local scope)</div>
+                            <div class="reference-rfc">RFC 4291 - Equivalent to broadcast</div>
                         </div>
                         <div class="reference-item">
                             <div class="reference-network">ff02::2</div>
-                            <div class="reference-desc" data-i18n="tools.subnetPlannerIPv6.reference.allRoutersDesc">All routers (link-local scope)</div>
-                            <div class="reference-rfc" data-i18n="tools.subnetPlannerIPv6.reference.allRoutersRfc">RFC 4291 - Router discovery</div>
+                            <div class="reference-desc">All routers (link-local scope)</div>
+                            <div class="reference-rfc">RFC 4291 - Router discovery</div>
                         </div>
                     </div>
 
                     <div class="reference-block">
-                        <h3 data-i18n="tools.subnetPlannerIPv6.reference.documentationGlobal">Documentation & Global</h3>
+                        <h3>Documentation & Global</h3>
                         <div class="reference-item">
                             <div class="reference-network">2001:db8::/32</div>
-                            <div class="reference-desc" data-i18n="tools.subnetPlannerIPv6.reference.documentationDesc">Documentation prefix</div>
-                            <div class="reference-rfc" data-i18n="tools.subnetPlannerIPv6.reference.documentationRfc">RFC 3849 - Examples and documentation only</div>
+                            <div class="reference-desc">Documentation prefix</div>
+                            <div class="reference-rfc">RFC 3849 - Examples and documentation only</div>
                         </div>
                         <div class="reference-item">
                             <div class="reference-network">2000::/3</div>
-                            <div class="reference-desc" data-i18n="tools.subnetPlannerIPv6.reference.globalUnicastDesc">Global Unicast Addresses</div>
-                            <div class="reference-rfc" data-i18n="tools.subnetPlannerIPv6.reference.globalUnicastRfc">RFC 4291 - Routable public IPv6 addresses</div>
+                            <div class="reference-desc">Global Unicast Addresses</div>
+                            <div class="reference-rfc">RFC 4291 - Routable public IPv6 addresses</div>
                         </div>
                     </div>
 
                     <div class="reference-block">
-                        <h3 data-i18n="tools.subnetPlannerIPv6.reference.commonAllocations">Common Allocations</h3>
+                        <h3>Common Allocations</h3>
                         <div class="reference-item">
                             <div class="reference-network">/48</div>
-                            <div class="reference-desc" data-i18n="tools.subnetPlannerIPv6.reference.slash48Desc">Standard site allocation</div>
-                            <div class="reference-rfc" data-i18n="tools.subnetPlannerIPv6.reference.slash48Rfc">RFC 6177 - 65,536 /64 subnets available</div>
+                            <div class="reference-desc">Standard site allocation</div>
+                            <div class="reference-rfc">RFC 6177 - 65,536 /64 subnets available</div>
                         </div>
                         <div class="reference-item">
                             <div class="reference-network">/56</div>
-                            <div class="reference-desc" data-i18n="tools.subnetPlannerIPv6.reference.slash56Desc">Small site allocation</div>
-                            <div class="reference-rfc" data-i18n="tools.subnetPlannerIPv6.reference.slash56Rfc">RFC 6177 - 256 /64 subnets available</div>
+                            <div class="reference-desc">Small site allocation</div>
+                            <div class="reference-rfc">RFC 6177 - 256 /64 subnets available</div>
                         </div>
                         <div class="reference-item">
                             <div class="reference-network">/64</div>
-                            <div class="reference-desc" data-i18n="tools.subnetPlannerIPv6.reference.slash64Desc">Standard LAN subnet size</div>
-                            <div class="reference-rfc" data-i18n="tools.subnetPlannerIPv6.reference.slash64Rfc">RFC 4291 - Required for SLAAC</div>
+                            <div class="reference-desc">Standard LAN subnet size</div>
+                            <div class="reference-rfc">RFC 4291 - Required for SLAAC</div>
                         </div>
                     </div>
                 </div>
@@ -1124,7 +1115,7 @@
         </div>
 
         <footer role="contentinfo">
-            <span data-i18n="tools.subnetPlannerIPv6.title">IPv6 Subnet Planner</span> - <span data-i18n="common.worksOffline">Works offline, no installation required</span>
+            <span>IPv6 Subnet Planner</span> - <span>Works offline, no installation required</span>
         </footer>
     </main>
 

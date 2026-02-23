@@ -36,7 +36,6 @@
     <link rel="stylesheet" href="../a11y.css">
     <script src="../a11y-utils.js"></script>
     <script src="../storage-utils.js"></script>
-    <script src="../i18n-utils.js"></script>
     <script src="../navigationv2.js"></script>
     <style>
         * {
@@ -539,7 +538,7 @@
     </script>
 </head>
 <body>
-    <a href="#main-content" class="skip-link" data-i18n="common.skipToContent">Skip to main content</a>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <div class="ascii-logo" aria-hidden="true">  ___  _    _  __        __   _
  / _ \| | _| | \ \      / /__| |__
 | | | | |/ _` | \ \ /\ / / _ \ '_ \
@@ -547,62 +546,62 @@
  \___/|_|\__,_|   \_/\_/ \___|_.__/
 </div>
     <main id="main-content" class="container">
-        <h1 data-i18n="tools.subnetCalculatorIPv6.title">IPv6 Subnet Calculator</h1>
+        <h1>IPv6 Subnet Calculator</h1>
         <div class="protocol-toggle-container">
-            <a href="subnet-calculator.html" class="protocol-toggle-link protocol-toggle-ipv4" data-i18n="tools.subnetCalculatorIPv6.switchToIPv4">← Switch to IPv4</a>
+            <a href="subnet-calculator.html" class="protocol-toggle-link protocol-toggle-ipv4">← Switch to IPv4</a>
         </div>
 
         <div class="calculator">
-            <form id="ipv6-subnet-form" aria-label="IPv6 Subnet Calculator Form" data-i18n-aria-label="tools.subnetCalculatorIPv6.formAriaLabel">
+            <form id="ipv6-subnet-form" aria-label="IPv6 Subnet Calculator Form">
             <div class="input-group">
                 <div class="input-field">
-                    <label for="ipv6Address" data-i18n="tools.subnetCalculator.ipAddress">IPv6 Address</label>
-                    <input type="text" id="ipv6Address" value="fd00::1" placeholder="2001:db8::1" data-i18n-placeholder="tools.subnetCalculatorIPv6.ipv6AddressPlaceholder" aria-required="true" aria-describedby="ipv6-help" autocomplete="off">
-                    <span id="ipv6-help" class="sr-only" data-i18n="tools.subnetCalculatorIPv6.ipv6AddressHelp">Enter an IPv6 address in standard or compressed notation, for example 2001:db8::1</span>
+                    <label for="ipv6Address">IPv6 Address</label>
+                    <input type="text" id="ipv6Address" value="fd00::1" placeholder="2001:db8::1" aria-required="true" aria-describedby="ipv6-help" autocomplete="off">
+                    <span id="ipv6-help" class="sr-only">Enter an IPv6 address in standard or compressed notation, for example 2001:db8::1</span>
                 </div>
                 <div class="input-field">
-                    <label for="cidr" data-i18n="tools.subnetCalculator.cidr">Prefix Length</label>
+                    <label for="cidr">Prefix Length</label>
                     <select id="cidr" aria-describedby="cidr-ipv6-help">
-                        <option value="32" data-i18n="tools.subnetCalculatorIPv6.prefixOptions.p32">/32 - ISP Allocation</option>
-                        <option value="48" data-i18n="tools.subnetCalculatorIPv6.prefixOptions.p48">/48 - Site Prefix</option>
-                        <option value="56" data-i18n="tools.subnetCalculatorIPv6.prefixOptions.p56">/56 - Small Site</option>
-                        <option value="64" selected data-i18n="tools.subnetCalculatorIPv6.prefixOptions.p64">/64 - Single Subnet</option>
-                        <option value="80" data-i18n="tools.subnetCalculatorIPv6.prefixOptions.p80">/80</option>
-                        <option value="96" data-i18n="tools.subnetCalculatorIPv6.prefixOptions.p96">/96</option>
-                        <option value="112" data-i18n="tools.subnetCalculatorIPv6.prefixOptions.p112">/112</option>
-                        <option value="120" data-i18n="tools.subnetCalculatorIPv6.prefixOptions.p120">/120</option>
-                        <option value="127" data-i18n="tools.subnetCalculatorIPv6.prefixOptions.p127">/127 - Point-to-Point</option>
-                        <option value="128" data-i18n="tools.subnetCalculatorIPv6.prefixOptions.p128">/128 - Single Host</option>
+                        <option value="32">/32 - ISP Allocation</option>
+                        <option value="48">/48 - Site Prefix</option>
+                        <option value="56">/56 - Small Site</option>
+                        <option value="64" selected>/64 - Single Subnet</option>
+                        <option value="80">/80</option>
+                        <option value="96">/96</option>
+                        <option value="112">/112</option>
+                        <option value="120">/120</option>
+                        <option value="127">/127 - Point-to-Point</option>
+                        <option value="128">/128 - Single Host</option>
                     </select>
-                    <span id="cidr-ipv6-help" class="sr-only" data-i18n="tools.subnetCalculatorIPv6.prefixHelp">Select the IPv6 prefix length for your network</span>
+                    <span id="cidr-ipv6-help" class="sr-only">Select the IPv6 prefix length for your network</span>
                 </div>
             </div>
 
             <div class="quick-masks">
-                <h3 id="quick-addresses-label" data-i18n="tools.subnetCalculatorIPv6.quickAddresses">Quick Select Common Addresses:</h3>
+                <h3 id="quick-addresses-label">Quick Select Common Addresses:</h3>
                 <div class="mask-buttons" role="group" aria-labelledby="quick-addresses-label">
-                    <button type="button" class="mask-btn" onclick="setAddress('fe80::1')" aria-label="Set address to fe80::1, link-local address" data-i18n="tools.subnetCalculatorIPv6.addressLocal">fe80::1 - Local</button>
-                    <button type="button" class="mask-btn" onclick="setAddress('2001:db8::1')" aria-label="Set address to 2001:db8::1, documentation and testing address" data-i18n="tools.subnetCalculatorIPv6.addressInternet">2001:db8::1 - Internet</button>
-                    <button type="button" class="mask-btn" onclick="setAddress('fd00::1')" aria-label="Set address to fd00::1, unique local address, private network" data-i18n="tools.subnetCalculatorIPv6.addressPrivate">fd00::1 - Private</button>
+                    <button type="button" class="mask-btn" onclick="setAddress('fe80::1')" aria-label="Set address to fe80::1, link-local address">fe80::1 - Local</button>
+                    <button type="button" class="mask-btn" onclick="setAddress('2001:db8::1')" aria-label="Set address to 2001:db8::1, documentation and testing address">2001:db8::1 - Internet</button>
+                    <button type="button" class="mask-btn" onclick="setAddress('fd00::1')" aria-label="Set address to fd00::1, unique local address, private network">fd00::1 - Private</button>
                 </div>
             </div>
 
             <div class="quick-masks">
-                <h3 id="quick-prefixes-label" data-i18n="tools.subnetCalculatorIPv6.quickPrefixes">Quick Select Common Prefixes:</h3>
+                <h3 id="quick-prefixes-label">Quick Select Common Prefixes:</h3>
                 <div class="mask-buttons" role="group" aria-labelledby="quick-prefixes-label">
-                    <button type="button" class="mask-btn" onclick="setMask(32)" aria-label="Set prefix to /32, ISP allocation" data-i18n="tools.subnetCalculatorIPv6.prefixISP">/32 ISP</button>
-                    <button type="button" class="mask-btn" onclick="setMask(48)" aria-label="Set prefix to /48, site prefix" data-i18n="tools.subnetCalculatorIPv6.prefixSite">/48 Site</button>
-                    <button type="button" class="mask-btn" onclick="setMask(56)" aria-label="Set prefix to /56, small site prefix" data-i18n="tools.subnetCalculatorIPv6.prefixSmallSite">/56 Small Site</button>
-                    <button type="button" class="mask-btn" onclick="setMask(64)" aria-label="Set prefix to /64, single subnet, standard for LANs" data-i18n="tools.subnetCalculatorIPv6.prefixSubnet">/64 Subnet</button>
+                    <button type="button" class="mask-btn" onclick="setMask(32)" aria-label="Set prefix to /32, ISP allocation">/32 ISP</button>
+                    <button type="button" class="mask-btn" onclick="setMask(48)" aria-label="Set prefix to /48, site prefix">/48 Site</button>
+                    <button type="button" class="mask-btn" onclick="setMask(56)" aria-label="Set prefix to /56, small site prefix">/56 Small Site</button>
+                    <button type="button" class="mask-btn" onclick="setMask(64)" aria-label="Set prefix to /64, single subnet, standard for LANs">/64 Subnet</button>
                     <button type="button" class="mask-btn" onclick="setMask(80)" aria-label="Set prefix to /80">/80</button>
                     <button type="button" class="mask-btn" onclick="setMask(96)" aria-label="Set prefix to /96">/96</button>
                     <button type="button" class="mask-btn" onclick="setMask(112)" aria-label="Set prefix to /112">/112</button>
-                    <button type="button" class="mask-btn" onclick="setMask(128)" aria-label="Set prefix to /128, single host address" data-i18n="tools.subnetCalculatorIPv6.prefixHost">/128 Host</button>
+                    <button type="button" class="mask-btn" onclick="setMask(128)" aria-label="Set prefix to /128, single host address">/128 Host</button>
                 </div>
             </div>
 
-            <button type="button" class="btn" onclick="calculate()" style="margin-top: 25px;" aria-label="Calculate IPv6 subnet details for the entered address and prefix" data-i18n="tools.subnetCalculator.calculateSubnet">Calculate Subnet</button>
-            <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page" data-i18n="common.clearSavedData">Clear Saved Data</button>
+            <button type="button" class="btn" onclick="calculate()" style="margin-top: 25px;" aria-label="Calculate IPv6 subnet details for the entered address and prefix">Calculate Subnet</button>
+            <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page">Clear Saved Data</button>
 
             <div class="error-alert" id="error" role="alert" aria-live="assertive" aria-atomic="true"></div>
             </form>
@@ -610,37 +609,37 @@
 
         <div class="results" id="results" role="region" aria-live="polite" aria-label="IPv6 subnet calculation results">
             <div class="section-header">
-                <h2 data-i18n="tools.subnetCalculator.subnetDetails">Subnet Details</h2>
+                <h2>Subnet Details</h2>
                 <div>
-                    <button type="button" class="export-btn" onclick="copySubnetDetails()" aria-label="Copy IPv6 subnet details to clipboard" data-i18n="tools.subnetCalculator.copyResults" data-i18n-aria-label="tools.subnetCalculator.copyResultsAriaLabel">Copy Results</button>
-                    <button type="button" class="export-btn" onclick="exportSubnetDetailsToCSV()" aria-label="Export IPv6 subnet details to CSV file" data-i18n="common.exportToCSV">Export to CSV</button>
+                    <button type="button" class="export-btn" onclick="copySubnetDetails()" aria-label="Copy IPv6 subnet details to clipboard">Copy Results</button>
+                    <button type="button" class="export-btn" onclick="exportSubnetDetailsToCSV()" aria-label="Export IPv6 subnet details to CSV file">Export to CSV</button>
                 </div>
             </div>
             <table class="details-table">
                 <tbody>
-                    <tr><td data-i18n="tools.subnetCalculatorIPv6.networkCompressed">Network (Compressed)</td><td id="networkCompressed">-</td></tr>
-                    <tr><td data-i18n="tools.subnetCalculatorIPv6.networkExpanded">Network (Expanded)</td><td id="networkExpanded">-</td></tr>
-                    <tr><td data-i18n="tools.subnetCalculator.firstHost">First Address</td><td id="firstAddress">-</td></tr>
-                    <tr><td data-i18n="tools.subnetCalculator.lastHost">Last Address</td><td id="lastAddress">-</td></tr>
-                    <tr><td data-i18n="tools.subnetCalculator.cidrNotation">Prefix</td><td id="prefix">-</td></tr>
-                    <tr><td data-i18n="tools.subnetCalculator.totalHosts">Total Addresses</td><td id="totalAddresses">-</td></tr>
-                    <tr><td data-i18n="tools.subnetCalculator.ipClass">Address Type</td><td id="addressType">-</td></tr>
-                    <tr><td data-i18n="tools.subnetCalculatorIPv6.interfaceId">Interface ID</td><td id="interfaceId">-</td></tr>
+                    <tr><td>Network (Compressed)</td><td id="networkCompressed">-</td></tr>
+                    <tr><td>Network (Expanded)</td><td id="networkExpanded">-</td></tr>
+                    <tr><td>First Address</td><td id="firstAddress">-</td></tr>
+                    <tr><td>Last Address</td><td id="lastAddress">-</td></tr>
+                    <tr><td>Prefix</td><td id="prefix">-</td></tr>
+                    <tr><td>Total Addresses</td><td id="totalAddresses">-</td></tr>
+                    <tr><td>Address Type</td><td id="addressType">-</td></tr>
+                    <tr><td>Interface ID</td><td id="interfaceId">-</td></tr>
                 </tbody>
             </table>
 
             <div class="hex-display">
-                <h3 data-i18n="tools.subnetCalculatorIPv6.hexRepresentation">Hexadecimal Representation</h3>
+                <h3>Hexadecimal Representation</h3>
                 <div class="hex-item">
-                    <span class="hex-label" data-i18n="tools.subnetCalculatorIPv6.hexIPv6Address">IPv6 Address:</span>
+                    <span class="hex-label">IPv6 Address:</span>
                     <span id="hexIP">-</span>
                 </div>
                 <div class="hex-item">
-                    <span class="hex-label" data-i18n="tools.subnetCalculatorIPv6.hexPrefixMask">Prefix Mask:</span>
+                    <span class="hex-label">Prefix Mask:</span>
                     <span id="hexMask">-</span>
                 </div>
                 <div class="hex-item">
-                    <span class="hex-label" data-i18n="tools.subnetCalculatorIPv6.hexNetworkColored">Network (colored):</span>
+                    <span class="hex-label">Network (colored):</span>
                     <span id="hexNetwork">-</span>
                 </div>
             </div>
@@ -648,10 +647,10 @@
 
         <div class="subnet-list" id="subnetList" role="region" aria-label="All IPv6 subnets in network">
             <div class="section-header">
-                <h2 data-i18n="tools.subnetCalculator.allSubnets">All Subnets in Network</h2>
+                <h2>All Subnets in Network</h2>
                 <div>
-                    <button type="button" class="export-btn" onclick="copySubnetList()" aria-label="Copy IPv6 subnet list to clipboard" data-i18n="tools.subnetCalculator.copyResults" data-i18n-aria-label="tools.subnetCalculatorIPv6.copySubnetListAriaLabel">Copy Results</button>
-                    <button type="button" class="export-btn" onclick="exportSubnetListToCSV()" aria-label="Export IPv6 subnet list to CSV file" data-i18n="common.exportToCSV">Export to CSV</button>
+                    <button type="button" class="export-btn" onclick="copySubnetList()" aria-label="Copy IPv6 subnet list to clipboard">Copy Results</button>
+                    <button type="button" class="export-btn" onclick="exportSubnetListToCSV()" aria-label="Export IPv6 subnet list to CSV file">Export to CSV</button>
                 </div>
             </div>
             <div class="warning" id="subnetWarning"></div>
@@ -661,9 +660,9 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th data-i18n="tools.subnetCalculator.networkAddress">Network Address</th>
-                            <th data-i18n="tools.subnetCalculator.hostRange">Address Range</th>
-                            <th data-i18n="tools.subnetCalculator.totalHosts">Total Addresses</th>
+                            <th>Network Address</th>
+                            <th>Address Range</th>
+                            <th>Total Addresses</th>
                         </tr>
                     </thead>
                     <tbody id="subnetTableBody">
@@ -673,7 +672,7 @@
         </div>
 
         <footer role="contentinfo">
-            <span data-i18n="tools.subnetCalculatorIPv6.title">IPv6 Subnet Calculator</span> - <span data-i18n="common.worksOffline">Works offline, no installation required</span>
+            <span>IPv6 Subnet Calculator</span> - <span>Works offline, no installation required</span>
         </footer>
     </main>
 
@@ -924,18 +923,13 @@
 
             // Show warning if limiting
             if (numSubnets > maxDisplay) {
-                const warningText = I18nUtils.t('tools.subnetCalculatorIPv6.performanceLimitWarning', 'Performance limit: Showing first {{max}} of {{total}} possible subnets', { max: maxDisplay, total: formatBigNumber(numSubnets) });
+                const warningText = `Performance limit: Showing first ${maxDisplay} of ${formatBigNumber(numSubnets)} possible subnets`;
                 warningDiv.textContent = warningText;
                 warningDiv.classList.add('show');
             }
 
             // Update info text
-            const infoText = I18nUtils.t('tools.subnetCalculatorIPv6.subnetListInfo', 'Showing {{shown}} of {{total}} possible /{{cidr}} subnets within {{network}}', {
-                shown: displayCount.toLocaleString(),
-                total: formatBigNumber(numSubnets),
-                cidr: cidr,
-                network: `${compressIPv6(intToIPv6(parentNetwork))}/${parentCidr}`
-            });
+            const infoText = `Showing ${displayCount.toLocaleString()} of ${formatBigNumber(numSubnets)} possible /${cidr} subnets within ${compressIPv6(intToIPv6(parentNetwork))}/${parentCidr}`;
             infoDiv.innerHTML = infoText.replace(/(\d[\d,]*)/g, '<strong>$1</strong>').replace(/([\da-fA-F:]+\/\d+)/g, '<strong>$1</strong>');
 
             // Generate subnet rows
@@ -950,7 +944,7 @@
                     row.className = 'current-subnet';
                 }
 
-                const currentBadge = isCurrent ? `<span class="subnet-badge">${I18nUtils.t('tools.subnetCalculatorIPv6.current', 'Current')}</span>` : '';
+                const currentBadge = isCurrent ? `<span class="subnet-badge">Current</span>` : '';
                 row.innerHTML = `
                     <td><span class="subnet-number">${i + 1}</span>${currentBadge}</td>
                     <td>${compressIPv6(intToIPv6(subnetNetwork))}/${cidr}</td>
@@ -985,7 +979,7 @@
 
             // Validate IP
             if (!isValidIPv6(ipInput)) {
-                const errorMsg = I18nUtils.t('tools.subnetCalculatorIPv6.invalidIPv6', 'Please enter a valid IPv6 address (e.g., 2001:db8::1)');
+                const errorMsg = 'Please enter a valid IPv6 address (e.g., 2001:db8::1)';
                 errorDiv.textContent = errorMsg;
                 errorDiv.classList.add('show');
                 A11yUtils.showError(ipv6AddressField, errorMsg);
@@ -1037,11 +1031,7 @@
             resultsDiv.classList.add('show');
 
             // Announce results to screen readers
-            const announcement = I18nUtils.t('tools.subnetCalculatorIPv6.resultsAnnounce', 'IPv6 subnet calculation complete. Network address is {{network}} slash {{cidr}}. Address type is {{type}}.', {
-                network: networkCompressed,
-                cidr: cidr,
-                type: addressType
-            });
+            const announcement = `IPv6 subnet calculation complete. Network address is ${networkCompressed} slash ${cidr}. Address type is ${addressType}.`;
             A11yUtils.announce(announcement, 'polite');
 
             // Generate subnet list
@@ -1111,11 +1101,11 @@
         function copyToClipboardWithFlash(text, btn) {
             navigator.clipboard.writeText(text).then(() => {
                 const original = btn.textContent;
-                btn.textContent = I18nUtils.t('common.copied', 'Copied!');
+                btn.textContent = 'Copied!';
                 btn.classList.remove('copy-flash');
                 void btn.offsetWidth;
                 btn.classList.add('copy-flash');
-                A11yUtils.announce(I18nUtils.t('common.copiedToClipboard', 'Copied to clipboard'), 'polite');
+                A11yUtils.announce('Copied to clipboard', 'polite');
                 setTimeout(() => {
                     btn.textContent = original;
                     btn.classList.remove('copy-flash');
@@ -1157,7 +1147,7 @@
             const rows = tableBody.querySelectorAll('tr');
 
             if (rows.length === 0) {
-                alert(I18nUtils.t('tools.subnetCalculatorIPv6.noSubnetListToExport', 'No subnet list to export'));
+                alert('No subnet list to export');
                 return;
             }
 
@@ -1198,7 +1188,7 @@
             StorageUtils.remove('subnet-calc-ipv6');
             document.getElementById('ipv6Address').value = '';
             document.getElementById('cidr').value = '64';
-            A11yUtils.announce(I18nUtils.t('common.allDataCleared', 'All saved data has been cleared'), 'polite');
+            A11yUtils.announce('All saved data has been cleared', 'polite');
         }
 
         document.addEventListener('DOMContentLoaded', function() {

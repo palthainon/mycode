@@ -36,7 +36,6 @@
     <link rel="stylesheet" href="../a11y.css">
     <script src="../a11y-utils.js"></script>
     <script src="../storage-utils.js"></script>
-    <script src="../i18n-utils.js"></script>
     <script src="../navigationv2.js"></script>
     <style>
         * {
@@ -498,7 +497,7 @@
     </script>
 </head>
 <body>
-    <a href="#main-content" class="skip-link" data-i18n="common.skipToContent">Skip to main content</a>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <div class="ascii-logo" aria-hidden="true">  ___  _    _  __        __   _
  / _ \| | _| | \ \      / /__| |__
 | | | | |/ _` | \ \ /\ / / _ \ '_ \
@@ -506,13 +505,13 @@
  \___/|_|\__,_|   \_/\_/ \___|_.__/
 </div>
     <main id="main-content" class="container">
-        <h1 data-i18n="tools.dataRateCalculator.title">Data Transfer Calculator</h1>
+        <h1>Data Transfer Calculator</h1>
 
         <div class="calculator">
             <form id="transfer-form" aria-label="Data Transfer Calculator Form">
                 <div class="input-group">
                     <div class="input-field">
-                        <label for="dataSize" data-i18n="tools.dataRateCalculator.labels.fileSize">Data Size</label>
+                        <label for="dataSize">Data Size</label>
                         <input type="number"
                                id="dataSize"
                                placeholder="100"
@@ -523,14 +522,14 @@
                         <span id="datasize-help" class="sr-only">Enter the size of data to transfer, for example 100</span>
                     </div>
                     <div class="input-field small">
-                        <label for="dataSizeUnit" data-i18n="sections.options">Unit</label>
+                        <label for="dataSizeUnit">Unit</label>
                         <select id="dataSizeUnit" aria-describedby="datasize-unit-help">
-                            <option value="B" data-i18n="tools.dataRateCalculator.units.bytes">Bytes</option>
-                            <option value="KB" data-i18n="tools.dataRateCalculator.units.kb">KB</option>
-                            <option value="MB" data-i18n="tools.dataRateCalculator.units.mb">MB</option>
-                            <option value="GB" selected data-i18n="tools.dataRateCalculator.units.gb">GB</option>
-                            <option value="TB" data-i18n="tools.dataRateCalculator.units.tb">TB</option>
-                            <option value="PB" data-i18n="tools.dataRateCalculator.units.pb">PB</option>
+                            <option value="B">Bytes</option>
+                            <option value="KB">KB</option>
+                            <option value="MB">MB</option>
+                            <option value="GB" selected>GB</option>
+                            <option value="TB">TB</option>
+                            <option value="PB">PB</option>
                         </select>
                         <span id="datasize-unit-help" class="sr-only">Select the unit for data size</span>
                     </div>
@@ -538,7 +537,7 @@
 
                 <div class="input-group">
                     <div class="input-field">
-                        <label for="transferRate" data-i18n="tools.dataRateCalculator.labels.transferRate">Transfer Rate</label>
+                        <label for="transferRate">Transfer Rate</label>
                         <input type="number"
                                id="transferRate"
                                placeholder="100"
@@ -549,12 +548,12 @@
                         <span id="rate-help" class="sr-only">Enter the transfer rate or bandwidth, for example 100</span>
                     </div>
                     <div class="input-field small">
-                        <label for="transferRateUnit" data-i18n="sections.options">Unit</label>
+                        <label for="transferRateUnit">Unit</label>
                         <select id="transferRateUnit" aria-describedby="rate-unit-help">
-                            <option value="bps" data-i18n="tools.dataRateCalculator.units.bps">bps</option>
-                            <option value="Kbps" data-i18n="tools.dataRateCalculator.units.kbps">Kbps</option>
-                            <option value="Mbps" selected data-i18n="tools.dataRateCalculator.units.mbps">Mbps</option>
-                            <option value="Gbps" data-i18n="tools.dataRateCalculator.units.gbps">Gbps</option>
+                            <option value="bps">bps</option>
+                            <option value="Kbps">Kbps</option>
+                            <option value="Mbps" selected>Mbps</option>
+                            <option value="Gbps">Gbps</option>
                         </select>
                         <span id="rate-unit-help" class="sr-only">Select the unit for transfer rate</span>
                     </div>
@@ -582,16 +581,16 @@
                         class="btn"
                         onclick="calculate()"
                         aria-label="Calculate data transfer time based on size and rate"
-                        data-i18n="common.calculate">Calculate Transfer Time</button>
+                        >Calculate Transfer Time</button>
                 <button type="button"
                         class="btn secondary"
                         onclick="clearAllSavedData()"
                         aria-label="Clear all saved form data from this page"
-                        data-i18n="common.clearSavedData">Clear Saved Data</button>
+                        >Clear Saved Data</button>
             </form>
 
             <div class="quick-select">
-                <h3 data-i18n="tools.dataRateCalculator.sections.quickDataSizes">Quick Data Sizes:</h3>
+                <h3>Quick Data Sizes:</h3>
                 <div class="quick-buttons">
                     <button type="button"
                             class="quick-btn"
@@ -614,7 +613,7 @@
                             onclick="setDataSize(10, 'TB')"
                             aria-label="Set data size to 10 terabytes">10 TB</button>
                 </div>
-                <h3 data-i18n="tools.dataRateCalculator.sections.quickTransferRates">Quick Transfer Rates:</h3>
+                <h3>Quick Transfer Rates:</h3>
                 <div class="quick-buttons">
                     <button type="button"
                             class="quick-btn rate"
@@ -652,12 +651,12 @@
              aria-live="polite"
              aria-label="Transfer time calculation results">
             <div class="section-header">
-                <h2 data-i18n="tools.dataRateCalculator.sections.transferTime">Transfer Time</h2>
+                <h2>Transfer Time</h2>
                 <button type="button"
                         class="export-btn"
                         onclick="exportToCSV()"
                         aria-label="Export transfer time calculation results to CSV file"
-                        data-i18n="common.exportToCSV">Export to CSV</button>
+                        >Export to CSV</button>
             </div>
             <div class="results-grid">
                 <div class="result-item highlight">
@@ -665,29 +664,29 @@
                     <div class="value" id="humanReadable">-</div>
                 </div>
                 <div class="result-item">
-                    <div class="label" data-i18n="tools.dataRateCalculator.results.seconds">Seconds</div>
+                    <div class="label">Seconds</div>
                     <div class="value" id="seconds">-</div>
                 </div>
                 <div class="result-item">
-                    <div class="label" data-i18n="tools.dataRateCalculator.results.minutes">Minutes</div>
+                    <div class="label">Minutes</div>
                     <div class="value" id="minutes">-</div>
                 </div>
                 <div class="result-item">
-                    <div class="label" data-i18n="tools.dataRateCalculator.results.hours">Hours</div>
+                    <div class="label">Hours</div>
                     <div class="value" id="hours">-</div>
                 </div>
                 <div class="result-item" id="daysItem" style="display: none;">
-                    <div class="label" data-i18n="tools.dataRateCalculator.results.days">Days</div>
+                    <div class="label">Days</div>
                     <div class="value" id="days">-</div>
                 </div>
                 <div class="result-item" id="weeksItem" style="display: none;">
-                    <div class="label" data-i18n="tools.dataRateCalculator.results.weeks">Weeks</div>
+                    <div class="label">Weeks</div>
                     <div class="value" id="weeks">-</div>
                 </div>
             </div>
 
             <div class="info-section">
-                <h3 data-i18n="tools.dataRateCalculator.sections.transferDetails">Transfer Details</h3>
+                <h3>Transfer Details</h3>
                 <div class="info-grid">
                     <div class="info-item">
                         <span class="info-label">Data Size:</span>
@@ -710,7 +709,7 @@
         </div>
 
         <footer role="contentinfo">
-            <span data-i18n="tools.dataRateCalculator.title">Data Transfer Calculator</span> - <span data-i18n="common.worksOffline">Works offline, no installation required</span>
+            <span>Data Transfer Calculator</span> - <span>Works offline, no installation required</span>
         </footer>
     </main>
 

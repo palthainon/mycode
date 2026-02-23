@@ -36,7 +36,6 @@
     <link rel="stylesheet" href="../a11y.css">
     <script src="../a11y-utils.js"></script>
     <script src="../storage-utils.js"></script>
-    <script src="../i18n-utils.js"></script>
     <script src="../navigationv2.js"></script>
     <style>
         * {
@@ -393,6 +392,12 @@
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
+        .help-text {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+        }
+
         .btn.secondary {
             background: transparent;
             border: 2px solid rgba(255, 255, 255, 0.3);
@@ -501,7 +506,7 @@
     </script>
 </head>
 <body>
-    <a href="#main-content" class="skip-link" data-i18n="common.skipToContent">Skip to main content</a>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <div class="ascii-logo" aria-hidden="true">  ___  _    _  __        __   _
  / _ \| | _| | \ \      / /__| |__
 | | | | |/ _` | \ \ /\ / / _ \ '_ \
@@ -509,85 +514,97 @@
  \___/|_|\__,_|   \_/\_/ \___|_.__/
 </div>
     <main id="main-content" class="container">
-        <h1 data-i18n="tools.timestampConverter.title">Timestamp Converter</h1>
-        <p class="subtitle" data-i18n="tools.timestampConverter.subtitle">Convert between timestamp formats and timezones</p>
+        <h1>Timestamp Converter</h1>
+        <p class="subtitle">Convert between timestamp formats and timezones</p>
 
         <div class="calculator">
             <div class="error" id="errorMsg" role="alert" aria-live="assertive" aria-atomic="true"></div>
 
             <form aria-label="Timestamp converter form">
             <div class="input-group">
-                <label for="timestampInput" data-i18n="tools.timestampConverter.labels.unixTimestamp">Paste timestamps (one per line):</label>
+                <label for="timestampInput">Paste timestamps (one per line):</label>
                 <textarea
                     id="timestampInput"
                     class="timestamp-input"
                     placeholder="2024-01-07T15:30:00Z&#10;Jan  7 15:30:00 router1 kernel: eth0 link up&#10;07/Jan/2024:15:30:00 +0000&#10;1704641400&#10;1/7/2024 3:30:00 PM"
                     aria-required="true"
-                    aria-describedby="timestamp-help char-counter"></textarea>
+                    aria-describedby="timestamp-help char-counter">2024-01-07T15:30:00Z
+2024-01-07T15:30:00.123+00:00
+Jan  7 15:30:00 router1 kernel: eth0 link up
+Jan 15 08:45:22 switch1 %LINK-3-UPDOWN: Interface Gi0/1 changed state
+07/Jan/2024:15:30:00 +0000 GET /index.html 200
+1704641400
+1704641400000
+1/7/2024 3:30:00 PM Application started successfully
+Mon Jan 07 15:30:00 2024
+12/31/2025 11:59:59 PM New Year's Eve log entry</textarea>
                 <span id="timestamp-help" class="sr-only">Enter log timestamps in any format, one per line. Supports ISO 8601, Unix epoch, syslog, Apache, and custom formats</span>
                 <div class="char-counter" id="charCounter" aria-live="polite">0 lines | 0 characters</div>
             </div>
 
             <div class="input-group">
-                <label id="timezone-label" data-i18n="tools.timestampConverter.labels.timezone">Additional Timezones (optional):</label>
+                <label id="timezone-label">Additional Timezones (optional):</label>
+                <p class="help-text">Every conversion already shows UTC and your local time. Select additional timezones below to add extra columns to the results.</p>
                 <div class="timezone-selectors" role="group" aria-labelledby="timezone-label">
                     <select id="tz1" aria-label="Additional timezone 1 for conversion">
                         <option value="">-- Timezone 1 --</option>
-                        <option value="America/New_York" data-i18n="tools.timestampConverter.timezones.usEastern">US Eastern</option>
-                        <option value="America/Chicago" data-i18n="tools.timestampConverter.timezones.usCentral">US Central</option>
-                        <option value="America/Denver" data-i18n="tools.timestampConverter.timezones.usMountain">US Mountain</option>
-                        <option value="America/Los_Angeles" data-i18n="tools.timestampConverter.timezones.usPacific">US Pacific</option>
-                        <option value="Europe/London" data-i18n="tools.timestampConverter.timezones.london">London (GMT/BST)</option>
-                        <option value="Europe/Paris" data-i18n="tools.timestampConverter.timezones.paris">Paris (CET/CEST)</option>
-                        <option value="Europe/Berlin" data-i18n="tools.timestampConverter.timezones.berlin">Berlin (CET/CEST)</option>
-                        <option value="Asia/Tokyo" data-i18n="tools.timestampConverter.timezones.tokyo">Tokyo (JST)</option>
-                        <option value="Asia/Shanghai" data-i18n="tools.timestampConverter.timezones.shanghai">Shanghai (CST)</option>
-                        <option value="Asia/Dubai" data-i18n="tools.timestampConverter.timezones.dubai">Dubai (GST)</option>
-                        <option value="Asia/Singapore" data-i18n="tools.timestampConverter.timezones.singapore">Singapore (SGT)</option>
-                        <option value="Australia/Sydney" data-i18n="tools.timestampConverter.timezones.sydney">Sydney (AEST/AEDT)</option>
-                        <option value="Pacific/Auckland" data-i18n="tools.timestampConverter.timezones.auckland">Auckland (NZST/NZDT)</option>
+                        <option value="UTC">UTC</option>
+                        <option value="America/New_York">US Eastern</option>
+                        <option value="America/Chicago">US Central</option>
+                        <option value="America/Denver">US Mountain</option>
+                        <option value="America/Los_Angeles">US Pacific</option>
+                        <option value="Europe/London">London (GMT/BST)</option>
+                        <option value="Europe/Paris">Paris (CET/CEST)</option>
+                        <option value="Europe/Berlin">Berlin (CET/CEST)</option>
+                        <option value="Asia/Tokyo">Tokyo (JST)</option>
+                        <option value="Asia/Shanghai">Shanghai (CST)</option>
+                        <option value="Asia/Dubai">Dubai (GST)</option>
+                        <option value="Asia/Singapore">Singapore (SGT)</option>
+                        <option value="Australia/Sydney">Sydney (AEST/AEDT)</option>
+                        <option value="Pacific/Auckland">Auckland (NZST/NZDT)</option>
                     </select>
                     <select id="tz2" aria-label="Additional timezone 2 for conversion">
                         <option value="">-- Timezone 2 --</option>
-                        <option value="America/New_York" data-i18n="tools.timestampConverter.timezones.usEastern">US Eastern</option>
-                        <option value="America/Chicago" data-i18n="tools.timestampConverter.timezones.usCentral">US Central</option>
-                        <option value="America/Denver" data-i18n="tools.timestampConverter.timezones.usMountain">US Mountain</option>
-                        <option value="America/Los_Angeles" data-i18n="tools.timestampConverter.timezones.usPacific">US Pacific</option>
-                        <option value="Europe/London" data-i18n="tools.timestampConverter.timezones.london">London (GMT/BST)</option>
-                        <option value="Europe/Paris" data-i18n="tools.timestampConverter.timezones.paris">Paris (CET/CEST)</option>
-                        <option value="Europe/Berlin" data-i18n="tools.timestampConverter.timezones.berlin">Berlin (CET/CEST)</option>
-                        <option value="Asia/Tokyo" data-i18n="tools.timestampConverter.timezones.tokyo">Tokyo (JST)</option>
-                        <option value="Asia/Shanghai" data-i18n="tools.timestampConverter.timezones.shanghai">Shanghai (CST)</option>
-                        <option value="Asia/Dubai" data-i18n="tools.timestampConverter.timezones.dubai">Dubai (GST)</option>
-                        <option value="Asia/Singapore" data-i18n="tools.timestampConverter.timezones.singapore">Singapore (SGT)</option>
-                        <option value="Australia/Sydney" data-i18n="tools.timestampConverter.timezones.sydney">Sydney (AEST/AEDT)</option>
-                        <option value="Pacific/Auckland" data-i18n="tools.timestampConverter.timezones.auckland">Auckland (NZST/NZDT)</option>
+                        <option value="UTC">UTC</option>
+                        <option value="America/New_York">US Eastern</option>
+                        <option value="America/Chicago">US Central</option>
+                        <option value="America/Denver">US Mountain</option>
+                        <option value="America/Los_Angeles">US Pacific</option>
+                        <option value="Europe/London">London (GMT/BST)</option>
+                        <option value="Europe/Paris">Paris (CET/CEST)</option>
+                        <option value="Europe/Berlin">Berlin (CET/CEST)</option>
+                        <option value="Asia/Tokyo">Tokyo (JST)</option>
+                        <option value="Asia/Shanghai">Shanghai (CST)</option>
+                        <option value="Asia/Dubai">Dubai (GST)</option>
+                        <option value="Asia/Singapore">Singapore (SGT)</option>
+                        <option value="Australia/Sydney">Sydney (AEST/AEDT)</option>
+                        <option value="Pacific/Auckland">Auckland (NZST/NZDT)</option>
                     </select>
                     <select id="tz3" aria-label="Additional timezone 3 for conversion">
                         <option value="">-- Timezone 3 --</option>
-                        <option value="America/New_York" data-i18n="tools.timestampConverter.timezones.usEastern">US Eastern</option>
-                        <option value="America/Chicago" data-i18n="tools.timestampConverter.timezones.usCentral">US Central</option>
-                        <option value="America/Denver" data-i18n="tools.timestampConverter.timezones.usMountain">US Mountain</option>
-                        <option value="America/Los_Angeles" data-i18n="tools.timestampConverter.timezones.usPacific">US Pacific</option>
-                        <option value="Europe/London" data-i18n="tools.timestampConverter.timezones.london">London (GMT/BST)</option>
-                        <option value="Europe/Paris" data-i18n="tools.timestampConverter.timezones.paris">Paris (CET/CEST)</option>
-                        <option value="Europe/Berlin" data-i18n="tools.timestampConverter.timezones.berlin">Berlin (CET/CEST)</option>
-                        <option value="Asia/Tokyo" data-i18n="tools.timestampConverter.timezones.tokyo">Tokyo (JST)</option>
-                        <option value="Asia/Shanghai" data-i18n="tools.timestampConverter.timezones.shanghai">Shanghai (CST)</option>
-                        <option value="Asia/Dubai" data-i18n="tools.timestampConverter.timezones.dubai">Dubai (GST)</option>
-                        <option value="Asia/Singapore" data-i18n="tools.timestampConverter.timezones.singapore">Singapore (SGT)</option>
-                        <option value="Australia/Sydney" data-i18n="tools.timestampConverter.timezones.sydney">Sydney (AEST/AEDT)</option>
-                        <option value="Pacific/Auckland" data-i18n="tools.timestampConverter.timezones.auckland">Auckland (NZST/NZDT)</option>
+                        <option value="UTC">UTC</option>
+                        <option value="America/New_York">US Eastern</option>
+                        <option value="America/Chicago">US Central</option>
+                        <option value="America/Denver">US Mountain</option>
+                        <option value="America/Los_Angeles">US Pacific</option>
+                        <option value="Europe/London">London (GMT/BST)</option>
+                        <option value="Europe/Paris">Paris (CET/CEST)</option>
+                        <option value="Europe/Berlin">Berlin (CET/CEST)</option>
+                        <option value="Asia/Tokyo">Tokyo (JST)</option>
+                        <option value="Asia/Shanghai">Shanghai (CST)</option>
+                        <option value="Asia/Dubai">Dubai (GST)</option>
+                        <option value="Asia/Singapore">Singapore (SGT)</option>
+                        <option value="Australia/Sydney">Sydney (AEST/AEDT)</option>
+                        <option value="Pacific/Auckland">Auckland (NZST/NZDT)</option>
                     </select>
                 </div>
             </div>
 
             <div class="button-group">
-                <button type="button" class="btn" onclick="convertTimestamps()" aria-label="Convert all entered timestamps to multiple timezone formats" data-i18n="tools.timestampConverter.buttons.convert">Convert Timestamps</button>
-                <button type="button" class="btn btn-secondary" onclick="loadSampleData()" aria-label="Load sample log timestamps for testing" data-i18n="tools.timestampConverter.buttons.now">Load Sample Data</button>
+                <button type="button" class="btn" onclick="convertTimestamps()" aria-label="Convert all entered timestamps to multiple timezone formats">Convert Timestamps</button>
             </div>
 
-            <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page" data-i18n="common.clearSavedData">Clear Saved Data</button>
+            <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page">Clear Saved Data</button>
             </form>
         </div>
 
@@ -595,16 +612,16 @@
             <div class="calculator">
                 <div class="results-header">
                     <div class="results-summary" id="resultsSummary"></div>
-                    <button type="button" class="export-btn" onclick="exportToCSV()" aria-label="Export timestamp conversions to CSV file" data-i18n="common.exportToCSV">Export to CSV</button>
+                    <button type="button" class="export-btn" onclick="exportToCSV()" aria-label="Export timestamp conversions to CSV file">Export to CSV</button>
                 </div>
                 <div class="results-table-container">
                     <table class="results-table">
                         <thead>
                             <tr>
-                                <th data-i18n="tools.timestampConverter.tableHeaders.line">Line</th>
-                                <th data-i18n="tools.timestampConverter.tableHeaders.original">Original</th>
-                                <th data-i18n="tools.timestampConverter.tableHeaders.detectedFormat">Detected Format</th>
-                                <th data-i18n="tools.timestampConverter.tableHeaders.conversions">Conversions</th>
+                                <th>Line</th>
+                                <th>Original</th>
+                                <th>Detected Format</th>
+                                <th>Conversions</th>
                             </tr>
                         </thead>
                         <tbody id="resultsBody">
@@ -614,7 +631,7 @@
             </div>
         </div>
 
-        <footer role="contentinfo" data-i18n="common.worksOffline">
+        <footer role="contentinfo">
             Works offline, no installation required
         </footer>
     </main>
@@ -622,16 +639,25 @@
     <script>
         let resultsData = [];
 
+        // Safe wrappers for external utils that may not load (file:// protocol, etc.)
+        function safeAnnounce(msg, priority) {
+            try { if (typeof A11yUtils !== 'undefined') A11yUtils.announce(msg, priority); } catch(e) {}
+        }
+        function safeT(key, fallback) {
+            return fallback || key;
+        }
+
         // Regex patterns for timestamp detection
+        // Capturing group [1] extracts the timestamp portion; no $ anchor so trailing log text is ignored
         const patterns = {
-            iso8601: /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[+-]\d{2}:\d{2})$/,
-            iso8601_simple: /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/,
+            iso8601: /^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[+-]\d{2}:\d{2}))/,
+            iso8601_simple: /^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})/,
             unixMs: /^\d{13}$/,
             unixSec: /^\d{10}$/,
-            apache: /^\d{2}\/[A-Za-z]{3}\/\d{4}:\d{2}:\d{2}:\d{2}\s+[+-]\d{4}$/,
-            windows: /^\d{1,2}\/\d{1,2}\/\d{4}\s+\d{1,2}:\d{2}:\d{2}\s+(AM|PM)$/i,
-            syslog: /^[A-Za-z]{3}\s+\d{1,2}\s+\d{2}:\d{2}:\d{2}$/,
-            commonDate: /^[A-Za-z]{3}\s+[A-Za-z]{3}\s+\d{1,2}\s+\d{2}:\d{2}:\d{2}\s+\d{4}$/
+            apache: /^(\d{2}\/[A-Za-z]{3}\/\d{4}:\d{2}:\d{2}:\d{2}\s+[+-]\d{4})/,
+            windows: /^(\d{1,2}\/\d{1,2}\/\d{4}\s+\d{1,2}:\d{2}:\d{2}\s+(AM|PM))/i,
+            syslog: /^([A-Za-z]{3}\s+\d{1,2}\s+\d{2}:\d{2}:\d{2})/,
+            commonDate: /^([A-Za-z]{3}\s+[A-Za-z]{3}\s+\d{1,2}\s+\d{2}:\d{2}:\d{2}\s+\d{4})/
         };
 
         const monthMap = {
@@ -660,16 +686,18 @@
 
         function detectAndParse(timestampStr) {
             const ts = timestampStr.trim();
+            let match;
 
             // ISO8601/RFC3339
-            if (patterns.iso8601.test(ts) || patterns.iso8601_simple.test(ts)) {
-                const date = new Date(ts);
+            match = ts.match(patterns.iso8601) || ts.match(patterns.iso8601_simple);
+            if (match) {
+                const date = new Date(match[1]);
                 if (!isNaN(date.getTime())) {
                     return { format: 'ISO8601/RFC3339', date: date };
                 }
             }
 
-            // Unix milliseconds
+            // Unix milliseconds (strict full-line match)
             if (patterns.unixMs.test(ts)) {
                 const date = new Date(parseInt(ts));
                 if (!isNaN(date.getTime())) {
@@ -677,7 +705,7 @@
                 }
             }
 
-            // Unix seconds
+            // Unix seconds (strict full-line match)
             if (patterns.unixSec.test(ts)) {
                 const epoch = parseInt(ts);
                 if (epoch >= 946684800 && epoch <= 2147483647) {
@@ -687,10 +715,11 @@
             }
 
             // Apache/Nginx common log format
-            if (patterns.apache.test(ts)) {
-                const match = ts.match(/^(\d{2})\/([A-Za-z]{3})\/(\d{4}):(\d{2}):(\d{2}):(\d{2})\s+([+-]\d{4})$/);
-                if (match) {
-                    const [, day, month, year, hour, minute, second, tz] = match;
+            match = ts.match(patterns.apache);
+            if (match) {
+                const parts = match[1].match(/(\d{2})\/([A-Za-z]{3})\/(\d{4}):(\d{2}):(\d{2}):(\d{2})\s+([+-]\d{4})/);
+                if (parts) {
+                    const [, day, month, year, hour, minute, second, tz] = parts;
                     const monthNum = monthMap[month];
                     if (monthNum !== undefined) {
                         const tzOffset = parseInt(tz.substring(1, 3)) * 60 + parseInt(tz.substring(3));
@@ -706,18 +735,20 @@
             }
 
             // Windows Event Log
-            if (patterns.windows.test(ts)) {
-                const date = new Date(ts);
+            match = ts.match(patterns.windows);
+            if (match) {
+                const date = new Date(match[1]);
                 if (!isNaN(date.getTime())) {
                     return { format: 'Windows Event Log', date: date };
                 }
             }
 
             // Syslog format (no year)
-            if (patterns.syslog.test(ts)) {
-                const match = ts.match(/^([A-Za-z]{3})\s+(\d{1,2})\s+(\d{2}):(\d{2}):(\d{2})$/);
-                if (match) {
-                    const [, month, day, hour, minute, second] = match;
+            match = ts.match(patterns.syslog);
+            if (match) {
+                const parts = match[1].match(/([A-Za-z]{3})\s+(\d{1,2})\s+(\d{2}):(\d{2}):(\d{2})/);
+                if (parts) {
+                    const [, month, day, hour, minute, second] = parts;
                     const monthNum = monthMap[month];
                     if (monthNum !== undefined) {
                         const currentYear = new Date().getFullYear();
@@ -732,8 +763,9 @@
             }
 
             // Common date string format
-            if (patterns.commonDate.test(ts)) {
-                const date = new Date(ts);
+            match = ts.match(patterns.commonDate);
+            if (match) {
+                const date = new Date(match[1]);
                 if (!isNaN(date.getTime())) {
                     return { format: 'Common Date String', date: date };
                 }
@@ -855,10 +887,10 @@
                         })));
 
                     // UTC
-                    conversions.push(createConversionRow(I18nUtils.t('tools.timestampConverter.results.utcTime', 'UTC Time'), formatTimezone(result.date, 'UTC')));
+                    conversions.push(createConversionRow(safeT('tools.timestampConverter.results.utcTime', 'UTC Time'), formatTimezone(result.date, 'UTC')));
 
                     // Local
-                    conversions.push(createConversionRow(I18nUtils.t('tools.timestampConverter.results.localTime', 'Local Time'),
+                    conversions.push(createConversionRow(safeT('tools.timestampConverter.results.localTime', 'Local Time'),
                         result.date.toLocaleString('en-US', {
                             year: 'numeric',
                             month: 'short',
@@ -872,13 +904,13 @@
 
                     // Additional timezones
                     if (tz1) {
-                        conversions.push(createConversionRow(tz1.split('/')[1], formatTimezone(result.date, tz1)));
+                        conversions.push(createConversionRow(tz1.split('/')[1] || tz1, formatTimezone(result.date, tz1)));
                     }
                     if (tz2) {
-                        conversions.push(createConversionRow(tz2.split('/')[1], formatTimezone(result.date, tz2)));
+                        conversions.push(createConversionRow(tz2.split('/')[1] || tz2, formatTimezone(result.date, tz2)));
                     }
                     if (tz3) {
-                        conversions.push(createConversionRow(tz3.split('/')[1], formatTimezone(result.date, tz3)));
+                        conversions.push(createConversionRow(tz3.split('/')[1] || tz3, formatTimezone(result.date, tz3)));
                     }
 
                     conversionCell.innerHTML = conversions.join('');
@@ -901,15 +933,15 @@
             if (errorCount > 0) {
                 announcement += `, ${errorCount} error${errorCount !== 1 ? 's' : ''}`;
             }
-            A11yUtils.announce(announcement, 'polite');
+            safeAnnounce(announcement, 'polite');
         }
 
         function createConversionRow(label, value) {
-            const copyText = I18nUtils.t('common.copy', 'Copy');
+            const copyText = safeT('common.copy', 'Copy');
             return `<div class="conversion-row">
                 <span class="conversion-label">${label}:</span>
                 <span class="conversion-value">${value}</span>
-                <button class="copy-btn" onclick="copyToClipboard('${escapeHtml(value)}', this)" data-i18n="common.copy">${copyText}</button>
+                <button class="copy-btn" onclick="copyToClipboard('${escapeHtml(value)}', this)">${copyText}</button>
             </div>`;
         }
 
@@ -940,11 +972,11 @@
                                   .replace(/&gt;/g, '>');
 
             navigator.clipboard.writeText(unescaped).then(() => {
-                button.textContent = I18nUtils.t('common.copied', 'Copied!');
+                button.textContent = safeT('common.copied', 'Copied!');
                 button.classList.add('copied');
-                A11yUtils.announce(I18nUtils.t('common.copiedToClipboard', 'Copied to clipboard'), 'polite');
+                safeAnnounce(safeT('common.copiedToClipboard', 'Copied to clipboard'), 'polite');
                 setTimeout(() => {
-                    button.textContent = I18nUtils.t('common.copy', 'Copy');
+                    button.textContent = safeT('common.copy', 'Copy');
                     button.classList.remove('copied');
                 }, 2000);
             }).catch(err => {
@@ -1013,7 +1045,7 @@
             const csv = rows.map(row => row.join(',')).join('\n');
             const filename = `timestamp-conversions-${new Date().toISOString().split('T')[0]}.csv`;
             downloadFile(csv, filename, 'text/csv;charset=utf-8;');
-            A11yUtils.announce(`Exported ${resultsData.length} timestamp conversions to CSV file`, 'polite');
+            safeAnnounce(`Exported ${resultsData.length} timestamp conversions to CSV file`, 'polite');
         }
 
         function escapeCSV(str) {
@@ -1038,23 +1070,6 @@
             URL.revokeObjectURL(url);
         }
 
-        function loadSampleData() {
-            const sample = `2024-01-07T15:30:00Z
-2024-01-07T15:30:00.123+00:00
-Jan  7 15:30:00 router1 kernel: eth0 link up
-Jan 15 08:45:22 switch1 %LINK-3-UPDOWN: Interface Gi0/1 changed state
-07/Jan/2024:15:30:00 +0000 GET /index.html 200
-1704641400
-1704641400000
-1/7/2024 3:30:00 PM Application started successfully
-Mon Jan 07 15:30:00 2024
-12/31/2025 11:59:59 PM New Year's Eve log entry`;
-
-            document.getElementById('timestampInput').value = sample;
-            updateCharCounter();
-            A11yUtils.announce('Loaded sample log timestamps', 'polite');
-        }
-
         function showError(message) {
             const errorDiv = document.getElementById('errorMsg');
             errorDiv.textContent = message;
@@ -1070,28 +1085,37 @@ Mon Jan 07 15:30:00 2024
         const timestampConverterFields = ['timestampInput', 'tz1', 'tz2', 'tz3'];
 
         function clearAllSavedData() {
-            StorageUtils.remove('timestamp-converter');
+            try { if (typeof StorageUtils !== 'undefined') StorageUtils.remove('timestamp-converter'); } catch(e) {}
             // Reset to defaults
             document.getElementById('timestampInput').value = '';
-            document.getElementById('tz1').selectedIndex = 0;
-            document.getElementById('tz2').selectedIndex = 0;
-            document.getElementById('tz3').selectedIndex = 0;
+            document.getElementById('tz1').value = 'America/New_York';
+            document.getElementById('tz2').value = 'UTC';
+            document.getElementById('tz3').value = '';
             // Clear results
             document.getElementById('results').classList.remove('show');
             updateCharCounter();
-            A11yUtils.announce('All saved data has been cleared', 'polite');
+            safeAnnounce('All saved data has been cleared', 'polite');
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            StorageUtils.loadFormInputs('timestamp-converter', timestampConverterFields, function() {
-                // After loading, update char counter
+            try {
+                StorageUtils.loadFormInputs('timestamp-converter', timestampConverterFields, function() {
+                    // Set defaults if timezones are still empty after loading saved data
+                    if (!document.getElementById('tz1').value) {
+                        document.getElementById('tz1').value = 'America/New_York';
+                    }
+                    if (!document.getElementById('tz2').value) {
+                        document.getElementById('tz2').value = 'UTC';
+                    }
+                    updateCharCounter();
+                });
+                StorageUtils.autoSaveFormInputs('timestamp-converter', timestampConverterFields);
+            } catch(e) {
+                // External utils may not be available (file:// protocol, etc.)
+                document.getElementById('tz1').value = 'America/New_York';
+                document.getElementById('tz2').value = 'UTC';
                 updateCharCounter();
-                // If no saved data, pre-populate with sample timestamps so users can click Convert right away
-                if (!document.getElementById('timestampInput').value.trim()) {
-                    loadSampleData();
-                }
-            });
-            StorageUtils.autoSaveFormInputs('timestamp-converter', timestampConverterFields);
+            }
         });
     </script>
     <script>
