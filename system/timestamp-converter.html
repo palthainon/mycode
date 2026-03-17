@@ -411,6 +411,135 @@
             transform: none;
         }
 
+        .import-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-import {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+            color: #fff;
+            border: none;
+            padding: 8px 18px;
+            font-size: 0.9rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+        }
+
+        .btn-import:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255, 152, 0, 0.4);
+        }
+
+        .btn-import:active {
+            transform: translateY(0);
+        }
+
+        .import-status {
+            color: #66bb6a;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .column-picker {
+            display: none;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 10px;
+        }
+
+        .column-picker.show {
+            display: block;
+        }
+
+        .column-picker label {
+            color: #90caf9;
+            font-weight: 500;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .column-picker select {
+            width: 100%;
+            max-width: 400px;
+            padding: 8px 12px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            color: #fff;
+            font-size: 0.9rem;
+        }
+
+        .column-picker select option {
+            background: #1a1a2e;
+            color: #fff;
+        }
+
+        .column-picker .column-preview {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.8rem;
+            margin-top: 6px;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        .column-picker .btn {
+            margin-top: 10px;
+            padding: 8px 20px;
+            font-size: 0.9rem;
+            min-width: auto;
+            flex: none;
+        }
+
+        .timestamp-input.drag-over {
+            border-color: #ff9800 !important;
+            border-style: dashed !important;
+            box-shadow: 0 0 20px rgba(255, 152, 0, 0.3) !important;
+            background: rgba(255, 152, 0, 0.05);
+        }
+
+        .load-more-container {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            padding: 16px;
+        }
+
+        .load-more-container .btn {
+            min-width: auto;
+            flex: none;
+            padding: 10px 24px;
+            font-size: 0.9rem;
+        }
+
+        .export-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .export-filter {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #90caf9;
+            font-size: 0.85rem;
+        }
+
+        .export-filter input[type="checkbox"] {
+            accent-color: #4fc3f7;
+        }
+
         .nav-bar {
             position: absolute;
             top: 20px;
@@ -523,6 +652,20 @@
             <form aria-label="Timestamp converter form">
             <div class="input-group">
                 <label for="timestampInput">Paste timestamps (one per line):</label>
+                <div class="import-group">
+                    <input type="file" id="fileImport" accept=".csv,.txt,.log,.tsv" class="sr-only" aria-describedby="import-help" onchange="handleFileSelect(event)">
+                    <label for="fileImport" class="btn-import" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();document.getElementById('fileImport').click();}">
+                        Import File
+                    </label>
+                    <span id="import-help" class="help-text" style="margin-bottom:0">Upload a .csv, .txt, .log, or .tsv file. You can also drag and drop onto the text area.</span>
+                    <span id="importStatus" class="import-status" role="status" aria-live="polite"></span>
+                </div>
+                <div class="column-picker" id="columnPicker">
+                    <label for="columnSelect">Select the column containing timestamps:</label>
+                    <select id="columnSelect" aria-label="Select CSV column containing timestamps" onchange="previewColumn()"></select>
+                    <div class="column-preview" id="columnPreview"></div>
+                    <button type="button" class="btn" onclick="applyColumnSelection()">Use Selected Column</button>
+                </div>
                 <textarea
                     id="timestampInput"
                     class="timestamp-input"
@@ -636,7 +779,14 @@ Mon Jan 07 15:30:00 2024
             <div class="calculator">
                 <div class="results-header">
                     <div class="results-summary" id="resultsSummary"></div>
-                    <button type="button" class="export-btn" onclick="exportToCSV()" aria-label="Export timestamp conversions to CSV file">Export to CSV</button>
+                    <div class="export-group">
+                        <div class="export-filter">
+                            <input type="checkbox" id="exportValidOnly" aria-label="Export only valid conversions">
+                            <label for="exportValidOnly">Valid only</label>
+                        </div>
+                        <button type="button" class="export-btn" onclick="exportToCSV()" aria-label="Export timestamp conversions to CSV file">Export CSV</button>
+                        <button type="button" class="export-btn" onclick="exportToJSON()" aria-label="Export timestamp conversions to JSON file" style="background: linear-gradient(135deg, #7e57c2 0%, #5e35b1 100%);">Export JSON</button>
+                    </div>
                 </div>
                 <div class="results-table-container">
                     <table class="results-table">
@@ -652,6 +802,10 @@ Mon Jan 07 15:30:00 2024
                         </tbody>
                     </table>
                 </div>
+                <div class="load-more-container" id="loadMoreContainer" style="display:none;">
+                    <button type="button" class="btn" id="loadMoreBtn" onclick="loadMoreResults()" aria-label="Load more results">Load More (500)</button>
+                    <button type="button" class="btn btn-secondary" id="showAllBtn" onclick="showAllResults()" aria-label="Show all results">Show All</button>
+                </div>
             </div>
         </div>
 
@@ -662,6 +816,9 @@ Mon Jan 07 15:30:00 2024
 
     <script>
         let resultsData = [];
+        let displayedRows = 0;
+        const PAGE_SIZE = 500;
+        let csvParsedData = null;
 
         // Safe wrappers for external utils that may not load (file:// protocol, etc.)
         function safeAnnounce(msg, priority) {
@@ -669,6 +826,180 @@ Mon Jan 07 15:30:00 2024
         }
         function safeT(key, fallback) {
             return fallback || key;
+        }
+
+        // --- File Import ---
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) handleFileImport(file);
+            event.target.value = '';
+        }
+
+        function handleFileImport(file) {
+            const MAX_SIZE = 10 * 1024 * 1024;
+            if (file.size > MAX_SIZE) {
+                showError('File too large. Maximum size is 10 MB.');
+                safeAnnounce('File import failed: file too large', 'assertive');
+                return;
+            }
+            if (file.size === 0) {
+                showError('File is empty.');
+                safeAnnounce('File import failed: file is empty', 'assertive');
+                return;
+            }
+
+            const status = document.getElementById('importStatus');
+            status.textContent = 'Reading file...';
+            safeAnnounce('Reading file', 'polite');
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const text = e.target.result;
+                const ext = file.name.split('.').pop().toLowerCase();
+                const lineCount = text.split('\n').filter(l => l.trim()).length;
+
+                if (ext === 'csv' || ext === 'tsv') {
+                    const delimiter = ext === 'tsv' ? '\t' : ',';
+                    const parsed = parseCSV(text, delimiter);
+                    if (parsed.headers && parsed.headers.length > 1) {
+                        const tsCol = autoDetectTimestampColumn(parsed.headers);
+                        if (tsCol !== -1) {
+                            populateFromCSVColumn(parsed, tsCol);
+                            status.textContent = `${file.name} — ${lineCount} lines (auto-detected column: ${parsed.headers[tsCol]})`;
+                        } else {
+                            csvParsedData = parsed;
+                            showColumnPicker(parsed);
+                            status.textContent = `${file.name} — ${lineCount} lines (select timestamp column)`;
+                        }
+                    } else {
+                        document.getElementById('timestampInput').value = text;
+                        status.textContent = `${file.name} — ${lineCount} lines`;
+                    }
+                } else {
+                    document.getElementById('timestampInput').value = text;
+                    status.textContent = `${file.name} — ${lineCount} lines`;
+                }
+                updateCharCounter();
+                safeAnnounce(`File loaded: ${file.name}, ${lineCount} lines`, 'polite');
+            };
+            reader.onerror = function() {
+                showError('Failed to read file.');
+                status.textContent = '';
+                safeAnnounce('File import failed', 'assertive');
+            };
+            reader.readAsText(file);
+        }
+
+        function parseCSVRow(line) {
+            const fields = [];
+            let current = '';
+            let inQuotes = false;
+            for (let i = 0; i < line.length; i++) {
+                const ch = line[i];
+                if (inQuotes) {
+                    if (ch === '"') {
+                        if (i + 1 < line.length && line[i + 1] === '"') {
+                            current += '"';
+                            i++;
+                        } else {
+                            inQuotes = false;
+                        }
+                    } else {
+                        current += ch;
+                    }
+                } else {
+                    if (ch === '"') {
+                        inQuotes = true;
+                    } else if (ch === ',' || ch === '\t') {
+                        fields.push(current.trim());
+                        current = '';
+                    } else {
+                        current += ch;
+                    }
+                }
+            }
+            fields.push(current.trim());
+            return fields;
+        }
+
+        function parseCSV(text, delimiter) {
+            const lines = text.split('\n').filter(l => l.trim());
+            if (lines.length === 0) return { headers: [], rows: [] };
+            const headers = parseCSVRow(lines[0]);
+            const rows = [];
+            for (let i = 1; i < lines.length; i++) {
+                rows.push(parseCSVRow(lines[i]));
+            }
+            return { headers, rows };
+        }
+
+        function autoDetectTimestampColumn(headers) {
+            const tsNames = ['timestamp', 'time', 'date', 'datetime', 'date_time', 'created_at', 'updated_at', 'event_time', 'log_time', 'eventtime', 'logtime'];
+            for (let i = 0; i < headers.length; i++) {
+                if (tsNames.includes(headers[i].toLowerCase().trim())) return i;
+            }
+            return -1;
+        }
+
+        function showColumnPicker(parsed) {
+            const picker = document.getElementById('columnPicker');
+            const select = document.getElementById('columnSelect');
+            select.innerHTML = '';
+            parsed.headers.forEach((h, i) => {
+                const opt = document.createElement('option');
+                opt.value = i;
+                opt.textContent = `Column ${i + 1}: ${h}`;
+                select.appendChild(opt);
+            });
+            picker.classList.add('show');
+            previewColumn();
+        }
+
+        function previewColumn() {
+            if (!csvParsedData) return;
+            const idx = parseInt(document.getElementById('columnSelect').value);
+            const preview = document.getElementById('columnPreview');
+            const samples = csvParsedData.rows.slice(0, 3).map(r => r[idx] || '(empty)');
+            preview.textContent = 'Preview: ' + samples.join(' | ');
+        }
+
+        function applyColumnSelection() {
+            if (!csvParsedData) return;
+            const idx = parseInt(document.getElementById('columnSelect').value);
+            populateFromCSVColumn(csvParsedData, idx);
+            document.getElementById('columnPicker').classList.remove('show');
+            csvParsedData = null;
+            safeAnnounce('Column applied, timestamps loaded into text area', 'polite');
+        }
+
+        function populateFromCSVColumn(parsed, colIdx) {
+            const values = parsed.rows.map(r => (r[colIdx] || '').trim()).filter(v => v);
+            document.getElementById('timestampInput').value = values.join('\n');
+            updateCharCounter();
+        }
+
+        // --- Drag and Drop ---
+        function setupDragDrop() {
+            const textarea = document.getElementById('timestampInput');
+            textarea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                this.classList.add('drag-over');
+            });
+            textarea.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                this.classList.remove('drag-over');
+            });
+            textarea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                this.classList.remove('drag-over');
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    handleFileImport(files[0]);
+                }
+            });
         }
 
         // Regex patterns for timestamp detection
@@ -915,7 +1246,7 @@ Mon Jan 07 15:30:00 2024
                 return;
             }
 
-            const maxLines = 1000;
+            const maxLines = 10000;
             const processLines = lines.slice(0, maxLines);
 
             if (lines.length > maxLines) {
@@ -953,16 +1284,38 @@ Mon Jan 07 15:30:00 2024
             const errorCount = resultsData.filter(r => !r.valid).length;
 
             document.getElementById('resultsSummary').textContent =
-                `${validCount} converted, ${errorCount} error${errorCount !== 1 ? 's' : ''}`;
+                `${validCount} converted, ${errorCount} error${errorCount !== 1 ? 's' : ''} (${resultsData.length} total)`;
 
             const tbody = document.getElementById('resultsBody');
             tbody.innerHTML = '';
+            displayedRows = 0;
 
+            renderRows(Math.min(PAGE_SIZE, resultsData.length));
+            updateLoadMoreButton();
+
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.classList.add('show');
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+            let announcement = `Conversion complete. ${validCount} timestamp${validCount !== 1 ? 's' : ''} converted successfully`;
+            if (errorCount > 0) {
+                announcement += `, ${errorCount} error${errorCount !== 1 ? 's' : ''}`;
+            }
+            if (resultsData.length > PAGE_SIZE) {
+                announcement += `. Showing first ${PAGE_SIZE} of ${resultsData.length} results`;
+            }
+            safeAnnounce(announcement, 'polite');
+        }
+
+        function renderRows(count) {
+            const tbody = document.getElementById('resultsBody');
             const tz1 = document.getElementById('tz1').value;
             const tz2 = document.getElementById('tz2').value;
             const tz3 = document.getElementById('tz3').value;
+            const end = Math.min(displayedRows + count, resultsData.length);
 
-            resultsData.forEach(result => {
+            for (let i = displayedRows; i < end; i++) {
+                const result = resultsData[i];
                 const row = document.createElement('tr');
                 row.className = result.valid ? 'valid' : 'error';
 
@@ -989,76 +1342,59 @@ Mon Jan 07 15:30:00 2024
 
                 if (result.valid) {
                     const conversions = [];
-
-                    // ISO8601
                     conversions.push(createConversionRow('ISO8601', result.date.toISOString()));
-
-                    // Unix seconds
                     conversions.push(createConversionRow('Unix (s)',
                         Math.floor(result.date.getTime() / 1000).toString()));
-
-                    // Unix milliseconds
                     conversions.push(createConversionRow('Unix (ms)',
                         result.date.getTime().toString()));
-
-                    // Human readable
                     conversions.push(createConversionRow('Human',
                         result.date.toLocaleString('en-US', {
-                            year: 'numeric',
-                            month: 'short',
-                            day: '2-digit',
-                            hour: '2-digit',
-                            minute: '2-digit',
-                            second: '2-digit',
-                            hour12: false
+                            year: 'numeric', month: 'short', day: '2-digit',
+                            hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
                         })));
-
-                    // UTC
                     conversions.push(createConversionRow(safeT('tools.timestampConverter.results.utcTime', 'UTC Time'), formatTimezone(result.date, 'UTC')));
-
-                    // Local
                     conversions.push(createConversionRow(safeT('tools.timestampConverter.results.localTime', 'Local Time'),
                         result.date.toLocaleString('en-US', {
-                            year: 'numeric',
-                            month: 'short',
-                            day: '2-digit',
-                            hour: '2-digit',
-                            minute: '2-digit',
-                            second: '2-digit',
-                            hour12: false,
-                            timeZoneName: 'short'
+                            year: 'numeric', month: 'short', day: '2-digit',
+                            hour: '2-digit', minute: '2-digit', second: '2-digit',
+                            hour12: false, timeZoneName: 'short'
                         })));
-
-                    // Additional timezones
-                    if (tz1) {
-                        conversions.push(createConversionRow(tz1.split('/')[1] || tz1, formatTimezone(result.date, tz1)));
-                    }
-                    if (tz2) {
-                        conversions.push(createConversionRow(tz2.split('/')[1] || tz2, formatTimezone(result.date, tz2)));
-                    }
-                    if (tz3) {
-                        conversions.push(createConversionRow(tz3.split('/')[1] || tz3, formatTimezone(result.date, tz3)));
-                    }
-
+                    if (tz1) conversions.push(createConversionRow(tz1.split('/')[1] || tz1, formatTimezone(result.date, tz1)));
+                    if (tz2) conversions.push(createConversionRow(tz2.split('/')[1] || tz2, formatTimezone(result.date, tz2)));
+                    if (tz3) conversions.push(createConversionRow(tz3.split('/')[1] || tz3, formatTimezone(result.date, tz3)));
                     conversionCell.innerHTML = conversions.join('');
                 } else {
-                    conversionCell.innerHTML = `<span class="error-cell">⚠ ${result.error}</span>`;
+                    conversionCell.innerHTML = `<span class="error-cell">\u26a0 ${result.error}</span>`;
                 }
 
                 row.appendChild(conversionCell);
                 tbody.appendChild(row);
-            });
-
-            const resultsDiv = document.getElementById('results');
-            resultsDiv.classList.add('show');
-            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-
-            // Announce results
-            let announcement = `Conversion complete. ${validCount} timestamp${validCount !== 1 ? 's' : ''} converted successfully`;
-            if (errorCount > 0) {
-                announcement += `, ${errorCount} error${errorCount !== 1 ? 's' : ''}`;
             }
-            safeAnnounce(announcement, 'polite');
+            displayedRows = end;
+        }
+
+        function updateLoadMoreButton() {
+            const container = document.getElementById('loadMoreContainer');
+            if (displayedRows < resultsData.length) {
+                container.style.display = 'flex';
+                const remaining = resultsData.length - displayedRows;
+                document.getElementById('loadMoreBtn').textContent = `Load More (${Math.min(PAGE_SIZE, remaining)})`;
+                document.getElementById('showAllBtn').textContent = `Show All (${remaining} remaining)`;
+            } else {
+                container.style.display = 'none';
+            }
+        }
+
+        function loadMoreResults() {
+            renderRows(PAGE_SIZE);
+            updateLoadMoreButton();
+            safeAnnounce(`Loaded more results. Showing ${displayedRows} of ${resultsData.length}`, 'polite');
+        }
+
+        function showAllResults() {
+            renderRows(resultsData.length - displayedRows);
+            updateLoadMoreButton();
+            safeAnnounce(`All ${resultsData.length} results are now displayed`, 'polite');
         }
 
         function createConversionRow(label, value) {
@@ -1115,8 +1451,19 @@ Mon Jan 07 15:30:00 2024
             return div.innerHTML;
         }
 
+        function getExportData() {
+            const validOnly = document.getElementById('exportValidOnly').checked;
+            return validOnly ? resultsData.filter(r => r.valid) : resultsData;
+        }
+
         function exportToCSV() {
             if (resultsData.length === 0) return;
+
+            const data = getExportData();
+            if (data.length === 0) {
+                safeAnnounce('No data to export with current filter', 'polite');
+                return;
+            }
 
             const tz1 = document.getElementById('tz1').value;
             const tz2 = document.getElementById('tz2').value;
@@ -1133,7 +1480,7 @@ Mon Jan 07 15:30:00 2024
 
             const rows = [headers];
 
-            resultsData.forEach(result => {
+            data.forEach(result => {
                 if (result.valid) {
                     const row = [
                         result.index,
@@ -1167,10 +1514,51 @@ Mon Jan 07 15:30:00 2024
                 }
             });
 
-            const csv = rows.map(row => row.join(',')).join('\n');
+            const csv = '\uFEFF' + rows.map(row => row.join(',')).join('\n');
             const filename = `timestamp-conversions-${new Date().toISOString().split('T')[0]}.csv`;
             downloadFile(csv, filename, 'text/csv;charset=utf-8;');
-            safeAnnounce(`Exported ${resultsData.length} timestamp conversions to CSV file`, 'polite');
+            safeAnnounce(`Exported ${data.length} timestamp conversions to CSV file`, 'polite');
+        }
+
+        function exportToJSON() {
+            if (resultsData.length === 0) return;
+
+            const data = getExportData();
+            if (data.length === 0) {
+                safeAnnounce('No data to export with current filter', 'polite');
+                return;
+            }
+
+            const tz1 = document.getElementById('tz1').value;
+            const tz2 = document.getElementById('tz2').value;
+            const tz3 = document.getElementById('tz3').value;
+
+            const jsonData = data.map(result => {
+                const obj = {
+                    line: result.index,
+                    original: result.original,
+                    format: result.format,
+                    valid: result.valid
+                };
+                if (result.valid) {
+                    obj.iso8601 = result.date.toISOString();
+                    obj.unixSeconds = Math.floor(result.date.getTime() / 1000);
+                    obj.unixMilliseconds = result.date.getTime();
+                    obj.utc = formatTimezone(result.date, 'UTC');
+                    obj.local = result.date.toLocaleString('en-US', { timeZoneName: 'short' });
+                    if (tz1) obj[tz1] = formatTimezone(result.date, tz1);
+                    if (tz2) obj[tz2] = formatTimezone(result.date, tz2);
+                    if (tz3) obj[tz3] = formatTimezone(result.date, tz3);
+                } else {
+                    obj.error = result.error;
+                }
+                return obj;
+            });
+
+            const json = JSON.stringify(jsonData, null, 2);
+            const filename = `timestamp-conversions-${new Date().toISOString().split('T')[0]}.json`;
+            downloadFile(json, filename, 'application/json;charset=utf-8;');
+            safeAnnounce(`Exported ${data.length} timestamp conversions to JSON file`, 'polite');
         }
 
         function escapeCSV(str) {
@@ -1224,6 +1612,7 @@ Mon Jan 07 15:30:00 2024
         }
 
         document.addEventListener('DOMContentLoaded', function() {
+            setupDragDrop();
             try {
                 StorageUtils.loadFormInputs('timestamp-converter', timestampConverterFields, function() {
                     // Set defaults if timezones are still empty after loading saved data
