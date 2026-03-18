@@ -22,6 +22,7 @@
             { name: 'IOPS Calc', file: 'system/iops-calculator.html', id: 'iops' },
             { name: 'Password Gen', file: 'system/passphrase-generator.html', id: 'password' },
             { name: 'Certificate Parse', file: 'system/certificate-parser.html', id: 'cert-parser' },
+            { name: 'Log Parser', file: 'system/log-parser.html', id: 'log-parser' },
             { separator: '(Linux)' },
             { name: 'Cron', file: 'system/cron-builder.html', id: 'cron' },
             { name: 'Chmod', file: 'system/chmod-calculator.html', id: 'chmod' }
