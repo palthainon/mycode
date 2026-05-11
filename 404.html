@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta name="description" content="Page not found on OldWeb Tools. Browse network, system, data, financial, and productivity tools, or use search to find what you need.">
+    <meta name="robots" content="noindex, follow">
+    <meta name="theme-color" content="#1a1a2e">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="logo/favicon-32x32.png">
+
+    <title>Page Not Found - OldWeb.tech</title>
+
+    <link rel="stylesheet" href="a11y.css">
+    <script src="a11y-utils.js"></script>
+    <script src="storage-utils.js"></script>
+    <script src="navigationv2.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 3rem;
+            color: #4fc3f7;
+            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #90caf9;
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .actions {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .actions p {
+            color: #90caf9;
+            margin-bottom: 12px;
+        }
+
+        .actions kbd {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.85rem;
+            background: rgba(79, 195, 247, 0.15);
+            border: 1px solid rgba(79, 195, 247, 0.4);
+            border-radius: 4px;
+            padding: 2px 8px;
+            color: #4fc3f7;
+        }
+
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .category-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 18px;
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .category-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(79, 195, 247, 0.5);
+            box-shadow: 0 6px 20px rgba(79, 195, 247, 0.2);
+        }
+
+        .category-card h2 {
+            color: #4fc3f7;
+            font-size: 1.15rem;
+            margin-bottom: 6px;
+        }
+
+        .category-card p {
+            color: #90caf9;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        .home-link {
+            display: block;
+            text-align: center;
+            color: #4fc3f7;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 20px;
+        }
+
+        .home-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <main id="main-content" class="container">
+        <h1>404</h1>
+        <p class="subtitle">That page doesn't exist (or no longer does).</p>
+
+        <div class="actions">
+            <p>Press <kbd>Ctrl K</kbd> (or <kbd>/</kbd>) to search every tool, or pick a category:</p>
+        </div>
+
+        <div class="categories">
+            <a href="nettools/index.html" class="category-card">
+                <h2>Network Tools</h2>
+                <p>Subnet calculators, CIDR converters, MTU and Jinja utilities.</p>
+            </a>
+            <a href="system/index.html" class="category-card">
+                <h2>System Tools</h2>
+                <p>Regex, cron, chmod, password, timestamp, certificate, log tools.</p>
+            </a>
+            <a href="data/index.html" class="category-card">
+                <h2>Data Tools</h2>
+                <p>Base64/hash, diff, UUID, string and measurement converters.</p>
+            </a>
+            <a href="financials/index.html" class="category-card">
+                <h2>Financial Tools</h2>
+                <p>Amortization, compound interest, debt payoff, retirement.</p>
+            </a>
+            <a href="productivity/index.html" class="category-card">
+                <h2>Productivity Tools</h2>
+                <p>Pomodoro focus timer.</p>
+            </a>
+        </div>
+
+        <a href="index.html" class="home-link">Back to home</a>
+    </main>
+</body>
+</html>
