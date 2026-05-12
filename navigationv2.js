@@ -133,6 +133,50 @@
         'pomodoro':          'Pomodoro focus timer with configurable work and break intervals.'
     };
 
+    // Hand-picked related-tool ids per tool, used by the "Related tools" panel.
+    const relatedMap = {
+        // Network
+        'subnet':            ['subnet-ipv6', 'planner', 'cidr', 'mtu'],
+        'subnet-ipv6':       ['subnet', 'planner-ipv6', 'cidr', 'mtu'],
+        'planner':           ['subnet', 'cidr', 'planner-ipv6', 'mtu'],
+        'planner-ipv6':      ['subnet-ipv6', 'planner', 'cidr', 'subnet'],
+        'cidr':              ['subnet', 'planner', 'bit', 'subnet-ipv6'],
+        'bit':               ['data-rate', 'cidr', 'measurement', 'subnet'],
+        'data-rate':         ['bit', 'mtu', 'measurement', 'subnet'],
+        'mtu':               ['subnet', 'data-rate', 'cidr', 'bit'],
+        'jinja':             ['regex', 'cron', 'subnet', 'chmod'],
+        // System
+        'regex':             ['timestamp', 'string-tools', 'log-parser', 'base64'],
+        'timestamp':         ['cron', 'log-parser', 'regex', 'uuid'],
+        'disk':              ['iops', 'chmod', 'log-parser', 'measurement'],
+        'iops':              ['disk', 'data-rate', 'cron', 'mtu'],
+        'password-gen':      ['passphrase', 'base64', 'uuid', 'regex'],
+        'passphrase':        ['password-gen', 'base64', 'uuid', 'regex'],
+        'cert-parser':       ['base64', 'timestamp', 'regex', 'log-parser'],
+        'log-parser':        ['timestamp', 'regex', 'cron', 'string-tools'],
+        'cron':              ['timestamp', 'jinja', 'log-parser', 'chmod'],
+        'chmod':             ['cron', 'disk', 'jinja', 'regex'],
+        // Data
+        'base64':            ['string-tools', 'uuid', 'cert-parser', 'text-diff'],
+        'string-tools':      ['text-diff', 'base64', 'regex', 'uuid'],
+        'text-diff':         ['string-tools', 'regex', 'base64', 'uuid'],
+        'uuid':              ['base64', 'string-tools', 'password-gen', 'timestamp'],
+        'measurement':       ['bit', 'data-rate', 'disk', 'compound-interest'],
+        // Financials
+        'amortization':      ['compound-interest', 'debt-payoff', 'loan-payoff', 'retirement'],
+        'compound-interest': ['amortization', 'retirement', 'debt-payoff', 'loan-reference'],
+        'debt-payoff':       ['amortization', 'loan-payoff', 'compound-interest', 'retirement'],
+        'retirement':        ['compound-interest', 'amortization', 'debt-payoff', 'loan-reference'],
+        'loan-payoff':       ['amortization', 'debt-payoff', 'compound-interest', 'loan-reference'],
+        'loan-reference':    ['amortization', 'compound-interest', 'loan-payoff', 'debt-payoff'],
+        // Productivity
+        'pomodoro':          ['cron', 'timestamp', 'regex', 'password-gen']
+    };
+
+    // localStorage key used by the homepage Quick Access feature.
+    // StorageUtils prefixes saved keys with `owt_` automatically.
+    const QUICK_ACCESS_KEY = 'quick-access-tools';
+
     // Track currently open dropdown
     let currentOpenDropdown = null;
 
@@ -460,6 +504,119 @@
             text-align: center;
         }
 
+        /* Pinned-tools row (compact Quick Access shown on non-home pages) */
+        .pinned-tools-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 50px auto 0 auto;
+            padding: 0 0 8px 0;
+            justify-content: center;
+            max-width: 1000px;
+        }
+        .pinned-tools-row[hidden] { display: none; }
+        .pinned-tools-row:not([hidden]) + .breadcrumbs { margin-top: 12px; }
+        .pinned-tool-pill {
+            display: inline-flex;
+            align-items: center;
+            font-size: 0.78rem;
+            color: #90caf9;
+            background: rgba(79, 195, 247, 0.08);
+            border: 1px solid rgba(79, 195, 247, 0.25);
+            border-radius: 999px;
+            padding: 4px 12px;
+            text-decoration: none;
+            transition: background 0.2s, color 0.2s, border-color 0.2s;
+        }
+        .pinned-tool-pill:hover {
+            background: rgba(79, 195, 247, 0.18);
+            color: #fff;
+            border-color: rgba(79, 195, 247, 0.5);
+        }
+        .pinned-tool-pill[aria-current="page"] {
+            color: #66bb6a;
+            border-color: rgba(102, 187, 106, 0.5);
+        }
+
+        /* Category intro / outro copy on category hub pages */
+        .category-intro {
+            max-width: 800px;
+            margin: 0 auto 30px auto;
+            color: #cfd8dc;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            text-align: center;
+        }
+        .category-outro {
+            max-width: 800px;
+            margin: 40px auto 0 auto;
+            padding: 24px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 10px;
+            color: #cfd8dc;
+            line-height: 1.6;
+            font-size: 0.9rem;
+        }
+        .category-outro h2 {
+            color: #4fc3f7;
+            font-size: 1.05rem;
+            margin-bottom: 10px;
+        }
+        .category-outro p + p {
+            margin-top: 10px;
+        }
+
+        /* Related tools panel on tool pages */
+        .related-tools {
+            margin-top: 50px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .related-tools h2 {
+            color: #4fc3f7;
+            font-size: 1.15rem;
+            margin-bottom: 14px;
+        }
+        .related-tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
+        }
+        .related-tool-card {
+            display: block;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 12px 14px;
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.2s, border-color 0.2s, background 0.2s;
+        }
+        .related-tool-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(79, 195, 247, 0.4);
+            background: rgba(79, 195, 247, 0.06);
+        }
+        .related-tool-card-name {
+            color: #4fc3f7;
+            font-weight: 500;
+            font-size: 0.95rem;
+            margin-bottom: 4px;
+        }
+        .related-tool-card-meta {
+            font-size: 0.72rem;
+            color: rgba(144, 202, 249, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+        .related-tool-card-desc {
+            color: #b0bec5;
+            font-size: 0.82rem;
+            line-height: 1.4;
+        }
+
         @media (max-width: 768px) {
             /* Reset h1 top margin on mobile since nav is in normal flow */
             .container h1,
@@ -468,6 +625,13 @@
             }
 
             .breadcrumbs {
+                margin-top: 8px;
+            }
+
+            .pinned-tools-row {
+                margin-top: 8px;
+            }
+            .pinned-tools-row:not([hidden]) + .breadcrumbs {
                 margin-top: 8px;
             }
 
@@ -897,6 +1061,124 @@
         document.head.appendChild(s);
     }
 
+    // ---------- Related tools panel ----------
+
+    function categoryDisplayName(category) {
+        return categoryMeta[category] ? categoryMeta[category].displayName : '';
+    }
+
+    function injectRelatedTools(currentPage, pathPrefix) {
+        if (!currentPage.category) return;
+        if (currentPage.id && currentPage.id.endsWith('-home')) return;
+
+        const entry = findRegistryEntry(currentPage);
+        if (!entry) return;
+        const relatedIds = relatedMap[entry.id];
+        if (!relatedIds || !relatedIds.length) return;
+
+        const related = relatedIds
+            .map(id => toolRegistry.find(t => t.id === id))
+            .filter(Boolean);
+        if (!related.length) return;
+
+        const main = document.querySelector('main') || document.querySelector('.container');
+        if (!main) return;
+
+        const cards = related.map(t => {
+            const desc = toolDescriptions[t.id] || '';
+            return `<a class="related-tool-card" href="${pathPrefix}${t.file}">
+                <div class="related-tool-card-meta">${escapeHtml(categoryDisplayName(t.category))}</div>
+                <div class="related-tool-card-name">${escapeHtml(t.name)}</div>
+                <div class="related-tool-card-desc">${escapeHtml(desc)}</div>
+            </a>`;
+        }).join('');
+
+        const aside = document.createElement('aside');
+        aside.className = 'related-tools';
+        aside.setAttribute('aria-labelledby', 'related-tools-heading');
+        aside.innerHTML = `
+            <h2 id="related-tools-heading">Related tools</h2>
+            <div class="related-tools-grid">${cards}</div>`;
+        main.appendChild(aside);
+    }
+
+    // ---------- Pinned tools row (compact Quick Access on non-home pages) ----------
+
+    function readPinnedToolIds() {
+        if (window.StorageUtils && typeof window.StorageUtils.load === 'function') {
+            return window.StorageUtils.load(QUICK_ACCESS_KEY, []) || [];
+        }
+        // Fallback: read localStorage directly with the owt_ prefix.
+        try {
+            const raw = localStorage.getItem('owt_' + QUICK_ACCESS_KEY);
+            return raw ? JSON.parse(raw) : [];
+        } catch (e) {
+            return [];
+        }
+    }
+
+    // Build a lookup for pinned-tool IDs by checking both toolsData (the
+    // existing source used by index.html's Quick Access modal) and the
+    // richer toolRegistry, so we resolve every stored id.
+    function lookupToolById(id) {
+        for (const [cat, list] of Object.entries(toolsData)) {
+            if (cat === 'home' || !Array.isArray(list)) continue;
+            const hit = list.find(t => t.id === id);
+            if (hit) return { name: hit.name, file: hit.file };
+        }
+        const reg = toolRegistry.find(t => t.id === id);
+        if (reg) return { name: reg.name, file: reg.file };
+        return null;
+    }
+
+    function renderPinnedRow(rowEl, pathPrefix, currentPage) {
+        const ids = readPinnedToolIds();
+        const items = ids.map(id => lookupToolById(id)).filter(Boolean);
+        if (!items.length) {
+            rowEl.setAttribute('hidden', '');
+            rowEl.innerHTML = '';
+            return;
+        }
+        const currentId = currentPage.id;
+        const currentTool = currentId ? lookupToolById(currentId) : null;
+        rowEl.innerHTML = items.map((t, i) => {
+            const isCurrent = currentTool && t.file === currentTool.file;
+            const aria = isCurrent ? ' aria-current="page"' : '';
+            return `<a class="pinned-tool-pill" href="${pathPrefix}${t.file}"${aria}>${escapeHtml(t.name)}</a>`;
+        }).join('');
+        rowEl.removeAttribute('hidden');
+    }
+
+    function injectPinnedRow(currentPage, pathPrefix) {
+        // Skip on home (Quick Access section already serves it) and on the 404
+        // page (no category, but home has the canonical home; show on 404 too
+        // since users there benefit from shortcuts — but only if any pinned).
+        if (currentPage.id === 'home') return;
+
+        const row = document.createElement('div');
+        row.className = 'pinned-tools-row';
+        row.setAttribute('role', 'navigation');
+        row.setAttribute('aria-label', 'Pinned tools');
+        row.setAttribute('hidden', '');
+
+        // Insert right after the main nav-bar, before breadcrumbs.
+        const navBar = document.querySelector('.nav-bar');
+        if (navBar && navBar.parentNode) {
+            navBar.parentNode.insertBefore(row, navBar.nextSibling);
+        } else {
+            document.body.insertBefore(row, document.body.firstChild);
+        }
+
+        renderPinnedRow(row, pathPrefix, currentPage);
+
+        // Update if another tab edits pinned tools.
+        window.addEventListener('storage', e => {
+            if (e.key === 'owt_' + QUICK_ACCESS_KEY) {
+                renderPinnedRow(row, pathPrefix, currentPage);
+            }
+        });
+    }
+
     // ---------- Search overlay ----------
 
     let searchOverlayEl = null;
@@ -1107,8 +1389,10 @@
         const inSubfolder = currentPage.category !== null;
         const pathPrefix = inSubfolder ? '../' : '';
 
+        injectPinnedRow(currentPage, pathPrefix);
         injectBreadcrumbs(currentPage, pathPrefix);
         injectJsonLd(currentPage, pathPrefix);
+        injectRelatedTools(currentPage, pathPrefix);
         setupSearch(pathPrefix);
     }
 
