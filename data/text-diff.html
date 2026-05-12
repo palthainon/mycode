@@ -674,7 +674,7 @@ Passed by Congress March 22, 1972. Ratification deadline extended to June 30, 19
                     <button type="button" class="btn tertiary" onclick="editMode()" id="editBtn" style="display: none;" aria-label="Return to edit mode to make changes">
                         Edit
                     </button>
-                    <button type="button" class="btn tertiary" onclick="clearAll()" aria-label="Clear all text inputs and comparison results">
+                    <button type="button" class="btn tertiary" onclick="clearAll()" aria-label="Clear all text inputs, comparison results, and saved form data from this page">
                         Clear All
                     </button>
                 </div>
@@ -697,8 +697,16 @@ Passed by Congress March 22, 1972. Ratification deadline extended to June 30, 19
             changePositions: []
         };
 
+        // Fields persisted to localStorage
+        const textDiffFields = [
+            'leftPanel', 'rightPanel',
+            'syncScroll', 'ignoreWhitespace', 'ignoreCase', 'trimLines', 'showChangesOnly'
+        ];
+
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
+            StorageUtils.loadFormInputs('text-diff', textDiffFields);
+            StorageUtils.autoSaveFormInputs('text-diff', textDiffFields);
             setupScrollSync();
             setupEditTracking();
             setupOptionListeners();
@@ -1378,7 +1386,9 @@ Passed by Congress March 22, 1972. Ratification deadline extended to June 30, 19
             state.currentChangeIndex = -1;
             state.changePositions = [];
 
-            A11yUtils.announce('All fields cleared', 'polite');
+            StorageUtils.remove('text-diff');
+
+            A11yUtils.announce('All fields and saved data cleared', 'polite');
         }
 
         // Escape HTML for display

@@ -263,6 +263,33 @@
             color: #fff;
         }
 
+        .result-item .value-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .copy-result-btn {
+            background: rgba(79, 195, 247, 0.1);
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            color: #4fc3f7;
+            padding: 4px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 600;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .copy-result-btn:hover {
+            background: rgba(79, 195, 247, 0.2);
+            border-color: #4fc3f7;
+        }
+
+        .copy-result-btn:active { transform: scale(0.97); }
+
         .result-item.highlight .value {
             font-size: 1.4rem;
             color: #a5d6a7;
@@ -661,27 +688,45 @@
             <div class="results-grid">
                 <div class="result-item highlight">
                     <div class="label">Total Time</div>
-                    <div class="value" id="humanReadable">-</div>
+                    <div class="value-row">
+                        <div class="value" id="humanReadable">-</div>
+                        <button type="button" class="copy-result-btn" onclick="copyResult('humanReadable', 'Total time')" aria-label="Copy total time">Copy</button>
+                    </div>
                 </div>
                 <div class="result-item">
                     <div class="label">Seconds</div>
-                    <div class="value" id="seconds">-</div>
+                    <div class="value-row">
+                        <div class="value" id="seconds">-</div>
+                        <button type="button" class="copy-result-btn" onclick="copyResult('seconds', 'Seconds')" aria-label="Copy seconds value">Copy</button>
+                    </div>
                 </div>
                 <div class="result-item">
                     <div class="label">Minutes</div>
-                    <div class="value" id="minutes">-</div>
+                    <div class="value-row">
+                        <div class="value" id="minutes">-</div>
+                        <button type="button" class="copy-result-btn" onclick="copyResult('minutes', 'Minutes')" aria-label="Copy minutes value">Copy</button>
+                    </div>
                 </div>
                 <div class="result-item">
                     <div class="label">Hours</div>
-                    <div class="value" id="hours">-</div>
+                    <div class="value-row">
+                        <div class="value" id="hours">-</div>
+                        <button type="button" class="copy-result-btn" onclick="copyResult('hours', 'Hours')" aria-label="Copy hours value">Copy</button>
+                    </div>
                 </div>
                 <div class="result-item" id="daysItem" style="display: none;">
                     <div class="label">Days</div>
-                    <div class="value" id="days">-</div>
+                    <div class="value-row">
+                        <div class="value" id="days">-</div>
+                        <button type="button" class="copy-result-btn" onclick="copyResult('days', 'Days')" aria-label="Copy days value">Copy</button>
+                    </div>
                 </div>
                 <div class="result-item" id="weeksItem" style="display: none;">
                     <div class="label">Weeks</div>
-                    <div class="value" id="weeks">-</div>
+                    <div class="value-row">
+                        <div class="value" id="weeks">-</div>
+                        <button type="button" class="copy-result-btn" onclick="copyResult('weeks', 'Weeks')" aria-label="Copy weeks value">Copy</button>
+                    </div>
                 </div>
             </div>
 
@@ -980,6 +1025,30 @@
 
             // Announce completion to screen readers
             A11yUtils.announce(`Transfer time calculation complete. ${dataSizeInput} ${dataSizeUnit} at ${transferRateInput} ${transferRateUnit} will take ${formatHumanReadable(seconds)}.`, 'polite');
+        }
+
+        // Copy a single result value to clipboard
+        async function copyResult(id, label) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            const text = el.textContent;
+            if (!text || text === '-') {
+                A11yUtils.announce(label + ' has no value yet', 'polite');
+                return;
+            }
+            try {
+                await navigator.clipboard.writeText(text);
+                A11yUtils.announceCopied(label);
+            } catch (err) {
+                const range = document.createRange();
+                range.selectNode(el);
+                const sel = window.getSelection();
+                sel.removeAllRanges();
+                sel.addRange(range);
+                document.execCommand('copy');
+                sel.removeAllRanges();
+                A11yUtils.announceCopied(label);
+            }
         }
 
         // CSV Export

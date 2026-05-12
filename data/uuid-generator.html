@@ -1130,6 +1130,14 @@ string compact = newGuid.ToString("N");   // No hyphens</code>
             </div>
         </div>
 
+        <div style="display:flex;justify-content:center;margin-top:20px;">
+            <button type="button"
+                    class="action-btn"
+                    style="background:transparent;border:2px solid rgba(255,255,255,0.3);color:#90caf9;"
+                    onclick="clearAllSavedData()"
+                    aria-label="Clear all saved form data from this page">Clear Saved Data</button>
+        </div>
+
         <footer role="contentinfo">
             <span>UUID Generator</span> - <span>Works offline, no installation required</span>
         </footer>
@@ -1723,8 +1731,39 @@ ${results.join('\n')}`;
             }
         });
 
-        // Generate one UUID on page load for convenience
+        // localStorage persistence
+        const uuidGenFields = [
+            'v5Namespace', 'v5CustomNamespace', 'v5Name',
+            'quantity', 'outputFormat', 'uppercase', 'noHyphens',
+            'validateInput', 'batchValidateInput', 'convertInput'
+        ];
+
+        function clearAllSavedData() {
+            StorageUtils.remove('uuid-generator');
+            uuidGenFields.forEach(id => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                if (el.type === 'checkbox') {
+                    el.checked = el.defaultChecked;
+                } else if (el.tagName === 'SELECT') {
+                    el.selectedIndex = 0;
+                } else if (id === 'quantity') {
+                    el.value = '1';
+                } else {
+                    el.value = '';
+                }
+            });
+            ['generateOutput', 'batchValidateOutput'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.value = '';
+            });
+            A11yUtils.announce('All saved data has been cleared', 'polite');
+        }
+
+        // Initial UUID + storage load
         document.addEventListener('DOMContentLoaded', function() {
+            StorageUtils.loadFormInputs('uuid-generator', uuidGenFields);
+            StorageUtils.autoSaveFormInputs('uuid-generator', uuidGenFields);
             document.getElementById('generateOutput').value = generateUUIDv4();
         });
     </script>

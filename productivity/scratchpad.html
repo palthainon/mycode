@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="A persistent plaintext scratchpad that auto-saves to your browser. Open it, take notes, close the tab &mdash; your text will still be there when you come back.">
+    <meta name="keywords" content="scratchpad, notepad, plaintext notes, auto save notepad, browser notepad, persistent notes, sticky note, scratch text">
+    <meta name="author" content="OldWeb LLC">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://oldweb.tech/productivity/scratchpad.html">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Plaintext Scratchpad - OldWeb.tech">
+    <meta property="og:description" content="A persistent plaintext scratchpad that auto-saves to your browser. Your text stays put across visits.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oldweb.tech/productivity/scratchpad.html">
+    <meta property="og:site_name" content="OldWeb.tech">
+    <meta property="og:image" content="https://oldweb.tech/logo/og-image.png">
+
+    <meta name="theme-color" content="#1a1a2e">
+    <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
+
+    <title>Plaintext Scratchpad - OldWeb.tech</title>
+    <link rel="stylesheet" href="../a11y.css">
+    <script src="../a11y-utils.js"></script>
+    <script src="../storage-utils.js"></script>
+    <script src="../navigationv2.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 30px 20px;
+            color: #fff;
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 8px;
+            font-size: 2.2rem;
+            color: #4fc3f7;
+            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #90caf9;
+            font-size: 0.95rem;
+            margin-bottom: 22px;
+            opacity: 0.9;
+        }
+
+        .ascii-logo {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.65rem;
+            line-height: 1.1;
+            color: #4fc3f7;
+            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
+            opacity: 0.8;
+            white-space: pre;
+        }
+
+        .pad {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+
+        .toolbar .spacer { flex: 1; }
+
+        .toolbar select, .toolbar button {
+            background: rgba(79, 195, 247, 0.1);
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            color: #4fc3f7;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .toolbar select {
+            font-weight: 500;
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        .toolbar button:hover, .toolbar select:hover {
+            background: rgba(79, 195, 247, 0.2);
+            border-color: #4fc3f7;
+        }
+
+        .toolbar button.danger {
+            background: transparent;
+            border-color: rgba(244, 67, 54, 0.4);
+            color: rgba(244, 67, 54, 0.8);
+        }
+
+        .toolbar button.danger:hover {
+            background: rgba(244, 67, 54, 0.12);
+            border-color: rgba(244, 67, 54, 0.6);
+            color: #ff8a80;
+        }
+
+        .toolbar .save-status {
+            color: #90caf9;
+            font-size: 0.8rem;
+            opacity: 0.85;
+            margin-left: 4px;
+        }
+
+        .toolbar .save-status.saved { color: #66bb6a; }
+
+        textarea {
+            width: 100%;
+            min-height: 60vh;
+            padding: 16px 18px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            background: #0f1419;
+            color: #e0e0e0;
+            font-size: 1rem;
+            font-family: 'Consolas', 'Monaco', 'Menlo', monospace;
+            line-height: 1.55;
+            resize: vertical;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            tab-size: 4;
+        }
+
+        textarea.serif {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #4fc3f7;
+            box-shadow: 0 0 15px rgba(79, 195, 247, 0.2);
+        }
+
+        textarea::placeholder { color: rgba(255, 255, 255, 0.35); }
+
+        .footer-bar {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+            color: #90caf9;
+            font-size: 0.85rem;
+        }
+
+        .footer-bar .stat strong {
+            color: #fff;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        .info-box {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 14px 18px;
+            margin-top: 18px;
+            font-size: 0.85rem;
+            color: #c5d4e3;
+            line-height: 1.55;
+            border-left: 4px solid #4fc3f7;
+        }
+
+        .info-box code {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background: rgba(255, 255, 255, 0.06);
+            padding: 1px 6px;
+            border-radius: 3px;
+            color: #ffd180;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 22px;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .ascii-logo {
+                position: static;
+                text-align: center;
+                margin-bottom: 20px;
+                font-size: 0.5rem;
+            }
+            h1 { font-size: 1.7rem; }
+            textarea { font-size: 0.95rem; min-height: 55vh; }
+        }
+    </style>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Plaintext Scratchpad",
+      "description": "A persistent plaintext scratchpad that auto-saves to your browser. Your text stays put across visits.",
+      "url": "https://oldweb.tech/productivity/scratchpad.html",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Web Browser",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "creator": { "@type": "Organization", "name": "OldWeb.tech" }
+    }
+    </script>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <div class="ascii-logo" aria-hidden="true">  ___  _     _  __        __   _
+ / _ \| | __| | \ \      / /__| |__
+| | | | |/ _` |  \ \ /\ / / _ \ '_ \
+| |_| | | (_| |   \ V  V /  __/ |_) |
+ \___/|_|\__,_|    \_/\_/ \___|_.__/
+</div>
+
+    <main id="main-content" class="container">
+        <h1>Plaintext Scratchpad</h1>
+        <p class="subtitle">Type anything. It auto-saves to your browser and survives reloads. Nothing leaves this page.</p>
+
+        <div class="pad">
+            <div class="toolbar" role="toolbar" aria-label="Scratchpad actions">
+                <label for="fontSelect" class="sr-only">Font family</label>
+                <select id="fontSelect" aria-label="Font family">
+                    <option value="mono" selected>Monospace</option>
+                    <option value="serif">Sans-serif</option>
+                </select>
+                <button type="button" onclick="copyAll()" aria-label="Copy all text to clipboard">Copy All</button>
+                <button type="button" onclick="downloadTxt()" aria-label="Download as a .txt file">Download .txt</button>
+                <span class="spacer"></span>
+                <span id="saveStatus" class="save-status" aria-live="polite">Ready</span>
+                <button type="button" class="danger" onclick="clearAllSavedData()" aria-label="Clear all saved scratchpad text">Clear</button>
+            </div>
+
+            <textarea id="padInput"
+                      placeholder="Jot down anything... commands, configs, IPs, half-formed ideas. It saves as you type."
+                      aria-label="Scratchpad text area"
+                      autofocus
+                      spellcheck="false"></textarea>
+
+            <div class="footer-bar" aria-live="polite">
+                <span class="stat"><strong id="charCount">0</strong> chars</span>
+                <span class="stat"><strong id="wordCount">0</strong> words</span>
+                <span class="stat"><strong id="lineCount">1</strong> lines</span>
+                <span class="stat"><strong id="byteCount">0</strong> bytes</span>
+            </div>
+        </div>
+
+        <div class="info-box">
+            Auto-saves on every keystroke (debounced). Stored only in your browser's localStorage &mdash; clearing site data or using <code>Clear</code> erases it. Use <code>Download .txt</code> if you want a backup.
+        </div>
+
+        <footer role="contentinfo">
+            <span>Scratchpad</span> &mdash; <span>Works offline, no installation required</span>
+        </footer>
+    </main>
+
+    <script>
+        const $ = id => document.getElementById(id);
+        const pad = $('padInput');
+        const fontSelect = $('fontSelect');
+        const status = $('saveStatus');
+
+        function updateStats() {
+            const v = pad.value;
+            $('charCount').textContent = v.length.toLocaleString();
+            const words = v.trim() ? v.trim().split(/\s+/).length : 0;
+            $('wordCount').textContent = words.toLocaleString();
+            $('lineCount').textContent = (v ? v.split('\n').length : 1).toLocaleString();
+            $('byteCount').textContent = new Blob([v]).size.toLocaleString();
+        }
+
+        let saveTimer = null;
+        function markSaving() {
+            status.textContent = 'Saving…';
+            status.classList.remove('saved');
+            clearTimeout(saveTimer);
+            saveTimer = setTimeout(() => {
+                status.textContent = 'Saved';
+                status.classList.add('saved');
+            }, 500);
+        }
+
+        function applyFont() {
+            if (fontSelect.value === 'serif') pad.classList.add('serif');
+            else pad.classList.remove('serif');
+        }
+
+        async function copyAll() {
+            const text = pad.value;
+            if (!text) {
+                A11yUtils.announce('Scratchpad is empty', 'polite');
+                return;
+            }
+            try {
+                await navigator.clipboard.writeText(text);
+                A11yUtils.announceCopied('Scratchpad');
+            } catch (err) {
+                pad.select();
+                document.execCommand('copy');
+                A11yUtils.announceCopied('Scratchpad');
+            }
+        }
+
+        function downloadTxt() {
+            const text = pad.value;
+            if (!text) {
+                A11yUtils.announce('Scratchpad is empty', 'polite');
+                return;
+            }
+            const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            const ts = new Date().toISOString().replace(/[:.]/g, '-').split('Z')[0];
+            a.href = url;
+            a.download = `scratchpad-${ts}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            A11yUtils.announce('Scratchpad downloaded', 'polite');
+        }
+
+        function clearAllSavedData() {
+            if (pad.value && !confirm('Clear the scratchpad? This cannot be undone (consider Download .txt first).')) return;
+            StorageUtils.remove('scratchpad');
+            pad.value = '';
+            updateStats();
+            status.textContent = 'Cleared';
+            status.classList.remove('saved');
+            A11yUtils.announce('Scratchpad cleared', 'polite');
+            pad.focus();
+        }
+
+        pad.addEventListener('input', () => {
+            updateStats();
+            markSaving();
+        });
+
+        fontSelect.addEventListener('change', applyFont);
+
+        const scratchpadFields = ['padInput', 'fontSelect'];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            StorageUtils.loadFormInputs('scratchpad', scratchpadFields, function() {
+                applyFont();
+                updateStats();
+                if (pad.value) {
+                    status.textContent = 'Loaded';
+                    status.classList.add('saved');
+                }
+            });
+            StorageUtils.autoSaveFormInputs('scratchpad', scratchpadFields);
+        });
+    </script>
+    <script>
+        document.querySelector('.skip-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.getElementById('main-content');
+            if (target) {
+                target.setAttribute('tabindex', '-1');
+                target.focus();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    </script>
+</body>
+</html>

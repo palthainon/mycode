@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Format, validate, and minify JSON entirely in your browser. Pretty-print with custom indent, sort keys, minify, escape and unescape JSON strings. No upload.">
+    <meta name="keywords" content="JSON formatter, JSON validator, JSON pretty print, JSON minify, JSON beautifier, JSON escape, JSON parser, JSON tools">
+    <meta name="author" content="OldWeb LLC">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://oldweb.tech/data/json-formatter.html">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="JSON Formatter & Validator - OldWeb.tech">
+    <meta property="og:description" content="Format, validate, and minify JSON entirely in your browser. Pretty-print, sort keys, minify, escape and unescape.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oldweb.tech/data/json-formatter.html">
+    <meta property="og:site_name" content="OldWeb.tech">
+    <meta property="og:image" content="https://oldweb.tech/logo/og-image.png">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="JSON Formatter & Validator - OldWeb.tech">
+    <meta name="twitter:description" content="Format, validate, and minify JSON entirely in your browser. Pretty-print, sort keys, minify, escape and unescape.">
+    <meta name="twitter:image" content="https://oldweb.tech/logo/og-image.png">
+
+    <meta name="theme-color" content="#1a1a2e">
+    <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
+
+    <title>JSON Formatter & Validator - OldWeb.tech</title>
+    <link rel="stylesheet" href="../a11y.css">
+    <script src="../a11y-utils.js"></script>
+    <script src="../storage-utils.js"></script>
+    <script src="../navigationv2.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #fff;
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 2.5rem;
+            color: #4fc3f7;
+            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #90caf9;
+            font-size: 1.05rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .ascii-logo {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.65rem;
+            line-height: 1.1;
+            color: #4fc3f7;
+            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
+            opacity: 0.8;
+            white-space: pre;
+        }
+
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 12px 14px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            align-items: center;
+        }
+
+        .toolbar .group {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .toolbar .group label {
+            color: #90caf9;
+            font-size: 0.9rem;
+        }
+
+        .toolbar select {
+            background: #0f1419;
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .toolbar select:focus { outline: 2px solid #4fc3f7; outline-offset: 1px; }
+
+        .action-btn {
+            background: rgba(79, 195, 247, 0.1);
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            color: #4fc3f7;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .action-btn:hover {
+            background: rgba(79, 195, 247, 0.2);
+            border-color: #4fc3f7;
+        }
+
+        .action-btn.primary {
+            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
+            border-color: #4fc3f7;
+            color: #fff;
+        }
+
+        .action-btn.primary:hover {
+            box-shadow: 0 4px 12px rgba(79, 195, 247, 0.4);
+        }
+
+        .toolbar .checkbox-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #c5d4e3;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .panes {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .pane {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pane-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .pane-header label {
+            color: #90caf9;
+            font-weight: 500;
+        }
+
+        .pane-actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .small-btn {
+            background: rgba(79, 195, 247, 0.1);
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            color: #4fc3f7;
+            padding: 4px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .small-btn:hover {
+            background: rgba(79, 195, 247, 0.2);
+            border-color: #4fc3f7;
+        }
+
+        .pane textarea {
+            flex: 1;
+            min-height: 380px;
+            width: 100%;
+            padding: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: #0f1419;
+            color: #e0e0e0;
+            font-size: 0.9rem;
+            font-family: 'Consolas', 'Monaco', monospace;
+            line-height: 1.5;
+            resize: vertical;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            tab-size: 2;
+        }
+
+        .pane textarea:focus {
+            outline: none;
+            border-color: #4fc3f7;
+            box-shadow: 0 0 15px rgba(79, 195, 247, 0.2);
+        }
+
+        .pane textarea::placeholder { color: rgba(255, 255, 255, 0.35); }
+        .pane textarea.error { border-color: #f44336 !important; }
+
+        #error {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid #f44336;
+            color: #ff8a80;
+            padding: 14px 18px;
+            border-radius: 8px;
+            margin-bottom: 18px;
+            display: none;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+        }
+
+        #error.show { display: block; }
+
+        #success {
+            background: rgba(102, 187, 106, 0.15);
+            border: 1px solid #66bb6a;
+            color: #a5d6a7;
+            padding: 12px 18px;
+            border-radius: 8px;
+            margin-bottom: 18px;
+            display: none;
+            font-size: 0.9rem;
+        }
+
+        #success.show { display: block; }
+
+        .stats {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            color: #90caf9;
+            font-size: 0.85rem;
+            margin-top: 8px;
+        }
+
+        .stats .stat strong { color: #fff; font-family: 'Consolas', 'Monaco', monospace; }
+
+        .info-box {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin-top: 24px;
+            font-size: 0.9rem;
+            color: #c5d4e3;
+            line-height: 1.6;
+            border-left: 4px solid #4fc3f7;
+        }
+
+        .info-box h3 {
+            color: #4fc3f7;
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        .info-box code {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background: rgba(255, 255, 255, 0.06);
+            padding: 1px 6px;
+            border-radius: 3px;
+            color: #ffd180;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 900px) {
+            .panes { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .ascii-logo {
+                position: static;
+                text-align: center;
+                margin-bottom: 20px;
+                font-size: 0.5rem;
+            }
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "JSON Formatter & Validator",
+      "description": "Format, validate, and minify JSON entirely in your browser. Pretty-print, sort keys, minify, escape and unescape.",
+      "url": "https://oldweb.tech/data/json-formatter.html",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Web Browser",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "creator": { "@type": "Organization", "name": "OldWeb.tech" }
+    }
+    </script>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <div class="ascii-logo" aria-hidden="true">  ___  _     _  __        __   _
+ / _ \| | __| | \ \      / /__| |__
+| | | | |/ _` |  \ \ /\ / / _ \ '_ \
+| |_| | | (_| |   \ V  V /  __/ |_) |
+ \___/|_|\__,_|    \_/\_/ \___|_.__/
+</div>
+
+    <main id="main-content" class="container">
+        <h1>JSON Formatter &amp; Validator</h1>
+        <p class="subtitle">Format, validate, minify, or escape JSON. Everything runs locally in your browser.</p>
+
+        <div class="toolbar" role="toolbar" aria-label="JSON formatter actions">
+            <div class="group">
+                <label for="indentSelect">Indent</label>
+                <select id="indentSelect" aria-label="Indent size for formatted JSON">
+                    <option value="2" selected>2 spaces</option>
+                    <option value="4">4 spaces</option>
+                    <option value="tab">tab</option>
+                </select>
+            </div>
+            <div class="group">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="sortKeys">
+                    Sort keys
+                </label>
+            </div>
+            <div class="group" style="margin-left:auto;">
+                <button type="button" class="action-btn primary" onclick="action('format')" aria-label="Format and validate JSON">Format</button>
+                <button type="button" class="action-btn" onclick="action('minify')" aria-label="Minify JSON to one line">Minify</button>
+                <button type="button" class="action-btn" onclick="action('validate')" aria-label="Validate JSON without modifying it">Validate</button>
+                <button type="button" class="action-btn" onclick="action('escape')" aria-label="Escape JSON as a string literal">Escape</button>
+                <button type="button" class="action-btn" onclick="action('unescape')" aria-label="Unescape a JSON string literal">Unescape</button>
+            </div>
+        </div>
+
+        <div id="error" role="alert" aria-live="assertive" aria-atomic="true"></div>
+        <div id="success" role="status" aria-live="polite"></div>
+
+        <div class="panes">
+            <div class="pane">
+                <div class="pane-header">
+                    <label for="jsonInput">Input</label>
+                    <div class="pane-actions">
+                        <button type="button" class="small-btn" onclick="loadSample()" aria-label="Load a sample JSON document">Sample</button>
+                        <button type="button" class="small-btn" onclick="copyText('jsonInput', 'Input')" aria-label="Copy input to clipboard">Copy</button>
+                        <button type="button" class="small-btn" onclick="clearInput()" aria-label="Clear input">Clear</button>
+                    </div>
+                </div>
+                <textarea id="jsonInput"
+                          placeholder='{"name":"example","items":[1,2,3]}'
+                          spellcheck="false"
+                          aria-describedby="input-stats"></textarea>
+                <div class="stats" id="input-stats" aria-live="polite">
+                    <span class="stat"><strong id="inputChars">0</strong> chars</span>
+                    <span class="stat"><strong id="inputBytes">0</strong> bytes</span>
+                    <span class="stat"><strong id="inputLines">1</strong> lines</span>
+                </div>
+            </div>
+            <div class="pane">
+                <div class="pane-header">
+                    <label for="jsonOutput">Output</label>
+                    <div class="pane-actions">
+                        <button type="button" class="small-btn" onclick="copyText('jsonOutput', 'Output')" aria-label="Copy output to clipboard">Copy</button>
+                        <button type="button" class="small-btn" onclick="downloadOutput()" aria-label="Download output as a .json file">Download</button>
+                    </div>
+                </div>
+                <textarea id="jsonOutput"
+                          readonly
+                          spellcheck="false"
+                          aria-describedby="output-stats"
+                          placeholder="Formatted output appears here..."></textarea>
+                <div class="stats" id="output-stats">
+                    <span class="stat"><strong id="outputChars">0</strong> chars</span>
+                    <span class="stat"><strong id="outputBytes">0</strong> bytes</span>
+                    <span class="stat"><strong id="outputLines">0</strong> lines</span>
+                </div>
+            </div>
+        </div>
+
+        <button type="button"
+                class="action-btn"
+                style="display:block;margin:0 auto;"
+                onclick="clearAllSavedData()"
+                aria-label="Clear all saved form data from this page">Clear Saved Data</button>
+
+        <div class="info-box">
+            <h3>Tips</h3>
+            <ul style="margin: 4px 0 0 22px;">
+                <li>Press <code>Ctrl+Enter</code> in the input to format.</li>
+                <li><strong>Validate</strong> reports the first error with a line and column hint.</li>
+                <li><strong>Escape</strong> turns the input into a JSON string literal so you can paste it inside another JSON document.</li>
+                <li>All processing is local &mdash; nothing is sent to any server.</li>
+            </ul>
+        </div>
+
+        <footer role="contentinfo">
+            <span>JSON Formatter</span> &mdash; <span>Works offline, no installation required</span>
+        </footer>
+    </main>
+
+    <script>
+        const $ = id => document.getElementById(id);
+        const byteSize = s => new Blob([s]).size;
+
+        function getIndent() {
+            const v = $('indentSelect').value;
+            return v === 'tab' ? '\t' : Number(v);
+        }
+
+        function sortKeysDeep(value) {
+            if (Array.isArray(value)) return value.map(sortKeysDeep);
+            if (value && typeof value === 'object') {
+                return Object.keys(value).sort().reduce((acc, k) => {
+                    acc[k] = sortKeysDeep(value[k]);
+                    return acc;
+                }, {});
+            }
+            return value;
+        }
+
+        function computeLineCol(text, position) {
+            const upto = text.slice(0, position);
+            const lines = upto.split('\n');
+            return { line: lines.length, col: lines[lines.length - 1].length + 1 };
+        }
+
+        function parseWithPosition(text) {
+            try {
+                return { ok: true, value: JSON.parse(text) };
+            } catch (e) {
+                const msg = e.message || String(e);
+                const m = msg.match(/position\s+(\d+)/i);
+                let line = null, col = null, position = null;
+                if (m) {
+                    position = parseInt(m[1], 10);
+                    const lc = computeLineCol(text, position);
+                    line = lc.line; col = lc.col;
+                }
+                return { ok: false, error: msg, line, col, position };
+            }
+        }
+
+        function clearMessages() {
+            $('error').classList.remove('show');
+            $('error').textContent = '';
+            $('success').classList.remove('show');
+            $('success').textContent = '';
+            $('jsonInput').classList.remove('error');
+            $('jsonInput').removeAttribute('aria-invalid');
+        }
+
+        function showError(msg) {
+            $('error').textContent = msg;
+            $('error').classList.add('show');
+            $('jsonInput').classList.add('error');
+            $('jsonInput').setAttribute('aria-invalid', 'true');
+            A11yUtils.announce('JSON error: ' + msg, 'assertive');
+        }
+
+        function showSuccess(msg) {
+            $('success').textContent = msg;
+            $('success').classList.add('show');
+            A11yUtils.announce(msg, 'polite');
+        }
+
+        function updateStats() {
+            const input = $('jsonInput').value;
+            const output = $('jsonOutput').value;
+            $('inputChars').textContent = input.length.toLocaleString();
+            $('inputBytes').textContent = byteSize(input).toLocaleString();
+            $('inputLines').textContent = (input ? input.split('\n').length : 1).toLocaleString();
+            $('outputChars').textContent = output.length.toLocaleString();
+            $('outputBytes').textContent = byteSize(output).toLocaleString();
+            $('outputLines').textContent = (output ? output.split('\n').length : 0).toLocaleString();
+        }
+
+        function action(kind) {
+            clearMessages();
+            const text = $('jsonInput').value;
+
+            if (!text.trim()) {
+                showError('Input is empty. Paste some JSON to format.');
+                $('jsonOutput').value = '';
+                updateStats();
+                return;
+            }
+
+            if (kind === 'escape') {
+                $('jsonOutput').value = JSON.stringify(text);
+                showSuccess('Input escaped as a JSON string literal.');
+                updateStats();
+                return;
+            }
+
+            if (kind === 'unescape') {
+                try {
+                    const parsed = JSON.parse(text);
+                    if (typeof parsed !== 'string') {
+                        showError('Unescape requires a JSON string literal as input (a value wrapped in double quotes).');
+                        return;
+                    }
+                    $('jsonOutput').value = parsed;
+                    showSuccess('JSON string literal unescaped.');
+                    updateStats();
+                } catch (e) {
+                    showError('Cannot unescape &mdash; input is not a valid JSON string literal: ' + e.message);
+                }
+                return;
+            }
+
+            const parsed = parseWithPosition(text);
+            if (!parsed.ok) {
+                const loc = (parsed.line !== null)
+                    ? ` (line ${parsed.line}, column ${parsed.col})`
+                    : '';
+                showError(parsed.error + loc);
+                return;
+            }
+
+            let value = parsed.value;
+            if ($('sortKeys').checked) value = sortKeysDeep(value);
+
+            if (kind === 'validate') {
+                showSuccess('Valid JSON ✓');
+                $('jsonOutput').value = '';
+                updateStats();
+                return;
+            }
+
+            const result = kind === 'minify'
+                ? JSON.stringify(value)
+                : JSON.stringify(value, null, getIndent());
+            $('jsonOutput').value = result;
+            const verb = kind === 'minify' ? 'Minified' : 'Formatted';
+            showSuccess(`${verb} successfully. ${result.length.toLocaleString()} characters.`);
+            updateStats();
+        }
+
+        async function copyText(id, label) {
+            const el = $(id);
+            const text = el.value;
+            if (!text) {
+                A11yUtils.announce(label + ' is empty', 'polite');
+                return;
+            }
+            try {
+                await navigator.clipboard.writeText(text);
+                A11yUtils.announceCopied(label);
+            } catch (err) {
+                el.select();
+                document.execCommand('copy');
+                A11yUtils.announceCopied(label);
+            }
+        }
+
+        function clearInput() {
+            $('jsonInput').value = '';
+            $('jsonOutput').value = '';
+            clearMessages();
+            updateStats();
+            $('jsonInput').focus();
+        }
+
+        function clearAllSavedData() {
+            StorageUtils.remove('json-formatter');
+            $('jsonInput').value = '';
+            $('jsonOutput').value = '';
+            $('sortKeys').checked = false;
+            $('indentSelect').value = '2';
+            clearMessages();
+            updateStats();
+            A11yUtils.announce('All saved data has been cleared', 'polite');
+        }
+
+        function downloadOutput() {
+            const text = $('jsonOutput').value;
+            if (!text) {
+                A11yUtils.announce('Output is empty', 'polite');
+                return;
+            }
+            const blob = new Blob([text], { type: 'application/json;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `formatted-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            A11yUtils.announce('JSON downloaded', 'polite');
+        }
+
+        function loadSample() {
+            $('jsonInput').value = JSON.stringify({
+                user: {
+                    id: 1042,
+                    name: "Ada Lovelace",
+                    email: "ada@example.com",
+                    roles: ["admin", "editor"],
+                    active: true,
+                    profile: {
+                        joined: "2025-04-12T08:00:00Z",
+                        prefs: { theme: "dark", notifications: false }
+                    }
+                },
+                tokens: [
+                    { kind: "access", expires_in: 3600 },
+                    { kind: "refresh", expires_in: 2592000 }
+                ],
+                meta: null
+            });
+            updateStats();
+            $('jsonInput').focus();
+        }
+
+        $('jsonInput').addEventListener('input', updateStats);
+        $('jsonInput').addEventListener('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                e.preventDefault();
+                action('format');
+            }
+        });
+
+        const jsonFormatterFields = ['jsonInput', 'indentSelect', 'sortKeys'];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            StorageUtils.loadFormInputs('json-formatter', jsonFormatterFields, updateStats);
+            StorageUtils.autoSaveFormInputs('json-formatter', jsonFormatterFields);
+            updateStats();
+        });
+    </script>
+    <script>
+        document.querySelector('.skip-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.getElementById('main-content');
+            if (target) {
+                target.setAttribute('tabindex', '-1');
+                target.focus();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    </script>
+</body>
+</html>

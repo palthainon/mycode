@@ -365,6 +365,16 @@
             background: rgba(244, 67, 54, 0.2);
         }
 
+        .action-btn.copy-row-btn {
+            border-color: rgba(79, 195, 247, 0.4);
+            color: #4fc3f7;
+            margin-right: 6px;
+        }
+
+        .action-btn.copy-row-btn:hover {
+            background: rgba(79, 195, 247, 0.2);
+        }
+
         /* View Containers */
         .view-container {
             display: none;
@@ -1503,15 +1513,35 @@
 
                 // Actions cell
                 const actionsCell = document.createElement('td');
+                const copyBtn = document.createElement('button');
+                copyBtn.textContent = 'Copy';
+                copyBtn.className = 'action-btn copy-row-btn';
+                copyBtn.setAttribute('aria-label', `Copy ${allocation.label || 'allocation'} CIDR to clipboard`);
+                copyBtn.onclick = () => copyAllocationRow(allocation);
                 const deleteBtn = document.createElement('button');
                 deleteBtn.textContent = 'Delete';
                 deleteBtn.className = 'action-btn';
                 deleteBtn.onclick = () => deleteAllocation(allocation.id);
+                actionsCell.appendChild(copyBtn);
                 actionsCell.appendChild(deleteBtn);
 
                 tr.append(labelCell, cidrCell, networkCell, sizeCell, vlanCell, descCell, colorCell, actionsCell);
                 tbody.appendChild(tr);
             });
+        }
+
+        async function copyAllocationRow(allocation) {
+            if (allocation.networkInt === null) {
+                A11yUtils.announce('Allocation has no assigned network yet', 'polite');
+                return;
+            }
+            const cidr = `${compressIPv6(intToIPv6(allocation.networkInt))}/${allocation.cidr}`;
+            try {
+                await navigator.clipboard.writeText(cidr);
+                A11yUtils.announceCopied(`${allocation.label || 'Allocation'} ${cidr}`);
+            } catch (e) {
+                A11yUtils.announce('Copy failed: ' + (e.message || 'clipboard unavailable'), 'assertive');
+            }
         }
 
         function createEditableCell(value, type, onUpdate) {

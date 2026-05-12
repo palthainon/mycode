@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Decode JSON Web Tokens (JWTs) entirely in your browser. View header, payload, and signature with human-readable timestamps for exp, iat, nbf claims. No server upload.">
+    <meta name="keywords" content="JWT decoder, JSON web token, decode JWT, JWT viewer, OAuth, OIDC, bearer token, JWT debugger">
+    <meta name="author" content="OldWeb LLC">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://oldweb.tech/system/jwt-decoder.html">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="JWT Decoder - OldWeb.tech">
+    <meta property="og:description" content="Decode JSON Web Tokens (JWTs) entirely in your browser. Header, payload, signature, with human-readable timestamps.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oldweb.tech/system/jwt-decoder.html">
+    <meta property="og:site_name" content="OldWeb.tech">
+    <meta property="og:image" content="https://oldweb.tech/logo/og-image.png">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="JWT Decoder - OldWeb.tech">
+    <meta name="twitter:description" content="Decode JSON Web Tokens (JWTs) entirely in your browser. Header, payload, signature, with human-readable timestamps.">
+    <meta name="twitter:image" content="https://oldweb.tech/logo/og-image.png">
+
+    <!-- Additional Meta Tags -->
+    <meta name="theme-color" content="#1a1a2e">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
+
+    <title>JWT Decoder - OldWeb.tech</title>
+    <link rel="stylesheet" href="../a11y.css">
+    <script src="../a11y-utils.js"></script>
+    <script src="../storage-utils.js"></script>
+    <script src="../navigationv2.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #fff;
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 2.5rem;
+            color: #4fc3f7;
+            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #90caf9;
+            font-size: 1.05rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .ascii-logo {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.65rem;
+            line-height: 1.1;
+            color: #4fc3f7;
+            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
+            opacity: 0.8;
+            white-space: pre;
+        }
+
+        .privacy-note {
+            text-align: center;
+            color: #66bb6a;
+            font-size: 0.85rem;
+            margin-bottom: 25px;
+            opacity: 0.9;
+        }
+
+        .calculator {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .input-field { margin-bottom: 18px; }
+
+        .input-field label {
+            display: block;
+            margin-bottom: 8px;
+            color: #90caf9;
+            font-weight: 500;
+        }
+
+        textarea, input[type="text"] {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: #0f1419;
+            color: #fff;
+            font-size: 0.95rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        textarea {
+            min-height: 130px;
+            resize: vertical;
+            word-break: break-all;
+        }
+
+        textarea:focus, input[type="text"]:focus {
+            outline: none;
+            border-color: #4fc3f7;
+            box-shadow: 0 0 15px rgba(79, 195, 247, 0.2);
+        }
+
+        textarea::placeholder, input::placeholder { color: rgba(255, 255, 255, 0.35); }
+
+        .btn {
+            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
+            color: #fff;
+            border: none;
+            padding: 14px 40px;
+            font-size: 1.05rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+            display: block;
+            width: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(79, 195, 247, 0.4);
+        }
+
+        .btn.secondary {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: #90caf9;
+            margin-top: 10px;
+        }
+
+        .btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: none;
+            transform: none;
+        }
+
+        #error {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid #f44336;
+            color: #ff8a80;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        #error.show { display: block; }
+        textarea.error { border-color: #f44336 !important; }
+
+        .results {
+            display: none;
+        }
+
+        .results.show {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 22px;
+            margin-bottom: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-left-width: 4px;
+        }
+
+        .section.header { border-left-color: #4fc3f7; }
+        .section.payload { border-left-color: #66bb6a; }
+        .section.signature { border-left-color: #ffb74d; }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .section-header h2 {
+            color: #4fc3f7;
+            font-size: 1.2rem;
+        }
+
+        .section.payload .section-header h2 { color: #66bb6a; }
+        .section.signature .section-header h2 { color: #ffb74d; }
+
+        .copy-btn {
+            background: rgba(79, 195, 247, 0.1);
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            color: #4fc3f7;
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .copy-btn:hover {
+            background: rgba(79, 195, 247, 0.2);
+            border-color: #4fc3f7;
+        }
+
+        pre.json-output {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 6px;
+            padding: 14px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #e0e0e0;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        pre.json-output .key { color: #90caf9; }
+        pre.json-output .string { color: #c5e1a5; }
+        pre.json-output .number { color: #ffb74d; }
+        pre.json-output .boolean { color: #ff8a65; }
+        pre.json-output .null { color: #b39ddb; }
+
+        .claims-table {
+            margin-top: 16px;
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        .claims-table th, .claims-table td {
+            text-align: left;
+            padding: 8px 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .claims-table th {
+            color: #90caf9;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .claims-table td.claim-name {
+            font-family: 'Consolas', 'Monaco', monospace;
+            color: #ffd180;
+        }
+
+        .claims-table td.claim-status .expired {
+            color: #ff8a80;
+            font-weight: 600;
+        }
+
+        .claims-table td.claim-status .valid {
+            color: #66bb6a;
+            font-weight: 600;
+        }
+
+        .claims-table td.claim-status .future {
+            color: #ffb74d;
+            font-weight: 600;
+        }
+
+        .signature-warning {
+            font-size: 0.9rem;
+            color: #ffb74d;
+            margin-top: 10px;
+        }
+
+        .info-box {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 18px 22px;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #c5d4e3;
+            line-height: 1.6;
+            border-left: 4px solid #4fc3f7;
+        }
+
+        .info-box h3 {
+            color: #4fc3f7;
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        .info-box code {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background: rgba(255, 255, 255, 0.06);
+            padding: 1px 6px;
+            border-radius: 3px;
+            color: #ffd180;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .ascii-logo {
+                position: static;
+                text-align: center;
+                margin-bottom: 20px;
+                font-size: 0.5rem;
+            }
+            h1 { font-size: 1.8rem; }
+            .claims-table { font-size: 0.8rem; }
+            .claims-table th, .claims-table td { padding: 6px 6px; }
+        }
+    </style>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "JWT Decoder",
+      "description": "Decode JSON Web Tokens (JWTs) entirely in your browser. View header, payload, and signature with human-readable timestamps.",
+      "url": "https://oldweb.tech/system/jwt-decoder.html",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Web Browser",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "creator": { "@type": "Organization", "name": "OldWeb.tech" }
+    }
+    </script>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <div class="ascii-logo" aria-hidden="true">  ___  _     _  __        __   _
+ / _ \| | __| | \ \      / /__| |__
+| | | | |/ _` |  \ \ /\ / / _ \ '_ \
+| |_| | | (_| |   \ V  V /  __/ |_) |
+ \___/|_|\__,_|    \_/\_/ \___|_.__/
+</div>
+
+    <main id="main-content" class="container">
+        <h1>JWT Decoder</h1>
+        <p class="subtitle">Decode JSON Web Tokens. Header, payload, and signature &mdash; with human-readable timestamps for <code>exp</code>, <code>iat</code>, and <code>nbf</code>.</p>
+        <p class="privacy-note">All decoding happens locally in your browser. Your token never leaves this page.</p>
+
+        <div class="calculator">
+            <form id="jwt-form" aria-label="JWT decoder form">
+                <div class="input-field">
+                    <label for="jwtInput">JWT Token</label>
+                    <textarea id="jwtInput"
+                              placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+                              autocomplete="off"
+                              spellcheck="false"
+                              aria-describedby="jwt-help"></textarea>
+                    <span id="jwt-help" class="sr-only">Paste a JWT token in the format header.payload.signature</span>
+                </div>
+
+                <button type="button"
+                        class="btn"
+                        onclick="decodeJWT()"
+                        aria-label="Decode the JWT token">Decode JWT</button>
+                <button type="button"
+                        class="btn secondary"
+                        onclick="clearAllSavedData()"
+                        aria-label="Clear all saved form data from this page">Clear Saved Data</button>
+            </form>
+
+            <div id="error" role="alert" aria-live="assertive" aria-atomic="true"></div>
+        </div>
+
+        <div id="results" class="results" role="region" aria-live="polite" aria-label="JWT decode results">
+            <div class="section header">
+                <div class="section-header">
+                    <h2>Header</h2>
+                    <button type="button" class="copy-btn" onclick="copyOutput('headerOutput', 'Header')" aria-label="Copy decoded header JSON">Copy</button>
+                </div>
+                <pre id="headerOutput" class="json-output"></pre>
+            </div>
+
+            <div class="section payload">
+                <div class="section-header">
+                    <h2>Payload</h2>
+                    <button type="button" class="copy-btn" onclick="copyOutput('payloadOutput', 'Payload')" aria-label="Copy decoded payload JSON">Copy</button>
+                </div>
+                <pre id="payloadOutput" class="json-output"></pre>
+                <div id="claimsContainer"></div>
+            </div>
+
+            <div class="section signature">
+                <div class="section-header">
+                    <h2>Signature</h2>
+                    <button type="button" class="copy-btn" onclick="copyOutput('signatureOutput', 'Signature')" aria-label="Copy raw signature">Copy</button>
+                </div>
+                <pre id="signatureOutput" class="json-output"></pre>
+                <p class="signature-warning">Signature is shown but not verified &mdash; verification requires the issuer's secret or public key. Never trust an unverified JWT in production code.</p>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <h3>About JWTs</h3>
+            A JSON Web Token is three Base64URL-encoded segments joined by dots: <code>header.payload.signature</code>. The header and payload are JSON; the signature proves the token wasn't tampered with. This tool decodes the first two segments locally &mdash; it does not verify the signature.
+        </div>
+
+        <footer role="contentinfo">
+            <span>JWT Decoder</span> &mdash; <span>Works offline, no installation required</span>
+        </footer>
+    </main>
+
+    <script>
+        function base64UrlDecode(s) {
+            let b64 = s.replace(/-/g, '+').replace(/_/g, '/');
+            while (b64.length % 4) b64 += '=';
+            const bin = atob(b64);
+            try {
+                const bytes = new Uint8Array(bin.length);
+                for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+                return new TextDecoder('utf-8', { fatal: false }).decode(bytes);
+            } catch (e) {
+                return bin;
+            }
+        }
+
+        function escapeHtml(s) {
+            return String(s)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function colorizeJson(jsonText) {
+            const escaped = escapeHtml(jsonText);
+            return escaped.replace(
+                /(&quot;(?:[^&]|&(?!quot;))*?&quot;)(\s*:)?|(\b-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?\b)|(\btrue\b|\bfalse\b)|(\bnull\b)/g,
+                function(match, str, colon, num, bool, nul) {
+                    if (str) {
+                        return '<span class="' + (colon ? 'key' : 'string') + '">' + str + '</span>' + (colon || '');
+                    }
+                    if (num) return '<span class="number">' + num + '</span>';
+                    if (bool) return '<span class="boolean">' + bool + '</span>';
+                    if (nul) return '<span class="null">' + nul + '</span>';
+                    return match;
+                }
+            );
+        }
+
+        function formatEpoch(epochSeconds) {
+            const ms = epochSeconds * 1000;
+            const d = new Date(ms);
+            if (isNaN(d.getTime())) return null;
+            const iso = d.toISOString().replace('T', ' ').replace('Z', ' UTC');
+            const local = d.toString().replace(/\s\(.+\)$/, '');
+            return { iso, local };
+        }
+
+        function humanRelative(epochSeconds) {
+            const nowS = Math.floor(Date.now() / 1000);
+            let delta = epochSeconds - nowS;
+            const abs = Math.abs(delta);
+            const units = [
+                { n: 60, label: 'second' },
+                { n: 60, label: 'minute' },
+                { n: 24, label: 'hour' },
+                { n: 365, label: 'day' },
+                { n: Infinity, label: 'year' }
+            ];
+            let value = abs;
+            let unit = 'second';
+            for (let i = 0; i < units.length; i++) {
+                if (value < units[i].n) {
+                    unit = units[i].label;
+                    break;
+                }
+                value = Math.floor(value / units[i].n);
+                unit = i + 1 < units.length ? units[i + 1].label : 'year';
+            }
+            const plural = value === 1 ? '' : 's';
+            return delta < 0 ? `${value} ${unit}${plural} ago` : `in ${value} ${unit}${plural}`;
+        }
+
+        function classifyTimeClaim(name, epochSeconds) {
+            const nowS = Math.floor(Date.now() / 1000);
+            if (name === 'exp') {
+                return epochSeconds < nowS
+                    ? { className: 'expired', label: 'EXPIRED' }
+                    : { className: 'valid', label: 'valid' };
+            }
+            if (name === 'nbf') {
+                return epochSeconds > nowS
+                    ? { className: 'future', label: 'not yet valid' }
+                    : { className: 'valid', label: 'active' };
+            }
+            return { className: '', label: '' };
+        }
+
+        function setError(msg) {
+            const input = document.getElementById('jwtInput');
+            const errorDiv = document.getElementById('error');
+            errorDiv.textContent = msg;
+            errorDiv.classList.add('show');
+            input.classList.add('error');
+            input.setAttribute('aria-invalid', 'true');
+            A11yUtils.announce(msg, 'assertive');
+            document.getElementById('results').classList.remove('show');
+        }
+
+        function clearError() {
+            const input = document.getElementById('jwtInput');
+            const errorDiv = document.getElementById('error');
+            errorDiv.textContent = '';
+            errorDiv.classList.remove('show');
+            input.classList.remove('error');
+            input.removeAttribute('aria-invalid');
+        }
+
+        function decodeJWT() {
+            clearError();
+            const input = document.getElementById('jwtInput');
+            let token = input.value.trim();
+
+            if (!token) {
+                setError('Please paste a JWT token to decode.');
+                input.focus();
+                return;
+            }
+
+            token = token.replace(/^Bearer\s+/i, '').replace(/\s+/g, '');
+
+            const parts = token.split('.');
+            if (parts.length !== 3) {
+                setError(`A JWT must have exactly 3 segments separated by dots. Found ${parts.length}.`);
+                input.focus();
+                return;
+            }
+
+            let headerObj, payloadObj;
+            try {
+                headerObj = JSON.parse(base64UrlDecode(parts[0]));
+            } catch (e) {
+                setError('Header is not valid Base64URL-encoded JSON: ' + e.message);
+                return;
+            }
+            try {
+                payloadObj = JSON.parse(base64UrlDecode(parts[1]));
+            } catch (e) {
+                setError('Payload is not valid Base64URL-encoded JSON: ' + e.message);
+                return;
+            }
+
+            const headerJson = JSON.stringify(headerObj, null, 2);
+            const payloadJson = JSON.stringify(payloadObj, null, 2);
+
+            document.getElementById('headerOutput').innerHTML = colorizeJson(headerJson);
+            document.getElementById('payloadOutput').innerHTML = colorizeJson(payloadJson);
+            document.getElementById('signatureOutput').textContent = parts[2];
+
+            renderClaims(payloadObj);
+
+            document.getElementById('results').classList.add('show');
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            const alg = headerObj.alg || 'unknown';
+            A11yUtils.announce(`JWT decoded successfully. Algorithm ${alg}.`, 'polite');
+        }
+
+        function renderClaims(payload) {
+            const container = document.getElementById('claimsContainer');
+            const timeClaims = [
+                { key: 'iat', label: 'Issued At' },
+                { key: 'nbf', label: 'Not Before' },
+                { key: 'exp', label: 'Expires' }
+            ].filter(c => typeof payload[c.key] === 'number');
+
+            if (timeClaims.length === 0) {
+                container.innerHTML = '';
+                return;
+            }
+
+            let html = '<table class="claims-table"><thead><tr>'
+                + '<th>Claim</th><th>Epoch</th><th>UTC</th><th>Relative</th><th>Status</th>'
+                + '</tr></thead><tbody>';
+
+            timeClaims.forEach(c => {
+                const epoch = payload[c.key];
+                const t = formatEpoch(epoch);
+                const rel = humanRelative(epoch);
+                const cls = classifyTimeClaim(c.key, epoch);
+                html += '<tr>'
+                    + `<td class="claim-name">${c.key}</td>`
+                    + `<td>${epoch}</td>`
+                    + `<td>${t ? escapeHtml(t.iso) : 'invalid'}</td>`
+                    + `<td>${escapeHtml(rel)}</td>`
+                    + `<td class="claim-status">${cls.label ? `<span class="${cls.className}">${cls.label}</span>` : ''}</td>`
+                    + '</tr>';
+            });
+
+            html += '</tbody></table>';
+            container.innerHTML = html;
+        }
+
+        async function copyOutput(id, label) {
+            const el = document.getElementById(id);
+            const text = el.textContent;
+            if (!text) {
+                A11yUtils.announce(label + ' is empty', 'polite');
+                return;
+            }
+            try {
+                await navigator.clipboard.writeText(text);
+                A11yUtils.announceCopied(label);
+            } catch (err) {
+                const range = document.createRange();
+                range.selectNode(el);
+                const sel = window.getSelection();
+                sel.removeAllRanges();
+                sel.addRange(range);
+                document.execCommand('copy');
+                sel.removeAllRanges();
+                A11yUtils.announceCopied(label);
+            }
+        }
+
+        document.getElementById('jwtInput').addEventListener('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                e.preventDefault();
+                decodeJWT();
+            }
+        });
+
+        const jwtDecoderFields = ['jwtInput'];
+
+        function clearAllSavedData() {
+            StorageUtils.remove('jwt-decoder');
+            document.getElementById('jwtInput').value = '';
+            document.getElementById('results').classList.remove('show');
+            clearError();
+            A11yUtils.announce('All saved data has been cleared', 'polite');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            StorageUtils.loadFormInputs('jwt-decoder', jwtDecoderFields);
+            StorageUtils.autoSaveFormInputs('jwt-decoder', jwtDecoderFields);
+        });
+    </script>
+    <script>
+        document.querySelector('.skip-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.getElementById('main-content');
+            if (target) {
+                target.setAttribute('tabindex', '-1');
+                target.focus();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    </script>
+</body>
+</html>

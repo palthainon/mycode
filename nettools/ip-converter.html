@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Convert IPv4 addresses between dotted-decimal, binary, hexadecimal, and 32-bit integer representations. Two-way binding for instant conversion.">
+    <meta name="keywords" content="IP converter, IP address converter, dotted decimal, binary IP, hex IP, integer IP, IPv4 binary, IPv4 hex, IPv4 integer, IP base conversion">
+    <meta name="author" content="OldWeb LLC">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://oldweb.tech/nettools/ip-converter.html">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="IP Address Converter - OldWeb.tech">
+    <meta property="og:description" content="Convert IPv4 addresses between dotted-decimal, binary, hexadecimal, and 32-bit integer representations.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oldweb.tech/nettools/ip-converter.html">
+    <meta property="og:site_name" content="OldWeb.tech">
+    <meta property="og:image" content="https://oldweb.tech/logo/og-image.png">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="IP Address Converter - OldWeb.tech">
+    <meta name="twitter:description" content="Convert IPv4 addresses between dotted-decimal, binary, hexadecimal, and 32-bit integer representations.">
+    <meta name="twitter:image" content="https://oldweb.tech/logo/og-image.png">
+
+    <!-- Additional Meta Tags -->
+    <meta name="theme-color" content="#1a1a2e">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
+
+    <title>IP Address Converter - OldWeb.tech</title>
+    <link rel="stylesheet" href="../a11y.css">
+    <script src="../a11y-utils.js"></script>
+    <script src="../storage-utils.js"></script>
+    <script src="../navigationv2.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #fff;
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 2.5rem;
+            color: #4fc3f7;
+            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #90caf9;
+            font-size: 1.05rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .ascii-logo {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.65rem;
+            line-height: 1.1;
+            color: #4fc3f7;
+            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
+            opacity: 0.8;
+            white-space: pre;
+        }
+
+        .calculator {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .converter-row {
+            display: flex;
+            align-items: stretch;
+            gap: 10px;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+        }
+
+        .converter-row label {
+            color: #90caf9;
+            font-weight: 500;
+            min-width: 140px;
+            display: flex;
+            align-items: center;
+            font-size: 0.95rem;
+        }
+
+        .converter-row .field-wrapper {
+            flex: 1;
+            min-width: 240px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .converter-row input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: #0f1419;
+            color: #fff;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        .converter-row input:focus {
+            outline: none;
+            border-color: #4fc3f7;
+            box-shadow: 0 0 15px rgba(79, 195, 247, 0.2);
+        }
+
+        .converter-row input::placeholder { color: rgba(255, 255, 255, 0.35); }
+
+        .copy-btn {
+            background: rgba(79, 195, 247, 0.1);
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            color: #4fc3f7;
+            padding: 0 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .copy-btn:hover {
+            background: rgba(79, 195, 247, 0.2);
+            border-color: #4fc3f7;
+        }
+
+        .copy-btn:active { transform: scale(0.97); }
+
+        .btn {
+            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
+            color: #fff;
+            border: none;
+            padding: 14px 40px;
+            font-size: 1.05rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+            display: block;
+            width: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(79, 195, 247, 0.4);
+        }
+
+        .btn.secondary {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: #90caf9;
+            margin-top: 10px;
+        }
+
+        .btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: none;
+            transform: none;
+        }
+
+        #error {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid #f44336;
+            color: #ff8a80;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        #error.show { display: block; }
+        input.error { border-color: #f44336 !important; }
+
+        .examples {
+            margin-top: 18px;
+            padding-top: 18px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .examples h3 {
+            color: #90caf9;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .example-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .example-btn {
+            background: rgba(79, 195, 247, 0.1);
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            color: #4fc3f7;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-family: 'Consolas', 'Monaco', monospace;
+            transition: all 0.2s;
+        }
+
+        .example-btn:hover {
+            background: rgba(79, 195, 247, 0.2);
+            border-color: #4fc3f7;
+        }
+
+        .info-box {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 18px 22px;
+            margin-top: 25px;
+            font-size: 0.9rem;
+            color: #c5d4e3;
+            line-height: 1.6;
+            border-left: 4px solid #4fc3f7;
+        }
+
+        .info-box h3 {
+            color: #4fc3f7;
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        .info-box code {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background: rgba(255, 255, 255, 0.06);
+            padding: 1px 6px;
+            border-radius: 3px;
+            color: #ffd180;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .ascii-logo {
+                position: static;
+                text-align: center;
+                margin-bottom: 20px;
+                font-size: 0.5rem;
+            }
+            h1 { font-size: 1.8rem; }
+            .converter-row label { min-width: 100%; margin-bottom: 4px; }
+            .converter-row .field-wrapper { min-width: 100%; }
+        }
+    </style>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "IP Address Converter",
+      "description": "Convert IPv4 addresses between dotted-decimal, binary, hexadecimal, and 32-bit integer representations.",
+      "url": "https://oldweb.tech/nettools/ip-converter.html",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Web Browser",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "creator": { "@type": "Organization", "name": "OldWeb.tech" }
+    }
+    </script>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <div class="ascii-logo" aria-hidden="true">  ___  _     _  __        __   _
+ / _ \| | __| | \ \      / /__| |__
+| | | | |/ _` |  \ \ /\ / / _ \ '_ \
+| |_| | | (_| |   \ V  V /  __/ |_) |
+ \___/|_|\__,_|    \_/\_/ \___|_.__/
+</div>
+
+    <main id="main-content" class="container">
+        <h1>IP Address Converter</h1>
+        <p class="subtitle">Convert IPv4 between dotted-decimal, binary, hexadecimal, and 32-bit integer. Type in any field; the rest update live.</p>
+
+        <div class="calculator">
+            <form id="converter-form" aria-label="IPv4 representation converter">
+                <div class="converter-row">
+                    <label for="dottedField">Dotted Decimal</label>
+                    <div class="field-wrapper">
+                        <input type="text"
+                               id="dottedField"
+                               placeholder="192.168.1.10"
+                               autocomplete="off"
+                               spellcheck="false"
+                               aria-describedby="dotted-help">
+                        <span id="dotted-help" class="sr-only">Enter an IPv4 address in dotted-decimal notation, for example 192.168.1.10</span>
+                        <button type="button" class="copy-btn" onclick="copyField('dottedField', 'Dotted decimal')" aria-label="Copy dotted-decimal value">Copy</button>
+                    </div>
+                </div>
+
+                <div class="converter-row">
+                    <label for="binaryField">Binary</label>
+                    <div class="field-wrapper">
+                        <input type="text"
+                               id="binaryField"
+                               placeholder="11000000.10101000.00000001.00001010"
+                               autocomplete="off"
+                               spellcheck="false"
+                               aria-describedby="binary-help">
+                        <span id="binary-help" class="sr-only">Enter the IPv4 address as four binary octets separated by dots</span>
+                        <button type="button" class="copy-btn" onclick="copyField('binaryField', 'Binary')" aria-label="Copy binary value">Copy</button>
+                    </div>
+                </div>
+
+                <div class="converter-row">
+                    <label for="hexField">Hexadecimal</label>
+                    <div class="field-wrapper">
+                        <input type="text"
+                               id="hexField"
+                               placeholder="0xC0A8010A"
+                               autocomplete="off"
+                               spellcheck="false"
+                               aria-describedby="hex-help">
+                        <span id="hex-help" class="sr-only">Enter the IPv4 address in hexadecimal, with or without 0x prefix</span>
+                        <button type="button" class="copy-btn" onclick="copyField('hexField', 'Hexadecimal')" aria-label="Copy hexadecimal value">Copy</button>
+                    </div>
+                </div>
+
+                <div class="converter-row">
+                    <label for="intField">32-bit Integer</label>
+                    <div class="field-wrapper">
+                        <input type="text"
+                               id="intField"
+                               placeholder="3232235786"
+                               autocomplete="off"
+                               spellcheck="false"
+                               inputmode="numeric"
+                               aria-describedby="int-help">
+                        <span id="int-help" class="sr-only">Enter the IPv4 address as a 32-bit unsigned integer between 0 and 4294967295</span>
+                        <button type="button" class="copy-btn" onclick="copyField('intField', 'Integer')" aria-label="Copy integer value">Copy</button>
+                    </div>
+                </div>
+
+                <div class="converter-row">
+                    <label for="hexDottedField">Hex (dotted)</label>
+                    <div class="field-wrapper">
+                        <input type="text"
+                               id="hexDottedField"
+                               placeholder="C0.A8.01.0A"
+                               readonly
+                               aria-describedby="hex-dotted-help">
+                        <span id="hex-dotted-help" class="sr-only">Read-only display of the address as four hexadecimal octets separated by dots</span>
+                        <button type="button" class="copy-btn" onclick="copyField('hexDottedField', 'Hex dotted')" aria-label="Copy hex-dotted value">Copy</button>
+                    </div>
+                </div>
+
+                <button type="button"
+                        class="btn secondary"
+                        onclick="clearAllSavedData()"
+                        aria-label="Clear all saved form data from this page">Clear Saved Data</button>
+            </form>
+
+            <div id="error" role="alert" aria-live="assertive" aria-atomic="true"></div>
+
+            <div class="examples">
+                <h3>Quick examples</h3>
+                <div class="example-buttons">
+                    <button type="button" class="example-btn" onclick="loadExample('0.0.0.0')">0.0.0.0</button>
+                    <button type="button" class="example-btn" onclick="loadExample('127.0.0.1')">127.0.0.1</button>
+                    <button type="button" class="example-btn" onclick="loadExample('10.0.0.1')">10.0.0.1</button>
+                    <button type="button" class="example-btn" onclick="loadExample('172.16.5.4')">172.16.5.4</button>
+                    <button type="button" class="example-btn" onclick="loadExample('192.168.1.10')">192.168.1.10</button>
+                    <button type="button" class="example-btn" onclick="loadExample('255.255.255.255')">255.255.255.255</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <h3>Accepted formats</h3>
+            Each field is forgiving about input format:
+            <ul style="margin: 8px 0 0 22px;">
+                <li><strong>Dotted decimal</strong>: <code>192.168.1.10</code></li>
+                <li><strong>Binary</strong>: dotted octets (<code>11000000.10101000.00000001.00001010</code>) or 32 contiguous bits (<code>11000000101010000000000100001010</code>)</li>
+                <li><strong>Hex</strong>: <code>0xC0A8010A</code>, <code>C0A8010A</code>, or dotted octets like <code>C0.A8.01.0A</code></li>
+                <li><strong>Integer</strong>: any value from 0 to 4294967295</li>
+            </ul>
+        </div>
+
+        <footer role="contentinfo">
+            <span>IP Address Converter</span> &mdash; <span>Works offline, no installation required</span>
+        </footer>
+    </main>
+
+    <script>
+        const fields = ['dottedField', 'binaryField', 'hexField', 'intField'];
+        let suppress = false;
+        let lastValidInt = null;
+
+        function isValidDotted(s) {
+            const parts = s.split('.');
+            if (parts.length !== 4) return false;
+            return parts.every(p => {
+                if (!/^\d+$/.test(p)) return false;
+                const n = parseInt(p, 10);
+                return n >= 0 && n <= 255 && String(n) === p;
+            });
+        }
+
+        function dottedToInt(s) {
+            const p = s.split('.').map(Number);
+            return ((p[0] << 24) | (p[1] << 16) | (p[2] << 8) | p[3]) >>> 0;
+        }
+
+        function intToDotted(n) {
+            return [(n >>> 24) & 255, (n >>> 16) & 255, (n >>> 8) & 255, n & 255].join('.');
+        }
+
+        function intToBinary(n) {
+            return [
+                ((n >>> 24) & 255).toString(2).padStart(8, '0'),
+                ((n >>> 16) & 255).toString(2).padStart(8, '0'),
+                ((n >>> 8) & 255).toString(2).padStart(8, '0'),
+                (n & 255).toString(2).padStart(8, '0')
+            ].join('.');
+        }
+
+        function intToHex(n) {
+            return '0x' + n.toString(16).toUpperCase().padStart(8, '0');
+        }
+
+        function intToHexDotted(n) {
+            return [
+                ((n >>> 24) & 255).toString(16).toUpperCase().padStart(2, '0'),
+                ((n >>> 16) & 255).toString(16).toUpperCase().padStart(2, '0'),
+                ((n >>> 8) & 255).toString(16).toUpperCase().padStart(2, '0'),
+                (n & 255).toString(16).toUpperCase().padStart(2, '0')
+            ].join('.');
+        }
+
+        function parseBinary(raw) {
+            const s = raw.trim();
+            if (!s) return null;
+            if (s.includes('.')) {
+                const parts = s.split('.');
+                if (parts.length !== 4) return null;
+                if (!parts.every(p => /^[01]{1,8}$/.test(p))) return null;
+                const padded = parts.map(p => p.padStart(8, '0'));
+                const bits = padded.join('');
+                return parseInt(bits, 2);
+            }
+            if (!/^[01]+$/.test(s)) return null;
+            if (s.length > 32) return null;
+            const padded = s.padStart(32, '0');
+            return parseInt(padded, 2);
+        }
+
+        function parseHex(raw) {
+            let s = raw.trim();
+            if (!s) return null;
+            if (/^0x/i.test(s)) s = s.slice(2);
+            if (s.includes('.')) {
+                const parts = s.split('.');
+                if (parts.length !== 4) return null;
+                if (!parts.every(p => /^[0-9a-f]{1,2}$/i.test(p))) return null;
+                const padded = parts.map(p => p.padStart(2, '0')).join('');
+                return parseInt(padded, 16);
+            }
+            if (!/^[0-9a-f]+$/i.test(s)) return null;
+            if (s.length > 8) return null;
+            return parseInt(s.padStart(8, '0'), 16);
+        }
+
+        function parseInteger(raw) {
+            const s = raw.trim();
+            if (!s) return null;
+            if (!/^\d+$/.test(s)) return null;
+            const n = Number(s);
+            if (!Number.isFinite(n) || n < 0 || n > 0xFFFFFFFF) return null;
+            return n;
+        }
+
+        function setError(msg, sourceId) {
+            const errorDiv = document.getElementById('error');
+            errorDiv.textContent = msg;
+            errorDiv.classList.add('show');
+            if (sourceId) {
+                const field = document.getElementById(sourceId);
+                field.classList.add('error');
+                field.setAttribute('aria-invalid', 'true');
+            }
+        }
+
+        function clearErrors() {
+            const errorDiv = document.getElementById('error');
+            errorDiv.textContent = '';
+            errorDiv.classList.remove('show');
+            fields.forEach(id => {
+                const el = document.getElementById(id);
+                el.classList.remove('error');
+                el.removeAttribute('aria-invalid');
+            });
+        }
+
+        function updateAll(n, sourceId) {
+            suppress = true;
+            try {
+                const dotted = intToDotted(n);
+                const binary = intToBinary(n);
+                const hex = intToHex(n);
+                const intStr = String(n);
+                const hexDotted = intToHexDotted(n);
+
+                if (sourceId !== 'dottedField') document.getElementById('dottedField').value = dotted;
+                if (sourceId !== 'binaryField') document.getElementById('binaryField').value = binary;
+                if (sourceId !== 'hexField') document.getElementById('hexField').value = hex;
+                if (sourceId !== 'intField') document.getElementById('intField').value = intStr;
+                document.getElementById('hexDottedField').value = hexDotted;
+
+                lastValidInt = n;
+            } finally {
+                suppress = false;
+            }
+        }
+
+        function clearOthers(sourceId) {
+            suppress = true;
+            try {
+                fields.forEach(id => {
+                    if (id !== sourceId) document.getElementById(id).value = '';
+                });
+                document.getElementById('hexDottedField').value = '';
+            } finally {
+                suppress = false;
+            }
+        }
+
+        function onInput(sourceId) {
+            if (suppress) return;
+            const value = document.getElementById(sourceId).value;
+
+            if (!value.trim()) {
+                clearErrors();
+                clearOthers(sourceId);
+                return;
+            }
+
+            let n = null;
+            let invalidLabel = '';
+            switch (sourceId) {
+                case 'dottedField':
+                    if (isValidDotted(value.trim())) n = dottedToInt(value.trim());
+                    else invalidLabel = 'dotted-decimal IPv4 address';
+                    break;
+                case 'binaryField':
+                    n = parseBinary(value);
+                    if (n === null) invalidLabel = 'binary representation (32 bits, e.g. 11000000.10101000.00000001.00001010)';
+                    break;
+                case 'hexField':
+                    n = parseHex(value);
+                    if (n === null) invalidLabel = 'hexadecimal value (e.g. 0xC0A8010A or C0.A8.01.0A)';
+                    break;
+                case 'intField':
+                    n = parseInteger(value);
+                    if (n === null) invalidLabel = '32-bit unsigned integer (0 to 4294967295)';
+                    break;
+            }
+
+            if (n === null) {
+                setError('Invalid ' + invalidLabel, sourceId);
+                clearOthers(sourceId);
+                return;
+            }
+
+            clearErrors();
+            updateAll(n, sourceId);
+        }
+
+        async function copyField(id, label) {
+            const el = document.getElementById(id);
+            const v = el.value;
+            if (!v) {
+                A11yUtils.announce(label + ' field is empty', 'polite');
+                return;
+            }
+            try {
+                await navigator.clipboard.writeText(v);
+                A11yUtils.announceCopied(label);
+            } catch (err) {
+                el.select();
+                document.execCommand('copy');
+                A11yUtils.announceCopied(label);
+            }
+        }
+
+        function loadExample(ip) {
+            document.getElementById('dottedField').value = ip;
+            onInput('dottedField');
+        }
+
+        fields.forEach(id => {
+            document.getElementById(id).addEventListener('input', () => onInput(id));
+        });
+
+        const ipConverterFields = ['dottedField', 'binaryField', 'hexField', 'intField'];
+
+        function clearAllSavedData() {
+            StorageUtils.remove('ip-converter');
+            ipConverterFields.forEach(id => {
+                document.getElementById(id).value = '';
+            });
+            document.getElementById('hexDottedField').value = '';
+            clearErrors();
+            A11yUtils.announce('All saved data has been cleared', 'polite');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            StorageUtils.loadFormInputs('ip-converter', ipConverterFields, function() {
+                const dotted = document.getElementById('dottedField').value;
+                if (dotted) onInput('dottedField');
+            });
+            StorageUtils.autoSaveFormInputs('ip-converter', ipConverterFields);
+        });
+    </script>
+    <script>
+        document.querySelector('.skip-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.getElementById('main-content');
+            if (target) {
+                target.setAttribute('tabindex', '-1');
+                target.focus();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    </script>
+</body>
+</html>
