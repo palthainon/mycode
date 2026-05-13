@@ -47,6 +47,11 @@
             { name: 'Scratchpad', file: 'productivity/scratchpad.html', id: 'scratchpad' },
             { name: 'Countdown Timer', file: 'productivity/countdown-timer.html', id: 'countdown-timer' },
             { name: 'TZ Meeting Planner', file: 'productivity/tz-meeting-planner.html', id: 'tz-meeting-planner' }
+        ],
+        pdf: [
+            { name: 'PDF Merge', file: 'pdf/merge.html', id: 'pdf-merge' },
+            { name: 'PDF Split', file: 'pdf/split.html', id: 'pdf-split' },
+            { name: 'PDF Rotate', file: 'pdf/rotate.html', id: 'pdf-rotate' }
         ]
     };
 
@@ -59,7 +64,8 @@
         system:       { displayName: 'System Tools',       subdir: 'system/' },
         data:         { displayName: 'Data Tools',         subdir: 'data/' },
         financials:   { displayName: 'Financial Tools',    subdir: 'financials/' },
-        productivity: { displayName: 'Productivity Tools', subdir: 'productivity/' }
+        productivity: { displayName: 'Productivity Tools', subdir: 'productivity/' },
+        pdf:          { displayName: 'PDF Tools',          subdir: 'pdf/' }
     };
 
     // Full registry of every page (including ones omitted from the dropdown menus).
@@ -105,7 +111,11 @@
         { id: 'pomodoro',         name: 'Pomodoro Timer',                file: 'productivity/pomodoro.html',            category: 'productivity', keywords: ['pomodoro', 'timer', 'focus', 'productivity', '25 minute'] },
         { id: 'scratchpad',       name: 'Plaintext Scratchpad',          file: 'productivity/scratchpad.html',          category: 'productivity', keywords: ['scratchpad', 'notepad', 'notes', 'plaintext', 'autosave', 'sticky'] },
         { id: 'countdown-timer',  name: 'Countdown Timer',               file: 'productivity/countdown-timer.html',     category: 'productivity', keywords: ['countdown', 'timer', 'deadline', 'date', 'days until', 'event'] },
-        { id: 'tz-meeting-planner', name: 'Timezone Meeting Planner',    file: 'productivity/tz-meeting-planner.html',  category: 'productivity', keywords: ['timezone', 'tz', 'meeting', 'world clock', 'time zone', 'converter', 'scheduler'] }
+        { id: 'tz-meeting-planner', name: 'Timezone Meeting Planner',    file: 'productivity/tz-meeting-planner.html',  category: 'productivity', keywords: ['timezone', 'tz', 'meeting', 'world clock', 'time zone', 'converter', 'scheduler'] },
+        // PDF
+        { id: 'pdf-merge',        name: 'PDF Merge',                     file: 'pdf/merge.html',                        category: 'pdf',          keywords: ['pdf', 'merge', 'combine', 'join', 'concatenate'] },
+        { id: 'pdf-split',        name: 'PDF Split',                     file: 'pdf/split.html',                        category: 'pdf',          keywords: ['pdf', 'split', 'extract', 'pages', 'separate'] },
+        { id: 'pdf-rotate',       name: 'PDF Rotate',                    file: 'pdf/rotate.html',                       category: 'pdf',          keywords: ['pdf', 'rotate', 'turn', 'orientation', 'sideways'] }
     ];
 
     // Per-tool descriptions for JSON-LD (kept short; meta description owns long-form copy)
@@ -145,7 +155,10 @@
         'pomodoro':          'Pomodoro focus timer with configurable work and break intervals.',
         'scratchpad':        'Persistent plaintext scratchpad that auto-saves to your browser.',
         'countdown-timer':   'Live countdown timer to any future date or time with notifications.',
-        'tz-meeting-planner':'Plan meetings across timezones with business-hours indicators.'
+        'tz-meeting-planner':'Plan meetings across timezones with business-hours indicators.',
+        'pdf-merge':         'Combine multiple PDFs into one entirely in your browser - no uploads, no watermarks.',
+        'pdf-split':         'Extract pages or page ranges from a PDF entirely in your browser - no uploads, no watermarks.',
+        'pdf-rotate':        'Rotate PDF pages 90, 180, or 270 degrees with live previews - no uploads, no watermarks.'
     };
 
     // Track currently open dropdown
@@ -558,6 +571,9 @@
         if (pathname.includes('/productivity/') && (filename === 'index.html' || filename === '')) {
             return { id: 'productivity-home', category: 'productivity' };
         }
+        if (pathname.includes('/pdf/') && (filename === 'index.html' || filename === '')) {
+            return { id: 'pdf-home', category: 'pdf' };
+        }
 
         // Handle root home page (only if not in a subfolder)
         if (filename === '' || filename === '/' || filename === 'index.html') {
@@ -595,6 +611,9 @@
         }
         if (pathname.includes('/productivity/')) {
             return { id: null, category: 'productivity' };
+        }
+        if (pathname.includes('/pdf/')) {
+            return { id: null, category: 'pdf' };
         }
 
         return { id: null, category: null };

@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Free PDF rotator that runs in your browser. Rotate any page 90, 180, or 270 degrees with live thumbnail previews. No uploads, no watermarks, no signup.">
+    <meta name="keywords" content="pdf rotate, rotate pdf, pdf rotator, rotate pdf pages, free pdf rotator, browser pdf rotate, offline pdf, sideways pdf">
+    <meta name="author" content="OldWeb LLC">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://oldweb.tech/pdf/rotate.html">
+
+    <meta property="og:title" content="PDF Rotate - OldWeb.tech">
+    <meta property="og:description" content="Rotate PDF pages with live thumbnail previews. No uploads, no watermarks, no signup.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oldweb.tech/pdf/rotate.html">
+    <meta property="og:site_name" content="OldWeb.tech">
+    <meta property="og:image" content="https://oldweb.tech/logo/og-image.png">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="PDF Rotate - OldWeb.tech">
+    <meta name="twitter:description" content="Rotate PDF pages with live thumbnail previews. Runs in your browser.">
+    <meta name="twitter:image" content="https://oldweb.tech/logo/og-image.png">
+
+    <meta name="theme-color" content="#1a1a2e">
+    <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
+
+    <title>PDF Rotate - OldWeb.tech</title>
+    <link rel="stylesheet" href="../a11y.css">
+    <script src="../a11y-utils.js"></script>
+    <script src="../storage-utils.js"></script>
+    <script src="../navigationv2.js"></script>
+
+    <!--
+        Third-party libraries: pdf-lib (MIT, for saving) + pdf.js (Apache-2.0, for thumbnail rendering).
+        Main bundles are SRI-verified. pdf.js worker is version-pinned (workers don't honor SRI in script tags;
+        the worker is loaded by the SRI-verified main script so its URL/version is locked at that layer).
+        Version pins and SRI hashes must be updated together - never the version alone.
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"
+            integrity="sha384-weMABwrltA6jWR8DDe9Jp5blk+tZQh7ugpCsF3JwSA53WZM9/14PjS5LAJNHNjAI"
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"
+            integrity="sha384-/1qUCSGwTur9vjf/z9lmu/eCUYbpOTgSjmpbMQZ1/CtX2v/WcAIKqRv+U1DUCG6e"
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"></script>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #fff;
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 8px;
+            font-size: 2.3rem;
+            color: #4fc3f7;
+            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #90caf9;
+            font-size: 0.95rem;
+            margin-bottom: 26px;
+            opacity: 0.9;
+        }
+
+        .ascii-logo {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.65rem;
+            line-height: 1.1;
+            color: #4fc3f7;
+            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
+            opacity: 0.8;
+            white-space: pre;
+        }
+
+        .panel {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 14px;
+            padding: 22px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 18px;
+        }
+
+        .dropzone {
+            border: 2px dashed rgba(79, 195, 247, 0.4);
+            border-radius: 12px;
+            padding: 38px 20px;
+            text-align: center;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .dropzone:hover, .dropzone.dragover {
+            border-color: #4fc3f7;
+            background: rgba(79, 195, 247, 0.08);
+        }
+
+        .dropzone .dz-icon {
+            font-size: 2.4rem;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .dropzone .dz-main {
+            color: #4fc3f7;
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .dropzone .dz-sub {
+            color: #90caf9;
+            font-size: 0.85rem;
+        }
+
+        .visually-hidden {
+            position: absolute !important;
+            width: 1px; height: 1px;
+            padding: 0; margin: -1px;
+            overflow: hidden; clip: rect(0,0,0,0);
+            white-space: nowrap; border: 0;
+        }
+
+        .file-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(0, 0, 0, 0.25);
+            padding: 10px 14px;
+            border-radius: 8px;
+            border-left: 3px solid #4fc3f7;
+            margin-top: 14px;
+        }
+
+        .file-row .file-meta { flex: 1; min-width: 0; }
+        .file-row .file-name {
+            color: #fff;
+            font-size: 0.95rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .file-row .file-info {
+            color: #90caf9;
+            font-size: 0.78rem;
+            margin-top: 2px;
+        }
+
+        .row-btn {
+            background: transparent;
+            border: 1px solid rgba(244, 67, 54, 0.4);
+            color: rgba(244, 67, 54, 0.85);
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .row-btn:hover { background: rgba(244, 67, 54, 0.12); color: #ff8a80; }
+        .row-btn:focus-visible { outline: 2px solid #4fc3f7; outline-offset: 2px; }
+
+        .rotate-all-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+            margin-top: 16px;
+            padding: 12px 14px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+
+        .rotate-all-toolbar .label {
+            color: #90caf9;
+            font-size: 0.9rem;
+            margin-right: 6px;
+        }
+
+        .rotate-btn {
+            background: rgba(79, 195, 247, 0.1);
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            color: #4fc3f7;
+            padding: 7px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        .rotate-btn:hover { background: rgba(79, 195, 247, 0.2); border-color: #4fc3f7; }
+        .rotate-btn:focus-visible { outline: 2px solid #4fc3f7; outline-offset: 2px; }
+        .rotate-btn[aria-pressed="true"] {
+            background: rgba(79, 195, 247, 0.3);
+            border-color: #4fc3f7;
+            color: #fff;
+        }
+
+        .thumbs-progress {
+            text-align: center;
+            color: #90caf9;
+            font-size: 0.9rem;
+            margin-top: 16px;
+            padding: 18px;
+            display: none;
+        }
+        .thumbs-progress.show { display: block; }
+
+        .thumbs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 18px;
+            margin-top: 18px;
+        }
+
+        .thumb-tile {
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 10px;
+            padding: 12px 10px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .thumb-tile.changed {
+            border-color: rgba(79, 195, 247, 0.5);
+            box-shadow: 0 0 14px rgba(79, 195, 247, 0.18);
+        }
+
+        .thumb-frame {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #0f1419;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .thumb-frame img {
+            max-width: 100%;
+            max-height: 100%;
+            transition: transform 0.25s ease;
+            background: #fff;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+        }
+
+        .thumb-meta {
+            color: #90caf9;
+            font-size: 0.82rem;
+            font-family: 'Consolas', 'Monaco', monospace;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .thumb-meta .badge {
+            background: rgba(79, 195, 247, 0.15);
+            color: #4fc3f7;
+            padding: 1px 6px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+        }
+
+        .thumb-meta .badge.changed {
+            background: rgba(79, 195, 247, 0.3);
+            color: #fff;
+        }
+
+        .thumb-actions {
+            display: flex;
+            gap: 4px;
+        }
+
+        .thumb-actions .rotate-btn {
+            padding: 5px 8px;
+            font-size: 0.75rem;
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 18px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
+            color: #fff;
+            border: none;
+            padding: 12px 28px;
+            font-size: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+            font-weight: 600;
+            font-family: inherit;
+        }
+
+        .btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(79, 195, 247, 0.4);
+        }
+
+        .btn:focus-visible { outline: 3px solid #4fc3f7; outline-offset: 2px; }
+
+        .btn:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn.secondary {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: #90caf9;
+        }
+        .btn.secondary:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: none;
+            transform: none;
+        }
+
+        .btn.danger {
+            background: transparent;
+            border: 2px solid rgba(244, 67, 54, 0.4);
+            color: rgba(244, 67, 54, 0.85);
+        }
+        .btn.danger:hover:not(:disabled) {
+            background: rgba(244, 67, 54, 0.12);
+            border-color: rgba(244, 67, 54, 0.6);
+            color: #ff8a80;
+            box-shadow: none;
+            transform: none;
+        }
+
+        .download-area {
+            margin-top: 16px;
+            text-align: center;
+            display: none;
+        }
+        .download-area.show { display: block; }
+        .download-area .ok-text {
+            color: #66bb6a;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .warn-box {
+            background: rgba(255, 152, 0, 0.08);
+            border: 1px solid rgba(255, 152, 0, 0.4);
+            border-radius: 8px;
+            color: #ffcc80;
+            padding: 10px 14px;
+            margin-top: 12px;
+            font-size: 0.88rem;
+            line-height: 1.5;
+            display: none;
+        }
+        .warn-box.show { display: block; }
+
+        /* CLAUDE.md-mandated error pattern */
+        #error {
+            background: rgba(244, 67, 54, 0.18);
+            border: 1px solid #f44336;
+            color: #ff8a80;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: none;
+        }
+        #error.show { display: block; }
+        input.error { border-color: #f44336 !important; }
+
+        .privacy-strip {
+            background: rgba(0, 0, 0, 0.18);
+            border-left: 4px solid #66bb6a;
+            border-radius: 6px;
+            padding: 10px 14px;
+            color: #c5d4e3;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin-top: 12px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 28px;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .ascii-logo {
+                position: static;
+                text-align: center;
+                margin-bottom: 20px;
+                font-size: 0.5rem;
+            }
+            h1 { font-size: 1.8rem; }
+            .dropzone { padding: 28px 14px; }
+            .thumbs-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; }
+        }
+    </style>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "PDF Rotate",
+      "description": "Free, private PDF rotator. Rotate pages 90, 180, or 270 degrees with live thumbnail previews entirely in your browser - no uploads, no watermarks, no signup.",
+      "url": "https://oldweb.tech/pdf/rotate.html",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Web Browser",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "creator": { "@type": "Organization", "name": "OldWeb.tech" }
+    }
+    </script>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <div class="ascii-logo" aria-hidden="true">  ___  _    _  __        __   _
+ / _ \| | _| | \ \      / /__| |__
+| | | | |/ _` | \ \ /\ / / _ \ '_ \
+| |_| | | (_| |  \ V  V /  __/ |_) |
+ \___/|_|\__,_|   \_/\_/ \___|_.__/
+</div>
+
+    <main id="main-content" class="container">
+        <h1>PDF Rotate</h1>
+        <p class="subtitle">Rotate any page 90, 180, or 270 degrees. Live previews so you can see exactly what you're saving.</p>
+
+        <div class="panel">
+            <label for="fileInput" class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose a PDF file or drop it here">
+                <div class="dz-icon" aria-hidden="true">&#128206;</div>
+                <div class="dz-main" id="dzMain">Drop a PDF here</div>
+                <div class="dz-sub" id="dzSub">or click to choose a file</div>
+            </label>
+            <input type="file"
+                   id="fileInput"
+                   class="visually-hidden"
+                   accept="application/pdf,.pdf"
+                   aria-label="Select a PDF file to rotate">
+
+            <div id="loadedRow" style="display:none;">
+                <div class="file-row">
+                    <div class="file-meta">
+                        <div class="file-name" id="loadedName"></div>
+                        <div class="file-info" id="loadedInfo"></div>
+                    </div>
+                    <button type="button" class="row-btn" onclick="clearLoaded()" aria-label="Remove loaded file">&times;</button>
+                </div>
+            </div>
+
+            <div class="rotate-all-toolbar" id="rotateAllToolbar" role="toolbar" aria-label="Rotate all pages" style="display:none;">
+                <span class="label">Rotate all pages:</span>
+                <button type="button" class="rotate-btn" onclick="rotateAll(-90)" aria-label="Rotate all pages 90 degrees counter-clockwise">&#8634; 90&deg;</button>
+                <button type="button" class="rotate-btn" onclick="rotateAll(90)" aria-label="Rotate all pages 90 degrees clockwise">&#8635; 90&deg;</button>
+                <button type="button" class="rotate-btn" onclick="rotateAll(180)" aria-label="Rotate all pages 180 degrees">180&deg;</button>
+                <button type="button" class="rotate-btn" onclick="resetAll()" aria-label="Reset all page rotations">Reset</button>
+            </div>
+
+            <div class="thumbs-progress" id="thumbsProgress" aria-live="polite"></div>
+            <div class="thumbs-grid" id="thumbsGrid"></div>
+
+            <div class="warn-box" id="warnBox" role="status" aria-live="polite"></div>
+            <div id="error" role="alert" aria-live="assertive"></div>
+
+            <div class="actions">
+                <button type="button" class="btn" id="applyBtn" onclick="applyAndDownload()" disabled aria-label="Apply rotations and download">Apply &amp; Download</button>
+                <button type="button" class="btn secondary" id="clearFileBtn" onclick="clearLoaded()" disabled aria-label="Remove the loaded file">Clear File</button>
+                <button type="button" class="btn danger" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page">Clear Saved Data</button>
+            </div>
+
+            <div class="download-area" id="downloadArea">
+                <div class="ok-text" id="downloadText">Rotated PDF ready.</div>
+                <a id="downloadLink" class="btn" href="#" download="rotated.pdf">Download</a>
+            </div>
+        </div>
+
+        <div class="privacy-strip">
+            <strong>Privacy:</strong> Thumbnails are rendered locally with pdf.js. Rotations are written back with pdf-lib. Nothing leaves this browser tab.
+        </div>
+
+        <footer role="contentinfo">
+            PDF Rotate &mdash; Works offline, no installation required
+        </footer>
+    </main>
+
+    <script>
+        const $ = id => document.getElementById(id);
+
+        // Configure pdf.js worker — must run after the pdf.js bundle has loaded.
+        // The bundle exposes a global named `pdfjsLib`.
+        if (window.pdfjsLib) {
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
+        }
+
+        // State
+        let loadedFile = null;          // File
+        let loadedBuffer = null;        // ArrayBuffer (kept so we can re-load with pdf-lib on save)
+        let loadedPageCount = 0;
+        let originalRotations = [];     // base rotation per page from the source PDF
+        let userRotations = [];         // user-added delta per page (0/90/180/270)
+        let lastDownloadUrl = null;
+
+        function showError(message, input) {
+            const errDiv = $('error');
+            errDiv.textContent = message;
+            errDiv.classList.add('show');
+            if (input) {
+                input.classList.add('error');
+                input.setAttribute('aria-invalid', 'true');
+                input.focus();
+            }
+            A11yUtils.announce(message, 'assertive');
+        }
+
+        function clearError() {
+            $('error').classList.remove('show');
+            $('error').textContent = '';
+        }
+
+        function setWarning(message) {
+            const w = $('warnBox');
+            if (!message) { w.classList.remove('show'); w.textContent = ''; }
+            else { w.textContent = message; w.classList.add('show'); }
+        }
+
+        function formatBytes(n) {
+            if (n < 1024) return n + ' B';
+            if (n < 1024 * 1024) return (n / 1024).toFixed(1) + ' KB';
+            if (n < 1024 * 1024 * 1024) return (n / 1024 / 1024).toFixed(1) + ' MB';
+            return (n / 1024 / 1024 / 1024).toFixed(2) + ' GB';
+        }
+
+        function isPdfFile(file) {
+            const type = (file.type || '').toLowerCase();
+            const name = (file.name || '').toLowerCase();
+            return type === 'application/pdf' || name.endsWith('.pdf');
+        }
+
+        async function loadFile(file) {
+            clearError();
+            setWarning('');
+            $('downloadArea').classList.remove('show');
+            if (lastDownloadUrl) { URL.revokeObjectURL(lastDownloadUrl); lastDownloadUrl = null; }
+            // Clear previous state
+            $('thumbsGrid').innerHTML = '';
+            $('rotateAllToolbar').style.display = 'none';
+
+            if (!isPdfFile(file)) {
+                showError(`Only PDF files are accepted (got: ${file.name}).`);
+                return;
+            }
+
+            // First: probe with pdf-lib for page count + encryption check (cheap, definitive)
+            try {
+                loadedBuffer = await file.arrayBuffer();
+                // ignoreEncryption: false - we never silently strip protection from someone else's file.
+                const doc = await PDFLib.PDFDocument.load(loadedBuffer, { ignoreEncryption: false });
+                loadedPageCount = doc.getPageCount();
+                if (loadedPageCount === 0) {
+                    showError(`${file.name} contains no pages.`);
+                    return;
+                }
+                originalRotations = doc.getPages().map(p => p.getRotation().angle % 360);
+                userRotations = new Array(loadedPageCount).fill(0);
+            } catch (e) {
+                if (e && (e.name === 'EncryptedPDFError' || /encrypt/i.test(String(e.message || e)))) {
+                    showError(`${file.name} is password-protected. Decrypt it locally first - this tool will never ask for your password.`);
+                } else {
+                    showError(`Could not read ${file.name}. The file may be corrupt or not a valid PDF.`);
+                }
+                return;
+            }
+
+            loadedFile = file;
+
+            // Update UI
+            $('loadedName').textContent = file.name;
+            $('loadedInfo').textContent = `${formatBytes(file.size)} · ${loadedPageCount.toLocaleString()} page${loadedPageCount === 1 ? '' : 's'}`;
+            $('loadedRow').style.display = '';
+            $('dzMain').textContent = 'Drop a different PDF to replace';
+            $('dzSub').textContent = 'or click to choose a different file';
+            $('rotateAllToolbar').style.display = '';
+            $('clearFileBtn').disabled = false;
+
+            if (file.size > 100 * 1024 * 1024 || loadedPageCount > 500) {
+                setWarning(`${file.name} is large (${formatBytes(file.size)}, ${loadedPageCount.toLocaleString()} pages) - rendering thumbnails may take a while.`);
+            }
+
+            A11yUtils.announce(`Loaded ${file.name}, ${loadedPageCount.toLocaleString()} pages. Rendering thumbnails.`, 'polite');
+
+            await renderAllThumbnails();
+        }
+
+        async function renderAllThumbnails() {
+            if (!window.pdfjsLib) {
+                showError('Preview library failed to load. Reload the page and try again.');
+                return;
+            }
+            const progress = $('thumbsProgress');
+            const grid = $('thumbsGrid');
+            grid.innerHTML = '';
+            progress.textContent = `Rendering thumbnails 0 / ${loadedPageCount}…`;
+            progress.classList.add('show');
+
+            let pdf;
+            try {
+                // Clone the buffer for pdf.js (it transfers ownership in some paths)
+                const bufCopy = loadedBuffer.slice(0);
+                const loadingTask = pdfjsLib.getDocument({ data: bufCopy, isEvalSupported: false });
+                pdf = await loadingTask.promise;
+            } catch (e) {
+                console.error(e);
+                progress.classList.remove('show');
+                showError('Could not render thumbnails. The PDF may use features pdf.js does not support, but rotation will still work without previews.');
+                renderTilesWithoutThumbs();
+                $('applyBtn').disabled = false;
+                return;
+            }
+
+            // Pre-build empty tiles so users see the layout immediately
+            renderTilesWithoutThumbs();
+            $('applyBtn').disabled = false;
+
+            // Render thumbnails sequentially to keep memory bounded
+            for (let i = 0; i < loadedPageCount; i++) {
+                try {
+                    const page = await pdf.getPage(i + 1);
+                    const viewport = page.getViewport({ scale: 1 });
+                    const targetWidth = 140;
+                    const scale = targetWidth / Math.max(viewport.width, 1);
+                    const scaled = page.getViewport({ scale });
+                    const canvas = document.createElement('canvas');
+                    canvas.width = Math.ceil(scaled.width);
+                    canvas.height = Math.ceil(scaled.height);
+                    const ctx = canvas.getContext('2d');
+                    await page.render({ canvasContext: ctx, viewport: scaled }).promise;
+                    const dataUrl = canvas.toDataURL('image/png');
+                    const img = document.querySelector(`#thumb-${i} .thumb-frame img`);
+                    if (img) img.src = dataUrl;
+                    // Free the page
+                    page.cleanup();
+                } catch (e) {
+                    console.error(`Thumbnail ${i + 1} failed:`, e);
+                    const frame = document.querySelector(`#thumb-${i} .thumb-frame`);
+                    if (frame) {
+                        frame.innerHTML = '<div style="color:#90caf9;font-size:0.75rem;text-align:center;padding:8px;">(preview unavailable)</div>';
+                    }
+                }
+                progress.textContent = `Rendering thumbnails ${i + 1} / ${loadedPageCount}…`;
+            }
+
+            progress.classList.remove('show');
+            A11yUtils.announce('All thumbnails ready', 'polite');
+        }
+
+        function renderTilesWithoutThumbs() {
+            const grid = $('thumbsGrid');
+            const tiles = [];
+            for (let i = 0; i < loadedPageCount; i++) {
+                tiles.push(buildTileHtml(i));
+            }
+            grid.innerHTML = tiles.join('');
+        }
+
+        function buildTileHtml(idx) {
+            const userR = userRotations[idx];
+            const origR = originalRotations[idx];
+            const net = ((origR + userR) % 360 + 360) % 360;
+            const changed = userR !== 0;
+            return `
+                <div class="thumb-tile ${changed ? 'changed' : ''}" id="thumb-${idx}" data-idx="${idx}">
+                    <div class="thumb-frame">
+                        <img alt="Thumbnail of page ${idx + 1}" src="" style="transform: rotate(${userR}deg);">
+                    </div>
+                    <div class="thumb-meta">
+                        <span>Page ${idx + 1}</span>
+                        <span class="badge ${changed ? 'changed' : ''}" aria-label="Current rotation ${net} degrees">${net}&deg;</span>
+                    </div>
+                    <div class="thumb-actions">
+                        <button type="button" class="rotate-btn" data-act="ccw" data-idx="${idx}" aria-label="Rotate page ${idx + 1} 90 degrees counter-clockwise" aria-pressed="${changed ? 'true' : 'false'}">&#8634;</button>
+                        <button type="button" class="rotate-btn" data-act="cw" data-idx="${idx}" aria-label="Rotate page ${idx + 1} 90 degrees clockwise" aria-pressed="${changed ? 'true' : 'false'}">&#8635;</button>
+                        <button type="button" class="rotate-btn" data-act="180" data-idx="${idx}" aria-label="Rotate page ${idx + 1} 180 degrees" aria-pressed="${changed ? 'true' : 'false'}">180&deg;</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function updateTile(idx) {
+            const tile = $(`thumb-${idx}`);
+            if (!tile) return;
+            const userR = userRotations[idx];
+            const origR = originalRotations[idx];
+            const net = ((origR + userR) % 360 + 360) % 360;
+            const changed = userR !== 0;
+
+            tile.classList.toggle('changed', changed);
+            const img = tile.querySelector('.thumb-frame img');
+            if (img) img.style.transform = `rotate(${userR}deg)`;
+
+            const badge = tile.querySelector('.badge');
+            if (badge) {
+                badge.textContent = net + '°';
+                badge.classList.toggle('changed', changed);
+                badge.setAttribute('aria-label', `Current rotation ${net} degrees`);
+            }
+            tile.querySelectorAll('.rotate-btn').forEach(btn => {
+                btn.setAttribute('aria-pressed', changed ? 'true' : 'false');
+            });
+        }
+
+        function rotatePage(idx, delta) {
+            if (!Number.isInteger(idx) || idx < 0 || idx >= loadedPageCount) return;
+            userRotations[idx] = ((userRotations[idx] + delta) % 360 + 360) % 360;
+            updateTile(idx);
+            $('downloadArea').classList.remove('show');
+            const orig = originalRotations[idx];
+            const net = ((orig + userRotations[idx]) % 360 + 360) % 360;
+            A11yUtils.announce(`Page ${idx + 1} now ${net} degrees`, 'polite');
+        }
+
+        function rotateAll(delta) {
+            if (loadedPageCount === 0) return;
+            for (let i = 0; i < loadedPageCount; i++) {
+                userRotations[i] = ((userRotations[i] + delta) % 360 + 360) % 360;
+                updateTile(i);
+            }
+            $('downloadArea').classList.remove('show');
+            A11yUtils.announce(`Rotated all ${loadedPageCount.toLocaleString()} pages by ${delta} degrees`, 'polite');
+        }
+
+        function resetAll() {
+            if (loadedPageCount === 0) return;
+            const anyChanged = userRotations.some(r => r !== 0);
+            if (!anyChanged) return;
+            userRotations.fill(0);
+            for (let i = 0; i < loadedPageCount; i++) updateTile(i);
+            $('downloadArea').classList.remove('show');
+            A11yUtils.announce('All rotations reset', 'polite');
+        }
+
+        async function applyAndDownload() {
+            clearError();
+            if (!loadedFile || !loadedBuffer) {
+                showError('Load a PDF first.');
+                return;
+            }
+            const anyChanged = userRotations.some(r => r !== 0);
+            if (!anyChanged) {
+                showError('No rotations to apply yet. Use the buttons under any page to rotate it.');
+                return;
+            }
+
+            const applyBtn = $('applyBtn');
+            applyBtn.disabled = true;
+            applyBtn.textContent = 'Applying…';
+            $('dropzone').setAttribute('aria-busy', 'true');
+            A11yUtils.announce('Applying rotations', 'polite');
+
+            try {
+                // Re-load from the buffer so we have a clean PDFDocument to save.
+                const doc = await PDFLib.PDFDocument.load(loadedBuffer, { ignoreEncryption: false });
+                const pages = doc.getPages();
+                let changedCount = 0;
+                for (let i = 0; i < pages.length; i++) {
+                    if (userRotations[i] === 0) continue;
+                    const current = pages[i].getRotation().angle;
+                    const next = ((current + userRotations[i]) % 360 + 360) % 360;
+                    pages[i].setRotation(PDFLib.degrees(next));
+                    changedCount++;
+                }
+                const bytes = await doc.save();
+
+                if (lastDownloadUrl) URL.revokeObjectURL(lastDownloadUrl);
+                const blob = new Blob([bytes], { type: 'application/pdf' });
+                lastDownloadUrl = URL.createObjectURL(blob);
+                const baseName = (loadedFile.name || 'rotated').replace(/\.pdf$/i, '');
+                const link = $('downloadLink');
+                link.href = lastDownloadUrl;
+                link.download = `${baseName}-rotated.pdf`;
+
+                $('downloadText').textContent = `Rotated PDF ready: ${changedCount.toLocaleString()} page${changedCount === 1 ? '' : 's'} changed, ${formatBytes(bytes.length)}.`;
+                $('downloadArea').classList.add('show');
+                A11yUtils.announce(`Rotated PDF ready, ${changedCount.toLocaleString()} pages changed. Download button focused.`, 'polite');
+                link.focus();
+            } catch (e) {
+                console.error(e);
+                if (e && (e.name === 'EncryptedPDFError' || /encrypt/i.test(String(e.message || e)))) {
+                    showError('PDF became unreadable (encrypted). Remove the file and try again.');
+                } else {
+                    showError('Something went wrong while saving the rotated PDF.');
+                }
+            } finally {
+                applyBtn.disabled = !loadedFile;
+                applyBtn.textContent = 'Apply & Download';
+                $('dropzone').removeAttribute('aria-busy');
+            }
+        }
+
+        function clearLoaded() {
+            loadedFile = null;
+            loadedBuffer = null;
+            loadedPageCount = 0;
+            originalRotations = [];
+            userRotations = [];
+            $('loadedRow').style.display = 'none';
+            $('dzMain').textContent = 'Drop a PDF here';
+            $('dzSub').textContent = 'or click to choose a file';
+            $('rotateAllToolbar').style.display = 'none';
+            $('thumbsGrid').innerHTML = '';
+            $('thumbsProgress').classList.remove('show');
+            $('applyBtn').disabled = true;
+            $('clearFileBtn').disabled = true;
+            $('downloadArea').classList.remove('show');
+            if (lastDownloadUrl) { URL.revokeObjectURL(lastDownloadUrl); lastDownloadUrl = null; }
+            clearError();
+            setWarning('');
+            A11yUtils.announce('File cleared', 'polite');
+        }
+
+        // Drag-drop
+        const dropzone = $('dropzone');
+        const fileInput = $('fileInput');
+
+        dropzone.addEventListener('click', e => {
+            if (e.target === dropzone) fileInput.click();
+        });
+        dropzone.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                fileInput.click();
+            }
+        });
+
+        ['dragenter', 'dragover'].forEach(ev => {
+            dropzone.addEventListener(ev, e => {
+                e.preventDefault();
+                e.stopPropagation();
+                dropzone.classList.add('dragover');
+            });
+        });
+        ['dragleave', 'drop'].forEach(ev => {
+            dropzone.addEventListener(ev, e => {
+                e.preventDefault();
+                e.stopPropagation();
+                dropzone.classList.remove('dragover');
+            });
+        });
+        dropzone.addEventListener('drop', e => {
+            const files = e.dataTransfer && e.dataTransfer.files;
+            if (files && files.length) {
+                if (files.length > 1) {
+                    showError('Rotate takes one PDF at a time. Using the first file.');
+                }
+                loadFile(files[0]);
+            }
+        });
+
+        ['dragover', 'drop'].forEach(ev => {
+            window.addEventListener(ev, e => {
+                if (e.target === dropzone || dropzone.contains(e.target)) return;
+                e.preventDefault();
+            });
+        });
+
+        fileInput.addEventListener('change', e => {
+            const f = e.target.files && e.target.files[0];
+            if (f) loadFile(f);
+            fileInput.value = '';
+        });
+
+        // Per-tile rotation button delegation
+        $('thumbsGrid').addEventListener('click', e => {
+            const btn = e.target.closest('.rotate-btn');
+            if (!btn) return;
+            const idx = parseInt(btn.dataset.idx, 10);
+            const act = btn.dataset.act;
+            if (Number.isNaN(idx)) return;
+            if (act === 'ccw') rotatePage(idx, -90);
+            else if (act === 'cw') rotatePage(idx, 90);
+            else if (act === '180') rotatePage(idx, 180);
+        });
+
+        function clearAllSavedData() {
+            StorageUtils.remove('pdf-rotate');
+            clearLoaded();
+            A11yUtils.announce('All saved data has been cleared', 'polite');
+        }
+
+        // Skip link
+        document.querySelector('.skip-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.getElementById('main-content');
+            if (target) {
+                target.setAttribute('tabindex', '-1');
+                target.focus();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!('arrayBuffer' in File.prototype)) {
+                showError('Your browser is too old for this tool. Please update to a 2020+ browser.');
+                fileInput.disabled = true;
+                return;
+            }
+            if (!window.PDFLib || !window.pdfjsLib) {
+                showError('A library failed to load from the CDN. Check your connection and reload.');
+                fileInput.disabled = true;
+            }
+        });
+    </script>
+</body>
+</html>

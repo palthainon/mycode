@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Free PDF splitter that runs entirely in your browser. Extract specific pages or page ranges from a PDF &mdash; no uploads, no watermarks, no signup.">
+    <meta name="keywords" content="pdf split, split pdf, extract pdf pages, pdf splitter, free pdf splitter, browser pdf split, offline pdf, no upload pdf, separate pdf">
+    <meta name="author" content="OldWeb LLC">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://oldweb.tech/pdf/split.html">
+
+    <meta property="og:title" content="PDF Split - OldWeb.tech">
+    <meta property="og:description" content="Extract pages and page ranges from a PDF in your browser. No uploads, no watermarks, no signup.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oldweb.tech/pdf/split.html">
+    <meta property="og:site_name" content="OldWeb.tech">
+    <meta property="og:image" content="https://oldweb.tech/logo/og-image.png">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="PDF Split - OldWeb.tech">
+    <meta name="twitter:description" content="Extract pages and page ranges from a PDF in your browser.">
+    <meta name="twitter:image" content="https://oldweb.tech/logo/og-image.png">
+
+    <meta name="theme-color" content="#1a1a2e">
+    <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
+
+    <title>PDF Split - OldWeb.tech</title>
+    <link rel="stylesheet" href="../a11y.css">
+    <script src="../a11y-utils.js"></script>
+    <script src="../storage-utils.js"></script>
+    <script src="../navigationv2.js"></script>
+
+    <!--
+        Third-party libraries: pdf-lib (MIT) + JSZip (MIT). Pinned + SRI-verified.
+        Version pins and SRI hashes must be updated together - never the version alone.
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"
+            integrity="sha384-weMABwrltA6jWR8DDe9Jp5blk+tZQh7ugpCsF3JwSA53WZM9/14PjS5LAJNHNjAI"
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"
+            integrity="sha384-+mbV2IY1Zk/X1p/nWllGySJSUN8uMs+gUAN10Or95UBH0fpj6GfKgPmgC5EXieXG"
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"></script>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #fff;
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 8px;
+            font-size: 2.3rem;
+            color: #4fc3f7;
+            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #90caf9;
+            font-size: 0.95rem;
+            margin-bottom: 26px;
+            opacity: 0.9;
+        }
+
+        .ascii-logo {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.65rem;
+            line-height: 1.1;
+            color: #4fc3f7;
+            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
+            opacity: 0.8;
+            white-space: pre;
+        }
+
+        .panel {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 14px;
+            padding: 22px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 18px;
+        }
+
+        .dropzone {
+            border: 2px dashed rgba(79, 195, 247, 0.4);
+            border-radius: 12px;
+            padding: 38px 20px;
+            text-align: center;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .dropzone:hover, .dropzone.dragover {
+            border-color: #4fc3f7;
+            background: rgba(79, 195, 247, 0.08);
+        }
+
+        .dropzone .dz-icon {
+            font-size: 2.4rem;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .dropzone .dz-main {
+            color: #4fc3f7;
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .dropzone .dz-sub {
+            color: #90caf9;
+            font-size: 0.85rem;
+        }
+
+        .visually-hidden {
+            position: absolute !important;
+            width: 1px; height: 1px;
+            padding: 0; margin: -1px;
+            overflow: hidden; clip: rect(0,0,0,0);
+            white-space: nowrap; border: 0;
+        }
+
+        .file-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(0, 0, 0, 0.25);
+            padding: 10px 14px;
+            border-radius: 8px;
+            border-left: 3px solid #4fc3f7;
+            margin-top: 14px;
+        }
+
+        .file-row .file-meta {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .file-row .file-name {
+            color: #fff;
+            font-size: 0.95rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .file-row .file-info {
+            color: #90caf9;
+            font-size: 0.78rem;
+            margin-top: 2px;
+        }
+
+        .row-btn {
+            background: transparent;
+            border: 1px solid rgba(244, 67, 54, 0.4);
+            color: rgba(244, 67, 54, 0.85);
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .row-btn:hover {
+            background: rgba(244, 67, 54, 0.12);
+            color: #ff8a80;
+        }
+
+        .row-btn:focus-visible {
+            outline: 2px solid #4fc3f7;
+            outline-offset: 2px;
+        }
+
+        .controls {
+            margin-top: 16px;
+        }
+
+        .ctrl-label {
+            display: block;
+            margin-bottom: 6px;
+            color: #90caf9;
+            font-weight: 500;
+            font-size: 0.88rem;
+        }
+
+        .ranges-input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: #0f1419;
+            color: #fff;
+            font-size: 1rem;
+            font-family: 'Consolas', 'Monaco', monospace;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .ranges-input:focus {
+            outline: none;
+            border-color: #4fc3f7;
+            box-shadow: 0 0 15px rgba(79, 195, 247, 0.2);
+        }
+
+        .ranges-help {
+            color: #c5d4e3;
+            font-size: 0.82rem;
+            margin-top: 6px;
+            line-height: 1.5;
+        }
+
+        .ranges-help code {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background: rgba(255, 255, 255, 0.07);
+            padding: 1px 6px;
+            border-radius: 3px;
+            color: #ffd180;
+        }
+
+        .mode-row {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+            margin-top: 14px;
+            align-items: center;
+        }
+
+        .mode-row > .ctrl-label {
+            margin-bottom: 0;
+        }
+
+        .radio-opt {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #fff;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .radio-opt input[type="radio"] {
+            accent-color: #4fc3f7;
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 18px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
+            color: #fff;
+            border: none;
+            padding: 12px 28px;
+            font-size: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+            font-weight: 600;
+            font-family: inherit;
+        }
+
+        .btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(79, 195, 247, 0.4);
+        }
+
+        .btn:focus-visible {
+            outline: 3px solid #4fc3f7;
+            outline-offset: 2px;
+        }
+
+        .btn:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn.secondary {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: #90caf9;
+        }
+
+        .btn.secondary:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: none;
+            transform: none;
+        }
+
+        .btn.danger {
+            background: transparent;
+            border: 2px solid rgba(244, 67, 54, 0.4);
+            color: rgba(244, 67, 54, 0.85);
+        }
+
+        .btn.danger:hover:not(:disabled) {
+            background: rgba(244, 67, 54, 0.12);
+            border-color: rgba(244, 67, 54, 0.6);
+            color: #ff8a80;
+            box-shadow: none;
+            transform: none;
+        }
+
+        .download-area {
+            margin-top: 16px;
+            text-align: center;
+            display: none;
+        }
+
+        .download-area.show {
+            display: block;
+        }
+
+        .download-area .ok-text {
+            color: #66bb6a;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .warn-box {
+            background: rgba(255, 152, 0, 0.08);
+            border: 1px solid rgba(255, 152, 0, 0.4);
+            border-radius: 8px;
+            color: #ffcc80;
+            padding: 10px 14px;
+            margin-top: 12px;
+            font-size: 0.88rem;
+            line-height: 1.5;
+            display: none;
+        }
+
+        .warn-box.show { display: block; }
+
+        /* CLAUDE.md-mandated error pattern */
+        #error {
+            background: rgba(244, 67, 54, 0.18);
+            border: 1px solid #f44336;
+            color: #ff8a80;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: none;
+        }
+        #error.show { display: block; }
+        input.error { border-color: #f44336 !important; }
+
+        .privacy-strip {
+            background: rgba(0, 0, 0, 0.18);
+            border-left: 4px solid #66bb6a;
+            border-radius: 6px;
+            padding: 10px 14px;
+            color: #c5d4e3;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin-top: 12px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 28px;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .ascii-logo {
+                position: static;
+                text-align: center;
+                margin-bottom: 20px;
+                font-size: 0.5rem;
+            }
+            h1 { font-size: 1.8rem; }
+            .dropzone { padding: 28px 14px; }
+        }
+    </style>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "PDF Split",
+      "description": "Free, private PDF splitter. Extract pages and page ranges from a PDF entirely in your browser - no uploads, no watermarks, no signup.",
+      "url": "https://oldweb.tech/pdf/split.html",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Web Browser",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "creator": { "@type": "Organization", "name": "OldWeb.tech" }
+    }
+    </script>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <div class="ascii-logo" aria-hidden="true">  ___  _    _  __        __   _
+ / _ \| | _| | \ \      / /__| |__
+| | | | |/ _` | \ \ /\ / / _ \ '_ \
+| |_| | | (_| |  \ V  V /  __/ |_) |
+ \___/|_|\__,_|   \_/\_/ \___|_.__/
+</div>
+
+    <main id="main-content" class="container">
+        <h1>PDF Split</h1>
+        <p class="subtitle">Pull specific pages or page ranges out of a PDF. Nothing leaves your browser.</p>
+
+        <div class="panel">
+            <label for="fileInput" class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose a PDF file or drop it here">
+                <div class="dz-icon" aria-hidden="true">&#128206;</div>
+                <div class="dz-main" id="dzMain">Drop a PDF here</div>
+                <div class="dz-sub" id="dzSub">or click to choose a file</div>
+            </label>
+            <input type="file"
+                   id="fileInput"
+                   class="visually-hidden"
+                   accept="application/pdf,.pdf"
+                   aria-label="Select a PDF file to split">
+
+            <div id="loadedRow" style="display:none;">
+                <div class="file-row">
+                    <div class="file-meta">
+                        <div class="file-name" id="loadedName"></div>
+                        <div class="file-info" id="loadedInfo"></div>
+                    </div>
+                    <button type="button" class="row-btn" onclick="clearLoaded()" aria-label="Remove loaded file">&times;</button>
+                </div>
+            </div>
+
+            <div class="controls">
+                <label class="ctrl-label" for="ranges">Pages or ranges to extract</label>
+                <input type="text"
+                       id="ranges"
+                       class="ranges-input"
+                       placeholder="1-3, 5, 8-end"
+                       aria-describedby="ranges-help">
+                <p id="ranges-help" class="ranges-help">
+                    Examples: <code>1-3</code> (pages 1 to 3) &middot; <code>5</code> (just page 5) &middot; <code>8-end</code> (page 8 to the last page) &middot; <code>1-3, 5, 8-end</code> (combine).
+                </p>
+
+                <div class="mode-row" role="radiogroup" aria-label="Output mode">
+                    <span class="ctrl-label">Output:</span>
+                    <label class="radio-opt">
+                        <input type="radio" name="mode" value="combined" checked>
+                        <span>Single combined PDF</span>
+                    </label>
+                    <label class="radio-opt">
+                        <input type="radio" name="mode" value="separate">
+                        <span>One PDF per range (ZIP)</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="warn-box" id="warnBox" role="status" aria-live="polite"></div>
+            <div id="error" role="alert" aria-live="assertive"></div>
+
+            <div class="actions">
+                <button type="button" class="btn" id="splitBtn" onclick="doSplit()" disabled aria-label="Split PDF and download">Split &amp; Download</button>
+                <button type="button" class="btn secondary" onclick="clearLoaded()" id="clearFileBtn" disabled aria-label="Remove the loaded file">Clear File</button>
+                <button type="button" class="btn danger" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page">Clear Saved Data</button>
+            </div>
+
+            <div class="download-area" id="downloadArea">
+                <div class="ok-text" id="downloadText">Split file ready.</div>
+                <a id="downloadLink" class="btn" href="#" download="split.pdf">Download</a>
+            </div>
+        </div>
+
+        <div class="privacy-strip">
+            <strong>Privacy:</strong> The PDF is parsed in this tab with pdf-lib and (when needed) zipped with JSZip. It is never uploaded.
+        </div>
+
+        <footer role="contentinfo">
+            PDF Split &mdash; Works offline, no installation required
+        </footer>
+    </main>
+
+    <script>
+        const $ = id => document.getElementById(id);
+
+        // State
+        let loadedFile = null;     // File object
+        let loadedDoc = null;      // PDFDocument
+        let loadedPageCount = 0;
+        let lastDownloadUrl = null;
+
+        function showError(message, input) {
+            const errDiv = $('error');
+            errDiv.textContent = message;
+            errDiv.classList.add('show');
+            if (input) {
+                input.classList.add('error');
+                input.setAttribute('aria-invalid', 'true');
+                input.focus();
+            }
+            A11yUtils.announce(message, 'assertive');
+        }
+
+        function clearError() {
+            $('error').classList.remove('show');
+            $('error').textContent = '';
+            const inp = $('ranges');
+            inp.classList.remove('error');
+            inp.removeAttribute('aria-invalid');
+        }
+
+        function setWarning(message) {
+            const w = $('warnBox');
+            if (!message) {
+                w.classList.remove('show');
+                w.textContent = '';
+            } else {
+                w.textContent = message;
+                w.classList.add('show');
+            }
+        }
+
+        function formatBytes(n) {
+            if (n < 1024) return n + ' B';
+            if (n < 1024 * 1024) return (n / 1024).toFixed(1) + ' KB';
+            if (n < 1024 * 1024 * 1024) return (n / 1024 / 1024).toFixed(1) + ' MB';
+            return (n / 1024 / 1024 / 1024).toFixed(2) + ' GB';
+        }
+
+        function isPdfFile(file) {
+            const type = (file.type || '').toLowerCase();
+            const name = (file.name || '').toLowerCase();
+            return type === 'application/pdf' || name.endsWith('.pdf');
+        }
+
+        async function loadFile(file) {
+            clearError();
+            setWarning('');
+            $('downloadArea').classList.remove('show');
+            if (lastDownloadUrl) { URL.revokeObjectURL(lastDownloadUrl); lastDownloadUrl = null; }
+
+            if (!isPdfFile(file)) {
+                showError(`Only PDF files are accepted (got: ${file.name}).`);
+                return;
+            }
+
+            try {
+                const buf = await file.arrayBuffer();
+                // ignoreEncryption: false - we never silently strip protection from someone else's file.
+                const doc = await PDFLib.PDFDocument.load(buf, { ignoreEncryption: false });
+                const pages = doc.getPageCount();
+                if (pages === 0) {
+                    showError(`${file.name} contains no pages.`);
+                    return;
+                }
+                loadedFile = file;
+                loadedDoc = doc;
+                loadedPageCount = pages;
+            } catch (e) {
+                if (e && (e.name === 'EncryptedPDFError' || /encrypt/i.test(String(e.message || e)))) {
+                    showError(`${file.name} is password-protected. Decrypt it locally first - this tool will never ask for your password.`);
+                } else {
+                    showError(`Could not read ${file.name}. The file may be corrupt or not a valid PDF.`);
+                }
+                return;
+            }
+
+            // Update UI
+            $('loadedName').textContent = file.name;
+            $('loadedInfo').textContent = `${formatBytes(file.size)} · ${loadedPageCount.toLocaleString()} page${loadedPageCount === 1 ? '' : 's'}`;
+            $('loadedRow').style.display = '';
+            $('dzMain').textContent = 'Drop a different PDF to replace';
+            $('dzSub').textContent = 'or click to choose a different file';
+            $('splitBtn').disabled = false;
+            $('clearFileBtn').disabled = false;
+
+            if (file.size > 100 * 1024 * 1024 || loadedPageCount > 500) {
+                setWarning(`${file.name} is large (${formatBytes(file.size)}, ${loadedPageCount.toLocaleString()} pages) - splitting may take a while.`);
+            }
+
+            A11yUtils.announce(`Loaded ${file.name}, ${loadedPageCount.toLocaleString()} pages`, 'polite');
+        }
+
+        function clearLoaded() {
+            loadedFile = null;
+            loadedDoc = null;
+            loadedPageCount = 0;
+            $('loadedRow').style.display = 'none';
+            $('dzMain').textContent = 'Drop a PDF here';
+            $('dzSub').textContent = 'or click to choose a file';
+            $('splitBtn').disabled = true;
+            $('clearFileBtn').disabled = true;
+            $('downloadArea').classList.remove('show');
+            if (lastDownloadUrl) { URL.revokeObjectURL(lastDownloadUrl); lastDownloadUrl = null; }
+            clearError();
+            setWarning('');
+            A11yUtils.announce('File cleared', 'polite');
+        }
+
+        /**
+         * Parse a range string into an array of arrays of zero-indexed page numbers.
+         * Throws Error with a user-friendly message on invalid syntax/bounds.
+         * Examples for an 10-page doc:
+         *   "1-3, 5, 8-end" -> [[0,1,2],[4],[7,8,9]]
+         *   "1" -> [[0]]
+         */
+        function parseRanges(str, pageCount) {
+            if (!str || !str.trim()) throw new Error('Type at least one page or range.');
+            const tokens = str.split(',').map(s => s.trim()).filter(Boolean);
+            if (!tokens.length) throw new Error('Type at least one page or range.');
+            const groups = [];
+            for (const tok of tokens) {
+                const m = /^(\d+)(?:\s*-\s*(\d+|end))?$/i.exec(tok);
+                if (!m) throw new Error(`Invalid range "${tok}". Use formats like 1-3, 5, 8-end.`);
+                const start = parseInt(m[1], 10);
+                let endRaw = m[2];
+                let end;
+                if (endRaw === undefined) end = start;
+                else if (/^end$/i.test(endRaw)) end = pageCount;
+                else end = parseInt(endRaw, 10);
+
+                if (start < 1) throw new Error(`Range "${tok}" starts before page 1.`);
+                if (start > pageCount) throw new Error(`Range "${tok}" is out of bounds - PDF has ${pageCount} page${pageCount === 1 ? '' : 's'}.`);
+                if (end < start) throw new Error(`Invalid range "${tok}": end must be at least start.`);
+                if (end > pageCount) throw new Error(`Range "${tok}" is out of bounds - PDF has ${pageCount} page${pageCount === 1 ? '' : 's'}.`);
+
+                const arr = [];
+                for (let p = start; p <= end; p++) arr.push(p - 1);
+                groups.push(arr);
+            }
+            return groups;
+        }
+
+        async function doSplit() {
+            clearError();
+            const rangesInput = $('ranges');
+            if (!loadedFile || !loadedDoc) {
+                showError('Load a PDF first.');
+                return;
+            }
+
+            let groups;
+            try {
+                groups = parseRanges(rangesInput.value, loadedPageCount);
+            } catch (e) {
+                showError(e.message || 'Invalid page range.', rangesInput);
+                return;
+            }
+
+            const mode = (document.querySelector('input[name="mode"]:checked') || {}).value || 'combined';
+            const splitBtn = $('splitBtn');
+            splitBtn.disabled = true;
+            splitBtn.textContent = 'Splitting…';
+            $('dropzone').setAttribute('aria-busy', 'true');
+            A11yUtils.announce('Splitting PDF', 'polite');
+
+            try {
+                // Re-load source so we always work from a fresh copy (cheap; same buffer).
+                const buf = await loadedFile.arrayBuffer();
+                const src = await PDFLib.PDFDocument.load(buf, { ignoreEncryption: false });
+
+                if (mode === 'combined' || groups.length === 1) {
+                    const out = await PDFLib.PDFDocument.create();
+                    // Dedupe + keep ranges in input order; combined mode keeps original order within each range.
+                    const seen = new Set();
+                    const orderedPages = [];
+                    groups.forEach(g => g.forEach(p => {
+                        if (!seen.has(p)) { seen.add(p); orderedPages.push(p); }
+                    }));
+                    const copied = await out.copyPages(src, orderedPages);
+                    copied.forEach(page => out.addPage(page));
+                    const bytes = await out.save();
+
+                    const baseName = (loadedFile.name || 'split').replace(/\.pdf$/i, '');
+                    const outName = `${baseName}-split.pdf`;
+                    triggerDownload(bytes, outName, 'application/pdf');
+                    $('downloadText').textContent = `Split PDF ready: ${out.getPageCount().toLocaleString()} pages, ${formatBytes(bytes.length)}.`;
+                    A11yUtils.announce(`Split PDF ready, ${out.getPageCount().toLocaleString()} pages. Download button is focused.`, 'polite');
+                } else {
+                    if (typeof JSZip === 'undefined') {
+                        throw new Error('ZIP library failed to load. Reload the page and try again.');
+                    }
+                    const zip = new JSZip();
+                    const baseName = (loadedFile.name || 'split').replace(/\.pdf$/i, '');
+                    for (let i = 0; i < groups.length; i++) {
+                        const out = await PDFLib.PDFDocument.create();
+                        const copied = await out.copyPages(src, groups[i]);
+                        copied.forEach(page => out.addPage(page));
+                        const pdfBytes = await out.save();
+                        const rangeLabel = describeGroup(groups[i]);
+                        zip.file(`${baseName}-${rangeLabel}.pdf`, pdfBytes);
+                    }
+                    const zipBytes = await zip.generateAsync({ type: 'uint8array' });
+                    triggerDownload(zipBytes, `${baseName}-split.zip`, 'application/zip');
+                    $('downloadText').textContent = `ZIP ready: ${groups.length} PDF${groups.length === 1 ? '' : 's'}, ${formatBytes(zipBytes.length)}.`;
+                    A11yUtils.announce(`ZIP ready with ${groups.length} files. Download button is focused.`, 'polite');
+                }
+
+                $('downloadArea').classList.add('show');
+                $('downloadLink').focus();
+            } catch (e) {
+                console.error(e);
+                if (e && (e.name === 'EncryptedPDFError' || /encrypt/i.test(String(e.message || e)))) {
+                    showError('PDF became unreadable (encrypted). Remove the file and try again.');
+                } else {
+                    showError(e && e.message ? e.message : 'Something went wrong while splitting.');
+                }
+            } finally {
+                splitBtn.disabled = !loadedFile;
+                splitBtn.textContent = 'Split & Download';
+                $('dropzone').removeAttribute('aria-busy');
+            }
+        }
+
+        function describeGroup(group) {
+            if (!group.length) return 'empty';
+            const start = group[0] + 1;
+            const end = group[group.length - 1] + 1;
+            return start === end ? `p${start}` : `p${start}-${end}`;
+        }
+
+        function triggerDownload(bytes, filename, mime) {
+            if (lastDownloadUrl) URL.revokeObjectURL(lastDownloadUrl);
+            const blob = new Blob([bytes], { type: mime || 'application/octet-stream' });
+            lastDownloadUrl = URL.createObjectURL(blob);
+            const link = $('downloadLink');
+            link.href = lastDownloadUrl;
+            link.download = filename;
+        }
+
+        // Drag-drop
+        const dropzone = $('dropzone');
+        const fileInput = $('fileInput');
+
+        dropzone.addEventListener('click', e => {
+            if (e.target === dropzone) fileInput.click();
+        });
+        dropzone.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                fileInput.click();
+            }
+        });
+
+        ['dragenter', 'dragover'].forEach(ev => {
+            dropzone.addEventListener(ev, e => {
+                e.preventDefault();
+                e.stopPropagation();
+                dropzone.classList.add('dragover');
+            });
+        });
+        ['dragleave', 'drop'].forEach(ev => {
+            dropzone.addEventListener(ev, e => {
+                e.preventDefault();
+                e.stopPropagation();
+                dropzone.classList.remove('dragover');
+            });
+        });
+        dropzone.addEventListener('drop', e => {
+            const files = e.dataTransfer && e.dataTransfer.files;
+            if (files && files.length) {
+                if (files.length > 1) {
+                    showError('Split takes one PDF at a time. Using the first file.');
+                }
+                loadFile(files[0]);
+            }
+        });
+
+        ['dragover', 'drop'].forEach(ev => {
+            window.addEventListener(ev, e => {
+                if (e.target === dropzone || dropzone.contains(e.target)) return;
+                e.preventDefault();
+            });
+        });
+
+        fileInput.addEventListener('change', e => {
+            const f = e.target.files && e.target.files[0];
+            if (f) loadFile(f);
+            fileInput.value = '';
+        });
+
+        // Clear errors as user fixes the range
+        $('ranges').addEventListener('input', () => {
+            if ($('error').classList.contains('show')) clearError();
+            $('downloadArea').classList.remove('show');
+        });
+
+        document.querySelectorAll('input[name="mode"]').forEach(r => {
+            r.addEventListener('change', () => {
+                $('downloadArea').classList.remove('show');
+                StorageUtils.save('pdf-split', getPrefs());
+            });
+        });
+
+        $('ranges').addEventListener('change', () => {
+            StorageUtils.save('pdf-split', getPrefs());
+        });
+
+        function getPrefs() {
+            return {
+                ranges: $('ranges').value,
+                mode: (document.querySelector('input[name="mode"]:checked') || {}).value || 'combined'
+            };
+        }
+
+        function clearAllSavedData() {
+            StorageUtils.remove('pdf-split');
+            $('ranges').value = '';
+            document.querySelector('input[name="mode"][value="combined"]').checked = true;
+            clearLoaded();
+            A11yUtils.announce('All saved data has been cleared', 'polite');
+        }
+
+        // Skip link
+        document.querySelector('.skip-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.getElementById('main-content');
+            if (target) {
+                target.setAttribute('tabindex', '-1');
+                target.focus();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!('arrayBuffer' in File.prototype)) {
+                showError('Your browser is too old for this tool. Please update to a 2020+ browser.');
+                $('splitBtn').disabled = true;
+                fileInput.disabled = true;
+                return;
+            }
+            // Restore last-used range string + mode (NOT file)
+            const prefs = StorageUtils.load('pdf-split', null);
+            if (prefs && typeof prefs === 'object') {
+                if (typeof prefs.ranges === 'string') $('ranges').value = prefs.ranges;
+                if (prefs.mode === 'separate' || prefs.mode === 'combined') {
+                    const radio = document.querySelector(`input[name="mode"][value="${prefs.mode}"]`);
+                    if (radio) radio.checked = true;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
