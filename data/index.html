@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Data encoding and hashing tools including Base64 encoder/decoder, hash generators (MD5, SHA), URL encoding, and hex conversion.">
+    <meta name="description" content="Browser-only encoding, hashing, and conversion: Base64, MD5/SHA, JSON formatter, text diff, UUIDs, string transforms, and measurement units.">
     <meta name="keywords" content="base64 encoder, hash generator, MD5, SHA256, URL encoder, hex converter, data tools">
     <meta name="author" content="OldWeb LLC">
     <meta name="robots" content="index, follow">
@@ -214,6 +214,12 @@
         <h1>Data Tools</h1>
         <p class="subtitle">Encoding, hashing, and data format conversion utilities</p>
 
+        <section class="category-intro" aria-labelledby="category-intro-heading">
+            <h2 id="category-intro-heading">What's in this category</h2>
+            <p>String manipulation, encoding, hashing, and diffing &mdash; the low-glamour utilities that show up in nearly every troubleshooting session. Whether you're checking if two config files differ, decoding a Base64 blob from a packet capture, generating UUIDs for test data, or validating a JSON payload returned by an API, these tools handle the routine transformations so you can keep moving.</p>
+            <p>The <strong>Base64 &amp; Hash Tools</strong> page handles encoding/decoding plus MD5, SHA-1, SHA-256, and SHA-512 &mdash; useful for verifying downloads, comparing file integrity, or working with API signatures. <strong>String Tools</strong> covers case conversion, trimming, escaping, and URL/HTML encoding. <strong>Text Diff</strong> compares two blocks of text with side-by-side highlighting. <strong>UUID Generator</strong> produces v4 UUIDs in bulk. <strong>JSON Formatter</strong> validates, prettifies, and minifies JSON with exact line and column on syntax errors. <strong>Measurement Converter</strong> handles unit conversions for length, weight, volume, and more.</p>
+        </section>
+
         <div class="tools-grid">
             <a href="base64-hash.html" class="tool-card">
                 <h2>Base64 & Hash Tools</h2>
@@ -251,6 +257,12 @@
                 <span class="tool-link">Open Tool</span>
             </a>
         </div>
+
+        <section class="category-outro" aria-labelledby="category-outro-heading">
+            <h2 id="category-outro-heading">Private by default</h2>
+            <p>Every transformation here runs in your browser. Pasting a hash to check it, decoding a payload, comparing two configs &mdash; none of that data ever leaves the page. Use these tools on production data without worrying about leakage policies or service uptime.</p>
+            <p>Useful next: <a href="../nettools/">Network Tools</a> for format conversions in network contexts (IP to binary, bytes to gigabits). <a href="../system/">System Tools</a> for credential generation, certificate work, and JWT decoding.</p>
+        </section>
 
         <footer role="contentinfo">
             Data Tools - Works offline, no installation required

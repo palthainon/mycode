@@ -213,6 +213,12 @@
         <h1>Network Tools</h1>
         <p class="subtitle">Fast, reliable networking utilities for planning, calculation, and troubleshooting</p>
 
+        <section class="category-intro" aria-labelledby="category-intro-heading">
+            <h2 id="category-intro-heading">What's in this category</h2>
+            <p>Network engineers spend a lot of their day translating between formats &mdash; subnet masks to CIDR, dotted-decimal to binary, prefix length to host count. These tools handle the math so you can focus on the design decision instead. Everything runs in your browser: no installation, no account, and your IP plans never leave the page you're working on.</p>
+            <p>Use the <strong>Subnet Calculator</strong> when you have an IP and a prefix and want the network, broadcast, and usable range. Use the <strong>Subnet Planner</strong> when you're designing a new network and need to carve a parent block into right-sized child subnets without overlap. The <strong>CIDR Converter</strong> translates between notation styles, especially when bouncing between Cisco wildcard masks and dotted netmasks. The <strong>MTU Calculator</strong> handles VPN, PPPoE, and tunneling work where Path MTU Discovery gets in the way. IPv6 variants are available for both subnet calculation and subnet planning.</p>
+        </section>
+
         <div class="tools-grid">
             <a href="subnet-calculator.html" class="tool-card">
                 <h2>Subnet Calculator</h2>
@@ -274,6 +280,12 @@
                 <span class="tool-link">Open Converter</span>
             </a>
         </div>
+
+        <section class="category-outro" aria-labelledby="category-outro-heading">
+            <h2 id="category-outro-heading">Built for network engineers</h2>
+            <p>Every calculator here works offline once loaded, makes zero API calls, and stores nothing about your subnets or designs. The math is pure JavaScript &mdash; there's nothing to send to a server and no benefit to doing so. If we wanted to track you, we'd have to start now, and we're not going to.</p>
+            <p>Useful next: <a href="../system/">System Tools</a> for credential generation, certificate parsing, and JWT decoding. <a href="../data/">Data Tools</a> covers Base64, hashing, and JSON formatting &mdash; handy when working with payloads pulled out of packet captures.</p>
+        </section>
 
         <footer role="contentinfo">
             OldWeb Tools - Works offline, no installation required

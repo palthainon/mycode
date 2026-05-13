@@ -69,53 +69,59 @@
     };
 
     // Full registry of every page (including ones omitted from the dropdown menus).
-    // Powers site-wide search, breadcrumbs, and per-tool JSON-LD.
+    // Powers site-wide search, breadcrumbs, per-tool JSON-LD, pinned tools, and related-tools panel.
+    // Fields:
+    //   pinned:  surface first in empty-query search overlay under "Popular tools"
+    //   related: 3 tool IDs cross-linked at the bottom of the tool page
     const toolRegistry = [
         // Network
-        { id: 'subnet',          name: 'Subnet Calculator (IPv4)',      file: 'nettools/subnet-calculator.html',       category: 'network',      keywords: ['ip', 'ipv4', 'subnet', 'cidr', 'mask', 'netmask', 'broadcast'] },
-        { id: 'subnet-ipv6',     name: 'Subnet Calculator (IPv6)',      file: 'nettools/subnet-calculator-ipv6.html',  category: 'network',      keywords: ['ipv6', 'subnet', 'prefix', 'cidr'] },
-        { id: 'planner',         name: 'Subnet Planner (IPv4)',         file: 'nettools/subnet-planner.html',          category: 'network',      keywords: ['vlsm', 'subnet', 'planner', 'allocation', 'design'] },
-        { id: 'planner-ipv6',    name: 'Subnet Planner (IPv6)',         file: 'nettools/subnet-planner-ipv6.html',     category: 'network',      keywords: ['ipv6', 'planner', 'allocation', 'prefix'] },
-        { id: 'cidr',            name: 'CIDR Converter',                file: 'nettools/cidr-converter.html',          category: 'network',      keywords: ['cidr', 'netmask', 'wildcard', 'prefix', 'convert'] },
-        { id: 'bit',             name: 'Bit/Byte Calculator',           file: 'nettools/bit-calculator.html',          category: 'network',      keywords: ['bit', 'byte', 'kilobyte', 'megabyte', 'gigabyte', 'convert'] },
-        { id: 'data-rate',       name: 'Data Rate Calculator',          file: 'nettools/data-rate-calculator.html',    category: 'network',      keywords: ['bandwidth', 'mbps', 'gbps', 'transfer', 'throughput', 'speed'] },
-        { id: 'mtu',             name: 'MTU Calculator',                file: 'nettools/mtu-calculator.html',          category: 'network',      keywords: ['mtu', 'mss', 'fragmentation', 'packet', 'size'] },
-        { id: 'jinja',           name: 'Jinja Template Builder',        file: 'nettools/jinja-builder.html',           category: 'network',      keywords: ['jinja', 'template', 'config', 'ansible', 'render'] },
+        { id: 'subnet',          name: 'Subnet Calculator (IPv4)',      file: 'nettools/subnet-calculator.html',       category: 'network',      keywords: ['ip', 'ipv4', 'subnet', 'cidr', 'mask', 'netmask', 'broadcast'], pinned: true,  related: ['subnet-ipv6', 'cidr', 'planner'] },
+        { id: 'subnet-ipv6',     name: 'Subnet Calculator (IPv6)',      file: 'nettools/subnet-calculator-ipv6.html',  category: 'network',      keywords: ['ipv6', 'subnet', 'prefix', 'cidr'],                              related: ['subnet', 'planner-ipv6', 'cidr'] },
+        { id: 'planner',         name: 'Subnet Planner (IPv4)',         file: 'nettools/subnet-planner.html',          category: 'network',      keywords: ['vlsm', 'subnet', 'planner', 'allocation', 'design'],             related: ['subnet', 'planner-ipv6', 'cidr'] },
+        { id: 'planner-ipv6',    name: 'Subnet Planner (IPv6)',         file: 'nettools/subnet-planner-ipv6.html',     category: 'network',      keywords: ['ipv6', 'planner', 'allocation', 'prefix'],                       related: ['subnet-ipv6', 'planner', 'cidr'] },
+        { id: 'cidr',            name: 'CIDR Converter',                file: 'nettools/cidr-converter.html',          category: 'network',      keywords: ['cidr', 'netmask', 'wildcard', 'prefix', 'convert'],              related: ['subnet', 'ip-converter', 'bit'] },
+        { id: 'bit',             name: 'Bit/Byte Calculator',           file: 'nettools/bit-calculator.html',          category: 'network',      keywords: ['bit', 'byte', 'kilobyte', 'megabyte', 'gigabyte', 'convert'],    related: ['data-rate', 'measurement', 'ip-converter'] },
+        { id: 'data-rate',       name: 'Data Rate Calculator',          file: 'nettools/data-rate-calculator.html',    category: 'network',      keywords: ['bandwidth', 'mbps', 'gbps', 'transfer', 'throughput', 'speed'],  related: ['bit', 'mtu', 'iops'] },
+        { id: 'mtu',             name: 'MTU Calculator',                file: 'nettools/mtu-calculator.html',          category: 'network',      keywords: ['mtu', 'mss', 'fragmentation', 'packet', 'size'],                 related: ['data-rate', 'subnet', 'bit'] },
+        { id: 'jinja',           name: 'Jinja Template Builder',        file: 'nettools/jinja-builder.html',           category: 'network',      keywords: ['jinja', 'template', 'config', 'ansible', 'render'],              related: ['regex', 'string-tools', 'json-formatter'] },
+        { id: 'ip-converter',    name: 'IP Address Converter',          file: 'nettools/ip-converter.html',            category: 'network',      keywords: ['ip', 'binary', 'hex', 'integer', 'convert', 'ipv4', 'dotted'],   related: ['subnet', 'cidr', 'bit'] },
         // System
-        { id: 'regex',           name: 'Regex Tester',                  file: 'system/regex-tester.html',              category: 'system',       keywords: ['regex', 'regexp', 'pattern', 'match', 'test', 'pcre'] },
-        { id: 'timestamp',       name: 'Timestamp Converter',           file: 'system/timestamp-converter.html',       category: 'system',       keywords: ['unix', 'epoch', 'timestamp', 'date', 'time', 'iso8601'] },
-        { id: 'disk',            name: 'Disk Tools',                    file: 'system/disk-tools.html',                category: 'system',       keywords: ['disk', 'storage', 'raid', 'capacity', 'partition'] },
-        { id: 'iops',            name: 'IOPS Calculator',               file: 'system/iops-calculator.html',           category: 'system',       keywords: ['iops', 'raid', 'aws', 'ebs', 'azure', 'gcp', 'performance'] },
-        { id: 'password-gen',    name: 'Password Generator',            file: 'system/password-generator.html',        category: 'system',       keywords: ['password', 'random', 'secure', 'credentials'] },
-        { id: 'passphrase',      name: 'Passphrase Generator',          file: 'system/passphrase-generator.html',      category: 'system',       keywords: ['passphrase', 'diceware', 'password', 'secure', 'memorable'] },
-        { id: 'cert-parser',     name: 'Certificate Parser',            file: 'system/certificate-parser.html',        category: 'system',       keywords: ['certificate', 'ssl', 'tls', 'x509', 'pem', 'der', 'parse'] },
-        { id: 'log-parser',      name: 'Log Parser',                    file: 'system/log-parser.html',                category: 'system',       keywords: ['log', 'syslog', 'parse', 'grep', 'analyze'] },
-        { id: 'cron',            name: 'Cron Builder',                  file: 'system/cron-builder.html',              category: 'system',       keywords: ['cron', 'crontab', 'schedule', 'job', 'linux'] },
-        { id: 'chmod',           name: 'Chmod Calculator',              file: 'system/chmod-calculator.html',          category: 'system',       keywords: ['chmod', 'permissions', 'octal', 'unix', 'linux', 'file mode'] },
+        { id: 'regex',           name: 'Regex Tester',                  file: 'system/regex-tester.html',              category: 'system',       keywords: ['regex', 'regexp', 'pattern', 'match', 'test', 'pcre'],           pinned: true,  related: ['string-tools', 'text-diff', 'log-parser'] },
+        { id: 'timestamp',       name: 'Timestamp Converter',           file: 'system/timestamp-converter.html',       category: 'system',       keywords: ['unix', 'epoch', 'timestamp', 'date', 'time', 'iso8601'],         pinned: true,  related: ['cron', 'countdown-timer', 'tz-meeting-planner'] },
+        { id: 'disk',            name: 'Disk Tools',                    file: 'system/disk-tools.html',                category: 'system',       keywords: ['disk', 'storage', 'raid', 'capacity', 'partition'],              related: ['iops', 'bit', 'data-rate'] },
+        { id: 'iops',            name: 'IOPS Calculator',               file: 'system/iops-calculator.html',           category: 'system',       keywords: ['iops', 'raid', 'aws', 'ebs', 'azure', 'gcp', 'performance'],     related: ['disk', 'data-rate', 'bit'] },
+        { id: 'password-gen',    name: 'Password Generator',            file: 'system/password-generator.html',        category: 'system',       keywords: ['password', 'random', 'secure', 'credentials'],                   pinned: true,  related: ['passphrase', 'base64', 'uuid'] },
+        { id: 'passphrase',      name: 'Passphrase Generator',          file: 'system/passphrase-generator.html',      category: 'system',       keywords: ['passphrase', 'diceware', 'password', 'secure', 'memorable'],     related: ['password-gen', 'base64', 'uuid'] },
+        { id: 'cert-parser',     name: 'Certificate Parser',            file: 'system/certificate-parser.html',        category: 'system',       keywords: ['certificate', 'ssl', 'tls', 'x509', 'pem', 'der', 'parse'],      related: ['jwt-decoder', 'base64', 'timestamp'] },
+        { id: 'log-parser',      name: 'Log Parser',                    file: 'system/log-parser.html',                category: 'system',       keywords: ['log', 'syslog', 'parse', 'grep', 'analyze'],                     related: ['regex', 'string-tools', 'timestamp'] },
+        { id: 'cron',            name: 'Cron Builder',                  file: 'system/cron-builder.html',              category: 'system',       keywords: ['cron', 'crontab', 'schedule', 'job', 'linux'],                   related: ['timestamp', 'chmod', 'countdown-timer'] },
+        { id: 'chmod',           name: 'Chmod Calculator',              file: 'system/chmod-calculator.html',          category: 'system',       keywords: ['chmod', 'permissions', 'octal', 'unix', 'linux', 'file mode'],   pinned: true,  related: ['cron', 'disk', 'cert-parser'] },
+        { id: 'jwt-decoder',     name: 'JWT Decoder',                   file: 'system/jwt-decoder.html',               category: 'system',       keywords: ['jwt', 'json web token', 'decode', 'auth', 'bearer'],             related: ['base64', 'timestamp', 'cert-parser'] },
         // Data
-        { id: 'base64',          name: 'Base64 & Hash Tools',           file: 'data/base64-hash.html',                 category: 'data',         keywords: ['base64', 'hash', 'md5', 'sha1', 'sha256', 'encode', 'decode'] },
-        { id: 'string-tools',    name: 'String Tools',                  file: 'data/string-tools.html',                category: 'data',         keywords: ['string', 'case', 'upper', 'lower', 'trim', 'transform'] },
-        { id: 'text-diff',       name: 'Text Diff / Compare',           file: 'data/text-diff.html',                   category: 'data',         keywords: ['diff', 'compare', 'text', 'changes', 'merge'] },
-        { id: 'uuid',            name: 'UUID Generator',                file: 'data/uuid-generator.html',              category: 'data',         keywords: ['uuid', 'guid', 'random', 'identifier', 'v4'] },
-        { id: 'measurement',     name: 'Measurement Converter',         file: 'data/measurement-converter.html',       category: 'data',         keywords: ['convert', 'unit', 'measurement', 'metric', 'imperial'] },
+        { id: 'base64',          name: 'Base64 & Hash Tools',           file: 'data/base64-hash.html',                 category: 'data',         keywords: ['base64', 'hash', 'md5', 'sha1', 'sha256', 'encode', 'decode'],   pinned: true,  related: ['string-tools', 'jwt-decoder', 'uuid'] },
+        { id: 'string-tools',    name: 'String Tools',                  file: 'data/string-tools.html',                category: 'data',         keywords: ['string', 'case', 'upper', 'lower', 'trim', 'transform'],         related: ['regex', 'text-diff', 'base64'] },
+        { id: 'text-diff',       name: 'Text Diff / Compare',           file: 'data/text-diff.html',                   category: 'data',         keywords: ['diff', 'compare', 'text', 'changes', 'merge'],                   related: ['string-tools', 'regex', 'json-formatter'] },
+        { id: 'uuid',            name: 'UUID Generator',                file: 'data/uuid-generator.html',              category: 'data',         keywords: ['uuid', 'guid', 'random', 'identifier', 'v4'],                    related: ['password-gen', 'base64', 'passphrase'] },
+        { id: 'measurement',     name: 'Measurement Converter',         file: 'data/measurement-converter.html',       category: 'data',         keywords: ['convert', 'unit', 'measurement', 'metric', 'imperial'],          related: ['bit', 'data-rate', 'salary-hourly'] },
+        { id: 'json-formatter',  name: 'JSON Formatter & Validator',    file: 'data/json-formatter.html',              category: 'data',         keywords: ['json', 'format', 'validate', 'minify', 'pretty', 'lint'],        related: ['jwt-decoder', 'string-tools', 'text-diff'] },
         // Financials
-        { id: 'amortization',    name: 'Amortization Calculator',       file: 'financials/amortization-calculator.html',     category: 'financials', keywords: ['mortgage', 'loan', 'amortization', 'payment', 'schedule', 'interest'] },
-        { id: 'compound-interest', name: 'Compound Interest Calculator', file: 'financials/compound-interest-calculator.html', category: 'financials', keywords: ['compound', 'interest', 'investment', 'savings', 'growth'] },
-        { id: 'debt-payoff',     name: 'Debt Payoff Comparison',        file: 'financials/debt-payoff-comparison.html',      category: 'financials', keywords: ['debt', 'snowball', 'avalanche', 'payoff', 'credit card'] },
-        { id: 'retirement',      name: 'Retirement Calculator',         file: 'financials/retirement-calculator.html',       category: 'financials', keywords: ['retirement', '401k', 'ira', 'savings', 'fire'] },
-        { id: 'take-home-pay',   name: 'Take-Home Pay Calculator',      file: 'financials/take-home-pay-calculator.html',    category: 'financials', keywords: ['paycheck', 'net pay', 'take home', 'salary', 'tax', 'fica', 'federal', 'state tax', '401k', 'hsa'] },
-        { id: 'salary-hourly',   name: 'Salary to Hourly Converter',    file: 'financials/salary-hourly-converter.html',     category: 'financials', keywords: ['salary', 'hourly', 'wage', 'rate', 'convert', 'annual', 'weekly', 'biweekly'] },
-        { id: 'loan-payoff',     name: 'Loan Payoff Methods',           file: 'financials/loan-payoff-methods.html',         category: 'financials', keywords: ['loan', 'payoff', 'extra payment', 'biweekly', 'strategy'] },
-        { id: 'loan-reference',  name: 'Loan Reference',                file: 'financials/loan-reference.html',              category: 'financials', keywords: ['loan', 'reference', 'glossary', 'apr', 'apy'] },
+        { id: 'amortization',    name: 'Amortization Calculator',       file: 'financials/amortization-calculator.html',     category: 'financials', keywords: ['mortgage', 'loan', 'amortization', 'payment', 'schedule', 'interest'], pinned: true, related: ['compound-interest', 'debt-payoff', 'loan-payoff'] },
+        { id: 'compound-interest', name: 'Compound Interest Calculator', file: 'financials/compound-interest-calculator.html', category: 'financials', keywords: ['compound', 'interest', 'investment', 'savings', 'growth'],          related: ['retirement', 'amortization', 'debt-payoff'] },
+        { id: 'debt-payoff',     name: 'Debt Payoff Comparison',        file: 'financials/debt-payoff-comparison.html',      category: 'financials', keywords: ['debt', 'snowball', 'avalanche', 'payoff', 'credit card'],            related: ['amortization', 'loan-payoff', 'take-home-pay'] },
+        { id: 'retirement',      name: 'Retirement Calculator',         file: 'financials/retirement-calculator.html',       category: 'financials', keywords: ['retirement', '401k', 'ira', 'savings', 'fire'],                      related: ['compound-interest', 'take-home-pay', 'salary-hourly'] },
+        { id: 'take-home-pay',   name: 'Take-Home Pay Calculator',      file: 'financials/take-home-pay-calculator.html',    category: 'financials', keywords: ['paycheck', 'net pay', 'take home', 'salary', 'tax', 'fica', 'federal', 'state tax', '401k', 'hsa'], pinned: true, related: ['salary-hourly', 'retirement', 'compound-interest'] },
+        { id: 'salary-hourly',   name: 'Salary to Hourly Converter',    file: 'financials/salary-hourly-converter.html',     category: 'financials', keywords: ['salary', 'hourly', 'wage', 'rate', 'convert', 'annual', 'weekly', 'biweekly'], related: ['take-home-pay', 'retirement', 'amortization'] },
+        { id: 'loan-payoff',     name: 'Loan Payoff Methods',           file: 'financials/loan-payoff-methods.html',         category: 'financials', keywords: ['loan', 'payoff', 'extra payment', 'biweekly', 'strategy'],          related: ['amortization', 'debt-payoff', 'loan-reference'] },
+        { id: 'loan-reference',  name: 'Loan Reference',                file: 'financials/loan-reference.html',              category: 'financials', keywords: ['loan', 'reference', 'glossary', 'apr', 'apy'],                       related: ['amortization', 'compound-interest', 'loan-payoff'] },
         // Productivity
-        { id: 'pomodoro',         name: 'Pomodoro Timer',                file: 'productivity/pomodoro.html',            category: 'productivity', keywords: ['pomodoro', 'timer', 'focus', 'productivity', '25 minute'] },
-        { id: 'scratchpad',       name: 'Plaintext Scratchpad',          file: 'productivity/scratchpad.html',          category: 'productivity', keywords: ['scratchpad', 'notepad', 'notes', 'plaintext', 'autosave', 'sticky'] },
-        { id: 'countdown-timer',  name: 'Countdown Timer',               file: 'productivity/countdown-timer.html',     category: 'productivity', keywords: ['countdown', 'timer', 'deadline', 'date', 'days until', 'event'] },
-        { id: 'tz-meeting-planner', name: 'Timezone Meeting Planner',    file: 'productivity/tz-meeting-planner.html',  category: 'productivity', keywords: ['timezone', 'tz', 'meeting', 'world clock', 'time zone', 'converter', 'scheduler'] },
+        { id: 'pomodoro',         name: 'Pomodoro Timer',                file: 'productivity/pomodoro.html',            category: 'productivity', keywords: ['pomodoro', 'timer', 'focus', 'productivity', '25 minute'],       related: ['countdown-timer', 'scratchpad', 'tz-meeting-planner'] },
+        { id: 'scratchpad',       name: 'Plaintext Scratchpad',          file: 'productivity/scratchpad.html',          category: 'productivity', keywords: ['scratchpad', 'notepad', 'notes', 'plaintext', 'autosave', 'sticky'], related: ['string-tools', 'text-diff', 'pomodoro'] },
+        { id: 'countdown-timer',  name: 'Countdown Timer',               file: 'productivity/countdown-timer.html',     category: 'productivity', keywords: ['countdown', 'timer', 'deadline', 'date', 'days until', 'event'], related: ['pomodoro', 'timestamp', 'tz-meeting-planner'] },
+        { id: 'tz-meeting-planner', name: 'Timezone Meeting Planner',    file: 'productivity/tz-meeting-planner.html',  category: 'productivity', keywords: ['timezone', 'tz', 'meeting', 'world clock', 'time zone', 'converter', 'scheduler'], related: ['timestamp', 'countdown-timer', 'pomodoro'] },
         // PDF
-        { id: 'pdf-merge',        name: 'PDF Merge',                     file: 'pdf/merge.html',                        category: 'pdf',          keywords: ['pdf', 'merge', 'combine', 'join', 'concatenate'] },
-        { id: 'pdf-split',        name: 'PDF Split',                     file: 'pdf/split.html',                        category: 'pdf',          keywords: ['pdf', 'split', 'extract', 'pages', 'separate'] },
-        { id: 'pdf-rotate',       name: 'PDF Rotate',                    file: 'pdf/rotate.html',                       category: 'pdf',          keywords: ['pdf', 'rotate', 'turn', 'orientation', 'sideways'] }
+        { id: 'pdf-merge',        name: 'PDF Merge',                     file: 'pdf/merge.html',                        category: 'pdf',          keywords: ['pdf', 'merge', 'combine', 'join', 'concatenate'],                related: ['pdf-split', 'pdf-rotate', 'base64'] },
+        { id: 'pdf-split',        name: 'PDF Split',                     file: 'pdf/split.html',                        category: 'pdf',          keywords: ['pdf', 'split', 'extract', 'pages', 'separate'],                  related: ['pdf-merge', 'pdf-rotate', 'base64'] },
+        { id: 'pdf-rotate',       name: 'PDF Rotate',                    file: 'pdf/rotate.html',                       category: 'pdf',          keywords: ['pdf', 'rotate', 'turn', 'orientation', 'sideways'],              related: ['pdf-merge', 'pdf-split', 'base64'] }
     ];
 
     // Per-tool descriptions for JSON-LD (kept short; meta description owns long-form copy)
@@ -158,7 +164,10 @@
         'tz-meeting-planner':'Plan meetings across timezones with business-hours indicators.',
         'pdf-merge':         'Combine multiple PDFs into one entirely in your browser - no uploads, no watermarks.',
         'pdf-split':         'Extract pages or page ranges from a PDF entirely in your browser - no uploads, no watermarks.',
-        'pdf-rotate':        'Rotate PDF pages 90, 180, or 270 degrees with live previews - no uploads, no watermarks.'
+        'pdf-rotate':        'Rotate PDF pages 90, 180, or 270 degrees with live previews - no uploads, no watermarks.',
+        'ip-converter':      'Convert IPv4 addresses between dotted, binary, hexadecimal, and integer notations.',
+        'jwt-decoder':       'Decode JWT header, payload, and signature locally - tokens never leave your browser.',
+        'json-formatter':    'Format, minify, validate, and escape JSON with syntax-error positions and stats.'
     };
 
     // Track currently open dropdown
@@ -486,6 +495,141 @@
             color: rgba(144, 202, 249, 0.7);
             font-size: 0.9rem;
             text-align: center;
+        }
+        .search-section-heading {
+            padding: 10px 18px 6px 18px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            color: rgba(144, 202, 249, 0.65);
+            user-select: none;
+            list-style: none;
+        }
+        .search-section-heading:not(:first-child) {
+            border-top: 1px solid rgba(79, 195, 247, 0.12);
+            margin-top: 4px;
+        }
+        .search-result-pin {
+            color: #ffca28;
+            font-size: 0.8rem;
+            margin-left: 6px;
+            line-height: 1;
+        }
+
+        /* Related-tools panel (auto-injected on tool pages) */
+        .related-tools {
+            margin: 40px auto 20px auto;
+            padding: 20px 24px;
+            max-width: 900px;
+            background: rgba(22, 33, 62, 0.55);
+            border: 1px solid rgba(79, 195, 247, 0.18);
+            border-radius: 10px;
+        }
+        .related-tools h2 {
+            margin: 0 0 14px 0;
+            font-size: 1rem;
+            font-weight: 600;
+            color: rgba(144, 202, 249, 0.9);
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+        }
+        .related-tools ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 10px;
+        }
+        .related-tools li { margin: 0; }
+        .related-tools a {
+            display: block;
+            padding: 10px 14px;
+            border-radius: 6px;
+            border: 1px solid rgba(79, 195, 247, 0.15);
+            background: rgba(15, 23, 42, 0.5);
+            color: #4fc3f7;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background 0.18s, border-color 0.18s, color 0.18s, transform 0.18s;
+        }
+        .related-tools a:hover,
+        .related-tools a:focus-visible {
+            background: rgba(79, 195, 247, 0.12);
+            border-color: rgba(79, 195, 247, 0.45);
+            color: #2196f3;
+            transform: translateY(-1px);
+        }
+        .related-tools a:focus-visible {
+            outline: 2px solid #4fc3f7;
+            outline-offset: 2px;
+        }
+        .related-tools-meta {
+            display: block;
+            margin-top: 2px;
+            font-size: 0.75rem;
+            color: rgba(144, 202, 249, 0.65);
+            font-weight: 400;
+        }
+        @media (max-width: 768px) {
+            .related-tools { margin: 30px 16px 20px 16px; padding: 16px 18px; }
+            .related-tools ul { grid-template-columns: 1fr; }
+        }
+
+        /* Category intro/outro copy (used on category index pages) */
+        .category-intro,
+        .category-outro {
+            max-width: 900px;
+            margin: 0 auto 40px auto;
+            color: rgba(255, 255, 255, 0.82);
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+        .category-intro h2,
+        .category-outro h2 {
+            color: #4fc3f7;
+            font-size: 1.2rem;
+            margin-bottom: 14px;
+            letter-spacing: 0.3px;
+        }
+        .category-intro p,
+        .category-outro p {
+            margin-bottom: 14px;
+        }
+        .category-intro p:last-child,
+        .category-outro p:last-child {
+            margin-bottom: 0;
+        }
+        .category-intro strong,
+        .category-outro strong {
+            color: #90caf9;
+            font-weight: 600;
+        }
+        .category-outro {
+            margin-top: 20px;
+            padding: 20px 24px;
+            background: rgba(22, 33, 62, 0.45);
+            border: 1px solid rgba(79, 195, 247, 0.15);
+            border-radius: 10px;
+        }
+        .category-intro a,
+        .category-outro a {
+            color: #4fc3f7;
+            text-decoration: underline;
+            text-decoration-color: rgba(79, 195, 247, 0.4);
+            text-underline-offset: 2px;
+        }
+        .category-intro a:hover,
+        .category-outro a:hover {
+            color: #2196f3;
+        }
+
+        @media (max-width: 768px) {
+            .category-intro,
+            .category-outro { margin-left: 16px; margin-right: 16px; }
+            .category-outro { padding: 16px 18px; }
         }
 
         @media (max-width: 768px) {
@@ -860,6 +1004,51 @@
         target.insertBefore(tempDiv.firstElementChild, target.firstChild);
     }
 
+    // ---------- Related tools panel ----------
+
+    function buildRelatedToolsHTML(entry, pathPrefix) {
+        if (!entry || !Array.isArray(entry.related) || entry.related.length === 0) return null;
+        const items = entry.related
+            .map(id => toolRegistry.find(t => t.id === id))
+            .filter(Boolean)
+            .map(t => {
+                const cat = categoryMeta[t.category];
+                const catLabel = cat ? cat.displayName : '';
+                return `<li><a href="${pathPrefix}${t.file}">
+                    <span class="related-tools-name">${escapeHtml(t.name)}</span>
+                    <span class="related-tools-meta">${escapeHtml(catLabel)}</span>
+                </a></li>`;
+            })
+            .join('');
+        if (!items) return null;
+        return `<aside class="related-tools" aria-labelledby="related-tools-heading">
+            <h2 id="related-tools-heading">Related Tools</h2>
+            <ul>${items}</ul>
+        </aside>`;
+    }
+
+    function injectRelatedTools(currentPage, pathPrefix) {
+        if (!currentPage || !currentPage.category) return;
+        // Skip category index pages
+        if (currentPage.id && currentPage.id.endsWith('-home')) return;
+        const entry = findRegistryEntry(currentPage);
+        if (!entry) return;
+        const html = buildRelatedToolsHTML(entry, pathPrefix);
+        if (!html) return;
+        const target = document.querySelector('main') || document.querySelector('.container');
+        if (!target) return;
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = html;
+        const node = tempDiv.firstElementChild;
+        // Insert before a trailing <footer> inside the container if present, otherwise append.
+        const innerFooter = target.querySelector(':scope > footer');
+        if (innerFooter) {
+            target.insertBefore(node, innerFooter);
+        } else {
+            target.appendChild(node);
+        }
+    }
+
     // ---------- JSON-LD schema ----------
 
     function injectJsonLd(currentPage, pathPrefix) {
@@ -978,9 +1167,14 @@
     function renderSearchResults(query) {
         const q = query.trim().toLowerCase();
         let results;
+        let isEmptyQuery = false;
         if (!q) {
-            // No query: show first 8 tools as a starting point
-            results = toolRegistry.slice(0, 8).map(t => ({ tool: t, score: 0 }));
+            // No query: pinned tools first, then fill to 8 with non-pinned in registry order.
+            isEmptyQuery = true;
+            const pinned = toolRegistry.filter(t => t.pinned);
+            const fillCount = Math.max(0, 8 - pinned.length);
+            const rest = toolRegistry.filter(t => !t.pinned).slice(0, fillCount);
+            results = [...pinned, ...rest].map(t => ({ tool: t, score: t.pinned ? 1 : 0 }));
         } else {
             results = toolRegistry
                 .map(t => {
@@ -1006,18 +1200,45 @@
             return;
         }
 
-        searchResultsEl.innerHTML = results.map((r, i) => {
-            const cat = categoryMeta[r.tool.category];
-            const catLabel = cat ? cat.displayName : '';
-            return `<li role="option" aria-selected="${i === 0 ? 'true' : 'false'}">
-                <a href="${searchPathPrefix}${r.tool.file}" class="search-result${i === 0 ? ' active' : ''}" data-idx="${i}">
-                    <span class="search-result-name">${escapeHtml(r.tool.name)}</span>
-                    <span class="search-result-meta">${escapeHtml(catLabel)}</span>
-                </a>
-            </li>`;
-        }).join('');
+        // Build markup. For empty-query mode, group pinned vs. rest under headings.
+        let html = '';
+        let renderedIndex = 0;
+        if (isEmptyQuery && results.some(r => r.tool.pinned)) {
+            html += `<li class="search-section-heading" role="presentation">Popular tools</li>`;
+            const pinnedResults = results.filter(r => r.tool.pinned);
+            html += pinnedResults.map(r => {
+                const i = renderedIndex++;
+                return renderSearchResultRow(r.tool, i, true);
+            }).join('');
+            const restResults = results.filter(r => !r.tool.pinned);
+            if (restResults.length) {
+                html += `<li class="search-section-heading" role="presentation">More tools</li>`;
+                html += restResults.map(r => {
+                    const i = renderedIndex++;
+                    return renderSearchResultRow(r.tool, i, false);
+                }).join('');
+            }
+        } else {
+            html = results.map(r => {
+                const i = renderedIndex++;
+                return renderSearchResultRow(r.tool, i, false);
+            }).join('');
+        }
+        searchResultsEl.innerHTML = html;
 
         announce(`${results.length} result${results.length === 1 ? '' : 's'}`);
+    }
+
+    function renderSearchResultRow(tool, i, showStar) {
+        const cat = categoryMeta[tool.category];
+        const catLabel = cat ? cat.displayName : '';
+        const star = showStar ? `<span class="search-result-pin" aria-label="Popular">★</span>` : '';
+        return `<li role="option" aria-selected="${i === 0 ? 'true' : 'false'}">
+            <a href="${searchPathPrefix}${tool.file}" class="search-result${i === 0 ? ' active' : ''}" data-idx="${i}">
+                <span class="search-result-name">${escapeHtml(tool.name)}${star}</span>
+                <span class="search-result-meta">${escapeHtml(catLabel)}</span>
+            </a>
+        </li>`;
     }
 
     function escapeHtml(s) {
@@ -1143,6 +1364,7 @@
 
         injectBreadcrumbs(currentPage, pathPrefix);
         injectJsonLd(currentPage, pathPrefix);
+        injectRelatedTools(currentPage, pathPrefix);
         setupSearch(pathPrefix);
     }
 

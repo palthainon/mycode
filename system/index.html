@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="System administration tools including chmod calculator, cron builder, RAID calculator, IOPS calculator, and password generator. Essential utilities for Linux/Unix sysadmins.">
+    <meta name="description" content="Linux/Unix admin utilities: chmod, cron builder, regex tester, log parser, JWT decoder, certificate parser, passphrase generator, and more.">
     <meta name="keywords" content="system tools, chmod calculator, cron expression, RAID calculator, IOPS calculator, storage performance, password generator, regex tester, sysadmin utilities">
     <meta name="author" content="OldWeb LLC">
     <meta name="robots" content="index, follow">
@@ -213,6 +213,12 @@
         <h1>System Tools</h1>
         <p class="subtitle">Essential utilities for Unix/Linux system administration and DevOps</p>
 
+        <section class="category-intro" aria-labelledby="category-intro-heading">
+            <h2 id="category-intro-heading">What's in this category</h2>
+            <p>A grab-bag of utilities for the kind of work that fills a Linux admin's day: parsing certificates, decoding JWTs, building cron expressions, calculating IOPS for storage plans, generating credentials, and testing regex against real log lines. These aren't toys &mdash; each one was built because we needed it during real on-call work and wanted something that runs without a network connection.</p>
+            <p>Every tool processes everything locally in your browser. The <strong>Certificate Parser</strong> never sees your cert. The <strong>JWT Decoder</strong> never sees your token. The <strong>Passphrase Generator</strong> uses your browser's cryptographic random source, not a server-side word list. Cron expressions, chmod permissions, and IOPS numbers are all pure math &mdash; no reason for them to round-trip a server. Use the <strong>Regex Tester</strong> for PCRE-style patterns against sample text with live highlighting, and the <strong>Log Parser</strong> when you need to grep, filter, and analyze raw logs without piping them anywhere unsafe.</p>
+        </section>
+
         <div class="tools-grid">
             <a href="chmod-calculator.html" class="tool-card">
                 <h2>Chmod Calculator</h2>
@@ -274,6 +280,12 @@
                 <span class="tool-link">Open Decoder</span>
             </a>
         </div>
+
+        <section class="category-outro" aria-labelledby="category-outro-heading">
+            <h2 id="category-outro-heading">Built for the on-call shift</h2>
+            <p>Local-only by design. None of these tools log inputs, send analytics, or require an account. Bookmark them on a laptop or pin them to a tab &mdash; they all keep working when the corporate proxy is down or the VPN is being temperamental.</p>
+            <p>Useful next: <a href="../data/">Data Tools</a> for hashing, encoding, and text comparison. <a href="../nettools/">Network Tools</a> for subnet planning and bandwidth math. If you're managing finances on the side, <a href="../financials/">Financial Tools</a> has paycheck, loan, and retirement calculators.</p>
+        </section>
 
         <footer role="contentinfo">
             System Tools - Works offline, no installation required
