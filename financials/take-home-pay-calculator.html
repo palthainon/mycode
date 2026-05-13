@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Estimate your take-home pay from gross salary. US 2026 federal income tax + FICA + state tax with pre-tax 401(k), HSA, and health premium deductions. Free, fast, offline-ready calculator.">
+    <meta name="keywords" content="take home pay calculator, paycheck calculator, net pay calculator, salary calculator, after tax pay, 2026 tax calculator, federal income tax, FICA calculator">
+    <meta name="author" content="OldWeb LLC">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://oldweb.tech/financials/take-home-pay-calculator.html">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Take-Home Pay Calculator - OldWeb.tech">
+    <meta property="og:description" content="Estimate your take-home pay from gross salary. US 2026 federal + FICA + state with pre-tax 401(k), HSA, and health premium deductions.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oldweb.tech/financials/take-home-pay-calculator.html">
+    <meta property="og:site_name" content="OldWeb.tech">
+    <meta property="og:image" content="https://oldweb.tech/logo/og-image.png">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Take-Home Pay Calculator - OldWeb.tech">
+    <meta name="twitter:description" content="Estimate your take-home pay from gross salary. US 2026 federal + FICA + state with pre-tax deductions.">
+    <meta name="twitter:image" content="https://oldweb.tech/logo/og-image.png">
+
+    <meta name="theme-color" content="#1a1a2e">
+    <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
+
+    <title>Take-Home Pay Calculator - OldWeb.tech</title>
+    <link rel="stylesheet" href="../a11y.css">
+    <script src="../a11y-utils.js"></script>
+    <script src="../storage-utils.js"></script>
+    <script src="../navigationv2.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #fff;
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 8px;
+            font-size: 2.5rem;
+            color: #4fc3f7;
+            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #90caf9;
+            font-size: 1rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .ascii-logo {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.65rem;
+            line-height: 1.1;
+            color: #4fc3f7;
+            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
+            opacity: 0.8;
+            white-space: pre;
+        }
+
+        .calculator {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            color: #90caf9;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin: 20px 0 10px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .section-title:first-child { margin-top: 0; }
+
+        .input-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 12px;
+        }
+
+        .input-field { display: flex; flex-direction: column; }
+
+        .input-field label {
+            display: block;
+            margin-bottom: 6px;
+            color: #90caf9;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .input-field input, .input-field select {
+            width: 100%;
+            padding: 11px 14px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: #0f1419;
+            color: #fff;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .input-field select option { background: #0f1419; color: #fff; }
+
+        .input-field input:focus, .input-field select:focus {
+            outline: none;
+            border-color: #4fc3f7;
+            box-shadow: 0 0 15px rgba(79, 195, 247, 0.2);
+        }
+
+        .input-prefix, .input-suffix { position: relative; }
+        .input-prefix span, .input-suffix span {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.5);
+            pointer-events: none;
+        }
+        .input-prefix span { left: 14px; }
+        .input-prefix input { padding-left: 28px; }
+        .input-suffix span { right: 14px; }
+        .input-suffix input { padding-right: 28px; }
+
+        .btn {
+            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
+            color: #fff;
+            border: none;
+            padding: 14px 40px;
+            font-size: 1.05rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+            display: block;
+            width: 100%;
+            margin-top: 18px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(79, 195, 247, 0.4);
+        }
+        .btn:active { transform: translateY(0); }
+
+        .btn.secondary {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: #90caf9;
+            margin-top: 10px;
+        }
+
+        .btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: none;
+            transform: none;
+        }
+
+        .results {
+            display: none;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .results.show {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .results h2 {
+            color: #4fc3f7;
+            margin-bottom: 18px;
+            font-size: 1.5rem;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 14px;
+            margin-bottom: 22px;
+        }
+
+        .summary-item {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 18px;
+            border-radius: 8px;
+            border-left: 4px solid #4fc3f7;
+            position: relative;
+        }
+
+        .summary-item.highlight {
+            border-left-color: #66bb6a;
+            background: rgba(102, 187, 106, 0.1);
+        }
+
+        .summary-item .label {
+            color: #90caf9;
+            font-size: 0.78rem;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .summary-item .value {
+            font-size: 1.45rem;
+            font-family: 'Consolas', 'Monaco', monospace;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .summary-item .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(79, 195, 247, 0.2);
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            color: #4fc3f7;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: all 0.2s;
+        }
+
+        .summary-item .copy-btn:hover { background: rgba(79, 195, 247, 0.3); border-color: #4fc3f7; }
+        .summary-item .copy-btn.copied {
+            background: rgba(76, 175, 80, 0.3);
+            border-color: #4caf50;
+            color: #4caf50;
+        }
+
+        .breakdown-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 14px;
+        }
+
+        .breakdown-table th, .breakdown-table td {
+            padding: 10px 14px;
+            text-align: right;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            font-size: 0.95rem;
+        }
+
+        .breakdown-table th {
+            background: rgba(0, 0, 0, 0.25);
+            color: #4fc3f7;
+            text-align: left;
+            text-transform: uppercase;
+            font-size: 0.78rem;
+            letter-spacing: 0.5px;
+        }
+
+        .breakdown-table th:not(:first-child) { text-align: right; }
+        .breakdown-table td:first-child { text-align: left; color: #c5d4e3; }
+        .breakdown-table td { font-family: 'Consolas', 'Monaco', monospace; }
+        .breakdown-table .total-row td {
+            font-weight: 700;
+            border-top: 2px solid rgba(79, 195, 247, 0.3);
+            padding-top: 14px;
+        }
+
+        .breakdown-bar {
+            display: flex;
+            height: 28px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 18px 0 10px;
+        }
+
+        .bar-seg {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #fff;
+            min-width: 30px;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .bar-net      { background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%); }
+        .bar-fed      { background: linear-gradient(135deg, #42a5f5 0%, #1e88e5 100%); }
+        .bar-fica     { background: linear-gradient(135deg, #7e57c2 0%, #5e35b1 100%); }
+        .bar-state    { background: linear-gradient(135deg, #ffb74d 0%, #fb8c00 100%); }
+        .bar-pretax   { background: linear-gradient(135deg, #4dd0e1 0%, #00acc1 100%); }
+        .bar-posttax  { background: linear-gradient(135deg, #f06292 0%, #e91e63 100%); }
+
+        .bar-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.8);
+            margin-top: 6px;
+        }
+        .legend-item { display: flex; align-items: center; gap: 6px; }
+        .legend-dot { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
+
+        #error {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid #f44336;
+            color: #ff8a80;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: none;
+        }
+        #error.show { display: block; }
+        input.error { border-color: #f44336 !important; }
+
+        .disclaimer {
+            background: rgba(255, 183, 77, 0.1);
+            border-left: 4px solid #ffb74d;
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin-top: 16px;
+            color: #ffd180;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        .disclaimer strong { color: #ffe0a3; }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .ascii-logo {
+                position: static;
+                text-align: center;
+                margin-bottom: 20px;
+                font-size: 0.5rem;
+            }
+            h1 { font-size: 2rem; }
+            .input-group { grid-template-columns: 1fr; }
+        }
+    </style>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Take-Home Pay Calculator",
+      "description": "Estimate your take-home pay from gross salary using US 2026 federal income tax, FICA, and state tax with pre-tax deductions.",
+      "url": "https://oldweb.tech/financials/take-home-pay-calculator.html",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Web Browser",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "creator": { "@type": "Organization", "name": "OldWeb.tech" }
+    }
+    </script>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <div class="ascii-logo" aria-hidden="true">  ___  _    _  __        __   _
+ / _ \| | _| | \ \      / /__| |__
+| | | | |/ _` | \ \ /\ / / _ \ '_ \
+| |_| | | (_| |  \ V  V /  __/ |_) |
+ \___/|_|\__,_|   \_/\_/ \___|_.__/
+</div>
+
+    <main id="main-content" class="container">
+        <h1>Take-Home Pay Calculator</h1>
+        <p class="subtitle">Estimate your paycheck after US federal income tax, FICA, state tax, and pre-tax deductions (2026 tax year).</p>
+
+        <div class="calculator">
+            <form id="paycheck-form" aria-label="Take-Home Pay Calculator Form">
+                <h3 class="section-title">Income</h3>
+                <div class="input-group">
+                    <div class="input-field">
+                        <label for="grossPay">Gross Pay</label>
+                        <div class="input-prefix">
+                            <span>$</span>
+                            <input type="text" id="grossPay" placeholder="80,000" value="80,000" aria-required="true" inputmode="decimal">
+                        </div>
+                    </div>
+                    <div class="input-field">
+                        <label for="payFrequency">Pay Frequency</label>
+                        <select id="payFrequency">
+                            <option value="annually" selected>Annually</option>
+                            <option value="monthly">Monthly</option>
+                            <option value="semimonthly">Semi-Monthly (24/yr)</option>
+                            <option value="biweekly">Bi-Weekly (26/yr)</option>
+                            <option value="weekly">Weekly (52/yr)</option>
+                        </select>
+                    </div>
+                    <div class="input-field">
+                        <label for="filingStatus">Filing Status</label>
+                        <select id="filingStatus">
+                            <option value="single" selected>Single</option>
+                            <option value="mfj">Married Filing Jointly</option>
+                            <option value="mfs">Married Filing Separately</option>
+                            <option value="hoh">Head of Household</option>
+                        </select>
+                    </div>
+                    <div class="input-field">
+                        <label for="state">State</label>
+                        <select id="state">
+                            <option value="none">None / Tax-Free</option>
+                            <option value="AL">Alabama</option>
+                            <option value="AK">Alaska (no income tax)</option>
+                            <option value="AZ">Arizona</option>
+                            <option value="AR">Arkansas</option>
+                            <option value="CA">California</option>
+                            <option value="CO">Colorado</option>
+                            <option value="CT">Connecticut</option>
+                            <option value="DE">Delaware</option>
+                            <option value="DC">District of Columbia</option>
+                            <option value="FL">Florida (no income tax)</option>
+                            <option value="GA">Georgia</option>
+                            <option value="HI">Hawaii</option>
+                            <option value="ID">Idaho</option>
+                            <option value="IL">Illinois</option>
+                            <option value="IN">Indiana</option>
+                            <option value="IA">Iowa</option>
+                            <option value="KS">Kansas</option>
+                            <option value="KY">Kentucky</option>
+                            <option value="LA">Louisiana</option>
+                            <option value="ME">Maine</option>
+                            <option value="MD">Maryland</option>
+                            <option value="MA">Massachusetts</option>
+                            <option value="MI">Michigan</option>
+                            <option value="MN">Minnesota</option>
+                            <option value="MS">Mississippi</option>
+                            <option value="MO">Missouri</option>
+                            <option value="MT">Montana</option>
+                            <option value="NE">Nebraska</option>
+                            <option value="NV">Nevada (no income tax)</option>
+                            <option value="NH">New Hampshire (no wage tax)</option>
+                            <option value="NJ">New Jersey</option>
+                            <option value="NM">New Mexico</option>
+                            <option value="NY">New York</option>
+                            <option value="NC">North Carolina</option>
+                            <option value="ND">North Dakota</option>
+                            <option value="OH">Ohio</option>
+                            <option value="OK">Oklahoma</option>
+                            <option value="OR">Oregon</option>
+                            <option value="PA">Pennsylvania</option>
+                            <option value="RI">Rhode Island</option>
+                            <option value="SC">South Carolina</option>
+                            <option value="SD">South Dakota (no income tax)</option>
+                            <option value="TN">Tennessee (no wage tax)</option>
+                            <option value="TX">Texas (no income tax)</option>
+                            <option value="UT">Utah</option>
+                            <option value="VT">Vermont</option>
+                            <option value="VA">Virginia</option>
+                            <option value="WA">Washington (no income tax)</option>
+                            <option value="WV">West Virginia</option>
+                            <option value="WI">Wisconsin</option>
+                            <option value="WY">Wyoming (no income tax)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <h3 class="section-title">Pre-Tax Deductions (per year)</h3>
+                <div class="input-group">
+                    <div class="input-field">
+                        <label for="retirement401k">401(k) Contribution</label>
+                        <div class="input-prefix">
+                            <span>$</span>
+                            <input type="text" id="retirement401k" placeholder="0" value="0" inputmode="decimal">
+                        </div>
+                    </div>
+                    <div class="input-field">
+                        <label for="hsa">HSA Contribution</label>
+                        <div class="input-prefix">
+                            <span>$</span>
+                            <input type="text" id="hsa" placeholder="0" value="0" inputmode="decimal">
+                        </div>
+                    </div>
+                    <div class="input-field">
+                        <label for="healthPremium">Health/Dental/Vision Premiums</label>
+                        <div class="input-prefix">
+                            <span>$</span>
+                            <input type="text" id="healthPremium" placeholder="0" value="0" inputmode="decimal">
+                        </div>
+                    </div>
+                    <div class="input-field">
+                        <label for="otherPreTax">Other Pre-Tax</label>
+                        <div class="input-prefix">
+                            <span>$</span>
+                            <input type="text" id="otherPreTax" placeholder="0" value="0" inputmode="decimal">
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="section-title">Post-Tax Deductions (per year)</h3>
+                <div class="input-group">
+                    <div class="input-field">
+                        <label for="otherPostTax">Other Post-Tax (Roth, garnishments, etc.)</label>
+                        <div class="input-prefix">
+                            <span>$</span>
+                            <input type="text" id="otherPostTax" placeholder="0" value="0" inputmode="decimal">
+                        </div>
+                    </div>
+                </div>
+
+                <button type="button" class="btn" onclick="calculate()" aria-label="Calculate take-home pay">Calculate Take-Home Pay</button>
+                <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page">Clear Saved Data</button>
+
+                <div id="error" role="alert" aria-live="assertive" aria-atomic="true"></div>
+            </form>
+        </div>
+
+        <div class="results" id="results" role="region" aria-live="polite" aria-label="Take-home pay summary">
+            <h2>Your Estimated Take-Home Pay</h2>
+            <div class="summary-grid" id="summaryGrid"></div>
+
+            <h3 style="color:#90caf9; margin-top:18px; font-size:1.05rem;">Annual Breakdown</h3>
+            <div class="breakdown-bar" id="breakdownBar" role="img" aria-label="Pay breakdown visualization"></div>
+            <div class="bar-legend" id="barLegend"></div>
+
+            <table class="breakdown-table" id="breakdownTable" aria-label="Annual tax breakdown">
+                <thead>
+                    <tr>
+                        <th scope="col">Item</th>
+                        <th scope="col">Annual</th>
+                        <th scope="col">Per Paycheck</th>
+                        <th scope="col">% of Gross</th>
+                    </tr>
+                </thead>
+                <tbody id="breakdownBody"></tbody>
+            </table>
+
+            <div class="disclaimer">
+                <strong>Estimate only.</strong> Tax brackets and standard deductions are 2026 projections based on IRS Rev. Proc. 2025-32. State tax is a simplified flat-rate (~highest bracket) approximation &mdash; many states have progressive brackets, local taxes, or credits this tool does not model. FICA Social Security wage base is set to the 2026 SSA projection ($183,000). Always verify with payroll, IRS Publication 15-T, or a tax professional before relying on these numbers.
+            </div>
+        </div>
+
+        <footer role="contentinfo">
+            Take-Home Pay Calculator &mdash; Works offline, no installation required
+        </footer>
+    </main>
+
+    <script>
+        // 2026 federal tax brackets (projected via IRS Rev. Proc. 2025-32 inflation adjustments).
+        // Each bracket: [upper_bound, marginal_rate]; final bracket upper_bound = Infinity.
+        const FED_BRACKETS_2026 = {
+            single: [
+                [12400, 0.10], [50400, 0.12], [105700, 0.22],
+                [201775, 0.24], [256225, 0.32], [640600, 0.35], [Infinity, 0.37]
+            ],
+            mfj: [
+                [24800, 0.10], [100800, 0.12], [211400, 0.22],
+                [403550, 0.24], [512450, 0.32], [768700, 0.35], [Infinity, 0.37]
+            ],
+            mfs: [
+                [12400, 0.10], [50400, 0.12], [105700, 0.22],
+                [201775, 0.24], [256225, 0.32], [384350, 0.35], [Infinity, 0.37]
+            ],
+            hoh: [
+                [17700, 0.10], [67450, 0.12], [105700, 0.22],
+                [201775, 0.24], [256225, 0.32], [640600, 0.35], [Infinity, 0.37]
+            ]
+        };
+
+        const STD_DEDUCTION_2026 = {
+            single: 16100, mfj: 32200, mfs: 16100, hoh: 24150
+        };
+
+        // FICA 2026 (Social Security wage base projection: $183,000 per SSA)
+        const SS_RATE = 0.062;
+        const SS_WAGE_BASE_2026 = 183000;
+        const MEDICARE_RATE = 0.0145;
+        const ADDL_MEDICARE_RATE = 0.009;
+        const ADDL_MEDICARE_THRESHOLD = {
+            single: 200000, mfj: 250000, mfs: 125000, hoh: 200000
+        };
+
+        // State flat-rate approximations (top marginal bracket, rounded). 0 = no wage income tax.
+        const STATE_TAX_RATE = {
+            AL: 0.05, AK: 0, AZ: 0.025, AR: 0.044, CA: 0.093, CO: 0.044, CT: 0.055,
+            DE: 0.066, DC: 0.085, FL: 0, GA: 0.0539, HI: 0.0725, ID: 0.057, IL: 0.0495,
+            IN: 0.03, IA: 0.038, KS: 0.057, KY: 0.04, LA: 0.03, ME: 0.058, MD: 0.0575,
+            MA: 0.05, MI: 0.0425, MN: 0.068, MS: 0.044, MO: 0.047, MT: 0.059, NE: 0.052,
+            NV: 0, NH: 0, NJ: 0.05525, NM: 0.049, NY: 0.065, NC: 0.0425, ND: 0.0195,
+            OH: 0.035, OK: 0.0475, OR: 0.0875, PA: 0.0307, RI: 0.0599, SC: 0.062,
+            SD: 0, TN: 0, TX: 0, UT: 0.0455, VT: 0.066, VA: 0.0575, WA: 0,
+            WV: 0.0482, WI: 0.053, WY: 0, none: 0
+        };
+
+        const FREQ_PER_YEAR = {
+            annually: 1, monthly: 12, semimonthly: 24, biweekly: 26, weekly: 52
+        };
+
+        function formatCurrency(n) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency', currency: 'USD',
+                minimumFractionDigits: 2, maximumFractionDigits: 2
+            }).format(n);
+        }
+
+        function formatCurrency0(n) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency', currency: 'USD',
+                minimumFractionDigits: 0, maximumFractionDigits: 0
+            }).format(n);
+        }
+
+        function parseNumber(str) {
+            if (str === null || str === undefined || str === '') return 0;
+            const cleaned = String(str).replace(/[,$\s]/g, '');
+            const num = parseFloat(cleaned);
+            return isNaN(num) ? null : num;
+        }
+
+        function showError(message, input) {
+            const errDiv = document.getElementById('error');
+            errDiv.textContent = message;
+            errDiv.classList.add('show');
+            if (input) {
+                input.classList.add('error');
+                input.setAttribute('aria-invalid', 'true');
+                input.focus();
+            }
+            A11yUtils.announce(message, 'assertive');
+        }
+
+        function clearErrors() {
+            document.getElementById('error').classList.remove('show');
+            document.querySelectorAll('input.error').forEach(el => {
+                el.classList.remove('error');
+                el.removeAttribute('aria-invalid');
+            });
+        }
+
+        function federalTax(taxableIncome, status) {
+            if (taxableIncome <= 0) return 0;
+            const brackets = FED_BRACKETS_2026[status];
+            let tax = 0;
+            let prev = 0;
+            for (const [upper, rate] of brackets) {
+                if (taxableIncome <= upper) {
+                    tax += (taxableIncome - prev) * rate;
+                    return tax;
+                }
+                tax += (upper - prev) * rate;
+                prev = upper;
+            }
+            return tax;
+        }
+
+        function ficaTax(grossForFica, status) {
+            const ss = Math.min(grossForFica, SS_WAGE_BASE_2026) * SS_RATE;
+            let medicare = grossForFica * MEDICARE_RATE;
+            const threshold = ADDL_MEDICARE_THRESHOLD[status] || 200000;
+            if (grossForFica > threshold) {
+                medicare += (grossForFica - threshold) * ADDL_MEDICARE_RATE;
+            }
+            return { ss, medicare, total: ss + medicare };
+        }
+
+        function calculate() {
+            clearErrors();
+            const grossInput = document.getElementById('grossPay');
+            const gross = parseNumber(grossInput.value);
+            if (gross === null || gross < 0) {
+                showError('Please enter a valid gross pay amount (0 or greater).', grossInput);
+                return;
+            }
+
+            const freq = document.getElementById('payFrequency').value;
+            const periods = FREQ_PER_YEAR[freq];
+            const annualGross = gross * periods;
+
+            const status = document.getElementById('filingStatus').value;
+            const stateCode = document.getElementById('state').value;
+
+            const pre401k = parseNumber(document.getElementById('retirement401k').value) || 0;
+            const preHsa = parseNumber(document.getElementById('hsa').value) || 0;
+            const preHealth = parseNumber(document.getElementById('healthPremium').value) || 0;
+            const preOther = parseNumber(document.getElementById('otherPreTax').value) || 0;
+            const postOther = parseNumber(document.getElementById('otherPostTax').value) || 0;
+
+            const totalPreTax = pre401k + preHsa + preHealth + preOther;
+            if (totalPreTax > annualGross) {
+                showError('Pre-tax deductions exceed annual gross pay.');
+                return;
+            }
+
+            // FICA is calculated on gross minus pre-tax health/HSA (Section 125 cafeteria plans)
+            // but Social Security/Medicare apply to 401(k) traditional contributions.
+            // Simplified: FICA-exempt = HSA + health premiums + (treat "other pre-tax" as 125 plan).
+            const ficaExemptPreTax = preHsa + preHealth + preOther;
+            const grossForFica = Math.max(0, annualGross - ficaExemptPreTax);
+            const fica = ficaTax(grossForFica, status);
+
+            // Federal taxable income = gross - all pre-tax deductions - standard deduction
+            const stdDed = STD_DEDUCTION_2026[status];
+            const federalTaxableIncome = Math.max(0, annualGross - totalPreTax - stdDed);
+            const federal = federalTax(federalTaxableIncome, status);
+
+            // State tax: applied to gross minus pre-tax deductions (simplified).
+            // States generally do NOT use the federal standard deduction at this rate.
+            const stateRate = STATE_TAX_RATE[stateCode] || 0;
+            const stateTaxableIncome = Math.max(0, annualGross - totalPreTax);
+            const stateTax = stateTaxableIncome * stateRate;
+
+            const totalTax = federal + fica.total + stateTax;
+            const annualNet = annualGross - totalPreTax - totalTax - postOther;
+            const perPeriodNet = annualNet / periods;
+            const effectiveRate = annualGross > 0 ? (totalTax / annualGross) * 100 : 0;
+
+            displayResults({
+                gross: annualGross, periods, freq,
+                pre401k, preHsa, preHealth, preOther, totalPreTax,
+                federal, federalTaxableIncome, stdDed,
+                fica, stateTax, stateRate, stateCode,
+                postOther, totalTax, annualNet, perPeriodNet, effectiveRate
+            });
+        }
+
+        function displayResults(r) {
+            const periodLabel = {
+                annually: 'year', monthly: 'month', semimonthly: 'pay period',
+                biweekly: 'paycheck', weekly: 'week'
+            }[r.freq];
+
+            const summary = document.getElementById('summaryGrid');
+            summary.innerHTML = `
+                <div class="summary-item highlight">
+                    <div class="label">Take-Home Per ${periodLabel}</div>
+                    <div class="value">${formatCurrency(r.perPeriodNet)}</div>
+                    <button class="copy-btn" onclick="copyValue('${r.perPeriodNet.toFixed(2)}', this)" aria-label="Copy take-home per period">Copy</button>
+                </div>
+                <div class="summary-item highlight">
+                    <div class="label">Annual Take-Home</div>
+                    <div class="value">${formatCurrency(r.annualNet)}</div>
+                    <button class="copy-btn" onclick="copyValue('${r.annualNet.toFixed(2)}', this)" aria-label="Copy annual take-home">Copy</button>
+                </div>
+                <div class="summary-item">
+                    <div class="label">Annual Gross</div>
+                    <div class="value">${formatCurrency(r.gross)}</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">Effective Tax Rate</div>
+                    <div class="value">${r.effectiveRate.toFixed(1)}%</div>
+                </div>
+            `;
+
+            // Stacked bar
+            const segs = [
+                { label: 'Net', amount: r.annualNet, cls: 'bar-net' },
+                { label: 'Federal', amount: r.federal, cls: 'bar-fed' },
+                { label: 'FICA', amount: r.fica.total, cls: 'bar-fica' },
+                { label: 'State', amount: r.stateTax, cls: 'bar-state' },
+                { label: 'Pre-Tax', amount: r.totalPreTax, cls: 'bar-pretax' },
+                { label: 'Post-Tax', amount: r.postOther, cls: 'bar-posttax' }
+            ];
+            const bar = document.getElementById('breakdownBar');
+            bar.innerHTML = segs.filter(s => s.amount > 0).map(s => {
+                const pct = (s.amount / r.gross) * 100;
+                return `<div class="bar-seg ${s.cls}" style="width:${pct}%" title="${s.label}: ${formatCurrency(s.amount)} (${pct.toFixed(1)}%)">${pct >= 6 ? s.label : ''}</div>`;
+            }).join('');
+
+            const legend = document.getElementById('barLegend');
+            legend.innerHTML = segs.filter(s => s.amount > 0).map(s => {
+                const dotColor = {
+                    'bar-net': '#66bb6a', 'bar-fed': '#42a5f5', 'bar-fica': '#7e57c2',
+                    'bar-state': '#ffb74d', 'bar-pretax': '#4dd0e1', 'bar-posttax': '#f06292'
+                }[s.cls];
+                return `<span class="legend-item"><span class="legend-dot" style="background:${dotColor}"></span>${s.label}: ${formatCurrency0(s.amount)}</span>`;
+            }).join('');
+
+            // Breakdown table
+            const rows = [];
+            const addRow = (label, amount, isTotal) => {
+                const perPeriod = amount / r.periods;
+                const pct = r.gross > 0 ? (amount / r.gross) * 100 : 0;
+                rows.push(`<tr${isTotal ? ' class="total-row"' : ''}>
+                    <td>${label}</td>
+                    <td>${formatCurrency(amount)}</td>
+                    <td>${formatCurrency(perPeriod)}</td>
+                    <td>${pct.toFixed(1)}%</td>
+                </tr>`);
+            };
+
+            addRow('Gross Pay', r.gross);
+            if (r.totalPreTax > 0) {
+                if (r.pre401k > 0) addRow('&nbsp;&nbsp;401(k)', r.pre401k);
+                if (r.preHsa > 0) addRow('&nbsp;&nbsp;HSA', r.preHsa);
+                if (r.preHealth > 0) addRow('&nbsp;&nbsp;Health Premiums', r.preHealth);
+                if (r.preOther > 0) addRow('&nbsp;&nbsp;Other Pre-Tax', r.preOther);
+            }
+            addRow('Federal Income Tax', r.federal);
+            addRow('&nbsp;&nbsp;Social Security', r.fica.ss);
+            addRow('&nbsp;&nbsp;Medicare', r.fica.medicare);
+            if (r.stateTax > 0) addRow(`State Tax (${r.stateCode}, ${(r.stateRate * 100).toFixed(2)}%)`, r.stateTax);
+            if (r.postOther > 0) addRow('Post-Tax Deductions', r.postOther);
+            addRow('Net (Take-Home)', r.annualNet, true);
+
+            document.getElementById('breakdownBody').innerHTML = rows.join('');
+
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.classList.add('show');
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            A11yUtils.announce(`Calculated. Annual take-home pay ${formatCurrency(r.annualNet)}.`, 'polite');
+        }
+
+        function copyValue(value, button) {
+            navigator.clipboard.writeText(value).then(() => {
+                const originalText = button.textContent;
+                button.textContent = '✓';
+                button.classList.add('copied');
+                A11yUtils.announce('Value copied to clipboard', 'polite');
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.classList.remove('copied');
+                }, 1500);
+            });
+        }
+
+        // Comma-format currency text inputs as user types
+        ['grossPay', 'retirement401k', 'hsa', 'healthPremium', 'otherPreTax', 'otherPostTax'].forEach(id => {
+            const el = document.getElementById(id);
+            el.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/[^\d.]/g, '');
+                if (value) {
+                    const parts = value.split('.');
+                    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                    e.target.value = parts.join('.');
+                }
+            });
+            el.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    calculate();
+                }
+            });
+        });
+
+        // Skip link
+        document.querySelector('.skip-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.getElementById('main-content');
+            if (target) {
+                target.setAttribute('tabindex', '-1');
+                target.focus();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+
+        const formFields = ['grossPay', 'payFrequency', 'filingStatus', 'state',
+                            'retirement401k', 'hsa', 'healthPremium', 'otherPreTax', 'otherPostTax'];
+
+        function clearAllSavedData() {
+            StorageUtils.remove('take-home-pay');
+            document.getElementById('grossPay').value = '80,000';
+            document.getElementById('payFrequency').value = 'annually';
+            document.getElementById('filingStatus').value = 'single';
+            document.getElementById('state').value = 'none';
+            ['retirement401k', 'hsa', 'healthPremium', 'otherPreTax', 'otherPostTax'].forEach(id => {
+                document.getElementById(id).value = '0';
+            });
+            document.getElementById('results').classList.remove('show');
+            clearErrors();
+            A11yUtils.announce('All saved data has been cleared', 'polite');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            StorageUtils.loadFormInputs('take-home-pay', formFields);
+            StorageUtils.autoSaveFormInputs('take-home-pay', formFields);
+        });
+    </script>
+</body>
+</html>

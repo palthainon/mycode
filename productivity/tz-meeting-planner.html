@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Plan meetings across timezones. Pick a time in your home timezone and see equivalent local times worldwide with day-offset and business-hours indicators. No accounts, runs offline.">
+    <meta name="keywords" content="timezone meeting planner, tz converter, world clock, meeting scheduler, timezone converter, world time, time zone planner, remote meeting time">
+    <meta name="author" content="OldWeb LLC">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://oldweb.tech/productivity/tz-meeting-planner.html">
+
+    <meta property="og:title" content="Timezone Meeting Planner - OldWeb.tech">
+    <meta property="og:description" content="Pick a time in your home timezone and see it everywhere else. Business-hours indicators help find overlap.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oldweb.tech/productivity/tz-meeting-planner.html">
+    <meta property="og:site_name" content="OldWeb.tech">
+    <meta property="og:image" content="https://oldweb.tech/logo/og-image.png">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Timezone Meeting Planner - OldWeb.tech">
+    <meta name="twitter:description" content="Plan meetings across timezones with business-hours indicators.">
+    <meta name="twitter:image" content="https://oldweb.tech/logo/og-image.png">
+
+    <meta name="theme-color" content="#1a1a2e">
+    <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
+
+    <title>Timezone Meeting Planner - OldWeb.tech</title>
+    <link rel="stylesheet" href="../a11y.css">
+    <script src="../a11y-utils.js"></script>
+    <script src="../storage-utils.js"></script>
+    <script src="../navigationv2.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #fff;
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 8px;
+            font-size: 2.4rem;
+            color: #4fc3f7;
+            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #90caf9;
+            font-size: 0.95rem;
+            margin-bottom: 26px;
+            opacity: 0.9;
+        }
+
+        .ascii-logo {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.65rem;
+            line-height: 1.1;
+            color: #4fc3f7;
+            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
+            opacity: 0.8;
+            white-space: pre;
+        }
+
+        .panel {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 24px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 22px;
+        }
+
+        .home-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 16px;
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 700px) { .home-grid { grid-template-columns: 1fr; } }
+
+        .input-field { display: flex; flex-direction: column; }
+
+        .input-field label {
+            margin-bottom: 6px;
+            color: #90caf9;
+            font-weight: 500;
+            font-size: 0.88rem;
+        }
+
+        .input-field input, .input-field select {
+            width: 100%;
+            padding: 11px 14px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: #0f1419;
+            color: #fff;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .input-field input:focus, .input-field select:focus {
+            outline: none;
+            border-color: #4fc3f7;
+            box-shadow: 0 0 15px rgba(79, 195, 247, 0.2);
+        }
+
+        .input-field select option { background: #0f1419; color: #fff; }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
+            color: #fff;
+            border: none;
+            padding: 11px 22px;
+            font-size: 0.95rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+        }
+
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(79, 195, 247, 0.4); }
+        .btn:active { transform: translateY(0); }
+
+        .btn.secondary {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: #90caf9;
+        }
+
+        .btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: none;
+            transform: none;
+        }
+
+        .btn.danger {
+            background: transparent;
+            border: 2px solid rgba(244, 67, 54, 0.4);
+            color: rgba(244, 67, 54, 0.85);
+        }
+
+        .btn.danger:hover {
+            background: rgba(244, 67, 54, 0.12);
+            border-color: rgba(244, 67, 54, 0.6);
+            color: #ff8a80;
+            box-shadow: none;
+            transform: none;
+        }
+
+        .tz-rows {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .tz-row {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr auto auto auto;
+            gap: 12px;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.22);
+            padding: 12px 14px;
+            border-radius: 10px;
+            border-left: 4px solid #4fc3f7;
+        }
+
+        .tz-row.home-row {
+            background: rgba(79, 195, 247, 0.08);
+            border-left-color: #66bb6a;
+        }
+
+        .tz-row select {
+            background: #0f1419;
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 8px 10px;
+            border-radius: 6px;
+            font-size: 0.92rem;
+            min-width: 0;
+        }
+
+        .tz-row select:focus {
+            outline: none;
+            border-color: #4fc3f7;
+        }
+
+        .tz-row .local-time {
+            font-family: 'Consolas', 'Monaco', monospace;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        .tz-row .local-time .date-part {
+            display: block;
+            color: #90caf9;
+            font-size: 0.78rem;
+            font-weight: 400;
+            margin-top: 2px;
+        }
+
+        .day-badge {
+            font-size: 0.72rem;
+            padding: 3px 7px;
+            border-radius: 4px;
+            color: #fff;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+        .day-badge.same {
+            background: rgba(255, 255, 255, 0.12);
+            color: rgba(255, 255, 255, 0.65);
+        }
+        .day-badge.plus { background: #5e35b1; }
+        .day-badge.minus { background: #fb8c00; }
+
+        .biz-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.78rem;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .biz-indicator::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        .biz-green {
+            background: rgba(102, 187, 106, 0.18);
+            color: #aed581;
+        }
+        .biz-green::before { background: #66bb6a; }
+        .biz-yellow {
+            background: rgba(255, 183, 77, 0.18);
+            color: #ffd180;
+        }
+        .biz-yellow::before { background: #ffb74d; }
+        .biz-red {
+            background: rgba(244, 67, 54, 0.18);
+            color: #ff8a80;
+        }
+        .biz-red::before { background: #f44336; }
+
+        .row-actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .icon-btn {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            color: #90caf9;
+            padding: 6px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.78rem;
+            transition: all 0.2s;
+        }
+
+        .icon-btn:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.35);
+        }
+
+        .icon-btn.remove {
+            border-color: rgba(244, 67, 54, 0.35);
+            color: rgba(244, 67, 54, 0.85);
+        }
+
+        .icon-btn.remove:hover {
+            background: rgba(244, 67, 54, 0.1);
+            color: #ff8a80;
+        }
+
+        .icon-btn.copied {
+            background: rgba(76, 175, 80, 0.25);
+            border-color: #4caf50;
+            color: #aed581;
+        }
+
+        .empty-state {
+            color: rgba(255, 255, 255, 0.4);
+            font-style: italic;
+            font-size: 0.9rem;
+            text-align: center;
+            padding: 14px;
+        }
+
+        @media (max-width: 700px) {
+            .tz-row {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+            .tz-row select { width: 100%; }
+        }
+
+        #error {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid #f44336;
+            color: #ff8a80;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: none;
+        }
+        #error.show { display: block; }
+
+        .legend-strip {
+            background: rgba(0, 0, 0, 0.18);
+            border-left: 4px solid #4dd0e1;
+            border-radius: 6px;
+            padding: 10px 14px;
+            color: #c5d4e3;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            margin-top: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            align-items: center;
+        }
+
+        .legend-strip .legend-key {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 28px;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .ascii-logo {
+                position: static;
+                text-align: center;
+                margin-bottom: 20px;
+                font-size: 0.5rem;
+            }
+            h1 { font-size: 1.9rem; }
+        }
+    </style>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Timezone Meeting Planner",
+      "description": "Pick a time in your home timezone and see equivalent local times worldwide with day-offset and business-hours indicators.",
+      "url": "https://oldweb.tech/productivity/tz-meeting-planner.html",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Web Browser",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "creator": { "@type": "Organization", "name": "OldWeb.tech" }
+    }
+    </script>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <div class="ascii-logo" aria-hidden="true">  ___  _    _  __        __   _
+ / _ \| | _| | \ \      / /__| |__
+| | | | |/ _` | \ \ /\ / / _ \ '_ \
+| |_| | | (_| |  \ V  V /  __/ |_) |
+ \___/|_|\__,_|   \_/\_/ \___|_.__/
+</div>
+
+    <main id="main-content" class="container">
+        <h1>Timezone Meeting Planner</h1>
+        <p class="subtitle">Pick a time in your home timezone and see what it looks like everywhere else &mdash; with day-offset and business-hours indicators.</p>
+
+        <div class="panel">
+            <div class="home-grid">
+                <div class="input-field">
+                    <label for="homeTz">Home Timezone</label>
+                    <select id="homeTz" aria-required="true"></select>
+                </div>
+                <div class="input-field">
+                    <label for="meetingDateTime">Meeting Date &amp; Time (in home TZ)</label>
+                    <input type="datetime-local" id="meetingDateTime" aria-required="true">
+                </div>
+            </div>
+            <div class="actions">
+                <button type="button" class="btn" onclick="addRow()" aria-label="Add another timezone">+ Add Timezone</button>
+                <button type="button" class="btn secondary" onclick="useNow()" aria-label="Set meeting time to right now">Use Right Now</button>
+                <button type="button" class="btn danger" onclick="clearAllSavedData()" aria-label="Clear all saved form data and rows">Clear All</button>
+            </div>
+            <div id="error" role="alert" aria-live="assertive"></div>
+        </div>
+
+        <div class="panel">
+            <h2 style="color:#4fc3f7; font-size:1.2rem; margin-bottom:14px;">Meeting Times</h2>
+            <div class="tz-rows" id="tzRows" aria-live="polite"></div>
+            <div class="legend-strip">
+                <span class="legend-key"><span class="biz-indicator biz-green">Business hours</span> 9 AM &ndash; 5 PM</span>
+                <span class="legend-key"><span class="biz-indicator biz-yellow">Edge</span> 7&ndash;9 AM or 5&ndash;9 PM</span>
+                <span class="legend-key"><span class="biz-indicator biz-red">Off hours</span> Outside 7 AM &ndash; 9 PM</span>
+            </div>
+        </div>
+
+        <footer role="contentinfo">
+            Timezone Meeting Planner &mdash; Works offline, no installation required
+        </footer>
+    </main>
+
+    <script>
+        const $ = id => document.getElementById(id);
+        let extraRows = [];           // Array of timezone strings (other than home TZ)
+        const ROWS_KEY = 'tz-meeting-planner-rows';
+
+        // Curated popular timezones, shown at top of dropdowns
+        const POPULAR = [
+            'UTC',
+            'America/Los_Angeles', 'America/Denver', 'America/Chicago', 'America/New_York',
+            'America/Sao_Paulo', 'America/Toronto', 'America/Mexico_City',
+            'Europe/London', 'Europe/Paris', 'Europe/Berlin', 'Europe/Madrid', 'Europe/Athens',
+            'Africa/Cairo', 'Africa/Johannesburg',
+            'Asia/Dubai', 'Asia/Kolkata', 'Asia/Bangkok', 'Asia/Shanghai', 'Asia/Singapore',
+            'Asia/Tokyo', 'Asia/Seoul',
+            'Australia/Sydney', 'Australia/Perth',
+            'Pacific/Auckland', 'Pacific/Honolulu'
+        ];
+
+        function getAllTimeZones() {
+            if (typeof Intl.supportedValuesOf === 'function') {
+                try { return Intl.supportedValuesOf('timeZone'); } catch (e) { /* fall through */ }
+            }
+            // Fallback list for older browsers
+            return [...POPULAR,
+                'America/Anchorage', 'America/Phoenix', 'America/Indianapolis',
+                'America/Halifax', 'America/St_Johns', 'America/Buenos_Aires',
+                'America/Caracas', 'America/Bogota', 'America/Lima',
+                'Atlantic/Reykjavik', 'Atlantic/Azores',
+                'Europe/Lisbon', 'Europe/Dublin', 'Europe/Amsterdam', 'Europe/Brussels',
+                'Europe/Zurich', 'Europe/Vienna', 'Europe/Warsaw', 'Europe/Stockholm',
+                'Europe/Helsinki', 'Europe/Moscow', 'Europe/Istanbul',
+                'Asia/Karachi', 'Asia/Tashkent', 'Asia/Hong_Kong', 'Asia/Manila',
+                'Asia/Jakarta', 'Asia/Taipei', 'Asia/Jerusalem', 'Asia/Tehran',
+                'Australia/Melbourne', 'Australia/Brisbane', 'Australia/Adelaide'
+            ];
+        }
+
+        function buildTzSelect(selectEl, selectedValue) {
+            const all = getAllTimeZones().sort();
+            selectEl.innerHTML = '';
+            // Popular group
+            const popGroup = document.createElement('optgroup');
+            popGroup.label = 'Popular';
+            POPULAR.forEach(tz => {
+                if (!all.includes(tz)) return;
+                const opt = document.createElement('option');
+                opt.value = tz;
+                opt.textContent = `${tz} (${shortOffset(tz)})`;
+                popGroup.appendChild(opt);
+            });
+            selectEl.appendChild(popGroup);
+            // All group
+            const allGroup = document.createElement('optgroup');
+            allGroup.label = 'All Timezones';
+            all.forEach(tz => {
+                const opt = document.createElement('option');
+                opt.value = tz;
+                opt.textContent = tz;
+                allGroup.appendChild(opt);
+            });
+            selectEl.appendChild(allGroup);
+            if (selectedValue) selectEl.value = selectedValue;
+        }
+
+        function shortOffset(tz) {
+            // Get a UTC-offset string like "GMT-7" or "GMT+5:30" for a TZ right now.
+            try {
+                const fmt = new Intl.DateTimeFormat('en-US', { timeZone: tz, timeZoneName: 'shortOffset' });
+                const parts = fmt.formatToParts(new Date());
+                const off = parts.find(p => p.type === 'timeZoneName');
+                return off ? off.value : '';
+            } catch (e) {
+                return '';
+            }
+        }
+
+        function parseLocalInput(value) {
+            // value is "YYYY-MM-DDTHH:MM" (local time per spec) — but we want to interpret
+            // it as a wall-clock time in the home timezone, not the browser's local time.
+            // We parse it as components and resolve via Intl below.
+            if (!value) return null;
+            const m = value.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})(?::(\d{2}))?$/);
+            if (!m) return null;
+            return {
+                year: +m[1], month: +m[2], day: +m[3],
+                hour: +m[4], minute: +m[5], second: +(m[6] || 0)
+            };
+        }
+
+        // Convert wall-clock time {Y,M,D,h,m,s} in a given timezone to an absolute UTC ms timestamp.
+        // Strategy: build a Date assuming UTC, then ask Intl what the home-TZ offset is at that instant,
+        // and correct. Iterate once more in case the offset depends on DST boundary.
+        function wallToUtc(wall, tz) {
+            const guess = Date.UTC(wall.year, wall.month - 1, wall.day, wall.hour, wall.minute, wall.second);
+            const offset1 = getTzOffsetMinutes(tz, guess);
+            let utc = guess - offset1 * 60000;
+            // Refine once: DST boundary
+            const offset2 = getTzOffsetMinutes(tz, utc);
+            if (offset2 !== offset1) {
+                utc = guess - offset2 * 60000;
+            }
+            return utc;
+        }
+
+        function getTzOffsetMinutes(tz, utcMs) {
+            // Returns the offset in minutes that you ADD to UTC to get local time in tz.
+            // e.g., America/New_York EST = -300
+            const date = new Date(utcMs);
+            const fmt = new Intl.DateTimeFormat('en-US', {
+                timeZone: tz, hour12: false,
+                year: 'numeric', month: '2-digit', day: '2-digit',
+                hour: '2-digit', minute: '2-digit', second: '2-digit'
+            });
+            const parts = fmt.formatToParts(date);
+            const get = type => +parts.find(p => p.type === type).value;
+            let h = get('hour');
+            if (h === 24) h = 0;
+            const localAsUtc = Date.UTC(get('year'), get('month') - 1, get('day'), h, get('minute'), get('second'));
+            return Math.round((localAsUtc - utcMs) / 60000);
+        }
+
+        function formatInTz(utcMs, tz) {
+            const d = new Date(utcMs);
+            const time = d.toLocaleString('en-US', {
+                timeZone: tz, hour: 'numeric', minute: '2-digit', hour12: true
+            });
+            const date = d.toLocaleString('en-US', {
+                timeZone: tz, weekday: 'short', month: 'short', day: 'numeric'
+            });
+            const tzShort = (() => {
+                try {
+                    const fmt = new Intl.DateTimeFormat('en-US', { timeZone: tz, timeZoneName: 'short' });
+                    const parts = fmt.formatToParts(d);
+                    const n = parts.find(p => p.type === 'timeZoneName');
+                    return n ? n.value : '';
+                } catch (e) { return ''; }
+            })();
+            return { time, date, tzShort };
+        }
+
+        function dayOffset(utcMs, homeTz, otherTz) {
+            // Compare the calendar day (YYYY-MM-DD) of utcMs between the two timezones.
+            const fmt = (tz) => new Intl.DateTimeFormat('en-CA', {
+                timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit'
+            }).format(new Date(utcMs));
+            const a = fmt(homeTz);
+            const b = fmt(otherTz);
+            if (a === b) return 0;
+            // Treat as date-ms diff
+            const aMs = Date.parse(a + 'T00:00:00Z');
+            const bMs = Date.parse(b + 'T00:00:00Z');
+            return Math.round((bMs - aMs) / 86400000);
+        }
+
+        function hourInTz(utcMs, tz) {
+            const fmt = new Intl.DateTimeFormat('en-US', {
+                timeZone: tz, hour: '2-digit', hour12: false
+            });
+            return parseInt(fmt.format(new Date(utcMs)), 10);
+        }
+
+        function bizClass(hour) {
+            // Treat 24-hour 0-23. Use start hour of meeting.
+            if (hour >= 9 && hour < 17) return { cls: 'biz-green', label: 'Business hours' };
+            if ((hour >= 7 && hour < 9) || (hour >= 17 && hour < 21)) return { cls: 'biz-yellow', label: 'Edge hours' };
+            return { cls: 'biz-red', label: 'Off hours' };
+        }
+
+        function render() {
+            const homeTz = $('homeTz').value;
+            const wall = parseLocalInput($('meetingDateTime').value);
+            const container = $('tzRows');
+            container.innerHTML = '';
+
+            if (!homeTz || !wall) {
+                container.innerHTML = '<div class="empty-state">Pick a home timezone and meeting time above.</div>';
+                return;
+            }
+
+            const utcMs = wallToUtc(wall, homeTz);
+
+            // Render home row first
+            container.appendChild(renderHomeRow(homeTz, utcMs));
+
+            // Render extra rows
+            extraRows.forEach((tz, idx) => {
+                container.appendChild(renderRow(tz, idx, homeTz, utcMs));
+            });
+
+            if (extraRows.length === 0) {
+                const tip = document.createElement('div');
+                tip.className = 'empty-state';
+                tip.textContent = 'Press "+ Add Timezone" to compare other locations.';
+                container.appendChild(tip);
+            }
+        }
+
+        function renderHomeRow(homeTz, utcMs) {
+            const row = document.createElement('div');
+            row.className = 'tz-row home-row';
+            const f = formatInTz(utcMs, homeTz);
+            const h = hourInTz(utcMs, homeTz);
+            const biz = bizClass(h);
+            row.innerHTML = `
+                <div style="color:#aed581; font-weight:600; font-size:0.95rem;">🏠 ${escapeHtml(homeTz)}</div>
+                <div class="local-time">${f.time} ${f.tzShort}<span class="date-part">${f.date}</span></div>
+                <span class="day-badge same">Home</span>
+                <span class="biz-indicator ${biz.cls}">${biz.label}</span>
+                <div class="row-actions">
+                    <button type="button" class="icon-btn" onclick="copyRowText(this, '${escapeAttr(formatCopy(homeTz, f))}')">Copy</button>
+                </div>
+            `;
+            return row;
+        }
+
+        function renderRow(tz, idx, homeTz, utcMs) {
+            const row = document.createElement('div');
+            row.className = 'tz-row';
+            const f = formatInTz(utcMs, tz);
+            const h = hourInTz(utcMs, tz);
+            const biz = bizClass(h);
+            const dOff = dayOffset(utcMs, homeTz, tz);
+            const dayBadge = dOff === 0
+                ? '<span class="day-badge same">Same day</span>'
+                : (dOff > 0
+                    ? `<span class="day-badge plus">+${dOff}d</span>`
+                    : `<span class="day-badge minus">${dOff}d</span>`);
+
+            row.innerHTML = `
+                <div></div>
+                <div class="local-time">${f.time} ${f.tzShort}<span class="date-part">${f.date}</span></div>
+                ${dayBadge}
+                <span class="biz-indicator ${biz.cls}">${biz.label}</span>
+                <div class="row-actions">
+                    <button type="button" class="icon-btn" onclick="copyRowText(this, '${escapeAttr(formatCopy(tz, f))}')">Copy</button>
+                    <button type="button" class="icon-btn remove" onclick="removeRow(${idx})" aria-label="Remove this timezone row">×</button>
+                </div>
+            `;
+            // Replace first cell with a working select
+            const select = document.createElement('select');
+            buildTzSelect(select, tz);
+            select.setAttribute('aria-label', `Timezone for row ${idx + 1}`);
+            select.addEventListener('change', () => {
+                extraRows[idx] = select.value;
+                persistRows();
+                render();
+            });
+            row.firstElementChild.replaceWith(select);
+            return row;
+        }
+
+        function formatCopy(tz, f) {
+            return `${f.date} ${f.time} ${f.tzShort} (${tz})`;
+        }
+
+        function escapeHtml(s) {
+            return String(s).replace(/[&<>"']/g, c => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            })[c]);
+        }
+
+        function escapeAttr(s) {
+            return String(s).replace(/'/g, '&#39;').replace(/"/g, '&quot;');
+        }
+
+        function copyRowText(button, text) {
+            // Unescape the HTML entities in the text we passed
+            const decoded = text.replace(/&#39;/g, "'").replace(/&quot;/g, '"');
+            navigator.clipboard.writeText(decoded).then(() => {
+                const original = button.textContent;
+                button.textContent = '✓';
+                button.classList.add('copied');
+                A11yUtils.announce('Time copied to clipboard', 'polite');
+                setTimeout(() => {
+                    button.textContent = original;
+                    button.classList.remove('copied');
+                }, 1500);
+            });
+        }
+
+        function addRow() {
+            const homeTz = $('homeTz').value;
+            // Pick a sensible default: first popular TZ that isn't already in the list and isn't home
+            const candidates = [...POPULAR, 'Europe/London', 'Asia/Tokyo'];
+            const defaultTz = candidates.find(tz => tz !== homeTz && !extraRows.includes(tz)) || 'UTC';
+            extraRows.push(defaultTz);
+            if (extraRows.length > 12) extraRows = extraRows.slice(-12);
+            persistRows();
+            render();
+        }
+
+        function removeRow(idx) {
+            extraRows.splice(idx, 1);
+            persistRows();
+            render();
+        }
+
+        function persistRows() {
+            StorageUtils.saveList(ROWS_KEY, extraRows);
+        }
+
+        function useNow() {
+            const now = new Date();
+            const pad = n => String(n).padStart(2, '0');
+            $('meetingDateTime').value =
+                `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}T${pad(now.getHours())}:${pad(now.getMinutes())}`;
+            render();
+        }
+
+        // Skip link
+        document.querySelector('.skip-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.getElementById('main-content');
+            if (target) {
+                target.setAttribute('tabindex', '-1');
+                target.focus();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+
+        const formFields = ['homeTz', 'meetingDateTime'];
+
+        function clearAllSavedData() {
+            if (!confirm('Clear the meeting time and all added timezones?')) return;
+            StorageUtils.remove('tz-meeting-planner');
+            StorageUtils.remove(ROWS_KEY);
+            extraRows = [];
+            // Reset to browser-detected home + 1 hour from now
+            const detected = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
+            $('homeTz').value = detected;
+            useNow();
+            A11yUtils.announce('All timezone data cleared', 'polite');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            buildTzSelect($('homeTz'));
+            $('homeTz').addEventListener('change', render);
+            $('meetingDateTime').addEventListener('input', render);
+
+            extraRows = StorageUtils.loadList(ROWS_KEY, []);
+
+            StorageUtils.loadFormInputs('tz-meeting-planner', formFields, function(data) {
+                if (!data['homeTz']) {
+                    const detected = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
+                    $('homeTz').value = detected;
+                }
+                if (!data['meetingDateTime']) {
+                    useNow();
+                } else {
+                    render();
+                }
+            });
+            StorageUtils.autoSaveFormInputs('tz-meeting-planner', formFields);
+        });
+    </script>
+</body>
+</html>

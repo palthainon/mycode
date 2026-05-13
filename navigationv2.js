@@ -38,10 +38,15 @@
             { name: 'Amortization', file: 'financials/amortization-calculator.html', id: 'amortization' },
             { name: 'Compound Interest', file: 'financials/compound-interest-calculator.html', id: 'compound-interest' },
             { name: 'Debt Payoff', file: 'financials/debt-payoff-comparison.html', id: 'debt-payoff' },
-            { name: 'Retirement', file: 'financials/retirement-calculator.html', id: 'retirement' }
+            { name: 'Retirement', file: 'financials/retirement-calculator.html', id: 'retirement' },
+            { name: 'Take-Home Pay', file: 'financials/take-home-pay-calculator.html', id: 'take-home-pay' },
+            { name: 'Salary ↔ Hourly', file: 'financials/salary-hourly-converter.html', id: 'salary-hourly' }
         ],
         productivity: [
-            { name: 'Pomodoro Timer', file: 'productivity/pomodoro.html', id: 'pomodoro' }
+            { name: 'Pomodoro Timer', file: 'productivity/pomodoro.html', id: 'pomodoro' },
+            { name: 'Scratchpad', file: 'productivity/scratchpad.html', id: 'scratchpad' },
+            { name: 'Countdown Timer', file: 'productivity/countdown-timer.html', id: 'countdown-timer' },
+            { name: 'TZ Meeting Planner', file: 'productivity/tz-meeting-planner.html', id: 'tz-meeting-planner' }
         ]
     };
 
@@ -92,10 +97,15 @@
         { id: 'compound-interest', name: 'Compound Interest Calculator', file: 'financials/compound-interest-calculator.html', category: 'financials', keywords: ['compound', 'interest', 'investment', 'savings', 'growth'] },
         { id: 'debt-payoff',     name: 'Debt Payoff Comparison',        file: 'financials/debt-payoff-comparison.html',      category: 'financials', keywords: ['debt', 'snowball', 'avalanche', 'payoff', 'credit card'] },
         { id: 'retirement',      name: 'Retirement Calculator',         file: 'financials/retirement-calculator.html',       category: 'financials', keywords: ['retirement', '401k', 'ira', 'savings', 'fire'] },
+        { id: 'take-home-pay',   name: 'Take-Home Pay Calculator',      file: 'financials/take-home-pay-calculator.html',    category: 'financials', keywords: ['paycheck', 'net pay', 'take home', 'salary', 'tax', 'fica', 'federal', 'state tax', '401k', 'hsa'] },
+        { id: 'salary-hourly',   name: 'Salary to Hourly Converter',    file: 'financials/salary-hourly-converter.html',     category: 'financials', keywords: ['salary', 'hourly', 'wage', 'rate', 'convert', 'annual', 'weekly', 'biweekly'] },
         { id: 'loan-payoff',     name: 'Loan Payoff Methods',           file: 'financials/loan-payoff-methods.html',         category: 'financials', keywords: ['loan', 'payoff', 'extra payment', 'biweekly', 'strategy'] },
         { id: 'loan-reference',  name: 'Loan Reference',                file: 'financials/loan-reference.html',              category: 'financials', keywords: ['loan', 'reference', 'glossary', 'apr', 'apy'] },
         // Productivity
-        { id: 'pomodoro',        name: 'Pomodoro Timer',                file: 'productivity/pomodoro.html',            category: 'productivity', keywords: ['pomodoro', 'timer', 'focus', 'productivity', '25 minute'] }
+        { id: 'pomodoro',         name: 'Pomodoro Timer',                file: 'productivity/pomodoro.html',            category: 'productivity', keywords: ['pomodoro', 'timer', 'focus', 'productivity', '25 minute'] },
+        { id: 'scratchpad',       name: 'Plaintext Scratchpad',          file: 'productivity/scratchpad.html',          category: 'productivity', keywords: ['scratchpad', 'notepad', 'notes', 'plaintext', 'autosave', 'sticky'] },
+        { id: 'countdown-timer',  name: 'Countdown Timer',               file: 'productivity/countdown-timer.html',     category: 'productivity', keywords: ['countdown', 'timer', 'deadline', 'date', 'days until', 'event'] },
+        { id: 'tz-meeting-planner', name: 'Timezone Meeting Planner',    file: 'productivity/tz-meeting-planner.html',  category: 'productivity', keywords: ['timezone', 'tz', 'meeting', 'world clock', 'time zone', 'converter', 'scheduler'] }
     ];
 
     // Per-tool descriptions for JSON-LD (kept short; meta description owns long-form copy)
@@ -128,9 +138,14 @@
         'compound-interest': 'Calculate compound interest growth on investments and savings.',
         'debt-payoff':       'Compare snowball vs avalanche debt-payoff strategies side by side.',
         'retirement':        'Project retirement savings with contribution and growth assumptions.',
+        'take-home-pay':     'Estimate take-home pay after US federal income tax, FICA, and state tax.',
+        'salary-hourly':     'Convert between hourly, weekly, biweekly, monthly, and annual pay rates.',
         'loan-payoff':       'Compare loan payoff strategies including biweekly and extra payments.',
         'loan-reference':    'Glossary and reference of loan terminology.',
-        'pomodoro':          'Pomodoro focus timer with configurable work and break intervals.'
+        'pomodoro':          'Pomodoro focus timer with configurable work and break intervals.',
+        'scratchpad':        'Persistent plaintext scratchpad that auto-saves to your browser.',
+        'countdown-timer':   'Live countdown timer to any future date or time with notifications.',
+        'tz-meeting-planner':'Plan meetings across timezones with business-hours indicators.'
     };
 
     // Track currently open dropdown

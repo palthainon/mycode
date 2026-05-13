@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Live countdown timer to any future date/time. Persists across reloads, sends a browser notification and audio chime at zero. Save multiple countdowns side-by-side.">
+    <meta name="keywords" content="countdown timer, date countdown, deadline timer, event countdown, days until calculator, time remaining, online countdown">
+    <meta name="author" content="OldWeb LLC">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://oldweb.tech/productivity/countdown-timer.html">
+
+    <meta property="og:title" content="Countdown Timer - OldWeb.tech">
+    <meta property="og:description" content="Live countdown to any future date/time. Persists across reloads with notifications at zero.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oldweb.tech/productivity/countdown-timer.html">
+    <meta property="og:site_name" content="OldWeb.tech">
+    <meta property="og:image" content="https://oldweb.tech/logo/og-image.png">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Countdown Timer - OldWeb.tech">
+    <meta name="twitter:description" content="Live countdown to any future date/time with notifications and audio alert at zero.">
+    <meta name="twitter:image" content="https://oldweb.tech/logo/og-image.png">
+
+    <meta name="theme-color" content="#1a1a2e">
+    <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
+
+    <title>Countdown Timer - OldWeb.tech</title>
+    <link rel="stylesheet" href="../a11y.css">
+    <script src="../a11y-utils.js"></script>
+    <script src="../storage-utils.js"></script>
+    <script src="../navigationv2.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #fff;
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 8px;
+            font-size: 2.4rem;
+            color: #4fc3f7;
+            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #90caf9;
+            font-size: 0.95rem;
+            margin-bottom: 26px;
+            opacity: 0.9;
+        }
+
+        .ascii-logo {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.65rem;
+            line-height: 1.1;
+            color: #4fc3f7;
+            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
+            opacity: 0.8;
+            white-space: pre;
+        }
+
+        .panel {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 26px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 22px;
+        }
+
+        .controls-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 16px;
+            margin-bottom: 14px;
+        }
+
+        @media (max-width: 600px) {
+            .controls-grid { grid-template-columns: 1fr; }
+        }
+
+        .input-field { display: flex; flex-direction: column; }
+
+        .input-field label {
+            margin-bottom: 6px;
+            color: #90caf9;
+            font-weight: 500;
+            font-size: 0.88rem;
+        }
+
+        .input-field input {
+            width: 100%;
+            padding: 11px 14px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: #0f1419;
+            color: #fff;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .input-field input:focus {
+            outline: none;
+            border-color: #4fc3f7;
+            box-shadow: 0 0 15px rgba(79, 195, 247, 0.2);
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
+            color: #fff;
+            border: none;
+            padding: 11px 24px;
+            font-size: 0.95rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+        }
+
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(79, 195, 247, 0.4); }
+        .btn:active { transform: translateY(0); }
+
+        .btn.secondary {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: #90caf9;
+        }
+
+        .btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: none;
+            transform: none;
+        }
+
+        .btn.danger {
+            background: transparent;
+            border: 2px solid rgba(244, 67, 54, 0.4);
+            color: rgba(244, 67, 54, 0.85);
+        }
+
+        .btn.danger:hover {
+            background: rgba(244, 67, 54, 0.12);
+            border-color: rgba(244, 67, 54, 0.6);
+            color: #ff8a80;
+            box-shadow: none;
+            transform: none;
+        }
+
+        .display-panel {
+            text-align: center;
+            padding: 36px 26px;
+        }
+
+        .display-label {
+            color: #90caf9;
+            font-size: 1.1rem;
+            margin-bottom: 18px;
+            min-height: 1.4em;
+        }
+
+        .display-label .target-time {
+            color: #c5d4e3;
+            font-size: 0.9rem;
+            display: block;
+            margin-top: 4px;
+            opacity: 0.8;
+        }
+
+        .cells {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-bottom: 18px;
+        }
+
+        .cell {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(79, 195, 247, 0.25);
+            border-radius: 12px;
+            padding: 16px 22px;
+            min-width: 92px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .cells.passed .cell {
+            border-color: rgba(102, 187, 106, 0.4);
+        }
+
+        .cells.urgent .cell {
+            border-color: rgba(255, 152, 0, 0.5);
+            box-shadow: 0 0 18px rgba(255, 152, 0, 0.2);
+        }
+
+        .cell-value {
+            font-size: 2.6rem;
+            color: #4fc3f7;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .cells.passed .cell-value { color: #66bb6a; }
+        .cells.urgent .cell-value { color: #ffb74d; }
+
+        .cell-unit {
+            color: #90caf9;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 6px;
+        }
+
+        @media (max-width: 600px) {
+            .cell { min-width: 70px; padding: 12px 14px; }
+            .cell-value { font-size: 2rem; }
+        }
+
+        .meta-row {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            color: #c5d4e3;
+            font-size: 0.85rem;
+            margin-top: 8px;
+        }
+
+        .meta-row strong {
+            color: #fff;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        .saved-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .saved-empty {
+            color: rgba(255, 255, 255, 0.4);
+            font-style: italic;
+            font-size: 0.9rem;
+            text-align: center;
+            padding: 12px;
+        }
+
+        .saved-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 10px 14px;
+            border-radius: 8px;
+            border-left: 3px solid #4fc3f7;
+            gap: 10px;
+        }
+
+        .saved-row.active {
+            border-left-color: #66bb6a;
+            background: rgba(102, 187, 106, 0.08);
+        }
+
+        .saved-row .info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .saved-row .saved-label {
+            color: #fff;
+            font-size: 0.95rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .saved-row .saved-when {
+            color: #90caf9;
+            font-size: 0.78rem;
+            margin-top: 2px;
+        }
+
+        .saved-row button {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: #90caf9;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.78rem;
+            transition: all 0.2s;
+        }
+
+        .saved-row button:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .saved-row button.remove {
+            border-color: rgba(244, 67, 54, 0.35);
+            color: rgba(244, 67, 54, 0.85);
+        }
+
+        .saved-row button.remove:hover {
+            background: rgba(244, 67, 54, 0.1);
+            color: #ff8a80;
+        }
+
+        #error {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid #f44336;
+            color: #ff8a80;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: none;
+        }
+        #error.show { display: block; }
+        input.error { border-color: #f44336 !important; }
+
+        .info-strip {
+            background: rgba(0, 0, 0, 0.18);
+            border-left: 4px solid #4dd0e1;
+            border-radius: 6px;
+            padding: 10px 14px;
+            color: #c5d4e3;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin-top: 10px;
+        }
+
+        .section-label {
+            color: #90caf9;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 12px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 28px;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .ascii-logo {
+                position: static;
+                text-align: center;
+                margin-bottom: 20px;
+                font-size: 0.5rem;
+            }
+            h1 { font-size: 1.9rem; }
+        }
+    </style>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Countdown Timer",
+      "description": "Live countdown timer to any future date/time. Persists across reloads with browser notifications and audio chime at zero.",
+      "url": "https://oldweb.tech/productivity/countdown-timer.html",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Web Browser",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "creator": { "@type": "Organization", "name": "OldWeb.tech" }
+    }
+    </script>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <div class="ascii-logo" aria-hidden="true">  ___  _    _  __        __   _
+ / _ \| | _| | \ \      / /__| |__
+| | | | |/ _` | \ \ /\ / / _ \ '_ \
+| |_| | | (_| |  \ V  V /  __/ |_) |
+ \___/|_|\__,_|   \_/\_/ \___|_.__/
+</div>
+
+    <main id="main-content" class="container">
+        <h1>Countdown Timer</h1>
+        <p class="subtitle">Pick any future date/time. The page counts down live and survives reloads. Get a browser notification &amp; chime at zero.</p>
+
+        <div class="panel">
+            <div class="controls-grid">
+                <div class="input-field">
+                    <label for="labelInput">Label (optional)</label>
+                    <input type="text" id="labelInput" placeholder="Project launch, vacation, deadline…" maxlength="80" aria-describedby="label-help">
+                </div>
+                <div class="input-field">
+                    <label for="targetDateTime">Target Date &amp; Time</label>
+                    <input type="datetime-local" id="targetDateTime" aria-required="true">
+                </div>
+            </div>
+            <div class="actions">
+                <button type="button" class="btn" onclick="startCountdown()" aria-label="Start countdown">Start</button>
+                <button type="button" class="btn secondary" onclick="saveCurrentCountdown()" aria-label="Save current countdown to list">Save to List</button>
+                <button type="button" class="btn secondary" onclick="requestNotifyPermission()" id="notifyBtn" aria-label="Enable browser notifications">Enable Notifications</button>
+                <button type="button" class="btn danger" onclick="clearAllSavedData()" aria-label="Clear current countdown and saved list">Clear All</button>
+            </div>
+            <div id="error" role="alert" aria-live="assertive"></div>
+        </div>
+
+        <div class="panel display-panel">
+            <div class="display-label" id="displayLabel" aria-live="polite">
+                Pick a date/time above and press Start.
+                <span class="target-time" id="targetTimeText"></span>
+            </div>
+            <div class="cells" id="cells" role="timer" aria-live="off" aria-atomic="true">
+                <div class="cell"><div class="cell-value" id="daysVal">0</div><div class="cell-unit">Days</div></div>
+                <div class="cell"><div class="cell-value" id="hoursVal">00</div><div class="cell-unit">Hours</div></div>
+                <div class="cell"><div class="cell-value" id="minsVal">00</div><div class="cell-unit">Minutes</div></div>
+                <div class="cell"><div class="cell-value" id="secsVal">00</div><div class="cell-unit">Seconds</div></div>
+            </div>
+            <div class="meta-row" id="metaRow"></div>
+        </div>
+
+        <div class="panel">
+            <h2 class="section-label">Saved Countdowns</h2>
+            <div class="saved-list" id="savedList">
+                <div class="saved-empty">No saved countdowns yet. Press "Save to List" to keep one for later.</div>
+            </div>
+            <div class="info-strip">
+                Everything is stored only in your browser's localStorage. Closing the tab is fine &mdash; the countdown picks up right where it left off when you come back.
+            </div>
+        </div>
+
+        <footer role="contentinfo">
+            Countdown Timer &mdash; Works offline, no installation required
+        </footer>
+    </main>
+
+    <script>
+        const $ = id => document.getElementById(id);
+        let tickHandle = null;
+        let currentTarget = null;       // Date object
+        let currentLabel = '';
+        let alarmedFor = null;          // Timestamp we've already played the alarm for
+        let savedList = [];
+
+        function showError(message, input) {
+            const errDiv = $('error');
+            errDiv.textContent = message;
+            errDiv.classList.add('show');
+            if (input) {
+                input.classList.add('error');
+                input.setAttribute('aria-invalid', 'true');
+                input.focus();
+            }
+            A11yUtils.announce(message, 'assertive');
+        }
+
+        function clearError() {
+            $('error').classList.remove('show');
+            ['targetDateTime', 'labelInput'].forEach(id => {
+                const el = $(id);
+                el.classList.remove('error');
+                el.removeAttribute('aria-invalid');
+            });
+        }
+
+        function pad(n) { return String(n).padStart(2, '0'); }
+
+        function formatTarget(d) {
+            return d.toLocaleString(undefined, {
+                weekday: 'short', year: 'numeric', month: 'short', day: 'numeric',
+                hour: 'numeric', minute: '2-digit'
+            });
+        }
+
+        function parseLocalInput(value) {
+            // value is "YYYY-MM-DDTHH:MM" (local time per spec) — Date() parses this as local.
+            if (!value) return null;
+            const d = new Date(value);
+            return isNaN(d.getTime()) ? null : d;
+        }
+
+        function startCountdown() {
+            clearError();
+            const input = $('targetDateTime');
+            const target = parseLocalInput(input.value);
+            if (!target) {
+                showError('Please pick a valid target date and time.', input);
+                return;
+            }
+            currentTarget = target;
+            currentLabel = $('labelInput').value.trim();
+            alarmedFor = null;
+            updateLabelDisplay();
+            tick();
+            scheduleTick();
+            A11yUtils.announce(`Countdown started for ${formatTarget(target)}`, 'polite');
+        }
+
+        function updateLabelDisplay() {
+            const labelEl = $('displayLabel');
+            const tgtEl = $('targetTimeText');
+            if (!currentTarget) {
+                labelEl.firstChild && (labelEl.firstChild.textContent = 'Pick a date/time above and press Start.');
+                tgtEl.textContent = '';
+                return;
+            }
+            const labelText = currentLabel || 'Countdown';
+            labelEl.firstChild.textContent = labelText;
+            tgtEl.textContent = `Target: ${formatTarget(currentTarget)}`;
+        }
+
+        function tick() {
+            if (!currentTarget) return;
+            const now = Date.now();
+            const diff = currentTarget.getTime() - now;
+            const cells = $('cells');
+            cells.classList.toggle('passed', diff <= 0);
+            cells.classList.toggle('urgent', diff > 0 && diff < 60 * 60 * 1000);
+
+            const absDiff = Math.abs(diff);
+            const days = Math.floor(absDiff / 86400000);
+            const hours = Math.floor((absDiff % 86400000) / 3600000);
+            const mins = Math.floor((absDiff % 3600000) / 60000);
+            const secs = Math.floor((absDiff % 60000) / 1000);
+
+            $('daysVal').textContent = days.toLocaleString();
+            $('hoursVal').textContent = pad(hours);
+            $('minsVal').textContent = pad(mins);
+            $('secsVal').textContent = pad(secs);
+
+            // Meta row content
+            const totalHours = absDiff / 3600000;
+            const totalMins = absDiff / 60000;
+            const meta = $('metaRow');
+            if (diff <= 0) {
+                meta.innerHTML = `<span>Elapsed since target</span> <span><strong>${formatNum(totalHours)}</strong> hours</span> <span><strong>${formatNum(totalMins)}</strong> minutes</span>`;
+            } else {
+                meta.innerHTML = `<span><strong>${formatNum(totalHours)}</strong> hours remaining</span> <span><strong>${formatNum(totalMins)}</strong> minutes</span>`;
+            }
+
+            // Fire alarm exactly once when crossing zero
+            if (diff <= 0 && alarmedFor !== currentTarget.getTime()) {
+                alarmedFor = currentTarget.getTime();
+                fireAlarm();
+            }
+        }
+
+        function formatNum(n) {
+            return Math.floor(n).toLocaleString();
+        }
+
+        function scheduleTick() {
+            if (tickHandle) clearInterval(tickHandle);
+            tickHandle = setInterval(tick, 1000);
+        }
+
+        // When the tab regains visibility, re-tick immediately (setInterval pauses in background)
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden && currentTarget) tick();
+        });
+
+        // Notifications
+        function requestNotifyPermission() {
+            if (!('Notification' in window)) {
+                showError('This browser does not support notifications.');
+                return;
+            }
+            if (Notification.permission === 'granted') {
+                $('notifyBtn').textContent = 'Notifications Enabled';
+                A11yUtils.announce('Notifications already enabled', 'polite');
+                return;
+            }
+            Notification.requestPermission().then(result => {
+                if (result === 'granted') {
+                    $('notifyBtn').textContent = 'Notifications Enabled';
+                    A11yUtils.announce('Notifications enabled', 'polite');
+                }
+            });
+        }
+
+        function fireAlarm() {
+            const labelText = currentLabel || 'Countdown';
+            A11yUtils.announce(`${labelText} reached`, 'assertive');
+            if ('Notification' in window && Notification.permission === 'granted') {
+                try {
+                    new Notification(`${labelText} reached`, {
+                        body: 'Countdown finished at ' + formatTarget(currentTarget),
+                        silent: false
+                    });
+                } catch (e) { /* ignore */ }
+            }
+            playChime();
+        }
+
+        function playChime() {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                // Three short ascending tones
+                const notes = [523.25, 659.25, 783.99];  // C5, E5, G5
+                let t = ctx.currentTime;
+                notes.forEach((freq, i) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.frequency.value = freq;
+                    osc.type = 'sine';
+                    gain.gain.setValueAtTime(0, t);
+                    gain.gain.linearRampToValueAtTime(0.25, t + 0.02);
+                    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.45);
+                    osc.connect(gain).connect(ctx.destination);
+                    osc.start(t);
+                    osc.stop(t + 0.5);
+                    t += 0.22;
+                });
+                // Close context after all notes finish
+                setTimeout(() => ctx.close(), 1500);
+            } catch (e) { /* audio blocked */ }
+        }
+
+        // Saved-list management
+        const SAVED_KEY = 'countdown-timer-saved';
+
+        function loadSavedList() {
+            savedList = StorageUtils.loadList(SAVED_KEY, []);
+            renderSavedList();
+        }
+
+        function persistSavedList() {
+            StorageUtils.saveList(SAVED_KEY, savedList);
+            renderSavedList();
+        }
+
+        function saveCurrentCountdown() {
+            if (!currentTarget) {
+                showError('Start a countdown first, then save it.');
+                return;
+            }
+            const ts = currentTarget.getTime();
+            const label = currentLabel || formatTarget(currentTarget);
+            // Don't add a duplicate at the same timestamp+label
+            if (savedList.find(s => s.timestamp === ts && s.label === label)) {
+                A11yUtils.announce('Already in saved list', 'polite');
+                return;
+            }
+            savedList.push({ label, timestamp: ts });
+            if (savedList.length > 8) savedList = savedList.slice(-8);
+            persistSavedList();
+            A11yUtils.announce('Saved to list', 'polite');
+        }
+
+        function renderSavedList() {
+            const container = $('savedList');
+            if (savedList.length === 0) {
+                container.innerHTML = '<div class="saved-empty">No saved countdowns yet. Press "Save to List" to keep one for later.</div>';
+                return;
+            }
+            const activeTs = currentTarget ? currentTarget.getTime() : null;
+            container.innerHTML = savedList.map((s, idx) => {
+                const isActive = s.timestamp === activeTs && s.label === (currentLabel || formatTarget(new Date(s.timestamp)));
+                const d = new Date(s.timestamp);
+                return `
+                    <div class="saved-row ${isActive ? 'active' : ''}">
+                        <div class="info">
+                            <div class="saved-label">${escapeHtml(s.label)}</div>
+                            <div class="saved-when">${formatTarget(d)}</div>
+                        </div>
+                        <button type="button" onclick="loadSaved(${idx})" aria-label="Load this countdown">Load</button>
+                        <button type="button" class="remove" onclick="removeSaved(${idx})" aria-label="Remove saved countdown">×</button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function escapeHtml(s) {
+            return String(s).replace(/[&<>"']/g, c => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            })[c]);
+        }
+
+        function loadSaved(idx) {
+            const s = savedList[idx];
+            if (!s) return;
+            const d = new Date(s.timestamp);
+            $('labelInput').value = s.label;
+            $('targetDateTime').value = toDateTimeLocal(d);
+            startCountdown();
+        }
+
+        function removeSaved(idx) {
+            savedList.splice(idx, 1);
+            persistSavedList();
+        }
+
+        function toDateTimeLocal(d) {
+            // Returns local "YYYY-MM-DDTHH:MM" suitable for datetime-local input
+            const pad2 = n => String(n).padStart(2, '0');
+            return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}T${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
+        }
+
+        // Skip link
+        document.querySelector('.skip-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.getElementById('main-content');
+            if (target) {
+                target.setAttribute('tabindex', '-1');
+                target.focus();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+
+        const formFields = ['labelInput', 'targetDateTime'];
+
+        function clearAllSavedData() {
+            // Clear active countdown + saved list
+            if (!confirm('Clear the current countdown AND all saved countdowns? This cannot be undone.')) return;
+            StorageUtils.remove('countdown-timer');
+            StorageUtils.remove(SAVED_KEY);
+            if (tickHandle) clearInterval(tickHandle);
+            tickHandle = null;
+            currentTarget = null;
+            currentLabel = '';
+            alarmedFor = null;
+            $('labelInput').value = '';
+            $('targetDateTime').value = '';
+            $('daysVal').textContent = '0';
+            $('hoursVal').textContent = '00';
+            $('minsVal').textContent = '00';
+            $('secsVal').textContent = '00';
+            $('metaRow').innerHTML = '';
+            $('cells').classList.remove('passed', 'urgent');
+            updateLabelDisplay();
+            savedList = [];
+            renderSavedList();
+            A11yUtils.announce('All countdowns cleared', 'polite');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set notification button label correctly on load
+            if ('Notification' in window && Notification.permission === 'granted') {
+                $('notifyBtn').textContent = 'Notifications Enabled';
+            } else if (!('Notification' in window)) {
+                $('notifyBtn').style.display = 'none';
+            }
+
+            loadSavedList();
+
+            StorageUtils.loadFormInputs('countdown-timer', formFields, function(data) {
+                if (data['targetDateTime']) {
+                    // Re-start countdown automatically (silently — no toast)
+                    const target = parseLocalInput(data['targetDateTime']);
+                    if (target) {
+                        currentTarget = target;
+                        currentLabel = data['labelInput'] || '';
+                        updateLabelDisplay();
+                        tick();
+                        scheduleTick();
+                    }
+                } else {
+                    // Default placeholder: 1 hour from now
+                    const def = new Date(Date.now() + 60 * 60 * 1000);
+                    $('targetDateTime').value = toDateTimeLocal(def);
+                }
+            });
+            StorageUtils.autoSaveFormInputs('countdown-timer', formFields);
+        });
+    </script>
+</body>
+</html>
