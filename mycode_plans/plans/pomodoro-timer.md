@@ -1,5 +1,7 @@
 # Pomodoro Timer - Project Plan
 
+**Status:** ✅ Completed — shipped at `productivity/pomodoro.html`. Productivity category added to top-level nav.
+
 ## Overview
 
 A customizable Pomodoro timer with circular countdown display, mobile ready, browser notifications, pleasant audio alerts, and optional task tracking. This will be the first tool under a new **Productivity** top-level navigation section.
@@ -75,38 +77,38 @@ A customizable Pomodoro timer with circular countdown display, mobile ready, bro
 ## Implementation Steps
 
 ### 1. Navigation & Page Setup
-- [ ] Add "Productivity" to top-level navigation in `navigationv2.js`
-- [ ] Create `public_html/productivity/` directory
-- [ ] Create `pomodoro.html` page with base structure
+- [x] Add "Productivity" to top-level navigation in `navigationv2.js`
+- [x] Create `productivity/` directory
+- [x] Create `pomodoro.html` page with base structure
 
 ### 2. Core Timer Logic
-- [ ] Implement countdown timer with work/break cycle management
-- [ ] Handle phase transitions (work → short break → work → ... → long break)
-- [ ] Pause, resume, reset functionality
-- [ ] Track current pomodoro count in cycle (1-4)
+- [x] Implement countdown timer with work/break cycle management
+- [x] Handle phase transitions (work → short break → work → ... → long break)
+- [x] Pause, resume, reset functionality
+- [x] Track current pomodoro count in cycle (1-4)
 
 ### 3. Circular Countdown UI
-- [ ] SVG-based circular progress ring
-- [ ] Animate progress smoothly
-- [ ] Display time remaining in center
-- [ ] Phase and cycle indicators
+- [x] SVG-based circular progress ring
+- [x] Animate progress smoothly
+- [x] Display time remaining in center
+- [x] Phase and cycle indicators
 
 ### 4. Notifications & Audio
-- [ ] Request browser notification permission
-- [ ] Trigger notifications on phase completion
-- [ ] Integrate pleasant chime audio file
-- [ ] Handle notification permission denied gracefully
+- [x] Request browser notification permission
+- [x] Trigger notifications on phase completion
+- [x] Integrate pleasant chime audio file
+- [x] Handle notification permission denied gracefully
 
 ### 5. Settings (Inline)
-- [ ] Duration inputs for work, short break, long break
-- [ ] Save/load settings from localStorage
-- [ ] Apply settings to timer
+- [x] Duration inputs for work, short break, long break
+- [x] Save/load settings from localStorage
+- [x] Apply settings to timer
 
 ### 6. Task Tracking & History
-- [ ] Task name input with "Focus" default
-- [ ] Save completed sessions to localStorage
-- [ ] Display today's history below timer
-- [ ] Calculate and display daily stats
+- [x] Task name input with "Focus" default
+- [x] Save completed sessions to localStorage
+- [x] Display today's history below timer
+- [x] Calculate and display daily stats
 
 ## Technical Notes
 
