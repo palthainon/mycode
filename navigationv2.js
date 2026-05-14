@@ -45,7 +45,6 @@
         productivity: [
             { name: 'Pomodoro Timer', file: 'productivity/pomodoro.html', id: 'pomodoro' },
             { name: 'Scratchpad', file: 'productivity/scratchpad.html', id: 'scratchpad' },
-            { name: 'Countdown Timer', file: 'productivity/countdown-timer.html', id: 'countdown-timer' },
             { name: 'TZ Meeting Planner', file: 'productivity/tz-meeting-planner.html', id: 'tz-meeting-planner' }
         ],
         pdf: [
@@ -87,14 +86,14 @@
         { id: 'ip-converter',    name: 'IP Address Converter',          file: 'nettools/ip-converter.html',            category: 'network',      keywords: ['ip', 'binary', 'hex', 'integer', 'convert', 'ipv4', 'dotted'],   related: ['subnet', 'cidr', 'bit'] },
         // System
         { id: 'regex',           name: 'Regex Tester',                  file: 'system/regex-tester.html',              category: 'system',       keywords: ['regex', 'regexp', 'pattern', 'match', 'test', 'pcre'],           pinned: true,  related: ['string-tools', 'text-diff', 'log-parser'] },
-        { id: 'timestamp',       name: 'Timestamp Converter',           file: 'system/timestamp-converter.html',       category: 'system',       keywords: ['unix', 'epoch', 'timestamp', 'date', 'time', 'iso8601'],         pinned: true,  related: ['cron', 'countdown-timer', 'tz-meeting-planner'] },
+        { id: 'timestamp',       name: 'Timestamp Converter',           file: 'system/timestamp-converter.html',       category: 'system',       keywords: ['unix', 'epoch', 'timestamp', 'date', 'time', 'iso8601'],         pinned: true,  related: ['cron', 'tz-meeting-planner', 'log-parser'] },
         { id: 'disk',            name: 'Disk Tools',                    file: 'system/disk-tools.html',                category: 'system',       keywords: ['disk', 'storage', 'raid', 'capacity', 'partition'],              related: ['iops', 'bit', 'data-rate'] },
         { id: 'iops',            name: 'IOPS Calculator',               file: 'system/iops-calculator.html',           category: 'system',       keywords: ['iops', 'raid', 'aws', 'ebs', 'azure', 'gcp', 'performance'],     related: ['disk', 'data-rate', 'bit'] },
         { id: 'password-gen',    name: 'Password Generator',            file: 'system/password-generator.html',        category: 'system',       keywords: ['password', 'random', 'secure', 'credentials'],                   pinned: true,  related: ['passphrase', 'base64', 'uuid'] },
         { id: 'passphrase',      name: 'Passphrase Generator',          file: 'system/passphrase-generator.html',      category: 'system',       keywords: ['passphrase', 'diceware', 'password', 'secure', 'memorable'],     related: ['password-gen', 'base64', 'uuid'] },
         { id: 'cert-parser',     name: 'Certificate Parser',            file: 'system/certificate-parser.html',        category: 'system',       keywords: ['certificate', 'ssl', 'tls', 'x509', 'pem', 'der', 'parse'],      related: ['jwt-decoder', 'base64', 'timestamp'] },
         { id: 'log-parser',      name: 'Log Parser',                    file: 'system/log-parser.html',                category: 'system',       keywords: ['log', 'syslog', 'parse', 'grep', 'analyze'],                     related: ['regex', 'string-tools', 'timestamp'] },
-        { id: 'cron',            name: 'Cron Builder',                  file: 'system/cron-builder.html',              category: 'system',       keywords: ['cron', 'crontab', 'schedule', 'job', 'linux'],                   related: ['timestamp', 'chmod', 'countdown-timer'] },
+        { id: 'cron',            name: 'Cron Builder',                  file: 'system/cron-builder.html',              category: 'system',       keywords: ['cron', 'crontab', 'schedule', 'job', 'linux'],                   related: ['timestamp', 'chmod', 'jwt-decoder'] },
         { id: 'chmod',           name: 'Chmod Calculator',              file: 'system/chmod-calculator.html',          category: 'system',       keywords: ['chmod', 'permissions', 'octal', 'unix', 'linux', 'file mode'],   pinned: true,  related: ['cron', 'disk', 'cert-parser'] },
         { id: 'jwt-decoder',     name: 'JWT Decoder',                   file: 'system/jwt-decoder.html',               category: 'system',       keywords: ['jwt', 'json web token', 'decode', 'auth', 'bearer'],             related: ['base64', 'timestamp', 'cert-parser'] },
         // Data
@@ -114,10 +113,9 @@
         { id: 'loan-payoff',     name: 'Loan Payoff Methods',           file: 'financials/loan-payoff-methods.html',         category: 'financials', keywords: ['loan', 'payoff', 'extra payment', 'biweekly', 'strategy'],          related: ['amortization', 'debt-payoff', 'loan-reference'] },
         { id: 'loan-reference',  name: 'Loan Reference',                file: 'financials/loan-reference.html',              category: 'financials', keywords: ['loan', 'reference', 'glossary', 'apr', 'apy'],                       related: ['amortization', 'compound-interest', 'loan-payoff'] },
         // Productivity
-        { id: 'pomodoro',         name: 'Pomodoro Timer',                file: 'productivity/pomodoro.html',            category: 'productivity', keywords: ['pomodoro', 'timer', 'focus', 'productivity', '25 minute'],       related: ['countdown-timer', 'scratchpad', 'tz-meeting-planner'] },
+        { id: 'pomodoro',         name: 'Pomodoro Timer',                file: 'productivity/pomodoro.html',            category: 'productivity', keywords: ['pomodoro', 'timer', 'focus', 'productivity', '25 minute'],       related: ['scratchpad', 'tz-meeting-planner', 'timestamp'] },
         { id: 'scratchpad',       name: 'Plaintext Scratchpad',          file: 'productivity/scratchpad.html',          category: 'productivity', keywords: ['scratchpad', 'notepad', 'notes', 'plaintext', 'autosave', 'sticky'], related: ['string-tools', 'text-diff', 'pomodoro'] },
-        { id: 'countdown-timer',  name: 'Countdown Timer',               file: 'productivity/countdown-timer.html',     category: 'productivity', keywords: ['countdown', 'timer', 'deadline', 'date', 'days until', 'event'], related: ['pomodoro', 'timestamp', 'tz-meeting-planner'] },
-        { id: 'tz-meeting-planner', name: 'Timezone Meeting Planner',    file: 'productivity/tz-meeting-planner.html',  category: 'productivity', keywords: ['timezone', 'tz', 'meeting', 'world clock', 'time zone', 'converter', 'scheduler'], related: ['timestamp', 'countdown-timer', 'pomodoro'] },
+        { id: 'tz-meeting-planner', name: 'Timezone Meeting Planner',    file: 'productivity/tz-meeting-planner.html',  category: 'productivity', keywords: ['timezone', 'tz', 'meeting', 'world clock', 'time zone', 'converter', 'scheduler'], related: ['timestamp', 'pomodoro', 'scratchpad'] },
         // PDF
         { id: 'pdf-merge',        name: 'PDF Merge',                     file: 'pdf/merge.html',                        category: 'pdf',          keywords: ['pdf', 'merge', 'combine', 'join', 'concatenate'],                related: ['pdf-split', 'pdf-rotate', 'base64'] },
         { id: 'pdf-split',        name: 'PDF Split',                     file: 'pdf/split.html',                        category: 'pdf',          keywords: ['pdf', 'split', 'extract', 'pages', 'separate'],                  related: ['pdf-merge', 'pdf-rotate', 'base64'] },
@@ -160,7 +158,6 @@
         'loan-reference':    'Glossary and reference of loan terminology.',
         'pomodoro':          'Pomodoro focus timer with configurable work and break intervals.',
         'scratchpad':        'Persistent plaintext scratchpad that auto-saves to your browser.',
-        'countdown-timer':   'Live countdown timer to any future date or time with notifications.',
         'tz-meeting-planner':'Plan meetings across timezones with business-hours indicators.',
         'pdf-merge':         'Combine multiple PDFs into one entirely in your browser - no uploads, no watermarks.',
         'pdf-split':         'Extract pages or page ranges from a PDF entirely in your browser - no uploads, no watermarks.',
@@ -792,7 +789,9 @@
 
             const isCurrent = currentPage.category === category;
             const categoryClass = isCurrent ? ' class="nav-category current"' : ' class="nav-category"';
-            const categoryName = category.charAt(0).toUpperCase() + category.slice(1);
+            const categoryName = category === 'pdf'
+                ? 'PDF'
+                : category.charAt(0).toUpperCase() + category.slice(1);
 
             html += `
             <div${categoryClass} data-category="${category}">

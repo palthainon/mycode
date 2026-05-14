@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Plan meetings across time zones. Pick a home-zone time and see local equivalents worldwide with business-hours indicators. Shareable URL, no signup.">
+    <meta name="description" content="Plan meetings across time zones. Pick a home-zone time and see local equivalents worldwide with business-hours indicators and a polar globe view. Works offline, no signup.">
     <meta name="keywords" content="timezone meeting planner, tz converter, world clock, meeting scheduler, timezone converter, world time, time zone planner, remote meeting time">
     <meta name="author" content="OldWeb LLC">
     <meta name="robots" content="index, follow">
@@ -192,7 +192,8 @@
             border-left-color: #66bb6a;
         }
 
-        .tz-row select {
+        .tz-row select,
+        .tz-row input.tz-input {
             background: #0f1419;
             color: #fff;
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -200,12 +201,18 @@
             border-radius: 6px;
             font-size: 0.92rem;
             min-width: 0;
+            width: 100%;
+            font-family: inherit;
         }
 
-        .tz-row select:focus {
+        .tz-row select:focus,
+        .tz-row input.tz-input:focus {
             outline: none;
             border-color: #4fc3f7;
         }
+
+        #homeTz.error,
+        .tz-row input.tz-input.error { border-color: #f44336 !important; }
 
         .tz-row .local-time {
             font-family: 'Consolas', 'Monaco', monospace;
@@ -329,7 +336,8 @@
                 grid-template-columns: 1fr;
                 gap: 8px;
             }
-            .tz-row select { width: 100%; }
+            .tz-row select,
+            .tz-row input.tz-input { width: 100%; }
         }
 
         #error {
@@ -472,7 +480,9 @@
             <div class="home-grid">
                 <div class="input-field">
                     <label for="homeTz">Home Timezone</label>
-                    <select id="homeTz" aria-required="true"></select>
+                    <input type="text" id="homeTz" list="tzListData" aria-required="true"
+                           autocomplete="off" placeholder="Type to search timezones…">
+                    <datalist id="tzListData"></datalist>
                 </div>
                 <div class="input-field">
                     <label for="meetingDateTime">Meeting Date &amp; Time (in home TZ)</label>
@@ -548,7 +558,10 @@
         function cachedShortOffset(tz) {
             let v = _offsetCache.get(tz);
             if (v === undefined) {
-                v = shortOffset(tz) || fmtAbsOffset(getTzOffsetMinutes(tz, Date.now()));
+                // Compute the offset directly so it's always consistent
+                // ("GMT+0", "GMT-5", "GMT+5:30"). Intl's shortOffset name
+                // returns a bare "GMT" for UTC, which rendered as blank.
+                v = fmtAbsOffset(getTzOffsetMinutes(tz, Date.now()));
                 _offsetCache.set(tz, v);
             }
             return v;
@@ -573,42 +586,59 @@
             ];
         }
 
-        function buildTzSelect(selectEl, selectedValue) {
-            const all = getAllTimeZones().sort();
-            selectEl.innerHTML = '';
-            // Popular group
-            const popGroup = document.createElement('optgroup');
-            popGroup.label = 'Popular';
-            POPULAR.forEach(tz => {
-                if (!all.includes(tz)) return;
-                const opt = document.createElement('option');
-                opt.value = tz;
-                opt.textContent = `${tz} (${cachedShortOffset(tz)})`;
-                popGroup.appendChild(opt);
-            });
-            selectEl.appendChild(popGroup);
-            // All group
-            const allGroup = document.createElement('optgroup');
-            allGroup.label = 'All Timezones';
-            all.forEach(tz => {
-                const opt = document.createElement('option');
-                opt.value = tz;
-                opt.textContent = `${tz} (${cachedShortOffset(tz)})`;
-                allGroup.appendChild(opt);
-            });
-            selectEl.appendChild(allGroup);
-            if (selectedValue) selectEl.value = selectedValue;
+        // Valid IANA zones, populated by buildTzDatalist(). Used to validate
+        // the free-text input from the filterable timezone fields.
+        let TZ_SET = new Set();
+
+        function makeTzOption(tz) {
+            const opt = document.createElement('option');
+            opt.value = tz;
+            // Shown alongside the value in the dropdown; also lets users
+            // filter by offset (e.g. typing "GMT-5").
+            opt.textContent = `${tz} (${cachedShortOffset(tz)})`;
+            return opt;
         }
 
-        function shortOffset(tz) {
-            // Get a UTC-offset string like "GMT-7" or "GMT+5:30" for a TZ right now.
-            try {
-                const fmt = new Intl.DateTimeFormat('en-US', { timeZone: tz, timeZoneName: 'shortOffset' });
-                const parts = fmt.formatToParts(new Date());
-                const off = parts.find(p => p.type === 'timeZoneName');
-                return off ? off.value : '';
-            } catch (e) {
-                return '';
+        // Populate the shared <datalist> backing every timezone input.
+        // Popular zones come first so they surface at the top of an empty list.
+        function buildTzDatalist() {
+            const all = getAllTimeZones().slice().sort();
+            TZ_SET = new Set(all);
+            const dl = $('tzListData');
+            if (!dl) return;
+            const frag = document.createDocumentFragment();
+            const seen = new Set();
+            POPULAR.forEach(tz => {
+                if (!TZ_SET.has(tz) || seen.has(tz)) return;
+                seen.add(tz);
+                frag.appendChild(makeTzOption(tz));
+            });
+            all.forEach(tz => {
+                if (seen.has(tz)) return;
+                seen.add(tz);
+                frag.appendChild(makeTzOption(tz));
+            });
+            dl.replaceChildren(frag);
+        }
+
+        function showTzError(message, input) {
+            const err = $('error');
+            err.textContent = message;
+            err.classList.add('show');
+            if (input) {
+                input.classList.add('error');
+                input.setAttribute('aria-invalid', 'true');
+            }
+            A11yUtils.announce(message, 'assertive');
+        }
+
+        function clearTzError(input) {
+            const err = $('error');
+            err.classList.remove('show');
+            err.textContent = '';
+            if (input) {
+                input.classList.remove('error');
+                input.removeAttribute('aria-invalid');
             }
         }
 
@@ -860,12 +890,12 @@
         // -----------------------------------------------------------------------
 
         function render() {
-            const homeTz = $('homeTz').value;
+            const homeTz = $('homeTz').value.trim();
             const wall = parseLocalInput($('meetingDateTime').value);
             const container = $('tzRows');
             container.innerHTML = '';
 
-            if (!homeTz || !wall) {
+            if (!homeTz || !TZ_SET.has(homeTz) || !wall) {
                 container.innerHTML = '<div class="empty-state">Pick a home timezone and meeting time above.</div>';
                 renderGlobeEmpty();
                 return;
@@ -935,16 +965,28 @@
                     <button type="button" class="icon-btn remove" onclick="removeRow(${idx})" aria-label="Remove this timezone row">×</button>
                 </div>
             `;
-            // Replace first cell with a working select
-            const select = document.createElement('select');
-            buildTzSelect(select, tz);
-            select.setAttribute('aria-label', `Timezone for row ${idx + 1}`);
-            select.addEventListener('change', () => {
-                extraRows[idx] = select.value;
-                persistRows();
-                render();
+            // Replace first cell with a filterable timezone input
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.className = 'tz-input';
+            input.value = tz;
+            input.setAttribute('list', 'tzListData');
+            input.setAttribute('autocomplete', 'off');
+            input.setAttribute('aria-label', `Timezone for row ${idx + 1}`);
+            input.placeholder = 'Type to search…';
+            input.addEventListener('change', () => {
+                const v = input.value.trim();
+                if (TZ_SET.has(v)) {
+                    clearTzError(input);
+                    extraRows[idx] = v;
+                    persistRows();
+                    render();
+                } else {
+                    showTzError(`"${v}" is not a recognized timezone. Pick one from the list.`, input);
+                    input.value = extraRows[idx];
+                }
             });
-            row.firstElementChild.replaceWith(select);
+            row.firstElementChild.replaceWith(input);
             return row;
         }
 
@@ -1027,14 +1069,23 @@
             // Reset to browser-detected home + 1 hour from now
             const detected = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
             $('homeTz').value = detected;
+            clearTzError($('homeTz'));
             useNow();
             A11yUtils.announce('All timezone data cleared', 'polite');
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            buildTzSelect($('homeTz'));
+            buildTzDatalist();
             buildGlobeStatic();
-            $('homeTz').addEventListener('change', render);
+            $('homeTz').addEventListener('change', function() {
+                const v = $('homeTz').value.trim();
+                if (v && !TZ_SET.has(v)) {
+                    showTzError(`"${v}" is not a recognized timezone. Pick one from the list.`, $('homeTz'));
+                } else {
+                    clearTzError($('homeTz'));
+                }
+                render();
+            });
             $('meetingDateTime').addEventListener('input', render);
 
             // Use saved rows if present; otherwise seed with PST/EDT/UTC defaults.
