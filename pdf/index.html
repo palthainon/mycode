@@ -169,6 +169,81 @@
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
+        .recs {
+            margin-bottom: 40px;
+        }
+
+        .recs h2 {
+            color: #4fc3f7;
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+        }
+
+        .recs > p {
+            color: #90caf9;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 22px;
+        }
+
+        .recs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .rec-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 18px 20px;
+        }
+
+        .rec-card h3 {
+            font-size: 1.15rem;
+            margin-bottom: 8px;
+        }
+
+        .rec-card h3 a {
+            color: #4fc3f7;
+            text-decoration: none;
+        }
+
+        .rec-card h3 a:hover {
+            text-decoration: underline;
+        }
+
+        .rec-platforms {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+
+        .rec-platforms span {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: #90caf9;
+            background: rgba(79, 195, 247, 0.12);
+            border: 1px solid rgba(79, 195, 247, 0.25);
+            border-radius: 4px;
+            padding: 2px 7px;
+        }
+
+        .rec-card p {
+            color: #c5d4e3;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+
+        .rec-license {
+            color: rgba(255, 255, 255, 0.45);
+            font-size: 0.78rem;
+        }
+
         @media (max-width: 768px) {
             .ascii-logo {
                 position: static;
@@ -251,6 +326,55 @@
                 <span class="tool-link">Open Rotate Tool</span>
             </a>
         </div>
+
+        <section class="recs" aria-labelledby="recs-heading">
+            <h2 id="recs-heading">Need a desktop PDF app?</h2>
+            <p>These browser tools cover merge, split, and rotate without uploading anything. For viewing, annotating, or deeper editing offline, here are well-established, free, open-source apps worth installing &mdash; all actively maintained, no trial nags, no watermarks.</p>
+
+            <div class="recs-grid">
+                <div class="rec-card">
+                    <h3><a href="https://www.sumatrapdfreader.org/" target="_blank" rel="noopener noreferrer">SumatraPDF</a></h3>
+                    <div class="rec-platforms"><span>Windows</span></div>
+                    <p>Featherweight, instant-open viewer for PDF, ePub, CBR, and XPS. Tiny install and a portable build with no setup.</p>
+                    <div class="rec-license">Open source &middot; GPLv3</div>
+                </div>
+
+                <div class="rec-card">
+                    <h3><a href="https://okular.kde.org/" target="_blank" rel="noopener noreferrer">Okular</a></h3>
+                    <div class="rec-platforms"><span>Windows</span><span>macOS</span><span>Linux</span></div>
+                    <p>KDE's document viewer with solid annotation and markup &mdash; highlights, notes, stamps, and inline comments you can save back to the file.</p>
+                    <div class="rec-license">Open source &middot; GPL</div>
+                </div>
+
+                <div class="rec-card">
+                    <h3><a href="https://xournalpp.github.io/" target="_blank" rel="noopener noreferrer">Xournal++</a></h3>
+                    <div class="rec-platforms"><span>Windows</span><span>macOS</span><span>Linux</span></div>
+                    <p>Annotate, highlight, handwrite, and fill in forms. Great with a stylus or tablet for signing and marking up documents.</p>
+                    <div class="rec-license">Open source &middot; GPLv2+</div>
+                </div>
+
+                <div class="rec-card">
+                    <h3><a href="https://www.libreoffice.org/discover/draw/" target="_blank" rel="noopener noreferrer">LibreOffice Draw</a></h3>
+                    <div class="rec-platforms"><span>Windows</span><span>macOS</span><span>Linux</span></div>
+                    <p>Part of the LibreOffice suite. Opens a PDF as an editable document so you can change the actual text, images, and layout.</p>
+                    <div class="rec-license">Open source &middot; MPL 2.0</div>
+                </div>
+
+                <div class="rec-card">
+                    <h3><a href="https://github.com/pdfarranger/pdfarranger" target="_blank" rel="noopener noreferrer">PDF Arranger</a></h3>
+                    <div class="rec-platforms"><span>Windows</span><span>Linux</span></div>
+                    <p>Visual page management &mdash; merge, split, rotate, crop, and reorder pages by dragging thumbnails. The desktop counterpart to the tools here.</p>
+                    <div class="rec-license">Open source &middot; GPLv3</div>
+                </div>
+
+                <div class="rec-card">
+                    <h3><a href="https://github.com/Stirling-Tools/Stirling-PDF" target="_blank" rel="noopener noreferrer">Stirling-PDF</a></h3>
+                    <div class="rec-platforms"><span>Self-hosted</span></div>
+                    <p>A full Acrobat-style suite with 50+ tools &mdash; convert, sign, redact, OCR, and more. Run it locally via Docker or the desktop build; nothing leaves your machine.</p>
+                    <div class="rec-license">Open source &middot; MIT</div>
+                </div>
+            </div>
+        </section>
 
         <footer role="contentinfo">
             OldWeb Tools - Works offline, no installation required
