@@ -63,7 +63,14 @@
       "Bash(node:*)",
       "Bash(test -f \"C:\\\\\\\\Users\\\\\\\\deric\\\\\\\\github\\\\\\\\mycode\\\\\\\\index.html\")",
       "Bash(test -f \"C:\\\\\\\\Users\\\\\\\\deric\\\\\\\\github\\\\\\\\mycode\\\\\\\\navigationv2.js\")",
-      "Bash(test -f \"C:\\\\\\\\Users\\\\\\\\deric\\\\\\\\github\\\\\\\\mycode\\\\\\\\a11y.css\")"
+      "Bash(test -f \"C:\\\\\\\\Users\\\\\\\\deric\\\\\\\\github\\\\\\\\mycode\\\\\\\\a11y.css\")",
+      "Bash(dir C:Usersdericgithubmycode *)",
+      "PowerShell(wsl -- ls -la /home/dlawson/.claude/ 2>&1 | Select-Object -First 20)",
+      "PowerShell(wsl -- cat /home/dlawson/.claude/settings.json 2>&1 | Select-Object -First 30)",
+      "PowerShell(wsl -- cat /home/dlawson/.claude/settings.json 2>&1)",
+      "PowerShell(wsl -- ls /home/dlawson/.claude/statusline.sh 2>&1; wsl -- cat /home/dlawson/.claude/statusline.sh 2>&1)",
+      "PowerShell(wsl -- grep -n \"line2\\\\|cost\\\\|linesAdded\" /home/dlawson/.claude/statusline.sh)",
+      "PowerShell(wsl -- cat /home/dlawson/.claude/statusline.sh | wsl -- tail -20)"
     ]
   }
 }
