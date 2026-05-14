@@ -223,6 +223,15 @@
             margin-top: 2px;
         }
 
+        .tz-row .local-time .offset-part {
+            display: block;
+            color: #90caf9;
+            font-size: 0.74rem;
+            font-weight: 400;
+            opacity: 0.85;
+            margin-top: 1px;
+        }
+
         .day-badge {
             font-size: 0.72rem;
             padding: 3px 7px;
@@ -355,6 +364,64 @@
             gap: 6px;
         }
 
+        .globe-wrap {
+            display: flex;
+            justify-content: center;
+            margin: 4px 0 10px;
+        }
+
+        .globe-svg {
+            width: clamp(240px, 60vw, 400px);
+            height: auto;
+            max-width: 100%;
+        }
+
+        .globe-ocean {
+            fill: rgba(79, 195, 247, 0.10);
+            stroke: rgba(255, 255, 255, 0.18);
+            stroke-width: 1.5;
+        }
+
+        .globe-night { fill: rgba(0, 0, 0, 0.55); }
+
+        .globe-grid {
+            stroke: rgba(255, 255, 255, 0.12);
+            stroke-width: 1;
+            fill: none;
+        }
+
+        .globe-empty-text {
+            fill: rgba(255, 255, 255, 0.4);
+            font-size: 14px;
+            font-style: italic;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .globe-label {
+            fill: #c5d4e3;
+            font-size: 11px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .globe-label.home { fill: #aed581; font-weight: 600; }
+
+        .globe-marker-ring {
+            fill: none;
+            stroke: #fff;
+            stroke-width: 2;
+        }
+
+        .globe-caption {
+            color: #90caf9;
+            font-size: 0.85rem;
+            text-align: center;
+            margin-top: 4px;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 480px) {
+            .globe-label { font-size: 13px; }
+        }
+
         footer {
             text-align: center;
             margin-top: 28px;
@@ -430,6 +497,24 @@
             </div>
         </div>
 
+        <div class="panel">
+            <h2 style="color:#4fc3f7; font-size:1.2rem; margin-bottom:14px;">Globe View</h2>
+            <div class="globe-wrap">
+                <svg id="globeSvg" class="globe-svg" viewBox="0 0 400 400" role="img" aria-labelledby="globeTitle globeDesc">
+                    <title id="globeTitle">Polar globe view of meeting timezones</title>
+                    <desc id="globeDesc">Earth seen from above the North Pole. The shaded half is night; each timezone in the planner is marked at its longitude.</desc>
+                    <defs>
+                        <clipPath id="globeClip"><circle cx="200" cy="200" r="170"></circle></clipPath>
+                    </defs>
+                    <circle class="globe-ocean" cx="200" cy="200" r="170"></circle>
+                    <g id="globeNight" clip-path="url(#globeClip)"></g>
+                    <g id="globeGrid" class="globe-grid"></g>
+                    <g id="globeMarkers"></g>
+                </svg>
+            </div>
+            <p class="globe-caption" id="globeCaption"></p>
+        </div>
+
         <footer role="contentinfo">
             Timezone Meeting Planner &mdash; Works offline, no installation required
         </footer>
@@ -439,6 +524,9 @@
         const $ = id => document.getElementById(id);
         let extraRows = [];           // Array of timezone strings (other than home TZ)
         const ROWS_KEY = 'tz-meeting-planner-rows';
+
+        // Comparison rows shown on first visit: PST, EDT, UTC
+        const DEFAULT_ROWS = ['America/Los_Angeles', 'America/New_York', 'UTC'];
 
         // Curated popular timezones, shown at top of dropdowns
         const POPULAR = [
@@ -452,6 +540,19 @@
             'Australia/Sydney', 'Australia/Perth',
             'Pacific/Auckland', 'Pacific/Honolulu'
         ];
+
+        // Lazy cache of "GMT-5" style offset strings, keyed by tz. Offsets only
+        // change at DST boundaries, so caching for the page's lifetime is safe
+        // for the dropdown labels (rows still compute against the meeting instant).
+        const _offsetCache = new Map();
+        function cachedShortOffset(tz) {
+            let v = _offsetCache.get(tz);
+            if (v === undefined) {
+                v = shortOffset(tz) || fmtAbsOffset(getTzOffsetMinutes(tz, Date.now()));
+                _offsetCache.set(tz, v);
+            }
+            return v;
+        }
 
         function getAllTimeZones() {
             if (typeof Intl.supportedValuesOf === 'function') {
@@ -482,7 +583,7 @@
                 if (!all.includes(tz)) return;
                 const opt = document.createElement('option');
                 opt.value = tz;
-                opt.textContent = `${tz} (${shortOffset(tz)})`;
+                opt.textContent = `${tz} (${cachedShortOffset(tz)})`;
                 popGroup.appendChild(opt);
             });
             selectEl.appendChild(popGroup);
@@ -492,7 +593,7 @@
             all.forEach(tz => {
                 const opt = document.createElement('option');
                 opt.value = tz;
-                opt.textContent = tz;
+                opt.textContent = `${tz} (${cachedShortOffset(tz)})`;
                 allGroup.appendChild(opt);
             });
             selectEl.appendChild(allGroup);
@@ -509,6 +610,27 @@
             } catch (e) {
                 return '';
             }
+        }
+
+        // Absolute UTC-offset string from minutes: -300 -> "GMT-5", 330 -> "GMT+5:30", 0 -> "GMT+0".
+        function fmtAbsOffset(mins) {
+            const sign = mins < 0 ? '-' : '+';
+            const a = Math.abs(mins);
+            const h = Math.floor(a / 60);
+            const m = a % 60;
+            return m === 0 ? `GMT${sign}${h}` : `GMT${sign}${h}:${String(m).padStart(2, '0')}`;
+        }
+
+        // Relative offset vs. home: "+3h from home", "-8h30m from home", "same as home".
+        function fmtRelOffset(otherMins, homeMins) {
+            const diff = otherMins - homeMins;
+            if (diff === 0) return 'same as home';
+            const sign = diff < 0 ? '-' : '+';
+            const a = Math.abs(diff);
+            const h = Math.floor(a / 60);
+            const m = a % 60;
+            const hm = m === 0 ? `${h}h` : `${h}h${m}m`;
+            return `${sign}${hm} from home`;
         }
 
         function parseLocalInput(value) {
@@ -603,6 +725,140 @@
             return { cls: 'biz-red', label: 'Off hours' };
         }
 
+        // ---- Globe dial -------------------------------------------------------
+        // A polar-projection disc: Earth seen from above the North Pole. Longitude
+        // maps directly to a clockwise-from-top angle. Each timezone's longitude is
+        // derived purely from its GMT offset (offsetHours * 15) — no map data.
+        const SVGNS = 'http://www.w3.org/2000/svg';
+        const G_CX = 200, G_CY = 200, G_R = 170, G_RIM_MARKER = 150;
+        const BIZ_HEX = { 'biz-green': '#66bb6a', 'biz-yellow': '#ffb74d', 'biz-red': '#f44336' };
+
+        function svgEl(tag, attrs) {
+            const el = document.createElementNS(SVGNS, tag);
+            for (const k in attrs) el.setAttribute(k, attrs[k]);
+            return el;
+        }
+
+        function lonToXY(lonDeg, r) {
+            const rad = lonDeg * Math.PI / 180;
+            return { x: G_CX + r * Math.sin(rad), y: G_CY - r * Math.cos(rad) };
+        }
+
+        function cityLabel(tz) {
+            return tz.split('/').pop().replace(/_/g, ' ');
+        }
+
+        // Normalize any longitude into a readable "45° E" / "120° W" string.
+        function lonLabel(lon) {
+            let n = ((lon % 360) + 540) % 360 - 180;
+            const dir = n < 0 ? 'W' : (n > 0 ? 'E' : '');
+            return `${Math.abs(Math.round(n))}°${dir ? ' ' + dir : ''}`;
+        }
+
+        // Static disc furniture (meridian lines + latitude circle + pole dot). Built once.
+        function buildGlobeStatic() {
+            const grid = $('globeGrid');
+            if (!grid) return;
+            const frag = document.createDocumentFragment();
+            for (let L = 0; L < 180; L += 30) {
+                const a = lonToXY(L, G_R), b = lonToXY(L + 180, G_R);
+                frag.appendChild(svgEl('line', { x1: a.x, y1: a.y, x2: b.x, y2: b.y }));
+            }
+            frag.appendChild(svgEl('circle', { cx: G_CX, cy: G_CY, r: G_R * 0.5 }));
+            frag.appendChild(svgEl('circle', { cx: G_CX, cy: G_CY, r: 2.5, fill: 'rgba(255,255,255,0.35)' }));
+            grid.replaceChildren(frag);
+        }
+
+        function renderGlobeEmpty() {
+            const night = $('globeNight'), markers = $('globeMarkers'), caption = $('globeCaption');
+            if (!night) return;
+            night.replaceChildren();
+            const t = svgEl('text', {
+                x: G_CX, y: G_CY, 'text-anchor': 'middle', 'dominant-baseline': 'middle',
+                class: 'globe-empty-text'
+            });
+            t.textContent = 'Pick a meeting time above';
+            markers.replaceChildren(t);
+            caption.textContent = 'Pick a home timezone and meeting time to plot the globe.';
+        }
+
+        function renderGlobe(homeTz, utcMs) {
+            const nightG = $('globeNight'), markersG = $('globeMarkers'), caption = $('globeCaption');
+            if (!nightG) return;
+
+            // Day/night: night is a half-disc centered on the antisolar longitude.
+            // subsolarLon = -15 * (UTC hours - 12); rotating the base lower-half
+            // semicircle by subsolarLon points its bulge at the antisolar side.
+            const d = new Date(utcMs);
+            const utcH = d.getUTCHours() + d.getUTCMinutes() / 60 + d.getUTCSeconds() / 3600;
+            const subsolarLon = -15 * (utcH - 12);
+            const night = svgEl('path', {
+                class: 'globe-night',
+                d: `M ${G_CX - G_R} ${G_CY} A ${G_R} ${G_R} 0 0 0 ${G_CX + G_R} ${G_CY} Z`,
+                transform: `rotate(${subsolarLon} ${G_CX} ${G_CY})`
+            });
+            nightG.replaceChildren(night);
+
+            // Build marker entries (home first), then bucket by near-equal longitude.
+            const zones = [{ tz: homeTz, isHome: true }].concat(extraRows.map(tz => ({ tz, isHome: false })));
+            const entries = zones.map(z => {
+                const mins = getTzOffsetMinutes(z.tz, utcMs);
+                const biz = bizClass(hourInTz(utcMs, z.tz));
+                return { tz: z.tz, isHome: z.isHome, lon: (mins / 60) * 15, biz };
+            });
+
+            const sorted = entries.slice().sort((a, b) => a.lon - b.lon);
+            const buckets = [];
+            sorted.forEach(e => {
+                const last = buckets[buckets.length - 1];
+                if (last && Math.abs(e.lon - last[last.length - 1].lon) <= 3) last.push(e);
+                else buckets.push([e]);
+            });
+
+            const frag = document.createDocumentFragment();
+            buckets.forEach(bucket => {
+                // Home sits at the outermost slot of its bucket.
+                bucket.sort((a, b) => (a.isHome === b.isHome) ? 0 : (a.isHome ? -1 : 1));
+                const step = Math.min(14, (G_RIM_MARKER - 40) / bucket.length);
+                const crowded = bucket.length > 3;
+                bucket.forEach((e, i) => {
+                    const r = G_RIM_MARKER - i * step;
+                    const p = lonToXY(e.lon, r);
+                    const fill = BIZ_HEX[e.biz.cls];
+                    frag.appendChild(svgEl('circle', {
+                        cx: p.x, cy: p.y, r: e.isHome ? 7 : 5, fill,
+                        stroke: 'rgba(0,0,0,0.45)', 'stroke-width': 1
+                    }));
+                    if (e.isHome) {
+                        frag.appendChild(svgEl('circle', {
+                            cx: p.x, cy: p.y, r: 10, class: 'globe-marker-ring'
+                        }));
+                    }
+                    if (!crowded || i === 0) {
+                        const lp = lonToXY(e.lon, r + 14);
+                        const s = Math.sin(e.lon * Math.PI / 180);
+                        const anchor = s > 0.3 ? 'start' : (s < -0.3 ? 'end' : 'middle');
+                        const label = svgEl('text', {
+                            x: lp.x, y: lp.y, 'text-anchor': anchor, 'dominant-baseline': 'middle',
+                            class: e.isHome ? 'globe-label home' : 'globe-label'
+                        });
+                        label.textContent = (e.isHome ? '\u{1F3E0} ' : '') + cityLabel(e.tz);
+                        frag.appendChild(label);
+                    }
+                });
+            });
+            markersG.replaceChildren(frag);
+
+            // Text equivalent for screen readers / context.
+            const list = entries.map(e =>
+                `${e.isHome ? 'home ' : ''}${cityLabel(e.tz)} (${e.biz.label.toLowerCase()})`
+            ).join(', ');
+            caption.textContent =
+                `Sun is over longitude ${lonLabel(subsolarLon)}. ` +
+                `${entries.length} timezone${entries.length === 1 ? '' : 's'} shown: ${list}.`;
+        }
+        // -----------------------------------------------------------------------
+
         function render() {
             const homeTz = $('homeTz').value;
             const wall = parseLocalInput($('meetingDateTime').value);
@@ -611,6 +867,7 @@
 
             if (!homeTz || !wall) {
                 container.innerHTML = '<div class="empty-state">Pick a home timezone and meeting time above.</div>';
+                renderGlobeEmpty();
                 return;
             }
 
@@ -623,6 +880,8 @@
             extraRows.forEach((tz, idx) => {
                 container.appendChild(renderRow(tz, idx, homeTz, utcMs));
             });
+
+            renderGlobe(homeTz, utcMs);
 
             if (extraRows.length === 0) {
                 const tip = document.createElement('div');
@@ -638,9 +897,10 @@
             const f = formatInTz(utcMs, homeTz);
             const h = hourInTz(utcMs, homeTz);
             const biz = bizClass(h);
+            const homeMins = getTzOffsetMinutes(homeTz, utcMs);
             row.innerHTML = `
                 <div style="color:#aed581; font-weight:600; font-size:0.95rem;">🏠 ${escapeHtml(homeTz)}</div>
-                <div class="local-time">${f.time} ${f.tzShort}<span class="date-part">${f.date}</span></div>
+                <div class="local-time">${f.time} ${f.tzShort}<span class="date-part">${f.date}</span><span class="offset-part">${fmtAbsOffset(homeMins)} &middot; home zone</span></div>
                 <span class="day-badge same">Home</span>
                 <span class="biz-indicator ${biz.cls}">${biz.label}</span>
                 <div class="row-actions">
@@ -656,6 +916,8 @@
             const f = formatInTz(utcMs, tz);
             const h = hourInTz(utcMs, tz);
             const biz = bizClass(h);
+            const tzMins = getTzOffsetMinutes(tz, utcMs);
+            const homeMins = getTzOffsetMinutes(homeTz, utcMs);
             const dOff = dayOffset(utcMs, homeTz, tz);
             const dayBadge = dOff === 0
                 ? '<span class="day-badge same">Same day</span>'
@@ -665,7 +927,7 @@
 
             row.innerHTML = `
                 <div></div>
-                <div class="local-time">${f.time} ${f.tzShort}<span class="date-part">${f.date}</span></div>
+                <div class="local-time">${f.time} ${f.tzShort}<span class="date-part">${f.date}</span><span class="offset-part">${fmtAbsOffset(tzMins)} &middot; ${fmtRelOffset(tzMins, homeMins)}</span></div>
                 ${dayBadge}
                 <span class="biz-indicator ${biz.cls}">${biz.label}</span>
                 <div class="row-actions">
@@ -761,7 +1023,7 @@
             if (!confirm('Clear the meeting time and all added timezones?')) return;
             StorageUtils.remove('tz-meeting-planner');
             StorageUtils.remove(ROWS_KEY);
-            extraRows = [];
+            extraRows = DEFAULT_ROWS.slice();
             // Reset to browser-detected home + 1 hour from now
             const detected = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
             $('homeTz').value = detected;
@@ -771,10 +1033,15 @@
 
         document.addEventListener('DOMContentLoaded', function() {
             buildTzSelect($('homeTz'));
+            buildGlobeStatic();
             $('homeTz').addEventListener('change', render);
             $('meetingDateTime').addEventListener('input', render);
 
-            extraRows = StorageUtils.loadList(ROWS_KEY, []);
+            // Use saved rows if present; otherwise seed with PST/EDT/UTC defaults.
+            // null means the key was never set (first visit); [] means the user
+            // intentionally removed every row, so we leave it empty.
+            const savedRows = StorageUtils.load(ROWS_KEY, null);
+            extraRows = Array.isArray(savedRows) ? savedRows : DEFAULT_ROWS.slice();
 
             StorageUtils.loadFormInputs('tz-meeting-planner', formFields, function(data) {
                 if (!data['homeTz']) {
