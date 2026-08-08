@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="What is my IP address? See your public IP plus country, city, timezone, ASN, ISP, and the RDAP registration record showing which registry and organization the address block belongs to.">
+    <meta name="keywords" content="what is my IP, my IP address, public IP, IP lookup, IP geolocation, ASN lookup, RDAP lookup, whois IP, IP registration, RIR lookup, ARIN RIPE APNIC">
+    <meta name="author" content="OldWeb LLC">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://oldweb.tech/nettools/my-ip.html">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="What Is My IP Address - OldWeb.tech">
+    <meta property="og:description" content="See your public IP address plus country, ASN, ISP, and the RDAP registration record for the address block.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oldweb.tech/nettools/my-ip.html">
+    <meta property="og:site_name" content="OldWeb.tech">
+    <meta property="og:image" content="https://oldweb.tech/logo/og-image.png">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="What Is My IP Address - OldWeb.tech">
+    <meta name="twitter:description" content="See your public IP address plus country, ASN, ISP, and the RDAP registration record for the address block.">
+    <meta name="twitter:image" content="https://oldweb.tech/logo/og-image.png">
+
+    <!-- Additional Meta Tags -->
+    <meta name="theme-color" content="#1a1a2e">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
+
+    <title>What Is My IP Address - OldWeb.tech</title>
+    <link rel="stylesheet" href="../a11y.css">
+    <script src="../a11y-utils.js"></script>
+    <script src="../storage-utils.js"></script>
+    <script src="../navigationv2.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #fff;
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 2.5rem;
+            color: #4fc3f7;
+            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #90caf9;
+            font-size: 1.05rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .ascii-logo {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.65rem;
+            line-height: 1.1;
+            color: #4fc3f7;
+            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
+            opacity: 0.8;
+            white-space: pre;
+        }
+
+        /* Hero: the answer to "what is my IP" */
+        .hero {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(79, 195, 247, 0.25);
+            border-radius: 16px;
+            padding: 28px 24px;
+            text-align: center;
+            margin-bottom: 22px;
+        }
+
+        .hero-label {
+            color: #90caf9;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 12px;
+        }
+
+        .ip-display {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .ip-value {
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 2.1rem;
+            font-weight: 700;
+            color: #fff;
+            word-break: break-all;
+        }
+
+        .ip-value.pending { color: rgba(255, 255, 255, 0.5); font-size: 1.4rem; font-weight: 400; }
+
+        .ip-meta {
+            margin-top: 12px;
+            color: #90caf9;
+            font-size: 0.92rem;
+            line-height: 1.6;
+        }
+
+        .ip-meta .flag { font-size: 1.15rem; margin-right: 4px; }
+
+        .secondary-ip {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: rgba(144, 202, 249, 0.85);
+            font-family: 'Consolas', 'Monaco', monospace;
+            word-break: break-all;
+        }
+
+        .calculator {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 24px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 22px;
+        }
+
+        .lookup-label {
+            display: block;
+            color: #90caf9;
+            font-weight: 500;
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+        }
+
+        .field-wrapper { display: flex; gap: 8px; flex-wrap: wrap; }
+
+        .field-wrapper input {
+            flex: 1;
+            min-width: 240px;
+            padding: 12px 16px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: #0f1419;
+            color: #fff;
+            font-size: 1rem;
+            font-family: 'Consolas', 'Monaco', monospace;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .field-wrapper input:focus {
+            outline: none;
+            border-color: #4fc3f7;
+            box-shadow: 0 0 15px rgba(79, 195, 247, 0.2);
+        }
+
+        .field-wrapper input::placeholder { color: rgba(255, 255, 255, 0.35); }
+
+        .btn {
+            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
+            color: #fff;
+            border: none;
+            padding: 12px 26px;
+            font-size: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(79, 195, 247, 0.4); }
+        .btn[disabled] { opacity: 0.55; cursor: progress; transform: none; box-shadow: none; }
+
+        .btn.secondary {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: #90caf9;
+        }
+
+        .btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: none;
+            transform: none;
+        }
+
+        .copy-btn {
+            background: rgba(79, 195, 247, 0.1);
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            color: #4fc3f7;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .copy-btn:hover { background: rgba(79, 195, 247, 0.2); border-color: #4fc3f7; }
+        .copy-btn:active { transform: scale(0.97); }
+
+        #error {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid #f44336;
+            color: #ff8a80;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-top: 16px;
+            display: none;
+        }
+
+        #error.show { display: block; }
+        input.error { border-color: #f44336 !important; }
+
+        .status {
+            color: rgba(144, 202, 249, 0.85);
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+            min-height: 1.2em;
+            text-align: center;
+        }
+
+        .results {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            align-items: start;
+            gap: 18px;
+            margin-bottom: 22px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            padding: 22px;
+        }
+
+        .card.wide { grid-column: 1 / -1; }
+
+        .card h2 {
+            color: #4fc3f7;
+            font-size: 1.15rem;
+            margin-bottom: 6px;
+        }
+
+        .card .card-note {
+            color: rgba(144, 202, 249, 0.65);
+            font-size: 0.8rem;
+            margin-bottom: 14px;
+            line-height: 1.5;
+        }
+
+        dl.detail-list { margin: 0; }
+
+        dl.detail-list > div {
+            display: flex;
+            gap: 12px;
+            padding: 7px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            flex-wrap: wrap;
+        }
+
+        dl.detail-list > div:last-child { border-bottom: none; }
+
+        dl.detail-list dt {
+            color: #90caf9;
+            font-size: 0.88rem;
+            min-width: 150px;
+            flex-shrink: 0;
+        }
+
+        dl.detail-list dd {
+            color: #e8f1f8;
+            font-size: 0.92rem;
+            margin: 0;
+            flex: 1;
+            min-width: 160px;
+            word-break: break-word;
+        }
+
+        dl.detail-list dd.mono {
+            font-family: 'Consolas', 'Monaco', monospace;
+            color: #ffd180;
+        }
+
+        dl.detail-list dd a { color: #4fc3f7; }
+
+        .empty-note {
+            color: rgba(144, 202, 249, 0.6);
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+
+        .mismatch {
+            display: inline-block;
+            margin-left: 8px;
+            padding: 1px 8px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            background: rgba(255, 183, 77, 0.15);
+            border: 1px solid rgba(255, 183, 77, 0.5);
+            color: #ffb74d;
+        }
+
+        .info-box {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 18px 22px;
+            margin-top: 6px;
+            font-size: 0.9rem;
+            color: #c5d4e3;
+            line-height: 1.6;
+            border-left: 4px solid #4fc3f7;
+        }
+
+        .info-box h2 { color: #4fc3f7; font-size: 1rem; margin-bottom: 8px; }
+        .info-box + .info-box { margin-top: 18px; }
+        .info-box ul { margin: 8px 0 0 22px; }
+        .info-box code {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background: rgba(255, 255, 255, 0.06);
+            padding: 1px 6px;
+            border-radius: 3px;
+            color: #ffd180;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .ascii-logo {
+                position: static;
+                text-align: center;
+                margin-bottom: 20px;
+                font-size: 0.5rem;
+            }
+            h1 { font-size: 1.8rem; }
+            .ip-value { font-size: 1.6rem; }
+            .field-wrapper input { min-width: 100%; }
+            .field-wrapper .btn { width: 100%; }
+            dl.detail-list dt { min-width: 100%; }
+        }
+    </style>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "What Is My IP Address",
+      "description": "Show your public IP address with country, ASN, ISP, and the RDAP registration record for the address block.",
+      "url": "https://oldweb.tech/nettools/my-ip.html",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Web Browser",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "creator": { "@type": "Organization", "name": "OldWeb.tech" }
+    }
+    </script>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <div class="ascii-logo" aria-hidden="true">  ___  _     _  __        __   _
+ / _ \| | __| | \ \      / /__| |__
+| | | | |/ _` |  \ \ /\ / / _ \ '_ \
+| |_| | | (_| |   \ V  V /  __/ |_) |
+ \___/|_|\__,_|    \_/\_/ \___|_.__/
+</div>
+
+    <main id="main-content" class="container">
+        <h1>What Is My IP Address?</h1>
+        <p class="subtitle">Your public IP, where it geolocates, which network announces it, and who the block is registered to in the public registry databases.</p>
+
+        <div class="hero">
+            <p class="hero-label" id="hero-label">Your public IP address</p>
+            <div class="ip-display">
+                <span id="ip-value" class="ip-value pending">Detecting&hellip;</span>
+                <button type="button" class="copy-btn" id="copy-ip" aria-label="Copy IP address to clipboard">Copy</button>
+            </div>
+            <p class="ip-meta" id="ip-meta"></p>
+            <p class="secondary-ip" id="secondary-ip"></p>
+        </div>
+
+        <div class="calculator">
+            <form id="lookup-form">
+                <label class="lookup-label" for="ipInput">Look up any IPv4 or IPv6 address</label>
+                <div class="field-wrapper">
+                    <input type="text"
+                           id="ipInput"
+                           placeholder="8.8.8.8 or 2001:4860:4860::8888"
+                           autocomplete="off"
+                           spellcheck="false"
+                           aria-describedby="ip-input-help">
+                    <span id="ip-input-help" class="sr-only">Enter an IPv4 or IPv6 address to look up its location, network, and registration details. Leave empty to look up your own address.</span>
+                    <button type="submit" class="btn" id="lookup-btn">Look Up</button>
+                    <button type="button" class="btn secondary" id="myip-btn">Use My IP</button>
+                </div>
+            </form>
+            <div id="error" role="alert" aria-live="assertive" aria-atomic="true"></div>
+        </div>
+
+        <p class="status" id="status" role="status" aria-live="polite"></p>
+
+        <div class="results" id="results">
+            <section class="card" aria-labelledby="loc-heading">
+                <h2 id="loc-heading">Country &amp; location</h2>
+                <p class="card-note">Geolocation is an estimate derived from routing and registry data, not a GPS fix.</p>
+                <dl class="detail-list" id="dl-location">
+                    <div><dt>Status</dt><dd class="empty-note">Waiting for lookup&hellip;</dd></div>
+                </dl>
+            </section>
+
+            <section class="card" aria-labelledby="net-heading">
+                <h2 id="net-heading">Network &amp; operator</h2>
+                <p class="card-note">The autonomous system that announces this address and the provider operating it.</p>
+                <dl class="detail-list" id="dl-network">
+                    <div><dt>Status</dt><dd class="empty-note">Waiting for lookup&hellip;</dd></div>
+                </dl>
+            </section>
+
+            <section class="card wide" aria-labelledby="rdap-heading">
+                <h2 id="rdap-heading">Registration record (RDAP / whois)</h2>
+                <p class="card-note">Live from the Regional Internet Registry that allocated the block &mdash; the authoritative answer to "who is this address registered with".</p>
+                <dl class="detail-list" id="dl-rdap">
+                    <div><dt>Status</dt><dd class="empty-note">Waiting for lookup&hellip;</dd></div>
+                </dl>
+            </section>
+
+            <section class="card wide" aria-labelledby="asn-heading">
+                <h2 id="asn-heading">ASN registration</h2>
+                <p class="card-note">Registry record for the autonomous system number itself, which often names the parent company behind a reseller or hosting brand.</p>
+                <dl class="detail-list" id="dl-asn">
+                    <div><dt>Status</dt><dd class="empty-note">Waiting for lookup&hellip;</dd></div>
+                </dl>
+            </section>
+        </div>
+
+        <div class="info-box">
+            <h2>Where this data comes from</h2>
+            Unlike the rest of the tools on this site, this page cannot work offline &mdash; only a remote server can see what your public IP is, and only the registries know who a block belongs to. Three public sources are queried directly from your browser:
+            <ul>
+                <li><strong>ipwho.is</strong> (fallback: <strong>ipapi.co</strong>) &mdash; returns your public IP plus estimated country, city, timezone, ASN, and ISP.</li>
+                <li><strong>rdap.org</strong> &mdash; the IANA RDAP bootstrap service, which redirects to the correct Regional Internet Registry (ARIN, RIPE NCC, APNIC, LACNIC, or AFRINIC) for the block. RDAP is the structured, modern replacement for port-43 whois.</li>
+                <li><strong>RDAP autnum lookup</strong> &mdash; the registry record for the AS number, which names the organization holding the AS.</li>
+            </ul>
+            No data is sent to OldWeb.tech, nothing is logged here, and nothing is stored in your browser. Those third-party services will see the request, as they must to answer it.
+        </div>
+
+        <div class="info-box">
+            <h2>Reading the results</h2>
+            <ul>
+                <li><strong>Geolocation country vs. registry country.</strong> These disagree more often than people expect. The registry country is where the <em>block is registered</em>; the geolocation country is where the addresses are believed to be <em>used</em>. A US-registered block routed to a European datacenter is completely normal, and so is a VPN or proxy showing a country you are not in.</li>
+                <li><strong>Registrant vs. abuse contact.</strong> The registrant is the organization the block is allocated to. The abuse contact is who to email about traffic coming from it &mdash; usually the right address for an incident report.</li>
+                <li><strong>Direct allocation vs. reassignment.</strong> A direct allocation comes straight from the RIR to the holder. A reassignment means an upstream provider handed the range to a customer, so the named organization may be the end user rather than the network operator.</li>
+                <li><strong>Private addresses</strong> (RFC 1918, CGNAT, loopback, link-local) have no public registration and no geolocation. They are flagged here rather than sent to a lookup service.</li>
+            </ul>
+        </div>
+
+        <noscript>
+            <div class="info-box">
+                <h2>JavaScript is required</h2>
+                Looking up an IP address means asking a remote service, which this page does from your browser. With JavaScript disabled there is nothing to query.
+            </div>
+        </noscript>
+
+        <footer role="contentinfo">
+            <span>What Is My IP Address</span> &mdash; <span>No accounts, no logging, no stored results</span>
+        </footer>
+    </main>
+
+    <script>
+    (function() {
+        'use strict';
+
+        const REQUEST_TIMEOUT_MS = 9000;
+
+        // --- Address validation and classification ---------------------------
+
+        function isValidIPv4(s) {
+            const parts = s.split('.');
+            if (parts.length !== 4) return false;
+            return parts.every(p => /^\d{1,3}$/.test(p) && Number(p) <= 255 && String(Number(p)) === p);
+        }
+
+        // Deliberately permissive: enough to reject typos, not a full RFC 4291 parser.
+        function isValidIPv6(s) {
+            if (!/^[0-9a-f:.]+$/i.test(s)) return false;
+            if ((s.match(/::/g) || []).length > 1) return false;
+            const groups = s.split(':');
+            if (groups.length < 3 || groups.length > 9) return false;
+            const embedded = groups[groups.length - 1];
+            if (embedded.includes('.')) {
+                if (!isValidIPv4(embedded)) return false;
+                groups.pop();
+            }
+            return groups.every(g => g === '' || /^[0-9a-f]{1,4}$/i.test(g));
+        }
+
+        function ipVersion(s) {
+            if (isValidIPv4(s)) return 4;
+            if (isValidIPv6(s)) return 6;
+            return null;
+        }
+
+        // Returns a human label when the address has no public registration.
+        function privateRangeLabel(ip) {
+            if (isValidIPv4(ip)) {
+                const o = ip.split('.').map(Number);
+                if (o[0] === 10) return 'RFC 1918 private (10.0.0.0/8)';
+                if (o[0] === 172 && o[1] >= 16 && o[1] <= 31) return 'RFC 1918 private (172.16.0.0/12)';
+                if (o[0] === 192 && o[1] === 168) return 'RFC 1918 private (192.168.0.0/16)';
+                if (o[0] === 127) return 'Loopback (127.0.0.0/8)';
+                if (o[0] === 169 && o[1] === 254) return 'Link-local (169.254.0.0/16)';
+                if (o[0] === 100 && o[1] >= 64 && o[1] <= 127) return 'Carrier-grade NAT (100.64.0.0/10)';
+                if (o[0] === 0) return 'Unspecified (0.0.0.0/8)';
+                if (o[0] >= 224 && o[0] <= 239) return 'Multicast (224.0.0.0/4)';
+                if (o[0] >= 240) return 'Reserved (240.0.0.0/4)';
+                if (o[0] === 192 && o[1] === 0 && o[2] === 2) return 'Documentation (192.0.2.0/24)';
+                if (o[0] === 198 && o[1] === 51 && o[2] === 100) return 'Documentation (198.51.100.0/24)';
+                if (o[0] === 203 && o[1] === 0 && o[2] === 113) return 'Documentation (203.0.113.0/24)';
+                return null;
+            }
+            const lower = ip.toLowerCase();
+            if (lower === '::1') return 'Loopback (::1)';
+            if (lower === '::') return 'Unspecified (::)';
+            if (/^f[cd]/.test(lower)) return 'Unique local address (fc00::/7)';
+            if (/^fe[89ab]/.test(lower)) return 'Link-local (fe80::/10)';
+            if (/^ff/.test(lower)) return 'Multicast (ff00::/8)';
+            if (/^2001:db8/.test(lower)) return 'Documentation (2001:db8::/32)';
+            return null;
+        }
+
+        function flagEmoji(cc) {
+            if (!cc || !/^[A-Za-z]{2}$/.test(cc)) return '';
+            return String.fromCodePoint(...cc.toUpperCase().split('').map(c => 0x1F1E6 + c.charCodeAt(0) - 65));
+        }
+
+        // --- Fetch helpers ----------------------------------------------------
+
+        async function fetchJSON(url, options) {
+            const controller = new AbortController();
+            const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+            try {
+                const res = await fetch(url, Object.assign({
+                    signal: controller.signal,
+                    cache: 'no-store',
+                    referrerPolicy: 'no-referrer'
+                }, options || {}));
+                if (!res.ok) {
+                    const err = new Error('HTTP ' + res.status);
+                    err.status = res.status;
+                    throw err;
+                }
+                const data = await res.json();
+                return { data: data, finalUrl: res.url };
+            } finally {
+                clearTimeout(timer);
+            }
+        }
+
+        // --- Geolocation / ASN providers -------------------------------------
+        // Both providers are normalized into one shape so the renderer does not
+        // care which one answered.
+
+        function normalizeIpwhois(d) {
+            if (!d || d.success === false || !d.ip) return null;
+            const conn = d.connection || {};
+            const tz = d.timezone || {};
+            return {
+                ip: d.ip,
+                country: d.country || '',
+                countryCode: d.country_code || '',
+                flag: (d.flag && d.flag.emoji) || flagEmoji(d.country_code),
+                continent: d.continent || '',
+                region: d.region || '',
+                city: d.city || '',
+                postal: d.postal || '',
+                capital: d.capital || '',
+                callingCode: d.calling_code ? '+' + String(d.calling_code).replace(/^\+/, '') : '',
+                isEu: typeof d.is_eu === 'boolean' ? d.is_eu : null,
+                latitude: d.latitude,
+                longitude: d.longitude,
+                timezone: tz.id || '',
+                utcOffset: tz.utc || '',
+                asn: conn.asn ? 'AS' + String(conn.asn).replace(/^AS/i, '') : '',
+                org: conn.org || '',
+                isp: conn.isp || '',
+                domain: conn.domain || '',
+                source: 'ipwho.is'
+            };
+        }
+
+        function normalizeIpapi(d) {
+            if (!d || d.error || !d.ip) return null;
+            return {
+                ip: d.ip,
+                country: d.country_name || '',
+                countryCode: d.country_code || '',
+                flag: flagEmoji(d.country_code),
+                continent: d.continent_code || '',
+                region: d.region || '',
+                city: d.city || '',
+                postal: d.postal || '',
+                capital: '',
+                callingCode: d.country_calling_code || '',
+                isEu: typeof d.in_eu === 'boolean' ? d.in_eu : null,
+                latitude: d.latitude,
+                longitude: d.longitude,
+                timezone: d.timezone || '',
+                utcOffset: d.utc_offset || '',
+                asn: d.asn ? String(d.asn).toUpperCase() : '',
+                org: d.org || '',
+                isp: d.org || '',
+                domain: '',
+                source: 'ipapi.co'
+            };
+        }
+
+        // ip === null means "whatever address this request comes from".
+        async function getGeo(ip) {
+            const suffix = ip ? ip.replace(/[^0-9A-Fa-f.:]/g, '') : '';
+            const attempts = [
+                { url: 'https://ipwho.is/' + suffix, normalize: normalizeIpwhois },
+                { url: ip ? 'https://ipapi.co/' + suffix + '/json/' : 'https://ipapi.co/json/', normalize: normalizeIpapi }
+            ];
+
+            let lastError = null;
+            for (const attempt of attempts) {
+                try {
+                    const result = await fetchJSON(attempt.url);
+                    const normalized = attempt.normalize(result.data);
+                    if (normalized) return normalized;
+                    lastError = new Error((result.data && (result.data.message || result.data.reason)) || 'Lookup service returned no data');
+                } catch (err) {
+                    lastError = err;
+                }
+            }
+            throw lastError || new Error('No lookup service responded');
+        }
+
+        // Last-resort: at minimum tell the user their address.
+        async function getIpOnly() {
+            const result = await fetchJSON('https://api64.ipify.org?format=json');
+            if (!result.data || !result.data.ip) throw new Error('No address returned');
+            return result.data.ip;
+        }
+
+        // --- RDAP -------------------------------------------------------------
+
+        const RIR_NAMES = {
+            arin: 'ARIN — North America',
+            ripe: 'RIPE NCC — Europe, Middle East, Central Asia',
+            apnic: 'APNIC — Asia Pacific',
+            lacnic: 'LACNIC — Latin America & Caribbean',
+            afrinic: 'AFRINIC — Africa'
+        };
+
+        function identifyRegistry(rdap, finalUrl) {
+            const haystack = [
+                finalUrl || '',
+                rdap && rdap.port43 ? rdap.port43 : '',
+                rdap && Array.isArray(rdap.links) ? rdap.links.map(l => l && l.href).join(' ') : ''
+            ].join(' ').toLowerCase();
+
+            for (const key of Object.keys(RIR_NAMES)) {
+                if (haystack.includes(key)) return RIR_NAMES[key];
+            }
+            return '';
+        }
+
+        // jCard is an array-of-arrays; pull a named property's value out of it.
+        function vcardValue(vcardArray, field) {
+            if (!Array.isArray(vcardArray) || vcardArray.length < 2 || !Array.isArray(vcardArray[1])) return '';
+            const entry = vcardArray[1].find(p => Array.isArray(p) && p[0] === field);
+            if (!entry) return '';
+            const value = entry[3];
+            if (Array.isArray(value)) return value.filter(Boolean).join(', ');
+            return typeof value === 'string' ? value : '';
+        }
+
+        // Entities nest (a registrant can carry its own abuse contact), so walk the tree.
+        function flattenEntities(entities, out) {
+            out = out || [];
+            if (!Array.isArray(entities)) return out;
+            entities.forEach(entity => {
+                if (!entity || typeof entity !== 'object') return;
+                out.push(entity);
+                flattenEntities(entity.entities, out);
+            });
+            return out;
+        }
+
+        function findEntity(rdap, role) {
+            return flattenEntities(rdap && rdap.entities)
+                .find(e => Array.isArray(e.roles) && e.roles.indexOf(role) !== -1) || null;
+        }
+
+        function entityName(entity) {
+            if (!entity) return '';
+            return vcardValue(entity.vcardArray, 'fn') || vcardValue(entity.vcardArray, 'org') || entity.handle || '';
+        }
+
+        function entityEmail(entity) {
+            if (!entity) return '';
+            const email = vcardValue(entity.vcardArray, 'email');
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? email : '';
+        }
+
+        function eventDate(rdap, action) {
+            if (!rdap || !Array.isArray(rdap.events)) return '';
+            const event = rdap.events.find(e => e && e.eventAction === action);
+            if (!event || !event.eventDate) return '';
+            const parsed = new Date(event.eventDate);
+            if (isNaN(parsed.getTime())) return String(event.eventDate);
+            return parsed.toISOString().slice(0, 10);
+        }
+
+        function cidrList(rdap) {
+            if (!rdap || !Array.isArray(rdap.cidr0_cidrs)) return '';
+            return rdap.cidr0_cidrs
+                .map(c => {
+                    if (!c) return '';
+                    const prefix = c.v4prefix || c.v6prefix;
+                    return prefix && c.length !== undefined ? prefix + '/' + c.length : '';
+                })
+                .filter(Boolean)
+                .join(', ');
+        }
+
+        async function getRdap(path) {
+            const attempts = [
+                'https://rdap.org/' + path,
+                'https://rdap-bootstrap.arin.net/bootstrap/' + path
+            ];
+            let lastError = null;
+            for (const url of attempts) {
+                try {
+                    return await fetchJSON(url, { headers: { 'Accept': 'application/rdap+json, application/json' } });
+                } catch (err) {
+                    // A 404 is a real answer ("no such record"), not a broken endpoint.
+                    if (err.status === 404) throw err;
+                    lastError = err;
+                }
+            }
+            throw lastError || new Error('No RDAP service responded');
+        }
+
+        // --- Rendering --------------------------------------------------------
+
+        function row(label, value, opts) {
+            opts = opts || {};
+            if (value === undefined || value === null || value === '') return null;
+
+            const wrapper = document.createElement('div');
+            const dt = document.createElement('dt');
+            dt.textContent = label;
+            const dd = document.createElement('dd');
+            if (opts.mono) dd.className = 'mono';
+
+            if (opts.email) {
+                const link = document.createElement('a');
+                link.href = 'mailto:' + encodeURIComponent(value);
+                link.textContent = value;
+                dd.appendChild(link);
+            } else {
+                dd.textContent = String(value);
+            }
+
+            if (opts.badge) {
+                const badge = document.createElement('span');
+                badge.className = 'mismatch';
+                badge.textContent = opts.badge;
+                dd.appendChild(document.createTextNode(' '));
+                dd.appendChild(badge);
+            }
+
+            wrapper.appendChild(dt);
+            wrapper.appendChild(dd);
+            return wrapper;
+        }
+
+        function renderList(id, rows, emptyMessage) {
+            const list = document.getElementById(id);
+            list.textContent = '';
+            const kept = rows.filter(Boolean);
+            if (!kept.length) {
+                const wrapper = document.createElement('div');
+                const dt = document.createElement('dt');
+                dt.textContent = 'Result';
+                const dd = document.createElement('dd');
+                dd.className = 'empty-note';
+                dd.textContent = emptyMessage || 'No data returned.';
+                wrapper.appendChild(dt);
+                wrapper.appendChild(dd);
+                list.appendChild(wrapper);
+                return;
+            }
+            kept.forEach(r => list.appendChild(r));
+        }
+
+        function localTime(tzId) {
+            if (!tzId) return '';
+            try {
+                return new Intl.DateTimeFormat('en-US', {
+                    timeZone: tzId, dateStyle: 'medium', timeStyle: 'medium'
+                }).format(new Date());
+            } catch (err) {
+                return '';
+            }
+        }
+
+        function renderGeo(geo) {
+            renderList('dl-location', [
+                row('Country', geo.country ? (geo.flag ? geo.flag + ' ' + geo.country : geo.country) : ''),
+                row('Country code', geo.countryCode),
+                row('Continent', geo.continent),
+                row('Region / state', geo.region),
+                row('City', geo.city),
+                row('Postal code', geo.postal),
+                row('Capital', geo.capital),
+                row('In European Union', geo.isEu === null ? '' : (geo.isEu ? 'Yes' : 'No')),
+                row('Calling code', geo.callingCode),
+                row('Timezone', geo.timezone),
+                row('Local time there', localTime(geo.timezone)),
+                row('UTC offset', geo.utcOffset),
+                row('Approx. coordinates',
+                    (typeof geo.latitude === 'number' && typeof geo.longitude === 'number')
+                        ? geo.latitude.toFixed(4) + ', ' + geo.longitude.toFixed(4) : '',
+                    { mono: true }),
+                row('Data source', geo.source)
+            ], 'The geolocation service returned no location for this address.');
+
+            renderList('dl-network', [
+                row('IP address', geo.ip, { mono: true }),
+                row('ASN', geo.asn, { mono: true }),
+                row('AS organization', geo.org),
+                row('ISP', geo.isp && geo.isp !== geo.org ? geo.isp : ''),
+                row('Network domain', geo.domain)
+            ], 'No network or ASN data returned for this address.');
+        }
+
+        function renderRdap(rdap, finalUrl, geoCountry) {
+            const registrant = findEntity(rdap, 'registrant') || findEntity(rdap, 'administrative');
+            const abuse = findEntity(rdap, 'abuse');
+            const technical = findEntity(rdap, 'technical');
+            const range = rdap.startAddress && rdap.endAddress
+                ? rdap.startAddress + ' – ' + rdap.endAddress : '';
+            const registryCountry = rdap.country || '';
+            const mismatch = registryCountry && geoCountry &&
+                registryCountry.toUpperCase() !== geoCountry.toUpperCase()
+                    ? 'differs from geolocation (' + geoCountry.toUpperCase() + ')' : '';
+
+            renderList('dl-rdap', [
+                row('Registry', identifyRegistry(rdap, finalUrl)),
+                row('Registered to', entityName(registrant)),
+                row('Network name', rdap.name),
+                row('Registry country',
+                    registryCountry ? (flagEmoji(registryCountry) + ' ' + registryCountry.toUpperCase()).trim() : '',
+                    { badge: mismatch }),
+                row('Address range', range, { mono: true }),
+                row('CIDR', cidrList(rdap), { mono: true }),
+                row('Allocation type', rdap.type),
+                row('Registry handle', rdap.handle, { mono: true }),
+                row('Parent block', rdap.parentHandle, { mono: true }),
+                row('Registered', eventDate(rdap, 'registration')),
+                row('Last changed', eventDate(rdap, 'last changed')),
+                row('Abuse contact', entityEmail(abuse), { email: true }),
+                row('Abuse organization', entityName(abuse)),
+                row('Technical contact', entityName(technical)),
+                row('Whois server', rdap.port43, { mono: true }),
+                row('RDAP source', finalUrl, { mono: true })
+            ], 'The registry returned a record with no readable fields.');
+        }
+
+        function renderAsnRdap(rdap, finalUrl, asnLabel) {
+            const holder = findEntity(rdap, 'registrant') || findEntity(rdap, 'administrative');
+            const abuse = findEntity(rdap, 'abuse');
+            const asRange = rdap.startAutnum && rdap.endAutnum
+                ? (rdap.startAutnum === rdap.endAutnum
+                    ? 'AS' + rdap.startAutnum
+                    : 'AS' + rdap.startAutnum + ' – AS' + rdap.endAutnum)
+                : asnLabel;
+
+            renderList('dl-asn', [
+                row('Autonomous system', asRange, { mono: true }),
+                row('AS name', rdap.name),
+                row('Registered to', entityName(holder)),
+                row('Registry', identifyRegistry(rdap, finalUrl)),
+                row('Registry country', rdap.country ? (flagEmoji(rdap.country) + ' ' + rdap.country.toUpperCase()).trim() : ''),
+                row('Registry handle', rdap.handle, { mono: true }),
+                row('Registered', eventDate(rdap, 'registration')),
+                row('Last changed', eventDate(rdap, 'last changed')),
+                row('Abuse contact', entityEmail(abuse), { email: true }),
+                row('RDAP source', finalUrl, { mono: true })
+            ], 'The registry returned no readable fields for this AS number.');
+        }
+
+        // --- Page state -------------------------------------------------------
+
+        const ipValueEl = document.getElementById('ip-value');
+        const ipMetaEl = document.getElementById('ip-meta');
+        const secondaryIpEl = document.getElementById('secondary-ip');
+        const heroLabelEl = document.getElementById('hero-label');
+        const statusEl = document.getElementById('status');
+        const errorEl = document.getElementById('error');
+        const inputEl = document.getElementById('ipInput');
+        const lookupBtn = document.getElementById('lookup-btn');
+        const resultsEl = document.getElementById('results');
+
+        let currentIp = '';
+        let requestToken = 0;
+
+        function setStatus(message) {
+            statusEl.textContent = message || '';
+        }
+
+        function showError(message) {
+            errorEl.textContent = message;
+            errorEl.classList.add('show');
+            if (typeof A11yUtils !== 'undefined') A11yUtils.announce(message, 'assertive');
+        }
+
+        function clearError() {
+            errorEl.textContent = '';
+            errorEl.classList.remove('show');
+            inputEl.classList.remove('error');
+            inputEl.removeAttribute('aria-invalid');
+        }
+
+        function setIpDisplay(ip, pending) {
+            ipValueEl.textContent = ip;
+            ipValueEl.classList.toggle('pending', !!pending);
+            currentIp = pending ? '' : ip;
+        }
+
+        function resetCards(message) {
+            ['dl-location', 'dl-network', 'dl-rdap', 'dl-asn'].forEach(id => {
+                renderList(id, [], message);
+            });
+        }
+
+        function friendlyError(err) {
+            if (!err) return 'Lookup failed.';
+            if (err.name === 'AbortError') return 'The lookup timed out. The service may be slow or unreachable.';
+            if (err.status === 404) return 'No registry record exists for this address.';
+            if (err.status === 429) return 'The lookup service is rate-limiting requests. Wait a minute and try again.';
+            return 'Lookup failed: ' + err.message + '. The service may be blocked by an ad blocker, a firewall, or a browser privacy setting.';
+        }
+
+        // ip === null looks up the visitor's own address.
+        async function runLookup(ip) {
+            const token = ++requestToken;
+            clearError();
+            lookupBtn.disabled = true;
+            resultsEl.setAttribute('aria-busy', 'true');
+
+            const isSelf = ip === null;
+            heroLabelEl.textContent = isSelf ? 'Your public IP address' : 'Looking up';
+
+            if (!isSelf) {
+                const privateLabel = privateRangeLabel(ip);
+                if (privateLabel) {
+                    setIpDisplay(ip, false);
+                    ipMetaEl.textContent = privateLabel + ' — not routable on the public internet';
+                    secondaryIpEl.textContent = '';
+                    resetCards('This is a private or reserved address. It has no public registration or geolocation, so nothing was sent to a lookup service.');
+                    setStatus('');
+                    lookupBtn.disabled = false;
+                    resultsEl.setAttribute('aria-busy', 'false');
+                    if (typeof A11yUtils !== 'undefined') {
+                        A11yUtils.announce(ip + ' is a private or reserved address', 'polite');
+                    }
+                    return;
+                }
+                setIpDisplay(ip, false);
+            } else {
+                setIpDisplay('Detecting…', true);
+            }
+
+            ipMetaEl.textContent = '';
+            secondaryIpEl.textContent = '';
+            resetCards('Loading…');
+            setStatus(isSelf ? 'Detecting your public IP address…' : 'Looking up ' + ip + '…');
+
+            // Step 1: geolocation + ASN. For a self-lookup this is also how we
+            // learn the address, so nothing else can start until it lands.
+            let geo = null;
+            try {
+                geo = await getGeo(ip);
+            } catch (err) {
+                if (token !== requestToken) return;
+                if (isSelf) {
+                    try {
+                        const bareIp = await getIpOnly();
+                        if (token !== requestToken) return;
+                        setIpDisplay(bareIp, false);
+                        geo = { ip: bareIp, source: 'api.ipify.org' };
+                        resetCards('The geolocation service did not respond, so only the address itself is available.');
+                    } catch (fallbackErr) {
+                        if (token !== requestToken) return;
+                        setIpDisplay('Unavailable', true);
+                        showError(friendlyError(err));
+                        resetCards('Lookup failed.');
+                        setStatus('');
+                        lookupBtn.disabled = false;
+                        resultsEl.setAttribute('aria-busy', 'false');
+                        return;
+                    }
+                } else {
+                    showError(friendlyError(err));
+                    resetCards('Lookup failed.');
+                }
+            }
+
+            if (token !== requestToken) return;
+
+            const targetIp = (geo && geo.ip) || (isSelf ? '' : ip);
+            if (targetIp) {
+                setIpDisplay(targetIp, false);
+                heroLabelEl.textContent = isSelf ? 'Your public IP address' : 'IP address';
+                const version = ipVersion(targetIp);
+                const bits = [];
+                if (version) bits.push('IPv' + version);
+                if (geo && geo.country) bits.push((geo.flag ? geo.flag + ' ' : '') + geo.country);
+                if (geo && geo.org) bits.push(geo.org);
+                ipMetaEl.textContent = bits.join(' · ');
+                if (typeof A11yUtils !== 'undefined') {
+                    A11yUtils.announce('IP address ' + targetIp.split('').join(' '), 'polite');
+                }
+            }
+
+            if (geo && geo.country) renderGeo(geo);
+            else if (geo && geo.ip) renderGeo(Object.assign({ country: '', countryCode: '' }, geo));
+
+            if (!targetIp) {
+                setStatus('');
+                lookupBtn.disabled = false;
+                resultsEl.setAttribute('aria-busy', 'false');
+                return;
+            }
+
+            // Step 2: registry records. These are independent, so run them together.
+            setStatus('Querying the registry databases…');
+
+            // RDAP servers want literal dots and colons in the path, so strip to
+            // the character set an address can legally contain instead of escaping.
+            const rdapIp = targetIp.replace(/[^0-9A-Fa-f.:]/g, '');
+            const asnNumber = geo && geo.asn ? String(geo.asn).replace(/\D/g, '') : '';
+            const jobs = [getRdap('ip/' + rdapIp)];
+            jobs.push(asnNumber ? getRdap('autnum/' + asnNumber) : Promise.reject(new Error('no ASN')));
+
+            const [ipRdap, asnRdap] = await Promise.allSettled(jobs);
+            if (token !== requestToken) return;
+
+            if (ipRdap.status === 'fulfilled') {
+                renderRdap(ipRdap.value.data, ipRdap.value.finalUrl, geo ? geo.countryCode : '');
+            } else {
+                renderList('dl-rdap', [], friendlyError(ipRdap.reason));
+            }
+
+            if (asnRdap.status === 'fulfilled') {
+                renderAsnRdap(asnRdap.value.data, asnRdap.value.finalUrl, geo ? geo.asn : '');
+            } else if (!asnNumber) {
+                renderList('dl-asn', [], 'No AS number was reported for this address, so there is nothing to look up.');
+            } else {
+                renderList('dl-asn', [], friendlyError(asnRdap.reason));
+            }
+
+            setStatus('');
+            lookupBtn.disabled = false;
+            resultsEl.setAttribute('aria-busy', 'false');
+        }
+
+        // --- Wiring -----------------------------------------------------------
+
+        document.getElementById('lookup-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const raw = inputEl.value.trim().replace(/^\[|\]$/g, '');
+
+            if (!raw) {
+                runLookup(null);
+                return;
+            }
+            if (!ipVersion(raw)) {
+                inputEl.classList.add('error');
+                inputEl.setAttribute('aria-invalid', 'true');
+                showError('That is not a valid IPv4 or IPv6 address. Example: 8.8.8.8 or 2001:4860:4860::8888');
+                inputEl.focus();
+                return;
+            }
+            runLookup(raw);
+        });
+
+        document.getElementById('myip-btn').addEventListener('click', function() {
+            inputEl.value = '';
+            clearError();
+            runLookup(null);
+        });
+
+        document.getElementById('copy-ip').addEventListener('click', async function() {
+            if (!currentIp) {
+                if (typeof A11yUtils !== 'undefined') A11yUtils.announce('No IP address to copy yet', 'polite');
+                return;
+            }
+            try {
+                await navigator.clipboard.writeText(currentIp);
+                if (typeof A11yUtils !== 'undefined') A11yUtils.announceCopied('IP address');
+            } catch (err) {
+                if (typeof A11yUtils !== 'undefined') A11yUtils.announce('Copy failed. Select the address manually.', 'assertive');
+            }
+        });
+
+        inputEl.addEventListener('input', function() {
+            if (errorEl.classList.contains('show')) clearError();
+        });
+
+        // Deep link support: my-ip.html?ip=1.2.3.4
+        function initialTarget() {
+            const params = new URLSearchParams(window.location.search);
+            const requested = (params.get('ip') || '').trim();
+            if (requested && ipVersion(requested)) {
+                inputEl.value = requested;
+                return requested;
+            }
+            return null;
+        }
+
+        runLookup(initialTarget());
+    })();
+    </script>
+
+    <script>
+        document.querySelector('.skip-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.getElementById('main-content');
+            if (target) {
+                target.setAttribute('tabindex', '-1');
+                target.focus();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    </script>
+</body>
+</html>

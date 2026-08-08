@@ -220,6 +220,12 @@
         </section>
 
         <div class="tools-grid">
+            <a href="my-ip.html" class="tool-card">
+                <h2>What Is My IP Address</h2>
+                <p>Show your public IP address along with its estimated country and city, the ASN and ISP announcing it, and the live RDAP registry record naming the organization the block is registered to. Looks up any IPv4 or IPv6 address, not just your own.</p>
+                <span class="tool-link">Open IP Lookup</span>
+            </a>
+
             <a href="subnet-calculator.html" class="tool-card">
                 <h2>Subnet Calculator</h2>
                 <p>Calculate IPv4 network addresses, broadcast addresses, host ranges, and subnet details from IP/CIDR notation. Includes binary representation and subnet list visualization.</p>
@@ -283,7 +289,7 @@
 
         <section class="category-outro" aria-labelledby="category-outro-heading">
             <h2 id="category-outro-heading">Built for network engineers</h2>
-            <p>Every calculator here works offline once loaded, makes zero API calls, and stores nothing about your subnets or designs. The math is pure JavaScript &mdash; there's nothing to send to a server and no benefit to doing so. If we wanted to track you, we'd have to start now, and we're not going to.</p>
+            <p>Every calculator here works offline once loaded, makes zero API calls, and stores nothing about your subnets or designs. The math is pure JavaScript &mdash; there's nothing to send to a server and no benefit to doing so. If we wanted to track you, we'd have to start now, and we're not going to. The one exception is <a href="my-ip.html">What Is My IP Address</a>, which by definition has to ask a remote service what your address is; it queries public geolocation and RDAP registry endpoints straight from your browser and names every source on the page.</p>
             <p>Useful next: <a href="../system/">System Tools</a> for credential generation, certificate parsing, and JWT decoding. <a href="../data/">Data Tools</a> covers Base64, hashing, and JSON formatting &mdash; handy when working with payloads pulled out of packet captures.</p>
         </section>
 
