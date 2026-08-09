@@ -239,6 +239,73 @@
             outline-offset: 2px;
         }
 
+        /* What Is My IP card */
+        .myip-section {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 35px;
+        }
+
+        .myip-card {
+            display: block;
+            width: 100%;
+            max-width: 560px;
+            text-align: center;
+            padding: 22px 26px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(79, 195, 247, 0.25);
+            border-radius: 16px;
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+        }
+
+        .myip-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(79, 195, 247, 0.25);
+            border-color: rgba(79, 195, 247, 0.5);
+        }
+
+        .myip-card:focus-visible {
+            outline: 3px solid #4fc3f7;
+            outline-offset: 3px;
+        }
+
+        .myip-label {
+            display: block;
+            color: #90caf9;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 8px;
+        }
+
+        .myip-value {
+            display: block;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 1.7rem;
+            font-weight: 700;
+            color: #fff;
+            word-break: break-all;
+            line-height: 1.2;
+        }
+
+        .myip-value.pending {
+            font-size: 1.1rem;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .myip-meta {
+            display: block;
+            color: #90caf9;
+            font-size: 0.88rem;
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+
+        .myip-card .tool-link { margin-top: 12px; }
+
         /* Modal Styles */
         .quick-access-modal {
             position: fixed;
@@ -562,6 +629,17 @@
             </div>
         </section>
 
+        <!-- What Is My IP -->
+        <section class="myip-section" aria-labelledby="myip-heading">
+            <h2 id="myip-heading" class="sr-only">What is my IP address</h2>
+            <a href="nettools/my-ip.html" class="myip-card" id="myip-card">
+                <span class="myip-label">Your public IP address</span>
+                <span class="myip-value pending" id="myip-value" aria-live="polite">Detecting&hellip;</span>
+                <span class="myip-meta" id="myip-meta">Country, network operator, and registry ownership</span>
+                <span class="tool-link">Full IP lookup</span>
+            </a>
+        </section>
+
         <div class="tools-grid">
             <a href="nettools/index.html" class="tool-card">
                 <h2>Network Tools</h2>
@@ -656,6 +734,48 @@
                 target.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         });
+
+        // What Is My IP — one lightweight request, degrades to a plain link.
+        (function() {
+            'use strict';
+
+            const valueEl = document.getElementById('myip-value');
+            const metaEl = document.getElementById('myip-meta');
+            if (!valueEl || !metaEl) return;
+
+            function degrade() {
+                valueEl.textContent = 'Look up your IP';
+                valueEl.classList.add('pending');
+                metaEl.textContent = 'Country, network operator, and registry ownership';
+            }
+
+            const controller = new AbortController();
+            const timer = setTimeout(() => controller.abort(), 6000);
+
+            fetch('https://ipwho.is/', {
+                signal: controller.signal,
+                cache: 'no-store',
+                referrerPolicy: 'no-referrer'
+            })
+                .then(res => res.ok ? res.json() : Promise.reject(new Error('HTTP ' + res.status)))
+                .then(data => {
+                    if (!data || data.success === false || !data.ip) throw new Error('no data');
+
+                    valueEl.textContent = data.ip;
+                    valueEl.classList.remove('pending');
+
+                    const flag = (data.flag && data.flag.emoji) || '';
+                    const org = (data.connection && (data.connection.org || data.connection.isp)) || '';
+                    const parts = [];
+                    if (data.country) parts.push((flag ? flag + ' ' : '') + data.country);
+                    if (org) parts.push(org);
+                    metaEl.textContent = parts.length
+                        ? parts.join(' · ')
+                        : 'Country, network operator, and registry ownership';
+                })
+                .catch(degrade)
+                .finally(() => clearTimeout(timer));
+        })();
 
         // Quick Access Feature
         (function() {

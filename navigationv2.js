@@ -7,6 +7,7 @@
             id: 'home'
         },
         network: [
+            { name: 'What Is My IP', file: 'nettools/my-ip.html', id: 'my-ip' },
             { name: 'Subnet Calculator', file: 'nettools/subnet-calculator.html', id: 'subnet' },
             { name: 'Subnet Planner', file: 'nettools/subnet-planner.html', id: 'planner' },
             { name: 'CIDR Convert', file: 'nettools/cidr-converter.html', id: 'cidr' },
@@ -83,7 +84,8 @@
         { id: 'data-rate',       name: 'Data Rate Calculator',          file: 'nettools/data-rate-calculator.html',    category: 'network',      keywords: ['bandwidth', 'mbps', 'gbps', 'transfer', 'throughput', 'speed'],  related: ['bit', 'mtu', 'iops'] },
         { id: 'mtu',             name: 'MTU Calculator',                file: 'nettools/mtu-calculator.html',          category: 'network',      keywords: ['mtu', 'mss', 'fragmentation', 'packet', 'size'],                 related: ['data-rate', 'subnet', 'bit'] },
         { id: 'jinja',           name: 'Jinja Template Builder',        file: 'nettools/jinja-builder.html',           category: 'network',      keywords: ['jinja', 'template', 'config', 'ansible', 'render'],              related: ['regex', 'string-tools', 'json-formatter'] },
-        { id: 'ip-converter',    name: 'IP Address Converter',          file: 'nettools/ip-converter.html',            category: 'network',      keywords: ['ip', 'binary', 'hex', 'integer', 'convert', 'ipv4', 'dotted'],   related: ['subnet', 'cidr', 'bit'] },
+        { id: 'ip-converter',    name: 'IP Address Converter',          file: 'nettools/ip-converter.html',            category: 'network',      keywords: ['ip', 'binary', 'hex', 'integer', 'convert', 'ipv4', 'dotted'],   related: ['my-ip', 'subnet', 'cidr'] },
+        { id: 'my-ip',           name: 'What Is My IP Address',         file: 'nettools/my-ip.html',                   category: 'network',      keywords: ['my ip', 'what is my ip', 'public ip', 'ip lookup', 'geolocation', 'asn', 'rdap', 'whois', 'registration', 'country', 'isp'], pinned: true, related: ['ip-converter', 'subnet', 'cidr'] },
         // System
         { id: 'regex',           name: 'Regex Tester',                  file: 'system/regex-tester.html',              category: 'system',       keywords: ['regex', 'regexp', 'pattern', 'match', 'test', 'pcre'],           pinned: true,  related: ['string-tools', 'text-diff', 'log-parser'] },
         { id: 'timestamp',       name: 'Timestamp Converter',           file: 'system/timestamp-converter.html',       category: 'system',       keywords: ['unix', 'epoch', 'timestamp', 'date', 'time', 'iso8601'],         pinned: true,  related: ['cron', 'tz-meeting-planner', 'log-parser'] },
@@ -163,6 +165,7 @@
         'pdf-split':         'Extract pages or page ranges from a PDF entirely in your browser - no uploads, no watermarks.',
         'pdf-rotate':        'Rotate PDF pages 90, 180, or 270 degrees with live previews - no uploads, no watermarks.',
         'ip-converter':      'Convert IPv4 addresses between dotted, binary, hexadecimal, and integer notations.',
+        'my-ip':             'Show your public IP with country, ASN, ISP, and the RDAP registry record for the block.',
         'jwt-decoder':       'Decode JWT header, payload, and signature locally - tokens never leave your browser.',
         'json-formatter':    'Format, minify, validate, and escape JSON with syntax-error positions and stats.'
     };
