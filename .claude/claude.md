@@ -181,6 +181,11 @@ This repo keeps tickets under `tickets/`, in the Tracker shape defined by
 `tickets/TEMPLATE.md`. Allocate a ticket code with
 `pwsh -File tickets/New-TicketId.ps1`. The repo code is `MC`.
 
+**`tickets/` is gitignored.** The files stay on disk and git does not carry
+them. Never stage a ticket, never open a pull request for a ticket update, and
+never report a ticket edit as unstaged work that needs a commit. Update the
+ticket in the working tree and stop there.
+
 **This repo uses no Todoist project.** Every ticket leaves `todoist_parent:` and
 `todoist_project:` empty, and carries no Todoist subtasks. The `work:` list in
 the ticket's `## Tracker` block is the only task list. Do not ask which Todoist
