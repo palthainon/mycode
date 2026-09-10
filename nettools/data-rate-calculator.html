@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Calculate data transfer times and rates. Convert between bandwidth units and estimate transfer duration. Essential tool for network planning.">
+    <meta name="description" content="Calculate data transfer times, or work out the achieved transfer rate from a data size and an elapsed time. Convert between bandwidth units. Essential tool for network planning.">
     <meta name="keywords" content="data transfer calculator, bandwidth calculator, transfer time calculator, network speed calculator, download time calculator">
     <meta name="author" content="OldWeb LLC">
     <meta name="robots" content="index, follow">
@@ -14,7 +14,7 @@
 
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="Data Transfer Calculator - OldWeb.tech">
-    <meta property="og:description" content="Calculate data transfer times and rates. Convert between bandwidth units and estimate transfer duration. Essential tool for network planning.">
+    <meta property="og:description" content="Calculate data transfer times, or work out the achieved transfer rate from a data size and an elapsed time. Convert between bandwidth units. Essential tool for network planning.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://oldweb.tech/nettools/data-rate-calculator.html">
     <meta property="og:site_name" content="OldWeb.tech">
@@ -23,7 +23,7 @@
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Data Transfer Calculator - OldWeb.tech">
-    <meta name="twitter:description" content="Calculate data transfer times and rates. Convert between bandwidth units and estimate transfer duration. Essential tool for network planning.">
+    <meta name="twitter:description" content="Calculate data transfer times, or work out the achieved transfer rate from a data size and an elapsed time. Convert between bandwidth units. Essential tool for network planning.">
     <meta name="twitter:image" content="https://oldweb.tech/logo/og-image.png">
 
     <!-- Additional Meta Tags -->
@@ -507,7 +507,7 @@
       "@context": "https://schema.org",
       "@type": "WebApplication",
       "name": "Data Transfer Calculator",
-      "description": "Calculate data transfer times and rates. Convert between bandwidth units and estimate transfer duration. Essential tool for network planning.",
+      "description": "Calculate data transfer times, or work out the achieved transfer rate from a data size and an elapsed time. Convert between bandwidth units. Essential tool for network planning.",
       "url": "https://oldweb.tech/data-rate-calculator.html",
       "applicationCategory": "UtilitiesApplication",
       "operatingSystem": "Web Browser",
@@ -536,6 +536,24 @@
 
         <div class="calculator">
             <form id="transfer-form" aria-label="Data Transfer Calculator Form">
+                <div class="unit-toggle" role="group" aria-labelledby="calc-mode-label">
+                    <span class="unit-toggle-label" id="calc-mode-label">Calculate:</span>
+                    <div class="unit-toggle-buttons">
+                        <button type="button"
+                                class="unit-toggle-btn active"
+                                id="timeModeBtn"
+                                onclick="setMode('time')"
+                                aria-label="Calculate transfer time from data size and transfer rate"
+                                aria-pressed="true">Transfer Time</button>
+                        <button type="button"
+                                class="unit-toggle-btn"
+                                id="rateModeBtn"
+                                onclick="setMode('rate')"
+                                aria-label="Calculate transfer rate from data size and elapsed time"
+                                aria-pressed="false">Transfer Rate</button>
+                    </div>
+                </div>
+
                 <div class="input-group">
                     <div class="input-field">
                         <label for="dataSize">Data Size</label>
@@ -562,7 +580,7 @@
                     </div>
                 </div>
 
-                <div class="input-group">
+                <div class="input-group" id="rateInputGroup">
                     <div class="input-field">
                         <label for="transferRate">Transfer Rate</label>
                         <input type="number"
@@ -586,6 +604,31 @@
                     </div>
                 </div>
 
+                <div class="input-group" id="durationInputGroup" style="display: none;">
+                    <div class="input-field">
+                        <label for="duration">Elapsed Time</label>
+                        <input type="number"
+                               id="duration"
+                               placeholder="36"
+                               min="0"
+                               step="any"
+                               aria-required="true"
+                               aria-describedby="duration-help">
+                        <span id="duration-help" class="sr-only">Enter how long the transfer took, for example 36</span>
+                    </div>
+                    <div class="input-field small">
+                        <label for="durationUnit">Unit</label>
+                        <select id="durationUnit" aria-describedby="duration-unit-help">
+                            <option value="sec">Seconds</option>
+                            <option value="min">Minutes</option>
+                            <option value="hour" selected>Hours</option>
+                            <option value="day">Days</option>
+                            <option value="week">Weeks</option>
+                        </select>
+                        <span id="duration-unit-help" class="sr-only">Select the unit for elapsed time</span>
+                    </div>
+                </div>
+
                 <div class="unit-toggle" role="group" aria-labelledby="unit-mode-label">
                     <span class="unit-toggle-label" id="unit-mode-label">Data Size Units:</span>
                     <div class="unit-toggle-buttons">
@@ -606,6 +649,7 @@
 
                 <button type="button"
                         class="btn"
+                        id="calcBtn"
                         onclick="calculate()"
                         aria-label="Calculate data transfer time based on size and rate"
                         >Calculate Transfer Time</button>
@@ -640,6 +684,7 @@
                             onclick="setDataSize(10, 'TB')"
                             aria-label="Set data size to 10 terabytes">10 TB</button>
                 </div>
+                <div id="quickRates">
                 <h3>Quick Transfer Rates:</h3>
                 <div class="quick-buttons">
                     <button type="button"
@@ -662,6 +707,32 @@
                             class="quick-btn rate"
                             onclick="setTransferRate(100, 'Gbps')"
                             aria-label="Set transfer rate to 100 gigabits per second">100 Gbps</button>
+                </div>
+                </div>
+                <div id="quickDurations" style="display: none;">
+                <h3>Quick Elapsed Times:</h3>
+                <div class="quick-buttons">
+                    <button type="button"
+                            class="quick-btn rate"
+                            onclick="setDuration(1, 'hour')"
+                            aria-label="Set elapsed time to 1 hour">1 hour</button>
+                    <button type="button"
+                            class="quick-btn rate"
+                            onclick="setDuration(8, 'hour')"
+                            aria-label="Set elapsed time to 8 hours">8 hours</button>
+                    <button type="button"
+                            class="quick-btn rate"
+                            onclick="setDuration(24, 'hour')"
+                            aria-label="Set elapsed time to 24 hours">24 hours</button>
+                    <button type="button"
+                            class="quick-btn rate"
+                            onclick="setDuration(36, 'hour')"
+                            aria-label="Set elapsed time to 36 hours">36 hours</button>
+                    <button type="button"
+                            class="quick-btn rate"
+                            onclick="setDuration(7, 'day')"
+                            aria-label="Set elapsed time to 7 days">7 days</button>
+                </div>
                 </div>
             </div>
 
@@ -753,6 +824,94 @@
             </div>
         </div>
 
+        <div class="results"
+             id="rateResults"
+             role="region"
+             aria-live="polite"
+             aria-label="Transfer rate calculation results">
+            <div class="section-header">
+                <h2>Transfer Rate</h2>
+                <button type="button"
+                        class="export-btn"
+                        onclick="exportToCSV()"
+                        aria-label="Export transfer rate calculation results to CSV file"
+                        >Export to CSV</button>
+            </div>
+            <div class="results-grid">
+                <div class="result-item highlight">
+                    <div class="label">Average Rate</div>
+                    <div class="value-row">
+                        <div class="value" id="rateHuman">-</div>
+                        <button type="button" class="copy-result-btn" onclick="copyResult('rateHuman', 'Average rate')" aria-label="Copy average rate">Copy</button>
+                    </div>
+                </div>
+                <div class="result-item">
+                    <div class="label">Megabits / sec</div>
+                    <div class="value-row">
+                        <div class="value" id="rateMbps">-</div>
+                        <button type="button" class="copy-result-btn" onclick="copyResult('rateMbps', 'Megabits per second')" aria-label="Copy megabits per second value">Copy</button>
+                    </div>
+                </div>
+                <div class="result-item">
+                    <div class="label">Gigabits / sec</div>
+                    <div class="value-row">
+                        <div class="value" id="rateGbps">-</div>
+                        <button type="button" class="copy-result-btn" onclick="copyResult('rateGbps', 'Gigabits per second')" aria-label="Copy gigabits per second value">Copy</button>
+                    </div>
+                </div>
+                <div class="result-item">
+                    <div class="label">Bits / sec</div>
+                    <div class="value-row">
+                        <div class="value" id="rateBps">-</div>
+                        <button type="button" class="copy-result-btn" onclick="copyResult('rateBps', 'Bits per second')" aria-label="Copy bits per second value">Copy</button>
+                    </div>
+                </div>
+                <div class="result-item">
+                    <div class="label">Bytes / sec</div>
+                    <div class="value-row">
+                        <div class="value" id="rateBytesPerSec">-</div>
+                        <button type="button" class="copy-result-btn" onclick="copyResult('rateBytesPerSec', 'Bytes per second')" aria-label="Copy bytes per second value">Copy</button>
+                    </div>
+                </div>
+                <div class="result-item">
+                    <div class="label">Data / hour</div>
+                    <div class="value-row">
+                        <div class="value" id="ratePerHour">-</div>
+                        <button type="button" class="copy-result-btn" onclick="copyResult('ratePerHour', 'Data per hour')" aria-label="Copy data per hour value">Copy</button>
+                    </div>
+                </div>
+                <div class="result-item">
+                    <div class="label">Data / day</div>
+                    <div class="value-row">
+                        <div class="value" id="ratePerDay">-</div>
+                        <button type="button" class="copy-result-btn" onclick="copyResult('ratePerDay', 'Data per day')" aria-label="Copy data per day value">Copy</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <h3>Transfer Details</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">Data Size:</span>
+                        <span id="rateDataSizeInfo">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Data in Bits:</span>
+                        <span id="rateDataBitsInfo">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Elapsed Time:</span>
+                        <span id="rateDurationInfo">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Unit Mode:</span>
+                        <span id="rateUnitModeInfo">-</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <footer role="contentinfo">
             <span>Data Transfer Calculator</span> - <span>Works offline, no installation required</span>
         </footer>
@@ -786,11 +945,64 @@
             'Gbps': 1000 * 1000 * 1000
         };
 
+        // Elapsed time units, in seconds
+        const durationMultipliers = {
+            'sec': 1,
+            'min': 60,
+            'hour': 3600,
+            'day': 24 * 3600,
+            'week': 7 * 24 * 3600
+        };
+
+        const durationLabels = {
+            'sec': 'seconds',
+            'min': 'minutes',
+            'hour': 'hours',
+            'day': 'days',
+            'week': 'weeks'
+        };
+
         // Store last calculation for CSV export
         let lastCalculation = null;
 
+        // Which direction the tool calculates ('time' or 'rate')
+        let calcMode = 'time';
+
         // Track unit mode (false = binary, true = decimal)
         let useDecimalUnits = false;
+
+        // Direction toggle handler
+        function setMode(mode) {
+            calcMode = (mode === 'rate') ? 'rate' : 'time';
+            const rateMode = calcMode === 'rate';
+
+            const timeBtn = document.getElementById('timeModeBtn');
+            const rateBtn = document.getElementById('rateModeBtn');
+            timeBtn.classList.toggle('active', !rateMode);
+            timeBtn.setAttribute('aria-pressed', String(!rateMode));
+            rateBtn.classList.toggle('active', rateMode);
+            rateBtn.setAttribute('aria-pressed', String(rateMode));
+
+            document.getElementById('rateInputGroup').style.display = rateMode ? 'none' : '';
+            document.getElementById('durationInputGroup').style.display = rateMode ? '' : 'none';
+            document.getElementById('quickRates').style.display = rateMode ? 'none' : '';
+            document.getElementById('quickDurations').style.display = rateMode ? '' : 'none';
+
+            const calcBtn = document.getElementById('calcBtn');
+            calcBtn.textContent = rateMode ? 'Calculate Transfer Rate' : 'Calculate Transfer Time';
+            calcBtn.setAttribute('aria-label', rateMode
+                ? 'Calculate transfer rate based on size and elapsed time'
+                : 'Calculate data transfer time based on size and rate');
+
+            // Hide stale results and errors from the other direction
+            document.getElementById('results').classList.remove('show');
+            document.getElementById('rateResults').classList.remove('show');
+            document.getElementById('error').classList.remove('show');
+            lastCalculation = null;
+
+            StorageUtils.save('data-rate-calc-mode', calcMode);
+            autoCalculate();
+        }
 
         // Unit mode toggle handler
         function setUnitMode(mode) {
@@ -812,11 +1024,7 @@
             }
 
             // Recalculate if we have valid inputs
-            const dataSize = document.getElementById('dataSize').value;
-            const transferRate = document.getElementById('transferRate').value;
-            if (dataSize && transferRate) {
-                calculate();
-            }
+            autoCalculate();
         }
 
         // Quick select functions
@@ -832,11 +1040,19 @@
             autoCalculate();
         }
 
+        function setDuration(value, unit) {
+            document.getElementById('duration').value = value;
+            document.getElementById('durationUnit').value = unit;
+            autoCalculate();
+        }
+
         // Auto-calculate if both inputs are valid
         function autoCalculate() {
-            const dataSize = document.getElementById('dataSize').value;
-            const transferRate = document.getElementById('transferRate').value;
-            if (dataSize && transferRate && parseFloat(dataSize) > 0 && parseFloat(transferRate) > 0) {
+            const dataSize = parseFloat(document.getElementById('dataSize').value);
+            const second = parseFloat(calcMode === 'rate'
+                ? document.getElementById('duration').value
+                : document.getElementById('transferRate').value);
+            if (dataSize > 0 && second > 0) {
                 calculate();
             }
         }
@@ -853,10 +1069,34 @@
             return value * rateMultipliers[unit];
         }
 
+        // Convert elapsed time to seconds
+        function parseDuration(value, unit) {
+            return value * durationMultipliers[unit];
+        }
+
         // Calculate transfer time in seconds
         function calculateTransferTime(bytes, bitsPerSecond) {
             const bits = bytes * 8;
             return bits / bitsPerSecond;
+        }
+
+        // Calculate transfer rate in bits per second
+        function calculateTransferRate(bytes, seconds) {
+            return (bytes * 8) / seconds;
+        }
+
+        // Format a bits-per-second rate with the largest sensible unit
+        function formatRate(bitsPerSecond) {
+            const units = ['bps', 'Kbps', 'Mbps', 'Gbps', 'Tbps'];
+            let unitIndex = 0;
+            let value = bitsPerSecond;
+
+            while (value >= 1000 && unitIndex < units.length - 1) {
+                value /= 1000;
+                unitIndex++;
+            }
+
+            return formatNumber(value) + ' ' + units[unitIndex];
         }
 
         // Format large numbers with commas
@@ -932,8 +1172,17 @@
             return parts.join(', ');
         }
 
-        // Main calculate function
+        // Main calculate function - routes to the active direction
         function calculate() {
+            if (calcMode === 'rate') {
+                calculateRate();
+            } else {
+                calculateTime();
+            }
+        }
+
+        // Data size + transfer rate -> transfer time
+        function calculateTime() {
             const dataSizeField = document.getElementById('dataSize');
             const transferRateField = document.getElementById('transferRate');
             const dataSizeInput = parseFloat(dataSizeField.value);
@@ -949,6 +1198,7 @@
 
             // Hide previous results and errors
             resultsDiv.classList.remove('show');
+            document.getElementById('rateResults').classList.remove('show');
             errorDiv.classList.remove('show');
 
             // Validate inputs
@@ -1008,6 +1258,7 @@
 
             // Store for CSV export
             lastCalculation = {
+                mode: 'time',
                 dataSize: dataSizeInput,
                 dataSizeUnit: dataSizeUnit,
                 dataBytes: bytes,
@@ -1025,6 +1276,90 @@
 
             // Announce completion to screen readers
             A11yUtils.announce(`Transfer time calculation complete. ${dataSizeInput} ${dataSizeUnit} at ${transferRateInput} ${transferRateUnit} will take ${formatHumanReadable(seconds)}.`, 'polite');
+        }
+
+        // Data size + elapsed time -> transfer rate
+        function calculateRate() {
+            const dataSizeField = document.getElementById('dataSize');
+            const durationField = document.getElementById('duration');
+            const dataSizeInput = parseFloat(dataSizeField.value);
+            const dataSizeUnit = document.getElementById('dataSizeUnit').value;
+            const durationInput = parseFloat(durationField.value);
+            const durationUnit = document.getElementById('durationUnit').value;
+            const errorDiv = document.getElementById('error');
+            const resultsDiv = document.getElementById('rateResults');
+
+            // Clear previous errors
+            A11yUtils.clearError(dataSizeField);
+            A11yUtils.clearError(durationField);
+
+            // Hide previous results and errors
+            resultsDiv.classList.remove('show');
+            document.getElementById('results').classList.remove('show');
+            errorDiv.classList.remove('show');
+
+            // Validate inputs
+            if (isNaN(dataSizeInput) || dataSizeInput <= 0) {
+                const errorMsg = 'Please enter a valid data size greater than 0';
+                errorDiv.textContent = errorMsg;
+                errorDiv.classList.add('show');
+                A11yUtils.showError(dataSizeField, errorMsg);
+                dataSizeField.focus();
+                return;
+            }
+
+            if (isNaN(durationInput) || durationInput <= 0) {
+                const errorMsg = 'Please enter a valid elapsed time greater than 0';
+                errorDiv.textContent = errorMsg;
+                errorDiv.classList.add('show');
+                A11yUtils.showError(durationField, errorMsg);
+                durationField.focus();
+                return;
+            }
+
+            // Calculate
+            const bytes = parseDataSize(dataSizeInput, dataSizeUnit);
+            const seconds = parseDuration(durationInput, durationUnit);
+            const bitsPerSecond = calculateTransferRate(bytes, seconds);
+            const bytesPerSecond = bytes / seconds;
+
+            // Update display
+            document.getElementById('rateHuman').textContent = formatRate(bitsPerSecond);
+            document.getElementById('rateMbps').textContent = formatNumber(bitsPerSecond / rateMultipliers['Mbps'], 3);
+            document.getElementById('rateGbps').textContent = formatNumber(bitsPerSecond / rateMultipliers['Gbps'], 3);
+            document.getElementById('rateBps').textContent = formatNumber(bitsPerSecond, 0);
+            document.getElementById('rateBytesPerSec').textContent = formatBytes(bytesPerSecond) + '/s';
+            document.getElementById('ratePerHour').textContent = formatBytes(bytesPerSecond * 3600);
+            document.getElementById('ratePerDay').textContent = formatBytes(bytesPerSecond * 24 * 3600);
+
+            // Update info section
+            const isDecimal = useDecimalUnits;
+            document.getElementById('rateDataSizeInfo').textContent = formatBytes(bytes);
+            document.getElementById('rateDataBitsInfo').textContent = formatBits(bytes * 8);
+            document.getElementById('rateDurationInfo').textContent = durationInput + ' ' + durationLabels[durationUnit] + ' (' + formatNumber(seconds, 0) + ' seconds)';
+            document.getElementById('rateUnitModeInfo').textContent = isDecimal ? 'Decimal (1000)' : 'Binary (1024)';
+
+            // Store for CSV export
+            lastCalculation = {
+                mode: 'rate',
+                dataSize: dataSizeInput,
+                dataSizeUnit: dataSizeUnit,
+                dataBytes: bytes,
+                duration: durationInput,
+                durationUnit: durationUnit,
+                seconds: seconds,
+                bitsPerSecond: bitsPerSecond,
+                bytesPerSecond: bytesPerSecond,
+                humanReadable: formatRate(bitsPerSecond),
+                unitMode: isDecimal ? 'Decimal' : 'Binary'
+            };
+
+            // Show results
+            resultsDiv.classList.add('show');
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            // Announce completion to screen readers
+            A11yUtils.announce(`Transfer rate calculation complete. ${dataSizeInput} ${dataSizeUnit} in ${durationInput} ${durationLabels[durationUnit]} is ${formatRate(bitsPerSecond)}.`, 'polite');
         }
 
         // Copy a single result value to clipboard
@@ -1071,7 +1406,21 @@
                 return;
             }
 
-            const csvRows = [
+            const csvRows = lastCalculation.mode === 'rate' ? [
+                ['Field', 'Value'],
+                ['Data Size', lastCalculation.dataSize + ' ' + lastCalculation.dataSizeUnit],
+                ['Data Size (Bytes)', lastCalculation.dataBytes],
+                ['Data Size (Bits)', lastCalculation.dataBytes * 8],
+                ['Elapsed Time', lastCalculation.duration + ' ' + durationLabels[lastCalculation.durationUnit]],
+                ['Elapsed Time (Seconds)', lastCalculation.seconds],
+                ['Unit Mode', lastCalculation.unitMode],
+                ['Transfer Rate', lastCalculation.humanReadable],
+                ['Bits per Second', lastCalculation.bitsPerSecond],
+                ['Kbps', lastCalculation.bitsPerSecond / 1000],
+                ['Mbps', lastCalculation.bitsPerSecond / 1000000],
+                ['Gbps', lastCalculation.bitsPerSecond / 1000000000],
+                ['Bytes per Second', lastCalculation.bytesPerSecond]
+            ] : [
                 ['Field', 'Value'],
                 ['Data Size', lastCalculation.dataSize + ' ' + lastCalculation.dataSizeUnit],
                 ['Data Size (Bytes)', lastCalculation.dataBytes],
@@ -1095,9 +1444,10 @@
                 return str;
             }).join(',')).join('\n');
 
-            const filename = `transfer-time-${new Date().toISOString().split('T')[0]}.csv`;
+            const prefix = lastCalculation.mode === 'rate' ? 'transfer-rate' : 'transfer-time';
+            const filename = `${prefix}-${new Date().toISOString().split('T')[0]}.csv`;
             downloadCSV(filename, csvContent);
-            A11yUtils.announce('Transfer time results exported to CSV file', 'polite');
+            A11yUtils.announce('Results exported to CSV file', 'polite');
         }
 
         // Allow Enter key to calculate
@@ -1109,27 +1459,38 @@
             if (e.key === 'Enter') calculate();
         });
 
+        document.getElementById('duration').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') calculate();
+        });
+
         // Auto-calculate on dropdown change
         document.getElementById('dataSizeUnit').addEventListener('change', autoCalculate);
         document.getElementById('transferRateUnit').addEventListener('change', autoCalculate);
+        document.getElementById('durationUnit').addEventListener('change', autoCalculate);
 
         // localStorage persistence
-        const dataRateCalcFields = ['dataSize', 'dataSizeUnit', 'transferRate', 'transferRateUnit'];
+        const dataRateCalcFields = ['dataSize', 'dataSizeUnit', 'transferRate', 'transferRateUnit', 'duration', 'durationUnit'];
 
         function clearAllSavedData() {
             StorageUtils.remove('data-rate-calc');
+            StorageUtils.remove('data-rate-calc-mode');
             document.getElementById('dataSize').value = '';
             document.getElementById('dataSizeUnit').value = 'GB';
             document.getElementById('transferRate').value = '';
             document.getElementById('transferRateUnit').value = 'Mbps';
+            document.getElementById('duration').value = '';
+            document.getElementById('durationUnit').value = 'hour';
             // Reset unit mode to binary
             setUnitMode('binary');
+            // Reset direction to transfer time
+            setMode('time');
             A11yUtils.announce('All saved data has been cleared', 'polite');
         }
 
         document.addEventListener('DOMContentLoaded', function() {
             StorageUtils.loadFormInputs('data-rate-calc', dataRateCalcFields);
             StorageUtils.autoSaveFormInputs('data-rate-calc', dataRateCalcFields);
+            setMode(StorageUtils.load('data-rate-calc-mode', 'time'));
         });
     </script>
     <script>
