@@ -4,8 +4,8 @@ short_id:                 # repo code MC + machine letter (P/V/L) + seq, e.g. MC
 title: <one-line work-stream title>
 project:                 # optional: repo sub-area this stream touches
 status: active           # active | blocked | done
-todoist_parent:          # Todoist parent task id — the durable handle, reused across sessions
-todoist_project:         # the Todoist project the parent lives in
+todoist_parent:          # leave empty; this repo uses no Todoist project
+todoist_project:         # leave empty; see the CLAUDE.md work-stream ticket rule
 retros: []               # paths to retros and to this ticket's Status history file
 cm_status: n/a           # this repo is a static site with no change-management gates,
                          # so every ticket stays n/a and carries no gate work items
@@ -55,7 +55,6 @@ change_record: none
 sensitive_output: false | "<one line why, when true>"
 work:
   - {n: 1, name: <kebab-slug>, state: blocked, owner: operator|claude,
-     todoist: <subtask-id>,                      # omit when the stream has no Todoist parent
      pages: [<path/to/tool.html>],               # the files this item touches
      waiting_on: "<the person who owes the answer>",
      blocker: "<what is actually missing>",

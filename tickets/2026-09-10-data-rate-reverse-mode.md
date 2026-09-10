@@ -25,14 +25,15 @@ work:
   - {n: 2, name: rate-results-export-storage, state: done, date: 2026-09-10, owner: claude,
      pages: [nettools/data-rate-calculator.html],
      note: "New #rateResults section, mode-aware CSV export, localStorage key data-rate-calc-mode."}
-  - {n: 3, name: bind-todoist-parent, state: blocked, owner: operator,
-     waiting_on: "the user",
-     blocker: "The repo CLAUDE.md names no Todoist project, so there is no parent to bind."}
+  - {n: 3, name: bind-todoist-parent, state: done, date: 2026-09-10, owner: operator,
+     note: "The user ruled Todoist out for this repo. The .claude/CLAUDE.md work-stream ticket rule now records it."}
   - {n: 4, name: browser-verify-both-modes, state: open, owner: operator,
      pages: [nettools/data-rate-calculator.html],
      needs: [1, 2],
      verify: "Transfer Rate mode with 12 TB and 36 hours reads 814.45 Mbps in binary mode."}
 do_not:
+  - {what: "Create a Todoist parent or subtask for a ticket in this repo.",
+     why: "The user ruled Todoist out for this repo on 2026-09-10. The ticket `work:` list is the only task list."}
   - {what: "Use a generic `.error` CSS class for the new error container.",
      why: "It applies display:none and hides the input elements. See the error pattern in the repo CLAUDE.md."}
   - {what: "Write the page with `git add` under core.autocrlf=true after a Python rewrite.",
@@ -47,6 +48,11 @@ Example: 12 TB in 36 hours.
 — target close: 2026-09-10
 
 ## Status
+
+- 2026-09-10 — The user ruled Todoist out for this repo. The
+  `## Work-stream tickets` section in `.claude/CLAUDE.md` now says so, and
+  `tickets/TEMPLATE.md` drops the `todoist:` work-item key. Work item 3 closes
+  with that answer.
 
 - 2026-09-10 — Ported `tickets/TEMPLATE.md` to the jayveeye Tracker shape and
   copied `tickets/New-TicketId.ps1`. This ticket took the code `MCP1`. The

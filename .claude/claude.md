@@ -175,6 +175,20 @@ Include scripts in this order in `<head>`:
 - Cross-browser testing (Chrome, Firefox, Safari minimum)
 - Test on slow connections and low-end devices
 
+## Work-stream tickets
+
+This repo keeps tickets under `tickets/`, in the Tracker shape defined by
+`tickets/TEMPLATE.md`. Allocate a ticket code with
+`pwsh -File tickets/New-TicketId.ps1`. The repo code is `MC`.
+
+**This repo uses no Todoist project.** Every ticket leaves `todoist_parent:` and
+`todoist_project:` empty, and carries no Todoist subtasks. The `work:` list in
+the ticket's `## Tracker` block is the only task list. Do not ask which Todoist
+project to use, and do not create a parent task.
+
+This repo has no change-management gates either, so every ticket stays
+`cm_status: n/a` and `change_record: none`.
+
 ## Tool Categories
 
 ### Network Tools
