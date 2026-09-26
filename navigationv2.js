@@ -746,6 +746,12 @@
             background: var(--panel);
             border-bottom: 1px solid var(--line);
         }
+        .owt-menu {
+            display: contents;
+        }
+        .owt-menu-btn {
+            display: none;
+        }
         .owt-brand {
             font-family: var(--font-display);
             font-size: 27px;
@@ -1081,6 +1087,20 @@
         @media (max-width: 768px) {
             .owt-topbar {
                 padding: 10px 16px;
+                justify-content: space-between;
+            }
+            .owt-menu-btn {
+                display: inline-flex;
+                min-height: 44px;
+            }
+            .owt-menu {
+                display: none;
+                flex-direction: column;
+                gap: 12px;
+                width: 100%;
+            }
+            .owt-menu.open {
+                display: flex;
             }
             .owt-tab {
                 min-height: 44px;
@@ -1094,14 +1114,25 @@
                 min-width: 0;
                 min-height: 44px;
             }
+            /* Phone: tabs stack as an accordion; dropdowns open in place */
+            .owt-topbar .nav-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .nav-category {
+                display: flex;
+                flex-direction: column;
+            }
+            .owt-tab {
+                justify-content: space-between;
+            }
             .nav-dropdown,
             .nav-category:nth-last-child(-n+2) .nav-dropdown {
-                position: fixed;
-                top: auto;
-                left: 16px;
-                right: 16px;
-                max-height: 60vh;
-                overflow-y: auto;
+                position: static;
+                min-width: 0;
+                max-width: none;
+                margin-top: 4px;
+                box-shadow: none;
             }
         }
     `;
@@ -1266,6 +1297,8 @@
 
         let html = `<header class="owt-topbar">
         <span class="owt-brand" aria-hidden="true">oldweb.tech:~$</span>
+        <button type="button" class="btn small owt-menu-btn" aria-expanded="false" aria-controls="owt-menu">Menu</button>
+        <div class="owt-menu" id="owt-menu">
         <nav class="nav-bar" aria-label="Main navigation">
             <a href="${pathPrefix}index.html" class="nav-home owt-tab"${homeCurrentAttr}>0:home</a>
             <div class="nav-categories">`;
@@ -1309,8 +1342,29 @@
             <button type="button" class="nav-search-btn" aria-label="Search tools" aria-haspopup="dialog"><span>search tools…</span><kbd>/</kbd></button>
             <button type="button" class="btn small owt-theme-btn"></button>
         </div>
+        </div>
     </header>`;
         return html;
+    }
+
+    // Phone-width menu button: shows/hides the tabs, search and theme toggle
+    function setupMenuToggle() {
+        const btn = document.querySelector('.owt-menu-btn');
+        const menu = document.getElementById('owt-menu');
+        if (!btn || !menu) return;
+        const setOpen = open => {
+            menu.classList.toggle('open', open);
+            btn.setAttribute('aria-expanded', String(open));
+            btn.textContent = open ? 'Close' : 'Menu';
+        };
+        btn.addEventListener('click', () => setOpen(!menu.classList.contains('open')));
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape' && menu.classList.contains('open') &&
+                !document.querySelector('.nav-category-btn[aria-expanded="true"]')) {
+                setOpen(false);
+                btn.focus();
+            }
+        });
     }
 
     function updateThemeButton() {
@@ -1897,7 +1951,10 @@
             document.body.insertBefore(navElement, document.body.firstChild);
         }
         setupEventListeners();
-        if (themed) setupThemeToggle();
+        if (themed) {
+            setupThemeToggle();
+            setupMenuToggle();
+        }
 
         const inSubfolder = currentPage.category !== null;
         const pathPrefix = inSubfolder ? '../' : '';
