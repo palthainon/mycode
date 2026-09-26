@@ -21,196 +21,85 @@
     <meta property="og:site_name" content="OldWeb.tech">
     <meta property="og:image" content="https://oldweb.tech/logo/og-image.png">
 
-    <meta name="theme-color" content="#1a1a2e">
+    <meta name="theme-color" content="#0e0903">
     <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
 
     <title>Plaintext Scratchpad - OldWeb.tech</title>
     <link rel="stylesheet" href="../a11y.css">
+    <link rel="stylesheet" href="../theme.css">
     <script src="../a11y-utils.js"></script>
     <script src="../storage-utils.js"></script>
     <script src="../navigationv2.js"></script>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            min-height: 100vh;
-            padding: 30px 20px;
-            color: #fff;
-        }
-
-        .container { max-width: 1000px; margin: 0 auto; }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 8px;
-            font-size: 2.2rem;
-            color: #4fc3f7;
-            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #90caf9;
-            font-size: 0.95rem;
-            margin-bottom: 22px;
-            opacity: 0.9;
-        }
-
-        .ascii-logo {
-            position: absolute;
-            top: 20px;
-            right: 40px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.65rem;
-            line-height: 1.1;
-            color: #4fc3f7;
-            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
-            opacity: 0.8;
-            white-space: pre;
-        }
-
-        .pad {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            padding: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        /* Page layout only; colors, type, buttons and fields come from theme.css */
+        .pad .box-body {
             display: flex;
             flex-direction: column;
+            gap: 12px;
         }
-
         .toolbar {
             display: flex;
-            gap: 8px;
+            gap: 10px;
             flex-wrap: wrap;
-            margin-bottom: 10px;
             align-items: center;
+            padding: 0 3px 3px 0;
         }
-
         .toolbar .spacer { flex: 1; }
-
-        .toolbar select, .toolbar button {
-            background: rgba(79, 195, 247, 0.1);
-            border: 1px solid rgba(79, 195, 247, 0.3);
-            color: #4fc3f7;
-            padding: 6px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 600;
-            transition: all 0.2s;
-        }
-
         .toolbar select {
-            font-weight: 500;
-            font-family: inherit;
-            cursor: pointer;
+            width: auto;
+            min-height: 32px;
+            padding: 3px 10px;
+            font-size: 0.85rem;
         }
-
-        .toolbar button:hover, .toolbar select:hover {
-            background: rgba(79, 195, 247, 0.2);
-            border-color: #4fc3f7;
+        .btn.danger {
+            color: var(--err);
+            border-color: var(--err);
         }
-
-        .toolbar button.danger {
-            background: transparent;
-            border-color: rgba(244, 67, 54, 0.4);
-            color: rgba(244, 67, 54, 0.8);
+        .btn.danger:hover {
+            background: var(--err-bg);
+            color: var(--err);
         }
-
-        .toolbar button.danger:hover {
-            background: rgba(244, 67, 54, 0.12);
-            border-color: rgba(244, 67, 54, 0.6);
-            color: #ff8a80;
-        }
-
-        .toolbar .save-status {
-            color: #90caf9;
+        .save-status {
+            color: var(--dim);
             font-size: 0.8rem;
-            opacity: 0.85;
-            margin-left: 4px;
         }
-
-        .toolbar .save-status.saved { color: #66bb6a; }
-
-        textarea {
-            width: 100%;
+        .save-status.saved {
+            color: var(--ok);
+        }
+        .save-status.saved::before {
+            content: '\2713  ';
+        }
+        #padInput {
             min-height: 60vh;
             padding: 16px 18px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            background: #0f1419;
-            color: #e0e0e0;
-            font-size: 1rem;
-            font-family: 'Consolas', 'Monaco', 'Menlo', monospace;
             line-height: 1.55;
             resize: vertical;
-            transition: border-color 0.3s, box-shadow 0.3s;
             tab-size: 4;
         }
-
-        textarea.serif {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        #padInput.serif {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
         }
-
-        textarea:focus {
-            outline: none;
-            border-color: #4fc3f7;
-            box-shadow: 0 0 15px rgba(79, 195, 247, 0.2);
-        }
-
-        textarea::placeholder { color: rgba(255, 255, 255, 0.35); }
-
         .footer-bar {
             display: flex;
             gap: 16px;
             flex-wrap: wrap;
-            margin-top: 10px;
-            color: #90caf9;
+            color: var(--dim);
             font-size: 0.85rem;
         }
-
         .footer-bar .stat strong {
-            color: #fff;
-            font-family: 'Consolas', 'Monaco', monospace;
+            color: var(--hi);
+            font-weight: 600;
         }
-
         .info-box {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-            padding: 14px 18px;
             margin-top: 18px;
+            color: var(--dim);
             font-size: 0.85rem;
-            color: #c5d4e3;
-            line-height: 1.55;
-            border-left: 4px solid #4fc3f7;
         }
-
         .info-box code {
-            font-family: 'Consolas', 'Monaco', monospace;
-            background: rgba(255, 255, 255, 0.06);
-            padding: 1px 6px;
-            border-radius: 3px;
-            color: #ffd180;
+            color: var(--fg);
         }
-
-        footer {
-            text-align: center;
-            margin-top: 22px;
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 0.85rem;
-        }
-
         @media (max-width: 768px) {
-            .ascii-logo {
-                position: static;
-                text-align: center;
-                margin-bottom: 20px;
-                font-size: 0.5rem;
-            }
-            h1 { font-size: 1.7rem; }
-            textarea { font-size: 0.95rem; min-height: 55vh; }
+            #padInput { font-size: 0.95rem; min-height: 55vh; }
         }
     </style>
 
@@ -231,29 +120,29 @@
 </head>
 <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
-    <div class="ascii-logo" aria-hidden="true">  ___  _     _  __        __   _
- / _ \| | __| | \ \      / /__| |__
-| | | | |/ _` |  \ \ /\ / / _ \ '_ \
-| |_| | | (_| |   \ V  V /  __/ |_) |
- \___/|_|\__,_|    \_/\_/ \___|_.__/
-</div>
 
-    <main id="main-content" class="container">
-        <h1>Plaintext Scratchpad</h1>
-        <p class="subtitle">Type anything. It auto-saves to your browser and survives reloads. Nothing leaves this page.</p>
+    <main id="main-content">
+        <div class="page-head">
+            <h1>Plaintext Scratchpad</h1>
+            <p class="lede">Type anything. It auto-saves to your browser and survives reloads. Nothing leaves this page.</p>
+        </div>
 
-        <div class="pad">
+        <section class="box pad" aria-labelledby="pad-heading">
+            <div class="box-head">
+                <h2 id="pad-heading">scratch.txt</h2>
+            </div>
+            <div class="box-body">
             <div class="toolbar" role="toolbar" aria-label="Scratchpad actions">
                 <label for="fontSelect" class="sr-only">Font family</label>
                 <select id="fontSelect" aria-label="Font family">
                     <option value="mono" selected>Monospace</option>
                     <option value="serif">Sans-serif</option>
                 </select>
-                <button type="button" onclick="copyAll()" aria-label="Copy all text to clipboard">Copy All</button>
-                <button type="button" onclick="downloadTxt()" aria-label="Download as a .txt file">Download .txt</button>
+                <button type="button" class="btn small" onclick="copyAll()" aria-label="Copy all text to clipboard">Copy All</button>
+                <button type="button" class="btn small" onclick="downloadTxt()" aria-label="Download as a .txt file">Download .txt</button>
                 <span class="spacer"></span>
                 <span id="saveStatus" class="save-status" aria-live="polite">Ready</span>
-                <button type="button" class="danger" onclick="clearAllSavedData()" aria-label="Clear all saved scratchpad text">Clear</button>
+                <button type="button" class="btn small danger" onclick="clearAllSavedData()" aria-label="Clear all saved scratchpad text">Clear</button>
             </div>
 
             <textarea id="padInput"
@@ -268,16 +157,18 @@
                 <span class="stat"><strong id="lineCount">1</strong> lines</span>
                 <span class="stat"><strong id="byteCount">0</strong> bytes</span>
             </div>
-        </div>
+            </div>
+        </section>
 
-        <div class="info-box">
+        <p class="info-box">
             Auto-saves on every keystroke (debounced). Stored only in your browser's localStorage &mdash; clearing site data or using <code>Clear</code> erases it. Use <code>Download .txt</code> if you want a backup.
-        </div>
-
-        <footer role="contentinfo">
-            <span>Scratchpad</span> &mdash; <span>Works offline, no installation required</span>
-        </footer>
+        </p>
     </main>
+
+    <footer class="statusbar" role="contentinfo">
+        <span>[oldweb] productivity › scratchpad │ works offline │ no tracking</span>
+        <span>/ search · t theme</span>
+    </footer>
 
     <script>
         const $ = id => document.getElementById(id);

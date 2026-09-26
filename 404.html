@@ -8,155 +8,128 @@
 
     <meta name="description" content="Page not found on OldWeb Tools. Browse network, system, data, financial, and productivity tools, or use search to find what you need.">
     <meta name="robots" content="noindex, follow">
-    <meta name="theme-color" content="#1a1a2e">
+    <meta name="theme-color" content="#0e0903">
 
     <link rel="icon" type="image/png" sizes="32x32" href="logo/favicon-32x32.png">
 
     <title>Page Not Found - OldWeb.tech</title>
 
     <link rel="stylesheet" href="a11y.css">
+    <link rel="stylesheet" href="theme.css">
     <script src="a11y-utils.js"></script>
     <script src="storage-utils.js"></script>
     <script src="navigationv2.js"></script>
     <style>
-        * {
+        /* Page layout only; colors, type, buttons and fields come from theme.css */
+        .term {
+            margin-bottom: 28px;
+        }
+        .term pre {
             margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            white-space: pre-wrap;
+            word-break: break-word;
+            font-size: 0.95rem;
+            line-height: 1.7;
         }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            min-height: 100vh;
-            padding: 40px 20px;
-            color: #fff;
+        .term .prompt {
+            color: var(--dim);
         }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
+        .term .cmd {
+            color: var(--hi);
         }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 15px;
-            font-size: 3rem;
-            color: #4fc3f7;
-            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #90caf9;
-            font-size: 1.1rem;
-            margin-bottom: 40px;
-            opacity: 0.9;
-        }
-
-        .actions {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .actions p {
-            color: #90caf9;
-            margin-bottom: 12px;
-        }
-
-        .actions kbd {
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.85rem;
-            background: rgba(79, 195, 247, 0.15);
-            border: 1px solid rgba(79, 195, 247, 0.4);
-            border-radius: 4px;
-            padding: 2px 8px;
-            color: #4fc3f7;
-        }
-
-        .categories {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 16px;
-            margin-bottom: 30px;
-        }
-
-        .category-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 18px;
-            text-decoration: none;
-            color: inherit;
-            transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
-        }
-
-        .category-card:hover {
-            transform: translateY(-3px);
-            border-color: rgba(79, 195, 247, 0.5);
-            box-shadow: 0 6px 20px rgba(79, 195, 247, 0.2);
-        }
-
-        .category-card h2 {
-            color: #4fc3f7;
-            font-size: 1.15rem;
-            margin-bottom: 6px;
-        }
-
-        .category-card p {
-            color: #90caf9;
-            font-size: 0.85rem;
-            line-height: 1.4;
-        }
-
-        .home-link {
-            display: block;
-            text-align: center;
-            color: #4fc3f7;
-            text-decoration: none;
+        .term .err {
+            color: var(--err);
             font-weight: 600;
-            margin-top: 20px;
         }
-
-        .home-link:hover {
-            text-decoration: underline;
+        .term .cursor {
+            display: inline-block;
+            width: 0.6em;
+            background: var(--hi);
+            color: var(--hi);
+        }
+        .next-steps {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-top: 18px;
+            padding: 0 3px 3px 0;
+        }
+        .search-hint {
+            margin-top: 14px;
+            color: var(--dim);
+            font-size: 0.9rem;
+        }
+        .cat-heading {
+            margin-bottom: 14px;
         }
     </style>
 </head>
 <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
-    <main id="main-content" class="container">
-        <h1>404</h1>
-        <p class="subtitle">That page doesn't exist (or no longer does).</p>
-
-        <div class="actions">
-            <p>Press <kbd>Ctrl K</kbd> (or <kbd>/</kbd>) to search every tool, or pick a category:</p>
+    <main id="main-content">
+        <div class="page-head">
+            <h1>404: not found</h1>
+            <p class="lede">That page doesn't exist (or no longer does).</p>
         </div>
 
-        <div class="categories">
-            <a href="nettools/index.html" class="category-card">
-                <h2>Network Tools</h2>
+        <section class="box term" aria-labelledby="term-heading">
+            <div class="box-head">
+                <h2 id="term-heading">tty1</h2>
+            </div>
+            <div class="box-body">
+<pre><span class="prompt">guest@oldweb:~$</span> <span class="cmd">cd ./that-page-you-wanted</span>
+<span class="err">bash: cd: ./that-page-you-wanted: No such file or directory</span>
+<span class="prompt">guest@oldweb:~$</span> <span class="cmd">ls ./that-page-you-wanted</span>
+<span class="err">ls: cannot access './that-page-you-wanted': No such file or directory</span>
+<span class="prompt">guest@oldweb:~$</span> <span class="cmd">man 404</span>
+No manual entry for 404. Try one of the options below.
+<span class="prompt">guest@oldweb:~$</span> <span class="cursor" aria-hidden="true">_</span></pre>
+                <div class="next-steps">
+                    <a href="index.html" class="btn-link">cd ~ (home)</a>
+                    <a href="index.html#cat-network" class="btn-link">ls all tools</a>
+                </div>
+                <p class="search-hint">To search every tool, press <kbd>/</kbd> or <kbd>Ctrl K</kbd>, or use the search button in the top bar.</p>
+            </div>
+        </section>
+
+        <h2 class="cat-heading">or pick a category</h2>
+        <div class="card-grid">
+            <a href="nettools/index.html" class="card-link">
+                <h3>nettools/</h3>
                 <p>Subnet calculators, CIDR converters, MTU and Jinja utilities.</p>
+                <span class="card-cta">Open</span>
             </a>
-            <a href="system/index.html" class="category-card">
-                <h2>System Tools</h2>
+            <a href="system/index.html" class="card-link">
+                <h3>system/</h3>
                 <p>Regex, cron, chmod, password, timestamp, certificate, log tools.</p>
+                <span class="card-cta">Open</span>
             </a>
-            <a href="data/index.html" class="category-card">
-                <h2>Data Tools</h2>
+            <a href="data/index.html" class="card-link">
+                <h3>data/</h3>
                 <p>Base64/hash, diff, UUID, string and measurement converters.</p>
+                <span class="card-cta">Open</span>
             </a>
-            <a href="financials/index.html" class="category-card">
-                <h2>Financial Tools</h2>
+            <a href="financials/index.html" class="card-link">
+                <h3>financials/</h3>
                 <p>Amortization, compound interest, debt payoff, retirement.</p>
+                <span class="card-cta">Open</span>
             </a>
-            <a href="productivity/index.html" class="category-card">
-                <h2>Productivity Tools</h2>
-                <p>Pomodoro focus timer.</p>
+            <a href="productivity/index.html" class="card-link">
+                <h3>productivity/</h3>
+                <p>Pomodoro timer, scratchpad, time zone meeting planner.</p>
+                <span class="card-cta">Open</span>
+            </a>
+            <a href="pdf/index.html" class="card-link">
+                <h3>pdf/</h3>
+                <p>Merge, split and rotate PDFs in your browser.</p>
+                <span class="card-cta">Open</span>
             </a>
         </div>
-
-        <a href="index.html" class="home-link">Back to home</a>
     </main>
+
+    <footer class="statusbar" role="contentinfo">
+        <span>[oldweb] 404 │ works offline │ no tracking</span>
+        <span>/ search · t theme</span>
+    </footer>
 </body>
 </html>
