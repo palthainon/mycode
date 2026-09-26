@@ -725,9 +725,10 @@
             generateSubnetList(ipInt, cidr, networkInt);
         }
 
-        // Allow Enter key to calculate
-        document.getElementById('ipv6Address').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') calculate();
+        // Enter (implicit submit): calculate without reloading the page
+        document.getElementById('ipv6-subnet-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            calculate();
         });
 
         // Auto-calculate on CIDR change if IP is valid

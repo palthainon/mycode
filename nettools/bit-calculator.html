@@ -507,9 +507,10 @@
             A11yUtils.announce('Conversion results exported to CSV file', 'polite');
         }
 
-        // Allow Enter key to calculate
-        document.getElementById('amount').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') calculate();
+        // Enter (implicit submit): calculate without reloading the page
+        document.getElementById('bit-calc-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            calculate();
         });
     </script>
     <script>
