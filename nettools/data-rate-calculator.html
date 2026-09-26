@@ -28,477 +28,169 @@
     <meta name="twitter:image" content="https://oldweb.tech/logo/og-image.png">
 
     <!-- Additional Meta Tags -->
-    <meta name="theme-color" content="#1a1a2e">
+    <meta name="theme-color" content="#0e0903">
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
 
     <title>Data Transfer Calculator - OldWeb.tech</title>
     <link rel="stylesheet" href="../a11y.css">
+    <link rel="stylesheet" href="../theme.css">
     <script src="../a11y-utils.js"></script>
     <script src="../storage-utils.js"></script>
     <script src="../navigationv2.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* Page layout only; colors, type, buttons and fields come from theme.css */
+        main {
+            max-width: 900px;
         }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            min-height: 100vh;
-            padding: 40px 20px;
-            color: #fff;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 2.5rem;
-            color: #4fc3f7;
-            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
-        }
-
-        .calculator {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 30px;
+        .calculator,
+        .results {
+            margin-bottom: 24px;
         }
 
         .input-group {
             display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
+            gap: 16px;
+            margin-bottom: 18px;
             flex-wrap: wrap;
         }
-
         .input-field {
             flex: 1;
             min-width: 200px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
         }
-
         .input-field.small {
             flex: 0 0 auto;
-            min-width: 120px;
+            min-width: 140px;
         }
 
-        .input-field label {
-            display: block;
-            margin-bottom: 8px;
-            color: #90caf9;
-            font-weight: 500;
-        }
-
-        .input-field input, .input-field select {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            background: #0f1419;
-            color: #fff;
-            font-size: 1rem;
-            transition: border-color 0.3s, box-shadow 0.3s;
-        }
-
-        .input-field select option {
-            background: #0f1419;
-            color: #fff;
-        }
-
-        .input-field input:focus, .input-field select:focus {
-            outline: none;
-            border-color: #4fc3f7;
-            box-shadow: 0 0 15px rgba(79, 195, 247, 0.2);
-        }
-
-        .input-field input::placeholder {
-            color: rgba(255, 255, 255, 0.4);
-        }
-
+        /* Toggle groups: aria-pressed="true" fills the selected button */
         .unit-toggle {
             display: flex;
             align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px 14px;
+            margin-bottom: 18px;
         }
-
         .unit-toggle-label {
-            color: #90caf9;
-            font-weight: 500;
+            color: var(--dim);
             font-size: 0.9rem;
         }
-
         .unit-toggle-buttons {
             display: flex;
-            border-radius: 6px;
-            overflow: hidden;
-            border: 1px solid rgba(79, 195, 247, 0.3);
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 0 3px 3px 0;
         }
 
-        .unit-toggle-btn {
-            padding: 8px 16px;
-            background: rgba(0, 0, 0, 0.3);
-            border: none;
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: all 0.2s;
+        .form-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            padding: 0 3px 3px 0;
+        }
+        .form-actions .primary {
+            flex: 1;
         }
 
-        .unit-toggle-btn:first-child {
-            border-right: 1px solid rgba(79, 195, 247, 0.3);
+        .quick-select {
+            margin-top: 18px;
+            padding-top: 14px;
+            border-top: 1px dashed var(--line);
+        }
+        .quick-select h3 {
+            margin-bottom: 10px;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            color: var(--dim);
+            text-shadow: none;
+        }
+        .quick-select h3::before {
+            content: '# ';
+        }
+        .quick-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px 8px;
+            margin-bottom: 14px;
+            padding: 0 3px 3px 0;
         }
 
-        .unit-toggle-btn.active {
-            background: rgba(79, 195, 247, 0.2);
-            color: #4fc3f7;
-            font-weight: 600;
-        }
-
-        .unit-toggle-btn:hover:not(.active) {
-            background: rgba(79, 195, 247, 0.1);
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        .btn {
-            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
-            color: #fff;
-            border: none;
-            padding: 14px 40px;
-            font-size: 1.1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            font-weight: 600;
-            display: block;
-            width: 100%;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(79, 195, 247, 0.4);
-        }
-
-        .btn:active {
-            transform: translateY(0);
-        }
-
-        .btn.secondary {
-            background: transparent;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            color: #90caf9;
-            margin-top: 10px;
-        }
-        .btn.secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.5);
-            box-shadow: none;
-            transform: none;
-        }
-
+        /* Results panels are revealed by JS (.show) */
         .results {
             display: none;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
         }
-
         .results.show {
             display: block;
-            animation: fadeIn 0.4s ease;
         }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .results h2 {
-            color: #4fc3f7;
-            margin-bottom: 20px;
-            font-size: 1.5rem;
-        }
-
         .results-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
+            gap: 14px;
         }
-
         .result-item {
-            background: rgba(0, 0, 0, 0.2);
-            padding: 15px 20px;
-            border-radius: 8px;
-            border-left: 4px solid #4fc3f7;
+            padding: 12px 16px;
+            border: 1px solid var(--line);
+            border-left: 4px solid var(--hi);
         }
-
         .result-item.highlight {
             grid-column: 1 / -1;
-            border-left-color: #66bb6a;
-            background: rgba(102, 187, 106, 0.1);
+            border-left-color: var(--ok);
+            border-left-width: 6px;
         }
-
         .result-item .label {
-            color: #90caf9;
-            font-size: 0.85rem;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
+            color: var(--dim);
+            font-size: 0.8rem;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.05em;
         }
-
         .result-item .value {
-            font-size: 1.2rem;
-            font-family: 'Consolas', 'Monaco', monospace;
-            color: #fff;
+            color: var(--hi);
+            font-size: 1.15rem;
+            font-weight: 600;
+            text-shadow: var(--glow);
+            word-break: break-word;
         }
-
         .result-item .value-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 10px;
         }
-
         .copy-result-btn {
-            background: rgba(79, 195, 247, 0.1);
-            border: 1px solid rgba(79, 195, 247, 0.3);
-            color: #4fc3f7;
-            padding: 4px 10px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.75rem;
-            font-weight: 600;
-            transition: all 0.2s;
             flex-shrink: 0;
         }
-
-        .copy-result-btn:hover {
-            background: rgba(79, 195, 247, 0.2);
-            border-color: #4fc3f7;
-        }
-
-        .copy-result-btn:active { transform: scale(0.97); }
-
         .result-item.highlight .value {
+            color: var(--ok);
             font-size: 1.4rem;
-            color: #a5d6a7;
-        }
-
-        #error {
-            background: rgba(244, 67, 54, 0.2);
-            border: 1px solid #f44336;
-            color: #ff8a80;
-            padding: 15px 20px;
-            border-radius: 8px;
-            margin-top: 20px;
-            display: none;
-        }
-
-        #error.show {
-            display: block;
-        }
-
-        input.error {
-            border-color: #f44336 !important;
-        }
-
-        .quick-select {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .quick-select h3 {
-            color: #90caf9;
-            font-size: 0.9rem;
-            margin-bottom: 10px;
-        }
-
-        .quick-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 15px;
-        }
-
-        .quick-btn {
-            background: rgba(79, 195, 247, 0.1);
-            border: 1px solid rgba(79, 195, 247, 0.3);
-            color: #4fc3f7;
-            padding: 6px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            transition: all 0.2s;
-        }
-
-        .quick-btn:hover {
-            background: rgba(79, 195, 247, 0.2);
-            border-color: #4fc3f7;
-        }
-
-        .quick-btn.rate {
-            border-color: rgba(255, 138, 101, 0.3);
-            color: #ff8a65;
-            background: rgba(255, 138, 101, 0.1);
-        }
-
-        .quick-btn.rate:hover {
-            background: rgba(255, 138, 101, 0.2);
-            border-color: #ff8a65;
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 30px;
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 0.85rem;
-        }
-
-        /* ASCII Logo */
-        .ascii-logo {
-            position: absolute;
-            top: 20px;
-            right: 40px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.65rem;
-            line-height: 1.1;
-            color: #4fc3f7;
-            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
-            opacity: 0.8;
-            white-space: pre;
-        }
-
-        @media (max-width: 768px) {
-            .ascii-logo {
-                position: static;
-                text-align: center;
-                margin-bottom: 20px;
-                font-size: 0.5rem;
-            }
-        }
-
-        /* Navigation Bar */
-        .nav-bar {
-            position: absolute;
-            top: 20px;
-            left: 40px;
-            display: flex;
-            gap: 15px;
-            align-items: center;
-            z-index: 100;
-        }
-
-        .nav-link {
-            color: #4fc3f7;
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 600;
-            transition: color 0.2s, text-shadow 0.2s;
-        }
-
-        .nav-link:hover {
-            color: #2196f3;
-            text-shadow: 0 0 10px rgba(79, 195, 247, 0.5);
-        }
-
-        .nav-link.current {
-            color: #66bb6a;
-            border-bottom: 2px solid #66bb6a;
-        }
-
-        .nav-separator {
-            color: rgba(79, 195, 247, 0.3);
-            user-select: none;
-        }
-
-        @media (max-width: 768px) {
-            .nav-bar {
-                position: static;
-                justify-content: center;
-                flex-wrap: wrap;
-                margin-bottom: 20px;
-                gap: 10px;
-            }
-        }
-
-        /* Export Button Styles */
-        .export-btn {
-            background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%);
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            font-size: 0.9rem;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            font-weight: 600;
-            display: inline-block;
-            margin-top: 15px;
-        }
-
-        .export-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(102, 187, 106, 0.4);
-        }
-
-        .export-btn:active {
-            transform: translateY(0);
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .section-header h2 {
-            margin-bottom: 0;
         }
 
         .info-section {
             margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 16px;
+            border-top: 1px dashed var(--line);
         }
-
         .info-section h3 {
-            color: #4fc3f7;
-            margin-bottom: 15px;
-            font-size: 1.1rem;
+            margin-bottom: 12px;
         }
-
         .info-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 10px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 6px 16px;
         }
-
         .info-item {
-            font-family: 'Consolas', 'Monaco', monospace;
+            padding: 4px 0;
             font-size: 0.9rem;
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 4px;
+            border-bottom: 1px dotted var(--line);
         }
-
         .info-item .info-label {
-            color: #90caf9;
             display: inline-block;
-            min-width: 120px;
+            min-width: 130px;
+            color: var(--dim);
         }
     </style>
 
@@ -526,28 +218,29 @@
 </head>
 <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
-    <div class="ascii-logo" aria-hidden="true">  ___  _    _  __        __   _
- / _ \| | _| | \ \      / /__| |__
-| | | | |/ _` | \ \ /\ / / _ \ '_ \
-| |_| | | (_| |  \ V  V /  __/ |_) |
- \___/|_|\__,_|   \_/\_/ \___|_.__/
-</div>
-    <main id="main-content" class="container">
-        <h1>Data Transfer Calculator</h1>
+    <main id="main-content">
+        <div class="page-head">
+            <h1>Data Transfer Calculator</h1>
+            <p class="lede">How long a transfer takes at a given rate, or the rate a finished transfer achieved.</p>
+        </div>
 
-        <div class="calculator">
+        <section class="box calculator" aria-labelledby="input-heading">
+            <div class="box-head">
+                <h2 id="input-heading">input</h2>
+            </div>
+            <div class="box-body">
             <form id="transfer-form" aria-label="Data Transfer Calculator Form">
                 <div class="unit-toggle" role="group" aria-labelledby="calc-mode-label">
                     <span class="unit-toggle-label" id="calc-mode-label">Calculate:</span>
                     <div class="unit-toggle-buttons">
                         <button type="button"
-                                class="unit-toggle-btn active"
+                                class="btn small unit-toggle-btn active"
                                 id="timeModeBtn"
                                 onclick="setMode('time')"
                                 aria-label="Calculate transfer time from data size and transfer rate"
                                 aria-pressed="true">Transfer Time</button>
                         <button type="button"
-                                class="unit-toggle-btn"
+                                class="btn small unit-toggle-btn"
                                 id="rateModeBtn"
                                 onclick="setMode('rate')"
                                 aria-label="Calculate transfer rate from data size and elapsed time"
@@ -634,13 +327,13 @@
                     <span class="unit-toggle-label" id="unit-mode-label">Data Size Units:</span>
                     <div class="unit-toggle-buttons">
                         <button type="button"
-                                class="unit-toggle-btn active"
+                                class="btn small unit-toggle-btn active"
                                 id="binaryBtn"
                                 onclick="setUnitMode('binary')"
                                 aria-label="Use binary notation where 1 kilobyte equals 1024 bytes"
                                 aria-pressed="true">Binary (1024)</button>
                         <button type="button"
-                                class="unit-toggle-btn"
+                                class="btn small unit-toggle-btn"
                                 id="decimalBtn"
                                 onclick="setUnitMode('decimal')"
                                 aria-label="Use decimal notation where 1 kilobyte equals 1000 bytes"
@@ -648,156 +341,161 @@
                     </div>
                 </div>
 
+                <div class="form-actions">
                 <button type="button"
-                        class="btn"
+                        class="btn primary"
                         id="calcBtn"
                         onclick="calculate()"
                         aria-label="Calculate data transfer time based on size and rate"
                         >Calculate Transfer Time</button>
                 <button type="button"
-                        class="btn secondary"
+                        class="btn"
                         onclick="clearAllSavedData()"
                         aria-label="Clear all saved form data from this page"
-                        >Clear Saved Data</button>
+                        >Clear saved data</button>
+                </div>
             </form>
 
             <div class="quick-select">
-                <h3>Quick Data Sizes:</h3>
+                <h3>data sizes</h3>
                 <div class="quick-buttons">
                     <button type="button"
-                            class="quick-btn"
+                            class="btn small quick-btn"
                             onclick="setDataSize(1, 'GB')"
                             aria-label="Set data size to 1 gigabyte">1 GB</button>
                     <button type="button"
-                            class="quick-btn"
+                            class="btn small quick-btn"
                             onclick="setDataSize(10, 'GB')"
                             aria-label="Set data size to 10 gigabytes">10 GB</button>
                     <button type="button"
-                            class="quick-btn"
+                            class="btn small quick-btn"
                             onclick="setDataSize(100, 'GB')"
                             aria-label="Set data size to 100 gigabytes">100 GB</button>
                     <button type="button"
-                            class="quick-btn"
+                            class="btn small quick-btn"
                             onclick="setDataSize(1, 'TB')"
                             aria-label="Set data size to 1 terabyte">1 TB</button>
                     <button type="button"
-                            class="quick-btn"
+                            class="btn small quick-btn"
                             onclick="setDataSize(10, 'TB')"
                             aria-label="Set data size to 10 terabytes">10 TB</button>
                 </div>
                 <div id="quickRates">
-                <h3>Quick Transfer Rates:</h3>
+                <h3>transfer rates</h3>
                 <div class="quick-buttons">
                     <button type="button"
-                            class="quick-btn rate"
+                            class="btn small quick-btn rate"
                             onclick="setTransferRate(10, 'Mbps')"
                             aria-label="Set transfer rate to 10 megabits per second">10 Mbps</button>
                     <button type="button"
-                            class="quick-btn rate"
+                            class="btn small quick-btn rate"
                             onclick="setTransferRate(100, 'Mbps')"
                             aria-label="Set transfer rate to 100 megabits per second">100 Mbps</button>
                     <button type="button"
-                            class="quick-btn rate"
+                            class="btn small quick-btn rate"
                             onclick="setTransferRate(1, 'Gbps')"
                             aria-label="Set transfer rate to 1 gigabit per second">1 Gbps</button>
                     <button type="button"
-                            class="quick-btn rate"
+                            class="btn small quick-btn rate"
                             onclick="setTransferRate(10, 'Gbps')"
                             aria-label="Set transfer rate to 10 gigabits per second">10 Gbps</button>
                     <button type="button"
-                            class="quick-btn rate"
+                            class="btn small quick-btn rate"
                             onclick="setTransferRate(100, 'Gbps')"
                             aria-label="Set transfer rate to 100 gigabits per second">100 Gbps</button>
                 </div>
                 </div>
                 <div id="quickDurations" style="display: none;">
-                <h3>Quick Elapsed Times:</h3>
+                <h3>elapsed times</h3>
                 <div class="quick-buttons">
                     <button type="button"
-                            class="quick-btn rate"
+                            class="btn small quick-btn rate"
                             onclick="setDuration(1, 'hour')"
                             aria-label="Set elapsed time to 1 hour">1 hour</button>
                     <button type="button"
-                            class="quick-btn rate"
+                            class="btn small quick-btn rate"
                             onclick="setDuration(8, 'hour')"
                             aria-label="Set elapsed time to 8 hours">8 hours</button>
                     <button type="button"
-                            class="quick-btn rate"
+                            class="btn small quick-btn rate"
                             onclick="setDuration(24, 'hour')"
                             aria-label="Set elapsed time to 24 hours">24 hours</button>
                     <button type="button"
-                            class="quick-btn rate"
+                            class="btn small quick-btn rate"
                             onclick="setDuration(36, 'hour')"
                             aria-label="Set elapsed time to 36 hours">36 hours</button>
                     <button type="button"
-                            class="quick-btn rate"
+                            class="btn small quick-btn rate"
                             onclick="setDuration(7, 'day')"
                             aria-label="Set elapsed time to 7 days">7 days</button>
                 </div>
                 </div>
             </div>
 
-            <div class="error"
+            <div class="error-container"
                  id="error"
                  role="alert"
                  aria-live="assertive"
                  aria-atomic="true"></div>
-        </div>
+            </div>
+        </section>
 
-        <div class="results"
+        <section class="box results"
              id="results"
-             role="region"
              aria-live="polite"
              aria-label="Transfer time calculation results">
-            <div class="section-header">
-                <h2>Transfer Time</h2>
-                <button type="button"
-                        class="export-btn"
-                        onclick="exportToCSV()"
-                        aria-label="Export transfer time calculation results to CSV file"
-                        >Export to CSV</button>
+            <div class="box-head">
+                <h2>transfer time</h2>
+                <div class="box-actions">
+                    <button type="button"
+                            class="btn small export-btn"
+                            onclick="exportToCSV()"
+                            aria-label="Export transfer time calculation results to CSV file"
+                            >Export CSV</button>
+                </div>
             </div>
+            <div class="box-body">
             <div class="results-grid">
                 <div class="result-item highlight">
                     <div class="label">Total Time</div>
                     <div class="value-row">
                         <div class="value" id="humanReadable">-</div>
-                        <button type="button" class="copy-result-btn" onclick="copyResult('humanReadable', 'Total time')" aria-label="Copy total time">Copy</button>
+                        <button type="button" class="btn small copy-result-btn" onclick="copyResult('humanReadable', 'Total time')" aria-label="Copy total time">Copy</button>
                     </div>
                 </div>
                 <div class="result-item">
                     <div class="label">Seconds</div>
                     <div class="value-row">
                         <div class="value" id="seconds">-</div>
-                        <button type="button" class="copy-result-btn" onclick="copyResult('seconds', 'Seconds')" aria-label="Copy seconds value">Copy</button>
+                        <button type="button" class="btn small copy-result-btn" onclick="copyResult('seconds', 'Seconds')" aria-label="Copy seconds value">Copy</button>
                     </div>
                 </div>
                 <div class="result-item">
                     <div class="label">Minutes</div>
                     <div class="value-row">
                         <div class="value" id="minutes">-</div>
-                        <button type="button" class="copy-result-btn" onclick="copyResult('minutes', 'Minutes')" aria-label="Copy minutes value">Copy</button>
+                        <button type="button" class="btn small copy-result-btn" onclick="copyResult('minutes', 'Minutes')" aria-label="Copy minutes value">Copy</button>
                     </div>
                 </div>
                 <div class="result-item">
                     <div class="label">Hours</div>
                     <div class="value-row">
                         <div class="value" id="hours">-</div>
-                        <button type="button" class="copy-result-btn" onclick="copyResult('hours', 'Hours')" aria-label="Copy hours value">Copy</button>
+                        <button type="button" class="btn small copy-result-btn" onclick="copyResult('hours', 'Hours')" aria-label="Copy hours value">Copy</button>
                     </div>
                 </div>
                 <div class="result-item" id="daysItem" style="display: none;">
                     <div class="label">Days</div>
                     <div class="value-row">
                         <div class="value" id="days">-</div>
-                        <button type="button" class="copy-result-btn" onclick="copyResult('days', 'Days')" aria-label="Copy days value">Copy</button>
+                        <button type="button" class="btn small copy-result-btn" onclick="copyResult('days', 'Days')" aria-label="Copy days value">Copy</button>
                     </div>
                 </div>
                 <div class="result-item" id="weeksItem" style="display: none;">
                     <div class="label">Weeks</div>
                     <div class="value-row">
                         <div class="value" id="weeks">-</div>
-                        <button type="button" class="copy-result-btn" onclick="copyResult('weeks', 'Weeks')" aria-label="Copy weeks value">Copy</button>
+                        <button type="button" class="btn small copy-result-btn" onclick="copyResult('weeks', 'Weeks')" aria-label="Copy weeks value">Copy</button>
                     </div>
                 </div>
             </div>
@@ -823,69 +521,72 @@
                     </div>
                 </div>
             </div>
-        </div>
+            </div>
+        </section>
 
-        <div class="results"
+        <section class="box results"
              id="rateResults"
-             role="region"
              aria-live="polite"
              aria-label="Transfer rate calculation results">
-            <div class="section-header">
-                <h2>Transfer Rate</h2>
-                <button type="button"
-                        class="export-btn"
-                        onclick="exportToCSV()"
-                        aria-label="Export transfer rate calculation results to CSV file"
-                        >Export to CSV</button>
+            <div class="box-head">
+                <h2>transfer rate</h2>
+                <div class="box-actions">
+                    <button type="button"
+                            class="btn small export-btn"
+                            onclick="exportToCSV()"
+                            aria-label="Export transfer rate calculation results to CSV file"
+                            >Export CSV</button>
+                </div>
             </div>
+            <div class="box-body">
             <div class="results-grid">
                 <div class="result-item highlight">
                     <div class="label">Average Rate</div>
                     <div class="value-row">
                         <div class="value" id="rateHuman">-</div>
-                        <button type="button" class="copy-result-btn" onclick="copyResult('rateHuman', 'Average rate')" aria-label="Copy average rate">Copy</button>
+                        <button type="button" class="btn small copy-result-btn" onclick="copyResult('rateHuman', 'Average rate')" aria-label="Copy average rate">Copy</button>
                     </div>
                 </div>
                 <div class="result-item">
                     <div class="label">Megabits / sec</div>
                     <div class="value-row">
                         <div class="value" id="rateMbps">-</div>
-                        <button type="button" class="copy-result-btn" onclick="copyResult('rateMbps', 'Megabits per second')" aria-label="Copy megabits per second value">Copy</button>
+                        <button type="button" class="btn small copy-result-btn" onclick="copyResult('rateMbps', 'Megabits per second')" aria-label="Copy megabits per second value">Copy</button>
                     </div>
                 </div>
                 <div class="result-item">
                     <div class="label">Gigabits / sec</div>
                     <div class="value-row">
                         <div class="value" id="rateGbps">-</div>
-                        <button type="button" class="copy-result-btn" onclick="copyResult('rateGbps', 'Gigabits per second')" aria-label="Copy gigabits per second value">Copy</button>
+                        <button type="button" class="btn small copy-result-btn" onclick="copyResult('rateGbps', 'Gigabits per second')" aria-label="Copy gigabits per second value">Copy</button>
                     </div>
                 </div>
                 <div class="result-item">
                     <div class="label">Bits / sec</div>
                     <div class="value-row">
                         <div class="value" id="rateBps">-</div>
-                        <button type="button" class="copy-result-btn" onclick="copyResult('rateBps', 'Bits per second')" aria-label="Copy bits per second value">Copy</button>
+                        <button type="button" class="btn small copy-result-btn" onclick="copyResult('rateBps', 'Bits per second')" aria-label="Copy bits per second value">Copy</button>
                     </div>
                 </div>
                 <div class="result-item">
                     <div class="label">Bytes / sec</div>
                     <div class="value-row">
                         <div class="value" id="rateBytesPerSec">-</div>
-                        <button type="button" class="copy-result-btn" onclick="copyResult('rateBytesPerSec', 'Bytes per second')" aria-label="Copy bytes per second value">Copy</button>
+                        <button type="button" class="btn small copy-result-btn" onclick="copyResult('rateBytesPerSec', 'Bytes per second')" aria-label="Copy bytes per second value">Copy</button>
                     </div>
                 </div>
                 <div class="result-item">
                     <div class="label">Data / hour</div>
                     <div class="value-row">
                         <div class="value" id="ratePerHour">-</div>
-                        <button type="button" class="copy-result-btn" onclick="copyResult('ratePerHour', 'Data per hour')" aria-label="Copy data per hour value">Copy</button>
+                        <button type="button" class="btn small copy-result-btn" onclick="copyResult('ratePerHour', 'Data per hour')" aria-label="Copy data per hour value">Copy</button>
                     </div>
                 </div>
                 <div class="result-item">
                     <div class="label">Data / day</div>
                     <div class="value-row">
                         <div class="value" id="ratePerDay">-</div>
-                        <button type="button" class="copy-result-btn" onclick="copyResult('ratePerDay', 'Data per day')" aria-label="Copy data per day value">Copy</button>
+                        <button type="button" class="btn small copy-result-btn" onclick="copyResult('ratePerDay', 'Data per day')" aria-label="Copy data per day value">Copy</button>
                     </div>
                 </div>
             </div>
@@ -911,12 +612,13 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-        <footer role="contentinfo">
-            <span>Data Transfer Calculator</span> - <span>Works offline, no installation required</span>
-        </footer>
+            </div>
+        </section>
     </main>
+    <footer class="statusbar" role="contentinfo">
+        <span>[oldweb] network › data-rate-calculator │ works offline │ no tracking</span>
+        <span>/ search · t theme</span>
+    </footer>
 
     <script>
         // Unit conversion multipliers

@@ -28,645 +28,331 @@
     <meta name="twitter:image" content="https://oldweb.tech/logo/og-image.png">
 
     <!-- Additional Meta Tags -->
-    <meta name="theme-color" content="#1a1a2e">
+    <meta name="theme-color" content="#0e0903">
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
 
     <title>MTU Calculator - OldWeb.tech</title>
     <link rel="stylesheet" href="../a11y.css">
+    <link rel="stylesheet" href="../theme.css">
     <script src="../a11y-utils.js"></script>
     <script src="../storage-utils.js"></script>
     <script src="../navigationv2.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* Page layout only; colors, type, buttons and fields come from theme.css */
+        .calculator,
+        .results,
+        .reference-section {
+            margin-bottom: 24px;
         }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            min-height: 100vh;
-            padding: 40px 20px;
-            color: #fff;
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 15px;
-            font-size: 2.5rem;
-            color: #4fc3f7;
-            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #90caf9;
-            font-size: 1rem;
-            margin-bottom: 30px;
-            opacity: 0.9;
-        }
-
-        /* ASCII Logo */
-        .ascii-logo {
-            position: absolute;
-            top: 20px;
-            right: 40px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.65rem;
-            line-height: 1.1;
-            color: #4fc3f7;
-            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
-            opacity: 0.8;
-            white-space: pre;
-        }
-
-        /* Mode Toggle */
         .mode-toggle {
             display: flex;
             gap: 10px;
-            margin-bottom: 30px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            padding: 10px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            justify-content: center;
             flex-wrap: wrap;
         }
-
-        .mode-btn {
-            background: rgba(79, 195, 247, 0.1);
-            border: 1px solid rgba(79, 195, 247, 0.3);
-            color: #4fc3f7;
-            padding: 10px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: all 0.2s;
-            font-weight: 600;
+        .mode-section {
+            display: none;
         }
-
-        .mode-btn:hover {
-            background: rgba(79, 195, 247, 0.2);
-            border-color: #4fc3f7;
-        }
-
-        .mode-btn.active {
-            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
-            color: #fff;
-            border-color: #4fc3f7;
-        }
-
-        /* Calculator Container */
-        .calculator {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 30px;
+        .mode-section.active {
+            display: block;
         }
 
         .input-group {
             display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
+            gap: 16px;
+            margin-bottom: 18px;
             flex-wrap: wrap;
         }
-
         .input-field {
             flex: 1;
             min-width: 200px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
         }
-
         .input-field.full-width {
             flex: 100%;
             min-width: 100%;
         }
 
-        .input-field label {
-            display: block;
-            margin-bottom: 8px;
-            color: #90caf9;
-            font-weight: 500;
-        }
-
-        .input-field input, .input-field select {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            background: #0f1419;
-            color: #fff;
-            font-size: 1rem;
-            transition: border-color 0.3s, box-shadow 0.3s;
-            font-family: 'Consolas', 'Monaco', monospace;
-        }
-
-        .input-field select option {
-            background: #0f1419;
-            color: #fff;
-        }
-
-        .input-field input:focus, .input-field select:focus {
-            outline: none;
-            border-color: #4fc3f7;
-            box-shadow: 0 0 15px rgba(79, 195, 247, 0.2);
-        }
-
-        .input-field input::placeholder {
-            color: rgba(255, 255, 255, 0.4);
-        }
-
-        /* Checkbox Group */
         .checkbox-group {
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
-
-        .checkbox-group h3 {
-            color: #90caf9;
+        .checkbox-group h3,
+        .quick-presets h3 {
+            margin-bottom: 10px;
+            font-family: var(--font-body);
             font-size: 0.9rem;
-            margin-bottom: 12px;
+            color: var(--dim);
+            text-shadow: none;
         }
-
+        .checkbox-group h3::before,
+        .quick-presets h3::before {
+            content: '# ';
+        }
         .checkbox-options {
             display: flex;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 14px 20px;
         }
-
         .checkbox-item {
             display: flex;
             align-items: center;
             gap: 8px;
             cursor: pointer;
         }
-
         .checkbox-item input[type="checkbox"],
         .checkbox-item input[type="radio"] {
-            width: 18px;
-            height: 18px;
             cursor: pointer;
-            accent-color: #4fc3f7;
         }
-
         .checkbox-item label {
-            color: #fff;
-            font-size: 0.9rem;
+            color: var(--fg);
             cursor: pointer;
         }
-
         .checkbox-item .overhead-info {
-            color: #90caf9;
-            font-size: 0.8rem;
             margin-left: 4px;
+            color: var(--dim);
+            font-size: 0.8rem;
         }
 
-        /* Quick Presets */
         .quick-presets {
-            margin-bottom: 25px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+            padding-top: 14px;
+            border-top: 1px dashed var(--line);
         }
-
-        .quick-presets h3 {
-            color: #90caf9;
-            font-size: 0.9rem;
-            margin-bottom: 10px;
-        }
-
         .preset-buttons {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 10px 8px;
+            padding: 0 3px 3px 0;
         }
-
-        .preset-btn {
-            background: rgba(102, 187, 106, 0.15);
-            border: 1px solid rgba(102, 187, 106, 0.4);
-            color: #66bb6a;
-            padding: 8px 14px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            transition: all 0.2s;
-        }
-
-        .preset-btn:hover {
-            background: rgba(102, 187, 106, 0.25);
-            border-color: #66bb6a;
-        }
-
-        .btn {
-            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
-            color: #fff;
-            border: none;
-            padding: 14px 40px;
-            font-size: 1.1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            font-weight: 600;
-            display: block;
+        .mode-section form > .btn.primary {
             width: 100%;
         }
 
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(79, 195, 247, 0.4);
-        }
-
-        .btn:active {
-            transform: translateY(0);
-        }
-
-        #error {
-            background: rgba(244, 67, 54, 0.2);
-            border: 1px solid #f44336;
-            color: #ff8a80;
-            padding: 15px 20px;
-            border-radius: 8px;
-            margin-top: 20px;
-            display: none;
-        }
-
-        #error.show {
-            display: block;
-        }
-
-        input.error {
-            border-color: #f44336 !important;
-        }
-
-        /* Results Section */
+        /* Results (#results gets its content from JS; .show reveals it) */
         .results {
             display: none;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 30px;
         }
-
         .results.show {
             display: block;
-            animation: fadeIn 0.4s ease;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .results h2 {
-            color: #4fc3f7;
-            margin-bottom: 20px;
-            font-size: 1.5rem;
-        }
-
-        /* Summary Cards */
         .summary-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 15px;
-            margin-bottom: 25px;
+            gap: 14px;
+            margin-bottom: 22px;
         }
-
         .summary-card {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 20px;
-            border-radius: 8px;
-            border-left: 4px solid #4fc3f7;
+            padding: 14px 16px;
+            border: 1px solid var(--line);
+            border-left: 6px solid var(--hi);
             text-align: center;
         }
-
-        .summary-card.warning {
-            border-left-color: #ff9800;
-        }
-
-        .summary-card.error {
-            border-left-color: #f44336;
-            display: block;
-        }
-
-        .summary-card.success {
-            border-left-color: #66bb6a;
-        }
-
-        .summary-card.success .stat-value {
-            color: #66bb6a;
-        }
-
         .summary-card .stat-value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #4fc3f7;
-            font-family: 'Consolas', 'Monaco', monospace;
+            font-family: var(--font-display);
+            font-size: 2.4rem;
+            line-height: 1.1;
+            color: var(--hi);
+            text-shadow: var(--glow);
         }
-
-        .summary-card.warning .stat-value {
-            color: #ff9800;
-        }
-
-        .summary-card.error .stat-value {
-            color: #f44336;
-        }
-
         .summary-card .stat-label {
-            color: #90caf9;
-            font-size: 0.85rem;
-            margin-top: 8px;
+            margin-top: 6px;
+            color: var(--dim);
+            font-size: 0.8rem;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.05em;
+        }
+        .summary-card.success {
+            border-left-color: var(--ok);
+        }
+        .summary-card.success .stat-value {
+            color: var(--ok);
+        }
+        .summary-card.warning {
+            border-left-color: var(--warn);
+            border-left-style: dashed;
+        }
+        .summary-card.warning .stat-value {
+            color: var(--warn);
+        }
+        .summary-card.warning .stat-label::after {
+            content: ' · warning';
+        }
+        .summary-card.error {
+            display: block;
+            background: var(--err-bg);
+            border-left-color: var(--err);
+        }
+        .summary-card.error .stat-value {
+            color: var(--err);
+        }
+        .summary-card.error .stat-label::after {
+            content: ' · error';
         }
 
-        /* Overhead Breakdown */
-        .overhead-breakdown {
-            margin-top: 25px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        .overhead-breakdown,
+        .icmp-commands {
+            margin-top: 22px;
+            padding-top: 16px;
+            border-top: 1px dashed var(--line);
         }
-
-        .overhead-breakdown h3 {
-            color: #4fc3f7;
-            margin-bottom: 15px;
-            font-size: 1.1rem;
+        .overhead-breakdown h3,
+        .icmp-commands h3 {
+            margin-bottom: 12px;
         }
-
         .layer-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 15px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 6px;
-            margin-bottom: 8px;
-            border-left: 3px solid #4fc3f7;
+            gap: 12px;
+            margin-bottom: 6px;
+            padding: 8px 14px;
+            border: 1px solid var(--line);
+            border-left: 4px solid var(--hi);
         }
-
-        .layer-item .layer-name {
-            color: #fff;
-            font-weight: 500;
-        }
-
         .layer-item .layer-bytes {
-            color: #90caf9;
-            font-family: 'Consolas', 'Monaco', monospace;
-            font-size: 0.95rem;
+            color: var(--hi);
+            white-space: nowrap;
         }
-
         .layer-item.overhead {
-            border-left-color: #ff9800;
+            border-left-color: var(--warn);
+            border-left-style: dashed;
         }
-
-        .layer-item.payload {
-            border-left-color: #66bb6a;
+        .layer-item.payload,
+        .layer-item.recommended {
+            border-left-color: var(--ok);
         }
-
         .layer-item.payload .layer-name,
-        .layer-item.payload .layer-bytes {
-            color: #66bb6a;
+        .layer-item.payload .layer-bytes,
+        .layer-item.recommended .layer-bytes {
+            color: var(--ok);
+            font-weight: 600;
+        }
+        .results .note {
+            margin-top: 12px;
+            color: var(--dim);
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+        .results .icmp-commands .note {
+            margin: 0 0 14px;
+            font-size: 0.9rem;
+        }
+        .results .steps {
+            padding-left: 22px;
+            color: var(--dim);
+            line-height: 1.8;
         }
 
-        /* Warning Badge */
         .warning-badge {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            background: rgba(255, 152, 0, 0.2);
-            border: 1px solid #ff9800;
-            color: #ff9800;
-            padding: 12px 16px;
-            border-radius: 8px;
-            margin-top: 15px;
+            gap: 10px;
+            margin-top: 4px;
+            padding: 10px 14px;
+            border: 1px solid var(--warn);
+            border-left: 6px solid var(--warn);
+            color: var(--warn);
             font-size: 0.9rem;
         }
-
         .warning-badge::before {
-            content: "!";
+            content: '!';
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            flex-shrink: 0;
             width: 20px;
             height: 20px;
-            background: #ff9800;
-            color: #000;
-            border-radius: 50%;
-            font-weight: bold;
-            font-size: 0.8rem;
-        }
-
-        /* ICMP Commands Section */
-        .icmp-commands {
-            margin-top: 25px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .icmp-commands h3 {
-            color: #4fc3f7;
-            margin-bottom: 15px;
-            font-size: 1.1rem;
-        }
-
-        .command-box {
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 12px;
-            position: relative;
-        }
-
-        .command-box .os-label {
-            color: #90caf9;
-            font-size: 0.8rem;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .command-box code {
-            display: block;
-            font-family: 'Consolas', 'Monaco', monospace;
-            font-size: 0.95rem;
-            color: #66bb6a;
-            word-break: break-all;
-        }
-
-        .copy-btn {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background: rgba(79, 195, 247, 0.2);
-            border: 1px solid rgba(79, 195, 247, 0.4);
-            color: #4fc3f7;
-            padding: 6px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            transition: all 0.2s;
-        }
-
-        .copy-btn:hover {
-            background: rgba(79, 195, 247, 0.3);
-            border-color: #4fc3f7;
-        }
-
-        .copy-btn.copied {
-            background: rgba(102, 187, 106, 0.3);
-            border-color: #66bb6a;
-            color: #66bb6a;
-        }
-
-        /* Export Section */
-        .export-section {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .export-btn {
-            background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%);
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            font-size: 0.9rem;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            background: var(--warn);
+            color: var(--inv);
             font-weight: 600;
         }
 
-        .export-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(102, 187, 106, 0.4);
+        .command-box {
+            position: relative;
+            margin-bottom: 12px;
+            padding: 12px 110px 12px 14px;
+            background: var(--field);
+            border: 1px solid var(--line);
+        }
+        .command-box .os-label {
+            margin-bottom: 6px;
+            color: var(--dim);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .command-box code {
+            display: block;
+            color: var(--hi);
+            word-break: break-all;
+        }
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 12px;
+        }
+        .btn.copy-btn.copied {
+            background: var(--hi);
+            color: var(--inv);
         }
 
-        .export-btn.json {
-            background: linear-gradient(135deg, #42a5f5 0%, #1976d2 100%);
-        }
-
-        .export-btn.json:hover {
-            box-shadow: 0 4px 15px rgba(66, 165, 245, 0.4);
-        }
-
-        /* Reference Section */
-        .reference-section {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 30px;
-        }
-
-        .reference-section h2 {
-            color: #4fc3f7;
-            margin-bottom: 20px;
-            font-size: 1.3rem;
+        .export-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+            padding: 16px 3px 3px 0;
+            border-top: 1px dashed var(--line);
         }
 
         .reference-section h3 {
-            color: #90caf9;
-            margin-top: 25px;
-            margin-bottom: 12px;
-            font-size: 1rem;
+            margin: 22px 0 10px;
         }
-
+        .reference-section h3:first-child {
+            margin-top: 0;
+        }
         .reference-section p {
-            color: rgba(255, 255, 255, 0.8);
-            line-height: 1.6;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
-
         .reference-table {
-            width: 100%;
-            border-collapse: collapse;
+            margin-bottom: 18px;
             font-size: 0.9rem;
-            margin-bottom: 20px;
         }
-
-        .reference-table th {
-            background: rgba(79, 195, 247, 0.9);
-            color: #0f1419;
-            padding: 12px;
-            text-align: left;
-        }
-
         .reference-table td {
-            padding: 10px 12px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            color: #fff;
+            white-space: normal;
         }
-
-        .reference-table tr:hover {
-            background: rgba(79, 195, 247, 0.05);
-        }
-
-        /* Mode Sections */
-        .mode-section {
-            display: none;
-        }
-
-        .mode-section.active {
-            display: block;
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 30px;
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 0.85rem;
+        .table-scroll {
+            overflow-x: auto;
         }
 
         @media (max-width: 768px) {
-            .ascii-logo {
-                position: static;
-                text-align: center;
-                margin-bottom: 20px;
-                font-size: 0.5rem;
+            .mode-toggle .btn {
+                flex: 1 1 100%;
             }
-
-            h1 {
-                font-size: 1.8rem;
-            }
-
-            .mode-toggle {
-                flex-direction: column;
-            }
-
-            .mode-btn {
-                width: 100%;
-                text-align: center;
-            }
-
             .summary-grid {
                 grid-template-columns: 1fr;
             }
-
             .checkbox-options {
                 flex-direction: column;
                 gap: 12px;
             }
-
             .input-group {
                 flex-direction: column;
             }
-
             .input-field {
                 min-width: 100%;
+            }
+            .command-box {
+                padding-right: 14px;
+            }
+            .copy-btn {
+                position: static;
+                margin-top: 10px;
             }
         }
     </style>
@@ -695,36 +381,35 @@
 </head>
 <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
-    <div class="ascii-logo" aria-hidden="true">  ___  _     _  __        __   _
- / _ \| | __| | \ \      / /__| |__
-| | | | |/ _` |  \ \ /\ / / _ \ '_ \
-| |_| | | (_| |   \ V  V /  __/ |_) |
- \___/|_|\__,_|    \_/\_/ \___|_.__/
-</div>
 
-    <main id="main-content" class="container">
-        <h1>MTU Calculator</h1>
-        <p class="subtitle">Calculate Maximum Transmission Unit with protocol overhead analysis</p>
-
-        <div class="mode-toggle" role="group" aria-label="Calculator mode selection">
-            <button type="button"
-                    class="mode-btn active"
-                    onclick="switchMode('basic')"
-                    aria-pressed="true"
-                    aria-label="MTU calculator with protocol and VPN overhead selection">MTU Calculator</button>
-            <button type="button"
-                    class="mode-btn"
-                    onclick="switchMode('stack')"
-                    aria-pressed="false"
-                    aria-label="Protocol stack builder with visual layers">Protocol Stack</button>
-            <button type="button"
-                    class="mode-btn"
-                    onclick="switchMode('pmtud')"
-                    aria-pressed="false"
-                    aria-label="Path MTU Discovery test command generator">Path MTU Discovery</button>
+    <main id="main-content">
+        <div class="page-head">
+            <h1>MTU Calculator</h1>
+            <p class="lede">Calculate Maximum Transmission Unit with protocol overhead analysis</p>
         </div>
 
-        <div class="calculator">
+        <section class="box calculator" aria-labelledby="input-heading">
+            <div class="box-head">
+                <h2 id="input-heading">input</h2>
+                <div class="box-actions mode-toggle" role="group" aria-label="Calculator mode selection">
+                    <button type="button"
+                            class="btn small mode-btn active"
+                            onclick="switchMode('basic')"
+                            aria-pressed="true"
+                            aria-label="MTU calculator with protocol and VPN overhead selection">MTU calculator</button>
+                    <button type="button"
+                            class="btn small mode-btn"
+                            onclick="switchMode('stack')"
+                            aria-pressed="false"
+                            aria-label="Protocol stack builder with visual layers">Protocol stack</button>
+                    <button type="button"
+                            class="btn small mode-btn"
+                            onclick="switchMode('pmtud')"
+                            aria-pressed="false"
+                            aria-label="Path MTU Discovery test command generator">Path MTU discovery</button>
+                </div>
+            </div>
+            <div class="box-body">
             <!-- Basic Calculator Mode -->
             <div id="basic-mode" class="mode-section active">
                 <form id="basic-form" aria-label="Basic MTU Calculator Form">
@@ -833,18 +518,17 @@
                     <div class="quick-presets">
                         <h3 id="presets-label">Quick Presets</h3>
                         <div class="preset-buttons" role="group" aria-labelledby="presets-label">
-                            <button type="button" class="preset-btn" onclick="applyPreset('standard')" aria-label="Standard Ethernet 1500 MTU">Standard (1500)</button>
-                            <button type="button" class="preset-btn" onclick="applyPreset('pppoe')" aria-label="PPPoE DSL connection 1492 MTU">PPPoE/DSL (1492)</button>
-                            <button type="button" class="preset-btn" onclick="applyPreset('jumbo')" aria-label="Jumbo frames 9000 MTU">Jumbo (9000)</button>
-                            <button type="button" class="preset-btn" onclick="applyPreset('vpn')" aria-label="VPN safe 1400 MTU">VPN Safe (1400)</button>
-                            <button type="button" class="preset-btn" onclick="applyPreset('ipv4min')" aria-label="IPv4 minimum 576 MTU">IPv4 Min (576)</button>
-                            <button type="button" class="preset-btn" onclick="applyPreset('ipv6min')" aria-label="IPv6 minimum 1280 MTU">IPv6 Min (1280)</button>
+                            <button type="button" class="btn small preset-btn" onclick="applyPreset('standard')" aria-label="Standard Ethernet 1500 MTU">Standard (1500)</button>
+                            <button type="button" class="btn small preset-btn" onclick="applyPreset('pppoe')" aria-label="PPPoE DSL connection 1492 MTU">PPPoE/DSL (1492)</button>
+                            <button type="button" class="btn small preset-btn" onclick="applyPreset('jumbo')" aria-label="Jumbo frames 9000 MTU">Jumbo (9000)</button>
+                            <button type="button" class="btn small preset-btn" onclick="applyPreset('vpn')" aria-label="VPN safe 1400 MTU">VPN Safe (1400)</button>
+                            <button type="button" class="btn small preset-btn" onclick="applyPreset('ipv4min')" aria-label="IPv4 minimum 576 MTU">IPv4 Min (576)</button>
+                            <button type="button" class="btn small preset-btn" onclick="applyPreset('ipv6min')" aria-label="IPv6 minimum 1280 MTU">IPv6 Min (1280)</button>
                         </div>
                     </div>
 
-                    <button type="button"
-                            class="btn"
-                            onclick="calculateBasic()"
+                    <button type="submit"
+                            class="btn primary"
                             aria-label="Calculate MTU with selected options">Calculate MTU</button>
                 </form>
             </div>
@@ -904,9 +588,8 @@
                         </div>
                     </div>
 
-                    <button type="button"
-                            class="btn"
-                            onclick="calculateStack()"
+                    <button type="submit"
+                            class="btn primary"
                             aria-label="Build protocol stack and calculate payload">Build Protocol Stack</button>
                 </form>
             </div>
@@ -952,31 +635,33 @@
                         </div>
                     </div>
 
-                    <button type="button"
-                            class="btn"
-                            onclick="calculatePmtud()"
+                    <button type="submit"
+                            class="btn primary"
                             aria-label="Generate Path MTU Discovery test commands">Generate PMTUD Commands</button>
                 </form>
             </div>
 
-            <div class="error"
+            <div class="error-container"
                  id="error"
                  role="alert"
                  aria-live="assertive"
                  aria-atomic="true"></div>
-        </div>
+            </div>
+        </section>
 
-        <div class="results"
+        <section class="box results"
              id="results"
-             role="region"
              aria-live="polite"
-             aria-label="MTU calculation results"></div>
+             aria-label="MTU calculation results"></section>
 
-        <div class="reference-section">
-            <h2>MTU Reference</h2>
-
-            <h3>Common MTU Values</h3>
-            <table class="reference-table">
+        <section class="box reference-section" aria-labelledby="reference-heading">
+            <div class="box-head">
+                <h2 id="reference-heading">MTU reference</h2>
+            </div>
+            <div class="box-body">
+            <h3>Common MTU values</h3>
+            <div class="table-scroll">
+            <table class="data-table reference-table">
                 <thead>
                     <tr>
                         <th>Network Type</th>
@@ -1017,14 +702,16 @@
                     </tr>
                 </tbody>
             </table>
+            </div>
 
             <h3>MTU vs MSS</h3>
             <p><strong>MTU (Maximum Transmission Unit)</strong> <span>is the maximum packet size including all headers at Layer 3 and above.</span></p>
             <p><strong>MSS (Maximum Segment Size)</strong> <span>is the maximum TCP payload only, calculated as: MTU - IP header - TCP header.</span></p>
             <p>Example: With 1500 MTU and IPv4/TCP: MSS = 1500 - 20 (IPv4) - 20 (TCP) = <strong>1460 bytes</strong></p>
 
-            <h3>Protocol Header Sizes</h3>
-            <table class="reference-table">
+            <h3>Protocol header sizes</h3>
+            <div class="table-scroll">
+            <table class="data-table reference-table">
                 <thead>
                     <tr>
                         <th>Protocol</th>
@@ -1075,9 +762,11 @@
                     </tr>
                 </tbody>
             </table>
+            </div>
 
-            <h3>VPN/Tunnel Overhead</h3>
-            <table class="reference-table">
+            <h3>VPN/tunnel overhead</h3>
+            <div class="table-scroll">
+            <table class="data-table reference-table">
                 <thead>
                     <tr>
                         <th>VPN Type</th>
@@ -1113,12 +802,14 @@
                     </tr>
                 </tbody>
             </table>
-        </div>
-
-        <footer role="contentinfo">
-            <span>MTU Calculator</span> - <span>Works offline, no installation required</span>
-        </footer>
+            </div>
+            </div>
+        </section>
     </main>
+    <footer class="statusbar" role="contentinfo">
+        <span>[oldweb] network › mtu-calculator │ works offline │ no tracking</span>
+        <span>/ search · t theme</span>
+    </footer>
 
     <script>
         // Protocol overhead constants (in bytes)
@@ -1427,7 +1118,8 @@
             }
 
             resultsDiv.innerHTML = `
-                <h2>${'MTU Calculation Results'}</h2>
+                <div class="box-head"><h2>${'MTU Calculation Results'}</h2></div>
+                <div class="box-body">
                 <div class="summary-grid">
                     <div class="summary-card">
                         <div class="stat-value">${results.baseMtu}</div>
@@ -1476,28 +1168,29 @@
 
                 <div class="overhead-breakdown">
                     <h3>${'Recommended Interface Settings'}</h3>
-                    <div class="layer-item" style="border-left-color: #66bb6a;">
+                    <div class="layer-item recommended">
                         <span class="layer-name">${'Physical Interface MTU'}</span>
                         <span class="layer-bytes">${results.effectiveMtu} bytes</span>
                     </div>
                     ${results.tunnelMtu !== null ? `
-                    <div class="layer-item" style="border-left-color: #66bb6a;">
+                    <div class="layer-item recommended">
                         <span class="layer-name">${'VPN/Tunnel Interface MTU'}</span>
                         <span class="layer-bytes">${results.tunnelMtu} bytes</span>
                     </div>
-                    <div class="layer-item" style="border-left-color: #66bb6a;">
+                    <div class="layer-item recommended">
                         <span class="layer-name">${'Client Device MTU'}</span>
                         <span class="layer-bytes">${results.tunnelMtu} bytes</span>
                     </div>
-                    <p style="color: #90caf9; font-size: 0.85rem; margin-top: 12px; line-height: 1.5;">
+                    <p class="note">
                         <strong>${'Client Device MTU'}:</strong> ${'Use this value for devices behind the VPN gateway when Path MTU Discovery (PMTUD) is blocked or unreliable. This prevents packet fragmentation and black-holing.'}
                     </p>
                     ` : ''}
                 </div>
 
                 <div class="export-section">
-                    <button type="button" class="export-btn" onclick="exportCSV()" aria-label="${'Results exported to CSV file'}">${'Export CSV'}</button>
-                    <button type="button" class="export-btn json" onclick="exportJSON()" aria-label="${'Results exported to JSON file'}">${'Export JSON'}</button>
+                    <button type="button" class="btn small export-btn" onclick="exportCSV()" aria-label="${'Results exported to CSV file'}">${'Export CSV'}</button>
+                    <button type="button" class="btn small export-btn json" onclick="exportJSON()" aria-label="${'Results exported to JSON file'}">${'Export JSON'}</button>
+                </div>
                 </div>
             `;
 
@@ -1584,7 +1277,8 @@
             `).join('');
 
             resultsDiv.innerHTML = `
-                <h2>${'Protocol Stack Analysis'}</h2>
+                <div class="box-head"><h2>${'Protocol Stack Analysis'}</h2></div>
+                <div class="box-body">
                 <div class="summary-grid">
                     <div class="summary-card">
                         <div class="stat-value">${results.baseMtu}</div>
@@ -1608,7 +1302,7 @@
 
                 <div class="overhead-breakdown">
                     <h3>${'Layer-by-Layer Breakdown'}</h3>
-                    <div class="layer-item" style="border-left-color: #4fc3f7;">
+                    <div class="layer-item">
                         <span class="layer-name">${'Physical MTU'}</span>
                         <span class="layer-bytes">${results.baseMtu} bytes</span>
                     </div>
@@ -1621,15 +1315,16 @@
 
                 <div class="overhead-breakdown">
                     <h3>${'Recommended Interface Settings'}</h3>
-                    <div class="layer-item" style="border-left-color: #66bb6a;">
+                    <div class="layer-item recommended">
                         <span class="layer-name">${'Interface MTU'}</span>
                         <span class="layer-bytes">${results.baseMtu} bytes</span>
                     </div>
                 </div>
 
                 <div class="export-section">
-                    <button type="button" class="export-btn" onclick="exportCSV()" aria-label="${'Results exported to CSV file'}">${'Export CSV'}</button>
-                    <button type="button" class="export-btn json" onclick="exportJSON()" aria-label="${'Results exported to JSON file'}">${'Export JSON'}</button>
+                    <button type="button" class="btn small export-btn" onclick="exportCSV()" aria-label="${'Results exported to CSV file'}">${'Export CSV'}</button>
+                    <button type="button" class="btn small export-btn json" onclick="exportJSON()" aria-label="${'Results exported to JSON file'}">${'Export JSON'}</button>
+                </div>
                 </div>
             `;
 
@@ -1695,7 +1390,8 @@
             const resultsDiv = document.getElementById('results');
 
             resultsDiv.innerHTML = `
-                <h2>${'Path MTU Discovery Commands'}</h2>
+                <div class="box-head"><h2>${'Path MTU Discovery Commands'}</h2></div>
+                <div class="box-body">
                 <div class="summary-grid">
                     <div class="summary-card">
                         <div class="stat-value">${results.mtu}</div>
@@ -1713,32 +1409,32 @@
 
                 <div class="icmp-commands">
                     <h3>${'Test Commands (with Don\'t Fragment flag)'}</h3>
-                    <p style="color: #90caf9; margin-bottom: 15px; font-size: 0.9rem;">
+                    <p class="note">
                         ${'Run these commands to test if packets of this size can reach the target without fragmentation. If you receive \"Packet needs to be fragmented\" or similar errors, reduce the MTU and try again.'}
                     </p>
 
                     <div class="command-box">
                         <div class="os-label">${'Linux'}</div>
                         <code id="cmd-linux">${results.commands.linux}</code>
-                        <button type="button" class="copy-btn" onclick="copyCommand('linux')" aria-label="${`Copy ${'Linux'} command`}">${'Copy'}</button>
+                        <button type="button" class="btn small copy-btn" onclick="copyCommand('linux')" aria-label="${`Copy ${'Linux'} command`}">${'Copy'}</button>
                     </div>
 
                     <div class="command-box">
                         <div class="os-label">${'Windows'}</div>
                         <code id="cmd-windows">${results.commands.windows}</code>
-                        <button type="button" class="copy-btn" onclick="copyCommand('windows')" aria-label="${`Copy ${'Windows'} command`}">${'Copy'}</button>
+                        <button type="button" class="btn small copy-btn" onclick="copyCommand('windows')" aria-label="${`Copy ${'Windows'} command`}">${'Copy'}</button>
                     </div>
 
                     <div class="command-box">
                         <div class="os-label">${'macOS'}</div>
                         <code id="cmd-macos">${results.commands.macos}</code>
-                        <button type="button" class="copy-btn" onclick="copyCommand('macos')" aria-label="${`Copy ${'macOS'} command`}">${'Copy'}</button>
+                        <button type="button" class="btn small copy-btn" onclick="copyCommand('macos')" aria-label="${`Copy ${'macOS'} command`}">${'Copy'}</button>
                     </div>
                 </div>
 
                 <div class="overhead-breakdown">
                     <h3>${'How to Find Your Path MTU'}</h3>
-                    <ol style="color: #90caf9; padding-left: 20px; line-height: 1.8;">
+                    <ol class="steps">
                         <li>${'Start with your current MTU (usually 1500)'}</li>
                         <li>${'Run the command for your OS'}</li>
                         <li>${'If packets get through, your path MTU is at least this size'}</li>
@@ -1748,8 +1444,9 @@
                 </div>
 
                 <div class="export-section">
-                    <button type="button" class="export-btn" onclick="exportCSV()" aria-label="${'Results exported to CSV file'}">${'Export CSV'}</button>
-                    <button type="button" class="export-btn json" onclick="exportJSON()" aria-label="${'Results exported to JSON file'}">${'Export JSON'}</button>
+                    <button type="button" class="btn small export-btn" onclick="exportCSV()" aria-label="${'Results exported to CSV file'}">${'Export CSV'}</button>
+                    <button type="button" class="btn small export-btn json" onclick="exportJSON()" aria-label="${'Results exported to JSON file'}">${'Export JSON'}</button>
+                </div>
                 </div>
             `;
 
@@ -1842,21 +1539,20 @@
             A11yUtils.announce('Results exported to JSON file', 'polite');
         }
 
-        // Keyboard shortcuts
-        document.getElementById('basicMtu').addEventListener('keypress', e => {
-            if (e.key === 'Enter') calculateBasic();
+        // Enter (implicit submit) or the primary button: calculate without reloading the page
+        document.getElementById('basic-form').addEventListener('submit', e => {
+            e.preventDefault();
+            calculateBasic();
         });
 
-        document.getElementById('stackMtu').addEventListener('keypress', e => {
-            if (e.key === 'Enter') calculateStack();
+        document.getElementById('stack-form').addEventListener('submit', e => {
+            e.preventDefault();
+            calculateStack();
         });
 
-        document.getElementById('pmtudMtu').addEventListener('keypress', e => {
-            if (e.key === 'Enter') calculatePmtud();
-        });
-
-        document.getElementById('pmtudHost').addEventListener('keypress', e => {
-            if (e.key === 'Enter') calculatePmtud();
+        document.getElementById('pmtud-form').addEventListener('submit', e => {
+            e.preventDefault();
+            calculatePmtud();
         });
 
         // Skip link handler
