@@ -1270,6 +1270,16 @@
             header.setAttribute('aria-expanded', isOpen);
         }
 
+        // Keyboard support for role="button" collapsible headers
+        document.querySelectorAll('.collapsible-header[role="button"]').forEach(header => {
+            header.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    this.click();
+                }
+            });
+        });
+
         function copyFormula(elementId, button) {
             const formula = document.getElementById(elementId).textContent;
             navigator.clipboard.writeText(formula).then(() => {
