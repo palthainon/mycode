@@ -28,405 +28,140 @@
     <meta name="twitter:image" content="https://oldweb.tech/logo/og-image.png">
 
     <!-- Additional Meta Tags -->
-    <meta name="theme-color" content="#1a1a2e">
+    <meta name="theme-color" content="#0e0903">
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
 
     <title>Bit Calculator - OldWeb.tech</title>
     <link rel="stylesheet" href="../a11y.css">
+    <link rel="stylesheet" href="../theme.css">
     <script src="../a11y-utils.js"></script>
     <script src="../storage-utils.js"></script>
     <script src="../navigationv2.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            min-height: 100vh;
-            padding: 40px 20px;
-            color: #fff;
-        }
-
-        .container {
+        /* Page layout only; colors, type, buttons and fields come from theme.css */
+        main {
             max-width: 900px;
-            margin: 0 auto;
         }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 2.5rem;
-            color: #4fc3f7;
-            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
-        }
-
         .calculator {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 30px;
+            margin-bottom: 24px;
         }
-
+        .calculator form {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
         .input-group {
             display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
+            gap: 16px;
             flex-wrap: wrap;
         }
-
         .input-field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
             flex: 1;
             min-width: 200px;
         }
-
-        .input-field label {
-            display: block;
-            margin-bottom: 8px;
-            color: #90caf9;
-            font-weight: 500;
-        }
-
-        .input-field input, .input-field select {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            background: #0f1419;
-            color: #fff;
-            font-size: 1rem;
-            transition: border-color 0.3s, box-shadow 0.3s;
-        }
-
-        .input-field select option {
-            background: #0f1419;
-            color: #fff;
-        }
-
-        .input-field input:focus, .input-field select:focus {
-            outline: none;
-            border-color: #4fc3f7;
-            box-shadow: 0 0 15px rgba(79, 195, 247, 0.2);
-        }
-
-        .input-field input::placeholder {
-            color: rgba(255, 255, 255, 0.4);
-        }
-
         .notation-toggle {
-            margin-bottom: 20px;
-        }
-
-        .notation-buttons {
-            display: flex;
-            gap: 10px;
-        }
-
-        .notation-btn {
-            flex: 1;
-            padding: 12px 20px;
-            border: 2px solid rgba(79, 195, 247, 0.3);
-            border-radius: 8px;
-            background: rgba(79, 195, 247, 0.1);
-            color: #4fc3f7;
-            cursor: pointer;
-            font-size: 0.95rem;
-            transition: all 0.3s;
-            text-align: center;
-        }
-
-        .notation-btn:hover {
-            background: rgba(79, 195, 247, 0.2);
-            border-color: #4fc3f7;
-        }
-
-        .notation-btn.active {
-            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
-            border-color: #4fc3f7;
-            color: #fff;
-            box-shadow: 0 4px 15px rgba(79, 195, 247, 0.3);
-        }
-
-        .notation-info {
-            margin-top: 10px;
-            padding: 10px 15px;
-            background: rgba(79, 195, 247, 0.1);
-            border-left: 4px solid #4fc3f7;
-            border-radius: 4px;
-            font-size: 0.9rem;
-            color: #90caf9;
-        }
-
-        .btn {
-            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
-            color: #fff;
-            border: none;
-            padding: 14px 40px;
-            font-size: 1.1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            font-weight: 600;
-            display: block;
-            width: 100%;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(79, 195, 247, 0.4);
-        }
-
-        .btn:active {
-            transform: translateY(0);
-        }
-
-        .results {
-            display: none;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .results.show {
-            display: block;
-            animation: fadeIn 0.4s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .results h2 {
-            color: #4fc3f7;
-            margin-bottom: 20px;
-            font-size: 1.5rem;
-        }
-
-        .section-header h2 {
-            margin-bottom: 0;
-        }
-
-        .results-grid {
             display: flex;
             flex-direction: column;
+            gap: 8px;
+        }
+        .notation-buttons {
+            display: flex;
+            flex-wrap: wrap;
             gap: 12px;
+            padding: 0 3px 3px 0;
         }
-
-        .result-item {
-            background: rgba(0, 0, 0, 0.2);
-            padding: 15px 20px;
-            border-radius: 8px;
-            border-left: 4px solid #4fc3f7;
-            position: relative;
+        .notation-btn {
+            flex: 1;
+            min-width: 220px;
         }
-
-        .result-item .label {
-            color: #90caf9;
-            font-size: 0.85rem;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+        .notation-btn::before {
+            content: '[ ] ';
         }
-
-        .result-item .value {
-            font-size: 1.2rem;
-            font-family: 'Consolas', 'Monaco', monospace;
-            color: #fff;
-            word-break: break-all;
+        .notation-btn.active {
+            background: var(--hi);
+            color: var(--inv);
         }
-
-        .copy-btn {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background: rgba(79, 195, 247, 0.2);
-            border: 1px solid rgba(79, 195, 247, 0.3);
-            color: #4fc3f7;
-            padding: 4px 8px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.75rem;
-            transition: all 0.2s;
+        .notation-btn.active::before {
+            content: '[x] ';
         }
-
-        .copy-btn:hover {
-            background: rgba(79, 195, 247, 0.3);
-            border-color: #4fc3f7;
-        }
-
-        .copy-btn.copied {
-            background: rgba(76, 175, 80, 0.3);
-            border-color: #4caf50;
-            color: #4caf50;
-        }
-
-        #error {
-            background: rgba(244, 67, 54, 0.2);
-            border: 1px solid #f44336;
-            color: #ff8a80;
-            padding: 15px 20px;
-            border-radius: 8px;
-            margin-top: 20px;
-            display: none;
-        }
-
-        #error.show {
-            display: block;
-        }
-
-        input.error {
-            border-color: #f44336 !important;
-        }
-
-        .export-btn {
-            background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%);
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            font-size: 0.9rem;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            font-weight: 600;
-            display: inline-block;
-        }
-
-        .export-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(102, 187, 106, 0.4);
-        }
-
-        .export-btn:active {
-            transform: translateY(0);
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 30px;
-            color: rgba(255, 255, 255, 0.4);
+        .notation-info {
+            color: var(--dim);
             font-size: 0.85rem;
         }
-
+        .notation-info::before {
+            content: '# ';
+        }
+        .form-actions {
+            padding: 0 3px 3px 0;
+        }
+        .form-actions .btn {
+            width: 100%;
+        }
         .quick-conversions {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 14px;
+            border-top: 1px dashed var(--line);
         }
-
         .quick-conversions h3 {
-            color: #90caf9;
-            font-size: 0.9rem;
             margin-bottom: 10px;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            color: var(--dim);
+            text-shadow: none;
         }
-
+        .quick-conversions h3::before {
+            content: '# ';
+        }
         .quick-buttons {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 10px 8px;
+            padding: 0 3px 3px 0;
         }
-
-        .quick-btn {
-            background: rgba(79, 195, 247, 0.1);
-            border: 1px solid rgba(79, 195, 247, 0.3);
-            color: #4fc3f7;
-            padding: 6px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            transition: all 0.2s;
+        .results {
+            display: none;
         }
-
-        .quick-btn:hover {
-            background: rgba(79, 195, 247, 0.2);
-            border-color: #4fc3f7;
+        .results.show {
+            display: block;
         }
-
-        /* ASCII Logo */
-        .ascii-logo {
-            position: absolute;
-            top: 20px;
-            right: 40px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.65rem;
-            line-height: 1.1;
-            color: #4fc3f7;
-            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
-            opacity: 0.8;
-            white-space: pre;
-        }
-
-        @media (max-width: 768px) {
-            .ascii-logo {
-                position: static;
-                text-align: center;
-                margin-bottom: 20px;
-                font-size: 0.5rem;
-            }
-
-            h1 {
-                font-size: 2rem;
-            }
-        }
-
-        /* Navigation Bar */
-        .nav-bar {
-            position: absolute;
-            top: 20px;
-            left: 40px;
+        .results-grid {
             display: flex;
-            gap: 15px;
+            flex-direction: column;
+        }
+        .result-item {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            grid-template-areas: "label copy" "value copy";
             align-items: center;
-            z-index: 100;
+            column-gap: 16px;
+            padding: 8px 3px 8px 0;
         }
-
-        .nav-link {
-            color: #4fc3f7;
-            text-decoration: none;
-            font-size: 0.9rem;
+        .result-item + .result-item {
+            border-top: 1px dotted var(--line);
+        }
+        .result-item .label {
+            grid-area: label;
+            color: var(--dim);
+            font-size: 0.85rem;
+        }
+        .result-item .value {
+            grid-area: value;
+            color: var(--hi);
+            font-size: 1.1rem;
             font-weight: 600;
-            transition: color 0.2s, text-shadow 0.2s;
+            text-shadow: var(--glow);
+            word-break: break-all;
         }
-
-        .nav-link:hover {
-            color: #2196f3;
-            text-shadow: 0 0 10px rgba(79, 195, 247, 0.5);
+        .result-item .copy-btn {
+            grid-area: copy;
         }
-
-        .nav-link.current {
-            color: #66bb6a;
-            border-bottom: 2px solid #66bb6a;
-        }
-
-        .nav-separator {
-            color: rgba(79, 195, 247, 0.3);
-            user-select: none;
-        }
-
-        @media (max-width: 768px) {
-            .nav-bar {
-                position: static;
-                justify-content: center;
-                flex-wrap: wrap;
-                margin-bottom: 20px;
-                gap: 10px;
-            }
+        .copy-btn.copied {
+            background: var(--hi);
+            color: var(--inv);
         }
     </style>
 
@@ -454,89 +189,93 @@
 </head>
 <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
-    <div class="ascii-logo" aria-hidden="true">  ___  _    _  __        __   _
- / _ \| | _| | \ \      / /__| |__
-| | | | |/ _` | \ \ /\ / / _ \ '_ \
-| |_| | | (_| |  \ V  V /  __/ |_) |
- \___/|_|\__,_|   \_/\_/ \___|_.__/
-</div>
-    <main id="main-content" class="container">
-        <h1>Bit Calculator</h1>
-
-        <div class="calculator">
-            <form id="bit-calc-form" aria-label="Bit Calculator Form">
-            <div class="input-group">
-                <div class="input-field">
-                    <label for="amount">Amount</label>
-                    <input type="text" id="amount" placeholder="1" value="1" aria-required="true" aria-describedby="amount-help">
-                    <span id="amount-help" class="sr-only">Enter a numeric value to convert between different units</span>
-                </div>
-                <div class="input-field">
-                    <label for="units">Units</label>
-                    <select id="units" aria-describedby="units-help">
-                        <option value="bits">bits</option>
-                        <option value="bytes">bytes</option>
-                        <option value="kilobits">kilobits</option>
-                        <option value="kilobytes">kilobytes</option>
-                        <option value="megabits" selected>megabits</option>
-                        <option value="megabytes">megabytes</option>
-                        <option value="gigabits">gigabits</option>
-                        <option value="gigabytes">gigabytes</option>
-                        <option value="terabits">terabits</option>
-                        <option value="terabytes">terabytes</option>
-                        <option value="petabits">petabits</option>
-                        <option value="petabytes">petabytes</option>
-                    </select>
-                    <span id="unit-help" class="sr-only">Select the unit of measurement for the value</span>
-                </div>
-            </div>
-
-            <div class="notation-toggle">
-                <label id="notation-label" style="color: #90caf9; font-weight: 500; margin-bottom: 8px; display: block;">Notation</label>
-                <div class="notation-buttons" role="group" aria-labelledby="notation-label">
-                    <button type="button" class="notation-btn active" data-notation="legacy" onclick="setNotation('legacy')" aria-label="Use legacy notation where 1 kilobyte equals 1024 bytes">
-                        Legacy (1 KB = 1024 bytes)
-                    </button>
-                    <button type="button" class="notation-btn" data-notation="ieee" onclick="setNotation('ieee')" aria-label="Use IEEE notation where 1 kilobyte equals 1000 bytes">
-                        IEEE (1 KB = 1000 bytes)
-                    </button>
-                </div>
-                <div class="notation-info" id="notationInfo" aria-live="polite">
-                    Using legacy notation: 1 kilobyte = 1024 bytes
-                </div>
-            </div>
-
-            <button type="button" class="btn" onclick="calculate()" aria-label="Calculate conversions for entered value and unit">Calculate</button>
-
-            <div class="quick-conversions">
-                <h3 id="quick-conv-label">Quick Conversions:</h3>
-                <div class="quick-buttons" role="group" aria-labelledby="quick-conv-label">
-                    <button type="button" class="quick-btn" onclick="quickCalc(1, 'gigabytes')" aria-label="Quick calculate 1 gigabyte">1 GB</button>
-                    <button type="button" class="quick-btn" onclick="quickCalc(1, 'terabytes')" aria-label="Quick calculate 1 terabyte">1 TB</button>
-                    <button type="button" class="quick-btn" onclick="quickCalc(100, 'megabits')" aria-label="Quick calculate 100 megabits per second">100 Mbps</button>
-                    <button type="button" class="quick-btn" onclick="quickCalc(1, 'gigabits')" aria-label="Quick calculate 1 gigabit per second">1 Gbps</button>
-                    <button type="button" class="quick-btn" onclick="quickCalc(10, 'gigabits')" aria-label="Quick calculate 10 gigabits per second">10 Gbps</button>
-                </div>
-            </div>
-
-            <div class="error" id="error" role="alert" aria-live="assertive" aria-atomic="true"></div>
-            </form>
+    <main id="main-content">
+        <div class="page-head">
+            <h1>Bit Calculator</h1>
+            <p class="lede">Convert between bits, bytes and their multiples in legacy (1024) or IEEE (1000) notation.</p>
         </div>
 
-        <div class="results" id="results" role="region" aria-live="polite" aria-label="Conversion results">
-            <div class="section-header">
-                <h2>Conversion Results</h2>
-                <button type="button" class="export-btn" onclick="exportToCSV()" aria-label="Export conversion results to CSV file">Export to CSV</button>
+        <section class="box calculator" aria-labelledby="input-heading">
+            <div class="box-head">
+                <h2 id="input-heading">input</h2>
             </div>
-            <div class="results-grid" id="resultsGrid">
-                <!-- Results will be inserted here -->
-            </div>
-        </div>
+            <div class="box-body">
+                <form id="bit-calc-form" aria-label="Bit Calculator Form">
+                    <div class="input-group">
+                        <div class="input-field">
+                            <label for="amount">Amount</label>
+                            <input type="text" id="amount" placeholder="1" value="1" aria-required="true" aria-describedby="amount-help">
+                            <span id="amount-help" class="sr-only">Enter a numeric value to convert between different units</span>
+                        </div>
+                        <div class="input-field">
+                            <label for="units">Units</label>
+                            <select id="units" aria-describedby="unit-help">
+                                <option value="bits">bits</option>
+                                <option value="bytes">bytes</option>
+                                <option value="kilobits">kilobits</option>
+                                <option value="kilobytes">kilobytes</option>
+                                <option value="megabits" selected>megabits</option>
+                                <option value="megabytes">megabytes</option>
+                                <option value="gigabits">gigabits</option>
+                                <option value="gigabytes">gigabytes</option>
+                                <option value="terabits">terabits</option>
+                                <option value="terabytes">terabytes</option>
+                                <option value="petabits">petabits</option>
+                                <option value="petabytes">petabytes</option>
+                            </select>
+                            <span id="unit-help" class="sr-only">Select the unit of measurement for the value</span>
+                        </div>
+                    </div>
 
-        <footer role="contentinfo">
-            <span>Bit Calculator</span> - <span>Works offline, no installation required</span>
-        </footer>
-    </div>
+                    <div class="notation-toggle">
+                        <label id="notation-label">Notation</label>
+                        <div class="notation-buttons" role="group" aria-labelledby="notation-label">
+                            <button type="button" class="btn notation-btn active" data-notation="legacy" onclick="setNotation('legacy')" aria-label="Use legacy notation where 1 kilobyte equals 1024 bytes">Legacy (1 KB = 1024 bytes)</button>
+                            <button type="button" class="btn notation-btn" data-notation="ieee" onclick="setNotation('ieee')" aria-label="Use IEEE notation where 1 kilobyte equals 1000 bytes">IEEE (1 KB = 1000 bytes)</button>
+                        </div>
+                        <div class="notation-info" id="notationInfo" aria-live="polite">
+                            Using legacy notation: 1 kilobyte = 1024 bytes
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn primary" onclick="calculate()" aria-label="Calculate conversions for entered value and unit">Calculate</button>
+                    </div>
+
+                    <div class="quick-conversions">
+                        <h3 id="quick-conv-label">presets</h3>
+                        <div class="quick-buttons" role="group" aria-labelledby="quick-conv-label">
+                            <button type="button" class="btn small quick-btn" onclick="quickCalc(1, 'gigabytes')" aria-label="Quick calculate 1 gigabyte">1 GB</button>
+                            <button type="button" class="btn small quick-btn" onclick="quickCalc(1, 'terabytes')" aria-label="Quick calculate 1 terabyte">1 TB</button>
+                            <button type="button" class="btn small quick-btn" onclick="quickCalc(100, 'megabits')" aria-label="Quick calculate 100 megabits per second">100 Mbps</button>
+                            <button type="button" class="btn small quick-btn" onclick="quickCalc(1, 'gigabits')" aria-label="Quick calculate 1 gigabit per second">1 Gbps</button>
+                            <button type="button" class="btn small quick-btn" onclick="quickCalc(10, 'gigabits')" aria-label="Quick calculate 10 gigabits per second">10 Gbps</button>
+                        </div>
+                    </div>
+
+                    <div class="error-alert" id="error" role="alert" aria-live="assertive" aria-atomic="true"></div>
+                </form>
+            </div>
+        </section>
+
+        <section class="box results" id="results" aria-live="polite" aria-labelledby="results-heading">
+            <div class="box-head">
+                <h2 id="results-heading">conversion results</h2>
+                <div class="box-actions">
+                    <button type="button" class="btn small export-btn" onclick="exportToCSV()" aria-label="Export conversion results to CSV file">Export CSV</button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="results-grid" id="resultsGrid">
+                    <!-- Results will be inserted here -->
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="statusbar" role="contentinfo">
+        <span>[oldweb] network › bit-calculator │ works offline │ no tracking</span>
+        <span>/ search · t theme</span>
+    </footer>
 
     <script>
         const BITS_IN_A_BYTE = 8;
@@ -723,7 +462,7 @@
                 resultItem.innerHTML = `
                     <div class="label">${unitLabels[u]}</div>
                     <div class="value">${displayValue}</div>
-                    <button class="copy-btn" onclick="copyToClipboard('${copyValue}', this)">Copy</button>
+                    <button type="button" class="btn small copy-btn" onclick="copyToClipboard('${copyValue}', this)">Copy</button>
                 `;
 
                 resultsGrid.appendChild(resultItem);

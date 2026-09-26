@@ -28,253 +28,88 @@
     <meta name="twitter:image" content="https://oldweb.tech/logo/og-image.png">
 
     <!-- Additional Meta Tags -->
-    <meta name="theme-color" content="#1a1a2e">
+    <meta name="theme-color" content="#0e0903">
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
 
     <title>IP Address Converter - OldWeb.tech</title>
     <link rel="stylesheet" href="../a11y.css">
+    <link rel="stylesheet" href="../theme.css">
     <script src="../a11y-utils.js"></script>
     <script src="../storage-utils.js"></script>
     <script src="../navigationv2.js"></script>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            min-height: 100vh;
-            padding: 40px 20px;
-            color: #fff;
+        /* Page layout only; colors, type, buttons and fields come from theme.css */
+        main {
+            max-width: 1000px;
         }
-
-        .container { max-width: 1000px; margin: 0 auto; }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 15px;
-            font-size: 2.5rem;
-            color: #4fc3f7;
-            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #90caf9;
-            font-size: 1.05rem;
-            margin-bottom: 30px;
-            opacity: 0.9;
-        }
-
-        .ascii-logo {
-            position: absolute;
-            top: 20px;
-            right: 40px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.65rem;
-            line-height: 1.1;
-            color: #4fc3f7;
-            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
-            opacity: 0.8;
-            white-space: pre;
-        }
-
         .calculator {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 30px;
+            margin-bottom: 24px;
         }
-
         .converter-row {
             display: flex;
             align-items: stretch;
             gap: 10px;
-            margin-bottom: 18px;
+            margin-bottom: 16px;
             flex-wrap: wrap;
         }
-
         .converter-row label {
-            color: #90caf9;
-            font-weight: 500;
             min-width: 140px;
             display: flex;
             align-items: center;
-            font-size: 0.95rem;
         }
-
         .converter-row .field-wrapper {
             flex: 1;
             min-width: 240px;
             display: flex;
-            gap: 8px;
+            gap: 10px;
+            padding: 0 3px 3px 0;
         }
-
         .converter-row input {
             flex: 1;
-            padding: 12px 16px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            background: #0f1419;
-            color: #fff;
-            font-size: 1rem;
-            transition: border-color 0.3s, box-shadow 0.3s;
-            font-family: 'Consolas', 'Monaco', monospace;
+            width: auto;
+            min-width: 0;
         }
-
-        .converter-row input:focus {
-            outline: none;
-            border-color: #4fc3f7;
-            box-shadow: 0 0 15px rgba(79, 195, 247, 0.2);
+        .converter-row input[readonly] {
+            color: var(--hi);
         }
-
-        .converter-row input::placeholder { color: rgba(255, 255, 255, 0.35); }
-
-        .copy-btn {
-            background: rgba(79, 195, 247, 0.1);
-            border: 1px solid rgba(79, 195, 247, 0.3);
-            color: #4fc3f7;
-            padding: 0 14px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 600;
-            transition: all 0.2s;
-            white-space: nowrap;
+        .form-actions {
+            padding: 0 3px 3px 0;
         }
-
-        .copy-btn:hover {
-            background: rgba(79, 195, 247, 0.2);
-            border-color: #4fc3f7;
-        }
-
-        .copy-btn:active { transform: scale(0.97); }
-
-        .btn {
-            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
-            color: #fff;
-            border: none;
-            padding: 14px 40px;
-            font-size: 1.05rem;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            font-weight: 600;
-            display: block;
-            width: 100%;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(79, 195, 247, 0.4);
-        }
-
-        .btn.secondary {
-            background: transparent;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            color: #90caf9;
-            margin-top: 10px;
-        }
-
-        .btn.secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.5);
-            box-shadow: none;
-            transform: none;
-        }
-
-        #error {
-            background: rgba(244, 67, 54, 0.2);
-            border: 1px solid #f44336;
-            color: #ff8a80;
-            padding: 15px 20px;
-            border-radius: 8px;
-            margin-top: 20px;
-            display: none;
-        }
-
-        #error.show { display: block; }
-        input.error { border-color: #f44336 !important; }
-
         .examples {
             margin-top: 18px;
-            padding-top: 18px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 14px;
+            border-top: 1px dashed var(--line);
         }
-
         .examples h3 {
-            color: #90caf9;
-            font-size: 0.9rem;
             margin-bottom: 10px;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            color: var(--dim);
+            text-shadow: none;
         }
-
+        .examples h3::before {
+            content: '# ';
+        }
         .example-buttons {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 10px 8px;
+            padding: 0 3px 3px 0;
         }
-
-        .example-btn {
-            background: rgba(79, 195, 247, 0.1);
-            border: 1px solid rgba(79, 195, 247, 0.3);
-            color: #4fc3f7;
-            padding: 6px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-family: 'Consolas', 'Monaco', monospace;
-            transition: all 0.2s;
-        }
-
-        .example-btn:hover {
-            background: rgba(79, 195, 247, 0.2);
-            border-color: #4fc3f7;
-        }
-
-        .info-box {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-            padding: 18px 22px;
-            margin-top: 25px;
+        .info-box .box-body {
             font-size: 0.9rem;
-            color: #c5d4e3;
-            line-height: 1.6;
-            border-left: 4px solid #4fc3f7;
         }
-
-        .info-box h3 {
-            color: #4fc3f7;
-            font-size: 1rem;
-            margin-bottom: 8px;
+        .info-box ul {
+            margin: 8px 0 0 22px;
+            padding: 0;
         }
-
         .info-box code {
-            font-family: 'Consolas', 'Monaco', monospace;
-            background: rgba(255, 255, 255, 0.06);
-            padding: 1px 6px;
-            border-radius: 3px;
-            color: #ffd180;
+            color: var(--hi);
         }
-
-        footer {
-            text-align: center;
-            margin-top: 30px;
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 0.85rem;
-        }
-
         @media (max-width: 768px) {
-            .ascii-logo {
-                position: static;
-                text-align: center;
-                margin-bottom: 20px;
-                font-size: 0.5rem;
-            }
-            h1 { font-size: 1.8rem; }
-            .converter-row label { min-width: 100%; margin-bottom: 4px; }
+            .converter-row label { min-width: 100%; }
             .converter-row .field-wrapper { min-width: 100%; }
         }
     </style>
@@ -296,18 +131,18 @@
 </head>
 <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
-    <div class="ascii-logo" aria-hidden="true">  ___  _     _  __        __   _
- / _ \| | __| | \ \      / /__| |__
-| | | | |/ _` |  \ \ /\ / / _ \ '_ \
-| |_| | | (_| |   \ V  V /  __/ |_) |
- \___/|_|\__,_|    \_/\_/ \___|_.__/
-</div>
 
-    <main id="main-content" class="container">
-        <h1>IP Address Converter</h1>
-        <p class="subtitle">Convert IPv4 between dotted-decimal, binary, hexadecimal, and 32-bit integer. Type in any field; the rest update live.</p>
+    <main id="main-content">
+        <div class="page-head">
+            <h1>IP Address Converter</h1>
+            <p class="lede">Convert IPv4 between dotted-decimal, binary, hexadecimal, and 32-bit integer. Type in any field; the rest update live.</p>
+        </div>
 
-        <div class="calculator">
+        <section class="box calculator" aria-labelledby="convert-heading">
+            <div class="box-head">
+                <h2 id="convert-heading">convert</h2>
+            </div>
+            <div class="box-body">
             <form id="converter-form" aria-label="IPv4 representation converter">
                 <div class="converter-row">
                     <label for="dottedField">Dotted Decimal</label>
@@ -319,7 +154,7 @@
                                spellcheck="false"
                                aria-describedby="dotted-help">
                         <span id="dotted-help" class="sr-only">Enter an IPv4 address in dotted-decimal notation, for example 192.168.1.10</span>
-                        <button type="button" class="copy-btn" onclick="copyField('dottedField', 'Dotted decimal')" aria-label="Copy dotted-decimal value">Copy</button>
+                        <button type="button" class="btn copy-btn" onclick="copyField('dottedField', 'Dotted decimal')" aria-label="Copy dotted-decimal value">Copy</button>
                     </div>
                 </div>
 
@@ -333,7 +168,7 @@
                                spellcheck="false"
                                aria-describedby="binary-help">
                         <span id="binary-help" class="sr-only">Enter the IPv4 address as four binary octets separated by dots</span>
-                        <button type="button" class="copy-btn" onclick="copyField('binaryField', 'Binary')" aria-label="Copy binary value">Copy</button>
+                        <button type="button" class="btn copy-btn" onclick="copyField('binaryField', 'Binary')" aria-label="Copy binary value">Copy</button>
                     </div>
                 </div>
 
@@ -347,7 +182,7 @@
                                spellcheck="false"
                                aria-describedby="hex-help">
                         <span id="hex-help" class="sr-only">Enter the IPv4 address in hexadecimal, with or without 0x prefix</span>
-                        <button type="button" class="copy-btn" onclick="copyField('hexField', 'Hexadecimal')" aria-label="Copy hexadecimal value">Copy</button>
+                        <button type="button" class="btn copy-btn" onclick="copyField('hexField', 'Hexadecimal')" aria-label="Copy hexadecimal value">Copy</button>
                     </div>
                 </div>
 
@@ -362,7 +197,7 @@
                                inputmode="numeric"
                                aria-describedby="int-help">
                         <span id="int-help" class="sr-only">Enter the IPv4 address as a 32-bit unsigned integer between 0 and 4294967295</span>
-                        <button type="button" class="copy-btn" onclick="copyField('intField', 'Integer')" aria-label="Copy integer value">Copy</button>
+                        <button type="button" class="btn copy-btn" onclick="copyField('intField', 'Integer')" aria-label="Copy integer value">Copy</button>
                     </div>
                 </div>
 
@@ -375,46 +210,53 @@
                                readonly
                                aria-describedby="hex-dotted-help">
                         <span id="hex-dotted-help" class="sr-only">Read-only display of the address as four hexadecimal octets separated by dots</span>
-                        <button type="button" class="copy-btn" onclick="copyField('hexDottedField', 'Hex dotted')" aria-label="Copy hex-dotted value">Copy</button>
+                        <button type="button" class="btn copy-btn" onclick="copyField('hexDottedField', 'Hex dotted')" aria-label="Copy hex-dotted value">Copy</button>
                     </div>
                 </div>
 
-                <button type="button"
-                        class="btn secondary"
-                        onclick="clearAllSavedData()"
-                        aria-label="Clear all saved form data from this page">Clear Saved Data</button>
+                <div class="form-actions">
+                    <button type="button"
+                            class="btn secondary"
+                            onclick="clearAllSavedData()"
+                            aria-label="Clear all saved form data from this page">Clear saved data</button>
+                </div>
             </form>
 
-            <div id="error" role="alert" aria-live="assertive" aria-atomic="true"></div>
+            <div class="error-alert" id="error" role="alert" aria-live="assertive" aria-atomic="true"></div>
 
             <div class="examples">
-                <h3>Quick examples</h3>
-                <div class="example-buttons">
-                    <button type="button" class="example-btn" onclick="loadExample('0.0.0.0')">0.0.0.0</button>
-                    <button type="button" class="example-btn" onclick="loadExample('127.0.0.1')">127.0.0.1</button>
-                    <button type="button" class="example-btn" onclick="loadExample('10.0.0.1')">10.0.0.1</button>
-                    <button type="button" class="example-btn" onclick="loadExample('172.16.5.4')">172.16.5.4</button>
-                    <button type="button" class="example-btn" onclick="loadExample('192.168.1.10')">192.168.1.10</button>
-                    <button type="button" class="example-btn" onclick="loadExample('255.255.255.255')">255.255.255.255</button>
+                <h3 id="examples-label">examples</h3>
+                <div class="example-buttons" role="group" aria-labelledby="examples-label">
+                    <button type="button" class="btn small example-btn" onclick="loadExample('0.0.0.0')">0.0.0.0</button>
+                    <button type="button" class="btn small example-btn" onclick="loadExample('127.0.0.1')">127.0.0.1</button>
+                    <button type="button" class="btn small example-btn" onclick="loadExample('10.0.0.1')">10.0.0.1</button>
+                    <button type="button" class="btn small example-btn" onclick="loadExample('172.16.5.4')">172.16.5.4</button>
+                    <button type="button" class="btn small example-btn" onclick="loadExample('192.168.1.10')">192.168.1.10</button>
+                    <button type="button" class="btn small example-btn" onclick="loadExample('255.255.255.255')">255.255.255.255</button>
                 </div>
             </div>
-        </div>
+            </div>
+        </section>
 
-        <div class="info-box">
-            <h3>Accepted formats</h3>
+        <section class="box info-box" aria-labelledby="formats-heading">
+            <div class="box-head">
+                <h2 id="formats-heading">accepted formats</h2>
+            </div>
+            <div class="box-body">
             Each field is forgiving about input format:
-            <ul style="margin: 8px 0 0 22px;">
+            <ul>
                 <li><strong>Dotted decimal</strong>: <code>192.168.1.10</code></li>
                 <li><strong>Binary</strong>: dotted octets (<code>11000000.10101000.00000001.00001010</code>) or 32 contiguous bits (<code>11000000101010000000000100001010</code>)</li>
                 <li><strong>Hex</strong>: <code>0xC0A8010A</code>, <code>C0A8010A</code>, or dotted octets like <code>C0.A8.01.0A</code></li>
                 <li><strong>Integer</strong>: any value from 0 to 4294967295</li>
             </ul>
-        </div>
-
-        <footer role="contentinfo">
-            <span>IP Address Converter</span> &mdash; <span>Works offline, no installation required</span>
-        </footer>
+            </div>
+        </section>
     </main>
+    <footer class="statusbar" role="contentinfo">
+        <span>[oldweb] network › ip-converter │ works offline │ no tracking</span>
+        <span>/ search · t theme</span>
+    </footer>
 
     <script>
         const fields = ['dottedField', 'binaryField', 'hexField', 'intField'];
