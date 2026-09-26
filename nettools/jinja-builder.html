@@ -28,7 +28,7 @@
     <meta name="twitter:image" content="https://oldweb.tech/logo/og-image.png">
 
     <!-- Additional Meta Tags -->
-    <meta name="theme-color" content="#1a1a2e">
+    <meta name="theme-color" content="#0e0903">
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
@@ -37,536 +37,257 @@
 
     <!-- Accessibility -->
     <link rel="stylesheet" href="../a11y.css">
+    <link rel="stylesheet" href="../theme.css">
     <script src="../a11y-utils.js"></script>
     <script src="../storage-utils.js"></script>
     <script src="../navigationv2.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            min-height: 100vh;
-            padding: 40px 20px;
-            color: #fff;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 15px;
-            font-size: 2.5rem;
-            color: #4fc3f7;
-            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #90caf9;
-            margin-bottom: 30px;
-            font-size: 1rem;
-        }
-
-        .tool-section {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 30px;
+        /* Page layout only; colors, type, buttons and fields come from theme.css */
+        .tool-section,
+        .quick-ref,
+        .reference-tabs {
+            margin-bottom: 24px;
         }
 
         .controls-row {
             display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
+            gap: 16px;
+            margin-bottom: 18px;
             flex-wrap: wrap;
             align-items: flex-end;
         }
-
         .control-group {
             flex: 1;
             min-width: 200px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
         }
-
-        .control-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #90caf9;
-            font-weight: 500;
-        }
-
-        .control-group select {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            background: #0f1419;
-            color: #fff;
-            font-size: 1rem;
-            transition: border-color 0.3s, box-shadow 0.3s;
-            cursor: pointer;
-        }
-
-        .control-group select:focus {
-            outline: none;
-            border-color: #4fc3f7;
-            box-shadow: 0 0 15px rgba(79, 195, 247, 0.2);
-        }
-
-        .control-group select option {
-            background: #0f1419;
-            color: #fff;
-        }
-
         .btn-group {
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
+            padding: 0 3px 3px 0;
         }
 
-        .btn {
-            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
-            color: #fff;
-            border: none;
-            padding: 12px 24px;
-            font-size: 0.95rem;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            font-weight: 600;
-            white-space: nowrap;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(79, 195, 247, 0.4);
-        }
-
-        .btn:active {
-            transform: translateY(0);
-        }
-
-        .btn-secondary {
-            background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%);
-        }
-
-        .btn-secondary:hover {
-            box-shadow: 0 5px 20px rgba(102, 187, 106, 0.4);
-        }
-
-        .btn.secondary {
-            background: transparent;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            color: #90caf9;
-            margin-top: 10px;
-        }
-        .btn.secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.5);
-            box-shadow: none;
-            transform: none;
-        }
-
-        .btn-outline {
-            background: transparent;
-            border: 2px solid rgba(79, 195, 247, 0.5);
-            color: #4fc3f7;
-        }
-
-        .btn-outline:hover {
-            background: rgba(79, 195, 247, 0.1);
-            border-color: #4fc3f7;
-            box-shadow: 0 5px 20px rgba(79, 195, 247, 0.2);
-        }
-
-        /* Editor Container */
-        .editor-container {
-            position: relative;
-            margin-bottom: 20px;
-        }
-
-        .editor-label {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-
-        .editor-label span {
-            color: #90caf9;
-            font-weight: 500;
-        }
-
-        .char-count {
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 0.85rem;
-        }
-
-        /* Syntax Highlighted Editor */
-        .editor-wrapper {
-            position: relative;
-            border-radius: 8px;
-            overflow: hidden;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            transition: border-color 0.3s;
-        }
-
-        .editor-wrapper:focus-within {
-            border-color: #4fc3f7;
-        }
-
-        .editor-highlight {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            padding: 16px;
-            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-            font-size: 14px;
-            line-height: 1.6;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            overflow: auto;
-            pointer-events: none;
-            color: #e6e6e6;
-            background: #0f1419;
-        }
-
-        .editor-textarea {
-            width: 100%;
-            min-height: 400px;
-            padding: 16px;
-            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-            font-size: 14px;
-            line-height: 1.6;
-            border: none;
-            background: transparent;
-            color: transparent;
-            resize: vertical;
-            position: relative;
-            z-index: 1;
-            caret-color: #4fc3f7;
-        }
-
-        .editor-textarea:focus {
-            outline: none;
-        }
-
-        .editor-textarea::placeholder {
-            color: rgba(255, 255, 255, 0.4);
-            opacity: 1;
-        }
-
-        /* Syntax Highlighting Colors */
-        .hl-statement {
-            color: #4fc3f7;
-            font-weight: 600;
-        }
-
-        .hl-expression {
-            color: #66bb6a;
-        }
-
-        .hl-comment {
-            color: #6a737d;
-            font-style: italic;
-        }
-
-        .hl-filter {
-            color: #ff8a65;
-        }
-
-        .hl-keyword {
-            color: #ce93d8;
-            font-weight: 600;
-        }
-
-        .hl-string {
-            color: #ffcc80;
-        }
-
-        /* Legend */
+        /* Legend: each swatch shows the delimiter, so color is not the only cue */
         .syntax-legend {
             display: flex;
-            gap: 20px;
+            gap: 10px 22px;
             flex-wrap: wrap;
-            padding: 15px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
+            padding: 10px 14px;
+            border: 1px dashed var(--line);
         }
-
         .legend-item {
             display: flex;
             align-items: center;
             gap: 8px;
             font-size: 0.85rem;
         }
-
         .legend-color {
-            width: 16px;
-            height: 16px;
-            border-radius: 4px;
-            font-family: monospace;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.7rem;
+            min-width: 26px;
+            height: 22px;
+            padding: 0 4px;
+            border: 1px solid currentColor;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .legend-color.statement { color: var(--hi); }
+        .legend-color.expression { color: var(--alt); }
+        .legend-color.comment { color: var(--dim); font-style: italic; }
+        .legend-color.filter { color: var(--err); }
+
+        .editor-container {
+            position: relative;
+            margin-bottom: 8px;
+        }
+        .editor-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+            color: var(--dim);
+            font-size: 0.9rem;
+        }
+        .char-count {
+            color: var(--dim);
+            font-size: 0.85rem;
         }
 
-        .legend-color.statement { background: rgba(79, 195, 247, 0.3); color: #4fc3f7; }
-        .legend-color.expression { background: rgba(102, 187, 106, 0.3); color: #66bb6a; }
-        .legend-color.comment { background: rgba(106, 115, 125, 0.3); color: #6a737d; }
-        .legend-color.filter { background: rgba(255, 138, 101, 0.3); color: #ff8a65; }
-
-        /* Quick Reference */
-        .quick-ref {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-            padding: 20px;
-            margin-top: 20px;
+        /* Highlight layer sits under a transparent textarea; both must share metrics */
+        .editor-wrapper {
+            position: relative;
+            border: 1px solid var(--line);
+            background: var(--field);
+        }
+        .editor-wrapper:focus-within {
+            border-color: var(--hi);
+        }
+        .editor-highlight,
+        .editor-textarea {
+            padding: 16px;
+            font-family: var(--font-body);
+            font-size: 14px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .editor-highlight {
+            position: absolute;
+            inset: 0;
+            overflow: auto;
+            pointer-events: none;
+            color: var(--fg);
+        }
+        .editor-textarea,
+        .editor-textarea:focus {
+            position: relative;
+            z-index: 1;
+            display: block;
+            width: 100%;
+            min-height: 400px;
+            border: none;
+            background: transparent;
+            color: transparent;
+            caret-color: var(--hi);
+            resize: vertical;
+        }
+        .editor-textarea::placeholder {
+            color: var(--dim);
+            opacity: 1;
         }
 
-        .quick-ref h3 {
-            color: #4fc3f7;
-            margin-bottom: 15px;
-            font-size: 1.1rem;
+        /* Syntax highlighting (tokens so light and dark both read) */
+        .hl-statement {
+            color: var(--hi);
+        }
+        .hl-keyword {
+            color: var(--hi);
+            font-weight: 600;
+        }
+        .hl-expression {
+            color: var(--alt);
+        }
+        .hl-comment {
+            color: var(--dim);
+            font-style: italic;
+        }
+        .hl-filter {
+            color: var(--err);
+        }
+        .hl-string {
+            color: var(--ok);
         }
 
         .ref-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
+            gap: 12px;
         }
-
         .ref-item {
-            background: rgba(255, 255, 255, 0.03);
-            padding: 12px;
-            border-radius: 6px;
-            border-left: 3px solid #4fc3f7;
+            padding: 10px 12px;
+            border: 1px solid var(--line);
         }
-
-        .ref-item code {
-            color: #4fc3f7;
-            background: rgba(79, 195, 247, 0.1);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 0.9rem;
-        }
-
-        .ref-item p {
-            color: #90caf9;
-            font-size: 0.85rem;
-            margin-top: 5px;
-        }
-
-        /* Toast notification */
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%);
-            color: #fff;
-            padding: 15px 25px;
-            border-radius: 8px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.3s, transform 0.3s;
-            z-index: 1000;
-        }
-
-        .toast.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* ASCII Logo */
-        .ascii-logo {
-            position: absolute;
-            top: 20px;
-            right: 40px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.65rem;
-            line-height: 1.1;
-            color: #4fc3f7;
-            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
-            opacity: 0.8;
-            white-space: pre;
-        }
-
-        @media (max-width: 768px) {
-            .ascii-logo {
-                position: static;
-                text-align: center;
-                margin-bottom: 20px;
-                font-size: 0.5rem;
-            }
-
-            .controls-row {
-                flex-direction: column;
-            }
-
-            .control-group {
-                min-width: 100%;
-            }
-
-            .btn-group {
-                width: 100%;
-            }
-
-            .btn {
-                flex: 1;
-                text-align: center;
-            }
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 30px;
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 0.85rem;
-        }
-
-        footer a {
-            color: #4fc3f7;
-            text-decoration: none;
-        }
-
-        footer a:hover {
-            text-decoration: underline;
-        }
-
-        /* Reference Tabs */
-        .reference-tabs {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-            padding: 20px;
-            margin-top: 20px;
-        }
-
-        .reference-tabs h3 {
-            color: #4fc3f7;
-            margin-bottom: 15px;
-            font-size: 1.1rem;
-        }
-
-        .tab-nav {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-            padding-bottom: 10px;
-        }
-
-        .tab-btn {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #90caf9;
-            padding: 10px 18px;
-            font-size: 0.9rem;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-weight: 500;
-        }
-
-        .tab-btn:hover {
-            background: rgba(79, 195, 247, 0.15);
-            border-color: rgba(79, 195, 247, 0.3);
-        }
-
-        .tab-btn:focus {
-            outline: 2px solid #4fc3f7;
-            outline-offset: 2px;
-        }
-
-        .tab-btn.active {
-            background: rgba(79, 195, 247, 0.2);
-            border-color: #4fc3f7;
-            color: #4fc3f7;
-        }
-
-        .tab-panel {
-            display: none;
-        }
-
-        .tab-panel.active {
-            display: block;
-        }
-
-        .ref-category {
-            margin-bottom: 20px;
-        }
-
-        .ref-category h4 {
-            color: #ff8a65;
-            font-size: 0.95rem;
-            margin-bottom: 10px;
-            padding-bottom: 5px;
-            border-bottom: 1px solid rgba(255, 138, 101, 0.3);
-        }
-
         .ref-item.wide {
             grid-column: 1 / -1;
         }
-
+        .ref-item code {
+            color: var(--hi);
+            font-size: 0.9rem;
+            word-break: break-word;
+        }
+        .ref-item p {
+            margin-top: 4px;
+            color: var(--dim);
+            font-size: 0.85rem;
+        }
         .ref-item pre {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 10px;
-            border-radius: 4px;
-            overflow-x: auto;
             margin: 8px 0;
+            padding: 10px;
+            overflow-x: auto;
+            background: var(--field);
+            border: 1px solid var(--line);
+            color: var(--hi);
             font-size: 0.85rem;
             line-height: 1.5;
         }
 
+        /* Reference tabs: role="tab" buttons, aria-selected fills the active one */
+        .tab-nav {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 18px;
+            padding: 0 3px 12px 0;
+            border-bottom: 1px dashed var(--line);
+        }
+        .btn.tab-btn[aria-selected="true"] {
+            background: var(--hi);
+            color: var(--inv);
+        }
+        .tab-panel {
+            display: none;
+        }
+        .tab-panel.active {
+            display: block;
+        }
+        .ref-category {
+            margin-bottom: 20px;
+        }
+        .ref-category h4 {
+            margin-bottom: 10px;
+            padding-bottom: 4px;
+            border-bottom: 1px dashed var(--line);
+        }
         .ref-table {
-            width: 100%;
-            border-collapse: collapse;
+            margin-top: 6px;
             font-size: 0.85rem;
-            margin-top: 10px;
         }
-
-        .ref-table th,
         .ref-table td {
-            text-align: left;
-            padding: 8px 12px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            white-space: normal;
         }
-
-        .ref-table th {
-            color: #0f1419;
-            font-weight: 600;
-            background: rgba(79, 195, 247, 0.9);
-        }
-
         .ref-table td code {
-            color: #66bb6a;
-            background: rgba(102, 187, 106, 0.1);
-            padding: 2px 6px;
-            border-radius: 4px;
+            color: var(--hi);
+        }
+
+        /* Toast: status line, shown/hidden by JS (.show), no animation */
+        .toast {
+            display: none;
+            position: fixed;
+            bottom: 40px;
+            right: 30px;
+            z-index: 1000;
+            padding: 10px 18px;
+            background: var(--panel);
+            border: 2px solid var(--hi);
+            box-shadow: 3px 3px 0 var(--shadow);
+            color: var(--hi);
+            font-weight: 600;
+        }
+        .toast::before {
+            content: '> ';
+        }
+        .toast.show {
+            display: block;
         }
 
         @media (max-width: 768px) {
-            .tab-nav {
-                gap: 5px;
+            .controls-row {
+                flex-direction: column;
+                align-items: stretch;
             }
-
-            .tab-btn {
-                padding: 8px 12px;
-                font-size: 0.8rem;
+            .control-group {
+                min-width: 100%;
+            }
+            .btn-group .btn {
+                flex: 1;
+            }
+            .tab-nav {
+                gap: 6px;
             }
         }
     </style>
@@ -595,21 +316,21 @@
 </head>
 <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
-    <div class="ascii-logo" aria-hidden="true">  ___  _    _  __        __   _
- / _ \| | _| | \ \      / /__| |__
-| | | | |/ _` | \ \ /\ / / _ \ '_ \
-| |_| | | (_| |  \ V  V /  __/ |_) |
- \___/|_|\__,_|   \_/\_/ \___|_.__/
-</div>
-    <main id="main-content" class="container">
-        <h1>Jinja Template Builder</h1>
-        <p class="subtitle">Build configuration templates with Jinja2 syntax highlighting</p>
+    <main id="main-content">
+        <div class="page-head">
+            <h1>Jinja Template Builder</h1>
+            <p class="lede">Build configuration templates with Jinja2 syntax highlighting</p>
+        </div>
 
-        <div class="tool-section" role="region" aria-label="Jinja template editor">
+        <section class="box tool-section" aria-labelledby="editor-heading">
+            <div class="box-head">
+                <h2 id="editor-heading">template editor</h2>
+            </div>
+            <div class="box-body">
             <form id="template-form" aria-label="Template selection and actions">
             <div class="controls-row">
                 <div class="control-group">
-                    <label for="templateSelect">Load Template</label>
+                    <label for="templateSelect">Load template</label>
                     <select id="templateSelect" aria-describedby="template-help" aria-required="false">
                         <option value="">-- Select a template --</option>
                         <optgroup label="Network Configurations">
@@ -640,10 +361,10 @@
                     <span id="template-help" class="sr-only">Select a pre-built template to load into the editor</span>
                 </div>
                 <div class="btn-group" role="group" aria-label="Template actions">
-                    <button type="button" class="btn" onclick="copyToClipboard()" aria-label="Copy template to clipboard">Copy</button>
-                    <button type="button" class="btn btn-secondary" onclick="downloadTemplate()" aria-label="Download template as .j2 file">Download</button>
-                    <button type="button" class="btn btn-outline" onclick="clearEditor()" aria-label="Clear the editor content">Clear</button>
-                    <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page">Clear Saved Data</button>
+                    <button type="button" class="btn primary" onclick="copyToClipboard()" aria-label="Copy template to clipboard">Copy</button>
+                    <button type="button" class="btn" onclick="downloadTemplate()" aria-label="Download template as .j2 file">Download</button>
+                    <button type="button" class="btn" onclick="clearEditor()" aria-label="Clear the editor content">Clear</button>
+                    <button type="button" class="btn" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page">Clear saved data</button>
                 </div>
             </div>
             </form>
@@ -669,7 +390,7 @@
 
             <div class="editor-container" role="region" aria-live="polite" aria-atomic="false">
                 <div class="editor-label">
-                    <span>Template Editor</span>
+                    <span>editor</span>
                     <span class="char-count" id="charCount" aria-live="polite" aria-atomic="true">0 characters</span>
                 </div>
                 <div class="editor-wrapper">
@@ -690,9 +411,14 @@ Examples:
                     ></textarea>
                 </div>
             </div>
+            </div>
+        </section>
 
-            <div class="quick-ref" role="region" aria-labelledby="quick-ref-heading" aria-describedby="quick-ref-description">
-                <h3 id="quick-ref-heading">Quick Reference</h3>
+        <section class="box quick-ref" aria-labelledby="quick-ref-heading" aria-describedby="quick-ref-description">
+            <div class="box-head">
+                <h2 id="quick-ref-heading">quick reference</h2>
+            </div>
+            <div class="box-body">
                 <p id="quick-ref-description" class="sr-only">Common Jinja2 syntax patterns and their usage</p>
                 <div class="ref-grid" role="list">
                     <div class="ref-item" role="listitem">
@@ -729,16 +455,20 @@ Examples:
                     </div>
                 </div>
             </div>
+        </section>
 
-            <!-- Complete Reference Guide with Tabs -->
-            <div class="reference-tabs" role="region" aria-labelledby="ref-guide-heading">
-                <h3 id="ref-guide-heading">Complete Reference Guide</h3>
+        <!-- Complete Reference Guide with Tabs -->
+        <section class="box reference-tabs" aria-labelledby="ref-guide-heading">
+            <div class="box-head">
+                <h2 id="ref-guide-heading">complete reference guide</h2>
+            </div>
+            <div class="box-body">
                 <div class="tab-nav" role="tablist" aria-label="Reference categories">
-                    <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="tab-basics" id="btn-basics" tabindex="0">Basics</button>
-                    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-control" id="btn-control" tabindex="-1">Control Flow</button>
-                    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-filters" id="btn-filters" tabindex="-1">Filters</button>
-                    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-tests" id="btn-tests" tabindex="-1">Tests</button>
-                    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-advanced" id="btn-advanced" tabindex="-1">Advanced</button>
+                    <button type="button" class="btn small tab-btn active" role="tab" aria-selected="true" aria-controls="tab-basics" id="btn-basics" tabindex="0">Basics</button>
+                    <button type="button" class="btn small tab-btn" role="tab" aria-selected="false" aria-controls="tab-control" id="btn-control" tabindex="-1">Control Flow</button>
+                    <button type="button" class="btn small tab-btn" role="tab" aria-selected="false" aria-controls="tab-filters" id="btn-filters" tabindex="-1">Filters</button>
+                    <button type="button" class="btn small tab-btn" role="tab" aria-selected="false" aria-controls="tab-tests" id="btn-tests" tabindex="-1">Tests</button>
+                    <button type="button" class="btn small tab-btn" role="tab" aria-selected="false" aria-controls="tab-advanced" id="btn-advanced" tabindex="-1">Advanced</button>
                 </div>
 
                 <!-- Basics Tab -->
@@ -821,7 +551,7 @@ Examples:
                     </div>
                     <div class="ref-category">
                         <h4>Loop Variables</h4>
-                        <table class="ref-table">
+                        <table class="data-table ref-table">
                             <thead>
                                 <tr><th>Variable</th><th>Description</th></tr>
                             </thead>
@@ -885,7 +615,7 @@ Examples:
                 <div class="tab-panel" id="tab-filters" role="tabpanel" aria-labelledby="btn-filters">
                     <div class="ref-category">
                         <h4>Text Filters</h4>
-                        <table class="ref-table">
+                        <table class="data-table ref-table">
                             <thead>
                                 <tr><th>Filter</th><th>Description</th></tr>
                             </thead>
@@ -904,7 +634,7 @@ Examples:
                     </div>
                     <div class="ref-category">
                         <h4>Data Filters</h4>
-                        <table class="ref-table">
+                        <table class="data-table ref-table">
                             <thead>
                                 <tr><th>Filter</th><th>Description</th></tr>
                             </thead>
@@ -927,7 +657,7 @@ Examples:
                     </div>
                     <div class="ref-category">
                         <h4>Output &amp; Number Filters</h4>
-                        <table class="ref-table">
+                        <table class="data-table ref-table">
                             <thead>
                                 <tr><th>Filter</th><th>Description</th></tr>
                             </thead>
@@ -959,7 +689,7 @@ Examples:
                 <div class="tab-panel" id="tab-tests" role="tabpanel" aria-labelledby="btn-tests">
                     <div class="ref-category">
                         <h4>Existence Tests</h4>
-                        <table class="ref-table">
+                        <table class="data-table ref-table">
                             <thead>
                                 <tr><th>Test</th><th>Usage</th></tr>
                             </thead>
@@ -972,7 +702,7 @@ Examples:
                     </div>
                     <div class="ref-category">
                         <h4>Type Tests</h4>
-                        <table class="ref-table">
+                        <table class="data-table ref-table">
                             <thead>
                                 <tr><th>Test</th><th>Description</th></tr>
                             </thead>
@@ -991,7 +721,7 @@ Examples:
                     </div>
                     <div class="ref-category">
                         <h4>Value Tests</h4>
-                        <table class="ref-table">
+                        <table class="data-table ref-table">
                             <thead>
                                 <tr><th>Test</th><th>Usage</th></tr>
                             </thead>
@@ -1111,12 +841,12 @@ Examples:
                     </div>
                 </div>
             </div>
-        </div>
-
-        <footer role="contentinfo">
-            <span>Jinja Template Builder</span> - <span>Works offline, no installation required</span>
-        </footer>
+        </section>
     </main>
+    <footer class="statusbar" role="contentinfo">
+        <span>[oldweb] network › jinja-builder │ works offline │ no tracking</span>
+        <span>/ search · t theme</span>
+    </footer>
 
     <div class="toast" id="toast" role="alert" aria-live="polite"></div>
 
