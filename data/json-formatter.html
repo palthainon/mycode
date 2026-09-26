@@ -27,287 +27,126 @@
     <meta name="twitter:description" content="Format, validate, and minify JSON entirely in your browser. Pretty-print, sort keys, minify, escape and unescape.">
     <meta name="twitter:image" content="https://oldweb.tech/logo/og-image.png">
 
-    <meta name="theme-color" content="#1a1a2e">
+    <meta name="theme-color" content="#0e0903">
     <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
 
     <title>JSON Formatter & Validator - OldWeb.tech</title>
     <link rel="stylesheet" href="../a11y.css">
+    <link rel="stylesheet" href="../theme.css">
     <script src="../a11y-utils.js"></script>
     <script src="../storage-utils.js"></script>
     <script src="../navigationv2.js"></script>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            min-height: 100vh;
-            padding: 40px 20px;
-            color: #fff;
+        /* Page layout only; colors, type, buttons and fields come from theme.css */
+        .toolbar-box {
+            margin-bottom: 20px;
         }
-
-        .container { max-width: 1100px; margin: 0 auto; }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 15px;
-            font-size: 2.5rem;
-            color: #4fc3f7;
-            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #90caf9;
-            font-size: 1.05rem;
-            margin-bottom: 30px;
-            opacity: 0.9;
-        }
-
-        .ascii-logo {
-            position: absolute;
-            top: 20px;
-            right: 40px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.65rem;
-            line-height: 1.1;
-            color: #4fc3f7;
-            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
-            opacity: 0.8;
-            white-space: pre;
-        }
-
         .toolbar {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            padding: 12px 14px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            gap: 14px;
             align-items: center;
         }
-
         .toolbar .group {
             display: flex;
-            gap: 8px;
+            gap: 10px;
             flex-wrap: wrap;
             align-items: center;
+            padding: 0 3px 3px 0;
         }
-
-        .toolbar .group label {
-            color: #90caf9;
-            font-size: 0.9rem;
+        .toolbar .group-actions {
+            margin-left: auto;
         }
-
         .toolbar select {
-            background: #0f1419;
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 6px 10px;
-            border-radius: 6px;
-            font-size: 0.9rem;
+            width: auto;
         }
-
-        .toolbar select:focus { outline: 2px solid #4fc3f7; outline-offset: 1px; }
-
-        .action-btn {
-            background: rgba(79, 195, 247, 0.1);
-            border: 1px solid rgba(79, 195, 247, 0.3);
-            color: #4fc3f7;
-            padding: 8px 14px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 600;
-            transition: all 0.2s;
-        }
-
-        .action-btn:hover {
-            background: rgba(79, 195, 247, 0.2);
-            border-color: #4fc3f7;
-        }
-
-        .action-btn.primary {
-            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
-            border-color: #4fc3f7;
-            color: #fff;
-        }
-
-        .action-btn.primary:hover {
-            box-shadow: 0 4px 12px rgba(79, 195, 247, 0.4);
-        }
-
-        .toolbar .checkbox-label {
+        .checkbox-label {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            color: #c5d4e3;
-            font-size: 0.9rem;
+            gap: 8px;
             cursor: pointer;
         }
-
         .panes {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            gap: 20px;
             margin-bottom: 20px;
         }
-
         .pane {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            padding: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
             flex-direction: column;
         }
-
-        .pane-header {
+        .pane .box-head label {
+            font-family: var(--font-display);
+            font-size: 1.65rem;
+            line-height: 1.05;
+            color: var(--hi);
+            text-shadow: var(--glow);
+        }
+        .pane .box-body {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
+            flex-direction: column;
+            flex: 1;
         }
-
-        .pane-header label {
-            color: #90caf9;
-            font-weight: 500;
-        }
-
-        .pane-actions {
-            display: flex;
-            gap: 6px;
-        }
-
-        .small-btn {
-            background: rgba(79, 195, 247, 0.1);
-            border: 1px solid rgba(79, 195, 247, 0.3);
-            color: #4fc3f7;
-            padding: 4px 10px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            font-weight: 600;
-            transition: all 0.2s;
-        }
-
-        .small-btn:hover {
-            background: rgba(79, 195, 247, 0.2);
-            border-color: #4fc3f7;
-        }
-
         .pane textarea {
             flex: 1;
             min-height: 380px;
-            width: 100%;
-            padding: 12px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            background: #0f1419;
-            color: #e0e0e0;
             font-size: 0.9rem;
-            font-family: 'Consolas', 'Monaco', monospace;
             line-height: 1.5;
             resize: vertical;
-            transition: border-color 0.3s, box-shadow 0.3s;
             tab-size: 2;
         }
-
-        .pane textarea:focus {
-            outline: none;
-            border-color: #4fc3f7;
-            box-shadow: 0 0 15px rgba(79, 195, 247, 0.2);
-        }
-
-        .pane textarea::placeholder { color: rgba(255, 255, 255, 0.35); }
-        .pane textarea.error { border-color: #f44336 !important; }
-
         #error {
-            background: rgba(244, 67, 54, 0.2);
-            border: 1px solid #f44336;
-            color: #ff8a80;
-            padding: 14px 18px;
-            border-radius: 8px;
+            margin-top: 0;
             margin-bottom: 18px;
-            display: none;
-            font-family: 'Consolas', 'Monaco', monospace;
-            font-size: 0.9rem;
             white-space: pre-wrap;
         }
-
-        #error.show { display: block; }
-
         #success {
-            background: rgba(102, 187, 106, 0.15);
-            border: 1px solid #66bb6a;
-            color: #a5d6a7;
-            padding: 12px 18px;
-            border-radius: 8px;
-            margin-bottom: 18px;
             display: none;
-            font-size: 0.9rem;
+            margin-bottom: 18px;
+            padding: 10px 14px;
+            border: 1px solid var(--ok);
+            border-left: 6px solid var(--ok);
+            color: var(--ok);
         }
-
-        #success.show { display: block; }
-
+        #success::before {
+            content: 'ok: ';
+            font-weight: 600;
+        }
+        #success.show {
+            display: block;
+        }
         .stats {
             display: flex;
             gap: 14px;
             flex-wrap: wrap;
-            color: #90caf9;
-            font-size: 0.85rem;
             margin-top: 8px;
-        }
-
-        .stats .stat strong { color: #fff; font-family: 'Consolas', 'Monaco', monospace; }
-
-        .info-box {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-            padding: 16px 20px;
-            margin-top: 24px;
-            font-size: 0.9rem;
-            color: #c5d4e3;
-            line-height: 1.6;
-            border-left: 4px solid #4fc3f7;
-        }
-
-        .info-box h3 {
-            color: #4fc3f7;
-            font-size: 1rem;
-            margin-bottom: 8px;
-        }
-
-        .info-box code {
-            font-family: 'Consolas', 'Monaco', monospace;
-            background: rgba(255, 255, 255, 0.06);
-            padding: 1px 6px;
-            border-radius: 3px;
-            color: #ffd180;
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 30px;
-            color: rgba(255, 255, 255, 0.4);
+            color: var(--dim);
             font-size: 0.85rem;
         }
-
-        @media (max-width: 900px) {
-            .panes { grid-template-columns: 1fr; }
+        .stats .stat strong {
+            color: var(--hi);
+            font-weight: 600;
         }
-
-        @media (max-width: 768px) {
-            .ascii-logo {
-                position: static;
-                text-align: center;
-                margin-bottom: 20px;
-                font-size: 0.5rem;
+        .page-actions {
+            margin-bottom: 24px;
+            padding: 0 3px 3px 0;
+        }
+        .tips ul {
+            margin: 0 0 0 22px;
+            padding: 0;
+        }
+        .tips strong,
+        .tips code {
+            color: var(--hi);
+        }
+        @media (max-width: 900px) {
+            .panes {
+                grid-template-columns: minmax(0, 1fr);
             }
-            h1 { font-size: 1.8rem; }
+            .toolbar .group-actions {
+                margin-left: 0;
+            }
         }
     </style>
 
@@ -328,105 +167,116 @@
 </head>
 <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
-    <div class="ascii-logo" aria-hidden="true">  ___  _     _  __        __   _
- / _ \| | __| | \ \      / /__| |__
-| | | | |/ _` |  \ \ /\ / / _ \ '_ \
-| |_| | | (_| |   \ V  V /  __/ |_) |
- \___/|_|\__,_|    \_/\_/ \___|_.__/
-</div>
-
-    <main id="main-content" class="container">
-        <h1>JSON Formatter &amp; Validator</h1>
-        <p class="subtitle">Format, validate, minify, or escape JSON. Everything runs locally in your browser.</p>
-
-        <div class="toolbar" role="toolbar" aria-label="JSON formatter actions">
-            <div class="group">
-                <label for="indentSelect">Indent</label>
-                <select id="indentSelect" aria-label="Indent size for formatted JSON">
-                    <option value="2" selected>2 spaces</option>
-                    <option value="4">4 spaces</option>
-                    <option value="tab">tab</option>
-                </select>
-            </div>
-            <div class="group">
-                <label class="checkbox-label">
-                    <input type="checkbox" id="sortKeys">
-                    Sort keys
-                </label>
-            </div>
-            <div class="group" style="margin-left:auto;">
-                <button type="button" class="action-btn primary" onclick="action('format')" aria-label="Format and validate JSON">Format</button>
-                <button type="button" class="action-btn" onclick="action('minify')" aria-label="Minify JSON to one line">Minify</button>
-                <button type="button" class="action-btn" onclick="action('validate')" aria-label="Validate JSON without modifying it">Validate</button>
-                <button type="button" class="action-btn" onclick="action('escape')" aria-label="Escape JSON as a string literal">Escape</button>
-                <button type="button" class="action-btn" onclick="action('unescape')" aria-label="Unescape a JSON string literal">Unescape</button>
-            </div>
+    <main id="main-content">
+        <div class="page-head">
+            <h1>JSON Formatter &amp; Validator</h1>
+            <p class="lede">Format, validate, minify, or escape JSON. Everything runs locally in your browser.</p>
         </div>
 
-        <div id="error" role="alert" aria-live="assertive" aria-atomic="true"></div>
+        <section class="box toolbar-box" aria-labelledby="options-heading">
+            <div class="box-head">
+                <h2 id="options-heading">options</h2>
+            </div>
+            <div class="box-body">
+                <div class="toolbar" role="toolbar" aria-label="JSON formatter actions">
+                    <div class="group">
+                        <label for="indentSelect">Indent</label>
+                        <select id="indentSelect" aria-label="Indent size for formatted JSON">
+                            <option value="2" selected>2 spaces</option>
+                            <option value="4">4 spaces</option>
+                            <option value="tab">tab</option>
+                        </select>
+                    </div>
+                    <div class="group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="sortKeys">
+                            Sort keys
+                        </label>
+                    </div>
+                    <div class="group group-actions">
+                        <button type="button" class="btn primary action-btn" onclick="action('format')" aria-label="Format and validate JSON">Format</button>
+                        <button type="button" class="btn action-btn" onclick="action('minify')" aria-label="Minify JSON to one line">Minify</button>
+                        <button type="button" class="btn action-btn" onclick="action('validate')" aria-label="Validate JSON without modifying it">Validate</button>
+                        <button type="button" class="btn action-btn" onclick="action('escape')" aria-label="Escape JSON as a string literal">Escape</button>
+                        <button type="button" class="btn action-btn" onclick="action('unescape')" aria-label="Unescape a JSON string literal">Unescape</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div id="error" class="error-alert" role="alert" aria-live="assertive" aria-atomic="true"></div>
         <div id="success" role="status" aria-live="polite"></div>
 
         <div class="panes">
-            <div class="pane">
-                <div class="pane-header">
-                    <label for="jsonInput">Input</label>
-                    <div class="pane-actions">
-                        <button type="button" class="small-btn" onclick="loadSample()" aria-label="Load a sample JSON document">Sample</button>
-                        <button type="button" class="small-btn" onclick="copyText('jsonInput', 'Input')" aria-label="Copy input to clipboard">Copy</button>
-                        <button type="button" class="small-btn" onclick="clearInput()" aria-label="Clear input">Clear</button>
+            <div class="box pane">
+                <div class="box-head">
+                    <label for="jsonInput">input</label>
+                    <div class="box-actions pane-actions">
+                        <button type="button" class="btn small" onclick="loadSample()" aria-label="Load a sample JSON document">Sample</button>
+                        <button type="button" class="btn small" onclick="copyText('jsonInput', 'Input')" aria-label="Copy input to clipboard">Copy</button>
+                        <button type="button" class="btn small" onclick="clearInput()" aria-label="Clear input">Clear</button>
                     </div>
                 </div>
-                <textarea id="jsonInput"
-                          placeholder='{"name":"example","items":[1,2,3]}'
-                          spellcheck="false"
-                          aria-describedby="input-stats"></textarea>
-                <div class="stats" id="input-stats" aria-live="polite">
-                    <span class="stat"><strong id="inputChars">0</strong> chars</span>
-                    <span class="stat"><strong id="inputBytes">0</strong> bytes</span>
-                    <span class="stat"><strong id="inputLines">1</strong> lines</span>
+                <div class="box-body">
+                    <textarea id="jsonInput"
+                              placeholder='{"name":"example","items":[1,2,3]}'
+                              spellcheck="false"
+                              aria-describedby="input-stats"></textarea>
+                    <div class="stats" id="input-stats" aria-live="polite">
+                        <span class="stat"><strong id="inputChars">0</strong> chars</span>
+                        <span class="stat"><strong id="inputBytes">0</strong> bytes</span>
+                        <span class="stat"><strong id="inputLines">1</strong> lines</span>
+                    </div>
                 </div>
             </div>
-            <div class="pane">
-                <div class="pane-header">
-                    <label for="jsonOutput">Output</label>
-                    <div class="pane-actions">
-                        <button type="button" class="small-btn" onclick="copyText('jsonOutput', 'Output')" aria-label="Copy output to clipboard">Copy</button>
-                        <button type="button" class="small-btn" onclick="downloadOutput()" aria-label="Download output as a .json file">Download</button>
+            <div class="box pane">
+                <div class="box-head">
+                    <label for="jsonOutput">output</label>
+                    <div class="box-actions pane-actions">
+                        <button type="button" class="btn small" onclick="copyText('jsonOutput', 'Output')" aria-label="Copy output to clipboard">Copy</button>
+                        <button type="button" class="btn small" onclick="downloadOutput()" aria-label="Download output as a .json file">Download</button>
                     </div>
                 </div>
-                <textarea id="jsonOutput"
-                          readonly
-                          spellcheck="false"
-                          aria-describedby="output-stats"
-                          placeholder="Formatted output appears here..."></textarea>
-                <div class="stats" id="output-stats">
-                    <span class="stat"><strong id="outputChars">0</strong> chars</span>
-                    <span class="stat"><strong id="outputBytes">0</strong> bytes</span>
-                    <span class="stat"><strong id="outputLines">0</strong> lines</span>
+                <div class="box-body">
+                    <textarea id="jsonOutput"
+                              readonly
+                              spellcheck="false"
+                              aria-describedby="output-stats"
+                              placeholder="Formatted output appears here..."></textarea>
+                    <div class="stats" id="output-stats">
+                        <span class="stat"><strong id="outputChars">0</strong> chars</span>
+                        <span class="stat"><strong id="outputBytes">0</strong> bytes</span>
+                        <span class="stat"><strong id="outputLines">0</strong> lines</span>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <button type="button"
-                class="action-btn"
-                style="display:block;margin:0 auto;"
-                onclick="clearAllSavedData()"
-                aria-label="Clear all saved form data from this page">Clear Saved Data</button>
-
-        <div class="info-box">
-            <h3>Tips</h3>
-            <ul style="margin: 4px 0 0 22px;">
-                <li>Press <code>Ctrl+Enter</code> in the input to format.</li>
-                <li><strong>Validate</strong> reports the first error with a line and column hint.</li>
-                <li><strong>Escape</strong> turns the input into a JSON string literal so you can paste it inside another JSON document.</li>
-                <li>All processing is local &mdash; nothing is sent to any server.</li>
-            </ul>
+        <div class="page-actions">
+            <button type="button"
+                    class="btn"
+                    onclick="clearAllSavedData()"
+                    aria-label="Clear all saved form data from this page">Clear saved data</button>
         </div>
 
-        <footer role="contentinfo">
-            <span>JSON Formatter</span> &mdash; <span>Works offline, no installation required</span>
-        </footer>
+        <section class="box tips info-box" aria-labelledby="tips-heading">
+            <div class="box-head">
+                <h2 id="tips-heading">tips</h2>
+            </div>
+            <div class="box-body">
+                <ul>
+                    <li>Press <kbd>Ctrl+Enter</kbd> in the input to format.</li>
+                    <li><strong>Validate</strong> reports the first error with a line and column hint.</li>
+                    <li><strong>Escape</strong> turns the input into a JSON string literal so you can paste it inside another JSON document.</li>
+                    <li>All processing is local &mdash; nothing is sent to any server.</li>
+                </ul>
+            </div>
+        </section>
     </main>
+    <footer class="statusbar" role="contentinfo">
+        <span>[oldweb] data › json-formatter │ works offline │ no tracking</span>
+        <span>/ search · t theme</span>
+    </footer>
 
     <script>
         const $ = id => document.getElementById(id);
