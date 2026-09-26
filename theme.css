@@ -332,6 +332,53 @@ button:disabled,
   box-shadow: none;
 }
 
+/* Whole-card link (category index pages): the entire box is clickable,
+   so it gets the button treatment: 2px accent border + hard shadow. */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+  padding: 0 4px 4px 0;
+}
+.card-link {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px 18px 18px;
+  background: var(--btn);
+  border: 2px solid var(--hi);
+  box-shadow: 4px 4px 0 var(--shadow);
+  color: var(--fg);
+  text-decoration: none;
+}
+.card-link:hover {
+  background: var(--head);
+  color: var(--fg);
+}
+.card-link:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--shadow);
+}
+.card-link h2,
+.card-link h3 {
+  font-size: 1.7rem;
+}
+.card-link p {
+  color: var(--dim);
+  font-size: 0.9rem;
+}
+.card-link .card-cta {
+  margin-top: auto;
+  color: var(--hi);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.card-link .card-cta::after {
+  content: ' →';
+}
+
 /* ---------- Form fields ---------- */
 label {
   color: var(--dim);
