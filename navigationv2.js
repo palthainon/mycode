@@ -1905,6 +1905,11 @@
             });
         }
 
+        // A link to "#search" (e.g. from the 404 page) opens the overlay
+        const openFromHash = () => { if (location.hash === '#search') openSearch(); };
+        window.addEventListener('hashchange', openFromHash);
+        openFromHash();
+
         // Global keyboard shortcuts: Cmd/Ctrl+K and "/"
         document.addEventListener('keydown', e => {
             // Cmd/Ctrl+K — always opens

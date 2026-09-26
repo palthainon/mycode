@@ -51,7 +51,7 @@
   --alt: #1f6a62;      /* second accent (host bits, secondary data) */
   --err: #b3261e;
   --err-bg: #fbe4e1;
-  --ok: #1f6a62;        /* success / positive values */
+  --ok: #3f6b12;        /* success / positive values (distinct from --alt) */
   --warn: #8f4a00;      /* warnings: same as accent, pair with a text label */
   --glow: none;
   --scan: repeating-linear-gradient(180deg, #fbf6ec 0 44px, #f6eddb 44px 88px);
@@ -78,7 +78,7 @@
     --alt: #8fd3c7;
     --err: #ff7a66;
     --err-bg: #2a0f0a;
-    --ok: #8fd3c7;
+    --ok: #b5e36b;
     --warn: #ffb000;
     --glow: 0 0 10px rgba(255, 176, 0, 0.30);
     --scan: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.22) 0 1px, transparent 1px 3px);
@@ -100,7 +100,7 @@
   --alt: #8fd3c7;
   --err: #ff7a66;
   --err-bg: #2a0f0a;
-  --ok: #8fd3c7;
+  --ok: #b5e36b;
   --warn: #ffb000;
   --glow: 0 0 10px rgba(255, 176, 0, 0.30);
   --scan: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.22) 0 1px, transparent 1px 3px);
@@ -393,6 +393,9 @@ input[type="url"],
 input[type="password"],
 input[type="date"],
 input[type="time"],
+input[type="month"],
+input[type="week"],
+input[type="datetime-local"],
 input:not([type]),
 select,
 textarea {
@@ -420,6 +423,9 @@ textarea::placeholder {
 select option {
   background: var(--field);
   color: var(--fg);
+}
+input[type="range"] {
+  accent-color: var(--hi);
 }
 input[type="checkbox"],
 input[type="radio"] {
@@ -551,6 +557,28 @@ label.required::after {
 }
 
 @media print {
+  /* Black on white, no scanlines or glow, whatever theme is active */
+  :root,
+  :root[data-theme] {
+    --bg: #ffffff;
+    --panel: #ffffff;
+    --head: #eeeeee;
+    --fg: #000000;
+    --hi: #000000;
+    --dim: #333333;
+    --line: #999999;
+    --inv: #ffffff;
+    --field: #ffffff;
+    --btn: #ffffff;
+    --shadow: transparent;
+    --alt: #000000;
+    --ok: #000000;
+    --warn: #000000;
+    --err: #000000;
+    --err-bg: #ffffff;
+    --glow: none;
+    --scan: none;
+  }
   body {
     background: #fff;
     color: #000;
