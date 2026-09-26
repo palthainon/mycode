@@ -28,7 +28,7 @@
     <meta name="twitter:image" content="https://oldweb.tech/logo/og-image.png">
 
     <!-- Additional Meta Tags -->
-    <meta name="theme-color" content="#1a1a2e">
+    <meta name="theme-color" content="#0e0903">
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
@@ -37,552 +37,151 @@
 
     <!-- Accessibility -->
     <link rel="stylesheet" href="../a11y.css">
+    <link rel="stylesheet" href="../theme.css">
     <script src="../a11y-utils.js"></script>
     <script src="../storage-utils.js"></script>
     <script src="../navigationv2.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* Page layout only; colors, type, buttons and fields come from theme.css */
+        .tool-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 560px);
+            gap: 24px;
+            align-items: start;
         }
-
-        html {
-            overflow-x: hidden;
+        .tool-grid:has(> .results.show) {
+            grid-template-columns: minmax(0, 440px) minmax(0, 1fr);
         }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            min-height: 100vh;
-            padding: 40px 20px;
-            color: #fff;
-            overflow-x: hidden;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            overflow-x: hidden;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 15px;
-            font-size: 2.5rem;
-            color: #4fc3f7;
-            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
-        }
-
-        .calculator {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 30px;
-        }
-
-        .input-group {
+        .calculator form {
             display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
+            flex-direction: column;
+            gap: 16px;
         }
-
         .input-field {
-            flex: 1;
-            min-width: 200px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
         }
-
-        .input-field label {
-            display: block;
-            margin-bottom: 8px;
-            color: #90caf9;
-            font-weight: 500;
+        #ipAddress {
+            font-size: 1.15rem;
         }
-
-        .input-field input, .input-field select {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            background: #0f1419;
-            color: #fff;
-            font-size: 1rem;
-            transition: border-color 0.3s, box-shadow 0.3s;
-        }
-
-        .input-field select option {
-            background: #0f1419;
-            color: #fff;
-        }
-
-        #cidr, #cidr option {
-            font-family: 'Consolas', 'Monaco', monospace;
+        #cidr,
+        #cidr option {
             font-size: 0.85rem;
         }
-
-        .input-field input:focus, .input-field select:focus {
-            outline: none;
-            border-color: #4fc3f7;
-            box-shadow: 0 0 15px rgba(79, 195, 247, 0.2);
+        .form-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            padding: 0 3px 3px 0;
         }
-
-        .input-field input::placeholder {
-            color: rgba(255, 255, 255, 0.4);
+        .form-actions .primary {
+            flex: 1;
         }
-
-        .btn {
-            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
-            color: #fff;
-            border: none;
-            padding: 14px 40px;
-            font-size: 1.1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            font-weight: 600;
-            display: block;
-            width: 100%;
+        .key-hints {
+            color: var(--dim);
+            font-size: 0.8rem;
         }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(79, 195, 247, 0.4);
-        }
-
-        .btn:active {
-            transform: translateY(0);
-        }
-
-        .btn.secondary {
-            background: transparent;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            color: #90caf9;
-            margin-top: 10px;
-        }
-        .btn.secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.5);
-            box-shadow: none;
-            transform: none;
-        }
-
-        .results {
-            display: none;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .results.show {
-            display: block;
-            animation: fadeIn 0.4s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .results h2 {
-            color: #4fc3f7;
-            margin-bottom: 20px;
-            font-size: 1.5rem;
-        }
-
-        .details-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.95rem;
-        }
-
-        .details-table td {
-            padding: 8px 12px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-        }
-
-        .details-table td:first-child {
-            color: #90caf9;
-            white-space: nowrap;
-            width: 1%;
-            padding-right: 24px;
-        }
-
-        .details-table td:last-child {
-            font-family: 'Consolas', 'Monaco', monospace;
-            color: #fff;
-        }
-
-        .details-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        .error-alert {
-            background: rgba(244, 67, 54, 0.2);
-            border: 1px solid #f44336;
-            color: #ff8a80;
-            padding: 15px 20px;
-            border-radius: 8px;
-            margin-top: 20px;
-            display: none;
-        }
-
-        .error-alert.show {
-            display: block;
-        }
-
-        .binary-display {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .binary-display h3 {
-            color: #4fc3f7;
-            margin-bottom: 15px;
-            font-size: 1.2rem;
-        }
-
-
-        .binary-item {
-            font-family: 'Consolas', 'Monaco', monospace;
-            font-size: 0.9rem;
-            margin-bottom: 10px;
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 4px;
-        }
-
-        .binary-item .bin-label {
-            color: #90caf9;
-            display: inline-block;
-            width: 140px;
-        }
-
-        .binary-item .network-bits {
-            color: #4fc3f7;
-        }
-
-        .binary-item .host-bits {
-            color: #ff8a65;
-        }
-
         .quick-masks {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 14px;
+            border-top: 1px dashed var(--line);
         }
-
         .quick-masks h3 {
-            color: #90caf9;
-            font-size: 0.9rem;
             margin-bottom: 10px;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            color: var(--dim);
+            text-shadow: none;
         }
-
+        .quick-masks h3::before {
+            content: '# ';
+        }
         .mask-buttons {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 10px 8px;
+            padding: 0 3px 3px 0;
         }
-
-        .mask-btn {
-            background: rgba(79, 195, 247, 0.1);
-            border: 1px solid rgba(79, 195, 247, 0.3);
-            color: #4fc3f7;
-            padding: 6px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            transition: all 0.2s;
-        }
-
-        .mask-btn:hover {
-            background: rgba(79, 195, 247, 0.2);
-            border-color: #4fc3f7;
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 30px;
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 0.85rem;
-        }
-
-        /* ASCII Logo */
-        .ascii-logo {
-            position: absolute;
-            top: 20px;
-            right: 40px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.65rem;
-            line-height: 1.1;
-            color: #4fc3f7;
-            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
-            opacity: 0.8;
-            white-space: pre;
-        }
-
-        @media (max-width: 768px) {
-            .ascii-logo {
-                position: static;
-                text-align: center;
-                margin-bottom: 20px;
-                font-size: 0.5rem;
-            }
-
-            body {
-                padding: 20px 10px;
-            }
-
-            .calculator, .results, .subnet-list {
-                padding: 15px;
-                border-radius: 12px;
-            }
-
-            h1 {
-                font-size: 1.8rem;
-            }
-
-            .results {
-                overflow-x: auto;
-            }
-
-            .details-table {
-                display: block;
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-            }
-
-            .details-table td:first-child {
-                white-space: nowrap;
-                padding-right: 12px;
-                font-size: 0.85rem;
-            }
-
-            .details-table td:last-child {
-                font-size: 0.8rem;
-                word-break: break-all;
-            }
-
-            .binary-item {
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-                font-size: 0.75rem;
-                white-space: nowrap;
-            }
-
-            .binary-item .bin-label {
-                width: auto;
-                display: block;
-                margin-bottom: 4px;
-            }
-
-            .section-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-            }
-
-            .subnet-table-container {
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-            }
-
-            .subnet-table {
-                font-size: 0.8rem;
-            }
-
-            .subnet-table th, .subnet-table td {
-                padding: 8px 10px;
-            }
-        }
-
-        /* Subnet List Styles */
+        .results,
         .subnet-list {
             display: none;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            margin-top: 30px;
         }
-
+        .results.show,
         .subnet-list.show {
             display: block;
-            animation: fadeIn 0.4s ease;
         }
-
-        .subnet-list h2 {
-            color: #4fc3f7;
-            margin-bottom: 10px;
-            font-size: 1.5rem;
+        .subnet-list {
+            margin-top: 24px;
         }
-
+        .binary-display {
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px dashed var(--line);
+        }
+        .binary-display h3 {
+            margin-bottom: 8px;
+        }
+        .bin-legend {
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+        }
+        .binary-item {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px 12px;
+            padding: 3px 0;
+            font-size: 0.9rem;
+            overflow-x: auto;
+        }
+        .bin-label {
+            min-width: 120px;
+            color: var(--dim);
+        }
+        .network-bits {
+            color: var(--hi);
+            font-weight: 600;
+        }
+        .host-bits {
+            color: var(--alt);
+            text-decoration: underline dotted;
+            text-underline-offset: 4px;
+        }
         .subnet-list-info {
-            color: #90caf9;
+            padding: 12px 16px 4px;
+            color: var(--dim);
             font-size: 0.9rem;
-            margin-bottom: 20px;
         }
-
         .subnet-table-container {
-            max-height: 400px;
-            overflow-y: auto;
-            border-radius: 8px;
+            max-height: 420px;
+            overflow: auto;
         }
-
-        .subnet-table-container::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .subnet-table-container::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 4px;
-        }
-
-        .subnet-table-container::-webkit-scrollbar-thumb {
-            background: rgba(79, 195, 247, 0.5);
-            border-radius: 4px;
-        }
-
-        .subnet-table-container::-webkit-scrollbar-thumb:hover {
-            background: rgba(79, 195, 247, 0.7);
-        }
-
-        .subnet-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-family: 'Consolas', 'Monaco', monospace;
-            font-size: 0.9rem;
-        }
-
-        .subnet-table th {
-            background: rgba(79, 195, 247, 0.9);
-            color: #0f1419;
-            padding: 12px 15px;
-            text-align: left;
+        .subnet-table thead th {
             position: sticky;
             top: 0;
             z-index: 1;
-            white-space: nowrap;
         }
-
-        .subnet-table th:first-child {
-            width: 1%;
+        .subnet-table td:nth-child(2) {
+            color: var(--hi);
         }
-
-        .subnet-table td {
-            padding: 10px 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            color: #fff;
-            white-space: nowrap;
-        }
-
-        .subnet-table tr:hover {
-            background: rgba(79, 195, 247, 0.1);
-        }
-
-        .subnet-table tr.current-subnet {
-            background: rgba(76, 175, 80, 0.2);
-            border-left: 4px solid #4caf50;
-        }
-
-        .subnet-table tr.current-subnet td {
-            color: #a5d6a7;
-        }
-
         .subnet-number {
-            color: #90caf9;
+            color: var(--dim);
+        }
+        .subnet-table tr.current-subnet {
+            background: var(--head);
+            box-shadow: inset 4px 0 0 var(--hi);
+        }
+        .subnet-table tr.current-subnet td {
+            color: var(--hi);
             font-weight: 600;
         }
-
-        .subnet-badge {
-            display: inline-block;
-            background: #4caf50;
-            color: #fff;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            margin-left: 10px;
+        .subnet-table tr.current-subnet td:first-child::after {
+            content: ' ◂ this';
+            font-weight: 400;
         }
-
-        /* Export Button Styles */
-        .export-btn {
-            background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%);
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            font-size: 0.9rem;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            font-weight: 600;
-            display: inline-block;
-            margin-top: 15px;
-        }
-
-        .export-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(102, 187, 106, 0.4);
-        }
-
-        .export-btn:active {
-            transform: translateY(0);
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .section-header h2 {
-            margin-bottom: 0;
-        }
-
-        /* Protocol Toggle Styles */
-        .protocol-toggle-container {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .protocol-toggle-link {
-            display: inline-block;
-            padding: 10px 24px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 600;
-            transition: all 0.3s;
-            white-space: nowrap;
-        }
-
-        .protocol-toggle-ipv6 {
-            background: rgba(244, 67, 54, 0.2);
-            border: 2px solid rgba(244, 67, 54, 0.5);
-            color: #ff6b6b;
-        }
-
-        .export-btn.copy-flash {
-            animation: copyFlash 1s ease;
-        }
-
-        @keyframes copyFlash {
-            0% { box-shadow: 0 0 0 0 rgba(102, 187, 106, 0.7); }
-            30% { box-shadow: 0 0 12px 4px rgba(102, 187, 106, 0.5); background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%); }
-            100% { box-shadow: 0 0 0 0 rgba(102, 187, 106, 0); }
-        }
-
-        .protocol-toggle-ipv6:hover {
-            background: rgba(244, 67, 54, 0.3);
-            border-color: #f44336;
-            box-shadow: 0 0 15px rgba(244, 67, 54, 0.3);
-            transform: translateY(-2px);
+        @media (max-width: 900px) {
+            .tool-grid:has(> .results.show) {
+                grid-template-columns: minmax(0, 1fr);
+            }
         }
     </style>
 
@@ -610,167 +209,174 @@
 </head>
 <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
-    <div class="ascii-logo" aria-hidden="true">  ___  _    _  __        __   _
- / _ \| | _| | \ \      / /__| |__
-| | | | |/ _` | \ \ /\ / / _ \ '_ \
-| |_| | | (_| |  \ V  V /  __/ |_) |
- \___/|_|\__,_|   \_/\_/ \___|_.__/
-</div>
-    <main id="main-content" class="container">
-        <h1>IPv4 Subnet Calculator</h1>
-        <div class="protocol-toggle-container">
-            <a href="subnet-calculator-ipv6.html" class="protocol-toggle-link protocol-toggle-ipv6">Switch to IPv6 →</a>
+    <main id="main-content">
+        <div class="page-head">
+            <h1>IPv4 Subnet Calculator</h1>
+            <p class="lede">Network, broadcast, host range and masks for any IPv4 address.</p>
+            <p><a href="subnet-calculator-ipv6.html">Switch to the IPv6 subnet calculator</a></p>
         </div>
 
-        <div class="calculator">
-            <form id="subnet-form" aria-label="Subnet Calculator Form">
-            <div class="input-group">
-                <div class="input-field">
-                    <label for="ipAddress">IP Address</label>
-                    <input type="text"
-                           id="ipAddress"
-                           value="10.1.2.0"
-                           placeholder="192.168.1.100"
-                           aria-required="true"
-                           aria-describedby="ip-help"
-                           autocomplete="off">
-                    <span id="ip-help" class="sr-only">Enter an IPv4 address in dotted decimal notation, for example 192.168.1.100</span>
+        <div class="tool-grid">
+            <section class="box calculator" aria-labelledby="input-heading">
+                <div class="box-head">
+                    <h2 id="input-heading">input</h2>
                 </div>
-                <div class="input-field">
-                    <label for="cidr">CIDR / Prefix Length</label>
-                    <select id="cidr"
-                            aria-describedby="cidr-help">
-                        <option value="8">/8 - 255.0.0.0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 16,777,214 hosts</option>
-                        <option value="9">/9 - 255.128.0.0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;8,388,606 hosts</option>
-                        <option value="10">/10 - 255.192.0.0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;4,194,302 hosts</option>
-                        <option value="11">/11 - 255.224.0.0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;2,097,150 hosts</option>
-                        <option value="12">/12 - 255.240.0.0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;1,048,574 hosts</option>
-                        <option value="13">/13 - 255.248.0.0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;524,286 hosts</option>
-                        <option value="14">/14 - 255.252.0.0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;262,142 hosts</option>
-                        <option value="15">/15 - 255.254.0.0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;131,070 hosts</option>
-                        <option value="16">/16 - 255.255.0.0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;65,534 hosts</option>
-                        <option value="17">/17 - 255.255.128.0&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;32,766 hosts</option>
-                        <option value="18">/18 - 255.255.192.0&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;16,382 hosts</option>
-                        <option value="19">/19 - 255.255.224.0&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;8,190 hosts</option>
-                        <option value="20">/20 - 255.255.240.0&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4,094 hosts</option>
-                        <option value="21">/21 - 255.255.248.0&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2,046 hosts</option>
-                        <option value="22">/22 - 255.255.252.0&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1,022 hosts</option>
-                        <option value="23">/23 - 255.255.254.0&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;510 hosts</option>
-                        <option value="24" selected>/24 - 255.255.255.0&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;254 hosts</option>
-                        <option value="25">/25 - 255.255.255.128&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;126 hosts</option>
-                        <option value="26">/26 - 255.255.255.192&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;62 hosts</option>
-                        <option value="27">/27 - 255.255.255.224&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;30 hosts</option>
-                        <option value="28">/28 - 255.255.255.240&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;14 hosts</option>
-                        <option value="29">/29 - 255.255.255.248&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6 hosts</option>
-                        <option value="30">/30 - 255.255.255.252&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2 hosts</option>
-                        <option value="31">/31 - 255.255.255.254&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2 hosts</option>
-                        <option value="32">/32 - 255.255.255.255&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1 host</option>
-                    </select>
-                    <span id="cidr-help" class="sr-only">Select the CIDR prefix length or subnet mask for your network</span>
+                <div class="box-body">
+                    <form id="subnet-form" aria-label="Subnet Calculator Form">
+                        <div class="input-field">
+                            <label for="ipAddress">IP address</label>
+                            <input type="text"
+                                   id="ipAddress"
+                                   value="10.1.2.0"
+                                   placeholder="192.168.1.100"
+                                   aria-required="true"
+                                   aria-describedby="ip-help"
+                                   autocomplete="off"
+                                   spellcheck="false">
+                            <span id="ip-help" class="sr-only">Enter an IPv4 address in dotted decimal notation, for example 192.168.1.100</span>
+                        </div>
+                        <div class="input-field">
+                            <label for="cidr">CIDR / prefix length</label>
+                            <select id="cidr"
+                                    aria-describedby="cidr-help">
+                                <option value="8">/8 - 255.0.0.0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 16,777,214 hosts</option>
+                                <option value="9">/9 - 255.128.0.0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;8,388,606 hosts</option>
+                                <option value="10">/10 - 255.192.0.0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;4,194,302 hosts</option>
+                                <option value="11">/11 - 255.224.0.0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;2,097,150 hosts</option>
+                                <option value="12">/12 - 255.240.0.0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;1,048,574 hosts</option>
+                                <option value="13">/13 - 255.248.0.0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;524,286 hosts</option>
+                                <option value="14">/14 - 255.252.0.0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;262,142 hosts</option>
+                                <option value="15">/15 - 255.254.0.0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;131,070 hosts</option>
+                                <option value="16">/16 - 255.255.0.0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;65,534 hosts</option>
+                                <option value="17">/17 - 255.255.128.0&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;32,766 hosts</option>
+                                <option value="18">/18 - 255.255.192.0&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;16,382 hosts</option>
+                                <option value="19">/19 - 255.255.224.0&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;8,190 hosts</option>
+                                <option value="20">/20 - 255.255.240.0&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4,094 hosts</option>
+                                <option value="21">/21 - 255.255.248.0&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2,046 hosts</option>
+                                <option value="22">/22 - 255.255.252.0&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1,022 hosts</option>
+                                <option value="23">/23 - 255.255.254.0&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;510 hosts</option>
+                                <option value="24" selected>/24 - 255.255.255.0&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;254 hosts</option>
+                                <option value="25">/25 - 255.255.255.128&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;126 hosts</option>
+                                <option value="26">/26 - 255.255.255.192&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;62 hosts</option>
+                                <option value="27">/27 - 255.255.255.224&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;30 hosts</option>
+                                <option value="28">/28 - 255.255.255.240&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;14 hosts</option>
+                                <option value="29">/29 - 255.255.255.248&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6 hosts</option>
+                                <option value="30">/30 - 255.255.255.252&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2 hosts</option>
+                                <option value="31">/31 - 255.255.255.254&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2 hosts</option>
+                                <option value="32">/32 - 255.255.255.255&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1 host</option>
+                            </select>
+                            <span id="cidr-help" class="sr-only">Select the CIDR prefix length or subnet mask for your network</span>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn primary" aria-label="Calculate subnet details for the entered IP address and CIDR">Calculate</button>
+                            <button type="button" class="btn" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page">Clear saved data</button>
+                        </div>
+                        <p class="key-hints">enter calculates · changing the prefix recalculates</p>
+
+                        <div class="quick-masks">
+                            <h3 id="quick-masks-label">presets</h3>
+                            <div class="mask-buttons" role="group" aria-labelledby="quick-masks-label">
+                                <button type="button" class="btn small mask-btn" onclick="setSubnet('10.0.0.0', 8)" aria-label="Set to 10.0.0.0/8, Class A network, 16 million hosts">10.0.0.0/8</button>
+                                <button type="button" class="btn small mask-btn" onclick="setSubnet('10.1.0.0', 16)" aria-label="Set to 10.1.0.0/16, Class B sized subnet, 65 thousand hosts">10.1.0.0/16</button>
+                                <button type="button" class="btn small mask-btn" onclick="setSubnet('10.1.2.0', 24)" aria-label="Set to 10.1.2.0/24, Class C sized subnet, 254 hosts">10.1.2.0/24</button>
+                                <button type="button" class="btn small mask-btn" onclick="setSubnet('10.1.2.0', 25)" aria-label="Set to 10.1.2.0/25, 126 usable hosts">10.1.2.0/25</button>
+                                <button type="button" class="btn small mask-btn" onclick="setSubnet('10.1.2.0', 26)" aria-label="Set to 10.1.2.0/26, 62 usable hosts">10.1.2.0/26</button>
+                                <button type="button" class="btn small mask-btn" onclick="setSubnet('10.1.2.0', 27)" aria-label="Set to 10.1.2.0/27, 30 usable hosts">10.1.2.0/27</button>
+                                <button type="button" class="btn small mask-btn" onclick="setSubnet('10.1.2.0', 28)" aria-label="Set to 10.1.2.0/28, 14 usable hosts">10.1.2.0/28</button>
+                                <button type="button" class="btn small mask-btn" onclick="setSubnet('10.1.2.0', 29)" aria-label="Set to 10.1.2.0/29, 6 usable hosts">10.1.2.0/29</button>
+                                <button type="button" class="btn small mask-btn" onclick="setSubnet('10.1.2.0', 30)" aria-label="Set to 10.1.2.0/30, 2 usable hosts, point-to-point links">10.1.2.0/30</button>
+                            </div>
+                        </div>
+
+                        <div class="error-alert" id="error" role="alert" aria-live="assertive" aria-atomic="true"></div>
+                    </form>
                 </div>
-            </div>
+            </section>
 
-            <button type="button" class="btn" onclick="calculate()" aria-label="Calculate subnet details for the entered IP address and CIDR">Calculate Subnet</button>
-            <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page">Clear Saved Data</button>
-
-            <div class="quick-masks">
-                <h3 id="quick-masks-label">Quick Select Subnets:</h3>
-                <div class="mask-buttons" role="group" aria-labelledby="quick-masks-label">
-                    <button type="button" class="mask-btn" onclick="setSubnet('10.0.0.0', 8)" aria-label="Set to 10.0.0.0/8, Class A network, 16 million hosts">10.0.0.0/8</button>
-                    <button type="button" class="mask-btn" onclick="setSubnet('10.1.0.0', 16)" aria-label="Set to 10.1.0.0/16, Class B sized subnet, 65 thousand hosts">10.1.0.0/16</button>
-                    <button type="button" class="mask-btn" onclick="setSubnet('10.1.2.0', 24)" aria-label="Set to 10.1.2.0/24, Class C sized subnet, 254 hosts">10.1.2.0/24</button>
-                    <button type="button" class="mask-btn" onclick="setSubnet('10.1.2.0', 25)" aria-label="Set to 10.1.2.0/25, 126 usable hosts">10.1.2.0/25</button>
-                    <button type="button" class="mask-btn" onclick="setSubnet('10.1.2.0', 26)" aria-label="Set to 10.1.2.0/26, 62 usable hosts">10.1.2.0/26</button>
-                    <button type="button" class="mask-btn" onclick="setSubnet('10.1.2.0', 27)" aria-label="Set to 10.1.2.0/27, 30 usable hosts">10.1.2.0/27</button>
-                    <button type="button" class="mask-btn" onclick="setSubnet('10.1.2.0', 28)" aria-label="Set to 10.1.2.0/28, 14 usable hosts">10.1.2.0/28</button>
-                    <button type="button" class="mask-btn" onclick="setSubnet('10.1.2.0', 29)" aria-label="Set to 10.1.2.0/29, 6 usable hosts">10.1.2.0/29</button>
-                    <button type="button" class="mask-btn" onclick="setSubnet('10.1.2.0', 30)" aria-label="Set to 10.1.2.0/30, 2 usable hosts, point-to-point links">10.1.2.0/30</button>
+            <section class="box results" id="results" aria-live="polite" aria-labelledby="details-heading">
+                <div class="box-head">
+                    <h2 id="details-heading">subnet details</h2>
+                    <div class="box-actions">
+                        <button type="button" class="btn small export-btn" onclick="copySubnetDetails()" aria-label="Copy subnet details to clipboard">Copy</button>
+                        <button type="button" class="btn small export-btn" onclick="exportSubnetDetailsToCSV()" aria-label="Export subnet details to CSV file">Export CSV</button>
+                    </div>
                 </div>
-            </div>
+                <div class="box-body">
+                    <span id="firstHost" hidden>-</span>
+                    <span id="lastHost" hidden>-</span>
+                    <table class="kv details-table">
+                        <tbody>
+                            <tr><td>Network address</td><td id="networkAddress">-</td></tr>
+                            <tr><td>Broadcast address</td><td id="broadcastAddress">-</td></tr>
+                            <tr><td>Usable host range</td><td id="usableHostRange">-</td></tr>
+                            <tr><td>Subnet mask</td><td id="subnetMask">-</td></tr>
+                            <tr><td>Wildcard mask</td><td id="wildcardMask">-</td></tr>
+                            <tr><td>CIDR notation</td><td id="cidrNotation">-</td></tr>
+                            <tr><td>Total hosts</td><td id="totalHosts">-</td></tr>
+                            <tr><td>Usable hosts</td><td id="usableHosts">-</td></tr>
+                            <tr><td>IP class</td><td id="ipClass">-</td></tr>
+                            <tr><td>IP type</td><td id="ipType">-</td></tr>
+                            <tr><td>Short notation</td><td id="shortNotation">-</td></tr>
+                            <tr><td>Binary ID</td><td id="binaryId">-</td></tr>
+                            <tr><td>Integer ID</td><td id="integerId">-</td></tr>
+                            <tr><td>Hex ID</td><td id="hexId">-</td></tr>
+                            <tr><td>in-addr.arpa</td><td id="inAddrArpa">-</td></tr>
+                            <tr><td>IPv4-mapped address</td><td id="ipv4Mapped">-</td></tr>
+                            <tr><td>6to4 prefix</td><td id="sixToFourPrefix">-</td></tr>
+                        </tbody>
+                    </table>
 
-            <div class="error-alert" id="error" role="alert" aria-live="assertive" aria-atomic="true"></div>
-            </form>
+                    <div class="binary-display">
+                        <h3>binary</h3>
+                        <p class="bin-legend"><span class="network-bits">network bits</span> · <span class="host-bits">host bits</span></p>
+                        <div class="binary-item">
+                            <span class="bin-label">IP address</span>
+                            <span id="binaryIP">-</span>
+                        </div>
+                        <div class="binary-item">
+                            <span class="bin-label">Subnet mask</span>
+                            <span id="binaryMask">-</span>
+                        </div>
+                        <div class="binary-item">
+                            <span class="bin-label">Network</span>
+                            <span id="binaryNetwork">-</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
 
-        <div class="results" id="results" role="region" aria-live="polite" aria-label="Subnet calculation results">
-            <div class="section-header">
-                <h2>Subnet Details</h2>
-                <div>
-                    <button type="button" class="export-btn" onclick="copySubnetDetails()" aria-label="Copy subnet details to clipboard">Copy Results</button>
-                    <button type="button" class="export-btn" onclick="exportSubnetDetailsToCSV()" aria-label="Export subnet details to CSV file">Export to CSV</button>
-                </div>
-            </div>
-            <span id="firstHost" hidden>-</span>
-            <span id="lastHost" hidden>-</span>
-            <table class="details-table">
-                <tbody>
-                    <tr><td>Network Address</td><td id="networkAddress">-</td></tr>
-                    <tr><td>Broadcast Address</td><td id="broadcastAddress">-</td></tr>
-                    <tr><td>Usable Host Range</td><td id="usableHostRange">-</td></tr>
-                    <tr><td>Subnet Mask</td><td id="subnetMask">-</td></tr>
-                    <tr><td>Wildcard Mask</td><td id="wildcardMask">-</td></tr>
-                    <tr><td>CIDR Notation</td><td id="cidrNotation">-</td></tr>
-                    <tr><td>Total Hosts</td><td id="totalHosts">-</td></tr>
-                    <tr><td>Usable Hosts</td><td id="usableHosts">-</td></tr>
-                    <tr><td>IP Class</td><td id="ipClass">-</td></tr>
-                    <tr><td>IP Type</td><td id="ipType">-</td></tr>
-                    <tr><td>Short Notation</td><td id="shortNotation">-</td></tr>
-                    <tr><td>Binary ID</td><td id="binaryId">-</td></tr>
-                    <tr><td>Integer ID</td><td id="integerId">-</td></tr>
-                    <tr><td>Hex ID</td><td id="hexId">-</td></tr>
-                    <tr><td>in-addr.arpa</td><td id="inAddrArpa">-</td></tr>
-                    <tr><td>IPv4-Mapped Address</td><td id="ipv4Mapped">-</td></tr>
-                    <tr><td>6to4 Prefix</td><td id="sixToFourPrefix">-</td></tr>
-                </tbody>
-            </table>
-
-            <div class="binary-display">
-                <h3>Binary Representation</h3>
-                <div class="binary-item">
-                    <span class="bin-label">IP Address:</span>
-                    <span id="binaryIP">-</span>
-                </div>
-                <div class="binary-item">
-                    <span class="bin-label">Subnet Mask:</span>
-                    <span id="binaryMask">-</span>
-                </div>
-                <div class="binary-item">
-                    <span class="bin-label">Network:</span>
-                    <span id="binaryNetwork">-</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="subnet-list" id="subnetList" role="region" aria-label="All subnets in network">
-            <div class="section-header">
-                <h2>All Subnets in Network</h2>
-                <div>
-                    <button type="button" class="export-btn" onclick="copySubnetList()" aria-label="Copy subnet list to clipboard">Copy Results</button>
-                    <button type="button" class="export-btn" onclick="exportSubnetListToCSV()" aria-label="Export subnet list to CSV file">Export to CSV</button>
+        <section class="box subnet-list" id="subnetList" aria-labelledby="subnets-heading">
+            <div class="box-head">
+                <h2 id="subnets-heading">all subnets in network</h2>
+                <div class="box-actions">
+                    <button type="button" class="btn small export-btn" onclick="copySubnetList()" aria-label="Copy subnet list to clipboard">Copy</button>
+                    <button type="button" class="btn small export-btn" onclick="exportSubnetListToCSV()" aria-label="Export subnet list to CSV file">Export CSV</button>
                 </div>
             </div>
             <div class="subnet-list-info" id="subnetListInfo"></div>
             <div class="subnet-table-container">
-                <table class="subnet-table">
+                <table class="data-table subnet-table">
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th>Network Address</th>
-                            <th>Host Range</th>
-                            <th>Broadcast</th>
-                            <th>Hosts</th>
+                            <th scope="col">#</th>
+                            <th scope="col">Network</th>
+                            <th scope="col">Host range</th>
+                            <th scope="col">Broadcast</th>
+                            <th scope="col">Hosts</th>
                         </tr>
                     </thead>
                     <tbody id="subnetTableBody">
                     </tbody>
                 </table>
             </div>
-        </div>
-
-        <footer role="contentinfo">
-            <span>Subnet Calculator</span> - <span>Works offline, no installation required</span>
-        </footer>
+        </section>
     </main>
+    <footer class="statusbar" role="contentinfo">
+        <span>[oldweb] network › subnet-calculator │ works offline │ no tracking</span>
+        <span>/ search · t theme</span>
+    </footer>
 
     <script>
         // Set quick subnet selection
@@ -1067,9 +673,10 @@
             }
         });
 
-        // Allow Enter key to calculate
-        document.getElementById('ipAddress').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') calculate();
+        // Enter (implicit submit) or the Calculate button: calculate without reloading the page
+        document.getElementById('subnet-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            calculate();
         });
 
         // Auto-calculate on CIDR change if IP is valid

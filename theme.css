@@ -1,0 +1,509 @@
+/* ============================================
+   OldWeb terminal theme ("amber phosphor")
+   Load AFTER a11y.css. Pages that link this file opt into the
+   themed navigation injected by navigationv2.js.
+
+   Theme selection:
+     - default follows the OS (prefers-color-scheme)
+     - <html data-theme="dark|light"> overrides it (set by the nav toggle)
+
+   Button vs. text rule: anything clickable that acts is boxed with a
+   2px border and a hard offset shadow; text links are always underlined;
+   plain text is never boxed or underlined.
+   ============================================ */
+
+@font-face {
+  font-family: 'VT323';
+  src: url('fonts/vt323-latin-400-normal.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  src: url('fonts/ibm-plex-mono-latin-400-normal.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  src: url('fonts/ibm-plex-mono-latin-600-normal.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------- Tokens: light (printed manual) ---------- */
+:root {
+  color-scheme: light;
+  --bg: #fbf6ec;
+  --panel: #fffdf8;
+  --head: #f3e6cc;
+  --fg: #2d1f0d;
+  --hi: #8f4a00;       /* accent: headings, values, button borders */
+  --dim: #6a5234;      /* secondary text, 6.7:1 on --bg */
+  --line: #d4bf98;     /* borders of non-interactive boxes */
+  --inv: #fffdf8;      /* text on --hi fills */
+  --field: #ffffff;
+  --btn: #fbeed3;      /* raised button face */
+  --shadow: #8f4a00;   /* hard button shadow */
+  --alt: #1f6a62;      /* second accent (host bits, secondary data) */
+  --err: #b3261e;
+  --err-bg: #fbe4e1;
+  --glow: none;
+  --scan: repeating-linear-gradient(180deg, #fbf6ec 0 44px, #f6eddb 44px 88px);
+
+  --font-body: 'IBM Plex Mono', Consolas, 'Liberation Mono', Menlo, monospace;
+  --font-display: 'VT323', 'IBM Plex Mono', Consolas, monospace;
+}
+
+/* ---------- Tokens: dark (amber CRT) ---------- */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #0e0903;
+    --panel: #150e05;
+    --head: #22170a;
+    --fg: #f0c890;
+    --hi: #ffb000;
+    --dim: #b8894f;
+    --line: #5a3d1c;
+    --inv: #120b03;
+    --field: #0a0602;
+    --btn: #2a1c0b;
+    --shadow: #7a5220;
+    --alt: #8fd3c7;
+    --err: #ff7a66;
+    --err-bg: #2a0f0a;
+    --glow: 0 0 10px rgba(255, 176, 0, 0.30);
+    --scan: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.22) 0 1px, transparent 1px 3px);
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0e0903;
+  --panel: #150e05;
+  --head: #22170a;
+  --fg: #f0c890;
+  --hi: #ffb000;
+  --dim: #b8894f;
+  --line: #5a3d1c;
+  --inv: #120b03;
+  --field: #0a0602;
+  --btn: #2a1c0b;
+  --shadow: #7a5220;
+  --alt: #8fd3c7;
+  --err: #ff7a66;
+  --err-bg: #2a0f0a;
+  --glow: 0 0 10px rgba(255, 176, 0, 0.30);
+  --scan: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.22) 0 1px, transparent 1px 3px);
+}
+
+/* ---------- Base ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg);
+  background-image: var(--scan);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+main {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 28px 40px 40px;
+  flex: 1 0 auto;
+}
+
+h1, h2, h3, h4 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.05;
+  color: var(--hi);
+  text-shadow: var(--glow);
+}
+h1 { font-size: 3.6rem; }
+h2 { font-size: 1.7rem; }
+h3 { font-size: 1.4rem; }
+h4 { font-size: 1.2rem; }
+
+p { margin: 0; }
+
+a {
+  color: var(--fg);
+  text-decoration: underline;
+  text-decoration-color: var(--dim);
+  text-underline-offset: 4px;
+}
+a:hover {
+  color: var(--hi);
+  text-decoration-color: var(--hi);
+}
+
+code, kbd, pre, samp {
+  font-family: var(--font-body);
+}
+
+kbd {
+  padding: 0 6px;
+  border: 1px solid var(--line);
+  color: var(--fg);
+  font-size: 0.85em;
+}
+
+::selection {
+  background: var(--hi);
+  color: var(--inv);
+}
+
+/* ---------- Focus + skip link (overrides a11y.css colors) ---------- */
+*:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+a:focus-visible,
+.nav-category-btn:focus-visible,
+.nav-dropdown a:focus-visible {
+  outline: 3px solid var(--hi);
+  outline-offset: 3px;
+  box-shadow: none;
+}
+
+.skip-link {
+  background: var(--hi);
+  color: var(--inv);
+  border-radius: 0;
+  box-shadow: 4px 4px 0 var(--shadow);
+  font-family: var(--font-body);
+}
+.skip-link:hover {
+  background: var(--hi);
+  color: var(--inv);
+}
+.skip-link:focus {
+  outline-color: var(--fg);
+}
+
+main:focus::before,
+[role="main"]:focus::before {
+  border-color: var(--hi);
+  border-radius: 0;
+}
+
+/* ---------- Page heading block ---------- */
+.page-head {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+.page-head .lede {
+  color: var(--dim);
+}
+
+/* ---------- Boxes (non-interactive panels) ---------- */
+.box {
+  background: var(--panel);
+  border: 1px solid var(--line);
+}
+.box-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--line);
+  background: var(--head);
+}
+.box-head h2,
+.box-head h3 {
+  font-size: 1.65rem;
+}
+.box-body {
+  padding: 18px 16px;
+}
+.box-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 0 3px 3px 0; /* room for button shadows */
+}
+
+/* ---------- Buttons: boxed + hard shadow ---------- */
+button,
+.btn,
+.btn-link {
+  font-family: var(--font-body);
+}
+
+.btn,
+.btn-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 8px 16px;
+  background: var(--btn);
+  color: var(--hi);
+  border: 2px solid var(--hi);
+  border-radius: 0;
+  box-shadow: 3px 3px 0 var(--shadow);
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-decoration: none;
+  line-height: 1.2;
+  cursor: pointer;
+}
+.btn:hover,
+.btn-link:hover {
+  background: var(--head);
+  color: var(--hi);
+}
+.btn:active,
+.btn-link:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--shadow);
+}
+
+.btn.primary {
+  background: var(--hi);
+  color: var(--inv);
+}
+.btn.primary:hover {
+  background: var(--hi);
+  color: var(--inv);
+  filter: brightness(1.08);
+}
+
+.btn.small,
+.btn-link.small {
+  min-height: 32px;
+  padding: 3px 12px;
+  font-size: 0.78rem;
+  box-shadow: 2px 2px 0 var(--shadow);
+}
+
+/* Toggle-style button (selected state, e.g. presets) */
+.btn[aria-pressed="true"] {
+  background: var(--hi);
+  color: var(--inv);
+}
+
+/* Flash after a successful copy */
+.btn.copy-flash {
+  background: var(--hi);
+  color: var(--inv);
+}
+
+button:disabled,
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ---------- Form fields ---------- */
+label {
+  color: var(--dim);
+  font-size: 0.9rem;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="search"],
+input[type="email"],
+input[type="url"],
+input[type="password"],
+input[type="date"],
+input[type="time"],
+input:not([type]),
+select,
+textarea {
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 12px;
+  background: var(--field);
+  color: var(--fg);
+  border: 1px solid var(--line);
+  border-radius: 0;
+  font-family: var(--font-body);
+  font-size: 1rem;
+}
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--hi);
+  color: var(--hi);
+}
+input::placeholder,
+textarea::placeholder {
+  color: var(--dim);
+  opacity: 0.8;
+}
+select option {
+  background: var(--field);
+  color: var(--fg);
+}
+input[type="checkbox"],
+input[type="radio"] {
+  accent-color: var(--hi);
+  width: 18px;
+  height: 18px;
+}
+
+/* Error states (CLAUDE.md pattern: #error / .error-container + input.error) */
+input.error,
+select.error,
+textarea.error {
+  border-color: var(--err) !important;
+  background-color: var(--err-bg);
+  box-shadow: none;
+}
+.error-alert,
+.error-container {
+  display: none;
+  margin-top: 16px;
+  padding: 10px 14px;
+  background: var(--err-bg);
+  border: 1px solid var(--err);
+  border-left: 6px solid var(--err);
+  color: var(--err);
+}
+.error-message {
+  color: var(--err);
+  background: var(--err-bg);
+  border-left-color: var(--err);
+  border-radius: 0;
+}
+[aria-required="true"]::after,
+.required::after,
+label:has(+ [aria-required="true"])::after,
+label.required::after {
+  color: var(--err);
+}
+.error-alert.show,
+.error-container.show {
+  display: block;
+}
+.error-alert::before,
+.error-container::before {
+  content: 'error: ';
+  font-weight: 600;
+}
+
+/* ---------- Data tables ---------- */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.data-table th {
+  padding: 8px 16px;
+  text-align: left;
+  font-weight: 400;
+  color: var(--dim);
+  border-bottom: 1px dashed var(--line);
+  background: var(--panel);
+  white-space: nowrap;
+}
+.data-table td {
+  padding: 6px 16px;
+  white-space: nowrap;
+}
+.data-table tbody tr:hover {
+  background: var(--head);
+}
+
+/* Key/value list with dotted leaders */
+.kv {
+  width: 100%;
+  border-collapse: collapse;
+}
+.kv td {
+  padding: 4px 0;
+  vertical-align: baseline;
+}
+.kv td:first-child {
+  padding-right: 16px;
+  white-space: nowrap;
+  width: 1%;
+}
+.kv td:last-child {
+  color: var(--hi);
+  font-weight: 600;
+  text-shadow: var(--glow);
+  word-break: break-all;
+}
+.kv tr + tr td {
+  border-top: 1px dotted var(--line);
+}
+
+/* ---------- Status bar (page footer) ---------- */
+.statusbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 6px 40px;
+  background: var(--hi);
+  color: var(--inv);
+  font-size: 0.85rem;
+}
+.statusbar a {
+  color: var(--inv);
+  text-decoration-color: var(--inv);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+  main {
+    padding: 20px 16px 32px;
+  }
+  h1 { font-size: 2.6rem; }
+  .statusbar {
+    padding: 6px 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+@media print {
+  body {
+    background: #fff;
+    color: #000;
+  }
+  .statusbar,
+  .owt-topbar {
+    display: none;
+  }
+}

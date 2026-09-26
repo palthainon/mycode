@@ -1,4 +1,42 @@
 (function() {
+    // ---------- Theme preference ----------
+    // Runs as soon as this script loads (it sits in <head>), so a saved
+    // light/dark choice applies before first paint. Same key and prefix as
+    // StorageUtils ('owt_theme'), read directly because this must not wait.
+    const THEME_STORAGE_KEY = 'owt_theme';
+
+    function loadThemePref() {
+        try {
+            const v = JSON.parse(localStorage.getItem(THEME_STORAGE_KEY));
+            return v === 'dark' || v === 'light' ? v : null;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    function saveThemePref(theme) {
+        try {
+            localStorage.setItem(THEME_STORAGE_KEY, JSON.stringify(theme));
+        } catch (e) {
+            // Private mode or storage disabled: theme still applies for this page view
+        }
+    }
+
+    function effectiveTheme() {
+        const explicit = document.documentElement.getAttribute('data-theme');
+        if (explicit === 'dark' || explicit === 'light') return explicit;
+        return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+
+    const savedTheme = loadThemePref();
+    if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
+
+    // Pages opt into the terminal theme by linking theme.css. Unconverted
+    // pages keep the legacy nav styling until they are migrated.
+    function pageUsesTheme() {
+        return !!document.querySelector('link[rel="stylesheet"][href$="theme.css"]');
+    }
+
     // Tool registry - organized by category
     const toolsData = {
         home: {
@@ -694,6 +732,390 @@
         }
     `;
 
+    // Navigation CSS for pages that link theme.css. Colors come from the
+    // theme.css custom properties so light/dark switch with the page.
+    const themedNavStyles = `
+        .owt-topbar {
+            position: relative;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px 16px;
+            padding: 10px 24px;
+            background: var(--panel);
+            border-bottom: 1px solid var(--line);
+        }
+        .owt-brand {
+            font-family: var(--font-display);
+            font-size: 27px;
+            line-height: 1;
+            color: var(--hi);
+            text-shadow: var(--glow);
+            white-space: nowrap;
+        }
+        .owt-topbar .nav-bar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 4px;
+            flex: 0 1 auto;
+        }
+        .nav-categories {
+            display: contents;
+        }
+        .owt-tab {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            min-height: 34px;
+            padding: 3px 8px;
+            background: transparent;
+            border: 1px solid var(--line);
+            border-radius: 0;
+            color: var(--fg);
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            text-decoration: none;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+        .owt-tab:hover,
+        .owt-tab[aria-expanded="true"] {
+            border-color: var(--hi);
+            color: var(--hi);
+            background: var(--head);
+        }
+        .owt-tab[aria-current="page"],
+        .nav-category.current > .owt-tab {
+            background: var(--hi);
+            border-color: var(--hi);
+            color: var(--inv);
+            font-weight: 600;
+        }
+        .nav-chevron {
+            font-size: 0.7em;
+        }
+        .nav-category {
+            position: relative;
+        }
+        .nav-dropdown {
+            position: absolute;
+            top: calc(100% + 6px);
+            left: 0;
+            z-index: 1001;
+            min-width: 230px;
+            max-width: calc(100vw - 32px);
+            padding: 6px 0;
+            background: var(--panel);
+            border: 2px solid var(--hi);
+            box-shadow: 4px 4px 0 var(--shadow);
+        }
+        .nav-category:nth-last-child(-n+2) .nav-dropdown {
+            left: auto;
+            right: 0;
+        }
+        .nav-dropdown[hidden] {
+            display: none;
+        }
+        .nav-dropdown-link {
+            display: block;
+            padding: 6px 16px;
+            color: var(--fg);
+            text-decoration: none;
+            white-space: nowrap;
+        }
+        .nav-dropdown-link::before {
+            content: '  ';
+            white-space: pre;
+        }
+        .nav-dropdown-link:hover,
+        .nav-dropdown-link:focus-visible {
+            background: var(--head);
+            color: var(--hi);
+        }
+        .nav-dropdown-link:hover::before,
+        .nav-dropdown-link:focus-visible::before,
+        .nav-dropdown-link[aria-current="page"]::before {
+            content: '> ';
+        }
+        .nav-dropdown-link[aria-current="page"] {
+            background: var(--hi);
+            color: var(--inv);
+            font-weight: 600;
+        }
+        .nav-dropdown-separator {
+            margin-top: 6px;
+            padding: 8px 16px 4px;
+            border-top: 1px dashed var(--line);
+            color: var(--dim);
+            font-size: 0.8rem;
+        }
+        .nav-dropdown-separator:first-child {
+            margin-top: 0;
+            border-top: none;
+        }
+        .owt-tools {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-left: auto;
+        }
+        .nav-search-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 170px;
+            min-height: 38px;
+            padding: 4px 8px 4px 12px;
+            background: var(--field);
+            color: var(--dim);
+            border: 1px solid var(--line);
+            border-radius: 0;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            text-align: left;
+            cursor: pointer;
+        }
+        .nav-search-btn > span {
+            flex: 1;
+        }
+        .nav-search-btn:hover {
+            border-color: var(--hi);
+            color: var(--fg);
+        }
+
+        /* Breadcrumbs, rendered as a shell path */
+        .breadcrumbs {
+            margin: 0 0 6px;
+            font-size: 0.9rem;
+            color: var(--dim);
+        }
+        .breadcrumbs ol {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .breadcrumbs ol::before {
+            content: '$ ';
+            white-space: pre;
+        }
+        .breadcrumbs li + li::before {
+            content: '/';
+            margin: 0 8px;
+        }
+        .breadcrumbs [aria-current="page"] {
+            color: var(--fg);
+        }
+
+        /* Search overlay */
+        .search-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 12vh;
+            background: rgba(0, 0, 0, 0.6);
+        }
+        .search-overlay[hidden] {
+            display: none;
+        }
+        .search-panel {
+            display: flex;
+            flex-direction: column;
+            width: min(600px, calc(100% - 32px));
+            background: var(--panel);
+            border: 2px solid var(--hi);
+            box-shadow: 6px 6px 0 var(--shadow);
+        }
+        .search-input-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            background: var(--head);
+            border-bottom: 1px solid var(--line);
+        }
+        .search-input-row svg {
+            flex-shrink: 0;
+            color: var(--hi);
+        }
+        .search-panel .search-input {
+            flex: 1;
+            min-width: 0;
+            min-height: 0;
+            padding: 4px 0;
+            background: transparent;
+            border: none;
+            color: var(--hi);
+            font-size: 1.05rem;
+            outline: none;
+        }
+        .search-hint {
+            color: var(--dim);
+            font-size: 0.8rem;
+            white-space: nowrap;
+        }
+        .search-results {
+            max-height: 50vh;
+            margin: 0;
+            padding: 6px 0;
+            overflow-y: auto;
+            list-style: none;
+        }
+        .search-result {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            padding: 8px 16px;
+            color: var(--fg);
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .search-result-name {
+            color: var(--hi);
+            font-weight: 600;
+        }
+        .search-result-meta {
+            color: var(--dim);
+            font-size: 0.8rem;
+        }
+        .search-result:hover,
+        .search-result.active,
+        .search-result:hover .search-result-name,
+        .search-result.active .search-result-name,
+        .search-result:hover .search-result-meta,
+        .search-result.active .search-result-meta {
+            background: var(--hi);
+            color: var(--inv);
+        }
+        .search-empty {
+            padding: 18px 16px;
+            color: var(--dim);
+            text-align: center;
+        }
+        .search-section-heading {
+            padding: 10px 16px 4px;
+            color: var(--dim);
+            font-size: 0.8rem;
+            list-style: none;
+        }
+        .search-section-heading:not(:first-child) {
+            margin-top: 4px;
+            border-top: 1px dashed var(--line);
+        }
+        .search-result-pin {
+            margin-left: 6px;
+            color: inherit;
+        }
+
+        /* Related tools ("see also") */
+        .related-tools {
+            margin: 32px 0 0;
+            background: var(--panel);
+            border: 1px solid var(--line);
+        }
+        .related-tools h2 {
+            padding: 8px 16px;
+            font-size: 1.65rem;
+            background: var(--head);
+            border-bottom: 1px solid var(--line);
+        }
+        .related-tools ul {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px 32px;
+            margin: 0;
+            padding: 14px 16px;
+            list-style: none;
+        }
+        .related-tools a {
+            display: inline-flex;
+            flex-direction: column;
+            text-decoration: none;
+        }
+        .related-tools-name {
+            text-decoration: underline;
+            text-decoration-color: var(--dim);
+            text-underline-offset: 4px;
+        }
+        .related-tools a:hover .related-tools-name {
+            text-decoration-color: var(--hi);
+        }
+        .related-tools-meta {
+            color: var(--dim);
+            font-size: 0.8rem;
+        }
+
+        /* Category intro/outro copy (category index pages) */
+        .category-intro,
+        .category-outro {
+            max-width: 900px;
+            margin: 0 0 32px;
+            line-height: 1.7;
+        }
+        .category-intro h2,
+        .category-outro h2 {
+            margin-bottom: 10px;
+        }
+        .category-intro p,
+        .category-outro p {
+            margin-bottom: 12px;
+        }
+        .category-intro strong,
+        .category-outro strong {
+            color: var(--hi);
+            font-weight: 600;
+        }
+        .category-outro {
+            margin-top: 20px;
+            padding: 16px 20px;
+            background: var(--panel);
+            border: 1px solid var(--line);
+        }
+
+        @media (max-width: 768px) {
+            .owt-topbar {
+                padding: 10px 16px;
+            }
+            .owt-tab {
+                min-height: 44px;
+            }
+            .owt-tools {
+                width: 100%;
+                margin-left: 0;
+            }
+            .nav-search-btn {
+                flex: 1;
+                min-width: 0;
+                min-height: 44px;
+            }
+            .nav-dropdown,
+            .nav-category:nth-last-child(-n+2) .nav-dropdown {
+                position: fixed;
+                top: auto;
+                left: 16px;
+                right: 16px;
+                max-height: 60vh;
+                overflow-y: auto;
+            }
+        }
+    `;
+
+    // Short tab labels for the themed nav (tmux-style "1:network")
+    const themedTabLabels = {
+        network: 'network',
+        system: 'system',
+        data: 'data',
+        financials: 'finance',
+        productivity: 'productivity',
+        pdf: 'pdf'
+    };
+
     // Detect current page and its category
     function getCurrentPageInfo() {
         const pathname = window.location.pathname;
@@ -832,6 +1254,107 @@
         </div>
     </nav>`;
         return html;
+    }
+
+    // Themed top bar: brand, tmux-style tabs with the same dropdown menus,
+    // search, and the light/dark toggle. Keeps the class names the event
+    // handlers and search setup rely on.
+    function generateThemedNavHTML(currentPage) {
+        const inSubfolder = currentPage.category !== null;
+        const pathPrefix = inSubfolder ? '../' : '';
+        const homeCurrentAttr = currentPage.id === 'home' ? ' aria-current="page"' : '';
+
+        let html = `<header class="owt-topbar">
+        <span class="owt-brand" aria-hidden="true">oldweb.tech:~$</span>
+        <nav class="nav-bar" aria-label="Main navigation">
+            <a href="${pathPrefix}index.html" class="nav-home owt-tab"${homeCurrentAttr}>0:home</a>
+            <div class="nav-categories">`;
+
+        let n = 1;
+        for (const [category, tools] of Object.entries(toolsData)) {
+            if (category === 'home') continue;
+
+            const isCurrent = currentPage.category === category;
+            const label = `${n}:${themedTabLabels[category] || category}${isCurrent ? '*' : ''}`;
+            n++;
+
+            html += `
+                <div class="nav-category${isCurrent ? ' current' : ''}" data-category="${category}">
+                    <button type="button" class="nav-category-btn owt-tab"
+                            aria-expanded="false"
+                            aria-controls="dropdown-${category}"
+                            aria-haspopup="true">${label}<span class="nav-chevron" aria-hidden="true">▾</span></button>
+                    <div class="nav-dropdown" id="dropdown-${category}" role="menu" hidden>`;
+
+            tools.forEach(tool => {
+                if (tool.separator) {
+                    html += `
+                        <div class="nav-dropdown-separator" role="separator">${tool.separator}</div>`;
+                } else {
+                    const currentAttr = tool.id === currentPage.id ? ' aria-current="page"' : '';
+                    html += `
+                        <a href="${pathPrefix + tool.file}" class="nav-dropdown-link" role="menuitem"${currentAttr}>${tool.name}</a>`;
+                }
+            });
+
+            html += `
+                    </div>
+                </div>`;
+        }
+
+        html += `
+            </div>
+        </nav>
+        <div class="owt-tools">
+            <button type="button" class="nav-search-btn" aria-label="Search tools" aria-haspopup="dialog"><span>search tools…</span><kbd>/</kbd></button>
+            <button type="button" class="btn small owt-theme-btn"></button>
+        </div>
+    </header>`;
+        return html;
+    }
+
+    function updateThemeButton() {
+        const btn = document.querySelector('.owt-theme-btn');
+        if (!btn) return;
+        const current = effectiveTheme();
+        const next = current === 'dark' ? 'light' : 'dark';
+        btn.textContent = `theme: ${current}`;
+        btn.setAttribute('aria-label', `Theme: ${current}. Switch to ${next} theme`);
+
+        const meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute('content', current === 'dark' ? '#0e0903' : '#fbf6ec');
+    }
+
+    function toggleTheme() {
+        const next = effectiveTheme() === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        saveThemePref(next);
+        updateThemeButton();
+        announce(`${next} theme`);
+    }
+
+    function setupThemeToggle() {
+        const btn = document.querySelector('.owt-theme-btn');
+        if (!btn) return;
+        updateThemeButton();
+        btn.addEventListener('click', toggleTheme);
+
+        // Follow OS changes live until the user picks a theme explicitly
+        if (window.matchMedia) {
+            const mq = window.matchMedia('(prefers-color-scheme: dark)');
+            const onChange = () => { if (!loadThemePref()) updateThemeButton(); };
+            if (mq.addEventListener) mq.addEventListener('change', onChange);
+        }
+
+        // "t" toggles the theme when not typing in a field
+        document.addEventListener('keydown', e => {
+            if (e.key !== 't' || e.metaKey || e.ctrlKey || e.altKey) return;
+            const t = e.target;
+            const isTyping = t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT' || t.isContentEditable);
+            if (isTyping) return;
+            e.preventDefault();
+            toggleTheme();
+        });
     }
 
     // Toggle dropdown
@@ -1345,21 +1868,29 @@
     // Inject CSS into head
     function injectStyles() {
         const style = document.createElement('style');
-        style.textContent = navStyles;
+        style.textContent = pageUsesTheme() ? themedNavStyles : navStyles;
         document.head.appendChild(style);
     }
 
     // Initialize navigation
     function init() {
+        const themed = pageUsesTheme();
         const currentPage = getCurrentPageInfo();
-        const navHTML = generateNavHTML(currentPage);
+        const navHTML = themed ? generateThemedNavHTML(currentPage) : generateNavHTML(currentPage);
 
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = navHTML;
         const navElement = tempDiv.firstElementChild;
 
-        document.body.insertBefore(navElement, document.body.firstChild);
+        // Themed pages keep the skip link as the first tab stop
+        const skipLink = themed ? document.querySelector('body > .skip-link') : null;
+        if (skipLink) {
+            skipLink.after(navElement);
+        } else {
+            document.body.insertBefore(navElement, document.body.firstChild);
+        }
         setupEventListeners();
+        if (themed) setupThemeToggle();
 
         const inSubfolder = currentPage.category !== null;
         const pathPrefix = inSubfolder ? '../' : '';
@@ -1381,6 +1912,8 @@
         init();
     }
 
-    // Expose toolsData for home page quick access feature
+    // Expose toolsData for home page quick access feature, and the full
+    // registry for the home page's per-category tool counts
     window.toolsData = toolsData;
+    window.toolRegistry = toolRegistry;
 })();

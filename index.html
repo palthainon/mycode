@@ -28,7 +28,7 @@
     <meta name="twitter:image" content="https://oldweb.tech/logo/og-image.png">
 
     <!-- Additional Meta Tags -->
-    <meta name="theme-color" content="#1a1a2e">
+    <meta name="theme-color" content="#0e0903">
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="logo/favicon-32x32.png">
@@ -37,541 +37,282 @@
 
     <!-- Accessibility -->
     <link rel="stylesheet" href="a11y.css">
+    <link rel="stylesheet" href="theme.css">
     <script src="a11y-utils.js"></script>
 
     <!-- Utilities -->
     <script src="storage-utils.js"></script>
     <script src="navigationv2.js"></script>
     <style>
-        * {
+        /* Page layout only; colors, type, buttons and fields come from theme.css */
+        main {
+            display: flex;
+            flex-direction: column;
+            gap: 36px;
+            padding-top: 40px;
+        }
+
+        /* Hero: ASCII logo + motd + public IP */
+        .hero {
+            display: flex;
+            align-items: center;
+            gap: 56px;
+        }
+        .hero-logo {
             margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            font-family: var(--font-display);
+            font-size: 30px;
+            line-height: 1;
+            color: var(--hi);
+            text-shadow: var(--glow);
         }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            min-height: 100vh;
-            padding: 40px 20px;
-            color: #fff;
+        .hero-side {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            flex: 1;
+            min-width: 0;
         }
-
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
+        .motd {
+            color: var(--dim);
         }
-
-        .ascii-logo {
-            position: absolute;
-            top: 20px;
-            right: 40px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.65rem;
-            line-height: 1.1;
-            color: #4fc3f7;
-            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
-            opacity: 0.8;
-            white-space: pre;
+        .myip {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 14px 18px 17px;
         }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 15px;
-            font-size: 2.5rem;
-            color: #4fc3f7;
-            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
+        .myip-text {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            flex: 1;
+            min-width: 0;
         }
-
-        .subtitle {
-            text-align: center;
-            color: #90caf9;
-            font-size: 1.1rem;
-            margin-bottom: 50px;
-            opacity: 0.9;
-        }
-
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 25px;
-            margin-bottom: 50px;
-        }
-
-        .tool-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
-            text-decoration: none;
-            color: inherit;
-            display: block;
-        }
-
-        .tool-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(79, 195, 247, 0.3);
-            border-color: rgba(79, 195, 247, 0.5);
-        }
-
-        .tool-card h2 {
-            color: #4fc3f7;
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-        }
-
-        .tool-card p {
-            color: #90caf9;
-            font-size: 1rem;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-
-        .tool-link {
-            display: inline-block;
-            color: #4fc3f7;
-            font-weight: 600;
-            font-size: 0.95rem;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
-        .tool-link:hover {
-            color: #2196f3;
-        }
-
-        .tool-link::after {
-            content: ' →';
-        }
-
-        .tool-card .tool-list {
-            color: rgba(144, 202, 249, 0.7);
+        .myip-prompt,
+        .myip-meta {
+            color: var(--dim);
             font-size: 0.85rem;
-            line-height: 1.8;
-            margin-top: 12px;
-            padding-top: 12px;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .myip-value {
+            font-family: var(--font-display);
+            font-size: 44px;
+            line-height: 1;
+            color: var(--hi);
+            text-shadow: var(--glow);
+            word-break: break-all;
+        }
+        .myip-value.pending {
+            font-size: 28px;
+            color: var(--dim);
+            text-shadow: none;
         }
 
-        footer {
-            text-align: center;
-            margin-top: 50px;
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 0.85rem;
-            padding-top: 30px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        /* Quick Access Section */
-        .quick-access-section {
-            margin-bottom: 35px;
-        }
-
+        /* Quick access */
         .quick-access-header {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 20px;
+            gap: 16px;
+            margin-bottom: 12px;
         }
-
         .quick-access-header h2 {
-            color: #90caf9;
-            font-size: 1.1rem;
-            font-weight: 500;
-            margin: 0;
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            color: var(--dim);
+            text-shadow: none;
         }
-
-        .settings-btn {
-            background: transparent;
-            border: 1px solid rgba(79, 195, 247, 0.3);
-            border-radius: 50%;
-            padding: 8px;
-            cursor: pointer;
-            color: #4fc3f7;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .settings-btn:hover {
-            background: rgba(79, 195, 247, 0.1);
-            border-color: rgba(79, 195, 247, 0.5);
-        }
-
-        .settings-btn:focus-visible {
-            outline: 3px solid #4fc3f7;
-            outline-offset: 2px;
-        }
-
         .quick-access-buttons {
             display: flex;
             flex-wrap: wrap;
-            justify-content: center;
             gap: 12px;
+            padding: 0 3px 3px 0;
         }
-
         .quick-access-btn {
-            display: inline-flex;
-            align-items: center;
-            padding: 10px 18px;
-            background: rgba(79, 195, 247, 0.1);
-            border: 1px solid rgba(79, 195, 247, 0.3);
-            border-radius: 8px;
-            color: #4fc3f7;
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: all 0.2s;
+            color: var(--fg);
+            text-transform: none;
+            letter-spacing: 0;
+        }
+        .quick-access-empty {
+            color: var(--dim);
         }
 
-        .quick-access-btn:hover {
-            background: rgba(79, 195, 247, 0.2);
-            border-color: rgba(79, 195, 247, 0.5);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(79, 195, 247, 0.2);
+        /* Category boxes */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 24px;
         }
-
-        .quick-access-btn:focus-visible {
-            outline: 3px solid #4fc3f7;
-            outline-offset: 2px;
-        }
-
-        /* What Is My IP card */
-        .myip-section {
+        .cat {
             display: flex;
-            justify-content: center;
-            margin-bottom: 35px;
+            flex-direction: column;
         }
-
-        .myip-card {
-            display: block;
-            width: 100%;
-            max-width: 560px;
-            text-align: center;
-            padding: 22px 26px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(79, 195, 247, 0.25);
-            border-radius: 16px;
-            text-decoration: none;
-            color: inherit;
-            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+        .cat .box-head {
+            align-items: baseline;
         }
-
-        .myip-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(79, 195, 247, 0.25);
-            border-color: rgba(79, 195, 247, 0.5);
+        .cat-count {
+            color: var(--dim);
+            font-size: 0.85rem;
         }
-
-        .myip-card:focus-visible {
-            outline: 3px solid #4fc3f7;
-            outline-offset: 3px;
+        .cat .box-body {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            flex: 1;
         }
-
-        .myip-label {
-            display: block;
-            color: #90caf9;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
+        .cat-desc {
             margin-bottom: 8px;
+            color: var(--dim);
+            font-size: 0.9rem;
+        }
+        .cat-tools {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .cat-tools li::before {
+            content: '> ';
+            color: var(--dim);
+        }
+        .cat-foot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-top: auto;
+            padding: 12px 3px 3px 0;
+            font-size: 0.9rem;
+        }
+        .cat-more {
+            color: var(--dim);
+        }
+        .cat-foot .btn-link {
+            text-transform: none;
+            letter-spacing: 0;
         }
 
-        .myip-value {
-            display: block;
-            font-family: 'Consolas', 'Monaco', monospace;
-            font-size: 1.7rem;
-            font-weight: 700;
-            color: #fff;
-            word-break: break-all;
-            line-height: 1.2;
-        }
-
-        .myip-value.pending {
-            font-size: 1.1rem;
-            font-weight: 400;
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        .myip-meta {
-            display: block;
-            color: #90caf9;
-            font-size: 0.88rem;
-            margin-top: 8px;
-            line-height: 1.5;
-        }
-
-        .myip-card .tool-link { margin-top: 12px; }
-
-        /* Modal Styles */
+        /* Quick access settings modal */
         .quick-access-modal {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
+            inset: 0;
+            z-index: 2000;
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 2000;
             padding: 20px;
+            background: rgba(0, 0, 0, 0.6);
         }
-
         .quick-access-modal[hidden] {
             display: none;
         }
-
         .modal-content {
-            background: #1a1a2e;
-            border: 1px solid rgba(79, 195, 247, 0.3);
-            border-radius: 16px;
-            max-width: 600px;
-            width: 100%;
-            max-height: 80vh;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 640px;
+            max-height: 80vh;
+            background: var(--panel);
+            border: 2px solid var(--hi);
+            box-shadow: 6px 6px 0 var(--shadow);
         }
-
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 24px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
+            background: var(--head);
+            border-bottom: 1px solid var(--line);
         }
-
         .modal-header h3 {
-            color: #4fc3f7;
-            font-size: 1.3rem;
-            margin: 0;
+            font-size: 1.7rem;
         }
-
         .modal-close-btn {
-            background: transparent;
-            border: none;
-            color: #90caf9;
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 4px 8px;
-            border-radius: 4px;
+            min-width: 44px;
+            min-height: 36px;
+            padding: 0 10px;
+            background: var(--btn);
+            color: var(--hi);
+            border: 2px solid var(--hi);
+            box-shadow: 2px 2px 0 var(--shadow);
+            font-size: 1.2rem;
             line-height: 1;
+            cursor: pointer;
         }
-
-        .modal-close-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .modal-close-btn:focus-visible {
-            outline: 2px solid #4fc3f7;
-            outline-offset: 2px;
-        }
-
         .modal-description {
-            padding: 12px 24px;
-            color: #90caf9;
-            font-size: 0.9rem;
-            margin: 0;
             display: flex;
             justify-content: space-between;
-            align-items: center;
             flex-wrap: wrap;
             gap: 8px;
+            padding: 12px 16px;
+            color: var(--dim);
+            font-size: 0.9rem;
+            border-bottom: 1px dashed var(--line);
         }
-
         #selection-count {
-            background: rgba(79, 195, 247, 0.1);
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-weight: 500;
+            color: var(--hi);
+            font-weight: 600;
         }
-
         .modal-body {
-            padding: 16px 24px;
+            padding: 12px 16px;
             overflow-y: auto;
-            flex: 1;
         }
-
         .tool-category-group {
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
-
-        .tool-category-group:last-child {
-            margin-bottom: 0;
-        }
-
         .tool-category-group h4 {
-            color: #4fc3f7;
-            font-size: 0.95rem;
-            margin-bottom: 12px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid rgba(79, 195, 247, 0.2);
+            margin-bottom: 8px;
         }
-
         .tool-checkbox-list {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 8px;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 4px 16px;
         }
-
         .tool-checkbox-item {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            min-height: 32px;
         }
-
-        .tool-checkbox-item input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            accent-color: #4fc3f7;
-            cursor: pointer;
-            flex-shrink: 0;
-        }
-
         .tool-checkbox-item label {
-            color: #90caf9;
-            font-size: 0.85rem;
+            color: var(--fg);
             cursor: pointer;
-            user-select: none;
         }
-
         .tool-checkbox-item input:disabled + label {
-            color: rgba(144, 202, 249, 0.4);
+            opacity: 0.5;
+            cursor: not-allowed;
         }
-
         .modal-footer {
             display: flex;
-            justify-content: space-between;
-            padding: 16px 24px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            justify-content: flex-end;
+            gap: 14px;
+            padding: 12px 19px 15px 16px;
+            border-top: 1px solid var(--line);
         }
 
-        .btn {
-            padding: 10px 20px;
-            border-radius: 6px;
-            font-size: 0.95rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .btn:focus-visible {
-            outline: 2px solid #4fc3f7;
-            outline-offset: 2px;
-        }
-
-        .btn.primary {
-            background: #4fc3f7;
-            color: #1a1a2e;
-            border: none;
-        }
-
-        .btn.primary:hover {
-            background: #81d4fa;
-        }
-
-        .btn.secondary {
-            background: transparent;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            color: #90caf9;
-        }
-
-        .btn.secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.5);
-        }
-
-        /* Compact Category Cards */
-        .tools-grid {
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-        }
-
-        .tool-card {
-            padding: 20px;
-        }
-
-        .tool-card h2 {
-            font-size: 1.3rem;
-            margin-bottom: 10px;
-        }
-
-        .tool-card p {
-            font-size: 0.9rem;
-            line-height: 1.5;
-            margin-bottom: 12px;
-        }
-
-        .tool-card .tool-list {
-            font-size: 0.8rem;
-            line-height: 1.6;
-            margin-top: 8px;
-            padding-top: 8px;
-        }
-
-        .tool-link {
-            font-size: 0.85rem;
-        }
-
-        @media (max-width: 768px) {
-            .ascii-logo {
-                position: static;
-                text-align: center;
-                margin-bottom: 20px;
-                font-size: 0.5rem;
-            }
-
-            h1 {
-                font-size: 2rem;
-            }
-
-            .subtitle {
-                font-size: 1rem;
-            }
-
-            .tools-grid {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-
-            .tool-card {
-                padding: 18px;
-            }
-
-            .tool-card h2 {
-                font-size: 1.2rem;
-            }
-
-            /* Quick Access mobile adjustments */
-            .quick-access-buttons {
+        @media (max-width: 1000px) {
+            .hero {
                 flex-direction: column;
                 align-items: stretch;
+                gap: 24px;
             }
-
-            .quick-access-btn {
-                justify-content: center;
+            .hero-logo {
+                font-size: 22px;
+                overflow-x: auto;
             }
-
-            .modal-content {
-                max-height: 90vh;
+            .tools-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
             }
-
-            .tool-checkbox-list {
-                grid-template-columns: 1fr;
+        }
+        @media (max-width: 640px) {
+            .hero-logo {
+                font-size: 15px;
             }
-
-            .modal-footer {
+            .myip {
                 flex-direction: column;
-                gap: 12px;
+                align-items: flex-start;
             }
-
-            .modal-footer .btn {
-                width: 100%;
+            .tools-grid,
+            .tool-checkbox-list {
+                grid-template-columns: minmax(0, 1fr);
             }
         }
     </style>
@@ -600,96 +341,169 @@
 </head>
 <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
-    <div class="ascii-logo" aria-hidden="true">  ___  _    _  __        __   _
- / _ \| | _| | \ \      / /__| |__
-| | | | |/ _` | \ \ /\ / / _ \ '_ \
-| |_| | | (_| |  \ V  V /  __/ |_) |
- \___/|_|\__,_|   \_/\_/ \___|_.__/
-</div>
-    <main id="main-content" class="container">
-        <h1>OldWeb Tools</h1>
-        <p class="subtitle">Fast, simple, offline-ready utilities for network engineers and system administrators</p>
+    <main id="main-content">
+        <h1 class="sr-only">OldWeb Tools</h1>
 
-        <!-- Quick Access Section -->
+        <div class="hero">
+<pre class="hero-logo" aria-hidden="true">  ___   _      _ __        __       _
+ / _ \ | |  __| |\ \      / /  ___ | |__
+| | | || | / _` | \ \ /\ / /  / _ \| '_ \
+| |_| || || (_| |  \ V  V /  |  __/| |_) |
+ \___/ |_| \__,_|   \_/\_/    \___||_.__/</pre>
+            <div class="hero-side">
+                <p class="motd"># fast, simple, offline-ready utilities<br># for network engineers and system administrators.</p>
+                <section class="box myip" aria-labelledby="myip-heading">
+                    <h2 id="myip-heading" class="sr-only">What is my IP address</h2>
+                    <div class="myip-text">
+                        <span class="myip-prompt" aria-hidden="true">$ my-ip</span>
+                        <span class="myip-value pending" id="myip-value" aria-live="polite">Detecting&hellip;</span>
+                        <span class="myip-meta" id="myip-meta">Country, network operator, and registry ownership</span>
+                    </div>
+                    <a href="nettools/my-ip.html" class="btn-link" aria-label="Full IP lookup">Full lookup &rarr;</a>
+                </section>
+            </div>
+        </div>
+
         <section id="quick-access-section" class="quick-access-section" aria-labelledby="quick-access-heading">
             <div class="quick-access-header">
-                <h2 id="quick-access-heading">Quick Access</h2>
+                <h2 id="quick-access-heading">$ ls ~/pinned</h2>
                 <button type="button"
                         id="quick-access-settings-btn"
-                        class="settings-btn"
+                        class="btn small"
                         aria-label="Customize quick access tools"
                         aria-haspopup="dialog"
-                        aria-expanded="false">
-                    <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20">
-                        <path fill="currentColor" d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.07,0.94l-2.03,1.58c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/>
-                    </svg>
-                </button>
+                        aria-expanded="false">Edit</button>
             </div>
             <div id="quick-access-buttons" class="quick-access-buttons" role="list">
                 <!-- Populated via JavaScript -->
             </div>
         </section>
 
-        <!-- What Is My IP -->
-        <section class="myip-section" aria-labelledby="myip-heading">
-            <h2 id="myip-heading" class="sr-only">What is my IP address</h2>
-            <a href="nettools/my-ip.html" class="myip-card" id="myip-card">
-                <span class="myip-label">Your public IP address</span>
-                <span class="myip-value pending" id="myip-value" aria-live="polite">Detecting&hellip;</span>
-                <span class="myip-meta" id="myip-meta">Country, network operator, and registry ownership</span>
-                <span class="tool-link">Full IP lookup</span>
-            </a>
-        </section>
-
         <div class="tools-grid">
-            <a href="nettools/index.html" class="tool-card">
-                <h2>Network Tools</h2>
-                <p>IP and subnet calculators, CIDR converters, and network planning utilities for network engineers.</p>
-                <div class="tool-list">Subnet Calculator • IPv6 Subnet Calculator • Subnet Planner • CIDR Converter • Bit Calculator • Data Transfer Calculator</div>
-                <span class="tool-link">Explore Network Tools</span>
-            </a>
+            <section class="box cat" aria-labelledby="cat-network">
+                <div class="box-head">
+                    <h2 id="cat-network"><span aria-hidden="true">nettools/</span><span class="sr-only">Network tools</span></h2>
+                    <span class="cat-count" data-category="network"></span>
+                </div>
+                <div class="box-body">
+                    <p class="cat-desc">IP and subnet calculators, CIDR conversion, network planning.</p>
+                    <ul class="cat-tools">
+                        <li><a href="nettools/subnet-calculator.html">Subnet Calculator</a></li>
+                        <li><a href="nettools/subnet-planner.html">Subnet Planner</a></li>
+                        <li><a href="nettools/cidr-converter.html">CIDR Converter</a></li>
+                        <li><a href="nettools/mtu-calculator.html">MTU Calculator</a></li>
+                    </ul>
+                    <div class="cat-foot">
+                        <span class="cat-more" data-category="network" data-listed="4"></span>
+                        <a href="nettools/index.html" class="btn-link small" aria-label="All network tools">cd nettools/</a>
+                    </div>
+                </div>
+            </section>
 
-            <a href="system/index.html" class="tool-card">
-                <h2>System Tools</h2>
-                <p>Unix/Linux system administration utilities including permissions, cron scheduling, disk planning, and log analysis.</p>
-                <div class="tool-list">Chmod Calculator • Cron Builder • DISK Tools • IOPS Calculator • Password Generator • Regex Tester • Log Timestamp Converter</div>
-                <span class="tool-link">Explore System Tools</span>
-            </a>
+            <section class="box cat" aria-labelledby="cat-system">
+                <div class="box-head">
+                    <h2 id="cat-system"><span aria-hidden="true">system/</span><span class="sr-only">System tools</span></h2>
+                    <span class="cat-count" data-category="system"></span>
+                </div>
+                <div class="box-body">
+                    <p class="cat-desc">Permissions, cron, disk and IOPS planning, certificates and logs.</p>
+                    <ul class="cat-tools">
+                        <li><a href="system/chmod-calculator.html">Chmod Calculator</a></li>
+                        <li><a href="system/cron-builder.html">Cron Builder</a></li>
+                        <li><a href="system/regex-tester.html">Regex Tester</a></li>
+                        <li><a href="system/log-parser.html">Log Parser</a></li>
+                    </ul>
+                    <div class="cat-foot">
+                        <span class="cat-more" data-category="system" data-listed="4"></span>
+                        <a href="system/index.html" class="btn-link small" aria-label="All system tools">cd system/</a>
+                    </div>
+                </div>
+            </section>
 
-            <a href="data/index.html" class="tool-card">
-                <h2>Data Tools</h2>
-                <p>Data encoding, hashing, and format conversion utilities for developers and security professionals.</p>
-                <div class="tool-list">Base64 & Hash Tools</div>
-                <span class="tool-link">Explore Data Tools</span>
-            </a>
+            <section class="box cat" aria-labelledby="cat-data">
+                <div class="box-head">
+                    <h2 id="cat-data"><span aria-hidden="true">data/</span><span class="sr-only">Data tools</span></h2>
+                    <span class="cat-count" data-category="data"></span>
+                </div>
+                <div class="box-body">
+                    <p class="cat-desc">Encoding, hashing, diffing and format conversion.</p>
+                    <ul class="cat-tools">
+                        <li><a href="data/base64-hash.html">Base64 &amp; Hash</a></li>
+                        <li><a href="data/json-formatter.html">JSON Formatter</a></li>
+                        <li><a href="data/text-diff.html">Text Diff</a></li>
+                        <li><a href="data/uuid-generator.html">UUID Generator</a></li>
+                    </ul>
+                    <div class="cat-foot">
+                        <span class="cat-more" data-category="data" data-listed="4"></span>
+                        <a href="data/index.html" class="btn-link small" aria-label="All data tools">cd data/</a>
+                    </div>
+                </div>
+            </section>
 
-            <a href="financials/index.html" class="tool-card">
-                <h2>Financial Tools</h2>
-                <p>Loan and mortgage calculators for financial planning, payment schedules, and interest analysis.</p>
-                <div class="tool-list">Amortization Calculator</div>
-                <span class="tool-link">Explore Financial Tools</span>
-            </a>
+            <section class="box cat" aria-labelledby="cat-financials">
+                <div class="box-head">
+                    <h2 id="cat-financials"><span aria-hidden="true">financials/</span><span class="sr-only">Financial tools</span></h2>
+                    <span class="cat-count" data-category="financials"></span>
+                </div>
+                <div class="box-body">
+                    <p class="cat-desc">Loan, interest, retirement and paycheck calculators.</p>
+                    <ul class="cat-tools">
+                        <li><a href="financials/amortization-calculator.html">Amortization</a></li>
+                        <li><a href="financials/take-home-pay-calculator.html">Take-Home Pay</a></li>
+                        <li><a href="financials/debt-payoff-comparison.html">Debt Payoff</a></li>
+                        <li><a href="financials/retirement-calculator.html">Retirement</a></li>
+                    </ul>
+                    <div class="cat-foot">
+                        <span class="cat-more" data-category="financials" data-listed="4"></span>
+                        <a href="financials/index.html" class="btn-link small" aria-label="All financial tools">cd financials/</a>
+                    </div>
+                </div>
+            </section>
 
-            <a href="productivity/index.html" class="tool-card">
-                <h2>Productivity Tools</h2>
-                <p>Time management and focus utilities to help you stay productive and organized.</p>
-                <div class="tool-list">Pomodoro Timer</div>
-                <span class="tool-link">Explore Productivity Tools</span>
-            </a>
+            <section class="box cat" aria-labelledby="cat-productivity">
+                <div class="box-head">
+                    <h2 id="cat-productivity"><span aria-hidden="true">productivity/</span><span class="sr-only">Productivity tools</span></h2>
+                    <span class="cat-count" data-category="productivity"></span>
+                </div>
+                <div class="box-body">
+                    <p class="cat-desc">Focus timer, scratchpad and time-zone planning.</p>
+                    <ul class="cat-tools">
+                        <li><a href="productivity/pomodoro.html">Pomodoro Timer</a></li>
+                        <li><a href="productivity/scratchpad.html">Scratchpad</a></li>
+                        <li><a href="productivity/tz-meeting-planner.html">TZ Meeting Planner</a></li>
+                    </ul>
+                    <div class="cat-foot">
+                        <span class="cat-more" data-category="productivity" data-listed="3"></span>
+                        <a href="productivity/index.html" class="btn-link small" aria-label="All productivity tools">cd productivity/</a>
+                    </div>
+                </div>
+            </section>
 
-            <a href="pdf/index.html" class="tool-card">
-                <h2>PDF Tools</h2>
-                <p>Edit PDFs entirely in your browser. No uploads, no watermarks, no signup &mdash; your file never leaves this tab.</p>
-                <div class="tool-list">PDF Merge &bull; PDF Split &bull; PDF Rotate</div>
-                <span class="tool-link">Explore PDF Tools</span>
-            </a>
+            <section class="box cat" aria-labelledby="cat-pdf">
+                <div class="box-head">
+                    <h2 id="cat-pdf"><span aria-hidden="true">pdf/</span><span class="sr-only">PDF tools</span></h2>
+                    <span class="cat-count" data-category="pdf"></span>
+                </div>
+                <div class="box-body">
+                    <p class="cat-desc">Merge, split and rotate PDFs in your browser. Files never leave the tab.</p>
+                    <ul class="cat-tools">
+                        <li><a href="pdf/merge.html">PDF Merge</a></li>
+                        <li><a href="pdf/split.html">PDF Split</a></li>
+                        <li><a href="pdf/rotate.html">PDF Rotate</a></li>
+                    </ul>
+                    <div class="cat-foot">
+                        <span class="cat-more" data-category="pdf" data-listed="3"></span>
+                        <a href="pdf/index.html" class="btn-link small" aria-label="All PDF tools">cd pdf/</a>
+                    </div>
+                </div>
+            </section>
         </div>
-
-        <footer role="contentinfo">
-            OldWeb Tools - Works offline, no installation required
-            <p style="margin-top: 0.5rem; font-size: 0.8em; opacity: 0.7;">Hosted on Microsoft Azure Static Web Apps.</p>
-        </footer>
     </main>
+
+    <footer class="statusbar" role="contentinfo">
+        <span>[oldweb] works offline │ no tracking │ no accounts │ hosted on Microsoft Azure Static Web Apps</span>
+        <span>/ search · t theme</span>
+    </footer>
 
     <!-- Quick Access Settings Modal -->
     <div id="quick-access-modal"
@@ -736,6 +550,22 @@
                 target.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         });
+
+        // Category tool counts, from the nav registry (spans stay empty without JS)
+        (function() {
+            'use strict';
+            if (!Array.isArray(window.toolRegistry)) return;
+            const counts = {};
+            window.toolRegistry.forEach(t => { counts[t.category] = (counts[t.category] || 0) + 1; });
+            document.querySelectorAll('.cat-count[data-category]').forEach(el => {
+                const n = counts[el.dataset.category];
+                if (n) el.textContent = n + (n === 1 ? ' tool' : ' tools');
+            });
+            document.querySelectorAll('.cat-more[data-category]').forEach(el => {
+                const extra = (counts[el.dataset.category] || 0) - Number(el.dataset.listed || 0);
+                if (extra > 0) el.textContent = '+' + extra + ' more';
+            });
+        })();
 
         // What Is My IP — one lightweight request, degrades to a plain link.
         (function() {
@@ -867,7 +697,7 @@
                 if (!buttonsContainer || !window.toolsData) return;
 
                 if (selectedTools.length === 0) {
-                    buttonsContainer.innerHTML = '<p style="color: rgba(144, 202, 249, 0.6); font-style: italic;">Click the gear icon to add your favorite tools.</p>';
+                    buttonsContainer.innerHTML = '<p class="quick-access-empty">Nothing pinned yet. Use Edit to pick up to 8 tools.</p>';
                     return;
                 }
 
@@ -887,7 +717,7 @@
                     if (!tool) return;
 
                     html += `<a href="${tool.file}"
-                                class="quick-access-btn"
+                                class="btn-link quick-access-btn"
                                 role="listitem">${tool.name}</a>`;
                 });
 
