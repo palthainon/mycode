@@ -704,7 +704,7 @@
             document.getElementById('freePercent').textContent = `${freePercent.toFixed(2)}% free`;
 
             document.getElementById('percentageResults').classList.add('show');
-            A11yUtils.announce(`Storage analysis complete. Using ${usedPercent.toFixed(2)}% of total space. ${freeGb.toFixed(2)} GB free.`, 'polite');
+            A11yUtils.announce(`Storage analysis complete. Using ${usedPercent.toFixed(2)}% of total space. ${free.toFixed(2)} GB free.`, 'polite');
         }
 
         // IOPS Calculator

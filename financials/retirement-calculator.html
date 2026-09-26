@@ -944,7 +944,7 @@
             }
 
             // Get optional social security
-            const socialSecurity = parseNumber(socialSecurityInput.value) || 1000;
+            const socialSecurity = parseNumber(socialSecurityInput.value) ?? 0;
 
             // Calculate retirement target using post-retirement expenses
             fireNumber = retirementExpenses / (withdrawalRate / 100);

@@ -961,6 +961,9 @@
 
         function toggleFlag(element) {
             const checkbox = element.querySelector('input[type="checkbox"]');
+            // The checkbox and its label toggle natively (onchange updates the result);
+            // only clicks on the row padding need toggling here
+            if (window.event && window.event.target.closest('input, label')) return;
             checkbox.checked = !checkbox.checked;
             element.classList.toggle('checked', checkbox.checked);
             updateFlagResult();

@@ -382,10 +382,10 @@
             }
         }
 
-        patternInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                testPattern();
-            }
+        // Enter (implicit submit): test without reloading the page
+        patternInput.form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            testPattern();
         });
 
         document.querySelectorAll('.flag-item input').forEach(checkbox => {
