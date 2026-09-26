@@ -1331,6 +1331,13 @@
         saveThemePref(next);
         updateThemeButton();
         announce(`${next} theme`);
+        notifyThemeChange();
+    }
+
+    // Pages that draw with JS (canvas, SVG) listen for this and redraw using
+    // getComputedStyle(document.documentElement).getPropertyValue('--hi') etc.
+    function notifyThemeChange() {
+        document.dispatchEvent(new CustomEvent('owt-themechange', { detail: { theme: effectiveTheme() } }));
     }
 
     function setupThemeToggle() {
@@ -1342,7 +1349,7 @@
         // Follow OS changes live until the user picks a theme explicitly
         if (window.matchMedia) {
             const mq = window.matchMedia('(prefers-color-scheme: dark)');
-            const onChange = () => { if (!loadThemePref()) updateThemeButton(); };
+            const onChange = () => { if (!loadThemePref()) { updateThemeButton(); notifyThemeChange(); } };
             if (mq.addEventListener) mq.addEventListener('change', onChange);
         }
 
