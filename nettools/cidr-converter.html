@@ -28,569 +28,271 @@
     <meta name="twitter:image" content="https://oldweb.tech/logo/og-image.png">
 
     <!-- Additional Meta Tags -->
-    <meta name="theme-color" content="#1a1a2e">
+    <meta name="theme-color" content="#0e0903">
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
 
     <title>CIDR Notation Converter - OldWeb.tech</title>
     <link rel="stylesheet" href="../a11y.css">
+    <link rel="stylesheet" href="../theme.css">
     <script src="../a11y-utils.js"></script>
     <script src="../storage-utils.js"></script>
     <script src="../navigationv2.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* Page layout only; colors, type, buttons and fields come from theme.css */
+        main {
+            max-width: 1100px;
         }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            min-height: 100vh;
-            padding: 40px 20px;
-            color: #fff;
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 2.5rem;
-            color: #4fc3f7;
-            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
-        }
-
-        /* Navigation Bar */
-        .nav-bar {
-            position: absolute;
-            top: 20px;
-            left: 40px;
-            display: flex;
-            gap: 15px;
-            align-items: center;
-            z-index: 100;
-        }
-
-        .nav-link {
-            color: #4fc3f7;
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 600;
-            transition: color 0.2s, text-shadow 0.2s;
-        }
-
-        .nav-link:hover {
-            color: #2196f3;
-            text-shadow: 0 0 10px rgba(79, 195, 247, 0.5);
-        }
-
-        .nav-link.current {
-            color: #66bb6a;
-            border-bottom: 2px solid #66bb6a;
-        }
-
-        .nav-separator {
-            color: rgba(79, 195, 247, 0.3);
-            user-select: none;
-        }
-
-        /* ASCII Logo */
-        .ascii-logo {
-            position: absolute;
-            top: 20px;
-            right: 40px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.65rem;
-            line-height: 1.1;
-            color: #4fc3f7;
-            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
-            opacity: 0.8;
-            white-space: pre;
-        }
-
-        /* Mode Toggle */
+        /* Mode toggle */
         .mode-toggle {
             display: flex;
-            gap: 10px;
-            margin-bottom: 30px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            padding: 10px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            justify-content: center;
+            gap: 12px;
             flex-wrap: wrap;
+            margin-bottom: 24px;
+            padding: 0 3px 3px 0;
+        }
+        .mode-btn::before {
+            content: '[ ] ';
+        }
+        .mode-btn[aria-pressed="true"]::before {
+            content: '[x] ';
         }
 
-        .mode-btn {
-            background: rgba(79, 195, 247, 0.1);
-            border: 1px solid rgba(79, 195, 247, 0.3);
-            color: #4fc3f7;
-            padding: 10px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: all 0.2s;
-            font-weight: 600;
-        }
-
-        .mode-btn:hover {
-            background: rgba(79, 195, 247, 0.2);
-            border-color: #4fc3f7;
-        }
-
-        .mode-btn.active {
-            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
-            color: #fff;
-            border-color: #4fc3f7;
-        }
-
-        /* Calculator Container */
+        /* Input box */
         .calculator {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 30px;
+            margin-bottom: 24px;
         }
-
+        .mode-section form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
         .input-group {
             display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
+            gap: 16px;
             flex-wrap: wrap;
         }
-
         .input-field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
             flex: 1;
             min-width: 200px;
         }
-
-        .input-field label {
-            display: block;
-            margin-bottom: 8px;
-            color: #90caf9;
-            font-weight: 500;
-        }
-
-        .input-field input, .input-field select, .input-field textarea {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            background: #0f1419;
-            color: #fff;
-            font-size: 1rem;
-            transition: border-color 0.3s, box-shadow 0.3s;
-            font-family: 'Consolas', 'Monaco', monospace;
-        }
-
-        .input-field select option {
-            background: #0f1419;
-            color: #fff;
-        }
-
         .input-field textarea {
             min-height: 150px;
             resize: vertical;
         }
-
-        .input-field input:focus, .input-field select:focus, .input-field textarea:focus {
-            outline: none;
-            border-color: #4fc3f7;
-            box-shadow: 0 0 15px rgba(79, 195, 247, 0.2);
-        }
-
-        .input-field input::placeholder, .input-field textarea::placeholder {
-            color: rgba(255, 255, 255, 0.4);
-        }
-
-        .input-field textarea::placeholder {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
         .quick-masks {
-            margin-top: 20px;
-            margin-bottom: 25px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 14px;
+            border-top: 1px dashed var(--line);
         }
-
         .quick-masks h3 {
-            color: #90caf9;
-            font-size: 0.9rem;
             margin-bottom: 10px;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            color: var(--dim);
+            text-shadow: none;
         }
-
+        .quick-masks h3::before {
+            content: '# ';
+        }
         .mask-buttons {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 10px 8px;
+            padding: 0 3px 3px 0;
+        }
+        .form-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            padding: 0 3px 3px 0;
+        }
+        .form-actions .primary {
+            flex: 1;
         }
 
-        .mask-btn {
-            background: rgba(79, 195, 247, 0.1);
-            border: 1px solid rgba(79, 195, 247, 0.3);
-            color: #4fc3f7;
-            padding: 6px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            transition: all 0.2s;
+        /* #error also carries "Note:" / "Warnings:" messages that start with <strong> */
+        #error:has(> strong:first-child) {
+            background: var(--panel);
+            border-color: var(--warn);
+            color: var(--warn);
+        }
+        #error:has(> strong:first-child)::before {
+            content: none;
         }
 
-        .mask-btn:hover {
-            background: rgba(79, 195, 247, 0.2);
-            border-color: #4fc3f7;
-        }
-
-        .btn {
-            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
-            color: #fff;
-            border: none;
-            padding: 14px 40px;
-            font-size: 1.1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            font-weight: 600;
-            display: block;
-            width: 100%;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(79, 195, 247, 0.4);
-        }
-
-        .btn:active {
-            transform: translateY(0);
-        }
-
-        .btn.secondary {
-            background: transparent;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            color: #90caf9;
-            margin-top: 10px;
-        }
-        .btn.secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.5);
-            box-shadow: none;
-            transform: none;
-        }
-
-        #error {
-            background: rgba(244, 67, 54, 0.2);
-            border: 1px solid #f44336;
-            color: #ff8a80;
-            padding: 15px 20px;
-            border-radius: 8px;
-            margin-top: 20px;
-            display: none;
-        }
-
-        #error.show {
-            display: block;
-        }
-
-        input.error {
-            border-color: #f44336 !important;
-        }
-
-        /* Results Section */
+        /* Results (markup built by the script) */
         .results {
             display: none;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 30px;
+            padding: 18px 16px;
         }
-
         .results.show {
             display: block;
-            animation: fadeIn 0.4s ease;
         }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
         .results h2 {
-            color: #4fc3f7;
-            margin-bottom: 20px;
-            font-size: 1.5rem;
+            margin-bottom: 14px;
         }
-
+        .results h2:not(:first-child) {
+            margin-top: 24px;
+        }
+        .results-note {
+            color: var(--dim);
+            margin-bottom: 16px;
+        }
         .results-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
+            gap: 12px;
         }
-
         .result-item {
-            background: rgba(0, 0, 0, 0.2);
-            padding: 15px 20px;
-            border-radius: 8px;
-            border-left: 4px solid #4fc3f7;
+            padding: 10px 14px;
+            border: 1px solid var(--line);
+            background: var(--bg);
         }
-
         .result-item .label {
-            color: #90caf9;
+            color: var(--dim);
             font-size: 0.85rem;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            margin-bottom: 4px;
         }
-
         .result-item .value {
-            font-size: 1.2rem;
-            font-family: 'Consolas', 'Monaco', monospace;
-            color: #fff;
+            color: var(--hi);
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-shadow: var(--glow);
+            word-break: break-all;
         }
-
         .binary-display {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px dashed var(--line);
         }
-
         .binary-display h3 {
-            color: #4fc3f7;
-            margin-bottom: 15px;
-            font-size: 1.2rem;
+            margin-bottom: 8px;
         }
-
         .binary-item {
-            font-family: 'Consolas', 'Monaco', monospace;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px 12px;
+            padding: 3px 0;
             font-size: 0.9rem;
-            margin-bottom: 10px;
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 4px;
+            overflow-x: auto;
         }
-
         .binary-item .bin-label {
-            color: #90caf9;
-            display: inline-block;
-            width: 140px;
+            min-width: 140px;
+            color: var(--dim);
         }
-
         .binary-item .network-bits {
-            color: #4fc3f7;
+            color: var(--hi);
+            font-weight: 600;
         }
-
         .binary-item .host-bits {
-            color: #ff8a65;
+            color: var(--alt);
+            text-decoration: underline dotted;
+            text-underline-offset: 4px;
         }
 
-        /* Table Styles */
+        /* Tables */
         .data-table-container {
             max-height: 600px;
-            overflow-y: auto;
-            border-radius: 8px;
-            margin-top: 20px;
+            overflow: auto;
+            border: 1px solid var(--line);
         }
-
-        .data-table-container::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .data-table-container::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 4px;
-        }
-
-        .data-table-container::-webkit-scrollbar-thumb {
-            background: rgba(79, 195, 247, 0.5);
-            border-radius: 4px;
-        }
-
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-family: 'Consolas', 'Monaco', monospace;
+        .data-table-container .data-table {
             font-size: 0.85rem;
         }
-
-        .data-table th {
-            background: rgba(79, 195, 247, 0.9);
-            color: #0f1419;
-            padding: 12px 10px;
-            text-align: left;
+        .data-table-container .data-table th {
             position: sticky;
             top: 0;
             z-index: 1;
-            font-size: 0.8rem;
         }
-
-        .data-table td {
-            padding: 10px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            color: #fff;
+        .data-table-container .data-table td:nth-child(2) {
+            color: var(--hi);
         }
-
-        .data-table tr:hover {
-            background: rgba(79, 195, 247, 0.1);
-        }
-
-        .data-table tr.no-overlap {
-            background: rgba(102, 187, 106, 0.05);
-        }
-
         .data-table tr.partial-overlap {
-            background: rgba(255, 235, 59, 0.1);
+            box-shadow: inset 4px 0 0 var(--warn);
         }
-
         .data-table tr.full-overlap {
-            background: rgba(244, 67, 54, 0.1);
+            background: var(--err-bg);
+            box-shadow: inset 4px 0 0 var(--err);
         }
-
         .overlap-badge {
-            display: inline-block;
-            background: #f44336;
-            color: #fff;
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-size: 0.7rem;
-            margin-left: 5px;
-        }
-
-        .overlap-badge.none {
-            background: #66bb6a;
-        }
-
-        .overlap-badge.partial {
-            background: #ffeb3b;
-            color: #000;
-        }
-
-        /* Export Buttons */
-        .export-section {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .export-btn {
-            background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%);
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            font-size: 0.9rem;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
             font-weight: 600;
+            margin-right: 4px;
+        }
+        .overlap-badge.none {
+            color: var(--ok);
+        }
+        .overlap-badge.partial {
+            color: var(--warn);
+        }
+        .overlap-badge.partial::before {
+            content: '~ ';
+        }
+        .overlap-badge.full {
+            color: var(--err);
+        }
+        .overlap-badge.full::before {
+            content: '! ';
         }
 
-        .export-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(102, 187, 106, 0.4);
+        /* Export buttons */
+        .export-section {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin: 16px 0;
+            padding: 0 3px 3px 0;
         }
 
-        .export-btn.json {
-            background: linear-gradient(135deg, #42a5f5 0%, #1976d2 100%);
-        }
-
-        .export-btn.json:hover {
-            box-shadow: 0 4px 15px rgba(66, 165, 245, 0.4);
-        }
-
-        /* Summary Cards */
+        /* Summary cards */
         .summary-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
+            gap: 12px;
             margin-bottom: 20px;
         }
-
         .summary-card {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 20px;
-            border-radius: 8px;
-            border-left: 4px solid #4fc3f7;
-            text-align: center;
+            padding: 14px 16px;
+            border: 1px solid var(--line);
+            background: var(--bg);
         }
-
         .summary-card .stat-value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #4fc3f7;
-            font-family: 'Consolas', 'Monaco', monospace;
+            font-family: var(--font-display);
+            font-size: 2.4rem;
+            line-height: 1;
+            color: var(--hi);
+            text-shadow: var(--glow);
+            word-break: break-all;
         }
-
         .summary-card .stat-label {
-            color: #90caf9;
+            color: var(--dim);
             font-size: 0.85rem;
-            margin-top: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            margin-top: 6px;
         }
 
-        /* Mode-Specific Sections */
+        /* Mode-specific sections */
         .mode-section {
             display: none;
         }
-
         .mode-section.active {
             display: block;
         }
 
-        footer {
-            text-align: center;
-            margin-top: 30px;
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 0.85rem;
-        }
-
         @media (max-width: 768px) {
-            .nav-bar {
-                position: static;
-                justify-content: center;
-                flex-wrap: wrap;
-                margin-bottom: 20px;
-                gap: 10px;
-            }
-
-            .ascii-logo {
-                position: static;
-                text-align: center;
-                margin-bottom: 20px;
-                font-size: 0.5rem;
-            }
-
-            .results-grid {
-                grid-template-columns: 1fr;
-            }
-
+            .results-grid,
             .summary-grid {
                 grid-template-columns: 1fr;
             }
-
-            h1 {
-                font-size: 1.8rem;
-            }
-
-            .data-table {
+            .data-table-container .data-table {
                 font-size: 0.75rem;
             }
-
-            .data-table th, .data-table td {
-                padding: 8px 5px;
+            .data-table-container .data-table th,
+            .data-table-container .data-table td {
+                padding: 6px 8px;
             }
         }
     </style>
@@ -619,38 +321,39 @@
 </head>
 <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
-    <div class="ascii-logo" aria-hidden="true">  ___  _     _  __        __   _
- / _ \| | __| | \ \      / /__| |__
-| | | | |/ _` |  \ \ /\ / / _ \ '_ \
-| |_| | | (_| |   \ V  V /  __/ |_) |
- \___/|_|\__,_|    \_/\_/ \___|_.__/
-</div>
 
-    <main id="main-content" class="container">
-        <h1>CIDR Notation Converter</h1>
+    <main id="main-content">
+        <div class="page-head">
+            <h1>CIDR Notation Converter</h1>
+            <p class="lede">CIDR to ranges, overlap detection across many networks, and IP ranges back to CIDR blocks.</p>
+        </div>
 
         <div class="mode-toggle" role="group" aria-label="Conversion mode selection">
             <button type="button"
-                    class="mode-btn active"
+                    class="btn mode-btn active"
                     onclick="switchMode('single')"
                     aria-pressed="true"
                     aria-label="Convert single CIDR notation to subnet details"
                     >Single CIDR</button>
             <button type="button"
-                    class="mode-btn"
+                    class="btn mode-btn"
                     onclick="switchMode('multiple')"
                     aria-pressed="false"
                     aria-label="Analyze multiple CIDR notations and detect overlaps"
                     >Multiple CIDRs</button>
             <button type="button"
-                    class="mode-btn"
+                    class="btn mode-btn"
                     onclick="switchMode('reverse')"
                     aria-pressed="false"
                     aria-label="Convert IP address range to CIDR notation"
                     >Range to CIDR</button>
         </div>
 
-        <div class="calculator">
+        <section class="box calculator" aria-labelledby="input-heading">
+            <div class="box-head">
+                <h2 id="input-heading">input</h2>
+            </div>
+            <div class="box-body">
             <!-- Single CIDR Mode -->
             <div id="single-mode" class="mode-section active">
                 <form id="single-form" aria-label="Single CIDR Converter Form">
@@ -678,32 +381,34 @@
                     </div>
 
                     <div class="quick-masks">
-                        <h3>Quick Select:</h3>
-                        <div class="mask-buttons">
-                            <button type="button" class="mask-btn" onclick="setQuickCIDR(8)" aria-label="Set CIDR to /8">/8</button>
-                            <button type="button" class="mask-btn" onclick="setQuickCIDR(16)" aria-label="Set CIDR to /16">/16</button>
-                            <button type="button" class="mask-btn" onclick="setQuickCIDR(24)" aria-label="Set CIDR to /24">/24</button>
-                            <button type="button" class="mask-btn" onclick="setQuickCIDR(25)" aria-label="Set CIDR to /25">/25</button>
-                            <button type="button" class="mask-btn" onclick="setQuickCIDR(26)" aria-label="Set CIDR to /26">/26</button>
-                            <button type="button" class="mask-btn" onclick="setQuickCIDR(27)" aria-label="Set CIDR to /27">/27</button>
-                            <button type="button" class="mask-btn" onclick="setQuickCIDR(28)" aria-label="Set CIDR to /28">/28</button>
-                            <button type="button" class="mask-btn" onclick="setQuickCIDR(29)" aria-label="Set CIDR to /29">/29</button>
-                            <button type="button" class="mask-btn" onclick="setQuickCIDR(30)" aria-label="Set CIDR to /30">/30</button>
-                            <button type="button" class="mask-btn" onclick="setQuickCIDR(31)" aria-label="Set CIDR to /31">/31</button>
-                            <button type="button" class="mask-btn" onclick="setQuickCIDR(32)" aria-label="Set CIDR to /32">/32</button>
+                        <h3 id="quick-cidr-label">presets</h3>
+                        <div class="mask-buttons" role="group" aria-labelledby="quick-cidr-label">
+                            <button type="button" class="btn small mask-btn" onclick="setQuickCIDR(8)" aria-label="Set CIDR to /8">/8</button>
+                            <button type="button" class="btn small mask-btn" onclick="setQuickCIDR(16)" aria-label="Set CIDR to /16">/16</button>
+                            <button type="button" class="btn small mask-btn" onclick="setQuickCIDR(24)" aria-label="Set CIDR to /24">/24</button>
+                            <button type="button" class="btn small mask-btn" onclick="setQuickCIDR(25)" aria-label="Set CIDR to /25">/25</button>
+                            <button type="button" class="btn small mask-btn" onclick="setQuickCIDR(26)" aria-label="Set CIDR to /26">/26</button>
+                            <button type="button" class="btn small mask-btn" onclick="setQuickCIDR(27)" aria-label="Set CIDR to /27">/27</button>
+                            <button type="button" class="btn small mask-btn" onclick="setQuickCIDR(28)" aria-label="Set CIDR to /28">/28</button>
+                            <button type="button" class="btn small mask-btn" onclick="setQuickCIDR(29)" aria-label="Set CIDR to /29">/29</button>
+                            <button type="button" class="btn small mask-btn" onclick="setQuickCIDR(30)" aria-label="Set CIDR to /30">/30</button>
+                            <button type="button" class="btn small mask-btn" onclick="setQuickCIDR(31)" aria-label="Set CIDR to /31">/31</button>
+                            <button type="button" class="btn small mask-btn" onclick="setQuickCIDR(32)" aria-label="Set CIDR to /32">/32</button>
                         </div>
                     </div>
 
-                    <button type="button"
-                            class="btn"
-                            onclick="calculateSingle()"
-                            aria-label="Convert CIDR notation to network details"
-                            >Convert CIDR</button>
-                    <button type="button"
-                            class="btn secondary"
-                            onclick="clearAllSavedData()"
-                            aria-label="Clear all saved form data from this page"
-                            >Clear Saved Data</button>
+                    <div class="form-actions">
+                        <button type="button"
+                                class="btn primary"
+                                onclick="calculateSingle()"
+                                aria-label="Convert CIDR notation to network details"
+                                >Convert CIDR</button>
+                        <button type="button"
+                                class="btn secondary"
+                                onclick="clearAllSavedData()"
+                                aria-label="Clear all saved form data from this page"
+                                >Clear saved data</button>
+                    </div>
                 </form>
             </div>
 
@@ -723,10 +428,12 @@ permit ip 192.168.100.0 0.0.0.255"></textarea>
                         <span id="multiple-help" class="sr-only">Enter one CIDR notation per line. Supports CIDR, subnet mask, wildcard mask, and ACL formats</span>
                     </div>
 
-                    <button type="button"
-                            class="btn"
-                            onclick="calculateMultiple()"
-                            aria-label="Analyze multiple CIDR notations and detect overlapping networks">Analyze CIDRs & Detect Overlaps</button>
+                    <div class="form-actions">
+                        <button type="button"
+                                class="btn primary"
+                                onclick="calculateMultiple()"
+                                aria-label="Analyze multiple CIDR notations and detect overlapping networks">Analyze CIDRs &amp; Detect Overlaps</button>
+                    </div>
                 </form>
             </div>
 
@@ -754,30 +461,33 @@ permit ip 192.168.100.0 0.0.0.255"></textarea>
                         </div>
                     </div>
 
-                    <button type="button"
-                            class="btn"
-                            onclick="calculateReverse()"
-                            aria-label="Convert IP address range to CIDR notation">Convert to CIDR</button>
+                    <div class="form-actions">
+                        <button type="button"
+                                class="btn primary"
+                                onclick="calculateReverse()"
+                                aria-label="Convert IP address range to CIDR notation">Convert to CIDR</button>
+                    </div>
                 </form>
             </div>
 
-            <div class="error"
+            <div class="error-alert"
                  id="error"
                  role="alert"
                  aria-live="assertive"
                  aria-atomic="true"></div>
-        </div>
+            </div>
+        </section>
 
-        <div class="results"
+        <div class="box results"
              id="results"
              role="region"
              aria-live="polite"
              aria-label="CIDR conversion results"></div>
-
-        <footer role="contentinfo">
-            <span>CIDR Converter</span> - <span>Works offline, no installation required</span>
-        </footer>
     </main>
+    <footer class="statusbar" role="contentinfo">
+        <span>[oldweb] network › cidr-converter │ works offline │ no tracking</span>
+        <span>/ search · t theme</span>
+    </footer>
 
     <script>
         let currentMode = 'single';
@@ -1019,8 +729,8 @@ permit ip 192.168.100.0 0.0.0.255"></textarea>
             resultsDiv.innerHTML = `
                 <h2>Network Details</h2>
                 <div class="export-section">
-                    <button type="button" class="export-btn" onclick="exportSingleCSV()" aria-label="Export network details to CSV file">Export CSV</button>
-                    <button type="button" class="export-btn json" onclick="exportSingleJSON()" aria-label="Export network details to JSON file">Export JSON</button>
+                    <button type="button" class="btn small export-btn" onclick="exportSingleCSV()" aria-label="Export network details to CSV file">Export CSV</button>
+                    <button type="button" class="btn small export-btn json" onclick="exportSingleJSON()" aria-label="Export network details to JSON file">Export JSON</button>
                 </div>
                 <div class="results-grid">
                     <div class="result-item">
@@ -1266,8 +976,8 @@ permit ip 192.168.100.0 0.0.0.255"></textarea>
                 </div>
 
                 <div class="export-section">
-                    <button type="button" class="export-btn" onclick="exportMultipleCSV()" aria-label="Export multiple CIDR analysis to CSV file">Export CSV</button>
-                    <button type="button" class="export-btn json" onclick="exportMultipleJSON()" aria-label="Export multiple CIDR analysis to JSON file">Export JSON</button>
+                    <button type="button" class="btn small export-btn" onclick="exportMultipleCSV()" aria-label="Export multiple CIDR analysis to CSV file">Export CSV</button>
+                    <button type="button" class="btn small export-btn json" onclick="exportMultipleJSON()" aria-label="Export multiple CIDR analysis to JSON file">Export JSON</button>
                 </div>
             `;
 
@@ -1382,8 +1092,8 @@ permit ip 192.168.100.0 0.0.0.255"></textarea>
                         </div>
 
                         <div class="export-section">
-                            <button type="button" class="export-btn" onclick="exportReverseCSV()" aria-label="Export range to CIDR conversion to CSV file">Export CSV</button>
-                            <button type="button" class="export-btn json" onclick="exportReverseJSON()" aria-label="Export range to CIDR conversion to JSON file">Export JSON</button>
+                            <button type="button" class="btn small export-btn" onclick="exportReverseCSV()" aria-label="Export range to CIDR conversion to CSV file">Export CSV</button>
+                            <button type="button" class="btn small export-btn json" onclick="exportReverseJSON()" aria-label="Export range to CIDR conversion to JSON file">Export JSON</button>
                         </div>
                     `;
                     resultsDiv.classList.add('show');
@@ -1399,7 +1109,7 @@ permit ip 192.168.100.0 0.0.0.255"></textarea>
 
             resultsDiv.innerHTML = `
                 <h2>Multiple CIDR Blocks Required</h2>
-                <p style="color: #90caf9; margin-bottom: 20px;">The IP range cannot be represented as a single CIDR block. Here are the ${blocks.length} CIDR blocks needed:</p>
+                <p class="results-note">The IP range cannot be represented as a single CIDR block. Here are the ${blocks.length} CIDR blocks needed:</p>
 
                 <div class="data-table-container">
                     <table class="data-table">
@@ -1427,8 +1137,8 @@ permit ip 192.168.100.0 0.0.0.255"></textarea>
                 </div>
 
                 <div class="export-section">
-                    <button type="button" class="export-btn" onclick="exportReverseCSV()" aria-label="Export range to CIDR blocks to CSV file">Export CSV</button>
-                    <button type="button" class="export-btn json" onclick="exportReverseJSON()" aria-label="Export range to CIDR blocks to JSON file">Export JSON</button>
+                    <button type="button" class="btn small export-btn" onclick="exportReverseCSV()" aria-label="Export range to CIDR blocks to CSV file">Export CSV</button>
+                    <button type="button" class="btn small export-btn json" onclick="exportReverseJSON()" aria-label="Export range to CIDR blocks to JSON file">Export JSON</button>
                 </div>
             `;
             resultsDiv.classList.add('show');

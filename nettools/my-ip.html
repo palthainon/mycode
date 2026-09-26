@@ -28,336 +28,174 @@
     <meta name="twitter:image" content="https://oldweb.tech/logo/og-image.png">
 
     <!-- Additional Meta Tags -->
-    <meta name="theme-color" content="#1a1a2e">
+    <meta name="theme-color" content="#0e0903">
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
 
     <title>What Is My IP Address - OldWeb.tech</title>
     <link rel="stylesheet" href="../a11y.css">
+    <link rel="stylesheet" href="../theme.css">
     <script src="../a11y-utils.js"></script>
     <script src="../storage-utils.js"></script>
     <script src="../navigationv2.js"></script>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            min-height: 100vh;
-            padding: 40px 20px;
-            color: #fff;
-        }
-
-        .container { max-width: 1000px; margin: 0 auto; }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 15px;
-            font-size: 2.5rem;
-            color: #4fc3f7;
-            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #90caf9;
-            font-size: 1.05rem;
-            margin-bottom: 30px;
-            opacity: 0.9;
-        }
-
-        .ascii-logo {
-            position: absolute;
-            top: 20px;
-            right: 40px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.65rem;
-            line-height: 1.1;
-            color: #4fc3f7;
-            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
-            opacity: 0.8;
-            white-space: pre;
+        /* Page layout only; colors, type, buttons and fields come from theme.css */
+        main {
+            max-width: 1000px;
         }
 
         /* Hero: the answer to "what is my IP" */
         .hero {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(79, 195, 247, 0.25);
-            border-radius: 16px;
-            padding: 28px 24px;
-            text-align: center;
-            margin-bottom: 22px;
+            margin-bottom: 24px;
         }
-
+        .hero .box-body {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
         .hero-label {
-            color: #90caf9;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            margin-bottom: 12px;
+            color: var(--dim);
+            font-size: 0.85rem;
         }
-
+        .hero-label::before {
+            content: '$ ';
+        }
         .ip-display {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 12px;
+            gap: 16px;
             flex-wrap: wrap;
+            padding: 0 3px 3px 0;
         }
-
         .ip-value {
-            font-family: 'Consolas', 'Monaco', monospace;
-            font-size: 2.1rem;
-            font-weight: 700;
-            color: #fff;
+            font-family: var(--font-display);
+            font-size: 3rem;
+            line-height: 1;
+            color: var(--hi);
+            text-shadow: var(--glow);
             word-break: break-all;
         }
-
-        .ip-value.pending { color: rgba(255, 255, 255, 0.5); font-size: 1.4rem; font-weight: 400; }
-
-        .ip-meta {
-            margin-top: 12px;
-            color: #90caf9;
-            font-size: 0.92rem;
-            line-height: 1.6;
+        .ip-value.pending {
+            font-size: 1.8rem;
+            color: var(--dim);
+            text-shadow: none;
         }
-
-        .ip-meta .flag { font-size: 1.15rem; margin-right: 4px; }
-
+        .ip-meta {
+            color: var(--fg);
+            font-size: 0.92rem;
+        }
         .secondary-ip {
-            margin-top: 10px;
+            color: var(--dim);
             font-size: 0.9rem;
-            color: rgba(144, 202, 249, 0.85);
-            font-family: 'Consolas', 'Monaco', monospace;
             word-break: break-all;
         }
 
         .calculator {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 24px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 22px;
+            margin-bottom: 16px;
         }
-
         .lookup-label {
             display: block;
-            color: #90caf9;
-            font-weight: 500;
-            font-size: 0.95rem;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
-
-        .field-wrapper { display: flex; gap: 8px; flex-wrap: wrap; }
-
+        .field-wrapper {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            padding: 0 3px 3px 0;
+        }
         .field-wrapper input {
             flex: 1;
+            width: auto;
             min-width: 240px;
-            padding: 12px 16px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            background: #0f1419;
-            color: #fff;
-            font-size: 1rem;
-            font-family: 'Consolas', 'Monaco', monospace;
-            transition: border-color 0.3s, box-shadow 0.3s;
         }
-
-        .field-wrapper input:focus {
-            outline: none;
-            border-color: #4fc3f7;
-            box-shadow: 0 0 15px rgba(79, 195, 247, 0.2);
+        .btn[disabled] {
+            cursor: progress;
         }
-
-        .field-wrapper input::placeholder { color: rgba(255, 255, 255, 0.35); }
-
-        .btn {
-            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
-            color: #fff;
-            border: none;
-            padding: 12px 26px;
-            font-size: 1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .btn:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(79, 195, 247, 0.4); }
-        .btn[disabled] { opacity: 0.55; cursor: progress; transform: none; box-shadow: none; }
-
-        .btn.secondary {
-            background: transparent;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            color: #90caf9;
-        }
-
-        .btn.secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.5);
-            box-shadow: none;
-            transform: none;
-        }
-
-        .copy-btn {
-            background: rgba(79, 195, 247, 0.1);
-            border: 1px solid rgba(79, 195, 247, 0.3);
-            color: #4fc3f7;
-            padding: 8px 14px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 600;
-            transition: all 0.2s;
-            white-space: nowrap;
-        }
-
-        .copy-btn:hover { background: rgba(79, 195, 247, 0.2); border-color: #4fc3f7; }
-        .copy-btn:active { transform: scale(0.97); }
-
-        #error {
-            background: rgba(244, 67, 54, 0.2);
-            border: 1px solid #f44336;
-            color: #ff8a80;
-            padding: 15px 20px;
-            border-radius: 8px;
-            margin-top: 16px;
-            display: none;
-        }
-
-        #error.show { display: block; }
-        input.error { border-color: #f44336 !important; }
 
         .status {
-            color: rgba(144, 202, 249, 0.85);
+            color: var(--dim);
             font-size: 0.9rem;
             margin-bottom: 16px;
             min-height: 1.2em;
-            text-align: center;
         }
 
         .results {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             align-items: start;
-            gap: 18px;
-            margin-bottom: 22px;
+            gap: 24px;
+            margin-bottom: 24px;
         }
-
-        .card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 14px;
-            padding: 22px;
+        .card.wide {
+            grid-column: 1 / -1;
         }
-
-        .card.wide { grid-column: 1 / -1; }
-
-        .card h2 {
-            color: #4fc3f7;
-            font-size: 1.15rem;
-            margin-bottom: 6px;
-        }
-
         .card .card-note {
-            color: rgba(144, 202, 249, 0.65);
+            color: var(--dim);
             font-size: 0.8rem;
-            margin-bottom: 14px;
-            line-height: 1.5;
+            margin-bottom: 12px;
         }
 
-        dl.detail-list { margin: 0; }
-
+        dl.detail-list {
+            margin: 0;
+        }
         dl.detail-list > div {
             display: flex;
             gap: 12px;
-            padding: 7px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 6px 0;
             flex-wrap: wrap;
         }
-
-        dl.detail-list > div:last-child { border-bottom: none; }
-
+        dl.detail-list > div + div {
+            border-top: 1px dotted var(--line);
+        }
         dl.detail-list dt {
-            color: #90caf9;
+            color: var(--dim);
             font-size: 0.88rem;
             min-width: 150px;
             flex-shrink: 0;
         }
-
         dl.detail-list dd {
-            color: #e8f1f8;
+            color: var(--fg);
             font-size: 0.92rem;
             margin: 0;
             flex: 1;
             min-width: 160px;
             word-break: break-word;
         }
-
         dl.detail-list dd.mono {
-            font-family: 'Consolas', 'Monaco', monospace;
-            color: #ffd180;
+            color: var(--hi);
         }
-
-        dl.detail-list dd a { color: #4fc3f7; }
-
         .empty-note {
-            color: rgba(144, 202, 249, 0.6);
+            color: var(--dim);
             font-size: 0.9rem;
             font-style: italic;
         }
-
         .mismatch {
             display: inline-block;
             margin-left: 8px;
-            padding: 1px 8px;
-            border-radius: 10px;
+            padding: 0 8px;
             font-size: 0.75rem;
-            background: rgba(255, 183, 77, 0.15);
-            border: 1px solid rgba(255, 183, 77, 0.5);
-            color: #ffb74d;
+            border: 1px solid var(--warn);
+            color: var(--warn);
+        }
+        .mismatch::before {
+            content: '! ';
+            font-weight: 600;
         }
 
-        .info-box {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-            padding: 18px 22px;
-            margin-top: 6px;
+        .info-box .box-body {
             font-size: 0.9rem;
-            color: #c5d4e3;
-            line-height: 1.6;
-            border-left: 4px solid #4fc3f7;
         }
-
-        .info-box h2 { color: #4fc3f7; font-size: 1rem; margin-bottom: 8px; }
-        .info-box + .info-box { margin-top: 18px; }
-        .info-box ul { margin: 8px 0 0 22px; }
-        .info-box code {
-            font-family: 'Consolas', 'Monaco', monospace;
-            background: rgba(255, 255, 255, 0.06);
-            padding: 1px 6px;
-            border-radius: 3px;
-            color: #ffd180;
+        .info-box + .info-box {
+            margin-top: 24px;
         }
-
-        footer {
-            text-align: center;
-            margin-top: 30px;
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 0.85rem;
+        .info-box ul {
+            margin: 8px 0 8px 22px;
+            padding: 0;
         }
 
         @media (max-width: 768px) {
-            .ascii-logo {
-                position: static;
-                text-align: center;
-                margin-bottom: 20px;
-                font-size: 0.5rem;
-            }
-            h1 { font-size: 1.8rem; }
-            .ip-value { font-size: 1.6rem; }
+            .ip-value { font-size: 2.2rem; }
             .field-wrapper input { min-width: 100%; }
             .field-wrapper .btn { width: 100%; }
             dl.detail-list dt { min-width: 100%; }
@@ -381,28 +219,30 @@
 </head>
 <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
-    <div class="ascii-logo" aria-hidden="true">  ___  _     _  __        __   _
- / _ \| | __| | \ \      / /__| |__
-| | | | |/ _` |  \ \ /\ / / _ \ '_ \
-| |_| | | (_| |   \ V  V /  __/ |_) |
- \___/|_|\__,_|    \_/\_/ \___|_.__/
-</div>
 
-    <main id="main-content" class="container">
-        <h1>What Is My IP Address?</h1>
-        <p class="subtitle">Your public IP, where it geolocates, which network announces it, and who the block is registered to in the public registry databases.</p>
-
-        <div class="hero">
-            <p class="hero-label" id="hero-label">Your public IP address</p>
-            <div class="ip-display">
-                <span id="ip-value" class="ip-value pending">Detecting&hellip;</span>
-                <button type="button" class="copy-btn" id="copy-ip" aria-label="Copy IP address to clipboard">Copy</button>
-            </div>
-            <p class="ip-meta" id="ip-meta"></p>
-            <p class="secondary-ip" id="secondary-ip"></p>
+    <main id="main-content">
+        <div class="page-head">
+            <h1>What Is My IP Address?</h1>
+            <p class="lede">Your public IP, where it geolocates, which network announces it, and who the block is registered to in the public registry databases.</p>
         </div>
 
-        <div class="calculator">
+        <section class="box hero" aria-labelledby="hero-label">
+            <div class="box-body">
+                <p class="hero-label" id="hero-label">Your public IP address</p>
+                <div class="ip-display">
+                    <span id="ip-value" class="ip-value pending">Detecting&hellip;</span>
+                    <button type="button" class="btn small copy-btn" id="copy-ip" aria-label="Copy IP address to clipboard">Copy</button>
+                </div>
+                <p class="ip-meta" id="ip-meta"></p>
+                <p class="secondary-ip" id="secondary-ip"></p>
+            </div>
+        </section>
+
+        <section class="box calculator" aria-labelledby="lookup-heading">
+            <div class="box-head">
+                <h2 id="lookup-heading">lookup</h2>
+            </div>
+            <div class="box-body">
             <form id="lookup-form">
                 <label class="lookup-label" for="ipInput">Look up any IPv4 or IPv6 address</label>
                 <div class="field-wrapper">
@@ -413,81 +253,111 @@
                            spellcheck="false"
                            aria-describedby="ip-input-help">
                     <span id="ip-input-help" class="sr-only">Enter an IPv4 or IPv6 address to look up its location, network, and registration details. Leave empty to look up your own address.</span>
-                    <button type="submit" class="btn" id="lookup-btn">Look Up</button>
+                    <button type="submit" class="btn primary" id="lookup-btn">Look Up</button>
                     <button type="button" class="btn secondary" id="myip-btn">Use My IP</button>
                 </div>
             </form>
-            <div id="error" role="alert" aria-live="assertive" aria-atomic="true"></div>
-        </div>
+            <div class="error-alert" id="error" role="alert" aria-live="assertive" aria-atomic="true"></div>
+            </div>
+        </section>
 
         <p class="status" id="status" role="status" aria-live="polite"></p>
 
         <div class="results" id="results">
-            <section class="card" aria-labelledby="loc-heading">
-                <h2 id="loc-heading">Country &amp; location</h2>
-                <p class="card-note">Geolocation is an estimate derived from routing and registry data, not a GPS fix.</p>
-                <dl class="detail-list" id="dl-location">
-                    <div><dt>Status</dt><dd class="empty-note">Waiting for lookup&hellip;</dd></div>
-                </dl>
+            <section class="box card" aria-labelledby="loc-heading">
+                <div class="box-head">
+                    <h2 id="loc-heading">country &amp; location</h2>
+                </div>
+                <div class="box-body">
+                    <p class="card-note">Geolocation is an estimate derived from routing and registry data, not a GPS fix.</p>
+                    <dl class="detail-list" id="dl-location">
+                        <div><dt>Status</dt><dd class="empty-note">Waiting for lookup&hellip;</dd></div>
+                    </dl>
+                </div>
             </section>
 
-            <section class="card" aria-labelledby="net-heading">
-                <h2 id="net-heading">Network &amp; operator</h2>
-                <p class="card-note">The autonomous system that announces this address and the provider operating it.</p>
-                <dl class="detail-list" id="dl-network">
-                    <div><dt>Status</dt><dd class="empty-note">Waiting for lookup&hellip;</dd></div>
-                </dl>
+            <section class="box card" aria-labelledby="net-heading">
+                <div class="box-head">
+                    <h2 id="net-heading">network &amp; operator</h2>
+                </div>
+                <div class="box-body">
+                    <p class="card-note">The autonomous system that announces this address and the provider operating it.</p>
+                    <dl class="detail-list" id="dl-network">
+                        <div><dt>Status</dt><dd class="empty-note">Waiting for lookup&hellip;</dd></div>
+                    </dl>
+                </div>
             </section>
 
-            <section class="card wide" aria-labelledby="rdap-heading">
-                <h2 id="rdap-heading">Registration record (RDAP / whois)</h2>
-                <p class="card-note">Live from the Regional Internet Registry that allocated the block &mdash; the authoritative answer to "who is this address registered with".</p>
-                <dl class="detail-list" id="dl-rdap">
-                    <div><dt>Status</dt><dd class="empty-note">Waiting for lookup&hellip;</dd></div>
-                </dl>
+            <section class="box card wide" aria-labelledby="rdap-heading">
+                <div class="box-head">
+                    <h2 id="rdap-heading">registration record (RDAP / whois)</h2>
+                </div>
+                <div class="box-body">
+                    <p class="card-note">Live from the Regional Internet Registry that allocated the block &mdash; the authoritative answer to "who is this address registered with".</p>
+                    <dl class="detail-list" id="dl-rdap">
+                        <div><dt>Status</dt><dd class="empty-note">Waiting for lookup&hellip;</dd></div>
+                    </dl>
+                </div>
             </section>
 
-            <section class="card wide" aria-labelledby="asn-heading">
-                <h2 id="asn-heading">ASN registration</h2>
-                <p class="card-note">Registry record for the autonomous system number itself, which often names the parent company behind a reseller or hosting brand.</p>
-                <dl class="detail-list" id="dl-asn">
-                    <div><dt>Status</dt><dd class="empty-note">Waiting for lookup&hellip;</dd></div>
-                </dl>
+            <section class="box card wide" aria-labelledby="asn-heading">
+                <div class="box-head">
+                    <h2 id="asn-heading">ASN registration</h2>
+                </div>
+                <div class="box-body">
+                    <p class="card-note">Registry record for the autonomous system number itself, which often names the parent company behind a reseller or hosting brand.</p>
+                    <dl class="detail-list" id="dl-asn">
+                        <div><dt>Status</dt><dd class="empty-note">Waiting for lookup&hellip;</dd></div>
+                    </dl>
+                </div>
             </section>
         </div>
 
-        <div class="info-box">
-            <h2>Where this data comes from</h2>
-            Unlike the rest of the tools on this site, this page cannot work offline &mdash; only a remote server can see what your public IP is, and only the registries know who a block belongs to. Three public sources are queried directly from your browser:
-            <ul>
-                <li><strong>ipwho.is</strong> (fallback: <strong>ipapi.co</strong>) &mdash; returns your public IP plus estimated country, city, timezone, ASN, and ISP.</li>
-                <li><strong>rdap.org</strong> &mdash; the IANA RDAP bootstrap service, which redirects to the correct Regional Internet Registry (ARIN, RIPE NCC, APNIC, LACNIC, or AFRINIC) for the block. RDAP is the structured, modern replacement for port-43 whois.</li>
-                <li><strong>RDAP autnum lookup</strong> &mdash; the registry record for the AS number, which names the organization holding the AS.</li>
-            </ul>
-            No data is sent to OldWeb.tech, nothing is logged here, and nothing is stored in your browser. Those third-party services will see the request, as they must to answer it.
-        </div>
+        <section class="box info-box" aria-labelledby="where-this-data-comes-from-heading">
+            <div class="box-head">
+                <h2 id="where-this-data-comes-from-heading">where this data comes from</h2>
+            </div>
+            <div class="box-body">
+                Unlike the rest of the tools on this site, this page cannot work offline &mdash; only a remote server can see what your public IP is, and only the registries know who a block belongs to. Three public sources are queried directly from your browser:
+                <ul>
+                    <li><strong>ipwho.is</strong> (fallback: <strong>ipapi.co</strong>) &mdash; returns your public IP plus estimated country, city, timezone, ASN, and ISP.</li>
+                    <li><strong>rdap.org</strong> &mdash; the IANA RDAP bootstrap service, which redirects to the correct Regional Internet Registry (ARIN, RIPE NCC, APNIC, LACNIC, or AFRINIC) for the block. RDAP is the structured, modern replacement for port-43 whois.</li>
+                    <li><strong>RDAP autnum lookup</strong> &mdash; the registry record for the AS number, which names the organization holding the AS.</li>
+                </ul>
+                No data is sent to OldWeb.tech, nothing is logged here, and nothing is stored in your browser. Those third-party services will see the request, as they must to answer it.
+            </div>
+        </section>
 
-        <div class="info-box">
-            <h2>Reading the results</h2>
-            <ul>
-                <li><strong>Geolocation country vs. registry country.</strong> These disagree more often than people expect. The registry country is where the <em>block is registered</em>; the geolocation country is where the addresses are believed to be <em>used</em>. A US-registered block routed to a European datacenter is completely normal, and so is a VPN or proxy showing a country you are not in.</li>
-                <li><strong>Registrant vs. abuse contact.</strong> The registrant is the organization the block is allocated to. The abuse contact is who to email about traffic coming from it &mdash; usually the right address for an incident report.</li>
-                <li><strong>Direct allocation vs. reassignment.</strong> A direct allocation comes straight from the RIR to the holder. A reassignment means an upstream provider handed the range to a customer, so the named organization may be the end user rather than the network operator.</li>
-                <li><strong>Private addresses</strong> (RFC 1918, CGNAT, loopback, link-local) have no public registration and no geolocation. They are flagged here rather than sent to a lookup service.</li>
-            </ul>
-        </div>
+        <section class="box info-box" aria-labelledby="reading-the-results-heading">
+            <div class="box-head">
+                <h2 id="reading-the-results-heading">reading the results</h2>
+            </div>
+            <div class="box-body">
+                <ul>
+                    <li><strong>Geolocation country vs. registry country.</strong> These disagree more often than people expect. The registry country is where the <em>block is registered</em>; the geolocation country is where the addresses are believed to be <em>used</em>. A US-registered block routed to a European datacenter is completely normal, and so is a VPN or proxy showing a country you are not in.</li>
+                    <li><strong>Registrant vs. abuse contact.</strong> The registrant is the organization the block is allocated to. The abuse contact is who to email about traffic coming from it &mdash; usually the right address for an incident report.</li>
+                    <li><strong>Direct allocation vs. reassignment.</strong> A direct allocation comes straight from the RIR to the holder. A reassignment means an upstream provider handed the range to a customer, so the named organization may be the end user rather than the network operator.</li>
+                    <li><strong>Private addresses</strong> (RFC 1918, CGNAT, loopback, link-local) have no public registration and no geolocation. They are flagged here rather than sent to a lookup service.</li>
+                </ul>
+            </div>
+        </section>
 
         <noscript>
-            <div class="info-box">
-                <h2>JavaScript is required</h2>
-                Looking up an IP address means asking a remote service, which this page does from your browser. With JavaScript disabled there is nothing to query.
-            </div>
+            <section class="box info-box" aria-labelledby="javascript-is-required-heading">
+                <div class="box-head">
+                    <h2 id="javascript-is-required-heading">JavaScript is required</h2>
+                </div>
+                <div class="box-body">
+                    Looking up an IP address means asking a remote service, which this page does from your browser. With JavaScript disabled there is nothing to query.
+                </div>
+            </section>
         </noscript>
 
-        <footer role="contentinfo">
-            <span>What Is My IP Address</span> &mdash; <span>No accounts, no logging, no stored results</span>
-        </footer>
     </main>
+    <footer class="statusbar" role="contentinfo">
+        <span>[oldweb] network › my-ip │ no accounts │ no logging │ no stored results</span>
+        <span>/ search · t theme</span>
+    </footer>
 
     <script>
     (function() {

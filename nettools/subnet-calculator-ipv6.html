@@ -28,491 +28,172 @@
     <meta name="twitter:image" content="https://oldweb.tech/logo/og-image.png">
 
     <!-- Additional Meta Tags -->
-    <meta name="theme-color" content="#1a1a2e">
+    <meta name="theme-color" content="#0e0903">
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
 
     <title>IPv6 Subnet Calculator - OldWeb.tech</title>
     <link rel="stylesheet" href="../a11y.css">
+    <link rel="stylesheet" href="../theme.css">
     <script src="../a11y-utils.js"></script>
     <script src="../storage-utils.js"></script>
     <script src="../navigationv2.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* Page layout only; colors, type, buttons and fields come from theme.css */
+        .tool-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 560px);
+            gap: 24px;
+            align-items: start;
         }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            min-height: 100vh;
-            padding: 40px 20px;
-            color: #fff;
+        .tool-grid:has(> .results.show) {
+            grid-template-columns: minmax(0, 440px) minmax(0, 1fr);
         }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 15px;
-            font-size: 2.5rem;
-            color: #4fc3f7;
-            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
-        }
-
-        .calculator {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 30px;
-        }
-
-        .input-group {
+        .calculator form {
             display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
+            flex-direction: column;
+            gap: 16px;
         }
-
         .input-field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        #ipv6Address {
+            font-size: 1.15rem;
+        }
+        .form-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            padding: 0 3px 3px 0;
+        }
+        .form-actions .primary {
             flex: 1;
-            min-width: 200px;
         }
-
-        .input-field label {
-            display: block;
-            margin-bottom: 8px;
-            color: #90caf9;
-            font-weight: 500;
-        }
-
-        .input-field input, .input-field select {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            background: #0f1419;
-            color: #fff;
-            font-size: 1rem;
-            transition: border-color 0.3s, box-shadow 0.3s;
-        }
-
-        .input-field select option {
-            background: #0f1419;
-            color: #fff;
-        }
-
-        .input-field input:focus, .input-field select:focus {
-            outline: none;
-            border-color: #4fc3f7;
-            box-shadow: 0 0 15px rgba(79, 195, 247, 0.2);
-        }
-
-        .input-field input::placeholder {
-            color: rgba(255, 255, 255, 0.4);
-        }
-
-        .btn {
-            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
-            color: #fff;
-            border: none;
-            padding: 14px 40px;
-            font-size: 1.1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            font-weight: 600;
-            display: block;
-            width: 100%;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(79, 195, 247, 0.4);
-        }
-
-        .btn:active {
-            transform: translateY(0);
-        }
-
-        .btn.secondary {
-            background: transparent;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            color: #90caf9;
-            margin-top: 10px;
-        }
-        .btn.secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.5);
-            box-shadow: none;
-            transform: none;
-        }
-
-        .results {
-            display: none;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .results.show {
-            display: block;
-            animation: fadeIn 0.4s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .results h2 {
-            color: #4fc3f7;
-            margin-bottom: 20px;
-            font-size: 1.5rem;
-        }
-
-        .details-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.95rem;
-        }
-
-        .details-table td {
-            padding: 8px 12px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-        }
-
-        .details-table td:first-child {
-            color: #90caf9;
-            white-space: nowrap;
-            width: 1%;
-            padding-right: 24px;
-        }
-
-        .details-table td:last-child {
-            font-family: 'Consolas', 'Monaco', monospace;
-            color: #fff;
-            word-break: break-all;
-        }
-
-        .details-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        .error-alert {
-            background: rgba(244, 67, 54, 0.2);
-            border: 1px solid #f44336;
-            color: #ff8a80;
-            padding: 15px 20px;
-            border-radius: 8px;
-            margin-top: 20px;
-            display: none;
-        }
-
-        .error-alert.show {
-            display: block;
-        }
-
-        .hex-display {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .hex-display h3 {
-            color: #4fc3f7;
-            margin-bottom: 15px;
-            font-size: 1.2rem;
-        }
-
-        .hex-item {
-            font-family: 'Consolas', 'Monaco', monospace;
-            font-size: 0.9rem;
-            margin-bottom: 10px;
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 4px;
-        }
-
-        .hex-item .hex-label {
-            color: #90caf9;
-            display: inline-block;
-            width: 180px;
-        }
-
-        .hex-item .network-bits {
-            color: #4fc3f7;
-        }
-
-        .hex-item .host-bits {
-            color: #ff8a65;
-        }
-
         .quick-masks {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 14px;
+            border-top: 1px dashed var(--line);
         }
-
         .quick-masks h3 {
-            color: #90caf9;
-            font-size: 0.9rem;
             margin-bottom: 10px;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            color: var(--dim);
+            text-shadow: none;
         }
-
+        .quick-masks h3::before {
+            content: '# ';
+        }
         .mask-buttons {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 10px 8px;
+            padding: 0 3px 3px 0;
         }
-
-        .mask-btn {
-            background: rgba(79, 195, 247, 0.1);
-            border: 1px solid rgba(79, 195, 247, 0.3);
-            color: #4fc3f7;
-            padding: 6px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            transition: all 0.2s;
-        }
-
-        .mask-btn:hover {
-            background: rgba(79, 195, 247, 0.2);
-            border-color: #4fc3f7;
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 30px;
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 0.85rem;
-        }
-
-        /* ASCII Logo */
-        .ascii-logo {
-            position: absolute;
-            top: 20px;
-            right: 40px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.65rem;
-            line-height: 1.1;
-            color: #4fc3f7;
-            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
-            opacity: 0.8;
-            white-space: pre;
-        }
-
-        @media (max-width: 768px) {
-            .ascii-logo {
-                position: static;
-                text-align: center;
-                margin-bottom: 20px;
-                font-size: 0.5rem;
-            }
-        }
-
-        /* Subnet List Styles */
+        .results,
         .subnet-list {
             display: none;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            margin-top: 30px;
         }
-
+        .results.show,
         .subnet-list.show {
             display: block;
-            animation: fadeIn 0.4s ease;
         }
-
-        .subnet-list h2 {
-            color: #4fc3f7;
-            margin-bottom: 10px;
-            font-size: 1.5rem;
+        .subnet-list {
+            margin-top: 24px;
         }
-
-        .subnet-list-info {
-            color: #90caf9;
-            font-size: 0.9rem;
-            margin-bottom: 20px;
+        .hex-display {
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px dashed var(--line);
         }
-
-        .subnet-table-container {
-            max-height: 400px;
-            overflow-y: auto;
-            border-radius: 8px;
+        .hex-display h3 {
+            margin-bottom: 8px;
         }
-
-        .subnet-table-container::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .subnet-table-container::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 4px;
-        }
-
-        .subnet-table-container::-webkit-scrollbar-thumb {
-            background: rgba(79, 195, 247, 0.5);
-            border-radius: 4px;
-        }
-
-        .subnet-table-container::-webkit-scrollbar-thumb:hover {
-            background: rgba(79, 195, 247, 0.7);
-        }
-
-        .subnet-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-family: 'Consolas', 'Monaco', monospace;
+        .bin-legend {
+            margin-bottom: 8px;
             font-size: 0.85rem;
         }
-
-        .subnet-table th {
-            background: rgba(79, 195, 247, 0.9);
-            color: #0f1419;
-            padding: 12px 15px;
-            text-align: left;
+        .hex-item {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px 12px;
+            padding: 3px 0;
+            font-size: 0.9rem;
+            overflow-x: auto;
+        }
+        .hex-item > span:last-child {
+            word-break: break-all;
+        }
+        .hex-label {
+            min-width: 140px;
+            color: var(--dim);
+        }
+        .network-bits {
+            color: var(--hi);
+            font-weight: 600;
+        }
+        .host-bits {
+            color: var(--alt);
+            text-decoration: underline dotted;
+            text-underline-offset: 4px;
+        }
+        .warning {
+            display: none;
+            margin: 12px 16px 0;
+            padding: 8px 12px;
+            border: 1px solid var(--warn);
+            border-left: 6px solid var(--warn);
+            color: var(--warn);
+            font-size: 0.9rem;
+        }
+        .warning.show {
+            display: block;
+        }
+        .warning::before {
+            content: 'warning: ';
+            font-weight: 600;
+        }
+        .subnet-list-info {
+            padding: 12px 16px 4px;
+            color: var(--dim);
+            font-size: 0.9rem;
+        }
+        .subnet-table-container {
+            max-height: 420px;
+            overflow: auto;
+        }
+        .subnet-table thead th {
             position: sticky;
             top: 0;
             z-index: 1;
         }
-
-        .subnet-table td {
-            padding: 10px 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            color: #fff;
+        .subnet-table td:nth-child(2) {
+            color: var(--hi);
         }
-
-        .subnet-table tr:hover {
-            background: rgba(79, 195, 247, 0.1);
-        }
-
-        .subnet-table tr.current-subnet {
-            background: rgba(76, 175, 80, 0.2);
-            border-left: 4px solid #4caf50;
-        }
-
-        .subnet-table tr.current-subnet td {
-            color: #a5d6a7;
-        }
-
         .subnet-number {
-            color: #90caf9;
+            color: var(--dim);
+        }
+        .subnet-table tr.current-subnet {
+            background: var(--head);
+            box-shadow: inset 4px 0 0 var(--hi);
+        }
+        .subnet-table tr.current-subnet td {
+            color: var(--hi);
             font-weight: 600;
         }
-
         .subnet-badge {
-            display: inline-block;
-            background: #4caf50;
-            color: #fff;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            margin-left: 10px;
+            margin-left: 8px;
+            font-weight: 400;
         }
-
-        /* Export Button Styles */
-        .export-btn {
-            background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%);
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            font-size: 0.9rem;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            font-weight: 600;
-            display: inline-block;
-            margin-top: 15px;
+        .subnet-badge::before {
+            content: '◂ ';
         }
-
-        .export-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(102, 187, 106, 0.4);
-        }
-
-        .export-btn:active {
-            transform: translateY(0);
-        }
-
-        .export-btn.copy-flash {
-            animation: copyFlash 1s ease;
-        }
-
-        @keyframes copyFlash {
-            0% { box-shadow: 0 0 0 0 rgba(102, 187, 106, 0.7); }
-            30% { box-shadow: 0 0 12px 4px rgba(102, 187, 106, 0.5); background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%); }
-            100% { box-shadow: 0 0 0 0 rgba(102, 187, 106, 0); }
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .section-header h2 {
-            margin-bottom: 0;
-        }
-
-        /* Protocol Toggle Styles */
-        .protocol-toggle-container {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .protocol-toggle-link {
-            display: inline-block;
-            padding: 10px 24px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 600;
-            transition: all 0.3s;
-            white-space: nowrap;
-        }
-
-        .protocol-toggle-ipv4 {
-            background: rgba(76, 175, 80, 0.2);
-            border: 2px solid rgba(76, 175, 80, 0.5);
-            color: #81c784;
-        }
-
-        .protocol-toggle-ipv4:hover {
-            background: rgba(76, 175, 80, 0.3);
-            border-color: #4caf50;
-            box-shadow: 0 0 15px rgba(76, 175, 80, 0.3);
-            transform: translateY(-2px);
-        }
-
-        .warning {
-            background: rgba(255, 152, 0, 0.2);
-            border: 1px solid #ff9800;
-            color: #ffb74d;
-            padding: 12px 16px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            font-size: 0.9rem;
-            display: none;
-        }
-
-        .warning.show {
-            display: block;
+        @media (max-width: 900px) {
+            .tool-grid:has(> .results.show) {
+                grid-template-columns: minmax(0, 1fr);
+            }
         }
     </style>
 
@@ -540,142 +221,147 @@
 </head>
 <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
-    <div class="ascii-logo" aria-hidden="true">  ___  _    _  __        __   _
- / _ \| | _| | \ \      / /__| |__
-| | | | |/ _` | \ \ /\ / / _ \ '_ \
-| |_| | | (_| |  \ V  V /  __/ |_) |
- \___/|_|\__,_|   \_/\_/ \___|_.__/
-</div>
-    <main id="main-content" class="container">
-        <h1>IPv6 Subnet Calculator</h1>
-        <div class="protocol-toggle-container">
-            <a href="subnet-calculator.html" class="protocol-toggle-link protocol-toggle-ipv4">← Switch to IPv4</a>
+    <main id="main-content">
+        <div class="page-head">
+            <h1>IPv6 Subnet Calculator</h1>
+            <p class="lede">Network range, total addresses and compressed/expanded notation for any IPv6 prefix.</p>
+            <p><a href="subnet-calculator.html">Switch to the IPv4 subnet calculator</a></p>
         </div>
 
-        <div class="calculator">
-            <form id="ipv6-subnet-form" aria-label="IPv6 Subnet Calculator Form">
-            <div class="input-group">
-                <div class="input-field">
-                    <label for="ipv6Address">IPv6 Address</label>
-                    <input type="text" id="ipv6Address" value="fd00::1" placeholder="2001:db8::1" aria-required="true" aria-describedby="ipv6-help" autocomplete="off">
-                    <span id="ipv6-help" class="sr-only">Enter an IPv6 address in standard or compressed notation, for example 2001:db8::1</span>
+        <div class="tool-grid">
+            <section class="box calculator" aria-labelledby="input-heading">
+                <div class="box-head">
+                    <h2 id="input-heading">input</h2>
                 </div>
-                <div class="input-field">
-                    <label for="cidr">Prefix Length</label>
-                    <select id="cidr" aria-describedby="cidr-ipv6-help">
-                        <option value="32">/32 - ISP Allocation</option>
-                        <option value="48">/48 - Site Prefix</option>
-                        <option value="56">/56 - Small Site</option>
-                        <option value="64" selected>/64 - Single Subnet</option>
-                        <option value="80">/80</option>
-                        <option value="96">/96</option>
-                        <option value="112">/112</option>
-                        <option value="120">/120</option>
-                        <option value="127">/127 - Point-to-Point</option>
-                        <option value="128">/128 - Single Host</option>
-                    </select>
-                    <span id="cidr-ipv6-help" class="sr-only">Select the IPv6 prefix length for your network</span>
+                <div class="box-body">
+                    <form id="ipv6-subnet-form" aria-label="IPv6 Subnet Calculator Form">
+                        <div class="input-field">
+                            <label for="ipv6Address">IPv6 address</label>
+                            <input type="text" id="ipv6Address" value="fd00::1" placeholder="2001:db8::1" aria-required="true" aria-describedby="ipv6-help" autocomplete="off">
+                            <span id="ipv6-help" class="sr-only">Enter an IPv6 address in standard or compressed notation, for example 2001:db8::1</span>
+                        </div>
+                        <div class="input-field">
+                            <label for="cidr">Prefix length</label>
+                            <select id="cidr" aria-describedby="cidr-ipv6-help">
+                                <option value="32">/32 - ISP Allocation</option>
+                                <option value="48">/48 - Site Prefix</option>
+                                <option value="56">/56 - Small Site</option>
+                                <option value="64" selected>/64 - Single Subnet</option>
+                                <option value="80">/80</option>
+                                <option value="96">/96</option>
+                                <option value="112">/112</option>
+                                <option value="120">/120</option>
+                                <option value="127">/127 - Point-to-Point</option>
+                                <option value="128">/128 - Single Host</option>
+                            </select>
+                            <span id="cidr-ipv6-help" class="sr-only">Select the IPv6 prefix length for your network</span>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn primary" onclick="calculate()" aria-label="Calculate IPv6 subnet details for the entered address and prefix">Calculate</button>
+                            <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page">Clear saved data</button>
+                        </div>
+
+                        <div class="quick-masks">
+                            <h3 id="quick-addresses-label">common addresses</h3>
+                            <div class="mask-buttons" role="group" aria-labelledby="quick-addresses-label">
+                                <button type="button" class="btn small mask-btn" onclick="setAddress('fe80::1')" aria-label="Set address to fe80::1, link-local address">fe80::1 - Local</button>
+                                <button type="button" class="btn small mask-btn" onclick="setAddress('2001:db8::1')" aria-label="Set address to 2001:db8::1, documentation and testing address">2001:db8::1 - Internet</button>
+                                <button type="button" class="btn small mask-btn" onclick="setAddress('fd00::1')" aria-label="Set address to fd00::1, unique local address, private network">fd00::1 - Private</button>
+                            </div>
+                        </div>
+
+                        <div class="quick-masks">
+                            <h3 id="quick-prefixes-label">common prefixes</h3>
+                            <div class="mask-buttons" role="group" aria-labelledby="quick-prefixes-label">
+                                <button type="button" class="btn small mask-btn" onclick="setMask(32)" aria-label="Set prefix to /32, ISP allocation">/32 ISP</button>
+                                <button type="button" class="btn small mask-btn" onclick="setMask(48)" aria-label="Set prefix to /48, site prefix">/48 Site</button>
+                                <button type="button" class="btn small mask-btn" onclick="setMask(56)" aria-label="Set prefix to /56, small site prefix">/56 Small Site</button>
+                                <button type="button" class="btn small mask-btn" onclick="setMask(64)" aria-label="Set prefix to /64, single subnet, standard for LANs">/64 Subnet</button>
+                                <button type="button" class="btn small mask-btn" onclick="setMask(80)" aria-label="Set prefix to /80">/80</button>
+                                <button type="button" class="btn small mask-btn" onclick="setMask(96)" aria-label="Set prefix to /96">/96</button>
+                                <button type="button" class="btn small mask-btn" onclick="setMask(112)" aria-label="Set prefix to /112">/112</button>
+                                <button type="button" class="btn small mask-btn" onclick="setMask(128)" aria-label="Set prefix to /128, single host address">/128 Host</button>
+                            </div>
+                        </div>
+
+                        <div class="error-alert" id="error" role="alert" aria-live="assertive" aria-atomic="true"></div>
+                    </form>
                 </div>
-            </div>
+            </section>
 
-            <div class="quick-masks">
-                <h3 id="quick-addresses-label">Quick Select Common Addresses:</h3>
-                <div class="mask-buttons" role="group" aria-labelledby="quick-addresses-label">
-                    <button type="button" class="mask-btn" onclick="setAddress('fe80::1')" aria-label="Set address to fe80::1, link-local address">fe80::1 - Local</button>
-                    <button type="button" class="mask-btn" onclick="setAddress('2001:db8::1')" aria-label="Set address to 2001:db8::1, documentation and testing address">2001:db8::1 - Internet</button>
-                    <button type="button" class="mask-btn" onclick="setAddress('fd00::1')" aria-label="Set address to fd00::1, unique local address, private network">fd00::1 - Private</button>
+            <section class="box results" id="results" aria-live="polite" aria-labelledby="details-heading">
+                <div class="box-head">
+                    <h2 id="details-heading">subnet details</h2>
+                    <div class="box-actions">
+                        <button type="button" class="btn small export-btn" onclick="copySubnetDetails()" aria-label="Copy IPv6 subnet details to clipboard">Copy</button>
+                        <button type="button" class="btn small export-btn" onclick="exportSubnetDetailsToCSV()" aria-label="Export IPv6 subnet details to CSV file">Export CSV</button>
+                    </div>
                 </div>
-            </div>
+                <div class="box-body">
+                    <table class="kv details-table">
+                        <tbody>
+                            <tr><td>Network (compressed)</td><td id="networkCompressed">-</td></tr>
+                            <tr><td>Network (expanded)</td><td id="networkExpanded">-</td></tr>
+                            <tr><td>First address</td><td id="firstAddress">-</td></tr>
+                            <tr><td>Last address</td><td id="lastAddress">-</td></tr>
+                            <tr><td>Prefix</td><td id="prefix">-</td></tr>
+                            <tr><td>Total addresses</td><td id="totalAddresses">-</td></tr>
+                            <tr><td>Address type</td><td id="addressType">-</td></tr>
+                            <tr><td>Interface ID</td><td id="interfaceId">-</td></tr>
+                        </tbody>
+                    </table>
 
-            <div class="quick-masks">
-                <h3 id="quick-prefixes-label">Quick Select Common Prefixes:</h3>
-                <div class="mask-buttons" role="group" aria-labelledby="quick-prefixes-label">
-                    <button type="button" class="mask-btn" onclick="setMask(32)" aria-label="Set prefix to /32, ISP allocation">/32 ISP</button>
-                    <button type="button" class="mask-btn" onclick="setMask(48)" aria-label="Set prefix to /48, site prefix">/48 Site</button>
-                    <button type="button" class="mask-btn" onclick="setMask(56)" aria-label="Set prefix to /56, small site prefix">/56 Small Site</button>
-                    <button type="button" class="mask-btn" onclick="setMask(64)" aria-label="Set prefix to /64, single subnet, standard for LANs">/64 Subnet</button>
-                    <button type="button" class="mask-btn" onclick="setMask(80)" aria-label="Set prefix to /80">/80</button>
-                    <button type="button" class="mask-btn" onclick="setMask(96)" aria-label="Set prefix to /96">/96</button>
-                    <button type="button" class="mask-btn" onclick="setMask(112)" aria-label="Set prefix to /112">/112</button>
-                    <button type="button" class="mask-btn" onclick="setMask(128)" aria-label="Set prefix to /128, single host address">/128 Host</button>
+                    <div class="hex-display">
+                        <h3>hexadecimal</h3>
+                        <p class="bin-legend"><span class="network-bits">network bits</span> · <span class="host-bits">host bits</span></p>
+                        <div class="hex-item">
+                            <span class="hex-label">IPv6 address</span>
+                            <span id="hexIP">-</span>
+                        </div>
+                        <div class="hex-item">
+                            <span class="hex-label">Prefix mask</span>
+                            <span id="hexMask">-</span>
+                        </div>
+                        <div class="hex-item">
+                            <span class="hex-label">Network</span>
+                            <span id="hexNetwork">-</span>
+                        </div>
+                    </div>
                 </div>
-            </div>
-
-            <button type="button" class="btn" onclick="calculate()" style="margin-top: 25px;" aria-label="Calculate IPv6 subnet details for the entered address and prefix">Calculate Subnet</button>
-            <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page">Clear Saved Data</button>
-
-            <div class="error-alert" id="error" role="alert" aria-live="assertive" aria-atomic="true"></div>
-            </form>
+            </section>
         </div>
 
-        <div class="results" id="results" role="region" aria-live="polite" aria-label="IPv6 subnet calculation results">
-            <div class="section-header">
-                <h2>Subnet Details</h2>
-                <div>
-                    <button type="button" class="export-btn" onclick="copySubnetDetails()" aria-label="Copy IPv6 subnet details to clipboard">Copy Results</button>
-                    <button type="button" class="export-btn" onclick="exportSubnetDetailsToCSV()" aria-label="Export IPv6 subnet details to CSV file">Export to CSV</button>
-                </div>
-            </div>
-            <table class="details-table">
-                <tbody>
-                    <tr><td>Network (Compressed)</td><td id="networkCompressed">-</td></tr>
-                    <tr><td>Network (Expanded)</td><td id="networkExpanded">-</td></tr>
-                    <tr><td>First Address</td><td id="firstAddress">-</td></tr>
-                    <tr><td>Last Address</td><td id="lastAddress">-</td></tr>
-                    <tr><td>Prefix</td><td id="prefix">-</td></tr>
-                    <tr><td>Total Addresses</td><td id="totalAddresses">-</td></tr>
-                    <tr><td>Address Type</td><td id="addressType">-</td></tr>
-                    <tr><td>Interface ID</td><td id="interfaceId">-</td></tr>
-                </tbody>
-            </table>
-
-            <div class="hex-display">
-                <h3>Hexadecimal Representation</h3>
-                <div class="hex-item">
-                    <span class="hex-label">IPv6 Address:</span>
-                    <span id="hexIP">-</span>
-                </div>
-                <div class="hex-item">
-                    <span class="hex-label">Prefix Mask:</span>
-                    <span id="hexMask">-</span>
-                </div>
-                <div class="hex-item">
-                    <span class="hex-label">Network (colored):</span>
-                    <span id="hexNetwork">-</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="subnet-list" id="subnetList" role="region" aria-label="All IPv6 subnets in network">
-            <div class="section-header">
-                <h2>All Subnets in Network</h2>
-                <div>
-                    <button type="button" class="export-btn" onclick="copySubnetList()" aria-label="Copy IPv6 subnet list to clipboard">Copy Results</button>
-                    <button type="button" class="export-btn" onclick="exportSubnetListToCSV()" aria-label="Export IPv6 subnet list to CSV file">Export to CSV</button>
+        <section class="box subnet-list" id="subnetList" aria-labelledby="subnets-heading">
+            <div class="box-head">
+                <h2 id="subnets-heading">all subnets in network</h2>
+                <div class="box-actions">
+                    <button type="button" class="btn small export-btn" onclick="copySubnetList()" aria-label="Copy IPv6 subnet list to clipboard">Copy</button>
+                    <button type="button" class="btn small export-btn" onclick="exportSubnetListToCSV()" aria-label="Export IPv6 subnet list to CSV file">Export CSV</button>
                 </div>
             </div>
             <div class="warning" id="subnetWarning"></div>
             <div class="subnet-list-info" id="subnetListInfo"></div>
             <div class="subnet-table-container">
-                <table class="subnet-table">
+                <table class="data-table subnet-table">
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th>Network Address</th>
-                            <th>Address Range</th>
-                            <th>Total Addresses</th>
+                            <th scope="col">#</th>
+                            <th scope="col">Network</th>
+                            <th scope="col">Address range</th>
+                            <th scope="col">Total addresses</th>
                         </tr>
                     </thead>
                     <tbody id="subnetTableBody">
                     </tbody>
                 </table>
             </div>
-        </div>
-
-        <footer role="contentinfo">
-            <span>IPv6 Subnet Calculator</span> - <span>Works offline, no installation required</span>
-        </footer>
+        </section>
     </main>
+    <footer class="statusbar" role="contentinfo">
+        <span>[oldweb] network › subnet-calculator-ipv6 │ works offline │ no tracking</span>
+        <span>/ search · t theme</span>
+    </footer>
 
     <script>
         // Initialize accessibility - handle skip link
