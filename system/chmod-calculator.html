@@ -28,601 +28,317 @@
     <meta name="twitter:image" content="https://oldweb.tech/logo/og-image.png">
 
     <!-- Additional Meta Tags -->
-    <meta name="theme-color" content="#1a1a2e">
+    <meta name="theme-color" content="#0e0903">
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
 
     <title>Chmod Calculator - OldWeb.tech</title>
     <link rel="stylesheet" href="../a11y.css">
+    <link rel="stylesheet" href="../theme.css">
     <script src="../a11y-utils.js"></script>
     <script src="../storage-utils.js"></script>
     <script src="../navigationv2.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            min-height: 100vh;
-            padding: 40px 20px;
-            color: #fff;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .ascii-logo {
-            position: absolute;
-            top: 20px;
-            right: 40px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.65rem;
-            line-height: 1.1;
-            color: #4fc3f7;
-            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
-            opacity: 0.8;
-            white-space: pre;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 10px;
-            font-size: 2.5rem;
-            color: #4fc3f7;
-            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #90caf9;
-            font-size: 1rem;
-            margin-bottom: 30px;
-            opacity: 0.9;
-        }
-
-        .quick-reference {
-            background: rgba(79, 195, 247, 0.1);
-            border-left: 4px solid #4fc3f7;
-            border-radius: 8px;
-            padding: 15px 20px;
-            margin-bottom: 20px;
-            color: #90caf9;
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-
-        .quick-reference strong {
-            color: #4fc3f7;
-        }
-
-        .quick-reference code {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-family: 'Courier New', monospace;
-            color: #fff;
-            font-size: 0.95em;
-        }
-
-        .calculator {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 20px;
-        }
-
-        .section-title {
-            font-size: 0.9rem;
-            color: #90caf9;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 15px;
-        }
-
-        .permissions-grid {
+        /* Page layout only; colors, type, buttons and fields come from theme.css */
+        .tool-grid {
             display: grid;
-            grid-template-columns: 100px repeat(3, 1fr);
-            gap: 10px;
-            margin-bottom: 25px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 12px;
-            padding: 20px;
+            grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+            gap: 24px;
+            align-items: start;
         }
-
-        .perm-header {
-            text-align: center;
-            font-weight: 600;
-            color: #4fc3f7;
-            padding: 10px;
-        }
-
-        .perm-label {
-            display: flex;
-            align-items: center;
-            color: #90caf9;
-            font-weight: 500;
-        }
-
-        .perm-cell {
+        .side-col {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 15px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-            transition: all 0.2s;
+            gap: 24px;
         }
-
-        .perm-cell:hover {
-            background: rgba(79, 195, 247, 0.1);
-        }
-
-        .perm-cell input[type="checkbox"] {
-            width: 24px;
-            height: 24px;
-            cursor: pointer;
-            accent-color: #4fc3f7;
-        }
-
-        .perm-cell .perm-bit {
-            margin-top: 8px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        .perm-cell input:checked + .perm-bit {
-            color: #4fc3f7;
-        }
-
-        .presets-section {
-            margin-bottom: 25px;
-        }
-
-        .presets-grid {
+        .calculator .box-body {
             display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
+            flex-direction: column;
+            gap: 22px;
         }
 
-        .preset-btn {
-            padding: 8px 16px;
-            border: 1px solid rgba(79, 195, 247, 0.3);
-            background: rgba(0, 0, 0, 0.2);
-            color: #90caf9;
-            border-radius: 6px;
-            cursor: pointer;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-            transition: all 0.2s;
-        }
-
-        .preset-btn:hover {
-            background: rgba(79, 195, 247, 0.2);
-            border-color: #4fc3f7;
-            color: #4fc3f7;
-        }
-
-        .preset-btn .preset-desc {
-            font-family: 'Segoe UI', sans-serif;
-            font-size: 0.75rem;
-            color: rgba(255, 255, 255, 0.5);
-            margin-left: 8px;
-        }
-
-        .results-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .result-card {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
-            padding: 20px;
-            border-left: 4px solid #4fc3f7;
-        }
-
-        .result-card h4 {
-            font-size: 0.8rem;
-            color: #90caf9;
-            text-transform: uppercase;
-            margin-bottom: 10px;
-        }
-
-        .result-card .value {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .result-card .value code {
-            font-family: 'Courier New', monospace;
-            font-size: 1.4rem;
-            color: #4fc3f7;
-            flex: 1;
-        }
-
-        .copy-btn {
-            padding: 6px 12px;
-            background: rgba(102, 187, 106, 0.2);
-            border: 1px solid #66bb6a;
-            border-radius: 6px;
-            color: #66bb6a;
-            cursor: pointer;
-            font-size: 0.8rem;
-            transition: all 0.2s;
-        }
-
-        .copy-btn:hover {
-            background: rgba(102, 187, 106, 0.3);
-        }
-
-        .copy-btn.copied {
-            background: #66bb6a;
-            color: #1a1a2e;
-        }
-
-        .special-perms {
-            margin-bottom: 25px;
-        }
-
-        .special-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-        }
-
-        .special-item {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-            padding: 15px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .special-item input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-            accent-color: #ff9800;
-        }
-
-        .special-item .special-info {
-            flex: 1;
-        }
-
-        .special-item .special-name {
-            color: #ff9800;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .special-item .special-desc {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.8rem;
-            margin-top: 3px;
-        }
-
-        .umask-section {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 12px;
-            padding: 25px;
-            margin-top: 20px;
-        }
-
-        .umask-section h3 {
-            color: #4fc3f7;
-            margin-bottom: 15px;
-            font-size: 1.1rem;
-        }
-
-        .umask-row {
-            display: flex;
-            gap: 20px;
-            align-items: flex-start;
-        }
-
-        .umask-input-group {
-            flex: 0 0 200px;
-        }
-
-        .umask-input-group label {
-            display: block;
-            font-size: 0.85rem;
-            color: #90caf9;
-            margin-bottom: 8px;
-        }
-
-        .umask-input-group input {
-            width: 100%;
-            padding: 12px 16px;
-            border: 1px solid rgba(79, 195, 247, 0.3);
-            border-radius: 8px;
-            background: rgba(0, 0, 0, 0.3);
-            color: #fff;
-            font-family: 'Courier New', monospace;
-            font-size: 1.2rem;
-            text-align: center;
-        }
-
-        .umask-results {
-            flex: 1;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-
-        .umask-result {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-            padding: 15px;
-            border-left: 3px solid #66bb6a;
-        }
-
-        .umask-result h5 {
-            font-size: 0.75rem;
-            color: #90caf9;
-            text-transform: uppercase;
-            margin-bottom: 8px;
-        }
-
-        .umask-result .umask-value {
-            font-family: 'Courier New', monospace;
-            font-size: 1.3rem;
-            color: #66bb6a;
-        }
-
-        .umask-result .umask-symbolic {
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.7);
-            margin-top: 5px;
-        }
-
-        .reference-table {
-            margin-top: 20px;
-        }
-
-        .reference-table h3 {
-            color: #4fc3f7;
-            margin-bottom: 15px;
-            font-size: 1.1rem;
-        }
-
-        .ref-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 10px;
-        }
-
-        .ref-item {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 6px;
-            padding: 10px;
-            text-align: center;
-        }
-
-        .ref-item .ref-octal {
-            font-family: 'Courier New', monospace;
-            font-size: 1.2rem;
-            color: #4fc3f7;
-        }
-
-        .ref-item .ref-perms {
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.6);
-            margin-top: 5px;
-        }
-
-        .error {
-            background: rgba(244, 67, 54, 0.1);
-            border: 1px solid #f44336;
-            border-left: 4px solid #f44336;
-            color: #ff8a80;
-            padding: 15px 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            display: none;
-        }
-
-        .error.show {
-            display: block;
-        }
-
-        /* Tab Navigation */
+        /* Tabs */
         .tab-navigation {
             display: flex;
-            gap: 5px;
-            margin-bottom: 25px;
-            border-bottom: 2px solid rgba(79, 195, 247, 0.2);
-            padding-bottom: 0;
+            gap: 12px;
+            margin-bottom: 24px;
+            padding: 0 3px 3px 0;
         }
-
-        .tab-btn {
-            padding: 12px 24px;
-            border: none;
-            background: transparent;
-            color: #90caf9;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 500;
-            border-radius: 8px 8px 0 0;
-            transition: all 0.2s;
-            position: relative;
-            bottom: -2px;
-            border-bottom: 2px solid transparent;
+        .tab-btn[aria-selected="true"] {
+            background: var(--hi);
+            color: var(--inv);
         }
-
-        .tab-btn:hover {
-            background: rgba(79, 195, 247, 0.1);
-            color: #4fc3f7;
-        }
-
-        .tab-btn.active {
-            background: rgba(79, 195, 247, 0.15);
-            color: #4fc3f7;
-            border-bottom: 2px solid #4fc3f7;
-        }
-
-        .tab-btn:focus {
-            outline: 2px solid #4fc3f7;
-            outline-offset: 2px;
-        }
-
         .tab-content {
             display: none;
         }
-
         .tab-content.active {
             display: block;
         }
 
-        /* Live Permission Inputs */
-        .perm-input-section {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 25px;
+        .section-title {
+            margin-bottom: 10px;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            color: var(--dim);
+            text-shadow: none;
+        }
+        .section-title::before {
+            content: '# ';
+        }
+
+        .quick-reference {
+            padding: 10px 14px;
+            border-left: 4px solid var(--line);
+            color: var(--dim);
+            font-size: 0.9rem;
+        }
+        .quick-reference strong,
+        .quick-reference code {
+            color: var(--fg);
         }
 
         .perm-inputs-row {
             display: flex;
-            gap: 20px;
+            gap: 16px;
         }
-
         .perm-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
             flex: 1;
         }
-
-        .perm-input-group label {
-            display: block;
-            font-size: 0.85rem;
-            color: #90caf9;
-            margin-bottom: 8px;
-        }
-
-        .perm-input-group input {
-            width: 100%;
-            padding: 12px 16px;
-            border: 1px solid rgba(79, 195, 247, 0.3);
-            border-radius: 8px;
-            background: rgba(0, 0, 0, 0.3);
-            color: #4fc3f7;
-            font-family: 'Courier New', monospace;
+        .perm-input-group input,
+        .umask-input-group input {
             font-size: 1.3rem;
             text-align: center;
         }
 
-        .perm-input-group input:focus {
-            outline: none;
-            border-color: #4fc3f7;
-            box-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
+        .permissions-grid {
+            display: grid;
+            grid-template-columns: 90px repeat(3, 1fr);
+            border: 1px solid var(--line);
         }
-
-        /* Clickable permission cells */
+        .perm-header {
+            padding: 8px;
+            text-align: center;
+            color: var(--dim);
+            font-size: 0.85rem;
+            border-bottom: 1px dashed var(--line);
+        }
+        .perm-label {
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
+            color: var(--fg);
+        }
+        .perm-cell {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 64px;
+        }
+        .perm-cell:hover {
+            background: var(--head);
+        }
         .perm-cell-label {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
+            gap: 6px;
             width: 100%;
             height: 100%;
+            min-height: 64px;
+            cursor: pointer;
+        }
+        .perm-cell input[type="checkbox"] {
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+        }
+        .perm-bit {
+            color: var(--dim);
+            font-size: 0.9rem;
+        }
+        .perm-cell input:checked + .perm-bit {
+            color: var(--hi);
+            font-weight: 600;
         }
 
-        footer {
+        .presets-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px 8px;
+            padding: 0 3px 3px 0;
+        }
+        .preset-desc {
+            margin-left: 8px;
+            font-weight: 400;
+            text-transform: none;
+            letter-spacing: 0;
+        }
+
+        .special-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        .special-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            border: 1px solid var(--line);
+        }
+        .special-info {
+            flex: 1;
+        }
+        .special-name {
+            color: var(--warn);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .special-desc {
+            color: var(--dim);
+            font-size: 0.8rem;
+        }
+
+        .form-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            padding: 0 3px 3px 0;
+        }
+
+        .results-grid {
+            display: flex;
+            flex-direction: column;
+        }
+        .result-card {
+            padding: 10px 0;
+        }
+        .result-card + .result-card {
+            border-top: 1px dotted var(--line);
+        }
+        .result-card h4 {
+            margin-bottom: 6px;
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--dim);
+            text-shadow: none;
+        }
+        .result-card .value {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-right: 3px;
+        }
+        .result-card .value code {
+            flex: 1;
+            font-size: 1.3rem;
+            color: var(--hi);
+            font-weight: 600;
+            text-shadow: var(--glow);
+            word-break: break-all;
+        }
+        .copy-btn.copied {
+            background: var(--hi);
+            color: var(--inv);
+        }
+
+        .ref-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 8px;
+        }
+        .ref-item {
+            padding: 8px;
             text-align: center;
-            margin-top: 30px;
-            color: rgba(255, 255, 255, 0.4);
+            border: 1px solid var(--line);
+        }
+        .ref-octal {
+            font-size: 1.2rem;
+            color: var(--hi);
+            font-weight: 600;
+        }
+        .ref-perms {
+            color: var(--dim);
             font-size: 0.85rem;
         }
 
-        .btn.secondary {
-            background: transparent;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            color: #90caf9;
-            margin-top: 10px;
+        .umask-section {
+            max-width: 900px;
         }
-        .btn.secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.5);
-            box-shadow: none;
-            transform: none;
+        .umask-intro {
+            margin-bottom: 16px;
+            color: var(--dim);
+            font-size: 0.9rem;
+        }
+        .umask-row {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+        .umask-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            flex: 0 0 200px;
+        }
+        .umask-results {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        .umask-result {
+            padding: 12px 14px;
+            border: 1px solid var(--line);
+            border-left: 4px solid var(--ok);
+        }
+        .umask-result h3 {
+            margin-bottom: 6px;
+            font-family: var(--font-body);
+            font-size: 0.8rem;
+            color: var(--dim);
+            text-shadow: none;
+        }
+        .umask-value {
+            font-size: 1.3rem;
+            color: var(--ok);
+            font-weight: 600;
+        }
+        .umask-symbolic {
+            margin-top: 4px;
+            color: var(--fg);
+            font-size: 0.9rem;
         }
 
+        @media (max-width: 900px) {
+            .tool-grid {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
         @media (max-width: 768px) {
-            .ascii-logo {
-                position: static;
-                text-align: center;
-                margin-bottom: 20px;
-                font-size: 0.5rem;
-            }
-
-            h1 {
-                font-size: 1.8rem;
-            }
-
             .permissions-grid {
-                grid-template-columns: 80px repeat(3, 1fr);
-                gap: 5px;
-                padding: 15px;
+                grid-template-columns: 70px repeat(3, 1fr);
             }
-
-            .perm-cell {
-                padding: 10px;
-            }
-
-            .special-grid {
+            .special-grid,
+            .umask-results {
                 grid-template-columns: 1fr;
             }
-
-            .umask-row {
+            .umask-row,
+            .perm-inputs-row {
                 flex-direction: column;
+                gap: 14px;
             }
-
             .umask-input-group {
                 flex: 1;
                 width: 100%;
             }
-
-            .umask-results {
-                grid-template-columns: 1fr;
-            }
-
-            .results-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .tab-navigation {
-                flex-wrap: wrap;
-            }
-
             .tab-btn {
-                padding: 10px 16px;
-                font-size: 0.9rem;
                 flex: 1;
-                min-width: auto;
-            }
-
-            .perm-inputs-row {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            .perm-input-group input {
-                font-size: 1.1rem;
             }
         }
     </style>
@@ -651,242 +367,265 @@
 </head>
 <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
-    <div class="ascii-logo" aria-hidden="true">  ___  _    _  __        __   _
- / _ \| | _| | \ \      / /__| |__
-| | | | |/ _` | \ \ /\ / / _ \ '_ \
-| |_| | | (_| |  \ V  V /  __/ |_) |
- \___/|_|\__,_|   \_/\_/ \___|_.__/
-</div>
-    <main id="main-content" class="container">
-        <h1>Chmod Calculator</h1>
-        <p class="subtitle">Visual Unix file permissions calculator</p>
+    <main id="main-content">
+        <div class="page-head">
+            <h1>Chmod Calculator</h1>
+            <p class="lede">Visual Unix file permissions calculator</p>
+        </div>
 
-        <div class="calculator">
-            <div class="tab-navigation" role="tablist" aria-label="Chmod calculator sections">
-                <button type="button" class="tab-btn active" id="tab-btn-permissions" data-tab="permissions" role="tab" aria-selected="true" aria-controls="tab-permissions">Permissions</button>
-                <button type="button" class="tab-btn" id="tab-btn-umask" data-tab="umask" role="tab" aria-selected="false" aria-controls="tab-umask">Umask</button>
-            </div>
+        <div class="tab-navigation" role="tablist" aria-label="Chmod calculator sections">
+            <button type="button" class="btn tab-btn active" id="tab-btn-permissions" data-tab="permissions" role="tab" aria-selected="true" aria-controls="tab-permissions">Permissions</button>
+            <button type="button" class="btn tab-btn" id="tab-btn-umask" data-tab="umask" role="tab" aria-selected="false" aria-controls="tab-umask">Umask</button>
+        </div>
 
-            <div class="tab-content active" id="tab-permissions" role="tabpanel" aria-labelledby="tab-btn-permissions">
-                <div class="quick-reference">
-                    <strong>Quick Reference:</strong> <span>Permissions format: <code>Owner-Group-Other</code></span><br>
-                    • <span>Octal: <code>754</code> = Owner(7), Group(5), Other(4)</span><br>
-                    • <span>Symbolic: <code>-rwxr-xr--</code> = File type + Owner(rwx) + Group(r-x) + Other(r--)</span>
-                </div>
-
-                <div class="perm-input-section">
-                    <div class="perm-inputs-row">
-                        <div class="perm-input-group">
-                            <label for="permInput">Octal</label>
-                            <input type="text"
-                                   id="permInput"
-                                   value="755"
-                                   maxlength="4"
-                                   oninput="updateFromOctalInput()"
-                                   aria-describedby="perm-input-help">
-                            <span id="perm-input-help" class="sr-only">Enter 3 or 4 digit octal permission value like 755 or 0755</span>
+        <div class="tab-content active" id="tab-permissions" role="tabpanel" aria-labelledby="tab-btn-permissions">
+            <div class="tool-grid">
+                <section class="box calculator" aria-labelledby="input-heading">
+                    <div class="box-head">
+                        <h2 id="input-heading">permissions</h2>
+                    </div>
+                    <div class="box-body">
+                        <div class="quick-reference">
+                            <strong>Quick reference:</strong> <span>Permissions format: <code>Owner-Group-Other</code></span><br>
+                            &gt; <span>Octal: <code>754</code> = Owner(7), Group(5), Other(4)</span><br>
+                            &gt; <span>Symbolic: <code>-rwxr-xr--</code> = File type + Owner(rwx) + Group(r-x) + Other(r--)</span>
                         </div>
-                        <div class="perm-input-group">
-                            <label for="symbolicInput">Symbolic</label>
-                            <input type="text"
-                                   id="symbolicInput"
-                                   value="-rwxr-xr-x"
-                                   maxlength="10"
-                                   oninput="updateFromSymbolicInput()"
-                                   aria-describedby="symbolic-input-help">
-                            <span id="symbolic-input-help" class="sr-only">Enter symbolic notation like -rwxr-xr-x</span>
+
+                        <div class="perm-inputs-row">
+                            <div class="perm-input-group">
+                                <label for="permInput">Octal</label>
+                                <input type="text"
+                                       id="permInput"
+                                       value="755"
+                                       maxlength="4"
+                                       oninput="updateFromOctalInput()"
+                                       aria-describedby="perm-input-help"
+                                       spellcheck="false">
+                                <span id="perm-input-help" class="sr-only">Enter 3 or 4 digit octal permission value like 755 or 0755</span>
+                            </div>
+                            <div class="perm-input-group">
+                                <label for="symbolicInput">Symbolic</label>
+                                <input type="text"
+                                       id="symbolicInput"
+                                       value="-rwxr-xr-x"
+                                       maxlength="10"
+                                       oninput="updateFromSymbolicInput()"
+                                       aria-describedby="symbolic-input-help"
+                                       spellcheck="false">
+                                <span id="symbolic-input-help" class="sr-only">Enter symbolic notation like -rwxr-xr-x</span>
+                            </div>
+                        </div>
+
+                        <h3 class="section-title">checkboxes</h3>
+                        <div class="permissions-grid">
+                            <div class="perm-header"></div>
+                            <div class="perm-header">Read (r)</div>
+                            <div class="perm-header">Write (w)</div>
+                            <div class="perm-header">Execute (x)</div>
+
+                            <div class="perm-label">Owner</div>
+                            <div class="perm-cell">
+                                <label for="owner-r" class="perm-cell-label">
+                                    <input type="checkbox" id="owner-r" checked onchange="updateFromCheckboxes()" aria-label="Owner read permission (value 4)">
+                                    <span class="perm-bit">4</span>
+                                </label>
+                            </div>
+                            <div class="perm-cell">
+                                <label for="owner-w" class="perm-cell-label">
+                                    <input type="checkbox" id="owner-w" checked onchange="updateFromCheckboxes()" aria-label="Owner write permission (value 2)">
+                                    <span class="perm-bit">2</span>
+                                </label>
+                            </div>
+                            <div class="perm-cell">
+                                <label for="owner-x" class="perm-cell-label">
+                                    <input type="checkbox" id="owner-x" checked onchange="updateFromCheckboxes()" aria-label="Owner execute permission (value 1)">
+                                    <span class="perm-bit">1</span>
+                                </label>
+                            </div>
+
+                            <div class="perm-label">Group</div>
+                            <div class="perm-cell">
+                                <label for="group-r" class="perm-cell-label">
+                                    <input type="checkbox" id="group-r" checked onchange="updateFromCheckboxes()" aria-label="Group read permission (value 4)">
+                                    <span class="perm-bit">4</span>
+                                </label>
+                            </div>
+                            <div class="perm-cell">
+                                <label for="group-w" class="perm-cell-label">
+                                    <input type="checkbox" id="group-w" onchange="updateFromCheckboxes()" aria-label="Group write permission (value 2)">
+                                    <span class="perm-bit">2</span>
+                                </label>
+                            </div>
+                            <div class="perm-cell">
+                                <label for="group-x" class="perm-cell-label">
+                                    <input type="checkbox" id="group-x" checked onchange="updateFromCheckboxes()" aria-label="Group execute permission (value 1)">
+                                    <span class="perm-bit">1</span>
+                                </label>
+                            </div>
+
+                            <div class="perm-label">Other</div>
+                            <div class="perm-cell">
+                                <label for="other-r" class="perm-cell-label">
+                                    <input type="checkbox" id="other-r" checked onchange="updateFromCheckboxes()" aria-label="Other read permission (value 4)">
+                                    <span class="perm-bit">4</span>
+                                </label>
+                            </div>
+                            <div class="perm-cell">
+                                <label for="other-w" class="perm-cell-label">
+                                    <input type="checkbox" id="other-w" onchange="updateFromCheckboxes()" aria-label="Other write permission (value 2)">
+                                    <span class="perm-bit">2</span>
+                                </label>
+                            </div>
+                            <div class="perm-cell">
+                                <label for="other-x" class="perm-cell-label">
+                                    <input type="checkbox" id="other-x" checked onchange="updateFromCheckboxes()" aria-label="Other execute permission (value 1)">
+                                    <span class="perm-bit">1</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="presets-section">
+                            <h3 class="section-title" id="presets-label">presets</h3>
+                            <div class="presets-grid" role="group" aria-labelledby="presets-label">
+                                <button type="button" class="btn small preset-btn" onclick="applyPreset(755)" aria-label="Apply 755 permissions for executables - owner read write execute, group and other read execute">755<span class="preset-desc">Executables</span></button>
+                                <button type="button" class="btn small preset-btn" onclick="applyPreset(644)" aria-label="Apply 644 permissions for files - owner read write, group and other read only">644<span class="preset-desc">Files</span></button>
+                                <button type="button" class="btn small preset-btn" onclick="applyPreset(777)" aria-label="Apply 777 permissions for full access - all users read write execute">777<span class="preset-desc">Full access</span></button>
+                                <button type="button" class="btn small preset-btn" onclick="applyPreset(600)" aria-label="Apply 600 permissions for private files - owner read write only">600<span class="preset-desc">Private</span></button>
+                                <button type="button" class="btn small preset-btn" onclick="applyPreset(700)" aria-label="Apply 700 permissions for private executables - owner read write execute only">700<span class="preset-desc">Private exec</span></button>
+                                <button type="button" class="btn small preset-btn" onclick="applyPreset(750)" aria-label="Apply 750 permissions for group executables - owner read write execute, group read execute">750<span class="preset-desc">Group exec</span></button>
+                                <button type="button" class="btn small preset-btn" onclick="applyPreset(664)" aria-label="Apply 664 permissions for group writable files - owner and group read write, other read only">664<span class="preset-desc">Group write</span></button>
+                                <button type="button" class="btn small preset-btn" onclick="applyPreset(640)" aria-label="Apply 640 permissions for config files - owner read write, group read only">640<span class="preset-desc">Config</span></button>
+                                <button type="button" class="btn small preset-btn" onclick="applyPreset(400)" aria-label="Apply 400 permissions for read-only files - owner read only">400<span class="preset-desc">Read-only</span></button>
+                            </div>
+                        </div>
+
+                        <div class="special-perms">
+                            <h3 class="section-title">special bits</h3>
+                            <div class="special-grid" role="group" aria-label="Special permission bits">
+                                <div class="special-item">
+                                    <input type="checkbox" id="setuid" onchange="updateFromCheckboxes()" aria-label="Setuid bit (value 4) - run file as file owner">
+                                    <div class="special-info">
+                                        <div class="special-name">Setuid (4)</div>
+                                        <div class="special-desc">Run as file owner</div>
+                                    </div>
+                                </div>
+                                <div class="special-item">
+                                    <input type="checkbox" id="setgid" onchange="updateFromCheckboxes()" aria-label="Setgid bit (value 2) - run file as file group">
+                                    <div class="special-info">
+                                        <div class="special-name">Setgid (2)</div>
+                                        <div class="special-desc">Run as file group</div>
+                                    </div>
+                                </div>
+                                <div class="special-item">
+                                    <input type="checkbox" id="sticky" onchange="updateFromCheckboxes()" aria-label="Sticky bit (value 1) - restrict deletion to file owner only">
+                                    <div class="special-info">
+                                        <div class="special-name">Sticky (1)</div>
+                                        <div class="special-desc">Restrict deletion</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="error-container" id="error" role="alert" aria-live="assertive" aria-atomic="true"></div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page">Clear saved data</button>
                         </div>
                     </div>
-                </div>
+                </section>
 
-                <h3 class="section-title">Permission Checkboxes</h3>
-            <div class="permissions-grid">
-                <div class="perm-header"></div>
-                <div class="perm-header">Read (r)</div>
-                <div class="perm-header">Write (w)</div>
-                <div class="perm-header">Execute (x)</div>
-
-                <div class="perm-label">Owner</div>
-                <div class="perm-cell">
-                    <label for="owner-r" class="perm-cell-label">
-                        <input type="checkbox" id="owner-r" checked onchange="updateFromCheckboxes()" aria-label="Owner read permission (value 4)">
-                        <span class="perm-bit">4</span>
-                    </label>
-                </div>
-                <div class="perm-cell">
-                    <label for="owner-w" class="perm-cell-label">
-                        <input type="checkbox" id="owner-w" checked onchange="updateFromCheckboxes()" aria-label="Owner write permission (value 2)">
-                        <span class="perm-bit">2</span>
-                    </label>
-                </div>
-                <div class="perm-cell">
-                    <label for="owner-x" class="perm-cell-label">
-                        <input type="checkbox" id="owner-x" checked onchange="updateFromCheckboxes()" aria-label="Owner execute permission (value 1)">
-                        <span class="perm-bit">1</span>
-                    </label>
-                </div>
-
-                <div class="perm-label">Group</div>
-                <div class="perm-cell">
-                    <label for="group-r" class="perm-cell-label">
-                        <input type="checkbox" id="group-r" checked onchange="updateFromCheckboxes()" aria-label="Group read permission (value 4)">
-                        <span class="perm-bit">4</span>
-                    </label>
-                </div>
-                <div class="perm-cell">
-                    <label for="group-w" class="perm-cell-label">
-                        <input type="checkbox" id="group-w" onchange="updateFromCheckboxes()" aria-label="Group write permission (value 2)">
-                        <span class="perm-bit">2</span>
-                    </label>
-                </div>
-                <div class="perm-cell">
-                    <label for="group-x" class="perm-cell-label">
-                        <input type="checkbox" id="group-x" checked onchange="updateFromCheckboxes()" aria-label="Group execute permission (value 1)">
-                        <span class="perm-bit">1</span>
-                    </label>
-                </div>
-
-                <div class="perm-label">Other</div>
-                <div class="perm-cell">
-                    <label for="other-r" class="perm-cell-label">
-                        <input type="checkbox" id="other-r" checked onchange="updateFromCheckboxes()" aria-label="Other read permission (value 4)">
-                        <span class="perm-bit">4</span>
-                    </label>
-                </div>
-                <div class="perm-cell">
-                    <label for="other-w" class="perm-cell-label">
-                        <input type="checkbox" id="other-w" onchange="updateFromCheckboxes()" aria-label="Other write permission (value 2)">
-                        <span class="perm-bit">2</span>
-                    </label>
-                </div>
-                <div class="perm-cell">
-                    <label for="other-x" class="perm-cell-label">
-                        <input type="checkbox" id="other-x" checked onchange="updateFromCheckboxes()" aria-label="Other execute permission (value 1)">
-                        <span class="perm-bit">1</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="presets-section">
-                <h3 class="section-title">Common Presets</h3>
-                <div class="presets-grid" role="group" aria-label="Common permission presets">
-                    <button type="button" class="preset-btn" onclick="applyPreset(755)" aria-label="Apply 755 permissions for executables - owner read write execute, group and other read execute">755<span class="preset-desc">Executables</span></button>
-                    <button type="button" class="preset-btn" onclick="applyPreset(644)" aria-label="Apply 644 permissions for files - owner read write, group and other read only">644<span class="preset-desc">Files</span></button>
-                    <button type="button" class="preset-btn" onclick="applyPreset(777)" aria-label="Apply 777 permissions for full access - all users read write execute">777<span class="preset-desc">Full access</span></button>
-                    <button type="button" class="preset-btn" onclick="applyPreset(600)" aria-label="Apply 600 permissions for private files - owner read write only">600<span class="preset-desc">Private</span></button>
-                    <button type="button" class="preset-btn" onclick="applyPreset(700)" aria-label="Apply 700 permissions for private executables - owner read write execute only">700<span class="preset-desc">Private exec</span></button>
-                    <button type="button" class="preset-btn" onclick="applyPreset(750)" aria-label="Apply 750 permissions for group executables - owner read write execute, group read execute">750<span class="preset-desc">Group exec</span></button>
-                    <button type="button" class="preset-btn" onclick="applyPreset(664)" aria-label="Apply 664 permissions for group writable files - owner and group read write, other read only">664<span class="preset-desc">Group write</span></button>
-                    <button type="button" class="preset-btn" onclick="applyPreset(640)" aria-label="Apply 640 permissions for config files - owner read write, group read only">640<span class="preset-desc">Config</span></button>
-                    <button type="button" class="preset-btn" onclick="applyPreset(400)" aria-label="Apply 400 permissions for read-only files - owner read only">400<span class="preset-desc">Read-only</span></button>
-                </div>
-            </div>
-
-            <div class="special-perms">
-                <h3 class="section-title">Special Permissions</h3>
-                <div class="special-grid" role="group" aria-label="Special permission bits">
-                    <div class="special-item">
-                        <input type="checkbox" id="setuid" onchange="updateFromCheckboxes()" aria-label="Setuid bit (value 4) - run file as file owner">
-                        <div class="special-info">
-                            <div class="special-name">Setuid (4)</div>
-                            <div class="special-desc">Run as file owner</div>
+                <div class="side-col">
+                    <section class="box" aria-labelledby="result-heading">
+                        <div class="box-head">
+                            <h2 id="result-heading">result</h2>
                         </div>
-                    </div>
-                    <div class="special-item">
-                        <input type="checkbox" id="setgid" onchange="updateFromCheckboxes()" aria-label="Setgid bit (value 2) - run file as file group">
-                        <div class="special-info">
-                            <div class="special-name">Setgid (2)</div>
-                            <div class="special-desc">Run as file group</div>
+                        <div class="box-body">
+                            <div class="results-grid" role="region" aria-live="polite" aria-label="Permission calculation results">
+                                <div class="result-card">
+                                    <h4>Octal notation</h4>
+                                    <div class="value">
+                                        <code id="octalOutput">755</code>
+                                        <button type="button" class="btn small copy-btn" onclick="copyValue('octalOutput', this)" aria-label="Copy octal notation to clipboard">Copy</button>
+                                    </div>
+                                </div>
+                                <div class="result-card">
+                                    <h4>Symbolic notation</h4>
+                                    <div class="value">
+                                        <code id="symbolicOutput">-rwxr-xr-x</code>
+                                        <button type="button" class="btn small copy-btn" onclick="copyValue('symbolicOutput', this)" aria-label="Copy symbolic notation to clipboard">Copy</button>
+                                    </div>
+                                </div>
+                                <div class="result-card">
+                                    <h4>chmod command</h4>
+                                    <div class="value">
+                                        <code id="commandOutput">chmod 755 filename</code>
+                                        <button type="button" class="btn small copy-btn" onclick="copyValue('commandOutput', this)" aria-label="Copy chmod command to clipboard">Copy</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="special-item">
-                        <input type="checkbox" id="sticky" onchange="updateFromCheckboxes()" aria-label="Sticky bit (value 1) - restrict deletion to file owner only">
-                        <div class="special-info">
-                            <div class="special-name">Sticky (1)</div>
-                            <div class="special-desc">Restrict deletion</div>
+                    </section>
+
+                    <section class="box reference-table" aria-labelledby="ref-heading">
+                        <div class="box-head">
+                            <h2 id="ref-heading">octal reference</h2>
                         </div>
-                    </div>
+                        <div class="box-body">
+                            <div class="ref-grid">
+                                <div class="ref-item"><div class="ref-octal">0</div><div class="ref-perms">---</div></div>
+                                <div class="ref-item"><div class="ref-octal">1</div><div class="ref-perms">--x</div></div>
+                                <div class="ref-item"><div class="ref-octal">2</div><div class="ref-perms">-w-</div></div>
+                                <div class="ref-item"><div class="ref-octal">3</div><div class="ref-perms">-wx</div></div>
+                                <div class="ref-item"><div class="ref-octal">4</div><div class="ref-perms">r--</div></div>
+                                <div class="ref-item"><div class="ref-octal">5</div><div class="ref-perms">r-x</div></div>
+                                <div class="ref-item"><div class="ref-octal">6</div><div class="ref-perms">rw-</div></div>
+                                <div class="ref-item"><div class="ref-octal">7</div><div class="ref-perms">rwx</div></div>
+                            </div>
+                        </div>
+                    </section>
                 </div>
             </div>
+        </div><!-- End tab-permissions -->
 
-            <div class="error" id="error" role="alert" aria-live="assertive" aria-atomic="true"></div>
-
-            <div class="results-grid" role="region" aria-live="polite" aria-label="Permission calculation results">
-                <div class="result-card">
-                    <h4>Octal Notation</h4>
-                    <div class="value">
-                        <code id="octalOutput">755</code>
-                        <button type="button" class="copy-btn" onclick="copyValue('octalOutput', this)" aria-label="Copy octal notation to clipboard">Copy</button>
-                    </div>
+        <div class="tab-content" id="tab-umask" role="tabpanel" aria-labelledby="tab-btn-umask">
+            <section class="box umask-section" aria-labelledby="umask-heading">
+                <div class="box-head">
+                    <h2 id="umask-heading">umask calculator</h2>
                 </div>
-                <div class="result-card">
-                    <h4>Symbolic Notation</h4>
-                    <div class="value">
-                        <code id="symbolicOutput">-rwxr-xr-x</code>
-                        <button type="button" class="copy-btn" onclick="copyValue('symbolicOutput', this)" aria-label="Copy symbolic notation to clipboard">Copy</button>
-                    </div>
-                </div>
-                <div class="result-card">
-                    <h4>chmod Command</h4>
-                    <div class="value">
-                        <code id="commandOutput">chmod 755 filename</code>
-                        <button type="button" class="copy-btn" onclick="copyValue('commandOutput', this)" aria-label="Copy chmod command to clipboard">Copy</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="reference-table">
-                <h3>Octal Reference</h3>
-                <div class="ref-grid">
-                    <div class="ref-item"><div class="ref-octal">0</div><div class="ref-perms">---</div></div>
-                    <div class="ref-item"><div class="ref-octal">1</div><div class="ref-perms">--x</div></div>
-                    <div class="ref-item"><div class="ref-octal">2</div><div class="ref-perms">-w-</div></div>
-                    <div class="ref-item"><div class="ref-octal">3</div><div class="ref-perms">-wx</div></div>
-                    <div class="ref-item"><div class="ref-octal">4</div><div class="ref-perms">r--</div></div>
-                    <div class="ref-item"><div class="ref-octal">5</div><div class="ref-perms">r-x</div></div>
-                    <div class="ref-item"><div class="ref-octal">6</div><div class="ref-perms">rw-</div></div>
-                    <div class="ref-item"><div class="ref-octal">7</div><div class="ref-perms">rwx</div></div>
-                </div>
-            </div>
-
-            <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page">Clear Saved Data</button>
-            </div><!-- End tab-permissions -->
-
-            <div class="tab-content" id="tab-umask" role="tabpanel" aria-labelledby="tab-btn-umask">
-                <div class="umask-section" style="margin-top: 0;">
-                    <h3>Umask Calculator</h3>
-                    <p style="color: rgba(255, 255, 255, 0.7); margin-bottom: 15px; font-size: 0.9rem;">Calculate default file and directory permissions based on umask value.</p>
+                <div class="box-body">
+                    <p class="umask-intro">Calculate default file and directory permissions based on umask value.</p>
                     <div class="umask-row">
                         <div class="umask-input-group">
-                            <label for="umaskInput">Umask Value</label>
+                            <label for="umaskInput">Umask value</label>
                             <input type="text"
                                    id="umaskInput"
                                    value="022"
                                    oninput="calculateUmask()"
-                                   aria-describedby="umask-help">
+                                   aria-describedby="umask-help"
+                                   spellcheck="false">
                             <span id="umask-help" class="sr-only">Enter a umask value in octal notation to calculate default file and directory permissions</span>
                         </div>
                         <div class="umask-results" role="region" aria-live="polite" aria-label="Umask calculation results">
                             <div class="umask-result">
-                                <h5>Default File Permissions</h5>
+                                <h3>Default file permissions</h3>
                                 <div class="umask-value" id="filePerms">644</div>
                                 <div class="umask-symbolic" id="fileSymbolic">-rw-r--r--</div>
                             </div>
                             <div class="umask-result">
-                                <h5>Default Directory Permissions</h5>
+                                <h3>Default directory permissions</h3>
                                 <div class="umask-value" id="dirPerms">755</div>
                                 <div class="umask-symbolic" id="dirSymbolic">drwxr-xr-x</div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div><!-- End tab-umask -->
-        </div>
-
-        <footer role="contentinfo">
-            Chmod Calculator - Works offline, no installation required
-        </footer>
+            </section>
+        </div><!-- End tab-umask -->
     </main>
+    <footer class="statusbar" role="contentinfo">
+        <span>[oldweb] system › chmod-calculator │ works offline │ no tracking</span>
+        <span>/ search · t theme</span>
+    </footer>
 
     <script>
         // Tab Navigation

@@ -28,7 +28,7 @@
     <meta name="twitter:image" content="https://oldweb.tech/logo/og-image.png">
 
     <!-- Additional Meta Tags -->
-    <meta name="theme-color" content="#1a1a2e">
+    <meta name="theme-color" content="#0e0903">
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
@@ -37,152 +37,30 @@
 
     <!-- Accessibility -->
     <link rel="stylesheet" href="../a11y.css">
+    <link rel="stylesheet" href="../theme.css">
     <script src="../a11y-utils.js"></script>
 
     <!-- Utilities -->
     <script src="../storage-utils.js"></script>
     <script src="../navigationv2.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* Page layout only; colors, type, buttons and fields come from theme.css */
+        main {
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
         }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            min-height: 100vh;
-            padding: 40px 20px;
-            color: #fff;
+        .page-head {
+            margin-bottom: 0;
         }
-
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
+        .category-intro .box-body,
+        .category-outro .box-body {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
-
-        .ascii-logo {
-            position: absolute;
-            top: 20px;
-            right: 40px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.65rem;
-            line-height: 1.1;
-            color: #4fc3f7;
-            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
-            opacity: 0.8;
-            white-space: pre;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 15px;
-            font-size: 2.5rem;
-            color: #4fc3f7;
-            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #90caf9;
-            font-size: 1.1rem;
-            margin-bottom: 50px;
-            opacity: 0.9;
-        }
-
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 25px;
-            margin-bottom: 50px;
-        }
-
-        .tool-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
-            text-decoration: none;
-            color: inherit;
-            display: block;
-        }
-
-        .tool-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(79, 195, 247, 0.3);
-            border-color: rgba(79, 195, 247, 0.5);
-        }
-
-        .tool-card h2 {
-            color: #4fc3f7;
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-        }
-
-        .tool-card p {
-            color: #90caf9;
-            font-size: 1rem;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-
-        .tool-link {
-            display: inline-block;
-            color: #4fc3f7;
-            font-weight: 600;
-            font-size: 0.95rem;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
-        .tool-link:hover {
-            color: #2196f3;
-        }
-
-        .tool-link::after {
-            content: ' →';
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 50px;
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 0.85rem;
-            padding-top: 30px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        @media (max-width: 768px) {
-            .ascii-logo {
-                position: static;
-                text-align: center;
-                margin-bottom: 20px;
-                font-size: 0.5rem;
-            }
-
-            h1 {
-                font-size: 2rem;
-            }
-
-            .subtitle {
-                font-size: 1rem;
-            }
-
-            .tools-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-
-            .tool-card {
-                padding: 25px;
-            }
-
-            .tool-card h2 {
-                font-size: 1.5rem;
-            }
+        .card-link code {
+            color: var(--fg);
         }
     </style>
 
@@ -204,94 +82,98 @@
 </head>
 <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
-    <div class="ascii-logo" aria-hidden="true">  ___  _    _  __        __   _
- / _ \| | _| | \ \      / /__| |__
-| | | | |/ _` | \ \ /\ / / _ \ '_ \
-| |_| | | (_| |  \ V  V /  __/ |_) |
- \___/|_|\__,_|   \_/\_/ \___|_.__/
-</div>
-    <main id="main-content" class="container">
-        <h1>System Tools</h1>
-        <p class="subtitle">Essential utilities for Unix/Linux system administration and DevOps</p>
+    <main id="main-content">
+        <div class="page-head">
+            <h1>System Tools</h1>
+            <p class="lede">Essential utilities for Unix/Linux system administration and DevOps</p>
+        </div>
 
-        <section class="category-intro" aria-labelledby="category-intro-heading">
-            <h2 id="category-intro-heading">What's in this category</h2>
-            <p>A grab-bag of utilities for the kind of work that fills a Linux admin's day: parsing certificates, decoding JWTs, building cron expressions, calculating IOPS for storage plans, generating credentials, and testing regex against real log lines. These aren't toys &mdash; each one was built because we needed it during real on-call work and wanted something that runs without a network connection.</p>
-            <p>Every tool processes everything locally in your browser. The <strong>Certificate Parser</strong> never sees your cert. The <strong>JWT Decoder</strong> never sees your token. The <strong>Passphrase Generator</strong> uses your browser's cryptographic random source, not a server-side word list. Cron expressions, chmod permissions, and IOPS numbers are all pure math &mdash; no reason for them to round-trip a server. Use the <strong>Regex Tester</strong> for PCRE-style patterns against sample text with live highlighting, and the <strong>Log Parser</strong> when you need to grep, filter, and analyze raw logs without piping them anywhere unsafe.</p>
+        <section class="box category-intro" aria-labelledby="category-intro-heading">
+            <div class="box-head">
+                <h2 id="category-intro-heading">what's in this category</h2>
+            </div>
+            <div class="box-body">
+                <p>A grab-bag of utilities for the kind of work that fills a Linux admin's day: parsing certificates, decoding JWTs, building cron expressions, calculating IOPS for storage plans, generating credentials, and testing regex against real log lines. These aren't toys &mdash; each one was built because we needed it during real on-call work and wanted something that runs without a network connection.</p>
+                <p>Every tool processes everything locally in your browser. The <strong>Certificate Parser</strong> never sees your cert. The <strong>JWT Decoder</strong> never sees your token. The <strong>Passphrase Generator</strong> uses your browser's cryptographic random source, not a server-side word list. Cron expressions, chmod permissions, and IOPS numbers are all pure math &mdash; no reason for them to round-trip a server. Use the <strong>Regex Tester</strong> for PCRE-style patterns against sample text with live highlighting, and the <strong>Log Parser</strong> when you need to grep, filter, and analyze raw logs without piping them anywhere unsafe.</p>
+            </div>
         </section>
 
-        <div class="tools-grid">
-            <a href="chmod-calculator.html" class="tool-card">
+        <div class="card-grid">
+            <a href="chmod-calculator.html" class="card-link">
                 <h2>Chmod Calculator</h2>
                 <p>Visual permission calculator with checkboxes for owner/group/other. Bidirectional conversion between octal (755) and symbolic (-rwxr-xr-x) notation. Includes umask calculator and special permission bits.</p>
-                <span class="tool-link">Open Calculator</span>
+                <span class="card-cta">Open Calculator</span>
             </a>
 
-            <a href="cron-builder.html" class="tool-card">
+            <a href="cron-builder.html" class="card-link">
                 <h2>Cron Builder</h2>
                 <p>Build cron expressions visually or parse existing ones. Human-readable explanations, next 10 execution times, and common preset library. Essential for scheduling tasks on Linux systems.</p>
-                <span class="tool-link">Open Builder</span>
+                <span class="card-cta">Open Builder</span>
             </a>
 
-            <a href="disk-tools.html" class="tool-card">
+            <a href="disk-tools.html" class="card-link">
                 <h2>DISK Tools</h2>
                 <p>Comprehensive storage and RAID calculator. Calculate RAID capacity and rebuild times, convert disk space units, analyze disk usage percentages, and estimate IOPS performance for various disk types and RAID configurations.</p>
-                <span class="tool-link">Open Tools</span>
+                <span class="card-cta">Open Tools</span>
             </a>
 
-            <a href="password-generator.html" class="tool-card">
+            <a href="password-generator.html" class="card-link">
                 <h2>Password Generator</h2>
                 <p>Generate secure random passwords with configurable length and complexity. Supports multiple policies (Active Directory, Linux PAM, custom), XKCD-style passphrases, and batch generation. Uses Web Crypto API for secure randomness.</p>
-                <span class="tool-link">Open Generator</span>
+                <span class="card-cta">Open Generator</span>
             </a>
 
-            <a href="regex-tester.html" class="tool-card">
+            <a href="regex-tester.html" class="card-link">
                 <h2>Regex Tester</h2>
                 <p>Test regular expressions against multi-line text with real-time matching. Includes common network patterns for MAC addresses, IPs, VLANs, and interface names. View matches with highlighting or in list format.</p>
-                <span class="tool-link">Open Tester</span>
+                <span class="card-cta">Open Tester</span>
             </a>
 
-            <a href="timestamp-converter.html" class="tool-card">
+            <a href="timestamp-converter.html" class="card-link">
                 <h2>Log Timestamp Converter</h2>
                 <p>Parse and convert log timestamps in batch mode. Auto-detects ISO8601, RFC3339, syslog, Windows Event Log, Apache/Nginx, and Unix formats. Convert to multiple timezones with CSV export.</p>
-                <span class="tool-link">Open Converter</span>
+                <span class="card-cta">Open Converter</span>
             </a>
 
-            <a href="certificate-parser.html" class="tool-card">
+            <a href="certificate-parser.html" class="card-link">
                 <h2>Certificate Parser</h2>
                 <p>Parse and decode PEM certificates to view expiry dates, subject, issuer, and Subject Alternative Names (SANs). Parse existing CSRs or generate new Certificate Signing Requests with custom SANs.</p>
-                <span class="tool-link">Open Parser</span>
+                <span class="card-cta">Open Parser</span>
             </a>
 
-            <a href="log-parser.html" class="tool-card">
+            <a href="log-parser.html" class="card-link">
                 <h2>Log Parser</h2>
                 <p>Parse log lines into structured fields. Auto-detects syslog RFC 3164/5424, Apache/Nginx combined and common, JSON, Windows Event Log, and custom delimited formats. Export results to CSV or JSON.</p>
-                <span class="tool-link">Open Parser</span>
+                <span class="card-cta">Open Parser</span>
             </a>
 
-            <a href="iops-calculator.html" class="tool-card">
+            <a href="iops-calculator.html" class="card-link">
                 <h2>IOPS Calculator</h2>
                 <p>Calculate storage IOPS for on-premises RAID arrays, AWS EBS, Azure Managed Disks, and Google Cloud Persistent Disks. Estimate read/write performance with RAID penalties and cloud provider limits.</p>
-                <span class="tool-link">Open Calculator</span>
+                <span class="card-cta">Open Calculator</span>
             </a>
 
-            <a href="jwt-decoder.html" class="tool-card">
+            <a href="jwt-decoder.html" class="card-link">
                 <h2>JWT Decoder</h2>
                 <p>Decode JSON Web Tokens entirely in your browser. View header, payload, and signature with human-readable timestamps for <code>exp</code>, <code>iat</code>, and <code>nbf</code> claims. Validation status at a glance &mdash; no server upload.</p>
-                <span class="tool-link">Open Decoder</span>
+                <span class="card-cta">Open Decoder</span>
             </a>
         </div>
 
-        <section class="category-outro" aria-labelledby="category-outro-heading">
-            <h2 id="category-outro-heading">Built for the on-call shift</h2>
-            <p>Local-only by design. None of these tools log inputs, send analytics, or require an account. Bookmark them on a laptop or pin them to a tab &mdash; they all keep working when the corporate proxy is down or the VPN is being temperamental.</p>
-            <p>Useful next: <a href="../data/">Data Tools</a> for hashing, encoding, and text comparison. <a href="../nettools/">Network Tools</a> for subnet planning and bandwidth math. If you're managing finances on the side, <a href="../financials/">Financial Tools</a> has paycheck, loan, and retirement calculators.</p>
+        <section class="box category-outro" aria-labelledby="category-outro-heading">
+            <div class="box-head">
+                <h2 id="category-outro-heading">built for the on-call shift</h2>
+            </div>
+            <div class="box-body">
+                <p>Local-only by design. None of these tools log inputs, send analytics, or require an account. Bookmark them on a laptop or pin them to a tab &mdash; they all keep working when the corporate proxy is down or the VPN is being temperamental.</p>
+                <p>Useful next: <a href="../data/">Data Tools</a> for hashing, encoding, and text comparison. <a href="../nettools/">Network Tools</a> for subnet planning and bandwidth math. If you're managing finances on the side, <a href="../financials/">Financial Tools</a> has paycheck, loan, and retirement calculators.</p>
+            </div>
         </section>
-
-        <footer role="contentinfo">
-            System Tools - Works offline, no installation required
-        </footer>
     </main>
+    <footer class="statusbar" role="contentinfo">
+        <span>[oldweb] system › index │ works offline │ no tracking</span>
+        <span>/ search · t theme</span>
+    </footer>
 
     <script>
         // Initialize accessibility - handle skip link

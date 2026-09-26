@@ -28,303 +28,136 @@
     <meta name="twitter:image" content="https://oldweb.tech/logo/og-image.png">
 
     <!-- Additional Meta Tags -->
-    <meta name="theme-color" content="#1a1a2e">
+    <meta name="theme-color" content="#0e0903">
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
 
     <title>DISK Tools - RAID & Storage Calculator - OldWeb.tech</title>
     <link rel="stylesheet" href="../a11y.css">
+    <link rel="stylesheet" href="../theme.css">
     <script src="../a11y-utils.js"></script>
     <script src="../storage-utils.js"></script>
     <script src="../navigationv2.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            min-height: 100vh;
-            padding: 40px 20px;
-            color: #fff;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 2.5rem;
-            color: #4fc3f7;
-            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
-        }
-
+        /* Page layout only; colors, type, buttons and fields come from theme.css */
         .tools-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-            gap: 30px;
-            margin-bottom: 30px;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 24px;
+            align-items: start;
         }
-
-        @media (max-width: 768px) {
-            .tools-grid {
-                grid-template-columns: 1fr;
-            }
+        .side-col {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
         }
-
-        .calculator {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .calculator h2 {
-            color: #4fc3f7;
-            margin-bottom: 20px;
-            font-size: 1.5rem;
-            text-align: center;
-        }
-
         .input-group {
-            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-bottom: 16px;
         }
-
         .input-field {
-            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
         }
-
-        .input-field label {
-            display: block;
-            margin-bottom: 8px;
-            color: #90caf9;
-            font-weight: 500;
-        }
-
-        .input-field input, .input-field select {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            background: #0f1419;
-            color: #fff;
-            font-size: 1rem;
-            transition: border-color 0.3s, box-shadow 0.3s;
-        }
-
-        .input-field select option {
-            background: #0f1419;
-            color: #fff;
-        }
-
-        .input-field input:focus, .input-field select:focus {
-            outline: none;
-            border-color: #4fc3f7;
-            box-shadow: 0 0 15px rgba(79, 195, 247, 0.2);
-        }
-
-        .input-field input::placeholder {
-            color: rgba(255, 255, 255, 0.4);
-        }
-
         .input-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
+            gap: 14px;
         }
-
-        .btn {
-            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
-            color: #fff;
-            border: none;
-            padding: 14px 40px;
-            font-size: 1.1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            font-weight: 600;
-            width: 100%;
-            margin-top: 10px;
+        .help-text {
+            color: var(--dim);
+            font-size: 0.8rem;
         }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(79, 195, 247, 0.4);
+        .form-actions,
+        .page-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            padding: 0 3px 3px 0;
         }
-
-        .btn:active {
-            transform: translateY(0);
+        .form-actions .primary {
+            flex: 1;
+        }
+        .page-actions {
+            margin-top: 24px;
         }
 
         .results {
             display: none;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            margin-top: 20px;
+            margin-top: 18px;
+            padding-top: 14px;
+            border-top: 1px dashed var(--line);
         }
-
         .results.show {
             display: block;
-            animation: fadeIn 0.4s ease;
         }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
         .results h3 {
-            color: #4fc3f7;
-            margin-bottom: 15px;
-            font-size: 1.2rem;
+            margin-bottom: 8px;
         }
-
         .result-item {
-            background: rgba(0, 0, 0, 0.2);
-            padding: 15px 20px;
-            border-radius: 8px;
-            border-left: 4px solid #4fc3f7;
-            margin-bottom: 10px;
+            padding: 8px 0;
         }
-
+        .result-item + .result-item {
+            border-top: 1px dotted var(--line);
+        }
         .result-item .label {
-            color: #90caf9;
+            color: var(--dim);
             font-size: 0.85rem;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
-
         .result-item .value {
+            color: var(--hi);
             font-size: 1.2rem;
-            font-family: 'Consolas', 'Monaco', monospace;
-            color: #fff;
+            font-weight: 600;
+            text-shadow: var(--glow);
         }
-
         .result-item .subtext {
-            color: rgba(255, 255, 255, 0.6);
+            color: var(--dim);
             font-size: 0.85rem;
-            margin-top: 5px;
         }
 
         .raid-info {
-            background: rgba(79, 195, 247, 0.1);
-            border: 1px solid rgba(79, 195, 247, 0.3);
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 15px;
+            margin-top: 18px;
+            padding: 10px 14px;
+            border-left: 4px solid var(--line);
         }
-
         .raid-info .info-title {
-            color: #4fc3f7;
+            margin-bottom: 6px;
+            color: var(--hi);
             font-weight: 600;
-            margin-bottom: 8px;
         }
-
         .raid-info ul {
-            margin-left: 20px;
-            color: #90caf9;
+            margin: 0;
+            padding-left: 20px;
+            color: var(--dim);
             font-size: 0.9rem;
         }
 
-        .raid-info li {
-            margin-bottom: 5px;
-        }
-
-        .conversion-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-        }
-
-        .conversion-table th,
-        .conversion-table td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .conversion-table th {
-            color: #4fc3f7;
-            font-weight: 600;
-        }
-
-        .conversion-table td {
-            color: #fff;
-            font-family: 'Consolas', 'Monaco', monospace;
+        .conversion-table td:last-child {
+            color: var(--hi);
         }
 
         .alert {
-            background: rgba(255, 152, 0, 0.2);
-            border: 1px solid #ff9800;
-            color: #ffb74d;
-            padding: 10px 15px;
-            border-radius: 8px;
             margin-top: 10px;
+            padding: 10px 14px;
+            border: 1px solid var(--warn);
+            border-left: 6px solid var(--warn);
+            color: var(--warn);
             font-size: 0.9rem;
         }
 
-        .ascii-logo {
-            position: absolute;
-            top: 20px;
-            right: 40px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.65rem;
-            line-height: 1.1;
-            color: #4fc3f7;
-            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
-            opacity: 0.8;
-            white-space: pre;
-        }
-
-        @media (max-width: 768px) {
-            .ascii-logo {
-                position: static;
-                text-align: center;
-                margin-bottom: 20px;
-                font-size: 0.5rem;
+        @media (max-width: 900px) {
+            .tools-grid {
+                grid-template-columns: minmax(0, 1fr);
             }
-
+        }
+        @media (max-width: 768px) {
             .input-row {
                 grid-template-columns: 1fr;
             }
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 30px;
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 0.85rem;
-        }
-
-        .btn.secondary {
-            background: transparent;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            color: #90caf9;
-            margin-top: 10px;
-        }
-        .btn.secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.5);
-            box-shadow: none;
-            transform: none;
-        }
-
-        .help-text {
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 0.85rem;
-            margin-top: 5px;
         }
     </style>
 
@@ -352,251 +185,278 @@
 </head>
 <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
-    <div class="ascii-logo" aria-hidden="true">  ___  _    _  __        __   _
- / _ \| | _| | \ \      / /__| |__
-| | | | |/ _` | \ \ /\ / / _ \ '_ \
-| |_| | | (_| |  \ V  V /  __/ |_) |
- \___/|_|\__,_|   \_/\_/ \___|_.__/
-</div>
-    <main id="main-content" class="container">
-        <h1>DISK Tools</h1>
+    <main id="main-content">
+        <div class="page-head">
+            <h1>DISK Tools</h1>
+            <p class="lede">RAID capacity and rebuild time, storage unit conversion, space usage and IOPS estimates.</p>
+        </div>
 
         <div class="tools-grid">
             <!-- RAID Calculator -->
-            <div class="calculator">
-                <h2>RAID Calculator</h2>
-                <form aria-label="RAID capacity calculator form">
-                <div class="input-group">
-                    <div class="input-field">
-                        <label for="raidLevel">RAID Level</label>
-                        <select id="raidLevel" onchange="updateRaidInfo()" aria-describedby="raid-help">
-                        <span id="raid-help" class="sr-only">Select RAID level to calculate capacity and performance characteristics</span>
-                            <option value="0">RAID 0 - Striping (No Redundancy)</option>
-                            <option value="1">RAID 1 - Mirroring</option>
-                            <option value="5" selected>RAID 5 - Distributed Parity</option>
-                            <option value="6">RAID 6 - Double Parity</option>
-                            <option value="10">RAID 10 - Mirrored Stripes</option>
-                        </select>
-                    </div>
-                    <div class="input-row">
+            <section class="box calculator" aria-labelledby="raid-heading">
+                <div class="box-head">
+                    <h2 id="raid-heading">raid calculator</h2>
+                </div>
+                <div class="box-body">
+                    <form aria-label="RAID capacity calculator form">
+                    <div class="input-group">
                         <div class="input-field">
-                            <label for="numDisks">Number of Disks</label>
-                            <input type="number" id="numDisks" value="4" min="2" placeholder="4" aria-required="true" aria-describedby="num-disks-help">
-                            <span id="num-disks-help" class="sr-only">Enter the number of physical disks in the RAID array</span>
+                            <label for="raidLevel">RAID level</label>
+                            <select id="raidLevel" onchange="updateRaidInfo()" aria-describedby="raid-help">
+                                <option value="0">RAID 0 - Striping (No Redundancy)</option>
+                                <option value="1">RAID 1 - Mirroring</option>
+                                <option value="5" selected>RAID 5 - Distributed Parity</option>
+                                <option value="6">RAID 6 - Double Parity</option>
+                                <option value="10">RAID 10 - Mirrored Stripes</option>
+                            </select>
+                            <span id="raid-help" class="sr-only">Select RAID level to calculate capacity and performance characteristics</span>
                         </div>
-                        <div class="input-field">
-                            <label for="diskSize">Disk Size (TB)</label>
-                            <input type="number" id="diskSize" value="2" min="0.001" step="0.001" placeholder="2" aria-required="true" aria-describedby="disk-size-help">
-                            <span id="disk-size-help" class="sr-only">Enter the capacity of each disk in terabytes</span>
+                        <div class="input-row">
+                            <div class="input-field">
+                                <label for="numDisks">Number of disks</label>
+                                <input type="number" id="numDisks" value="4" min="2" placeholder="4" aria-required="true" aria-describedby="num-disks-help">
+                                <span id="num-disks-help" class="sr-only">Enter the number of physical disks in the RAID array</span>
+                            </div>
+                            <div class="input-field">
+                                <label for="diskSize">Disk size (TB)</label>
+                                <input type="number" id="diskSize" value="2" min="0.001" step="0.001" placeholder="2" aria-required="true" aria-describedby="disk-size-help">
+                                <span id="disk-size-help" class="sr-only">Enter the capacity of each disk in terabytes</span>
+                            </div>
+                        </div>
+                        <div class="input-row">
+                            <div class="input-field">
+                                <label for="rebuildSpeed">Rebuild speed (MB/s)</label>
+                                <input type="number" id="rebuildSpeed" value="100" min="1" placeholder="100" aria-describedby="rebuild-help">
+                                <div class="help-text" id="rebuild-help">Typical: 50-150 MB/s</div>
+                            </div>
+                            <div class="input-field">
+                                <label for="stripeSize">Stripe size (KB)</label>
+                                <input type="number" id="stripeSize" value="64" min="4" placeholder="64" aria-describedby="stripe-help">
+                                <div class="help-text" id="stripe-help">Common: 64, 128, 256</div>
+                            </div>
                         </div>
                     </div>
-                    <div class="input-row">
-                        <div class="input-field">
-                            <label for="rebuildSpeed">Rebuild Speed (MB/s)</label>
-                            <input type="number" id="rebuildSpeed" value="100" min="1" placeholder="100" aria-describedby="rebuild-help">
-                            <div class="help-text" id="rebuild-help">Typical: 50-150 MB/s</div>
+                    <div class="form-actions">
+                        <button type="button" class="btn primary" onclick="calculateRAID()" aria-label="Calculate RAID array capacity, rebuild time, and efficiency">Calculate RAID</button>
+                    </div>
+                    </form>
+
+                    <div class="results" id="raidResults" role="region" aria-live="polite" aria-label="RAID configuration results">
+                        <h3>raid configuration results</h3>
+                        <div class="result-item">
+                            <div class="label">Usable capacity</div>
+                            <div class="value" id="usableCapacity">-</div>
+                            <div class="subtext" id="rawCapacity">-</div>
                         </div>
-                        <div class="input-field">
-                            <label for="stripeSize">Stripe Size (KB)</label>
-                            <input type="number" id="stripeSize" value="64" min="4" placeholder="64" aria-describedby="stripe-help">
-                            <div class="help-text" id="stripe-help">Common: 64, 128, 256</div>
+                        <div class="result-item">
+                            <div class="label">Disk failure tolerance</div>
+                            <div class="value" id="failureTolerance">-</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="label">Estimated rebuild time</div>
+                            <div class="value" id="rebuildTime">-</div>
+                            <div class="subtext" id="rebuildDetails">-</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="label">Storage efficiency</div>
+                            <div class="value" id="efficiency">-</div>
                         </div>
                     </div>
-                </div>
-                <button type="button" class="btn" onclick="calculateRAID()" aria-label="Calculate RAID array capacity, rebuild time, and efficiency">Calculate RAID</button>
-                </form>
 
-                <div class="results" id="raidResults" role="region" aria-live="polite" aria-label="RAID configuration results">
-                    <h3>RAID Configuration Results</h3>
-                    <div class="result-item">
-                        <div class="label">Usable Capacity</div>
-                        <div class="value" id="usableCapacity">-</div>
-                        <div class="subtext" id="rawCapacity">-</div>
-                    </div>
-                    <div class="result-item">
-                        <div class="label">Disk Failure Tolerance</div>
-                        <div class="value" id="failureTolerance">-</div>
-                    </div>
-                    <div class="result-item">
-                        <div class="label">Estimated Rebuild Time</div>
-                        <div class="value" id="rebuildTime">-</div>
-                        <div class="subtext" id="rebuildDetails">-</div>
-                    </div>
-                    <div class="result-item">
-                        <div class="label">Storage Efficiency</div>
-                        <div class="value" id="efficiency">-</div>
+                    <div class="raid-info" id="raidInfo">
+                        <div class="info-title">RAID 5 - Distributed Parity</div>
+                        <ul>
+                            <li>Minimum disks: 3</li>
+                            <li>Can survive 1 disk failure</li>
+                            <li>Good read performance</li>
+                            <li>Write performance penalty due to parity</li>
+                            <li>Capacity: (N-1) × disk size</li>
+                        </ul>
                     </div>
                 </div>
+            </section>
 
-                <div class="raid-info" id="raidInfo">
-                    <div class="info-title">RAID 5 - Distributed Parity</div>
-                    <ul>
-                        <li>Minimum disks: 3</li>
-                        <li>Can survive 1 disk failure</li>
-                        <li>Good read performance</li>
-                        <li>Write performance penalty due to parity</li>
-                        <li>Capacity: (N-1) × disk size</li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Disk Space Calculator -->
-            <div class="calculator">
-                <h2>Disk Space Calculator</h2>
-                <form aria-label="Disk space unit converter form">
-                <div class="input-group">
-                    <div class="input-field">
-                        <label for="diskValue">Value</label>
-                        <input type="number" id="diskValue" value="1000" min="0" step="0.001" placeholder="1000" aria-required="true" aria-describedby="value-help">
-                        <span id="value-help" class="sr-only">Enter numeric value to convert between storage units</span>
+            <div class="side-col">
+                <!-- Disk Space Calculator -->
+                <section class="box calculator" aria-labelledby="space-heading">
+                    <div class="box-head">
+                        <h2 id="space-heading">disk space calculator</h2>
                     </div>
-                    <div class="input-field">
-                        <label for="diskUnit">From Unit</label>
-                        <select id="diskUnit" aria-describedby="unit-help">
-                        <span id="unit-help" class="sr-only">Select source unit for conversion</span>
-                            <option value="B">Bytes (B)</option>
-                            <option value="KB">Kilobytes (KB - 1000)</option>
-                            <option value="MB">Megabytes (MB - 1000)</option>
-                            <option value="GB" selected>Gigabytes (GB - 1000)</option>
-                            <option value="TB">Terabytes (TB - 1000)</option>
-                            <option value="PB">Petabytes (PB - 1000)</option>
-                            <option value="KiB">Kibibytes (KiB - 1024)</option>
-                            <option value="MiB">Mebibytes (MiB - 1024)</option>
-                            <option value="GiB">Gibibytes (GiB - 1024)</option>
-                            <option value="TiB">Tebibytes (TiB - 1024)</option>
-                            <option value="PiB">Pebibytes (PiB - 1024)</option>
-                        </select>
-                    </div>
-                </div>
-                <button type="button" class="btn" onclick="calculateDiskSpace()" aria-label="Convert storage value to all common units">Convert Units</button>
-                </form>
+                    <div class="box-body">
+                        <form aria-label="Disk space unit converter form">
+                        <div class="input-group">
+                            <div class="input-row">
+                                <div class="input-field">
+                                    <label for="diskValue">Value</label>
+                                    <input type="number" id="diskValue" value="1000" min="0" step="0.001" placeholder="1000" aria-required="true" aria-describedby="value-help">
+                                    <span id="value-help" class="sr-only">Enter numeric value to convert between storage units</span>
+                                </div>
+                                <div class="input-field">
+                                    <label for="diskUnit">From unit</label>
+                                    <select id="diskUnit" aria-describedby="unit-help">
+                                        <option value="B">Bytes (B)</option>
+                                        <option value="KB">Kilobytes (KB - 1000)</option>
+                                        <option value="MB">Megabytes (MB - 1000)</option>
+                                        <option value="GB" selected>Gigabytes (GB - 1000)</option>
+                                        <option value="TB">Terabytes (TB - 1000)</option>
+                                        <option value="PB">Petabytes (PB - 1000)</option>
+                                        <option value="KiB">Kibibytes (KiB - 1024)</option>
+                                        <option value="MiB">Mebibytes (MiB - 1024)</option>
+                                        <option value="GiB">Gibibytes (GiB - 1024)</option>
+                                        <option value="TiB">Tebibytes (TiB - 1024)</option>
+                                        <option value="PiB">Pebibytes (PiB - 1024)</option>
+                                    </select>
+                                    <span id="unit-help" class="sr-only">Select source unit for conversion</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="btn primary" onclick="calculateDiskSpace()" aria-label="Convert storage value to all common units">Convert units</button>
+                        </div>
+                        </form>
 
-                <div class="results" id="diskResults" role="region" aria-live="polite" aria-label="Storage unit conversion results">
-                    <h3>Unit Conversions</h3>
-                    <table class="conversion-table">
-                        <thead>
-                            <tr>
-                                <th>Unit</th>
-                                <th>Value</th>
-                            </tr>
-                        </thead>
-                        <tbody id="conversionTable">
-                        </tbody>
-                    </table>
-                </div>
+                        <div class="results" id="diskResults" role="region" aria-live="polite" aria-label="Storage unit conversion results">
+                            <h3>unit conversions</h3>
+                            <table class="data-table conversion-table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Unit</th>
+                                        <th scope="col">Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="conversionTable">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
 
                 <!-- Percentage Calculator -->
-                <div style="margin-top: 30px;">
-                    <h2 style="color: #4fc3f7; font-size: 1.3rem; margin-bottom: 15px;">Percentage & Space Calculator</h2>
-                    <form aria-label="Storage percentage calculator form">
-                    <div class="input-group">
-                        <div class="input-row">
-                            <div class="input-field">
-                                <label for="totalSpace">Total Space (GB)</label>
-                                <input type="number" id="totalSpace" value="1000" min="0" step="0.001" aria-required="true" aria-describedby="total-help">
-                                <span id="total-help" class="sr-only">Enter total storage capacity in gigabytes</span>
-                            </div>
-                            <div class="input-field">
-                                <label for="usedSpace">Used Space (GB)</label>
-                                <input type="number" id="usedSpace" value="650" min="0" step="0.001" aria-required="true" aria-describedby="used-help">
-                                <span id="used-help" class="sr-only">Enter used storage space in gigabytes</span>
+                <section class="box calculator" aria-labelledby="percent-heading">
+                    <div class="box-head">
+                        <h2 id="percent-heading">percentage &amp; space</h2>
+                    </div>
+                    <div class="box-body">
+                        <form aria-label="Storage percentage calculator form">
+                        <div class="input-group">
+                            <div class="input-row">
+                                <div class="input-field">
+                                    <label for="totalSpace">Total space (GB)</label>
+                                    <input type="number" id="totalSpace" value="1000" min="0" step="0.001" aria-required="true" aria-describedby="total-help">
+                                    <span id="total-help" class="sr-only">Enter total storage capacity in gigabytes</span>
+                                </div>
+                                <div class="input-field">
+                                    <label for="usedSpace">Used space (GB)</label>
+                                    <input type="number" id="usedSpace" value="650" min="0" step="0.001" aria-required="true" aria-describedby="used-help">
+                                    <span id="used-help" class="sr-only">Enter used storage space in gigabytes</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <button type="button" class="btn" onclick="calculatePercentage()" aria-label="Calculate storage usage percentage and free space">Calculate</button>
-                    </form>
+                        <div class="form-actions">
+                            <button type="button" class="btn primary" onclick="calculatePercentage()" aria-label="Calculate storage usage percentage and free space">Calculate</button>
+                        </div>
+                        </form>
 
-                    <div class="results" id="percentageResults" role="region" aria-live="polite" aria-label="Storage percentage results">
-                        <h3>Space Analysis</h3>
-                        <div class="result-item">
-                            <div class="label">Used Percentage</div>
-                            <div class="value" id="usedPercent">-</div>
-                        </div>
-                        <div class="result-item">
-                            <div class="label">Free Space</div>
-                            <div class="value" id="freeSpace">-</div>
-                            <div class="subtext" id="freePercent">-</div>
+                        <div class="results" id="percentageResults" role="region" aria-live="polite" aria-label="Storage percentage results">
+                            <h3>space analysis</h3>
+                            <div class="result-item">
+                                <div class="label">Used percentage</div>
+                                <div class="value" id="usedPercent">-</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="label">Free space</div>
+                                <div class="value" id="freeSpace">-</div>
+                                <div class="subtext" id="freePercent">-</div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </section>
 
                 <!-- IOPS Calculator -->
-                <div style="margin-top: 30px;">
-                    <h2 style="color: #4fc3f7; font-size: 1.3rem; margin-bottom: 15px;">IOPS Calculator</h2>
-                    <form aria-label="IOPS performance calculator form">
-                    <div class="input-group">
-                        <div class="input-field">
-                            <label for="diskType">Disk Type</label>
-                            <select id="diskType" onchange="updateIOPSDefaults()" aria-describedby="disk-type-help">
-                            <span id="disk-type-help" class="sr-only">Select disk type to set typical IOPS values</span>
-                                <option value="ssd">SSD (Solid State Drive)</option>
-                                <option value="sas15k">SAS 15K RPM</option>
-                                <option value="sas10k">SAS 10K RPM</option>
-                                <option value="sata7k" selected>SATA 7200 RPM</option>
-                                <option value="sata5k">SATA 5400 RPM</option>
-                                <option value="nvme">NVMe SSD</option>
-                            </select>
-                        </div>
-                        <div class="input-row">
+                <section class="box calculator" aria-labelledby="iops-heading">
+                    <div class="box-head">
+                        <h2 id="iops-heading">iops calculator</h2>
+                    </div>
+                    <div class="box-body">
+                        <form aria-label="IOPS performance calculator form">
+                        <div class="input-group">
                             <div class="input-field">
-                                <label for="iopsPerDisk">IOPS per Disk</label>
-                                <input type="number" id="iopsPerDisk" value="80" min="1" aria-required="true" aria-describedby="iops-disk-help">
-                                <span id="iops-disk-help" class="sr-only">Enter input/output operations per second for each disk</span>
-                            </div>
-                            <div class="input-field">
-                                <label for="numDrivesIOPS">Number of Drives</label>
-                                <input type="number" id="numDrivesIOPS" value="4" min="1" aria-required="true" aria-describedby="drives-help">
-                                <span id="drives-help" class="sr-only">Enter number of drives in the array</span>
-                            </div>
-                        </div>
-                        <div class="input-row">
-                            <div class="input-field">
-                                <label for="readPercent">Read % (0-100)</label>
-                                <input type="number" id="readPercent" value="70" min="0" max="100" aria-required="true" aria-describedby="read-help">
-                                <span id="read-help" class="sr-only">Enter percentage of operations that are reads, 0 to 100</span>
-                            </div>
-                            <div class="input-field">
-                                <label for="raidLevelIOPS">RAID Level</label>
-                                <select id="raidLevelIOPS" aria-describedby="raid-iops-help">
-                                <span id="raid-iops-help" class="sr-only">Select RAID level for IOPS calculation</span>
-                                    <option value="0">RAID 0</option>
-                                    <option value="1">RAID 1</option>
-                                    <option value="5" selected>RAID 5</option>
-                                    <option value="6">RAID 6</option>
-                                    <option value="10">RAID 10</option>
+                                <label for="diskType">Disk type</label>
+                                <select id="diskType" onchange="updateIOPSDefaults()" aria-describedby="disk-type-help">
+                                    <option value="ssd">SSD (Solid State Drive)</option>
+                                    <option value="sas15k">SAS 15K RPM</option>
+                                    <option value="sas10k">SAS 10K RPM</option>
+                                    <option value="sata7k" selected>SATA 7200 RPM</option>
+                                    <option value="sata5k">SATA 5400 RPM</option>
+                                    <option value="nvme">NVMe SSD</option>
                                 </select>
+                                <span id="disk-type-help" class="sr-only">Select disk type to set typical IOPS values</span>
+                            </div>
+                            <div class="input-row">
+                                <div class="input-field">
+                                    <label for="iopsPerDisk">IOPS per disk</label>
+                                    <input type="number" id="iopsPerDisk" value="80" min="1" aria-required="true" aria-describedby="iops-disk-help">
+                                    <span id="iops-disk-help" class="sr-only">Enter input/output operations per second for each disk</span>
+                                </div>
+                                <div class="input-field">
+                                    <label for="numDrivesIOPS">Number of drives</label>
+                                    <input type="number" id="numDrivesIOPS" value="4" min="1" aria-required="true" aria-describedby="drives-help">
+                                    <span id="drives-help" class="sr-only">Enter number of drives in the array</span>
+                                </div>
+                            </div>
+                            <div class="input-row">
+                                <div class="input-field">
+                                    <label for="readPercent">Read % (0-100)</label>
+                                    <input type="number" id="readPercent" value="70" min="0" max="100" aria-required="true" aria-describedby="read-help">
+                                    <span id="read-help" class="sr-only">Enter percentage of operations that are reads, 0 to 100</span>
+                                </div>
+                                <div class="input-field">
+                                    <label for="raidLevelIOPS">RAID level</label>
+                                    <select id="raidLevelIOPS" aria-describedby="raid-iops-help">
+                                        <option value="0">RAID 0</option>
+                                        <option value="1">RAID 1</option>
+                                        <option value="5" selected>RAID 5</option>
+                                        <option value="6">RAID 6</option>
+                                        <option value="10">RAID 10</option>
+                                    </select>
+                                    <span id="raid-iops-help" class="sr-only">Select RAID level for IOPS calculation</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="btn primary" onclick="calculateIOPS()" aria-label="Calculate total IOPS performance for the disk array">Calculate IOPS</button>
+                        </div>
+                        </form>
+
+                        <div class="results" id="iopsResults" role="region" aria-live="polite" aria-label="IOPS performance results">
+                            <h3>iops performance</h3>
+                            <div class="result-item">
+                                <div class="label">Total read IOPS</div>
+                                <div class="value" id="readIOPS">-</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="label">Total write IOPS</div>
+                                <div class="value" id="writeIOPS">-</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="label">Effective total IOPS</div>
+                                <div class="value" id="totalIOPS">-</div>
+                                <div class="subtext" id="iopsNote">-</div>
                             </div>
                         </div>
                     </div>
-                    <button type="button" class="btn" onclick="calculateIOPS()" aria-label="Calculate total IOPS performance for the disk array">Calculate IOPS</button>
-                    </form>
-
-                    <div class="results" id="iopsResults" role="region" aria-live="polite" aria-label="IOPS performance results">
-                        <h3>IOPS Performance</h3>
-                        <div class="result-item">
-                            <div class="label">Total Read IOPS</div>
-                            <div class="value" id="readIOPS">-</div>
-                        </div>
-                        <div class="result-item">
-                            <div class="label">Total Write IOPS</div>
-                            <div class="value" id="writeIOPS">-</div>
-                        </div>
-                        <div class="result-item">
-                            <div class="label">Effective Total IOPS</div>
-                            <div class="value" id="totalIOPS">-</div>
-                            <div class="subtext" id="iopsNote">-</div>
-                        </div>
-                    </div>
-                </div>
+                </section>
             </div>
         </div>
 
-        <button type="button" class="btn secondary" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page" style="max-width: 300px; margin: 20px auto;">Clear Saved Data</button>
-
-        <footer role="contentinfo">
-            DISK Tools - RAID & Storage Calculator | Works offline, no installation required
-        </footer>
+        <div class="page-actions">
+            <button type="button" class="btn" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page">Clear saved data</button>
+        </div>
     </main>
+    <footer class="statusbar" role="contentinfo">
+        <span>[oldweb] system › disk-tools │ works offline │ no tracking</span>
+        <span>/ search · t theme</span>
+    </footer>
 
     <script>
         // RAID Calculator Functions
@@ -748,7 +608,7 @@
             if (level === '0') {
                 const alert = document.createElement('div');
                 alert.className = 'alert';
-                alert.innerHTML = '<strong>⚠ Warning:</strong> RAID 0 provides no redundancy. Any single disk failure will result in complete data loss!';
+                alert.innerHTML = '<strong>Warning:</strong> RAID 0 provides no redundancy. Any single disk failure will result in complete data loss!';
                 resultsDiv.appendChild(alert);
             }
 
