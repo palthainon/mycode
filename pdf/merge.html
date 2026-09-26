@@ -25,11 +25,12 @@
     <meta name="twitter:description" content="Combine PDFs into one in your browser. No uploads, no watermarks, no signup.">
     <meta name="twitter:image" content="https://oldweb.tech/logo/og-image.png">
 
-    <meta name="theme-color" content="#1a1a2e">
+    <meta name="theme-color" content="#0e0903">
     <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
 
     <title>PDF Merge - OldWeb.tech</title>
     <link rel="stylesheet" href="../a11y.css">
+    <link rel="stylesheet" href="../theme.css">
     <script src="../a11y-utils.js"></script>
     <script src="../storage-utils.js"></script>
     <script src="../navigationv2.js"></script>
@@ -46,89 +47,52 @@
             referrerpolicy="no-referrer"></script>
 
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            min-height: 100vh;
-            padding: 40px 20px;
-            color: #fff;
+        /* Page layout only; colors, type, buttons and fields come from theme.css */
+        main {
+            max-width: 1000px;
         }
-
-        .container { max-width: 1000px; margin: 0 auto; }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 8px;
-            font-size: 2.3rem;
-            color: #4fc3f7;
-            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #90caf9;
-            font-size: 0.95rem;
-            margin-bottom: 26px;
-            opacity: 0.9;
-        }
-
-        .ascii-logo {
-            position: absolute;
-            top: 20px;
-            right: 40px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.65rem;
-            line-height: 1.1;
-            color: #4fc3f7;
-            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
-            opacity: 0.8;
-            white-space: pre;
-        }
-
         .panel {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 14px;
-            padding: 22px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 18px;
+            margin-bottom: 20px;
         }
 
+        /* Drop zone is clickable, so it gets the button treatment */
         .dropzone {
             display: block;
-            border: 2px dashed rgba(79, 195, 247, 0.4);
-            border-radius: 12px;
-            padding: 38px 20px;
+            padding: 34px 20px;
+            background: var(--btn);
+            border: 2px dashed var(--hi);
+            box-shadow: 4px 4px 0 var(--shadow);
             text-align: center;
-            transition: all 0.2s;
             cursor: pointer;
         }
-
-        .dropzone:hover, .dropzone.dragover {
-            border-color: #4fc3f7;
-            background: rgba(79, 195, 247, 0.08);
+        .dropzone:hover {
+            background: var(--head);
         }
-
+        .dropzone.dragover {
+            background: var(--head);
+            border-style: solid;
+        }
+        .dropzone:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0 var(--shadow);
+        }
         .dropzone .dz-icon {
-            font-size: 2.4rem;
+            margin-bottom: 6px;
+            font-family: var(--font-display);
+            font-size: 2.2rem;
             line-height: 1;
-            margin-bottom: 8px;
+            color: var(--hi);
         }
-
         .dropzone .dz-main {
-            color: #4fc3f7;
+            margin-bottom: 4px;
+            color: var(--hi);
             font-size: 1.05rem;
             font-weight: 600;
-            margin-bottom: 4px;
         }
-
         .dropzone .dz-sub {
-            color: #90caf9;
+            color: var(--dim);
             font-size: 0.85rem;
         }
-
         .visually-hidden {
             position: absolute !important;
             width: 1px; height: 1px;
@@ -137,243 +101,140 @@
             white-space: nowrap; border: 0;
         }
 
-        .file-list {
-            margin-top: 14px;
+        .actions {
             display: flex;
-            flex-direction: column;
-            gap: 8px;
+            flex-wrap: wrap;
+            gap: 14px;
+            justify-content: center;
+            margin-top: 16px;
+            padding: 0 3px 3px 0;
+        }
+        .btn.danger {
+            color: var(--err);
+            border-color: var(--err);
+        }
+        .btn.danger:hover:not(:disabled) {
+            background: var(--err-bg);
+            color: var(--err);
         }
 
+        .download-area {
+            display: none;
+            margin-top: 16px;
+            text-align: center;
+        }
+        .download-area.show {
+            display: block;
+        }
+        .download-area .ok-text {
+            margin-bottom: 10px;
+            color: var(--ok);
+            font-weight: 600;
+        }
+        .download-area .ok-text::before {
+            content: '\2713  ';
+        }
+
+        .warn-box {
+            display: none;
+            margin-top: 12px;
+            padding: 10px 14px;
+            border: 1px solid var(--warn);
+            border-left: 6px solid var(--warn);
+            color: var(--fg);
+            font-size: 0.88rem;
+        }
+        .warn-box.show {
+            display: block;
+        }
+        .warn-box::before {
+            content: 'warning: ';
+            color: var(--warn);
+            font-weight: 600;
+        }
+
+        .privacy-strip {
+            margin-top: 12px;
+            padding: 10px 14px;
+            border-left: 6px solid var(--ok);
+            background: var(--panel);
+            font-size: 0.85rem;
+        }
+        .privacy-strip strong {
+            color: var(--ok);
+        }
+
+        @media (max-width: 768px) {
+            .dropzone { padding: 26px 14px; }
+        }
+
+        .file-list {
+            display: flex;
+            flex-direction: column;
+            margin-top: 16px;
+        }
         .file-row {
             display: flex;
             align-items: center;
             gap: 12px;
-            background: rgba(0, 0, 0, 0.25);
-            padding: 10px 14px;
-            border-radius: 8px;
-            border-left: 3px solid #4fc3f7;
+            padding: 8px 4px 8px 12px;
+            border-bottom: 1px dotted var(--line);
+            box-shadow: inset 3px 0 0 var(--hi);
         }
-
         .file-row .file-meta {
             flex: 1;
             min-width: 0;
         }
-
         .file-row .file-name {
-            color: #fff;
+            color: var(--fg);
             font-size: 0.95rem;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
-
         .file-row .file-info {
-            color: #90caf9;
-            font-size: 0.78rem;
             margin-top: 2px;
+            color: var(--dim);
+            font-size: 0.78rem;
         }
-
         .file-row .file-info.warn {
-            color: #ffb74d;
+            color: var(--warn);
         }
-
+        .file-row .file-info.warn::before {
+            content: '! ';
+            font-weight: 600;
+        }
         .file-row .row-actions {
             display: flex;
-            gap: 4px;
+            gap: 8px;
+            padding: 0 2px 2px 0;
         }
-
-        .row-btn {
-            background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #90caf9;
-            width: 32px;
-            height: 32px;
-            border-radius: 6px;
-            cursor: pointer;
+        .btn.row-btn {
+            min-width: 36px;
+            padding: 3px 8px;
             font-size: 0.95rem;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
-
-        .row-btn:hover:not(:disabled) {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(255, 255, 255, 0.4);
-            color: #fff;
+        .btn.row-btn.remove {
+            color: var(--err);
+            border-color: var(--err);
         }
-
-        .row-btn:focus-visible {
-            outline: 2px solid #4fc3f7;
-            outline-offset: 2px;
+        .btn.row-btn.remove:hover:not(:disabled) {
+            background: var(--err-bg);
         }
-
-        .row-btn:disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
-        }
-
-        .row-btn.remove:hover:not(:disabled) {
-            background: rgba(244, 67, 54, 0.12);
-            border-color: rgba(244, 67, 54, 0.5);
-            color: #ff8a80;
-        }
-
         .empty-list {
-            color: rgba(255, 255, 255, 0.4);
-            font-style: italic;
+            padding: 12px;
+            color: var(--dim);
             font-size: 0.9rem;
             text-align: center;
-            padding: 12px;
         }
-
         .summary-row {
-            color: #90caf9;
-            font-size: 0.88rem;
             margin-top: 12px;
+            color: var(--dim);
+            font-size: 0.88rem;
             text-align: center;
         }
-
         .summary-row strong {
-            color: #fff;
-            font-family: 'Consolas', 'Monaco', monospace;
-        }
-
-        .actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 14px;
-        }
-
-        .btn {
-            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
-            color: #fff;
-            border: none;
-            padding: 12px 28px;
-            font-size: 1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
-            font-weight: 600;
-            font-family: inherit;
-        }
-
-        .btn:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(79, 195, 247, 0.4);
-        }
-
-        .btn:focus-visible {
-            outline: 3px solid #4fc3f7;
-            outline-offset: 2px;
-        }
-
-        .btn:disabled {
-            opacity: 0.45;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        .btn.secondary {
-            background: transparent;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            color: #90caf9;
-        }
-
-        .btn.secondary:hover:not(:disabled) {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(255, 255, 255, 0.5);
-            box-shadow: none;
-            transform: none;
-        }
-
-        .btn.danger {
-            background: transparent;
-            border: 2px solid rgba(244, 67, 54, 0.4);
-            color: rgba(244, 67, 54, 0.85);
-        }
-
-        .btn.danger:hover:not(:disabled) {
-            background: rgba(244, 67, 54, 0.12);
-            border-color: rgba(244, 67, 54, 0.6);
-            color: #ff8a80;
-            box-shadow: none;
-            transform: none;
-        }
-
-        .download-area {
-            margin-top: 14px;
-            text-align: center;
-            display: none;
-        }
-
-        .download-area.show {
-            display: block;
-        }
-
-        .download-area .ok-text {
-            color: #66bb6a;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
-        .warn-box {
-            background: rgba(255, 152, 0, 0.08);
-            border: 1px solid rgba(255, 152, 0, 0.4);
-            border-radius: 8px;
-            color: #ffcc80;
-            padding: 10px 14px;
-            margin-top: 12px;
-            font-size: 0.88rem;
-            line-height: 1.5;
-            display: none;
-        }
-
-        .warn-box.show { display: block; }
-
-        /* CLAUDE.md-mandated error pattern */
-        #error {
-            background: rgba(244, 67, 54, 0.18);
-            border: 1px solid #f44336;
-            color: #ff8a80;
-            padding: 12px 16px;
-            border-radius: 8px;
-            margin-top: 15px;
-            display: none;
-        }
-        #error.show { display: block; }
-        input.error { border-color: #f44336 !important; }
-
-        .privacy-strip {
-            background: rgba(0, 0, 0, 0.18);
-            border-left: 4px solid #66bb6a;
-            border-radius: 6px;
-            padding: 10px 14px;
-            color: #c5d4e3;
-            font-size: 0.85rem;
-            line-height: 1.5;
-            margin-top: 12px;
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 28px;
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 0.85rem;
-        }
-
-        @media (max-width: 768px) {
-            .ascii-logo {
-                position: static;
-                text-align: center;
-                margin-bottom: 20px;
-                font-size: 0.5rem;
-            }
-            h1 { font-size: 1.8rem; }
-            .dropzone { padding: 28px 14px; }
+            color: var(--hi);
         }
     </style>
 
@@ -394,20 +255,20 @@
 </head>
 <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
-    <div class="ascii-logo" aria-hidden="true">  ___  _    _  __        __   _
- / _ \| | _| | \ \      / /__| |__
-| | | | |/ _` | \ \ /\ / / _ \ '_ \
-| |_| | | (_| |  \ V  V /  __/ |_) |
- \___/|_|\__,_|   \_/\_/ \___|_.__/
-</div>
 
-    <main id="main-content" class="container">
-        <h1>PDF Merge</h1>
-        <p class="subtitle">Combine multiple PDFs into one. Drag your files in, reorder them, and download. Nothing leaves your browser.</p>
+    <main id="main-content">
+        <div class="page-head">
+            <h1>PDF Merge</h1>
+            <p class="lede">Combine multiple PDFs into one. Drag your files in, reorder them, and download. Nothing leaves your browser.</p>
+        </div>
 
-        <div class="panel">
+        <section class="box panel" aria-labelledby="merge-heading">
+            <div class="box-head">
+                <h2 id="merge-heading">files to merge</h2>
+            </div>
+            <div class="box-body">
             <label for="fileInput" class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose PDF files or drop them here">
-                <div class="dz-icon" aria-hidden="true">&#128206;</div>
+                <div class="dz-icon" aria-hidden="true">[+]</div>
                 <div class="dz-main">Drop PDFs here</div>
                 <div class="dz-sub">or click to choose files &middot; you can add more later</div>
             </label>
@@ -424,28 +285,30 @@
 
             <div class="summary-row" id="summaryRow"></div>
             <div class="warn-box" id="warnBox" role="status" aria-live="polite"></div>
-            <div id="error" role="alert" aria-live="assertive"></div>
+            <div id="error" class="error-alert" role="alert" aria-live="assertive"></div>
 
             <div class="actions">
-                <button type="button" class="btn" id="mergeBtn" onclick="mergeAll()" disabled aria-label="Merge selected PDFs and download">Merge &amp; Download</button>
-                <button type="button" class="btn secondary" id="clearListBtn" onclick="clearList()" disabled aria-label="Remove all files from the list">Clear List</button>
+                <button type="button" class="btn primary" id="mergeBtn" onclick="mergeAll()" disabled aria-label="Merge selected PDFs and download">Merge &amp; Download</button>
+                <button type="button" class="btn" id="clearListBtn" onclick="clearList()" disabled aria-label="Remove all files from the list">Clear List</button>
                 <button type="button" class="btn danger" onclick="clearAllSavedData()" aria-label="Clear all saved form data from this page">Clear Saved Data</button>
             </div>
 
             <div class="download-area" id="downloadArea">
                 <div class="ok-text" id="downloadText">Merged PDF ready.</div>
-                <a id="downloadLink" class="btn" href="#" download="merged.pdf">Download merged.pdf</a>
+                <a id="downloadLink" class="btn primary" href="#" download="merged.pdf">Download merged.pdf</a>
             </div>
-        </div>
+            </div>
+        </section>
 
         <div class="privacy-strip">
             <strong>Privacy:</strong> Files are read in this tab and combined in memory using pdf-lib. They never get sent to a server. Close the tab and they're gone.
         </div>
-
-        <footer role="contentinfo">
-            PDF Merge &mdash; Works offline, no installation required
-        </footer>
     </main>
+
+    <footer class="statusbar" role="contentinfo">
+        <span>[oldweb] pdf › merge │ works offline │ no tracking</span>
+        <span>/ search · t theme</span>
+    </footer>
 
     <script>
         const $ = id => document.getElementById(id);
@@ -594,9 +457,9 @@
                         <div class="file-info">${formatBytes(p.size)} &middot; ${p.pages.toLocaleString()} page${p.pages === 1 ? '' : 's'}</div>
                     </div>
                     <div class="row-actions">
-                        <button type="button" class="row-btn" data-act="up" data-idx="${idx}" ${idx === 0 ? 'disabled' : ''} aria-label="Move ${escapeHtml(p.name)} up">&#8593;</button>
-                        <button type="button" class="row-btn" data-act="down" data-idx="${idx}" ${idx === pdfFiles.length - 1 ? 'disabled' : ''} aria-label="Move ${escapeHtml(p.name)} down">&#8595;</button>
-                        <button type="button" class="row-btn remove" data-act="remove" data-idx="${idx}" aria-label="Remove ${escapeHtml(p.name)}">&times;</button>
+                        <button type="button" class="btn small row-btn" data-act="up" data-idx="${idx}" ${idx === 0 ? 'disabled' : ''} aria-label="Move ${escapeHtml(p.name)} up">&#8593;</button>
+                        <button type="button" class="btn small row-btn" data-act="down" data-idx="${idx}" ${idx === pdfFiles.length - 1 ? 'disabled' : ''} aria-label="Move ${escapeHtml(p.name)} down">&#8595;</button>
+                        <button type="button" class="btn small row-btn remove" data-act="remove" data-idx="${idx}" aria-label="Remove ${escapeHtml(p.name)}">&times;</button>
                     </div>
                 `;
                 list.appendChild(row);

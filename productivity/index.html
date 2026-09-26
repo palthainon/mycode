@@ -28,7 +28,7 @@
     <meta name="twitter:image" content="https://oldweb.tech/logo/og-image.png">
 
     <!-- Additional Meta Tags -->
-    <meta name="theme-color" content="#1a1a2e">
+    <meta name="theme-color" content="#0e0903">
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
@@ -37,152 +37,26 @@
 
     <!-- Accessibility -->
     <link rel="stylesheet" href="../a11y.css">
+    <link rel="stylesheet" href="../theme.css">
     <script src="../a11y-utils.js"></script>
 
     <!-- Utilities -->
     <script src="../storage-utils.js"></script>
     <script src="../navigationv2.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* Page layout only; colors, type, buttons and fields come from theme.css */
+        .category-intro,
+        .category-outro {
+            margin-bottom: 28px;
         }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            min-height: 100vh;
-            padding: 40px 20px;
-            color: #fff;
+        .category-intro .box-body,
+        .category-outro .box-body {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
-
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .ascii-logo {
-            position: absolute;
-            top: 20px;
-            right: 40px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.65rem;
-            line-height: 1.1;
-            color: #4fc3f7;
-            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
-            opacity: 0.8;
-            white-space: pre;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 15px;
-            font-size: 2.5rem;
-            color: #4fc3f7;
-            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #90caf9;
-            font-size: 1.1rem;
-            margin-bottom: 50px;
-            opacity: 0.9;
-        }
-
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 25px;
-            margin-bottom: 50px;
-        }
-
-        .tool-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
-            text-decoration: none;
-            color: inherit;
-            display: block;
-        }
-
-        .tool-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(79, 195, 247, 0.3);
-            border-color: rgba(79, 195, 247, 0.5);
-        }
-
-        .tool-card h2 {
-            color: #4fc3f7;
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-        }
-
-        .tool-card p {
-            color: #90caf9;
-            font-size: 1rem;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-
-        .tool-link {
-            display: inline-block;
-            color: #4fc3f7;
-            font-weight: 600;
-            font-size: 0.95rem;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
-        .tool-link:hover {
-            color: #2196f3;
-        }
-
-        .tool-link::after {
-            content: ' \2192';
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 50px;
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 0.85rem;
-            padding-top: 30px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        @media (max-width: 768px) {
-            .ascii-logo {
-                position: static;
-                text-align: center;
-                margin-bottom: 20px;
-                font-size: 0.5rem;
-            }
-
-            h1 {
-                font-size: 2rem;
-            }
-
-            .subtitle {
-                font-size: 1rem;
-            }
-
-            .tools-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-
-            .tool-card {
-                padding: 25px;
-            }
-
-            .tool-card h2 {
-                font-size: 1.5rem;
-            }
+        .card-grid {
+            margin-bottom: 28px;
         }
     </style>
 
@@ -204,52 +78,57 @@
 </head>
 <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
-    <div class="ascii-logo" aria-hidden="true">  ___  _    _  __        __   _
- / _ \| | _| | \ \      / /__| |__
-| | | | |/ _` | \ \ /\ / / _ \ '_ \
-| |_| | | (_| |  \ V  V /  __/ |_) |
- \___/|_|\__,_|   \_/\_/ \___|_.__/
-</div>
     <main id="main-content" class="container">
-        <h1>Productivity Tools</h1>
-        <p class="subtitle">Simple, effective tools for time management and focused work</p>
+        <div class="page-head">
+            <h1>Productivity Tools</h1>
+            <p class="lede">Simple, effective tools for time management and focused work</p>
+        </div>
 
-        <section class="category-intro" aria-labelledby="category-intro-heading">
-            <h2 id="category-intro-heading">What's in this category</h2>
+        <section class="box category-intro" aria-labelledby="category-intro-heading">
+            <div class="box-head">
+                <h2 id="category-intro-heading">what's in this category</h2>
+            </div>
+            <div class="box-body">
             <p>Small, focused utilities for staying on task and coordinating across time zones. No notifications you didn't ask for, no streaks to maintain, no AI suggesting you "optimize your workflow." Just a Pomodoro timer that beeps when the interval is up, a scratchpad that saves what you type, and a meeting planner that respects everyone's working hours.</p>
             <p>The <strong>Pomodoro Timer</strong> runs configurable work/break intervals with audible cues. <strong>Plaintext Scratchpad</strong> is a persistent textarea that autosaves to your browser &mdash; perfect for capturing stray thoughts during a meeting without opening a "real" notes app. <strong>Timezone Meeting Planner</strong> lays out business-hours overlap across multiple locations, including a polar globe view, so you can find a workable meeting time at a glance.</p>
+            </div>
         </section>
 
-        <div class="tools-grid">
-            <a href="pomodoro.html" class="tool-card">
+        <div class="card-grid">
+            <a href="pomodoro.html" class="card-link">
                 <h2>Pomodoro Timer</h2>
                 <p>A customizable Pomodoro timer with circular countdown display, browser notifications, and audio alerts. Track your focus sessions with built-in history and statistics. Supports work sessions, short breaks, and long breaks.</p>
-                <span class="tool-link">Open Timer</span>
+                <span class="card-cta">Open Timer</span>
             </a>
 
-            <a href="scratchpad.html" class="tool-card">
+            <a href="scratchpad.html" class="card-link">
                 <h2>Plaintext Scratchpad</h2>
                 <p>A persistent scratchpad that auto-saves every keystroke to your browser. Open it, jot anything, close the tab &mdash; your text is still there when you come back. Word/character counts and one-click download as .txt.</p>
-                <span class="tool-link">Open Scratchpad</span>
+                <span class="card-cta">Open Scratchpad</span>
             </a>
 
-            <a href="tz-meeting-planner.html" class="tool-card">
+            <a href="tz-meeting-planner.html" class="card-link">
                 <h2>Timezone Meeting Planner</h2>
                 <p>Pick a time in your home timezone and instantly see what it looks like everywhere else. Business-hours indicators (green/yellow/red) make it obvious when you've found a workable overlap.</p>
-                <span class="tool-link">Open Planner</span>
+                <span class="card-cta">Open Planner</span>
             </a>
         </div>
 
-        <section class="category-outro" aria-labelledby="category-outro-heading">
-            <h2 id="category-outro-heading">Nothing to install, nothing to log in to</h2>
+        <section class="box category-outro" aria-labelledby="category-outro-heading">
+            <div class="box-head">
+                <h2 id="category-outro-heading">nothing to install, nothing to log in to</h2>
+            </div>
+            <div class="box-body">
             <p>Everything saves locally to your browser &mdash; close the tab and your timer, notes, or meeting setup will still be there next visit. No account, no sync to a cloud service that might disappear, no subscription holding your data hostage.</p>
             <p>Useful next: <a href="../system/">System Tools</a> for technical tasks during a focused work block (regex, log parsing, cron). <a href="../nettools/">Network Tools</a> when the block is subnet planning or bandwidth math. <a href="../financials/">Financial Tools</a> pairs well with a Pomodoro session focused on budgeting.</p>
+            </div>
         </section>
-
-        <footer role="contentinfo">
-            OldWeb Tools - Works offline, no installation required
-        </footer>
     </main>
+
+    <footer class="statusbar" role="contentinfo">
+        <span>[oldweb] productivity › index │ works offline │ no tracking</span>
+        <span>/ search · t theme</span>
+    </footer>
 
     <script>
         // Initialize accessibility - handle skip link
