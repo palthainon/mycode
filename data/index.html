@@ -28,7 +28,7 @@
     <meta name="twitter:image" content="https://oldweb.tech/logo/og-image.png">
 
     <!-- Additional Meta Tags -->
-    <meta name="theme-color" content="#1a1a2e">
+    <meta name="theme-color" content="#0e0903">
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
@@ -37,6 +37,7 @@
 
     <!-- Accessibility -->
     <link rel="stylesheet" href="../a11y.css">
+    <link rel="stylesheet" href="../theme.css">
     <script src="../a11y-utils.js"></script>
 
     <!-- Utilities -->
@@ -44,146 +45,25 @@
 
     <script src="../navigationv2.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* Page layout only; colors, type, buttons and fields come from theme.css */
+        .category-intro,
+        .category-outro {
+            margin-bottom: 28px;
         }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            min-height: 100vh;
-            padding: 40px 20px;
-            color: #fff;
+        .category-outro {
+            margin-top: 32px;
+            margin-bottom: 0;
         }
-
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
+        .category-intro .box-body,
+        .category-outro .box-body {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-width: 80ch;
         }
-
-        .ascii-logo {
-            position: absolute;
-            top: 20px;
-            right: 40px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.65rem;
-            line-height: 1.1;
-            color: #4fc3f7;
-            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
-            opacity: 0.8;
-            white-space: pre;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 15px;
-            font-size: 2.5rem;
-            color: #4fc3f7;
-            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #90caf9;
-            font-size: 1.1rem;
-            margin-bottom: 50px;
-            opacity: 0.9;
-        }
-
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 25px;
-            margin-bottom: 50px;
-        }
-
-        .tool-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
-            text-decoration: none;
-            color: inherit;
-            display: block;
-        }
-
-        .tool-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(79, 195, 247, 0.3);
-            border-color: rgba(79, 195, 247, 0.5);
-        }
-
-        .tool-card h2 {
-            color: #4fc3f7;
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-        }
-
-        .tool-card p {
-            color: #90caf9;
-            font-size: 1rem;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-
-        .tool-link {
-            display: inline-block;
-            color: #4fc3f7;
+        .category-intro strong {
+            color: var(--hi);
             font-weight: 600;
-            font-size: 0.95rem;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
-        .tool-link:hover {
-            color: #2196f3;
-        }
-
-        .tool-link::after {
-            content: ' →';
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 50px;
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 0.85rem;
-            padding-top: 30px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        @media (max-width: 768px) {
-            .ascii-logo {
-                position: static;
-                text-align: center;
-                margin-bottom: 20px;
-                font-size: 0.5rem;
-            }
-
-            h1 {
-                font-size: 2rem;
-            }
-
-            .subtitle {
-                font-size: 1rem;
-            }
-
-            .tools-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-
-            .tool-card {
-                padding: 25px;
-            }
-
-            .tool-card h2 {
-                font-size: 1.5rem;
-            }
         }
     </style>
 
@@ -205,70 +85,74 @@
 </head>
 <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
-    <div class="ascii-logo" aria-hidden="true">  ___  _    _  __        __   _
- / _ \| | _| | \ \      / /__| |__
-| | | | |/ _` | \ \ /\ / / _ \ '_ \
-| |_| | | (_| |  \ V  V /  __/ |_) |
- \___/|_|\__,_|   \_/\_/ \___|_.__/
-</div>
-    <main id="main-content" class="container">
-        <h1>Data Tools</h1>
-        <p class="subtitle">Encoding, hashing, and data format conversion utilities</p>
+    <main id="main-content">
+        <div class="page-head">
+            <h1>Data Tools</h1>
+            <p class="lede">Encoding, hashing, and data format conversion utilities</p>
+        </div>
 
-        <section class="category-intro" aria-labelledby="category-intro-heading">
-            <h2 id="category-intro-heading">What's in this category</h2>
-            <p>String manipulation, encoding, hashing, and diffing &mdash; the low-glamour utilities that show up in nearly every troubleshooting session. Whether you're checking if two config files differ, decoding a Base64 blob from a packet capture, generating UUIDs for test data, or validating a JSON payload returned by an API, these tools handle the routine transformations so you can keep moving.</p>
-            <p>The <strong>Base64 &amp; Hash Tools</strong> page handles encoding/decoding plus MD5, SHA-1, SHA-256, and SHA-512 &mdash; useful for verifying downloads, comparing file integrity, or working with API signatures. <strong>String Tools</strong> covers case conversion, trimming, escaping, and URL/HTML encoding. <strong>Text Diff</strong> compares two blocks of text with side-by-side highlighting. <strong>UUID Generator</strong> produces v4 UUIDs in bulk. <strong>JSON Formatter</strong> validates, prettifies, and minifies JSON with exact line and column on syntax errors. <strong>Measurement Converter</strong> handles unit conversions for length, weight, volume, and more.</p>
+        <section class="box category-intro" aria-labelledby="category-intro-heading">
+            <div class="box-head">
+                <h2 id="category-intro-heading">what's in this category</h2>
+            </div>
+            <div class="box-body">
+                <p>String manipulation, encoding, hashing, and diffing &mdash; the low-glamour utilities that show up in nearly every troubleshooting session. Whether you're checking if two config files differ, decoding a Base64 blob from a packet capture, generating UUIDs for test data, or validating a JSON payload returned by an API, these tools handle the routine transformations so you can keep moving.</p>
+                <p>The <strong>Base64 &amp; Hash Tools</strong> page handles encoding/decoding plus MD5, SHA-1, SHA-256, and SHA-512 &mdash; useful for verifying downloads, comparing file integrity, or working with API signatures. <strong>String Tools</strong> covers case conversion, trimming, escaping, and URL/HTML encoding. <strong>Text Diff</strong> compares two blocks of text with side-by-side highlighting. <strong>UUID Generator</strong> produces v4 UUIDs in bulk. <strong>JSON Formatter</strong> validates, prettifies, and minifies JSON with exact line and column on syntax errors. <strong>Measurement Converter</strong> handles unit conversions for length, weight, volume, and more.</p>
+            </div>
         </section>
 
-        <div class="tools-grid">
-            <a href="base64-hash.html" class="tool-card">
+        <div class="card-grid">
+            <a href="base64-hash.html" class="card-link">
                 <h2>Base64 & Hash Tools</h2>
                 <p>Encode/decode Base64, generate hashes (MD5, SHA-1, SHA-256, SHA-512), URL encode/decode, and hex conversion. Essential encoding utilities for API testing, certificates, and passwords.</p>
-                <span class="tool-link">Open Tools</span>
+                <span class="card-cta">Open</span>
             </a>
 
-            <a href="string-tools.html" class="tool-card">
+            <a href="string-tools.html" class="card-link">
                 <h2>String Manipulation Toolkit</h2>
                 <p>Case conversion (UPPER, lower, Title, camelCase, snake_case, kebab-case), line operations (trim, sort, reverse), duplicate removal, and escape/unescape for HTML, JSON, SQL, and more.</p>
-                <span class="tool-link">Open Tools</span>
+                <span class="card-cta">Open</span>
             </a>
 
-            <a href="text-diff.html" class="tool-card">
+            <a href="text-diff.html" class="card-link">
                 <h2>Text Diff Tool</h2>
                 <p>Compare text files and find differences with side-by-side visualization. Line-by-line comparison with syntax highlighting for added, removed, and modified lines. Perfect for config file comparisons and code reviews.</p>
-                <span class="tool-link">Open Tool</span>
+                <span class="card-cta">Open</span>
             </a>
 
-            <a href="uuid-generator.html" class="tool-card">
+            <a href="uuid-generator.html" class="card-link">
                 <h2>UUID/GUID Generator</h2>
                 <p>Generate, validate, and convert UUIDs/GUIDs. Supports UUID v1 (timestamp), v4 (random), and v5 (name-based) with batch generation, validation, and multiple output formats. Includes conversion to various formats and detailed UUID analysis.</p>
-                <span class="tool-link">Open Tool</span>
+                <span class="card-cta">Open</span>
             </a>
 
-            <a href="measurement-converter.html" class="tool-card">
+            <a href="measurement-converter.html" class="card-link">
                 <h2>Measurement Converter</h2>
                 <p>Comprehensive unit converter for length, weight, volume, area, cooking measurements, temperature (C/F/K), SI prefixes, scientific notation, significant figures, pressure, energy, and trigonometry. Includes unit circle reference and live trig calculator.</p>
-                <span class="tool-link">Open Tool</span>
+                <span class="card-cta">Open</span>
             </a>
 
-            <a href="json-formatter.html" class="tool-card">
+            <a href="json-formatter.html" class="card-link">
                 <h2>JSON Formatter &amp; Validator</h2>
                 <p>Format, minify, and validate JSON locally in your browser. Custom indent (2/4 spaces or tabs), sort keys alphabetically, line-and-column error reporting, plus escape and unescape for JSON string literals.</p>
-                <span class="tool-link">Open Tool</span>
+                <span class="card-cta">Open</span>
             </a>
         </div>
 
-        <section class="category-outro" aria-labelledby="category-outro-heading">
-            <h2 id="category-outro-heading">Private by default</h2>
-            <p>Every transformation here runs in your browser. Pasting a hash to check it, decoding a payload, comparing two configs &mdash; none of that data ever leaves the page. Use these tools on production data without worrying about leakage policies or service uptime.</p>
-            <p>Useful next: <a href="../nettools/">Network Tools</a> for format conversions in network contexts (IP to binary, bytes to gigabits). <a href="../system/">System Tools</a> for credential generation, certificate work, and JWT decoding.</p>
+        <section class="box category-outro" aria-labelledby="category-outro-heading">
+            <div class="box-head">
+                <h2 id="category-outro-heading">private by default</h2>
+            </div>
+            <div class="box-body">
+                <p>Every transformation here runs in your browser. Pasting a hash to check it, decoding a payload, comparing two configs &mdash; none of that data ever leaves the page. Use these tools on production data without worrying about leakage policies or service uptime.</p>
+                <p>Useful next: <a href="../nettools/">Network Tools</a> for format conversions in network contexts (IP to binary, bytes to gigabits). <a href="../system/">System Tools</a> for credential generation, certificate work, and JWT decoding.</p>
+            </div>
         </section>
-
-        <footer role="contentinfo">
-            Data Tools - Works offline, no installation required
-        </footer>
     </main>
+    <footer class="statusbar" role="contentinfo">
+        <span>[oldweb] data │ works offline │ no tracking</span>
+        <span>/ search · t theme</span>
+    </footer>
 
     <script>
         // Initialize accessibility - handle skip link

@@ -28,375 +28,144 @@
     <meta name="twitter:image" content="https://oldweb.tech/logo/og-image.png">
 
     <!-- Additional Meta Tags -->
-    <meta name="theme-color" content="#1a1a2e">
+    <meta name="theme-color" content="#0e0903">
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
 
     <title>Base64 & Hash Tools - OldWeb.tech</title>
     <link rel="stylesheet" href="../a11y.css">
+    <link rel="stylesheet" href="../theme.css">
     <script src="../a11y-utils.js"></script>
     <script src="../storage-utils.js"></script>
 
     <script src="../navigationv2.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            min-height: 100vh;
-            padding: 40px 20px;
-            color: #fff;
-        }
-
-        .container {
+        /* Page layout only; colors, type, buttons and fields come from theme.css */
+        .tool-box {
             max-width: 900px;
-            margin: 0 auto;
         }
-
-        .ascii-logo {
-            position: absolute;
-            top: 20px;
-            right: 40px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.65rem;
-            line-height: 1.1;
-            color: #4fc3f7;
-            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
-            opacity: 0.8;
-            white-space: pre;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 10px;
-            font-size: 2.5rem;
-            color: #4fc3f7;
-            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #90caf9;
-            font-size: 1rem;
-            margin-bottom: 30px;
-            opacity: 0.9;
-        }
-
-        .calculator {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 20px;
-        }
-
         .tabs {
             display: flex;
-            gap: 5px;
-            margin-bottom: 25px;
-            border-bottom: 2px solid rgba(79, 195, 247, 0.2);
-            padding-bottom: 5px;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 0 3px 3px 0;
         }
-
-        .tab-btn {
-            padding: 12px 24px;
-            border: none;
-            background: transparent;
-            color: #90caf9;
-            border-radius: 8px 8px 0 0;
-            cursor: pointer;
-            font-size: 0.95rem;
-            font-weight: 600;
-            transition: all 0.3s;
+        .tab-btn.active,
+        .tab-btn[aria-selected="true"] {
+            background: var(--hi);
+            color: var(--inv);
         }
-
-        .tab-btn:hover {
-            background: rgba(79, 195, 247, 0.1);
-            color: #4fc3f7;
-        }
-
-        .tab-btn.active {
-            background: rgba(79, 195, 247, 0.2);
-            color: #4fc3f7;
-            border-bottom: 3px solid #4fc3f7;
-            margin-bottom: -7px;
-        }
-
         .tab-content {
             display: none;
         }
-
         .tab-content.active {
             display: block;
         }
-
+        .tab-content form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
         .section-title {
+            margin-bottom: 8px;
+            font-family: var(--font-body);
             font-size: 0.9rem;
-            color: #90caf9;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 12px;
+            color: var(--dim);
+            text-shadow: none;
         }
-
-        .input-area {
-            margin-bottom: 20px;
+        .section-title::before {
+            content: '# ';
         }
-
         .input-area textarea {
-            width: 100%;
             height: 120px;
-            padding: 15px;
-            border: 1px solid rgba(79, 195, 247, 0.3);
-            border-radius: 8px;
-            background: rgba(0, 0, 0, 0.3);
-            color: #fff;
-            font-family: 'Courier New', monospace;
-            font-size: 0.95rem;
             resize: vertical;
         }
-
-        .input-area textarea:focus {
-            outline: none;
-            border-color: #4fc3f7;
-            box-shadow: 0 0 15px rgba(79, 195, 247, 0.3);
-        }
-
-        .input-area textarea::placeholder {
-            color: rgba(255, 255, 255, 0.4);
-        }
-
         .button-row {
             display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
             flex-wrap: wrap;
+            gap: 14px;
+            padding: 0 3px 3px 0;
         }
-
-        .action-btn {
-            padding: 12px 24px;
-            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
-            border: none;
-            border-radius: 8px;
-            color: #1a1a2e;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.95rem;
-            transition: all 0.3s;
-        }
-
-        .action-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(79, 195, 247, 0.4);
-        }
-
-        .action-btn.secondary {
-            background: linear-gradient(135deg, #66bb6a 0%, #4caf50 100%);
-        }
-
-        .action-btn.secondary:hover {
-            box-shadow: 0 5px 20px rgba(102, 187, 106, 0.4);
-        }
-
-        .output-area {
-            margin-bottom: 20px;
-        }
-
         .output-box {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 10px;
-            padding: 20px;
             position: relative;
         }
-
         .output-box textarea {
-            width: 100%;
             height: 100px;
-            padding: 0;
-            border: none;
-            background: transparent;
-            color: #4fc3f7;
-            font-family: 'Courier New', monospace;
-            font-size: 0.95rem;
+            padding-right: 96px;
+            color: var(--hi);
             resize: vertical;
         }
-
-        .output-box textarea:focus {
-            outline: none;
-        }
-
         .output-box .copy-btn {
             position: absolute;
-            top: 10px;
+            top: 8px;
             right: 10px;
-            padding: 6px 14px;
-            background: rgba(102, 187, 106, 0.2);
-            border: 1px solid #66bb6a;
-            border-radius: 6px;
-            color: #66bb6a;
-            cursor: pointer;
-            font-size: 0.8rem;
-            transition: all 0.2s;
         }
-
-        .output-box .copy-btn:hover {
-            background: rgba(102, 187, 106, 0.3);
+        .copy-btn.copied {
+            background: var(--hi);
+            color: var(--inv);
         }
-
-        .output-box .copy-btn.copied {
-            background: #66bb6a;
-            color: #1a1a2e;
-        }
-
         .hash-results {
             display: grid;
-            gap: 15px;
+            gap: 12px;
+            margin-top: 20px;
         }
-
         .hash-item {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
-            padding: 15px 20px;
-            border-left: 4px solid #4fc3f7;
+            padding: 10px 14px;
+            border: 1px solid var(--line);
+            border-left: 4px solid var(--hi);
         }
-
         .hash-item h4 {
-            font-size: 0.8rem;
-            color: #90caf9;
-            text-transform: uppercase;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--dim);
+            text-shadow: none;
         }
-
-        .hash-item .hash-value {
+        .hash-value {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            padding: 0 3px 3px 0;
         }
-
-        .hash-item code {
+        .hash-value code {
             flex: 1;
-            font-family: 'Courier New', monospace;
-            font-size: 0.85rem;
-            color: #4fc3f7;
+            color: var(--hi);
+            font-size: 0.9rem;
             word-break: break-all;
         }
-
-        .hash-item .copy-btn {
-            padding: 5px 12px;
-            background: rgba(102, 187, 106, 0.2);
-            border: 1px solid #66bb6a;
-            border-radius: 6px;
-            color: #66bb6a;
-            cursor: pointer;
-            font-size: 0.75rem;
-            transition: all 0.2s;
+        .hash-value .copy-btn {
             flex-shrink: 0;
         }
-
-        .hash-item .copy-btn:hover {
-            background: rgba(102, 187, 106, 0.3);
-        }
-
-        .hash-item .copy-btn.copied {
-            background: #66bb6a;
-            color: #1a1a2e;
-        }
-
         .options-row {
             display: flex;
-            gap: 20px;
-            margin-bottom: 15px;
             flex-wrap: wrap;
+            gap: 20px;
         }
-
         .option-item {
             display: flex;
             align-items: center;
             gap: 8px;
-            color: #90caf9;
-            font-size: 0.9rem;
         }
-
-        .option-item input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            accent-color: #4fc3f7;
-        }
-
-        .error {
-            background: rgba(244, 67, 54, 0.1);
-            border: 1px solid #f44336;
-            border-left: 4px solid #f44336;
-            color: #ff8a80;
-            padding: 15px 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            display: none;
-        }
-
-        .error.show {
-            display: block;
-        }
-
         .info-box {
-            background: rgba(79, 195, 247, 0.1);
-            border-left: 4px solid #4fc3f7;
-            padding: 12px 16px;
-            border-radius: 0 8px 8px 0;
-            margin-bottom: 20px;
-            font-size: 0.85rem;
-            color: #90caf9;
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 30px;
-            color: rgba(255, 255, 255, 0.4);
+            margin-top: 20px;
+            color: var(--dim);
             font-size: 0.85rem;
         }
-
+        .info-box::before {
+            content: '# ';
+        }
+        .page-actions {
+            margin-top: 20px;
+            padding: 0 3px 3px 0;
+        }
         @media (max-width: 768px) {
-            .ascii-logo {
-                position: static;
-                text-align: center;
-                margin-bottom: 20px;
-                font-size: 0.5rem;
+            .button-row .btn {
+                flex: 1 1 100%;
             }
-
-            h1 {
-                font-size: 1.8rem;
-            }
-
-            .tabs {
-                flex-wrap: wrap;
-            }
-
-            .tab-btn {
-                padding: 10px 16px;
-                font-size: 0.85rem;
-            }
-
-            .button-row {
-                flex-direction: column;
-            }
-
-            .action-btn {
-                width: 100%;
-            }
-
-            .hash-item .hash-value {
+            .hash-value {
                 flex-direction: column;
                 align-items: flex-start;
-            }
-
-            .hash-item .copy-btn {
-                margin-top: 8px;
             }
         }
     </style>
@@ -425,68 +194,68 @@
 </head>
 <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
-    <div class="ascii-logo" aria-hidden="true">  ___  _    _  __        __   _
- / _ \| | _| | \ \      / /__| |__
-| | | | |/ _` | \ \ /\ / / _ \ '_ \
-| |_| | | (_| |  \ V  V /  __/ |_) |
- \___/|_|\__,_|   \_/\_/ \___|_.__/
-</div>
-    <main id="main-content" class="container">
-        <h1>Base64 & Hash Tools</h1>
-        <p class="subtitle">Encode, decode, and hash text data</p>
+    <main id="main-content">
+        <div class="page-head">
+            <h1>Base64 & Hash Tools</h1>
+            <p class="lede">Encode, decode, and hash text data</p>
+        </div>
 
-        <div class="calculator">
-            <div class="tabs" role="tablist" aria-label="Data encoding tool tabs">
-                <button type="button" class="tab-btn active" onclick="switchTab('base64')" role="tab" aria-selected="true" aria-controls="base64-tab" id="tab-base64" aria-label="Switch to Base64 encoding and decoding">Base64</button>
-                <button type="button" class="tab-btn" onclick="switchTab('hash')" role="tab" aria-selected="false" aria-controls="hash-tab" id="tab-hash" aria-label="Switch to cryptographic hash generation">Hash</button>
-                <button type="button" class="tab-btn" onclick="switchTab('url')" role="tab" aria-selected="false" aria-controls="url-tab" id="tab-url" aria-label="Switch to URL encoding and decoding">URL</button>
-                <button type="button" class="tab-btn" onclick="switchTab('hex')" role="tab" aria-selected="false" aria-controls="hex-tab" id="tab-hex" aria-label="Switch to hexadecimal encoding and decoding">Hex</button>
+        <section class="box tool-box calculator" aria-labelledby="mode-heading">
+            <div class="box-head">
+                <h2 id="mode-heading">mode</h2>
+                <div class="tabs" role="tablist" aria-label="Data encoding tool tabs">
+                    <button type="button" class="btn small tab-btn active" onclick="switchTab('base64')" role="tab" aria-selected="true" aria-controls="base64-tab" id="tab-base64" aria-label="Switch to Base64 encoding and decoding">Base64</button>
+                    <button type="button" class="btn small tab-btn" onclick="switchTab('hash')" role="tab" aria-selected="false" aria-controls="hash-tab" id="tab-hash" aria-label="Switch to cryptographic hash generation">Hash</button>
+                    <button type="button" class="btn small tab-btn" onclick="switchTab('url')" role="tab" aria-selected="false" aria-controls="url-tab" id="tab-url" aria-label="Switch to URL encoding and decoding">URL</button>
+                    <button type="button" class="btn small tab-btn" onclick="switchTab('hex')" role="tab" aria-selected="false" aria-controls="hex-tab" id="tab-hex" aria-label="Switch to hexadecimal encoding and decoding">Hex</button>
+                </div>
             </div>
 
+            <div class="box-body">
             <!-- Base64 Tab -->
             <div id="base64-tab" class="tab-content active" role="tabpanel" aria-labelledby="tab-base64">
                 <form aria-label="Base64 encode and decode form">
                 <div class="input-area">
-                    <h3 class="section-title">Input</h3>
+                    <h3 class="section-title">input</h3>
                     <textarea id="base64Input" placeholder="Enter text to encode or Base64 to decode..." aria-label="Input text for Base64 encoding or decoding" aria-describedby="base64-help"></textarea>
                     <span id="base64-help" class="sr-only">Enter plain text to encode as Base64, or enter Base64 encoded text to decode</span>
                 </div>
 
                 <div class="button-row">
-                    <button type="button" class="action-btn" onclick="encodeBase64()" aria-label="Encode input text to Base64 format">Encode to Base64</button>
-                    <button type="button" class="action-btn secondary" onclick="decodeBase64()" aria-label="Decode Base64 input to plain text">Decode from Base64</button>
+                    <button type="button" class="btn primary action-btn" onclick="encodeBase64()" aria-label="Encode input text to Base64 format">Encode to Base64</button>
+                    <button type="button" class="btn action-btn" onclick="decodeBase64()" aria-label="Decode Base64 input to plain text">Decode from Base64</button>
                 </div>
 
-                <div class="error" id="base64Error" role="alert" aria-live="assertive" aria-atomic="true"></div>
+                <div class="error-alert" id="base64Error" role="alert" aria-live="assertive" aria-atomic="true"></div>
 
                 <div class="output-area" role="region" aria-live="polite" aria-label="Base64 operation result">
-                    <h3 class="section-title">Output</h3>
+                    <h3 class="section-title">output</h3>
                     <div class="output-box">
                         <textarea id="base64Output" readonly placeholder="Result will appear here..." aria-label="Base64 operation output"></textarea>
-                        <button type="button" class="copy-btn" onclick="copyOutput('base64Output', this)" aria-label="Copy Base64 output to clipboard">Copy</button>
+                        <button type="button" class="btn small copy-btn" onclick="copyOutput('base64Output', this)" aria-label="Copy Base64 output to clipboard">Copy</button>
                     </div>
                 </div>
                 </form>
 
-                <div class="info-box">
+                <p class="info-box">
                     Supports UTF-8 characters. Base64 encoding increases size by approximately 33%.
-                </div>
+                </p>
             </div>
 
             <!-- Hash Tab -->
             <div id="hash-tab" class="tab-content" role="tabpanel" aria-labelledby="tab-hash">
                 <form aria-label="Cryptographic hash generation form">
                 <div class="input-area">
-                    <h3 class="section-title">Input Text</h3>
+                    <h3 class="section-title">input text</h3>
                     <textarea id="hashInput" placeholder="Enter text to hash..." aria-label="Input text for hash generation" aria-describedby="hash-help"></textarea>
                     <span id="hash-help" class="sr-only">Enter text to generate MD5, SHA-1, SHA-256, and SHA-512 cryptographic hashes</span>
                 </div>
 
                 <div class="button-row">
-                    <button type="button" class="action-btn" onclick="generateHashes()" aria-label="Generate MD5, SHA-1, SHA-256, and SHA-512 hashes">Generate Hashes</button>
+                    <button type="button" class="btn primary action-btn" onclick="generateHashes()" aria-label="Generate MD5, SHA-1, SHA-256, and SHA-512 hashes">Generate Hashes</button>
                 </div>
 
-                <div class="error" id="hashError" role="alert" aria-live="assertive" aria-atomic="true"></div>
+                <div class="error-alert" id="hashError" role="alert" aria-live="assertive" aria-atomic="true"></div>
                 </form>
 
                 <div class="hash-results" id="hashResults" role="region" aria-live="polite" aria-label="Generated hash results">
@@ -494,72 +263,72 @@
                         <h4>MD5</h4>
                         <div class="hash-value">
                             <code id="hashMd5">-</code>
-                            <button type="button" class="copy-btn" onclick="copyHash('hashMd5', this)" aria-label="Copy MD5 hash to clipboard">Copy</button>
+                            <button type="button" class="btn small copy-btn" onclick="copyHash('hashMd5', this)" aria-label="Copy MD5 hash to clipboard">Copy</button>
                         </div>
                     </div>
                     <div class="hash-item">
                         <h4>SHA-1</h4>
                         <div class="hash-value">
                             <code id="hashSha1">-</code>
-                            <button type="button" class="copy-btn" onclick="copyHash('hashSha1', this)" aria-label="Copy SHA-1 hash to clipboard">Copy</button>
+                            <button type="button" class="btn small copy-btn" onclick="copyHash('hashSha1', this)" aria-label="Copy SHA-1 hash to clipboard">Copy</button>
                         </div>
                     </div>
                     <div class="hash-item">
                         <h4>SHA-256</h4>
                         <div class="hash-value">
                             <code id="hashSha256">-</code>
-                            <button type="button" class="copy-btn" onclick="copyHash('hashSha256', this)" aria-label="Copy SHA-256 hash to clipboard">Copy</button>
+                            <button type="button" class="btn small copy-btn" onclick="copyHash('hashSha256', this)" aria-label="Copy SHA-256 hash to clipboard">Copy</button>
                         </div>
                     </div>
                     <div class="hash-item">
                         <h4>SHA-512</h4>
                         <div class="hash-value">
                             <code id="hashSha512">-</code>
-                            <button type="button" class="copy-btn" onclick="copyHash('hashSha512', this)" aria-label="Copy SHA-512 hash to clipboard">Copy</button>
+                            <button type="button" class="btn small copy-btn" onclick="copyHash('hashSha512', this)" aria-label="Copy SHA-512 hash to clipboard">Copy</button>
                         </div>
                     </div>
                 </div>
 
-                <div class="info-box">
+                <p class="info-box">
                     SHA hashes use Web Crypto API. MD5 is provided for compatibility but should not be used for security purposes.
-                </div>
+                </p>
             </div>
 
             <!-- URL Encode Tab -->
             <div id="url-tab" class="tab-content" role="tabpanel" aria-labelledby="tab-url">
                 <form aria-label="URL encode and decode form">
                 <div class="input-area">
-                    <h3 class="section-title">Input</h3>
+                    <h3 class="section-title">input</h3>
                     <textarea id="urlInput" placeholder="Enter text to URL encode or encoded text to decode..." aria-label="Input text for URL encoding or decoding" aria-describedby="url-help"></textarea>
                     <span id="url-help" class="sr-only">Enter plain text to URL encode, or enter URL encoded text to decode</span>
                 </div>
 
                 <div class="button-row">
-                    <button type="button" class="action-btn" onclick="urlEncode()" aria-label="Encode input text for use in URLs">URL Encode</button>
-                    <button type="button" class="action-btn secondary" onclick="urlDecode()" aria-label="Decode URL encoded text to plain text">URL Decode</button>
+                    <button type="button" class="btn primary action-btn" onclick="urlEncode()" aria-label="Encode input text for use in URLs">URL Encode</button>
+                    <button type="button" class="btn action-btn" onclick="urlDecode()" aria-label="Decode URL encoded text to plain text">URL Decode</button>
                 </div>
 
-                <div class="error" id="urlError" role="alert" aria-live="assertive" aria-atomic="true"></div>
+                <div class="error-alert" id="urlError" role="alert" aria-live="assertive" aria-atomic="true"></div>
 
                 <div class="output-area" role="region" aria-live="polite" aria-label="URL operation result">
-                    <h3 class="section-title">Output</h3>
+                    <h3 class="section-title">output</h3>
                     <div class="output-box">
                         <textarea id="urlOutput" readonly placeholder="Result will appear here..." aria-label="URL operation output"></textarea>
-                        <button type="button" class="copy-btn" onclick="copyOutput('urlOutput', this)" aria-label="Copy URL output to clipboard">Copy</button>
+                        <button type="button" class="btn small copy-btn" onclick="copyOutput('urlOutput', this)" aria-label="Copy URL output to clipboard">Copy</button>
                     </div>
                 </div>
                 </form>
 
-                <div class="info-box">
+                <p class="info-box">
                     Uses encodeURIComponent/decodeURIComponent for proper URI component encoding.
-                </div>
+                </p>
             </div>
 
             <!-- Hex Tab -->
             <div id="hex-tab" class="tab-content" role="tabpanel" aria-labelledby="tab-hex">
                 <form aria-label="Hexadecimal encode and decode form">
                 <div class="input-area">
-                    <h3 class="section-title">Input</h3>
+                    <h3 class="section-title">input</h3>
                     <textarea id="hexInput" placeholder="Enter text to convert to hex or hex string to decode..." aria-label="Input text for hexadecimal encoding or decoding" aria-describedby="hex-help"></textarea>
                     <span id="hex-help" class="sr-only">Enter plain text to convert to hexadecimal, or enter hex string to decode to text</span>
                 </div>
@@ -576,39 +345,39 @@
                 </div>
 
                 <div class="button-row">
-                    <button type="button" class="action-btn" onclick="textToHex()" aria-label="Convert input text to hexadecimal representation">Text to Hex</button>
-                    <button type="button" class="action-btn secondary" onclick="hexToText()" aria-label="Convert hexadecimal input to plain text">Hex to Text</button>
+                    <button type="button" class="btn primary action-btn" onclick="textToHex()" aria-label="Convert input text to hexadecimal representation">Text to Hex</button>
+                    <button type="button" class="btn action-btn" onclick="hexToText()" aria-label="Convert hexadecimal input to plain text">Hex to Text</button>
                 </div>
 
-                <div class="error" id="hexError" role="alert" aria-live="assertive" aria-atomic="true"></div>
+                <div class="error-alert" id="hexError" role="alert" aria-live="assertive" aria-atomic="true"></div>
 
                 <div class="output-area" role="region" aria-live="polite" aria-label="Hex operation result">
-                    <h3 class="section-title">Output</h3>
+                    <h3 class="section-title">output</h3>
                     <div class="output-box">
                         <textarea id="hexOutput" readonly placeholder="Result will appear here..." aria-label="Hex operation output"></textarea>
-                        <button type="button" class="copy-btn" onclick="copyOutput('hexOutput', this)" aria-label="Copy hex output to clipboard">Copy</button>
+                        <button type="button" class="btn small copy-btn" onclick="copyOutput('hexOutput', this)" aria-label="Copy hex output to clipboard">Copy</button>
                     </div>
                 </div>
                 </form>
 
-                <div class="info-box">
+                <p class="info-box">
                     Hex encoding converts each byte to its two-character hexadecimal representation.
-                </div>
+                </p>
             </div>
-        </div>
+            </div>
+        </section>
 
-        <div style="display:flex;justify-content:center;margin-top:20px;">
+        <div class="page-actions">
             <button type="button"
-                    class="action-btn"
-                    style="background:transparent;border:2px solid rgba(255,255,255,0.3);color:#90caf9;"
+                    class="btn"
                     onclick="clearAllSavedData()"
-                    aria-label="Clear all saved form data from this page">Clear Saved Data</button>
+                    aria-label="Clear all saved form data from this page">Clear saved data</button>
         </div>
-
-        <footer role="contentinfo">
-            Base64 & Hash Tools - Works offline, no installation required
-        </footer>
     </main>
+    <footer class="statusbar" role="contentinfo">
+        <span>[oldweb] data › base64-hash │ works offline │ no tracking</span>
+        <span>/ search · t theme</span>
+    </footer>
 
     <script>
         // Tab switching

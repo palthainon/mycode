@@ -28,524 +28,206 @@
     <meta name="twitter:image" content="https://oldweb.tech/logo/og-image.png">
 
     <!-- Additional Meta Tags -->
-    <meta name="theme-color" content="#1a1a2e">
+    <meta name="theme-color" content="#0e0903">
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
 
     <title>String Manipulation Toolkit - OldWeb.tech</title>
     <link rel="stylesheet" href="../a11y.css">
+    <link rel="stylesheet" href="../theme.css">
     <script src="../a11y-utils.js"></script>
     <script src="../storage-utils.js"></script>
 
     <script src="../navigationv2.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* Page layout only; colors, type, buttons and fields come from theme.css */
+        .tool-box {
+            max-width: 960px;
         }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            min-height: 100vh;
-            padding: 40px 20px;
-            color: #fff;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        .ascii-logo {
-            position: absolute;
-            top: 20px;
-            right: 40px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.65rem;
-            line-height: 1.1;
-            color: #4fc3f7;
-            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
-            opacity: 0.8;
-            white-space: pre;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 10px;
-            font-size: 2.5rem;
-            color: #4fc3f7;
-            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #90caf9;
-            font-size: 1rem;
-            margin-bottom: 30px;
-            opacity: 0.9;
-        }
-
-        .calculator {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 20px;
-            position: relative;
-        }
-
         .tabs {
             display: flex;
-            gap: 5px;
-            margin-bottom: 25px;
-            border-bottom: 2px solid rgba(79, 195, 247, 0.2);
-            padding-bottom: 5px;
             flex-wrap: wrap;
+            gap: 10px;
+            padding: 0 3px 3px 0;
         }
-
-        .tab-btn {
-            padding: 12px 24px;
-            border: none;
-            background: transparent;
-            color: #90caf9;
-            border-radius: 8px 8px 0 0;
-            cursor: pointer;
-            font-size: 0.95rem;
-            font-weight: 600;
-            transition: all 0.3s;
+        .tab-btn.active,
+        .tab-btn[aria-selected="true"] {
+            background: var(--hi);
+            color: var(--inv);
         }
-
-        .tab-btn:hover {
-            background: rgba(79, 195, 247, 0.1);
-            color: #4fc3f7;
-        }
-
-        .tab-btn.active {
-            background: rgba(79, 195, 247, 0.2);
-            color: #4fc3f7;
-            border-bottom: 3px solid #4fc3f7;
-            margin-bottom: -7px;
-        }
-
         .tab-content {
             display: none;
         }
-
         .tab-content.active {
             display: block;
         }
-
+        .tab-content form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
         .section-title {
+            margin-bottom: 8px;
+            font-family: var(--font-body);
             font-size: 0.9rem;
-            color: #90caf9;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 12px;
+            color: var(--dim);
+            text-shadow: none;
         }
-
-        .input-area {
-            margin-bottom: 20px;
+        .section-title::before {
+            content: '# ';
         }
-
         .input-area textarea {
-            width: 100%;
             height: 150px;
-            padding: 15px;
-            border: 1px solid rgba(79, 195, 247, 0.3);
-            border-radius: 8px;
-            background: rgba(0, 0, 0, 0.3);
-            color: #fff;
-            font-family: 'Courier New', monospace;
-            font-size: 0.95rem;
             resize: vertical;
         }
-
-        .input-area textarea:focus {
-            outline: none;
-            border-color: #4fc3f7;
-            box-shadow: 0 0 15px rgba(79, 195, 247, 0.3);
-        }
-
-        .input-area textarea::placeholder {
-            color: rgba(255, 255, 255, 0.4);
-        }
-
         .button-row {
             display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
             flex-wrap: wrap;
+            gap: 12px;
+            padding: 0 3px 3px 0;
         }
-
-        .action-btn {
-            padding: 12px 24px;
-            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
-            border: none;
-            border-radius: 8px;
-            color: #1a1a2e;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.95rem;
-            transition: all 0.3s;
-        }
-
-        .action-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(79, 195, 247, 0.4);
-        }
-
-        .action-btn.secondary {
-            background: linear-gradient(135deg, #66bb6a 0%, #4caf50 100%);
-        }
-
-        .action-btn.secondary:hover {
-            box-shadow: 0 5px 20px rgba(102, 187, 106, 0.4);
-        }
-
-        .action-btn.tertiary {
-            background: linear-gradient(135deg, #ffb74d 0%, #ff9800 100%);
-        }
-
-        .action-btn.tertiary:hover {
-            box-shadow: 0 5px 20px rgba(255, 183, 77, 0.4);
-        }
-
-        .clear-data-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: transparent;
-            border: 1px solid rgba(244, 67, 54, 0.4);
-            color: rgba(244, 67, 54, 0.7);
-            padding: 6px 14px;
-            font-size: 0.8rem;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .clear-data-btn:hover {
-            background: rgba(244, 67, 54, 0.1);
-            border-color: rgba(244, 67, 54, 0.6);
-            color: rgba(244, 67, 54, 0.9);
-        }
-
-        .output-area {
-            margin-bottom: 20px;
-        }
-
         .output-box {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 10px;
-            padding: 20px;
             position: relative;
         }
-
         .output-box textarea {
-            width: 100%;
             height: 150px;
-            padding: 0;
-            border: none;
-            background: transparent;
-            color: #4fc3f7;
-            font-family: 'Courier New', monospace;
-            font-size: 0.95rem;
+            padding-right: 96px;
+            color: var(--hi);
             resize: vertical;
         }
-
-        .output-box textarea:focus {
-            outline: none;
-        }
-
         .output-box .copy-btn {
             position: absolute;
-            top: 10px;
+            top: 8px;
             right: 10px;
-            padding: 6px 14px;
-            background: rgba(102, 187, 106, 0.2);
-            border: 1px solid #66bb6a;
-            border-radius: 6px;
-            color: #66bb6a;
-            cursor: pointer;
-            font-size: 0.8rem;
-            transition: all 0.2s;
         }
-
-        .output-box .copy-btn:hover {
-            background: rgba(102, 187, 106, 0.3);
+        .copy-btn.copied {
+            background: var(--hi);
+            color: var(--inv);
         }
-
-        .output-box .copy-btn.copied {
-            background: #66bb6a;
-            color: #1a1a2e;
-        }
-
         .options-row {
             display: flex;
-            gap: 20px;
-            margin-bottom: 15px;
             flex-wrap: wrap;
+            gap: 20px;
             align-items: center;
         }
-
         .option-item {
             display: flex;
             align-items: center;
             gap: 8px;
-            color: #90caf9;
-            font-size: 0.9rem;
         }
-
-        .option-item input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            accent-color: #4fc3f7;
-        }
-
-        .option-item input[type="number"],
-        .option-item input[type="text"],
-        .option-item select {
-            padding: 12px 16px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            background: #0f1419;
-            color: #fff;
-            font-size: 1rem;
-            width: auto;
-            transition: border-color 0.3s, box-shadow 0.3s;
-            cursor: pointer;
-        }
-
         .option-item input[type="number"] {
-            width: 80px;
+            width: 90px;
         }
-
         .option-item input[type="text"] {
             width: 60px;
         }
-
         .option-item select {
-            min-width: 120px;
+            width: auto;
+            min-width: 160px;
         }
-
-        .option-item select option {
-            background: #0f1419;
-            color: #fff;
-        }
-
-        .option-item input:focus,
-        .option-item select:focus {
-            outline: none;
-            border-color: #4fc3f7;
-            box-shadow: 0 0 15px rgba(79, 195, 247, 0.2);
-        }
-
-        /* Enhanced focus visibility for accessibility */
-        .action-btn:focus,
-        .copy-btn:focus,
-        .tab-btn:focus {
-            outline: 2px solid #4fc3f7;
-            outline-offset: 2px;
-        }
-
-        .error {
-            background: rgba(244, 67, 54, 0.1);
-            border: 1px solid #f44336;
-            border-left: 4px solid #f44336;
-            color: #ff8a80;
-            padding: 15px 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            display: none;
-        }
-
-        .error.show {
-            display: block;
-        }
-
-        .info-box {
-            background: rgba(79, 195, 247, 0.1);
-            border-left: 4px solid #4fc3f7;
-            padding: 12px 16px;
-            border-radius: 0 8px 8px 0;
-            margin-bottom: 20px;
-            font-size: 0.85rem;
-            color: #90caf9;
-        }
-
         .stats-box {
-            background: rgba(102, 187, 106, 0.1);
-            border-left: 4px solid #66bb6a;
-            padding: 12px 16px;
-            border-radius: 0 8px 8px 0;
-            margin-bottom: 20px;
-            font-size: 0.85rem;
-            color: #a5d6a7;
+            margin-top: 16px;
+            padding: 8px 14px;
+            border: 1px solid var(--line);
+            border-left: 4px solid var(--ok);
+            font-size: 0.9rem;
         }
-
         .stats-box code {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: 'Courier New', monospace;
+            color: var(--hi);
+            font-weight: 600;
         }
-
         .count-results {
             display: grid;
-            gap: 8px;
+            gap: 6px;
             max-height: 300px;
             overflow-y: auto;
         }
-
         .count-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 10px 15px;
-            border-radius: 6px;
-            border-left: 3px solid #4fc3f7;
+            gap: 16px;
+            padding: 6px 12px;
+            border: 1px solid var(--line);
+            border-left: 3px solid var(--hi);
         }
-
         .count-item .text {
-            font-family: 'Courier New', monospace;
-            color: #4fc3f7;
-            word-break: break-all;
             flex: 1;
-            margin-right: 15px;
+            word-break: break-all;
         }
-
         .count-item .count {
-            background: rgba(79, 195, 247, 0.2);
-            padding: 4px 12px;
-            border-radius: 20px;
-            color: #4fc3f7;
-            font-weight: 600;
-            font-size: 0.85rem;
             flex-shrink: 0;
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 30px;
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 0.85rem;
-        }
-
-        /* Reference Sections */
-        .reference-section {
-            margin-top: 20px;
-            border: 1px solid rgba(79, 195, 247, 0.2);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .reference-header {
-            padding: 12px 16px;
-            background: rgba(79, 195, 247, 0.1);
-            color: #90caf9;
-            font-size: 0.9rem;
+            color: var(--hi);
             font-weight: 600;
         }
-
-        .reference-content {
-            padding: 16px;
-            background: rgba(0, 0, 0, 0.2);
+        .count-item .count::before {
+            content: '\00d7 ';
+            color: var(--dim);
+            font-weight: 400;
         }
-
+        .reference-section {
+            margin-top: 24px;
+            border: 1px solid var(--line);
+        }
+        .reference-header {
+            padding: 6px 14px;
+            border-bottom: 1px solid var(--line);
+            background: var(--head);
+            color: var(--dim);
+            font-size: 0.9rem;
+        }
+        .reference-header::before {
+            content: '# ';
+        }
+        .reference-content {
+            padding: 14px;
+            overflow-x: auto;
+        }
         .reference-table {
             width: 100%;
             border-collapse: collapse;
             font-size: 0.85rem;
             margin-bottom: 12px;
         }
-
         .reference-table th,
         .reference-table td {
-            padding: 8px 10px;
+            padding: 6px 10px;
             text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px dotted var(--line);
         }
-
         .reference-table th {
-            color: #4fc3f7;
-            font-weight: 600;
-            background: rgba(0, 0, 0, 0.2);
+            font-weight: 400;
+            color: var(--dim);
+            border-bottom-style: dashed;
         }
-
-        .reference-table td {
-            color: #b0bec5;
+        .reference-table code,
+        .reference-table strong {
+            color: var(--hi);
         }
-
-        .reference-table code {
-            background: rgba(79, 195, 247, 0.15);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: 'Courier New', monospace;
-            color: #4fc3f7;
-            font-size: 0.85em;
-        }
-
-        .reference-tip {
-            background: rgba(102, 187, 106, 0.1);
-            border-left: 3px solid #66bb6a;
-            padding: 10px 12px;
-            margin-top: 12px;
-            border-radius: 0 6px 6px 0;
-            font-size: 0.85rem;
-            color: #a5d6a7;
-        }
-
+        .reference-tip,
         .reference-warning {
-            background: rgba(255, 183, 77, 0.1);
-            border-left: 3px solid #ffb74d;
-            padding: 10px 12px;
             margin-top: 12px;
-            border-radius: 0 6px 6px 0;
+            padding: 8px 12px;
+            border-left: 3px solid var(--ok);
             font-size: 0.85rem;
-            color: #ffe0b2;
         }
-
-        .reference-tip strong,
-        .reference-warning strong {
+        .reference-warning {
+            border-left-color: var(--warn);
+        }
+        .reference-tip > strong,
+        .reference-warning > strong {
             display: block;
             margin-bottom: 4px;
+            color: var(--ok);
         }
-
+        .reference-warning > strong {
+            color: var(--warn);
+        }
         @media (max-width: 768px) {
-            .ascii-logo {
-                position: static;
-                text-align: center;
-                margin-bottom: 20px;
-                font-size: 0.5rem;
+            .button-row .btn {
+                flex: 1 1 100%;
             }
-
-            h1 {
-                font-size: 1.8rem;
-            }
-
-            .tabs {
-                flex-wrap: wrap;
-            }
-
-            .tab-btn {
-                padding: 10px 16px;
-                font-size: 0.85rem;
-            }
-
-            .button-row {
-                flex-direction: column;
-            }
-
-            .action-btn {
-                width: 100%;
-            }
-
             .options-row {
                 flex-direction: column;
                 align-items: flex-start;
@@ -577,24 +259,27 @@
 </head>
 <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
-    <div class="ascii-logo" aria-hidden="true">  ___  _    _  __        __   _
- / _ \| | _| | \ \      / /__| |__
-| | | | |/ _` | \ \ /\ / / _ \ '_ \
-| |_| | | (_| |  \ V  V /  __/ |_) |
- \___/|_|\__,_|   \_/\_/ \___|_.__/
-</div>
-    <main id="main-content" class="container">
-        <h1>String Manipulation Toolkit</h1>
-        <p class="subtitle">Case conversion, line operations, and text utilities</p>
+    <main id="main-content">
+        <div class="page-head">
+            <h1>String Manipulation Toolkit</h1>
+            <p class="lede">Case conversion, line operations, and text utilities</p>
+        </div>
 
-        <div class="calculator">
-            <button type="button" class="clear-data-btn" onclick="clearAllSavedData()" aria-label="Clear all saved form data">Clear</button>
+        <section class="box tool-box calculator" aria-labelledby="mode-heading">
+            <div class="box-head">
+            <h2 id="mode-heading">mode</h2>
             <div class="tabs" role="tablist" aria-label="String manipulation tool tabs">
-                <button type="button" class="tab-btn active" onclick="switchTab('case')" role="tab" aria-selected="true" aria-controls="case-tab" id="tab-case">Case Convert</button>
-                <button type="button" class="tab-btn" onclick="switchTab('lines')" role="tab" aria-selected="false" aria-controls="lines-tab" id="tab-lines">Line Ops</button>
-                <button type="button" class="tab-btn" onclick="switchTab('duplicates')" role="tab" aria-selected="false" aria-controls="duplicates-tab" id="tab-duplicates">Duplicates</button>
-                <button type="button" class="tab-btn" onclick="switchTab('escape')" role="tab" aria-selected="false" aria-controls="escape-tab" id="tab-escape">Escape</button>
+                <button type="button" class="btn small tab-btn active" onclick="switchTab('case')" role="tab" aria-selected="true" aria-controls="case-tab" id="tab-case">Case Convert</button>
+                <button type="button" class="btn small tab-btn" onclick="switchTab('lines')" role="tab" aria-selected="false" aria-controls="lines-tab" id="tab-lines">Line Ops</button>
+                <button type="button" class="btn small tab-btn" onclick="switchTab('duplicates')" role="tab" aria-selected="false" aria-controls="duplicates-tab" id="tab-duplicates">Duplicates</button>
+                <button type="button" class="btn small tab-btn" onclick="switchTab('escape')" role="tab" aria-selected="false" aria-controls="escape-tab" id="tab-escape">Escape</button>
             </div>
+            <div class="box-actions">
+                <button type="button" class="btn small clear-data-btn" onclick="clearAllSavedData()" aria-label="Clear all saved form data">Clear saved data</button>
+            </div>
+            </div>
+
+            <div class="box-body">
 
             <!-- Case Conversion Tab -->
             <div id="case-tab" class="tab-content active" role="tabpanel" aria-labelledby="tab-case">
@@ -615,24 +300,24 @@ backup retention days</textarea>
                     </div>
 
                     <div class="button-row">
-                        <button type="button" class="action-btn" onclick="convertCase('upper')" aria-label="Convert to uppercase" title="UPPERCASE: All letters capitalized. Common for constants and emphasis.">UPPERCASE</button>
-                        <button type="button" class="action-btn" onclick="convertCase('lower')" aria-label="Convert to lowercase" title="lowercase: All letters in lower case. Useful for normalization and comparisons.">lowercase</button>
-                        <button type="button" class="action-btn secondary" onclick="convertCase('title')" aria-label="Convert to title case" title="Title Case: First letter of each word capitalized. Used for headings and proper names.">Title Case</button>
+                        <button type="button" class="btn action-btn" onclick="convertCase('upper')" aria-label="Convert to uppercase" title="UPPERCASE: All letters capitalized. Common for constants and emphasis.">UPPERCASE</button>
+                        <button type="button" class="btn action-btn" onclick="convertCase('lower')" aria-label="Convert to lowercase" title="lowercase: All letters in lower case. Useful for normalization and comparisons.">lowercase</button>
+                        <button type="button" class="btn action-btn" onclick="convertCase('title')" aria-label="Convert to title case" title="Title Case: First letter of each word capitalized. Used for headings and proper names.">Title Case</button>
                     </div>
                     <div class="button-row">
-                        <button type="button" class="action-btn tertiary" onclick="convertCase('camel')" aria-label="Convert to camelCase" title="camelCase: First word lowercase, subsequent words capitalized, no separators. Standard in JavaScript, TypeScript, Java for variables and functions.">camelCase</button>
-                        <button type="button" class="action-btn tertiary" onclick="convertCase('pascal')" aria-label="Convert to PascalCase" title="PascalCase: Every word capitalized, no separators. Used for classes and types in C#, TypeScript, Java.">PascalCase</button>
-                        <button type="button" class="action-btn tertiary" onclick="convertCase('snake')" aria-label="Convert to snake_case" title="snake_case: Words separated by underscores, all lowercase. Standard in Python, Ruby, SQL, and database columns.">snake_case</button>
-                        <button type="button" class="action-btn tertiary" onclick="convertCase('kebab')" aria-label="Convert to kebab-case" title="kebab-case: Words separated by hyphens, all lowercase. Used in CSS classes, URLs, and CLI flags.">kebab-case</button>
+                        <button type="button" class="btn action-btn" onclick="convertCase('camel')" aria-label="Convert to camelCase" title="camelCase: First word lowercase, subsequent words capitalized, no separators. Standard in JavaScript, TypeScript, Java for variables and functions.">camelCase</button>
+                        <button type="button" class="btn action-btn" onclick="convertCase('pascal')" aria-label="Convert to PascalCase" title="PascalCase: Every word capitalized, no separators. Used for classes and types in C#, TypeScript, Java.">PascalCase</button>
+                        <button type="button" class="btn action-btn" onclick="convertCase('snake')" aria-label="Convert to snake_case" title="snake_case: Words separated by underscores, all lowercase. Standard in Python, Ruby, SQL, and database columns.">snake_case</button>
+                        <button type="button" class="btn action-btn" onclick="convertCase('kebab')" aria-label="Convert to kebab-case" title="kebab-case: Words separated by hyphens, all lowercase. Used in CSS classes, URLs, and CLI flags.">kebab-case</button>
                     </div>
 
-                    <div class="error" id="caseError" role="alert" aria-live="assertive" aria-atomic="true"></div>
+                    <div class="error-alert" id="caseError" role="alert" aria-live="assertive" aria-atomic="true"></div>
 
                     <div class="output-area" role="region" aria-live="polite" aria-label="Case conversion result">
                         <h3 class="section-title"><label for="caseOutput">Output</label></h3>
                         <div class="output-box">
                             <textarea id="caseOutput" readonly placeholder="Result will appear here..." aria-label="Case conversion output" aria-readonly="true"></textarea>
-                            <button type="button" class="copy-btn" onclick="copyOutput('caseOutput', this)" aria-label="Copy output to clipboard">Copy</button>
+                            <button type="button" class="btn small copy-btn" onclick="copyOutput('caseOutput', this)" aria-label="Copy output to clipboard">Copy</button>
                         </div>
                     </div>
                 </form>
@@ -720,28 +405,28 @@ backup-nas.internal.local
                     </div>
 
                     <div class="button-row">
-                        <button type="button" class="action-btn" onclick="lineOp('trim')" aria-label="Trim whitespace from each line" title="Trim Lines: Remove leading and trailing whitespace from each line. Useful for cleaning copy-pasted data.">Trim Lines</button>
-                        <button type="button" class="action-btn" onclick="lineOp('pad')" aria-label="Pad each line to specified length" title="Pad Lines: Add padding characters to reach specified length. Useful for aligning columns in fixed-width formats.">Pad Lines</button>
-                        <button type="button" class="action-btn secondary" onclick="lineOp('reverse')" aria-label="Reverse order of lines" title="Reverse Lines: Flip the order of all lines (last becomes first). Useful for inverting chronological data or stack traces.">Reverse Lines</button>
+                        <button type="button" class="btn action-btn" onclick="lineOp('trim')" aria-label="Trim whitespace from each line" title="Trim Lines: Remove leading and trailing whitespace from each line. Useful for cleaning copy-pasted data.">Trim Lines</button>
+                        <button type="button" class="btn action-btn" onclick="lineOp('pad')" aria-label="Pad each line to specified length" title="Pad Lines: Add padding characters to reach specified length. Useful for aligning columns in fixed-width formats.">Pad Lines</button>
+                        <button type="button" class="btn action-btn" onclick="lineOp('reverse')" aria-label="Reverse order of lines" title="Reverse Lines: Flip the order of all lines (last becomes first). Useful for inverting chronological data or stack traces.">Reverse Lines</button>
                     </div>
                     <div class="button-row">
-                        <button type="button" class="action-btn tertiary" onclick="lineOp('sort')" aria-label="Sort lines alphabetically" title="Sort A-Z: Alphabetically sort lines in ascending order. Useful for organizing imports, hosts files, or config entries.">Sort A-Z</button>
-                        <button type="button" class="action-btn tertiary" onclick="lineOp('sortDesc')" aria-label="Sort lines reverse alphabetically" title="Sort Z-A: Alphabetically sort lines in descending order (reverse alphabetical).">Sort Z-A</button>
-                        <button type="button" class="action-btn tertiary" onclick="lineOp('sortNum')" aria-label="Sort lines numerically" title="Sort Numeric: Sort by the leading number in each line. Works with IPs, version numbers, counts, and mixed text like '192.168.1.1 - server'.">Sort Numeric</button>
-                        <button type="button" class="action-btn tertiary" onclick="lineOp('shuffle')" aria-label="Randomly shuffle lines" title="Shuffle: Randomly reorder all lines. Useful for randomizing test data or generating sample sets.">Shuffle</button>
+                        <button type="button" class="btn action-btn" onclick="lineOp('sort')" aria-label="Sort lines alphabetically" title="Sort A-Z: Alphabetically sort lines in ascending order. Useful for organizing imports, hosts files, or config entries.">Sort A-Z</button>
+                        <button type="button" class="btn action-btn" onclick="lineOp('sortDesc')" aria-label="Sort lines reverse alphabetically" title="Sort Z-A: Alphabetically sort lines in descending order (reverse alphabetical).">Sort Z-A</button>
+                        <button type="button" class="btn action-btn" onclick="lineOp('sortNum')" aria-label="Sort lines numerically" title="Sort Numeric: Sort by the leading number in each line. Works with IPs, version numbers, counts, and mixed text like '192.168.1.1 - server'.">Sort Numeric</button>
+                        <button type="button" class="btn action-btn" onclick="lineOp('shuffle')" aria-label="Randomly shuffle lines" title="Shuffle: Randomly reorder all lines. Useful for randomizing test data or generating sample sets.">Shuffle</button>
                     </div>
                     <div class="button-row">
-                        <button type="button" class="action-btn" onclick="lineOp('removeEmpty')" aria-label="Remove empty lines" title="Remove Empty: Delete all blank lines (lines with only whitespace). Useful for cleaning up configs and data files.">Remove Empty</button>
-                        <button type="button" class="action-btn" onclick="lineOp('reverseChars')" aria-label="Reverse characters in each line" title="Reverse Chars: Reverse the characters within each line (not the line order). 'hello' becomes 'olleh'.">Reverse Chars</button>
+                        <button type="button" class="btn action-btn" onclick="lineOp('removeEmpty')" aria-label="Remove empty lines" title="Remove Empty: Delete all blank lines (lines with only whitespace). Useful for cleaning up configs and data files.">Remove Empty</button>
+                        <button type="button" class="btn action-btn" onclick="lineOp('reverseChars')" aria-label="Reverse characters in each line" title="Reverse Chars: Reverse the characters within each line (not the line order). 'hello' becomes 'olleh'.">Reverse Chars</button>
                     </div>
 
-                    <div class="error" id="linesError" role="alert" aria-live="assertive" aria-atomic="true"></div>
+                    <div class="error-alert" id="linesError" role="alert" aria-live="assertive" aria-atomic="true"></div>
 
                     <div class="output-area" role="region" aria-live="polite" aria-label="Line operation result">
                         <h3 class="section-title"><label for="linesOutput">Output</label></h3>
                         <div class="output-box">
                             <textarea id="linesOutput" readonly placeholder="Result will appear here..." aria-label="Line operation output" aria-readonly="true"></textarea>
-                            <button type="button" class="copy-btn" onclick="copyOutput('linesOutput', this)" aria-label="Copy output to clipboard">Copy</button>
+                            <button type="button" class="btn small copy-btn" onclick="copyOutput('linesOutput', this)" aria-label="Copy output to clipboard">Copy</button>
                         </div>
                     </div>
                 </form>
@@ -827,18 +512,18 @@ backup-nas.internal.local
                     </div>
 
                     <div class="button-row">
-                        <button type="button" class="action-btn" onclick="dupOp('remove')" aria-label="Remove duplicate lines keeping first occurrence" title="Remove Duplicates: Keep only the first occurrence of each unique line. Useful for deduping email lists, hostnames, or IP addresses.">Remove Duplicates</button>
-                        <button type="button" class="action-btn secondary" onclick="dupOp('keepDups')" aria-label="Show only lines that appear more than once" title="Show Only Duplicates: Display only lines that appear more than once. Useful for finding repeated entries in logs or identifying conflicts.">Show Only Duplicates</button>
-                        <button type="button" class="action-btn tertiary" onclick="dupOp('count')" aria-label="Count occurrences of each unique line" title="Count Occurrences: Show each unique value with its count, sorted by frequency. Great for log analysis - find most common IPs, errors, or user agents.">Count Occurrences</button>
+                        <button type="button" class="btn action-btn" onclick="dupOp('remove')" aria-label="Remove duplicate lines keeping first occurrence" title="Remove Duplicates: Keep only the first occurrence of each unique line. Useful for deduping email lists, hostnames, or IP addresses.">Remove Duplicates</button>
+                        <button type="button" class="btn action-btn" onclick="dupOp('keepDups')" aria-label="Show only lines that appear more than once" title="Show Only Duplicates: Display only lines that appear more than once. Useful for finding repeated entries in logs or identifying conflicts.">Show Only Duplicates</button>
+                        <button type="button" class="btn action-btn" onclick="dupOp('count')" aria-label="Count occurrences of each unique line" title="Count Occurrences: Show each unique value with its count, sorted by frequency. Great for log analysis - find most common IPs, errors, or user agents.">Count Occurrences</button>
                     </div>
 
-                    <div class="error" id="dupError" role="alert" aria-live="assertive" aria-atomic="true"></div>
+                    <div class="error-alert" id="dupError" role="alert" aria-live="assertive" aria-atomic="true"></div>
 
                     <div class="output-area" role="region" aria-live="polite" aria-label="Duplicate operation result">
                         <h3 class="section-title"><label for="dupOutput">Output</label></h3>
                         <div class="output-box" id="dupOutputBox">
                             <textarea id="dupOutput" readonly placeholder="Result will appear here..." aria-label="Duplicate operation output" aria-readonly="true"></textarea>
-                            <button type="button" class="copy-btn" onclick="copyOutput('dupOutput', this)" aria-label="Copy output to clipboard">Copy</button>
+                            <button type="button" class="btn small copy-btn" onclick="copyOutput('dupOutput', this)" aria-label="Copy output to clipboard">Copy</button>
                         </div>
                         <div id="countResults" class="count-results" style="display: none;" role="list" aria-label="Occurrence count results"></div>
                     </div>
@@ -926,17 +611,17 @@ Query: name=John Doe&status=active</textarea>
                     </div>
 
                     <div class="button-row">
-                        <button type="button" class="action-btn" onclick="escapeOp('escape')" aria-label="Escape special characters" title="Escape: Convert special characters to their escaped form for the selected format. Use when embedding user input or data into code/markup.">Escape</button>
-                        <button type="button" class="action-btn secondary" onclick="escapeOp('unescape')" aria-label="Unescape special characters" title="Unescape: Convert escaped sequences back to their original characters. Use when decoding data from APIs, logs, or encoded sources.">Unescape</button>
+                        <button type="button" class="btn action-btn" onclick="escapeOp('escape')" aria-label="Escape special characters" title="Escape: Convert special characters to their escaped form for the selected format. Use when embedding user input or data into code/markup.">Escape</button>
+                        <button type="button" class="btn action-btn" onclick="escapeOp('unescape')" aria-label="Unescape special characters" title="Unescape: Convert escaped sequences back to their original characters. Use when decoding data from APIs, logs, or encoded sources.">Unescape</button>
                     </div>
 
-                    <div class="error" id="escapeError" role="alert" aria-live="assertive" aria-atomic="true"></div>
+                    <div class="error-alert" id="escapeError" role="alert" aria-live="assertive" aria-atomic="true"></div>
 
                     <div class="output-area" role="region" aria-live="polite" aria-label="Escape operation result">
                         <h3 class="section-title"><label for="escapeOutput">Output</label></h3>
                         <div class="output-box">
                             <textarea id="escapeOutput" readonly placeholder="Result will appear here..." aria-label="Escape operation output" aria-readonly="true"></textarea>
-                            <button type="button" class="copy-btn" onclick="copyOutput('escapeOutput', this)" aria-label="Copy output to clipboard">Copy</button>
+                            <button type="button" class="btn small copy-btn" onclick="copyOutput('escapeOutput', this)" aria-label="Copy output to clipboard">Copy</button>
                         </div>
                     </div>
                 </form>
@@ -1004,12 +689,13 @@ Query: name=John Doe&status=active</textarea>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <footer role="contentinfo">
-            String Manipulation Toolkit - Works offline, no installation required
-        </footer>
+            </div>
+        </section>
     </main>
+    <footer class="statusbar" role="contentinfo">
+        <span>[oldweb] data › string-tools │ works offline │ no tracking</span>
+        <span>/ search · t theme</span>
+    </footer>
 
     <script>
         // Tab switching
