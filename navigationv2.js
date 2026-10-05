@@ -87,7 +87,8 @@
         ],
         games: [
             { name: 'Lo-fi Wizard', file: 'games/lofi-wizard.html', id: 'lofi-wizard' },
-            { name: 'Spellcheck (typing)', file: 'games/spellcheck.html', id: 'spellcheck' }
+            { name: 'Spellcheck (typing)', file: 'games/spellcheck.html', id: 'spellcheck' },
+            { name: 'Datacenter Quest', file: 'games/datacenter-quest.html', id: 'datacenter-quest' }
         ]
     };
 
@@ -161,7 +162,8 @@
         { id: 'pdf-rotate',       name: 'PDF Rotate',                    file: 'pdf/rotate.html',                       category: 'pdf',          keywords: ['pdf', 'rotate', 'turn', 'orientation', 'sideways'],              related: ['pdf-merge', 'pdf-split', 'base64'] },
         // Maintenance Window (games)
         { id: 'lofi-wizard',      name: 'Lo-fi Wizard',                  file: 'games/lofi-wizard.html',                category: 'games',        keywords: ['game', 'lofi', 'lo-fi', 'ascii', 'wizard', 'cat', 'music', 'ambient', 'relax', 'break', 'maintenance window'], related: ['spellcheck', 'pomodoro', 'scratchpad'] },
-        { id: 'spellcheck',       name: 'Spellcheck: Wizard Typing Game', file: 'games/spellcheck.html',                 category: 'games',        keywords: ['typing', 'typing test', 'typing game', 'wpm', 'words per minute', 'game', '8-bit', 'pixel', 'wizard', 'practice'], related: ['lofi-wizard', 'pomodoro', 'string-tools'] }
+        { id: 'spellcheck',       name: 'Spellcheck: Wizard Typing Game', file: 'games/spellcheck.html',                 category: 'games',        keywords: ['typing', 'typing test', 'typing game', 'wpm', 'words per minute', 'game', '8-bit', 'pixel', 'wizard', 'practice'], related: ['lofi-wizard', 'pomodoro', 'string-tools'] },
+        { id: 'datacenter-quest', name: 'Datacenter Quest',              file: 'games/datacenter-quest.html',           category: 'games',        keywords: ['text adventure', 'interactive fiction', 'quiz', 'game', 'wizard', 'subnetting', 'chmod', 'cron', 'raid', 'ipv6', 'sysadmin', 'network', 'zork'], related: ['spellcheck', 'subnet', 'chmod'] }
     ];
 
     // Per-tool descriptions for JSON-LD (kept short; meta description owns long-form copy)
@@ -203,6 +205,7 @@
         'tz-meeting-planner':'Plan meetings across timezones with business-hours indicators.',
         'pdf-merge':         'Combine multiple PDFs into one entirely in your browser - no uploads, no watermarks.',
         'pdf-split':         'Extract pages or page ranges from a PDF entirely in your browser - no uploads, no watermarks.',
+        'datacenter-quest':  'A text adventure: answer subnetting, chmod, cron, RAID and IPv6 questions to get the on-call wizard to the datacenter and reboot a dead server.',
         'spellcheck':        'An 8-bit typing game: type IT words to blast bugs, phishing emails and ransomware before they reach the wizard.',
         'lofi-wizard':       'An ASCII lo-fi scene: a wizard types through a maintenance window with his cat, his coffee and a rack of blinking lights.',
         'pdf-rotate':        'Rotate PDF pages 90, 180, or 270 degrees with live previews - no uploads, no watermarks.',
