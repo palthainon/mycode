@@ -41,6 +41,7 @@
     <script src="../navigationv2.js"></script>
     <link rel="stylesheet" href="radio.css">
     <script src="radio.js"></script>
+    <script src="spellcheck-words.js"></script>
     <style>
         /* Full-viewport stage; the game screen keeps its own night palette in both themes */
         body {
@@ -80,9 +81,60 @@
         #game:focus-visible {
             outline: none;
         }
+        .play-area {
+            display: flex;
+            gap: 12px;
+            align-items: stretch;
+        }
+        .play-area.stacked {
+            flex-direction: column;
+        }
         .game-wrap {
             position: relative;
         }
+
+        /* Command log: what each typed command does and what it prints */
+        .cmd-log {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            background: #0b0a1a;
+            border: 2px solid var(--line);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        .cmd-log-head {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 10px;
+            border-bottom: 1px solid #2b2540;
+            color: #8a84b0;
+            font-size: 0.75rem;
+        }
+        .cmd-log-body {
+            flex: 1;
+            margin: 0;
+            padding: 8px 10px;
+            overflow-y: auto;
+            list-style: none;
+            font-family: var(--font-body);
+            font-size: 0.78rem;
+            line-height: 1.35;
+            color: #c9c2e6;
+            overscroll-behavior: contain;
+        }
+        .cmd-log-body li {
+            margin-bottom: 8px;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+        }
+        .cmd-log-body .prompt { color: #5fc24f; }
+        .cmd-log-body .cmd { color: #ffffff; }
+        .cmd-log-body .out { color: #9a94b8; }
+        .cmd-log-body .about { color: #8fd3c7; }
+        .cmd-log-body .about::before { content: '# '; }
+        .cmd-log-body .sep { color: #ffb000; }
+        .cmd-log-body .boss .cmd { color: #ff7a66; }
         .game-wrap.typing #game {
             border-color: var(--hi);
         }
@@ -126,10 +178,19 @@
         <h1 class="sr-only">Spellcheck: a wizard typing game</h1>
         <p class="sr-only" id="how-to">Enemies walk toward the wizard, each carrying an IT word, Linux command or PowerShell cmdlet depending on the word set you pick. Type a word to cast a spell at that enemy. Press Enter to start, Escape to pause. The game area takes keyboard input once you click it or start typing.</p>
 
-        <div class="game-wrap" id="game-wrap">
-            <canvas id="game" width="320" height="180" aria-hidden="true"></canvas>
-            <label class="sr-only" for="typer">Type the words here</label>
-            <input class="sr-only" id="typer" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-describedby="how-to">
+        <div class="play-area" id="play-area">
+            <div class="game-wrap" id="game-wrap">
+                <canvas id="game" width="320" height="180" aria-hidden="true"></canvas>
+                <label class="sr-only" for="typer">Type the words here</label>
+                <input class="sr-only" id="typer" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-describedby="how-to">
+            </div>
+            <section class="cmd-log" id="cmd-log" aria-labelledby="cmd-log-title">
+                <div class="cmd-log-head">
+                    <span id="cmd-log-title">~/spellbook.log</span>
+                    <span aria-hidden="true">what each command does</span>
+                </div>
+                <ol class="cmd-log-body" id="cmd-log-body" role="log" aria-live="off" tabindex="0"></ol>
+            </section>
         </div>
 
         <div class="radio" role="group" aria-label="Game and music controls">
@@ -153,9 +214,9 @@
                 <div class="preset-row">
                     <span class="row-label" aria-hidden="true">pace</span>
                     <div class="presets" role="radiogroup" aria-label="Difficulty" id="pace-keys">
-                        <button type="button" class="preset" role="radio" aria-checked="false" tabindex="-1" data-pace="0.6">relaxed</button>
-                        <button type="button" class="preset" role="radio" aria-checked="true" tabindex="0" data-pace="1">normal</button>
-                        <button type="button" class="preset" role="radio" aria-checked="false" tabindex="-1" data-pace="1.45">on-call</button>
+                        <button type="button" class="preset" role="radio" aria-checked="false" tabindex="-1" data-pace="0.6" data-advanced="0">relaxed</button>
+                        <button type="button" class="preset" role="radio" aria-checked="true" tabindex="0" data-pace="1" data-advanced="0.55">normal</button>
+                        <button type="button" class="preset" role="radio" aria-checked="false" tabindex="-1" data-pace="1.45" data-advanced="0.85">on-call</button>
                     </div>
                     <button type="button" class="reset-best" onclick="clearAllSavedData()" aria-label="Clear your saved best score from this page">reset best</button>
                 </div>
@@ -458,54 +519,20 @@
         });
 
         // ---------- Words ----------
-        // Three sets. Matching ignores case, so PowerShell's Verb-Noun casing is display only.
-        const WORD_SETS = {
-            it: {
-                label: 'it',
-                short: ['ping', 'dns', 'ssh', 'grep', 'cron', 'sudo', 'vlan', 'arp', 'nat', 'mtu', 'tcp', 'udp', 'bgp',
-                        'git', 'npm', 'yaml', 'json', 'curl', 'dhcp', 'ldap', 'raid', 'nas', 'vpn', 'acl', 'tty', 'pid',
-                        'ospf', 'sftp', 'smtp', 'icmp', 'wifi', 'boot', 'disk', 'port', 'host', 'mask', 'node', 'pod'],
-                medium: ['subnet', 'kernel', 'daemon', 'router', 'switch', 'patch', 'reboot', 'backup', 'docker', 'nginx',
-                         'chmod', 'rsync', 'syslog', 'uptime', 'latency', 'gateway', 'ticket', 'certs', 'proxy', 'vmware',
-                         'cluster', 'restore', 'monitor', 'packet', 'trunk', 'uplink', 'ansible', 'jumpbox', 'logrotate',
-                         'webhook', 'runbook', 'iptables', 'netstat', 'systemd', 'crontab', 'outage', 'hotfix'],
-                long: ['kubernetes', 'certificate', 'traceroute', 'hypervisor', 'deprecation', 'rollback', 'escalation',
-                       'postmortem', 'bandwidth', 'middleware', 'replication', 'firewall', 'datacenter', 'loadbalancer',
-                       'virtualization', 'authentication', 'segmentation', 'redundancy', 'failover', 'provisioning',
-                       'changeboard', 'helpdesk', 'nameserver', 'spanningtree'],
-                boss: ['legacy', 'mainframe', 'cobol', 'unsupported', 'endoflife', 'nopatches', 'vendorlockin', 'technicaldebt']
-            },
-            linux: {
-                label: 'linux',
-                short: ['ls', 'cd', 'pwd', 'cat', 'top', 'du', 'ps', 'kill', 'grep', 'sed', 'awk', 'ssh', 'scp', 'tar',
-                        'man', 'less', 'sudo', 'ping', 'curl', 'wget', 'find', 'echo', 'whoami', 'mv', 'cp', 'rm', 'vim',
-                        'head', 'tail', 'sort', 'uniq', 'wc', 'dig', 'htop', 'lsblk', 'dmesg', 'mount', 'exit'],
-                medium: ['ls -la', 'cd ..', 'tail -f', 'ps aux', 'df -h', 'free -m', 'uname -a', 'chmod 755', 'git pull',
-                         'mkdir -p', 'ip addr', 'ss -tlnp', 'crontab -e', 'kill -9', 'sudo !!', 'cat /etc/hosts',
-                         'du -sh', 'grep -i', 'tar -xzvf', 'rsync -avz', 'chown -R', 'ln -s', 'dig +short', 'history',
-                         'journalctl', 'systemctl', 'ssh-keygen', 'umask 022', 'id -u', 'lsof -i'],
-                long: ['systemctl restart', 'journalctl -xe', 'grep -rn error', 'find / -name', 'tcpdump -i eth0',
-                       'iptables -L -n', 'nmap -sV', 'sudo apt update', 'dnf upgrade', 'docker ps -a', 'kubectl get pods',
-                       'cat /proc/cpuinfo', 'tail -f /var/log', 'ip route show', 'df -h /var', 'chmod +x deploy.sh',
-                       'ssh -J bastion', 'openssl s_client'],
-                boss: ['rm -rf /', 'chmod 777', 'kernel panic', 'segfault', 'oom killer', 'make install', 'dependency hell', 'fork bomb']
-            },
-            powershell: {
-                label: 'powershell',
-                short: ['ls', 'gci', 'gps', 'gsv', 'cls', 'iwr', 'irm', 'sls', 'gc', 'dir', 'cd', 'echo', 'pwd', 'gal',
-                        'gcm', 'ft', 'fl', 'oh', 'sc', 'ni', 'ri', 'cp', 'mv', 'ii', 'gm', 'where', 'sort', 'measure'],
-                medium: ['Get-Process', 'Get-Service', 'Get-ChildItem', 'Set-Location', 'Where-Object', 'Select-Object',
-                         'Sort-Object', 'Get-Content', 'Test-Path', 'Out-File', 'Get-Help', 'Stop-Process', 'Get-Date',
-                         'New-Item', 'Remove-Item', 'Copy-Item', 'Get-Member', 'Write-Host', 'Get-Command', 'Get-Alias',
-                         'Format-Table', 'Import-Csv', 'Get-Item', 'Start-Sleep', 'Get-Volume', 'Get-HotFix'],
-                long: ['Get-ExecutionPolicy', 'Invoke-WebRequest', 'Invoke-Command', 'Enter-PSSession', 'Get-WinEvent',
-                       'Test-NetConnection', 'Get-ADUser', 'Restart-Service', 'Export-Csv', 'ConvertTo-Json',
-                       'Get-NetIPAddress', 'Start-Transcript', 'Get-CimInstance', 'Resolve-DnsName', 'Get-ScheduledTask',
-                       'Install-Module', 'Get-ADComputer', 'Set-ADAccountPassword'],
-                boss: ['Set-ExecutionPolicy Bypass', 'Unrestricted', 'Remove-Item -Recurse', '-ErrorAction SilentlyContinue',
-                       'Get-Credential', 'Invoke-Expression', '$ErrorActionPreference']
-            }
-        };
+        // Entries live in spellcheck-words.js as [text, what it does, ...output lines].
+        // Each one lands in a length bucket that decides which enemy can carry it.
+        const bucketOf = text => text.length <= 7 ? 'short' : text.length <= 16 ? 'medium' : 'long';
+        const WORD_SETS = {};
+        Object.entries(window.SPELLCHECK_WORDS).forEach(([id, set]) => {
+            const toEntry = (tier) => ([c, about, ...out]) => ({ c, about, out, tier, bucket: bucketOf(c) });
+            WORD_SETS[id] = {
+                label: set.label,
+                prompt: set.prompt,
+                verb: set.verb,
+                entries: set.basic.map(toEntry('basic')).concat(set.advanced.map(toEntry('advanced'))),
+                boss: set.boss.map(toEntry('boss'))
+            };
+        });
 
         // ---------- Enemy kinds ----------
         const KINDS = {
@@ -539,6 +566,7 @@
             missFlash: 0,
             t: 0,
             pace: 1,
+            advanced: 0.55,         // share of advanced commands; set by the pace keys
             words: 'it',
             flash: 0,
             rings: []
@@ -572,33 +600,43 @@
         }
 
         function pickWord(pool) {
+            // Pace decides how often the advanced entries (pipelines, flags) show up, and how
+            // often an enemy carries a word one size up from its usual
+            if (Math.random() < game.advanced * 0.6) pool = pool === 'short' ? 'medium' : 'long';
+            const tier = Math.random() < game.advanced ? 'advanced' : 'basic';
+            const all = WORD_SETS[game.words].entries;
+            let list = all.filter(e => e.bucket === pool && e.tier === tier);
+            if (!list.length) list = all.filter(e => e.bucket === pool);
+            if (!list.length) list = all;
             // Prefer a word whose first letter no live enemy is using, so the first keystroke picks one target
             const used = new Set(game.enemies.filter(e => !e.dead).map(e => e.match[e.typed] || ''));
-            const list = WORD_SETS[game.words][pool];
-            const fresh = list.filter(w => !used.has(w[0].toLowerCase()));
+            const fresh = list.filter(e => !used.has(e.c[0].toLowerCase()));
             const from = fresh.length ? fresh : list;
             return from[Math.floor(Math.random() * from.length)];
         }
 
-        function wordFields(word) {
-            return { word, match: word.toLowerCase() };
+        function wordFields(entry) {
+            return { entry, word: entry.c, match: entry.c.toLowerCase() };
         }
 
         function spawn(kindName) {
             const k = KINDS[kindName];
             const sprite = baked[k.frames[0]];
             const y = k.fly ? 50 + Math.random() * 50 : GROUND - sprite.height;
+            const entry = pickWord(k.words);
+            // Long commands walk slower so they stay typeable
+            const lengthFactor = entry.c.length > 12 ? Math.max(0.4, 12 / entry.c.length) : 1;
             game.enemies.push({
                 kind: kindName, k, x: W + 4, y, baseY: y, w: sprite.width, h: sprite.height,
-                ...wordFields(pickWord(k.words)), typed: 0, dead: false, doomed: false,
-                phase: Math.random() * 6, speed: k.speed * (0.9 + Math.random() * 0.2)
+                ...wordFields(entry), typed: 0, dead: false, doomed: false,
+                phase: Math.random() * 6, speed: k.speed * lengthFactor * (0.9 + Math.random() * 0.2)
             });
         }
 
         function spawnBoss() {
             const words = [];
-            while (words.length < 3 + Math.floor(game.wave / 5)) {
-                const pool = WORD_SETS[game.words].boss;
+            const pool = WORD_SETS[game.words].boss;
+            while (words.length < Math.min(pool.length, 3 + Math.floor(game.wave / 5))) {
                 const w = pool[Math.floor(Math.random() * pool.length)];
                 if (!words.includes(w)) words.push(w);
             }
@@ -610,6 +648,7 @@
 
         function startWave(n) {
             game.wave = n;
+            logNote(`--- wave ${n}${n % 5 === 0 ? ' · the legacy mainframe wakes' : ''} ---`);
             game.toSpawn = 4 + n * 2;
             game.spawnTimer = 1.2;
             game.bossPending = n % 5 === 0;
@@ -619,6 +658,7 @@
         }
 
         function newGame() {
+            logBody.textContent = '';
             Object.assign(game, {
                 score: 0, hearts: 3, enemies: [], shots: [], parts: [], rings: [], target: null,
                 correct: 0, errors: 0, playTime: 0, shake: 0
@@ -629,6 +669,41 @@
 
         function unlockedKinds() {
             return Object.entries(KINDS).filter(([, k]) => k.from <= game.wave).map(([name]) => name);
+        }
+
+        // ---------- Command log ----------
+        const logBody = document.getElementById('cmd-log-body');
+        const LOG_MAX = 80;
+        function logLine(cls, text) {
+            const span = document.createElement('span');
+            span.className = cls;
+            span.textContent = text;
+            return span;
+        }
+        function appendLog(li) {
+            const stick = logBody.scrollHeight - logBody.scrollTop - logBody.clientHeight < 40;
+            logBody.appendChild(li);
+            while (logBody.children.length > LOG_MAX) logBody.firstChild.remove();
+            if (stick) logBody.scrollTop = logBody.scrollHeight;
+        }
+        function logCommand(entry, isBoss) {
+            const set = WORD_SETS[game.words];
+            const li = document.createElement('li');
+            if (isBoss) li.className = 'boss';
+            li.append(logLine('prompt', set.prompt), logLine('cmd', set.verb + entry.c), '\n');
+            if (set.verb) {
+                // IT terms read like a whatis lookup
+                li.append(logLine('out', `${entry.c} (7)  - ${entry.about}`));
+            } else {
+                entry.out.forEach(line => li.append(logLine('out', line), '\n'));
+                li.append(logLine('about', entry.about));
+            }
+            appendLog(li);
+        }
+        function logNote(text) {
+            const li = document.createElement('li');
+            li.append(logLine('sep', text));
+            appendLog(li);
         }
 
         // ---------- Typing ----------
@@ -661,6 +736,7 @@
             spark(GEM.x, GEM.y, 2, '#e9fffb');
 
             if (e.typed >= e.match.length) {
+                logCommand(e.entry, e.kind === 'boss');
                 game.shots.push({ x: GEM.x, y: GEM.y, target: e, big: e.kind === 'boss' });
                 radio.sfx('fire');
                 if (e.kind === 'boss' && e.hp > 1) {
@@ -729,6 +805,7 @@
         function gameOver() {
             game.mode = 'over';
             game.target = null;
+            logNote(`--- system down on wave ${game.wave} · ${game.score} pts · ${wpm()} wpm ---`);
             radio.sfx('over');
             const result = { score: game.score, wpm: wpm(), wave: game.wave };
             const prev = bestFor(game.words);
@@ -982,7 +1059,7 @@
                 panel([
                     ['SPELLCHECK', '#ffb000', 16],
                     ['', '#fff'],
-                    [`type the ${WORD_SETS[game.words].label} words to defend the datacenter`, '#c9c2e6'],
+                    [`type to defend the datacenter · words: ${WORD_SETS[game.words].label}`, '#c9c2e6'],
                     [`best: ${bestFor(game.words).score} pts · ${bestFor(game.words).wpm} wpm · wave ${bestFor(game.words).wave}`, '#8fd3c7'],
                     [blink ? 'press ENTER or tap to start' : '', '#ffffff']
                 ], 40);
@@ -1063,11 +1140,23 @@
                 .filter(el => el !== except && !el.classList.contains('related-tools') && el.offsetParent !== null && getComputedStyle(el).position !== 'absolute')
                 .reduce((sum, el) => sum + el.offsetHeight + gap, 0);
         }
+        const playArea = document.getElementById('play-area');
+        const logPanel = document.getElementById('cmd-log');
         function fit() {
             const style = getComputedStyle(stage);
-            const availW = stage.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight) - 4;
+            let availW = stage.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight) - 4;
             const top = document.fullscreenElement ? 0 : Math.max(stage.getBoundingClientRect().top + window.scrollY, 0);
-            const availH = window.innerHeight - top - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom) - siblingsHeight(wrap) - 4;
+            let availH = window.innerHeight - top - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom) - siblingsHeight(playArea) - 4;
+            const gap = 12;
+            const side = availW >= 860;
+            playArea.classList.toggle('stacked', !side);
+            let logW = 0;
+            if (side) {
+                logW = Math.round(Math.max(260, Math.min(440, availW * 0.3)));
+                availW -= logW + gap;
+            } else {
+                availH -= 150 + gap;
+            }
             scale = Math.max(1, Math.min(availW / W, availH / H));
             // Snap to whole pixels per game pixel when there's room; it keeps the art crisp
             if (scale >= 2) scale = Math.floor(scale * 2) / 2;
@@ -1076,6 +1165,9 @@
             canvas.style.height = Math.round(H * scale) + 'px';
             canvas.width = Math.round(W * scale * dpr);
             canvas.height = Math.round(H * scale * dpr);
+            const canvasW = Math.round(W * scale) + 4, canvasH = Math.round(H * scale) + 4;
+            logPanel.style.width = side ? logW + 'px' : canvasW + 'px';
+            logPanel.style.height = side ? canvasH + 'px' : '150px';
         }
         window.addEventListener('resize', fit);
         window.addEventListener('load', fit);   // the nav adds its breadcrumb after this script runs
@@ -1222,6 +1314,7 @@
         const paceKeys = [...document.querySelectorAll('#pace-keys .preset')];
         function setPace(i) {
             game.pace = Number(paceKeys[i].dataset.pace);
+            game.advanced = Number(paceKeys[i].dataset.advanced);
             paceKeys.forEach((k, j) => {
                 k.setAttribute('aria-checked', String(j === i));
                 k.tabIndex = j === i ? 0 : -1;
