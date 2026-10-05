@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="/app-insights.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="An ASCII lo-fi scene for your maintenance window: a wizard types at his terminal, sips coffee, pets his cat and keeps an eye on the blinking racks behind him. Optional generated lo-fi beats.">
+    <meta name="keywords" content="lofi, lo-fi beats, ascii art, ascii animation, wizard, cat, datacenter, maintenance window, ambient, relax">
+    <meta name="author" content="OldWeb LLC">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://oldweb.tech/games/lofi-wizard.html">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Lo-fi Wizard - OldWeb.tech">
+    <meta property="og:description" content="An ASCII lo-fi scene: a wizard, a cat, a coffee and a rack of blinking lights.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oldweb.tech/games/lofi-wizard.html">
+    <meta property="og:site_name" content="OldWeb.tech">
+    <meta property="og:image" content="https://oldweb.tech/logo/og-image.png">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Lo-fi Wizard - OldWeb.tech">
+    <meta name="twitter:description" content="An ASCII lo-fi scene: a wizard, a cat, a coffee and a rack of blinking lights.">
+    <meta name="twitter:image" content="https://oldweb.tech/logo/og-image.png">
+
+    <!-- Additional Meta Tags -->
+    <meta name="theme-color" content="#0e0903">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
+
+    <title>Lo-fi Wizard - OldWeb.tech</title>
+    <link rel="stylesheet" href="../a11y.css">
+    <link rel="stylesheet" href="../theme.css">
+    <script src="../a11y-utils.js"></script>
+    <script src="../storage-utils.js"></script>
+    <script src="../navigationv2.js"></script>
+    <link rel="stylesheet" href="radio.css">
+    <script src="radio.js"></script>
+    <style>
+        /* Full-viewport stage; colors, type and focus rings come from theme.css */
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .stage {
+            flex: 1;
+            width: 100%;
+            max-width: none;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            min-height: calc(100vh - 64px);
+            padding: 12px 16px 16px;
+            background: var(--bg);
+            overflow: hidden;
+        }
+        .stage:fullscreen {
+            min-height: 100vh;
+            padding: 24px;
+        }
+
+        /* The scene is 88 x 20 cells of monospace. fitScene() sets font-size so
+           the whole grid, plus the radio below it, fits the stage. */
+        #scene {
+            flex: 0 0 auto;
+            margin: 0;
+            font-family: var(--font-body);
+            font-size: 12px;
+            line-height: 1.12;
+            color: var(--dim);
+            white-space: pre;
+            background: none;
+            border: 0;
+            padding: 0;
+            user-select: none;
+        }
+        /* Glyphs outside ASCII may come from a fallback font with a different
+           advance width; pin each one to a single cell so rows stay aligned. */
+        #scene .g {
+            display: inline-block;
+            width: 1ch;
+            text-align: center;
+            overflow: hidden;
+            vertical-align: top;
+        }
+
+        .c-fg    { color: var(--fg); }
+        .c-dim   { color: var(--dim); }
+        .c-line  { color: var(--line); }
+        .c-hi    { color: var(--hi); text-shadow: var(--glow); }
+        .c-alt   { color: var(--alt); }
+        .c-ok    { color: var(--ok); text-shadow: 0 0 6px color-mix(in srgb, var(--ok) 60%, transparent); }
+        .c-amber { color: var(--warn); text-shadow: 0 0 6px color-mix(in srgb, var(--warn) 60%, transparent); }
+        .c-blue  { color: var(--alt); text-shadow: 0 0 6px color-mix(in srgb, var(--alt) 60%, transparent); }
+        .c-off   { color: var(--line); }
+        .c-hat   { color: var(--art-hat); }
+        .c-robe  { color: var(--art-robe); }
+        .c-skin  { color: var(--art-skin); }
+        .c-beard { color: var(--art-beard); }
+        .c-wood  { color: var(--art-staff); }
+        .c-heart { color: var(--err); }
+
+        .motion-note {
+            color: var(--dim);
+            font-size: 0.85rem;
+            text-align: center;
+        }
+        .motion-note[hidden] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <a href="#stage" class="skip-link">Skip to main content</a>
+    <main id="stage" class="stage">
+        <h1 class="sr-only">Lo-fi Wizard</h1>
+        <pre id="scene" role="img" aria-label="ASCII art scene at night. A wizard in a pointed hat and headphones sits at a desk typing commands into a terminal. Behind him, two server racks blink with green, amber and blue lights. His cat sits on a UPS beside him. A mug of coffee steams on the desk, and a crescent moon shows through the window. Every so often he sips the coffee, reaches back to pet the cat, or turns to check the racks.">loading the night shift…</pre>
+
+        <div class="radio" role="group" aria-label="Scene and music controls">
+            <div class="radio-left">
+                <div class="radio-display">
+                    <span id="now-playing">♪ radio off</span>
+                    <span class="status" id="status-line">wizard: typing · cat: loafing</span>
+                </div>
+                <div class="presets" role="radiogroup" aria-label="Station">
+                    <button type="button" class="preset" role="radio" aria-checked="true" tabindex="0">lo-fi</button>
+                    <button type="button" class="preset" role="radio" aria-checked="false" tabindex="-1">tavern</button>
+                    <button type="button" class="preset" role="radio" aria-checked="false" tabindex="-1">enchanted</button>
+                    <button type="button" class="preset" role="radio" aria-checked="false" tabindex="-1">8-bit quest</button>
+                    <button type="button" class="preset" role="radio" aria-checked="false" tabindex="-1">8-bit dungeon</button>
+                </div>
+            </div>
+            <div class="radio-controls">
+                <div class="knob-wrap">
+                    <span class="led on" id="led-play" aria-hidden="true"></span>
+                    <button type="button" class="knob" id="btn-pause" aria-pressed="true" aria-label="Play scene" title="Play / pause (Space)">
+                        <svg class="icon-main" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12.5-7.5z"/></svg>
+                        <svg class="icon-alt" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/></svg>
+                    </button>
+                    <span aria-hidden="true">scene</span>
+                </div>
+                <div class="knob-wrap">
+                    <span class="led" id="led-music" aria-hidden="true"></span>
+                    <button type="button" class="knob" id="btn-music" aria-pressed="false" aria-label="Music" title="Music on / off (m)">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 17.5a3 3 0 1 1-2-2.83V5l12-2v11.5a3 3 0 1 1-2-2.83V7.4l-8 1.4z"/></svg>
+                    </button>
+                    <span aria-hidden="true">music</span>
+                </div>
+                <label class="volume-field" for="volume">
+                    <span class="led on" aria-hidden="true" style="visibility:hidden"></span>
+                    <input type="range" id="volume" min="0" max="100" value="60" aria-label="Music volume">
+                    <span aria-hidden="true">volume</span>
+                </label>
+                <div class="knob-wrap">
+                    <span class="led" id="led-full" aria-hidden="true"></span>
+                    <button type="button" class="knob" id="btn-full" aria-pressed="false" aria-label="Full screen" title="Full screen (f)">
+                        <svg class="icon-main" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h6v2H6v4H4zm10 0h6v6h-2V6h-4zM4 14h2v4h4v2H4zm14 0h2v6h-6v-2h4z"/></svg>
+                        <svg class="icon-alt" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4h2v6H4V8h4zm6 0h2v4h4v2h-6zM4 14h6v6H8v-4H4zm10 0h6v2h-4v4h-2z"/></svg>
+                    </button>
+                    <span aria-hidden="true">full</span>
+                </div>
+            </div>
+        </div>
+        <p class="motion-note" id="motion-note" hidden>Your system asks for reduced motion, so the scene starts paused. Press the scene button to start it.</p>
+    </main>
+
+    <footer class="statusbar" role="contentinfo">
+        <span>[oldweb] maint-window › lofi-wizard │ works offline │ no tracking</span>
+        <span><a href="https://www.lawsoncyber.com" rel="noopener">a Lawson Cyber project</a> · <a href="https://www.lawsoncyber.com" rel="noopener">feedback</a> │ / search · t theme</span>
+    </footer>
+
+    <script>
+    (function () {
+        'use strict';
+
+        const W = 88, H = 20;
+        const TICK_MS = 100;
+
+        // ---------- Frame buffer ----------
+        // Each cell holds a character and a color class. Sprites are drawn in
+        // layers; a space in a sprite is transparent, a backtick is an opaque blank.
+        let chars, colors;
+        function clear() {
+            chars = Array.from({ length: H }, () => new Array(W).fill(' '));
+            colors = Array.from({ length: H }, () => new Array(W).fill(''));
+        }
+        function put(x, y, ch, cls) {
+            if (y < 0 || y >= H || x < 0 || x >= W) return;
+            chars[y][x] = ch;
+            colors[y][x] = cls;
+        }
+        function draw(x, y, lines, cls) {
+            lines.forEach((line, dy) => {
+                [...line].forEach((ch, dx) => {
+                    if (ch === ' ') return;
+                    put(x + dx, y + dy, ch === '`' ? ' ' : ch, cls);
+                });
+            });
+        }
+        function escapeHtml(ch) {
+            return ch === '<' ? '&lt;' : ch === '>' ? '&gt;' : ch === '&' ? '&amp;' : ch;
+        }
+        function toHtml() {
+            let out = '';
+            for (let y = 0; y < H; y++) {
+                let run = '', runCls = null;
+                const flush = () => {
+                    if (!run) return;
+                    out += runCls ? `<span class="${runCls}">${run}</span>` : run;
+                    run = '';
+                };
+                for (let x = 0; x < W; x++) {
+                    const ch = chars[y][x], cls = colors[y][x];
+                    if (cls !== runCls) { flush(); runCls = cls; }
+                    run += ch.charCodeAt(0) > 126 ? `<span class="g">${ch}</span>` : escapeHtml(ch);
+                }
+                flush();
+                if (y < H - 1) out += '\n';
+            }
+            return out;
+        }
+
+        // ---------- Static set pieces ----------
+        // Layout (88 x 20): racks x1-25, cat on a UPS x27-35, chair + wizard
+        // x37-57, desk x52-87 with keyboard, mug and monitor. Floor is row 18.
+        const FLOOR_Y = 18;
+
+        const RACK = [
+            '.==========.',
+            '|[____] *.*|',
+            '|[____] .**|',
+            '|----------|',
+            '|::::::: **|',
+            '|::::::: *.|',
+            '|----------|',
+            '|[] [] []*.|',
+            '|[] [] [].*|',
+            '|----------|',
+            '|[____] **.|',
+            '|[____] *.*|',
+            '|----------|',
+            '|######## *|',
+            '|######## *|',
+            "'=========='"
+        ];
+        const RACK_XS = [1, 14];
+        const RACK_Y = 2;
+
+        // Every '*' in a rack is an LED. Most are green; a few run amber or blue.
+        const leds = [];
+        RACK_XS.forEach(rx => {
+            RACK.forEach((line, dy) => {
+                [...line].forEach((ch, dx) => {
+                    if (ch !== '*') return;
+                    const r = Math.random();
+                    leds.push({
+                        x: rx + dx, y: RACK_Y + dy,
+                        cls: r < 0.7 ? 'c-ok' : r < 0.88 ? 'c-blue' : 'c-amber',
+                        on: Math.random() < 0.7,
+                        rate: 0.03 + Math.random() * 0.25   // chance to flip each tick
+                    });
+                });
+            });
+        });
+
+        const UPS_X = 27, UPS_Y = 14;
+        const UPS = [
+            '.-------.',
+            '| UPS · |',
+            '|=======|',
+            "'-------'"
+        ];
+
+        const WIN_X = 53, WIN_Y = 1;
+        const WINDOW = [
+            '+------------+',
+            '|````````````|',
+            '|````````````|',
+            '|------------|',
+            '|````````````|',
+            '+------------+'
+        ];
+        const stars = [
+            { x: 2, y: 1 }, { x: 6, y: 2 }, { x: 3, y: 4 }, { x: 10, y: 4 }, { x: 1, y: 4 }, { x: 7, y: 4 }, { x: 11, y: 2 }
+        ].map(s => ({ ...s, phase: Math.random() * 10 }));
+
+        const MON_X = 69, MON_Y = 1;
+        const SCREEN_W = 17, SCREEN_H = 6;
+        const MONITOR = [
+            '.-----------------.',
+            '|`````````````````|',
+            '|`````````````````|',
+            '|`````````````````|',
+            '|`````````````````|',
+            '|`````````````````|',
+            '|`````````````````|',
+            "'-----------------'",
+            '       _|_|_',
+            '      |_____|'
+        ];
+
+        const DESK_X = 52, DESK_Y = 11;
+        const KB_X = 55, KB_Y = 10;
+        const MUG_X = 64, MUG_Y = 9;
+
+        // ---------- Terminal script ----------
+        const SCRIPT = [
+            '$ ssh core-sw01',
+            'sw01# conf t',
+            '(config)# int te1/1',
+            '(config-if)# shut',
+            '(config-if)# no sh',
+            '(config-if)# end',
+            'sw01# wr mem',
+            '[OK]',
+            'sw01# exit',
+            '$ uptime',
+            ' 03:12 up 412 days',
+            '$ systemctl restart',
+            '   nginx',
+            '$ curl -sI :443',
+            'HTTP/2 200',
+            '$ df -h /var',
+            '/var  38%',
+            '$ tail -f syslog',
+            '...quiet. good.',
+            '$ ping -c3 gw',
+            '0% packet loss',
+            '$ # rollback? nah',
+            '$ apt upgrade',
+            '0 upgraded. nice.'
+        ];
+        const isOutputLine = line => !line.startsWith('$') && !line.includes('#');
+        let screenLines = [''];
+        let scriptLine = 0, scriptCol = 0;
+        let typeDelay = 0;
+
+        // Advance the terminal one tick. Returns true when a key was pressed.
+        function typeStep() {
+            if (typeDelay > 0) { typeDelay--; return false; }
+            const line = SCRIPT[scriptLine];
+            if (scriptCol < line.length) {
+                if (isOutputLine(line)) {
+                    // Output lands all at once; commands are typed
+                    screenLines[screenLines.length - 1] = line;
+                    scriptCol = line.length;
+                    return false;
+                }
+                scriptCol++;
+                screenLines[screenLines.length - 1] = line.slice(0, scriptCol);
+                typeDelay = Math.random() < 0.12 ? 3 + Math.floor(Math.random() * 5) : Math.floor(Math.random() * 2);
+                return true;
+            }
+            scriptLine = (scriptLine + 1) % SCRIPT.length;
+            scriptCol = 0;
+            screenLines.push('');
+            if (screenLines.length > SCREEN_H) screenLines.shift();
+            typeDelay = 4 + Math.floor(Math.random() * 6);
+            return false;
+        }
+
+        // ---------- The wizard ----------
+        const HAT = [
+            '     .',
+            '    / \\',
+            '   / * \\',
+            '  /  .  \\',
+            '~=========~'
+        ];
+        const HAT_X = 39;
+        const ROBE_X = 39, ROBE_Y = 6;
+        const ROBE = [
+            ' /````````|',
+            '/`````````|',
+            '|`````````|',
+            '|`````````|',
+            '|`````````|',
+            '|`````````\\',
+            '\\_________________)'
+        ];
+        const SHINS = [' ||', ' ||', ' ||', ' ||', '_||_'];
+        const CHAIR_X = 37;
+        const BEARD_RIGHT = [
+            '}}}}}',
+            '}}}}}}',
+            ' }}}}}',
+            '  }}}',
+            '   }'
+        ];
+        const BEARD_LEFT = [
+            ' {{{{{',
+            '{{{{{{',
+            '{{{{{',
+            ' {{{',
+            '  {'
+        ];
+        const PHONES_FRONT = { x: 40, y: 5 };   // headphone cup, facing the desk
+        const PHONES_BACK = { x: 47, y: 5 };    // headphone cup, turned to the racks
+
+        // ---------- The cat ----------
+        const CAT_X = 27, CAT_Y = 10;
+
+        // ---------- State ----------
+        const state = {
+            paused: false,
+            t: 0,
+            action: 'type',     // type | sip | pet | look
+            actionLeft: 0,
+            nextAction: 80,     // ticks until he idles into something else
+            blink: 0,
+            catBlink: 0,
+            hearts: [],
+            notes: [],
+            keysLit: 0,
+            handFrame: 0
+        };
+
+        const ACTION_TICKS = { sip: 34, pet: 46, look: 32 };
+        const ACTION_LABEL = { type: 'typing', sip: 'sipping coffee', pet: 'petting the cat', look: 'checking the racks' };
+
+        function startAction(name) {
+            state.action = name;
+            state.actionLeft = ACTION_TICKS[name] || 0;
+            if (name === 'pet') state.hearts = [];
+        }
+
+        function pickIdleAction() {
+            const r = Math.random();
+            startAction(r < 0.4 ? 'sip' : r < 0.7 ? 'pet' : 'look');
+        }
+
+        // ---------- Drawing ----------
+        function drawRoom() {
+            for (let x = 0; x < W; x++) put(x, FLOOR_Y, '_', 'c-line');
+            for (let x = 3; x < W; x += 7) put(x, FLOOR_Y + 1, '.', 'c-line');
+
+            // Racks and their LEDs
+            RACK_XS.forEach(rx => draw(rx, RACK_Y, RACK, 'c-dim'));
+            leds.forEach(led => put(led.x, led.y, led.on ? '•' : '·', led.on ? led.cls : 'c-off'));
+
+            // Window: crescent moon and twinkling stars
+            draw(WIN_X, WIN_Y, WINDOW, 'c-dim');
+            put(WIN_X + 9, WIN_Y + 1, '☾', 'c-hi');
+            stars.forEach(s => {
+                const v = Math.sin(state.t / 9 + s.phase);
+                if (v > -0.2) put(WIN_X + s.x, WIN_Y + s.y, v > 0.7 ? '*' : '.', v > 0.7 ? 'c-fg' : 'c-dim');
+            });
+
+            // Desk
+            for (let x = DESK_X; x < W; x++) put(x, DESK_Y, '=', 'c-wood');
+            for (let y = DESK_Y + 1; y < FLOOR_Y; y++) {
+                put(DESK_X + 7, y, '|', 'c-wood');
+                put(W - 2, y, '|', 'c-wood');
+            }
+
+            // Monitor and terminal
+            draw(MON_X, MON_Y, MONITOR, 'c-dim');
+            screenLines.forEach((line, i) => {
+                const text = line.slice(0, SCREEN_W);
+                draw(MON_X + 1, MON_Y + 1 + i, [text.replace(/ /g, '`')], isOutputLine(line) ? 'c-dim' : 'c-alt');
+            });
+            const last = screenLines.length - 1;
+            if (state.t % 10 < 5) {
+                put(MON_X + 1 + Math.min(screenLines[last].length, SCREEN_W - 1), MON_Y + 1 + last, '_', 'c-hi');
+            }
+
+            // Keyboard; a key lights up under each keystroke
+            draw(KB_X, KB_Y, ['[:::::::]'], 'c-dim');
+            if (state.keysLit > 0) put(KB_X + 1 + Math.floor(Math.random() * 7), KB_Y, ':', 'c-hi');
+
+            // UPS for the cat to sit on
+            draw(UPS_X, UPS_Y, UPS, 'c-dim');
+            put(UPS_X + 6, UPS_Y + 1, '•', state.t % 30 < 28 ? 'c-ok' : 'c-off');
+        }
+
+        const STEAM = [[' (', '  )'], ['  )', ' ('], [' )', '(']];
+        function drawMug() {
+            const steam = STEAM[Math.floor(state.t / 4) % STEAM.length];
+            if (state.action === 'sip') {
+                // Raised to his mouth
+                draw(48, 3, steam, 'c-dim');
+                draw(48, 5, ['.--.', '|__|'], 'c-fg');
+            } else {
+                draw(MUG_X, MUG_Y - 2, steam, 'c-dim');
+                draw(MUG_X, MUG_Y, ['.--.', '|__|)'], 'c-fg');
+            }
+        }
+
+        function drawCat() {
+            const petting = state.action === 'pet';
+            const eyes = petting ? '^.^' : state.catBlink > 0 ? '-.-' : 'o.o';
+            const TAILS = ['~', ')', '~', '/'];
+            const tail = TAILS[Math.floor(state.t / (petting ? 3 : 8)) % TAILS.length];
+            draw(CAT_X, CAT_Y, [
+                ' /\\_/\\',
+                `( ${eyes} )`,
+                ' > ^ <',
+                `(")_(")${tail}`
+            ], 'c-fg');
+            if (petting && state.t % 8 < 4) draw(CAT_X + 7, CAT_Y + 1, ['prr'], 'c-dim');
+            state.hearts.forEach(h => put(Math.round(h.x), Math.round(h.y), '♥', 'c-heart'));
+        }
+
+        function drawWizard() {
+            const a = state.action;
+            const turned = a === 'look';
+
+            // Chair: back, seat, post, base
+            for (let y = 6; y <= 12; y++) put(CHAIR_X, y, '|', 'c-wood');
+            draw(CHAIR_X, 13, ['|==========]'], 'c-wood');
+            for (let y = 14; y <= 16; y++) put(CHAIR_X + 6, y, '|', 'c-wood');
+            draw(CHAIR_X + 3, 17, ['o--+--o'], 'c-wood');
+
+            // Robe, lap (runs under the desk) and shins
+            draw(ROBE_X, ROBE_Y, ROBE, 'c-robe');
+            draw(54, 13, SHINS, 'c-robe');
+
+            // Arms: sleeve in robe color, hand in skin
+            if (a === 'type' || a === 'look') {
+                draw(49, 8, ['\\', ' `--.__'], 'c-robe');
+                const typing = a === 'type' && state.keysLit > 0;
+                draw(56, 9, [typing ? (state.handFrame % 2 ? 'mn' : 'nm') : 'mm'], 'c-skin');
+            } else if (a === 'pet') {
+                // Reaches back over the chair; the hand strokes between the ears
+                const stroke = Math.floor(state.t / 5) % 2;
+                const handX = CAT_X + 2 + stroke;
+                draw(handX + 2, 9, ['/'.padEnd(38 - handX - 2, '-') + "'"], 'c-robe');
+                draw(handX, 10, ['ww'], 'c-skin');
+            }
+
+            // Beard hangs in front of the robe
+            if (turned) draw(40, 6, BEARD_LEFT, 'c-beard');
+            else draw(43, 6, BEARD_RIGHT, 'c-beard');
+
+            // Sipping: the hand comes up in front of the beard to hold the mug
+            if (a === 'sip') {
+                draw(48, 7, ['/', ' |'], 'c-robe');
+                put(47, 6, 'd', 'c-skin');
+            }
+
+            // Head in profile: toward the desk while working, toward the racks when he turns
+            const eye = state.blink > 0 ? '-' : 'o';
+            if (turned) {
+                draw(40, 5, [`<  ${eye}  )`], 'c-skin');
+                put(PHONES_BACK.x, PHONES_BACK.y, '@', 'c-hi');
+            } else {
+                put(PHONES_FRONT.x, PHONES_FRONT.y, '@', 'c-hi');
+                draw(41, 5, [`(   ${eye} >`], 'c-skin');
+            }
+
+            draw(HAT_X, 0, HAT, 'c-hat');
+            put(HAT_X + 5, 2, state.t % 14 < 7 ? '*' : '+', 'c-hi');
+
+            // Music notes drift up and away from the headphones
+            state.notes.forEach(n => put(Math.round(n.x), Math.round(n.y), n.ch, 'c-alt'));
+        }
+
+        function drawThought() {
+            if (state.action !== 'look') return;
+            const amber = leds.some(l => l.on && l.cls === 'c-amber');
+            const text = amber ? "amber? ...it's fine" : 'all green. nice.';
+            draw(2, 0, [`( ${text} )`.replace(/ /g, '`')], 'c-fg');
+            put(29, 1, 'o', 'c-dim');
+            put(33, 2, 'o', 'c-dim');
+            put(36, 3, '.', 'c-dim');
+        }
+
+        // ---------- Simulation ----------
+        function step() {
+            state.t++;
+
+            // LEDs flicker; drive activity harder while he's working
+            leds.forEach(l => {
+                if (Math.random() < l.rate) l.on = !l.on;
+            });
+
+            if (state.blink > 0) state.blink--;
+            else if (Math.random() < 0.02) state.blink = 2;
+            if (state.catBlink > 0) state.catBlink--;
+            else if (Math.random() < 0.015) state.catBlink = 6;
+
+            if (state.keysLit > 0) state.keysLit--;
+
+            if (state.action === 'type') {
+                if (typeStep()) { state.keysLit = 2; state.handFrame++; }
+                if (--state.nextAction <= 0) {
+                    pickIdleAction();
+                    state.nextAction = 60 + Math.floor(Math.random() * 90);
+                }
+            } else {
+                if (--state.actionLeft <= 0) {
+                    state.action = 'type';
+                }
+            }
+
+            // Hearts float up from the cat while he pets it
+            if (state.action === 'pet' && state.t % 7 === 0) {
+                state.hearts.push({ x: CAT_X + 3 + Math.random() * 3, y: CAT_Y - 1, life: 14 });
+            }
+            state.hearts.forEach(h => { h.y -= 0.25; h.x += (Math.random() - 0.5) * 0.4; h.life--; });
+            state.hearts = state.hearts.filter(h => h.life > 0 && h.y >= 0);
+
+            // Music notes
+            const noteRate = music.on ? 0.12 : 0.05;
+            if (Math.random() < noteRate) {
+                const from = state.action === 'look' ? PHONES_BACK : PHONES_FRONT;
+                state.notes.push({ x: from.x, y: from.y - 1, ch: Math.random() < 0.5 ? '♪' : '♫', life: 22, dx: -0.15 - Math.random() * 0.25 });
+            }
+            state.notes.forEach(n => {
+                n.y -= 0.18;
+                n.x += n.dx + Math.sin((state.t + n.life) / 3) * 0.15;
+                n.life--;
+                if (n.life < 6) n.ch = '.';
+            });
+            state.notes = state.notes.filter(n => n.life > 0 && n.y >= 0 && n.x >= 27);
+        }
+
+        const sceneEl = document.getElementById('scene');
+        const statusEl = document.getElementById('status-line');
+        let lastStatus = '';
+
+        function render() {
+            clear();
+            drawRoom();
+            drawCat();
+            drawWizard();
+            drawMug();      // after the wizard, so a raised mug sits in front of him
+            drawThought();
+            sceneEl.innerHTML = toHtml();
+
+            const catMood = state.action === 'pet' ? 'purring' : state.catBlink > 0 ? 'dozing' : 'loafing';
+            const amberCount = leds.filter(l => l.on && l.cls === 'c-amber').length;
+            const racks = amberCount > 2 ? `${amberCount} amber` : 'all green';
+            const status = `wizard: ${ACTION_LABEL[state.action]} · cat: ${catMood} · racks: ${racks}`;
+            if (status !== lastStatus) { statusEl.textContent = status; lastStatus = status; }
+        }
+
+        setInterval(() => {
+            if (state.paused || document.hidden) return;
+            step();
+            render();
+        }, TICK_MS);
+
+        // ---------- Radio (engine lives in radio.js) ----------
+        const radio = window.OWTRadio;
+        const music = { get on() { return radio.isOn(); } };   // the scene only reads music.on
+        const nowPlayingEl = document.getElementById('now-playing');
+        const musicBtn = document.getElementById('btn-music');
+        const stationKeys = [...document.querySelectorAll('.preset')];
+        function stationLabel() { return radio.stations[radio.station()].label; }
+
+        radio.onChange(() => {
+            nowPlayingEl.textContent = radio.isOn() ? `♪ ${stationLabel()}: ${radio.trackName()}` : '♪ radio off';
+            musicBtn.setAttribute('aria-pressed', String(radio.isOn()));
+            document.getElementById('led-music').classList.toggle('on', radio.isOn());
+            stationKeys.forEach((k, j) => {
+                const on = j === radio.station();
+                k.setAttribute('aria-checked', String(on));
+                k.tabIndex = on ? 0 : -1;
+            });
+        });
+
+        function setMusic(on) {
+            if (!radio.setOn(on)) {
+                A11yUtils.announce('This browser cannot generate audio', 'polite');
+                return;
+            }
+            A11yUtils.announce(on ? `Music on. ${stationLabel()}: ${radio.trackName()}` : 'Music off', 'polite');
+        }
+
+        // Preset keys behave as a radio group: arrows move between stations
+        function pickStation(i) {
+            radio.setStation(i);
+            if (!radio.isOn()) setMusic(true);
+            else A11yUtils.announce(`${stationLabel()}: ${radio.trackName()}`, 'polite');
+        }
+        stationKeys.forEach((k, i) => {
+            k.addEventListener('click', () => pickStation(i));
+            k.addEventListener('keydown', e => {
+                const dir = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
+                if (!dir) return;
+                e.preventDefault();
+                const next = (i + dir + stationKeys.length) % stationKeys.length;
+                stationKeys[next].focus();
+                pickStation(next);
+            });
+        });
+
+        // ---------- Controls ----------
+        // Radio-style latching keys: a key stays pressed down while its thing is on.
+        const pauseBtn = document.getElementById('btn-pause');
+        function setPaused(p) {
+            state.paused = p;
+            pauseBtn.setAttribute('aria-pressed', String(!p));
+            document.getElementById('led-play').classList.toggle('on', !p);
+        }
+
+        // Hidden extras: c / p / r nudge the wizard to sip, pet the cat, or check the racks
+        function nudge(action) {
+            startAction(action);
+            state.nextAction = 60 + Math.floor(Math.random() * 90);
+            if (state.paused) render();
+        }
+
+        const stage = document.getElementById('stage');
+        const fullBtn = document.getElementById('btn-full');
+        function toggleFullscreen() {
+            if (document.fullscreenElement) document.exitFullscreen();
+            else if (stage.requestFullscreen) stage.requestFullscreen().catch(() => {});
+        }
+        document.addEventListener('fullscreenchange', () => {
+            const on = document.fullscreenElement === stage;
+            fullBtn.setAttribute('aria-pressed', String(on));
+            fullBtn.setAttribute('aria-label', on ? 'Exit full screen' : 'Full screen');
+            document.getElementById('led-full').classList.toggle('on', on);
+            fitScene();
+        });
+        if (!document.fullscreenEnabled) fullBtn.parentElement.hidden = true;
+
+        // Size the font so the 88 x 20 grid fills the stage without scrolling
+        // Height taken by everything else in the stage (breadcrumb, radio, notes) plus the gaps.
+        // Related Tools, which the nav adds at the end, is left to sit below the fold.
+        function siblingsHeight(except) {
+            const gap = parseFloat(getComputedStyle(stage).rowGap) || 0;
+            return [...stage.children]
+                .filter(el => el !== except && !el.classList.contains('related-tools') && el.offsetParent !== null && getComputedStyle(el).position !== 'absolute')
+                .reduce((sum, el) => sum + el.offsetHeight + gap, 0);
+        }
+        function fitScene() {
+            const style = getComputedStyle(stage);
+            const padX = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
+            const padY = parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
+            const availW = stage.clientWidth - padX;
+            const top = document.fullscreenElement ? 0 : Math.max(stage.getBoundingClientRect().top + window.scrollY, 0);
+            const availH = window.innerHeight - top - padY - siblingsHeight(sceneEl) - 4;
+            // Measure a run of cells at 100px to get this font's real proportions
+            sceneEl.style.fontSize = '100px';
+            const probe = document.createElement('span');
+            probe.textContent = 'M'.repeat(10);
+            sceneEl.appendChild(probe);
+            const cellW = probe.getBoundingClientRect().width / 10 / 100;
+            probe.remove();
+            const size = Math.max(5, Math.min(availW / (W * cellW), availH / (H * 1.12), 28));
+            sceneEl.style.fontSize = size.toFixed(2) + 'px';
+        }
+        window.addEventListener('resize', fitScene);
+        window.addEventListener('load', fitScene);   // the nav adds its breadcrumb after this script runs
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitScene);
+
+        pauseBtn.addEventListener('click', () => {
+            setPaused(!state.paused);
+            A11yUtils.announce(state.paused ? 'Scene paused' : 'Scene playing', 'polite');
+        });
+        musicBtn.addEventListener('click', () => setMusic(!music.on));
+        fullBtn.addEventListener('click', toggleFullscreen);
+        document.getElementById('volume').addEventListener('input', e => {
+            radio.setVolume(Number(e.target.value) / 100);
+        });
+
+        // Single-key shortcuts. '/' and 't' belong to the site-wide search and theme toggle.
+        document.addEventListener('keydown', e => {
+            if (e.metaKey || e.ctrlKey || e.altKey) return;
+            const t = e.target;
+            if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT' || t.isContentEditable)) return;
+            if (document.querySelector('.search-overlay:not([hidden])')) return;
+            const key = e.key.toLowerCase();
+            if (key === ' ' && (t === document.body || t === stage)) {
+                e.preventDefault();
+                pauseBtn.click();
+            } else if (key === 'm') {
+                musicBtn.click();
+            } else if (key === 'f') {
+                toggleFullscreen();
+            } else if (key === 'c') {
+                nudge('sip');
+            } else if (key === 'p') {
+                nudge('pet');
+            } else if (key === 'r') {
+                nudge('look');
+            }
+        });
+
+        // Skip link
+        document.querySelector('.skip-link').addEventListener('click', function (e) {
+            e.preventDefault();
+            stage.setAttribute('tabindex', '-1');
+            stage.focus();
+            stage.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        // Reduced motion: draw one still frame and wait for the user to press play
+        const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        setPaused(reduceMotion);
+        if (reduceMotion) document.getElementById('motion-note').hidden = false;
+        for (let i = 0; i < 600; i++) typeStep();   // start with a screen full of history
+        render();
+        fitScene();
+    })();
+    </script>
+</body>
+</html>

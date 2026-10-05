@@ -84,6 +84,10 @@
             { name: 'PDF Merge', file: 'pdf/merge.html', id: 'pdf-merge' },
             { name: 'PDF Split', file: 'pdf/split.html', id: 'pdf-split' },
             { name: 'PDF Rotate', file: 'pdf/rotate.html', id: 'pdf-rotate' }
+        ],
+        games: [
+            { name: 'Lo-fi Wizard', file: 'games/lofi-wizard.html', id: 'lofi-wizard' },
+            { name: 'Spellcheck (typing)', file: 'games/spellcheck.html', id: 'spellcheck' }
         ]
     };
 
@@ -97,7 +101,8 @@
         data:         { displayName: 'Data Tools',         subdir: 'data/' },
         financials:   { displayName: 'Financial Tools',    subdir: 'financials/' },
         productivity: { displayName: 'Productivity Tools', subdir: 'productivity/' },
-        pdf:          { displayName: 'PDF Tools',          subdir: 'pdf/' }
+        pdf:          { displayName: 'PDF Tools',          subdir: 'pdf/' },
+        games:        { displayName: 'Maintenance Window', subdir: 'games/' }
     };
 
     // Full registry of every page (including ones omitted from the dropdown menus).
@@ -153,7 +158,10 @@
         // PDF
         { id: 'pdf-merge',        name: 'PDF Merge',                     file: 'pdf/merge.html',                        category: 'pdf',          keywords: ['pdf', 'merge', 'combine', 'join', 'concatenate'],                related: ['pdf-split', 'pdf-rotate', 'base64'] },
         { id: 'pdf-split',        name: 'PDF Split',                     file: 'pdf/split.html',                        category: 'pdf',          keywords: ['pdf', 'split', 'extract', 'pages', 'separate'],                  related: ['pdf-merge', 'pdf-rotate', 'base64'] },
-        { id: 'pdf-rotate',       name: 'PDF Rotate',                    file: 'pdf/rotate.html',                       category: 'pdf',          keywords: ['pdf', 'rotate', 'turn', 'orientation', 'sideways'],              related: ['pdf-merge', 'pdf-split', 'base64'] }
+        { id: 'pdf-rotate',       name: 'PDF Rotate',                    file: 'pdf/rotate.html',                       category: 'pdf',          keywords: ['pdf', 'rotate', 'turn', 'orientation', 'sideways'],              related: ['pdf-merge', 'pdf-split', 'base64'] },
+        // Maintenance Window (games)
+        { id: 'lofi-wizard',      name: 'Lo-fi Wizard',                  file: 'games/lofi-wizard.html',                category: 'games',        keywords: ['game', 'lofi', 'lo-fi', 'ascii', 'wizard', 'cat', 'music', 'ambient', 'relax', 'break', 'maintenance window'], related: ['spellcheck', 'pomodoro', 'scratchpad'] },
+        { id: 'spellcheck',       name: 'Spellcheck: Wizard Typing Game', file: 'games/spellcheck.html',                 category: 'games',        keywords: ['typing', 'typing test', 'typing game', 'wpm', 'words per minute', 'game', '8-bit', 'pixel', 'wizard', 'practice'], related: ['lofi-wizard', 'pomodoro', 'string-tools'] }
     ];
 
     // Per-tool descriptions for JSON-LD (kept short; meta description owns long-form copy)
@@ -195,6 +203,8 @@
         'tz-meeting-planner':'Plan meetings across timezones with business-hours indicators.',
         'pdf-merge':         'Combine multiple PDFs into one entirely in your browser - no uploads, no watermarks.',
         'pdf-split':         'Extract pages or page ranges from a PDF entirely in your browser - no uploads, no watermarks.',
+        'spellcheck':        'An 8-bit typing game: type IT words to blast bugs, phishing emails and ransomware before they reach the wizard.',
+        'lofi-wizard':       'An ASCII lo-fi scene: a wizard types through a maintenance window with his cat, his coffee and a rack of blinking lights.',
         'pdf-rotate':        'Rotate PDF pages 90, 180, or 270 degrees with live previews - no uploads, no watermarks.',
         'ip-converter':      'Convert IPv4 addresses between dotted, binary, hexadecimal, and integer notations.',
         'my-ip':             'Show your public IP with country, ASN, ISP, and the RDAP registry record for the block.',
@@ -617,7 +627,8 @@
         data: 'data',
         financials: 'finance',
         productivity: 'productivity',
-        pdf: 'pdf'
+        pdf: 'pdf',
+        games: 'maint-window'
     };
 
     // Detect current page and its category
@@ -643,6 +654,9 @@
         }
         if (pathname.includes('/pdf/') && (filename === 'index.html' || filename === '')) {
             return { id: 'pdf-home', category: 'pdf' };
+        }
+        if (pathname.includes('/games/') && (filename === 'index.html' || filename === '')) {
+            return { id: 'games-home', category: 'games' };
         }
 
         // Handle root home page (only if not in a subfolder)
@@ -684,6 +698,9 @@
         }
         if (pathname.includes('/pdf/')) {
             return { id: null, category: 'pdf' };
+        }
+        if (pathname.includes('/games/')) {
+            return { id: null, category: 'games' };
         }
 
         return { id: null, category: null };

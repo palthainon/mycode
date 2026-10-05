@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="/app-insights.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Maintenance Window: small games and ambient scenes for the quiet stretch of a change window. ASCII art, generated music, no accounts, works offline.">
+    <meta name="keywords" content="ascii games, lofi, ambient, ascii art, browser games, maintenance window, sysadmin fun">
+    <meta name="author" content="OldWeb LLC">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://oldweb.tech/games/">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Maintenance Window - OldWeb.tech">
+    <meta property="og:description" content="Maintenance Window: small games and ambient scenes for the quiet stretch of a change window. ASCII art, generated music, no accounts, works offline.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oldweb.tech/games/">
+    <meta property="og:site_name" content="OldWeb.tech">
+    <meta property="og:image" content="https://oldweb.tech/logo/og-image.png">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Maintenance Window - OldWeb.tech">
+    <meta name="twitter:description" content="Maintenance Window: small games and ambient scenes for the quiet stretch of a change window. ASCII art, generated music, no accounts, works offline.">
+    <meta name="twitter:image" content="https://oldweb.tech/logo/og-image.png">
+
+    <!-- Additional Meta Tags -->
+    <meta name="theme-color" content="#0e0903">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
+
+    <title>Maintenance Window - OldWeb.tech</title>
+
+    <!-- Accessibility -->
+    <link rel="stylesheet" href="../a11y.css">
+    <link rel="stylesheet" href="../theme.css">
+    <script src="../a11y-utils.js"></script>
+
+    <!-- Utilities -->
+    <script src="../storage-utils.js"></script>
+    <script src="../navigationv2.js"></script>
+    <style>
+        /* Page layout only; colors, type, buttons and fields come from theme.css */
+        .category-intro,
+        .category-outro {
+            margin-bottom: 28px;
+        }
+        .category-intro .box-body,
+        .category-outro .box-body {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .card-grid {
+            margin-bottom: 28px;
+        }
+    </style>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": "Maintenance Window",
+      "description": "Maintenance Window: small games and ambient scenes for the quiet stretch of a change window. ASCII art, generated music, no accounts, works offline.",
+      "url": "https://oldweb.tech/games/",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "OldWeb.tech",
+        "url": "https://oldweb.tech/"
+      }
+    }
+    </script>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <main id="main-content" class="container">
+        <div class="page-head">
+            <h1>Maintenance Window</h1>
+            <p class="lede">The change is staged, the rollback is written, and now you wait.</p>
+        </div>
+
+        <section class="box category-intro" aria-labelledby="category-intro-heading">
+            <div class="box-head">
+                <h2 id="category-intro-heading">what's in this section</h2>
+            </div>
+            <div class="box-body">
+            <p>Small games and ambient scenes for the quiet part of a change window: waiting on a reboot, a replication, or a vendor bridge that will reconvene "in about ten minutes." Everything runs in your browser and works offline. Music is generated live with the Web Audio API. Nothing streams, and nothing downloads.</p>
+            </div>
+        </section>
+
+        <div class="card-grid">
+            <a href="lofi-wizard.html" class="card-link">
+                <h2>Lo-fi Wizard</h2>
+                <p>An ASCII night shift. A wizard types through his change plan, sips coffee, pets his cat and checks the blinking racks behind him. Put it full screen and tune the radio to lo-fi, a fantasy tavern, an enchanted forest or 8-bit chiptune.</p>
+                <span class="card-cta">Start the shift</span>
+            </a>
+
+            <a href="spellcheck.html" class="card-link">
+                <h2>Spellcheck</h2>
+                <p>An 8-bit typing game. Bugs, phishing emails, jammed printers, 404 ghosts and ransomware march on the wizard, each carrying an IT word. Type it to cast. Every fifth wave a legacy mainframe shows up. Tracks your WPM and accuracy.</p>
+                <span class="card-cta">Defend the datacenter</span>
+            </a>
+        </div>
+
+        <section class="box category-outro" aria-labelledby="category-outro-heading">
+            <div class="box-head">
+                <h2 id="category-outro-heading">back to work</h2>
+            </div>
+            <div class="box-body">
+            <p>When the window closes: <a href="../productivity/pomodoro.html">Pomodoro Timer</a> for the next focus block, <a href="../productivity/scratchpad.html">Scratchpad</a> for the post-change notes, or <a href="../system/log-parser.html">Log Parser</a> to make sure it really went as quietly as it looked.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="statusbar" role="contentinfo">
+        <span>[oldweb] maint-window › index │ works offline │ no tracking</span>
+        <span><a href="https://www.lawsoncyber.com" rel="noopener">a Lawson Cyber project</a> · <a href="https://www.lawsoncyber.com" rel="noopener">feedback</a> │ / search · t theme</span>
+    </footer>
+
+    <script>
+        // Initialize accessibility - handle skip link
+        document.querySelector('.skip-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.getElementById('main-content');
+            if (target) {
+                target.setAttribute('tabindex', '-1');
+                target.focus();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    </script>
+</body>
+</html>
