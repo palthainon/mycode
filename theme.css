@@ -633,3 +633,14 @@ label.required::after {
 .pixel-art .px-staff { fill: var(--art-staff); }
 .pixel-art .px-shroud { fill: var(--art-shroud); }
 .pixel-art .px-curse { fill: var(--err); }
+/* A mascot can link somewhere (e.g. the text adventure) */
+.mascot-link {
+  display: block;
+  flex: none;
+  line-height: 0;
+  transition: transform 0.15s;
+}
+.mascot-link:hover,
+.mascot-link:focus-visible {
+  transform: translateY(-3px);
+}
