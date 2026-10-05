@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="/app-insights.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Free practice questions for Security+, A+, CCNA, CCNP Enterprise, CCNP Security and Cisco ISE. Original questions with explanations. No account, no paywall.">
+    <meta name="keywords" content="free certification practice tests, security+, a+, ccna, ccnp, cisco ise, practice questions">
+    <meta name="author" content="OldWeb LLC">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://oldweb.tech/certs/">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Certification Practice Tests - OldWeb.tech">
+    <meta property="og:description" content="Free practice questions for Security+, A+, CCNA, CCNP Enterprise, CCNP Security and Cisco ISE. Original questions with explanations. No account, no paywall.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oldweb.tech/certs/">
+    <meta property="og:site_name" content="OldWeb.tech">
+    <meta property="og:image" content="https://oldweb.tech/logo/og-image.png">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Certification Practice Tests - OldWeb.tech">
+    <meta name="twitter:description" content="Free practice questions for Security+, A+, CCNA, CCNP Enterprise, CCNP Security and Cisco ISE. Original questions with explanations. No account, no paywall.">
+    <meta name="twitter:image" content="https://oldweb.tech/logo/og-image.png">
+
+    <!-- Additional Meta Tags -->
+    <meta name="theme-color" content="#0e0903">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
+
+    <title>Certification Practice Tests - OldWeb.tech</title>
+    <link rel="stylesheet" href="../a11y.css">
+    <link rel="stylesheet" href="../theme.css">
+    <link rel="stylesheet" href="quiz.css">
+    <script src="../a11y-utils.js"></script>
+    <script src="../storage-utils.js"></script>
+    <script src="../navigationv2.js"></script>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <main id="main-content" class="container">
+        <div class="page-head">
+            <h1>Certification Practice Tests</h1>
+            <p class="lede">Practice for a little while, see why each answer is right or wrong, close the tab. That's it.</p>
+        </div>
+
+        <section class="box quiz-intro" aria-labelledby="intro-heading">
+            <div class="box-head">
+                <h2 id="intro-heading">why this exists</h2>
+            </div>
+            <div class="box-body">
+                <p>Most "free" practice-test sites gate the good questions behind a signup, a subscription, or a countdown timer designed to make you panic-buy. These don't. Pick an exam, pick the domains you want to work on, and practice. Your progress stays in your own browser.</p>
+                <p>Every question is original, written against the vendor's public exam objectives, with an explanation for every choice. They are not real exam questions or dumps. We don't claim to match today's live exam exactly; we aim to teach the material it covers.</p>
+            </div>
+        </section>
+
+        <div class="card-grid">
+            <a href="security-plus.html" class="card-link exam-card">
+                <h2>Security+</h2>
+                <p>Threats, architecture, operations and governance: 100 original questions mapped to the SY0-701 domains.</p>
+                <span class="card-cta">Practice Security+</span>
+            </a>
+            <a href="a-plus.html" class="card-link exam-card">
+                <h2>A+</h2>
+                <p>Hardware, networking, operating systems, security and troubleshooting across Core 1 and Core 2.</p>
+                <span class="card-cta">Practice A+</span>
+            </a>
+            <a href="ccna.html" class="card-link exam-card">
+                <h2>CCNA</h2>
+                <p>Subnetting, switching, routing, services, security and automation for the 200-301 exam.</p>
+                <span class="card-cta">Practice CCNA</span>
+            </a>
+            <a href="ccnp-encor.html" class="card-link exam-card">
+                <h2>CCNP ENCOR</h2>
+                <p>Architecture, virtualization, infrastructure, assurance, security and automation for 350-401.</p>
+                <span class="card-cta">Practice CCNP ENCOR</span>
+            </a>
+            <a href="ccnp-scor.html" class="card-link exam-card">
+                <h2>CCNP SCOR</h2>
+                <p>Security concepts, network and cloud security, Secure Service Edge, endpoint protection and network access for 350-701.</p>
+                <span class="card-cta">Practice CCNP SCOR</span>
+            </a>
+            <a href="cisco-ise.html" class="card-link exam-card">
+                <h2>Cisco ISE</h2>
+                <p>802.1X, MAB, profiling, posture, guest, TrustSec and device administration for 300-715.</p>
+                <span class="card-cta">Practice Cisco ISE</span>
+            </a>
+        </div>
+
+        <section class="box disclaimer" aria-labelledby="about-heading">
+            <div class="box-head">
+                <h2 id="about-heading">the fine print</h2>
+            </div>
+            <div class="box-body">
+                <p>Not affiliated with or endorsed by CompTIA or Cisco. Security+, A+, CCNA, CCNP and Cisco ISE are trademarks of their owners. Spotted a wrong answer? <a href="https://www.lawsoncyber.com" rel="noopener">Tell us</a> and we'll fix it.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="statusbar" role="contentinfo">
+        <span>[oldweb] certs › index │ works offline │ no tracking │ no accounts</span>
+        <span><a href="https://www.lawsoncyber.com" rel="noopener">a Lawson Cyber project</a> · <a href="https://www.lawsoncyber.com" rel="noopener">feedback</a> │ / search · t theme</span>
+    </footer>
+
+    <script>
+        document.querySelector('.skip-link').addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.getElementById('main-content');
+            target.setAttribute('tabindex', '-1');
+            target.focus();
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    </script>
+</body>
+</html>

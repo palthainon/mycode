@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="/app-insights.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Free Security+ practice test: Threats, architecture, operations and governance: 100 original questions mapped to the SY0-701 domains. Explanations for every answer. No account, no paywall.">
+    <meta name="keywords" content="security+ practice test, sy0-701 practice questions, comptia security plus, free security+ questions">
+    <meta name="author" content="OldWeb LLC">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://oldweb.tech/certs/security-plus.html">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Security+ Practice Questions - OldWeb.tech">
+    <meta property="og:description" content="Free Security+ practice test: Threats, architecture, operations and governance: 100 original questions mapped to the SY0-701 domains. Explanations for every answer. No account, no paywall.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oldweb.tech/certs/security-plus.html">
+    <meta property="og:site_name" content="OldWeb.tech">
+    <meta property="og:image" content="https://oldweb.tech/logo/og-image.png">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Security+ Practice Questions - OldWeb.tech">
+    <meta name="twitter:description" content="Free Security+ practice test: Threats, architecture, operations and governance: 100 original questions mapped to the SY0-701 domains. Explanations for every answer. No account, no paywall.">
+    <meta name="twitter:image" content="https://oldweb.tech/logo/og-image.png">
+
+    <!-- Additional Meta Tags -->
+    <meta name="theme-color" content="#0e0903">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
+
+    <title>Security+ Practice Questions - OldWeb.tech</title>
+    <link rel="stylesheet" href="../a11y.css">
+    <link rel="stylesheet" href="../theme.css">
+    <link rel="stylesheet" href="quiz.css">
+    <script src="../a11y-utils.js"></script>
+    <script src="../storage-utils.js"></script>
+    <script src="../navigationv2.js"></script>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <main id="main-content" class="container">
+        <div class="page-head">
+            <h1>Security+ Practice Questions</h1>
+            <p class="lede">Threats, architecture, operations and governance: 100 original questions mapped to the SY0-701 domains. Every answer comes with an explanation.</p>
+        </div>
+
+        <div id="quiz" aria-live="off">
+            <noscript><div class="box"><div class="box-body"><p>The practice test needs JavaScript to shuffle and grade questions.</p></div></div></noscript>
+        </div>
+
+        <section class="box disclaimer" aria-labelledby="about-heading">
+            <div class="box-head">
+                <h2 id="about-heading">about these questions</h2>
+            </div>
+            <div class="box-body">
+                <p>Free. No account, no email, no "unlock the full bank" upsell. Your progress stays in this browser.</p>
+                <p>Every question here is original, written against the vendor's public exam objectives. These are not real exam questions, not "dumps", and not reworded from other practice sites. We aim to be accurate, not to claim we match today's live exam. Treat this as practice, not a guarantee.</p>
+                <p>Not affiliated with or endorsed by CompTIA. Security+ is a trademark of CompTIA. Spotted a wrong answer? <a href="https://www.lawsoncyber.com" rel="noopener">Tell us</a> and we'll fix it.</p>
+            </div>
+        </section>
+
+        <section class="box" aria-labelledby="facts-heading">
+            <div class="box-head">
+                <h2 id="facts-heading">this question bank</h2>
+            </div>
+            <div class="box-body">
+                <table class="kv"><tbody id="exam-facts"></tbody></table>
+            </div>
+        </section>
+    </main>
+
+    <footer class="statusbar" role="contentinfo">
+        <span>[oldweb] certs › security-plus │ works offline │ no tracking │ no accounts</span>
+        <span><a href="https://www.lawsoncyber.com" rel="noopener">a Lawson Cyber project</a> · <a href="https://www.lawsoncyber.com" rel="noopener">feedback</a> │ / search · t theme</span>
+    </footer>
+    <script src="data/security-plus.js"></script>
+    <script src="quiz.js"></script>
+    <script>
+        document.querySelector('.skip-link').addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.getElementById('main-content');
+            target.setAttribute('tabindex', '-1');
+            target.focus();
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    </script>
+</body>
+</html>

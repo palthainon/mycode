@@ -1,0 +1,257 @@
+/* Practice-test pages. Colors, type and focus rings come from theme.css tokens. */
+main {
+    max-width: 880px;
+}
+.quiz-intro,
+.disclaimer {
+    margin-bottom: 24px;
+}
+#quiz > .box {
+    margin-bottom: 24px;
+}
+.quiz-intro .box-body,
+.disclaimer .box-body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: var(--dim);
+    font-size: 0.9rem;
+}
+
+/* ---------- Setup ---------- */
+.setup fieldset {
+    border: 1px solid var(--line);
+    padding: 10px 14px 12px;
+    margin: 0 0 16px;
+    min-width: 0;
+}
+.setup legend {
+    padding: 0 6px;
+    color: var(--hi);
+}
+.progress-note {
+    margin-bottom: 14px;
+    color: var(--dim);
+}
+.domain-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 10px;
+}
+.domain-pick {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 4px;
+    cursor: pointer;
+}
+.domain-pick:hover {
+    background: var(--head);
+}
+.domain-pick input,
+.pill input {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--hi);
+    margin: 0;
+}
+.domain-meta {
+    color: var(--dim);
+    font-size: 0.85rem;
+    white-space: nowrap;
+}
+.setup-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0 16px;
+}
+.pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 0;
+    cursor: pointer;
+}
+.pill:has(input:disabled) {
+    color: var(--dim);
+    cursor: default;
+}
+.row-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 0 3px 3px 0;   /* room for button shadows */
+}
+.setup-error {
+    color: var(--err);
+    min-height: 1.4em;
+    margin-bottom: 8px;
+}
+.btn.secondary {
+    background: transparent;
+    border-color: var(--line);
+    color: var(--dim);
+    box-shadow: none;
+}
+.btn.secondary:hover {
+    border-color: var(--hi);
+    color: var(--hi);
+}
+
+/* ---------- Question ---------- */
+.q-domain {
+    color: var(--dim);
+    font-size: 0.85rem;
+}
+.meter {
+    height: 4px;
+    background: var(--line);
+    margin-bottom: 18px;
+}
+.meter span {
+    display: block;
+    height: 100%;
+    background: var(--hi);
+}
+.q-stem {
+    white-space: pre-wrap;
+    font-size: 1.05rem;
+    line-height: 1.55;
+    margin-bottom: 16px;
+}
+.q-stem:focus {
+    outline: none;
+}
+.q-hint {
+    color: var(--hi);
+    margin: -8px 0 12px;
+}
+.choices {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+.choice {
+    display: grid;
+    grid-template-columns: 2em 1fr;
+    align-items: start;
+    gap: 10px;
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 12px;
+    text-align: left;
+    background: var(--field);
+    color: var(--fg);
+    border: 2px solid var(--line);
+    font-family: var(--font-body);
+    font-size: 0.98rem;
+    line-height: 1.45;
+    cursor: pointer;
+}
+.choice:hover {
+    border-color: var(--hi);
+}
+.choice-key {
+    display: inline-grid;
+    place-items: center;
+    width: 1.7em;
+    height: 1.7em;
+    border: 1px solid var(--line);
+    color: var(--dim);
+    font-size: 0.85rem;
+}
+.choice-text {
+    white-space: pre-wrap;
+}
+.choice.chosen {
+    border-color: var(--hi);
+    background: var(--btn);
+}
+.choice.chosen .choice-key {
+    background: var(--hi);
+    border-color: var(--hi);
+    color: var(--inv);
+}
+.choice[aria-disabled="true"] {
+    cursor: default;
+}
+.choice.correct {
+    border-color: var(--ok);
+}
+.choice.correct .choice-key {
+    background: var(--ok);
+    border-color: var(--ok);
+    color: var(--inv);
+}
+.choice.wrong {
+    border-color: var(--err);
+    background: var(--err-bg);
+}
+.choice.wrong .choice-key {
+    background: var(--err);
+    border-color: var(--err);
+    color: var(--inv);
+}
+
+.feedback {
+    padding: 12px 14px;
+    margin-bottom: 18px;
+    border-left: 4px solid var(--ok);
+    background: var(--head);
+}
+.feedback.is-wrong {
+    border-left-color: var(--err);
+}
+.feedback .verdict {
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+.feedback.is-right .verdict { color: var(--ok); }
+.feedback.is-wrong .verdict { color: var(--err); }
+.why-list {
+    margin: 10px 0 0;
+    padding-left: 1.2em;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    color: var(--dim);
+    font-size: 0.92rem;
+}
+.why-list .why-right {
+    color: var(--fg);
+}
+.keys-hint {
+    margin-top: 14px;
+    color: var(--dim);
+    font-size: 0.8rem;
+}
+
+/* ---------- Results ---------- */
+.score {
+    font-size: 1.4rem;
+    margin-bottom: 14px;
+}
+.score strong {
+    color: var(--hi);
+}
+.results .data-table {
+    margin-bottom: 18px;
+}
+.review-item {
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+    border-bottom: 1px dashed var(--line);
+}
+.review-answers {
+    color: var(--err);
+    margin-bottom: 8px;
+}
+
+/* ---------- Hub ---------- */
+.exam-card .exam-code {
+    color: var(--dim);
+    font-size: 0.85rem;
+}
