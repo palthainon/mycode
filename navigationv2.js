@@ -87,6 +87,8 @@
         certs: [
             { name: 'Security+', file: 'certs/security-plus.html', id: 'cert-security-plus' },
             { name: 'A+', file: 'certs/a-plus.html', id: 'cert-a-plus' },
+            { name: 'Network+', file: 'certs/network-plus.html', id: 'cert-network-plus' },
+            { name: 'CySA+', file: 'certs/cysa-plus.html', id: 'cert-cysa-plus' },
             { name: 'CCNA', file: 'certs/ccna.html', id: 'cert-ccna' },
             { name: 'CCNP ENCOR', file: 'certs/ccnp-encor.html', id: 'cert-ccnp-encor' },
             { name: 'CCNP SCOR', file: 'certs/ccnp-scor.html', id: 'cert-ccnp-scor' },
@@ -171,6 +173,8 @@
         // Certification practice
         { id: 'cert-security-plus', name: 'Security+ Practice Questions',  file: 'certs/security-plus.html',              category: 'certs',        keywords: ['security+', 'security plus', 'sy0-701', 'comptia', 'practice test', 'exam', 'certification'], related: ['cert-a-plus', 'cert-ccnp-scor', 'cert-cisco-ise'] },
         { id: 'cert-a-plus',        name: 'A+ Practice Questions',         file: 'certs/a-plus.html',                     category: 'certs',        keywords: ['a+', 'a plus', 'comptia', 'core 1', 'core 2', '220-1201', '220-1202', 'practice test', 'certification'], related: ['cert-security-plus', 'cert-ccna', 'chmod'] },
+        { id: 'cert-network-plus',  name: 'Network+ Practice Questions',   file: 'certs/network-plus.html',               category: 'certs',        keywords: ['network+', 'network plus', 'n10-009', 'comptia', 'subnetting', 'practice test', 'certification'], related: ['cert-ccna', 'cert-a-plus', 'subnet'] },
+        { id: 'cert-cysa-plus',     name: 'CySA+ Practice Questions',      file: 'certs/cysa-plus.html',                  category: 'certs',        keywords: ['cysa+', 'cysa plus', 'cs0-004', 'cybersecurity analyst', 'comptia', 'soc', 'practice test', 'certification'], related: ['cert-security-plus', 'cert-ccnp-scor', 'log-parser'] },
         { id: 'cert-ccna',          name: 'CCNA Practice Questions',       file: 'certs/ccna.html',                       category: 'certs',        keywords: ['ccna', '200-301', 'cisco', 'subnetting', 'practice test', 'certification'], related: ['subnet', 'cert-ccnp-encor', 'cidr'] },
         { id: 'cert-ccnp-encor',    name: 'CCNP ENCOR Practice Questions', file: 'certs/ccnp-encor.html',                 category: 'certs',        keywords: ['ccnp', 'encor', '350-401', 'enterprise', 'cisco', 'practice test', 'certification'], related: ['cert-ccna', 'cert-ccnp-scor', 'jinja'] },
         { id: 'cert-ccnp-scor',     name: 'CCNP SCOR Practice Questions',  file: 'certs/ccnp-scor.html',                  category: 'certs',        keywords: ['ccnp', 'scor', '350-701', 'security', 'cisco', 'practice test', 'certification'], related: ['cert-cisco-ise', 'cert-security-plus', 'cert-parser'] },
@@ -223,6 +227,8 @@
         'datacenter-quest':  'A text adventure: answer subnetting, chmod, cron, RAID and IPv6 questions to get the on-call wizard to the datacenter and reboot a dead server.',
         'cert-security-plus': 'Free, original Security+ practice questions with an explanation for every answer.',
         'cert-a-plus':       'Free, original A+ Core 1 and Core 2 practice questions with explanations.',
+        'cert-network-plus': 'Free, original Network+ practice questions, including subnetting, with explanations.',
+        'cert-cysa-plus':    'Free, original CySA+ practice questions for security analysts, with explanations.',
         'cert-ccna':         'Free, original CCNA practice questions, including subnetting, with explanations.',
         'cert-ccnp-encor':   'Free, original CCNP Enterprise (ENCOR) practice questions with explanations.',
         'cert-ccnp-scor':    'Free, original CCNP Security (SCOR) practice questions with explanations.',
