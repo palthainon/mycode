@@ -78,9 +78,8 @@
         productivity: [
             { name: 'Pomodoro Timer', file: 'productivity/pomodoro.html', id: 'pomodoro' },
             { name: 'Scratchpad', file: 'productivity/scratchpad.html', id: 'scratchpad' },
-            { name: 'TZ Meeting Planner', file: 'productivity/tz-meeting-planner.html', id: 'tz-meeting-planner' }
-        ],
-        pdf: [
+            { name: 'TZ Meeting Planner', file: 'productivity/tz-meeting-planner.html', id: 'tz-meeting-planner' },
+            { separator: '(PDF)' },
             { name: 'PDF Merge', file: 'pdf/merge.html', id: 'pdf-merge' },
             { name: 'PDF Split', file: 'pdf/split.html', id: 'pdf-split' },
             { name: 'PDF Rotate', file: 'pdf/rotate.html', id: 'pdf-rotate' }
@@ -645,6 +644,12 @@
         }
     `;
 
+    // Categories without a tab of their own, and the tab that holds their tools.
+    // Their pages keep their own breadcrumb and search label.
+    const tabForCategory = {
+        pdf: 'productivity'
+    };
+
     // Short tab labels for the themed nav (tmux-style "1:network")
     const themedTabLabels = {
         network: 'network',
@@ -652,7 +657,6 @@
         data: 'data',
         financials: 'finance',
         productivity: 'productivity',
-        pdf: 'pdf',
         certs: 'certs',
         games: 'maint-window'
     };
@@ -704,7 +708,8 @@
 
             const tool = tools.find(t => t.file && t.file.endsWith(filename));
             if (tool) {
-                return { id: tool.id, category: category };
+                const entry = toolRegistry.find(r => r.id === tool.id);
+                return { id: tool.id, category: entry ? entry.category : category };
             }
         }
 
@@ -758,7 +763,7 @@
         for (const [category, tools] of Object.entries(toolsData)) {
             if (category === 'home') continue;
 
-            const isCurrent = currentPage.category === category;
+            const isCurrent = (tabForCategory[currentPage.category] || currentPage.category) === category;
             const label = `${n}:${themedTabLabels[category] || category}${isCurrent ? '*' : ''}`;
             n++;
 
