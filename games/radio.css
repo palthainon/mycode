@@ -1,6 +1,8 @@
 /* Old-school radio faceplate shared by the Maintenance Window games.
    Colors come from theme.css tokens. */
 .radio {
+    max-width: 100%;
+    box-sizing: border-box;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
@@ -144,4 +146,25 @@
     width: 120px;
     margin: 14px 0 9px;
     accent-color: var(--hi);
+}
+
+/* Phones: the faceplate spans the width and the display may shrink */
+@media (max-width: 600px) {
+    .radio {
+        width: 100%;
+        padding: 12px;
+        gap: 12px;
+    }
+    .radio-left {
+        width: 100%;
+    }
+    .radio-display {
+        min-width: 0;
+        max-width: none;
+    }
+    .radio-controls {
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+    }
 }
