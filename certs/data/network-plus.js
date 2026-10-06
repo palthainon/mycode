@@ -406,10 +406,10 @@ window.CERT_BANK = {
             objective: '2.3',
             type: 'single',
             q: 'Three 2.4GHz access points in an office are set to channels 1, 4 and 8, and users report poor throughput. Which channel plan avoids overlap in North America?',
-            choices: ['1, 5 and 9', '1, 6 and 11', '2, 7 and 12', '3, 6 and 9'],
+            choices: ['1, 5 and 9', '1, 6 and 11', '2, 7 and 10', '3, 6 and 9'],
             answer: [1],
-            explain: '2.4GHz channels are 5MHz apart but about 20-22MHz wide. In North America only 1, 6 and 11 fit side by side without overlapping.',
-            why: ['Channels 1, 5 and 9 sit only 20MHz apart center to center and still overlap.', 'Correct: channels 1, 6 and 11 are spaced far enough apart that their 20MHz signals do not overlap.', 'Channel 12 is not generally allowed in North America, and these channels also overlap.', 'Channels three apart overlap heavily.']
+            explain: '2.4GHz channels are 5MHz apart but about 20-22MHz wide, so channels must be five numbers apart to avoid overlap. North American plans use channels 1-11 (12 and 13 are allowed only at reduced power), which fits exactly three: 1, 6 and 11.',
+            why: ['Channels 1, 5 and 9 sit only 20MHz apart center to center and still overlap.', 'Correct: channels 1, 6 and 11 are spaced far enough apart that their 20MHz signals do not overlap.', 'Channels 2 and 7 are clear of each other, but 7 and 10 are only three apart and overlap.', 'Channels three apart overlap heavily.']
         },
         {
             id: 'netplus-037',
@@ -889,7 +889,7 @@ window.CERT_BANK = {
             domain: '5',
             objective: '5.1',
             type: 'single',
-            q: 'After replacing a failed access switch, a technician confirms that users on that floor can reach the network again. Which step should come next?',
+            q: 'A technician has just replaced a failed access switch, and its port lights are back on. Following the troubleshooting methodology, which step comes next?',
             choices: ['Establish a theory of probable cause', 'Question the users about recent changes', 'Verify full system functionality', 'Duplicate the problem'],
             answer: [2],
             explain: 'Verification goes beyond the original symptom, such as checking phones, wireless and monitoring on that switch. Then documentation records what was done and learned.',
@@ -955,10 +955,10 @@ window.CERT_BANK = {
             domain: '5',
             objective: '5.2',
             type: 'single',
-            q: 'A user\'s desk port stopped working after they plugged a small unmanaged switch into it to add a second PC. The port status shows err-disabled. What is the most likely cause?',
+            q: 'Access ports in an office are configured to allow one device per port. A user\'s desk port stopped working after they plugged a small unmanaged switch into it to add a second PC. The port status shows err-disabled. What is the most likely cause?',
             choices: ['Attenuation on the patch cable', 'The port is administratively shut down', 'A port security violation', 'A native VLAN mismatch'],
             answer: [2],
-            explain: 'Err-disabled means the switch shut the port because of a violation, such as port security or BPDU guard. Remove the cause, then bounce the port or let auto-recovery reopen it.',
+            explain: 'Err-disabled means the switch shut the port because of a violation, such as port security or BPDU guard. Unmanaged switches usually do not send BPDUs, so a one-device-per-port limit tripped by the second MAC address is the likely cause here. Remove the cause, then bounce the port or let auto-recovery reopen it.',
             why: ['Attenuation causes errors, not an err-disabled state from a policy violation.', 'Administratively down means someone shut the port with a command; err-disabled is set by the switch itself.', 'Correct: port security limited to one MAC shut the port down when the second PC\'s MAC appeared.', 'Native VLAN mismatches apply to trunks, not access ports.']
         },
         {

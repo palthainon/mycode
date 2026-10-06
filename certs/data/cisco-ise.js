@@ -1697,7 +1697,7 @@ window.CERT_BANK = {
             domain: '5',
             objective: '5.2',
             type: 'single',
-            q: 'Onboarded devices must connect to the SSID CORP-SECURE using EAP-TLS with a 2048-bit key. Where are the SSID name, EAP method and key size defined for the provisioning flow?',
+            q: 'Onboarded devices must connect to the SSID CORP-SECURE using EAP-TLS. Where are the SSID name and EAP method defined for the provisioning flow?',
             choices: [
                 'In the sponsor group',
                 'In the guest type',
@@ -1705,7 +1705,7 @@ window.CERT_BANK = {
                 'In the device administration policy set'
             ],
             answer: [2],
-            explain: 'The native supplicant profile describes the wireless or wired network to configure, the security and EAP method, and the certificate template or key settings used during onboarding.',
+            explain: 'The native supplicant profile describes the wireless or wired network to configure and its security and EAP method, and it selects the certificate template used during onboarding. Key size and validity are set in that certificate template under the ISE internal CA, not in the profile itself.',
             why: [
                 'Sponsor groups define sponsor permissions.',
                 'Guest types define guest account properties.',

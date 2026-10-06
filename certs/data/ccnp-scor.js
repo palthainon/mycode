@@ -2088,7 +2088,7 @@ window.CERT_BANK = {
             choices: [
                 'Duo Single Sign-On',
                 'Duo Trust Monitor',
-                'Duo Device Health application',
+                'Duo Desktop device health checks',
                 'Duo Authentication Proxy'
             ],
             answer: [1],
@@ -2096,7 +2096,7 @@ window.CERT_BANK = {
             why: [
                 'SSO federates logins to applications; it does not analyze authentication anomalies.',
                 'Correct: Trust Monitor detects risky or anomalous authentications.',
-                'The Device Health app reports endpoint security posture, not login behavior.',
+                'Duo Desktop reports endpoint security posture, not login behavior.',
                 'The Authentication Proxy connects on-premises systems to Duo.'
             ]
         },
@@ -2109,11 +2109,11 @@ window.CERT_BANK = {
             choices: [
                 'Duo Trust Monitor',
                 'A Duo bypass code',
-                'Duo Device Health application checks in policy',
+                'Duo Desktop device health checks in policy',
                 'Duo Mobile push with verified codes for every login attempt'
             ],
             answer: [2],
-            explain: 'With the Device Health application installed, Duo can check endpoint attributes such as OS version, disk encryption, firewall state and screen lock during authentication, and policy can block or warn when a device is unhealthy.',
+            explain: 'With Duo Desktop installed (formerly the Duo Device Health application), Duo can check endpoint attributes such as OS version, disk encryption, firewall state and screen lock during authentication, and policy can block or warn when a device is unhealthy.',
             why: [
                 'Trust Monitor detects anomalies after the fact; it does not enforce device health at login.',
                 'Bypass codes skip MFA and do nothing about device posture.',

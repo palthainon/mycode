@@ -179,7 +179,7 @@ window.CERT_BANK = {
             choices: ['2001:db8::a:0:0:1', '2001:db8::a00:0:0:1', '2001:db8::a00::1', '2001:db8:0:0:a::1'],
             answer: [1],
             explain: 'Leading zeros in each hextet can be dropped, and one run of all-zero hextets can be replaced with a double colon. The double colon may appear only once, and trailing zeros inside a hextet (a00) must stay.',
-            why: ['Same error: a00 cannot be written as a.', 'Correct: leading zeros removed and the first zero run compressed with a single ::.', 'Using :: twice is ambiguous and invalid.', '0a00 can shorten to a00 but not to a; only leading zeros may be removed.']
+            why: ['Only leading zeros may be dropped, so 0a00 becomes a00, never a; zeros at the end of a hextet must stay.', 'Correct: leading zeros removed and the first zero run compressed with a single ::.', 'Using :: twice is ambiguous and invalid.', 'The :: placement is valid here, but 0a00 was shortened to a, which drops zeros from the end of the hextet.']
         },
         {
             id: 'ccna-016',
@@ -220,10 +220,10 @@ window.CERT_BANK = {
             objective: '1.11',
             type: 'single',
             q: 'An engineer is planning 2.4 GHz channels for access points in North America. Which set of channels does not overlap?',
-            choices: ['1, 5, 9', '2, 7, 12', '1, 7, 13', '1, 6, 11'],
+            choices: ['1, 5, 9', '3, 8, 11', '1, 6, 9', '1, 6, 11'],
             answer: [3],
-            explain: '2.4 GHz channels are 5 MHz apart but each 802.11 channel is about 20-22 MHz wide. Only channels 1, 6 and 11 are far enough apart to avoid overlap within the North American channel set (1-11).',
-            why: ['Channels 4 apart (20 MHz) still overlap slightly with 22 MHz DSSS channels.', 'Channel 12 is not permitted for normal use in North America.', 'Channel 13 is not available in North America, and 1 and 7 are not the standard plan.', 'Correct: 1, 6 and 11 are the three non-overlapping channels.']
+            explain: '2.4 GHz channels are 5 MHz apart but each 802.11 channel is about 20-22 MHz wide, so channels need to be five numbers apart to avoid overlap. North American plans use channels 1-11 (12 and 13 are allowed only at reduced power), which leaves room for exactly three: 1, 6 and 11.',
+            why: ['Channels 4 apart (20 MHz) still overlap slightly with 22 MHz DSSS channels.', 'Channels 8 and 11 are only three apart (15 MHz), so they overlap.', 'Channels 6 and 9 are only three apart (15 MHz), so they overlap.', 'Correct: 1, 6 and 11 are the three non-overlapping channels.']
         },
         {
             id: 'ccna-020',
@@ -299,8 +299,8 @@ window.CERT_BANK = {
             q: 'Which statement about the native VLAN on an 802.1Q trunk is true?',
             choices: ['The native VLAN must be VLAN 1 on Cisco switches', 'A native VLAN mismatch prevents the trunk from coming up', 'Native VLAN frames cross the trunk untagged', 'Frames in the native VLAN are tagged with VLAN ID 0'],
             answer: [2],
-            explain: '802.1Q leaves native VLAN frames untagged, and any untagged frame received on the trunk is assigned to the native VLAN. Both ends must agree, or traffic leaks between VLANs.',
-            why: ['The native VLAN can be changed with switchport trunk native vlan; using an unused VLAN is recommended.', 'The trunk still forms; CDP logs a native VLAN mismatch and traffic leaks between the two VLANs.', 'Correct: the native VLAN is the untagged VLAN on the trunk.', 'VLAN ID 0 is used for priority-tagged frames, not for the native VLAN.']
+            explain: '802.1Q leaves native VLAN frames untagged, and any untagged frame received on the trunk is assigned to the native VLAN. Both ends must agree. With per-VLAN STP a mismatch blocks those VLANs on the trunk; without it, traffic leaks between them.',
+            why: ['The native VLAN can be changed with switchport trunk native vlan; using an unused VLAN is recommended.', 'The trunk still forms. CDP logs the mismatch, and PVST+ blocks the two native VLANs on that trunk until they match.', 'Correct: the native VLAN is the untagged VLAN on the trunk.', 'VLAN ID 0 is used for priority-tagged frames, not for the native VLAN.']
         },
         {
             id: 'ccna-027',
@@ -652,7 +652,7 @@ window.CERT_BANK = {
             choices: ['VRRP sends hellos over UDP port 1985', 'VRRP is Cisco proprietary', 'VRRP cannot use a router\'s real interface address as the virtual IP', 'VRRP is an IETF standard protocol', 'VRRPv2 virtual MAC addresses use the format 0000.5e00.01xx'],
             answer: [3, 4],
             explain: 'VRRP is defined by the IETF, and its IPv4 virtual MAC is 0000.5e00.01 followed by the group (VRID) number. Unlike HSRP, the virtual IP may be the real address of the owning router.',
-            why: ['UDP 1985 is used by HSRPv1; VRRP is IP protocol 112.', 'HSRP and GLBP are Cisco proprietary; VRRP is not.', 'VRRP allows the virtual IP to be a real interface address; that router becomes the owner.', 'Correct: VRRP is an open standard.', 'Correct: 0000.5e00.01xx where xx is the VRID.']
+            why: ['UDP 1985 is used by HSRP, both version 1 and version 2; VRRP is IP protocol 112.', 'HSRP and GLBP are Cisco proprietary; VRRP is not.', 'VRRP allows the virtual IP to be a real interface address; that router becomes the owner.', 'Correct: VRRP is an open standard.', 'Correct: 0000.5e00.01xx where xx is the VRID.']
         },
         {
             id: 'ccna-059',
