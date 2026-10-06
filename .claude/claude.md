@@ -30,7 +30,7 @@
 - Highlight current tool in navigation to show user location
 
 ### 5. **No Fluff**
-- No analytics, tracking, or unnecessary JavaScript
+- No ads, cookies, accounts, or third-party trackers. The only analytics is cookie-less Azure Application Insights page statistics, disclosed in /privacy.html; do not add any other analytics or any call to a third party without updating that page
 - No splash screens, loading animations, or marketing content
 - No account creation or authentication unless absolutely necessary
 - Tools should work with JavaScript disabled when possible
