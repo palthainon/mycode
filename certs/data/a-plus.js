@@ -228,7 +228,7 @@ window.CERT_BANK = {
                 'Correct: channel 6 is the remaining non-overlapping channel alongside 1 and 11.',
                 'Channel 3 overlaps with both channel 1 and channel 6.',
                 'Channel 9 overlaps with channel 11.',
-                'Channel 13 is not permitted for normal Wi-Fi use in the U.S., and it overlaps channel 11.'
+                'Channel 13 is allowed in the U.S. only at reduced power, many devices will not use it, and it overlaps channel 11.'
             ]
         },
         {

@@ -1270,20 +1270,20 @@ window.CERT_BANK = {
             domain: '2',
             objective: '2.4',
             type: 'single',
-            q: 'A company issues a policy requiring managers to review and recertify their team members\' access rights every quarter. How is this control classified by type?',
+            q: 'A company issues a policy requiring managers to review and recertify their team members\' access rights every quarter. How is the policy itself classified by control type?',
             choices: [
                 'Technical',
-                'Administrative',
-                'Physical',
-                'Compensating'
+                'Managerial',
+                'Operational',
+                'Physical'
             ],
             answer: [1],
-            explain: 'Control types (administrative, technical, physical) describe how a control is implemented, while control functions (preventative, detective, responsive, corrective) describe what it does.',
+            explain: 'Control types describe how a control is implemented: managerial controls set direction through policy, risk decisions and oversight; operational controls are procedures people carry out day to day; technical controls are enforced by systems. Control functions (preventative, detective, responsive, corrective) describe what a control does.',
             why: [
                 'Technical controls are enforced by systems, such as firewalls or MFA.',
-                'Correct: policies and procedures carried out by people are administrative (managerial) controls.',
-                'Physical controls protect facilities and hardware, such as locks and badges.',
-                'Compensating describes a substitute control; the type of this control is still administrative.'
+                'Correct: a policy that sets oversight requirements is a managerial control.',
+                'Operational controls are the procedures people carry out, such as the quarterly reviews themselves; the policy that requires them is managerial.',
+                'Physical controls protect facilities and hardware, such as locks and badges.'
             ]
         },
         {
