@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="/app-insights.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta name="description" content="Printed reference sheets for network engineers: subnetting and well-known ports, and a six-vendor command translation chart. Letter size, two editions. Not for sale yet.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://oldweb.tech/sheets.html">
+    <meta name="theme-color" content="#0e0903">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="logo/favicon-32x32.png">
+
+    <title>Printed Reference Sheets - OldWeb.tech</title>
+
+    <link rel="stylesheet" href="a11y.css">
+    <link rel="stylesheet" href="theme.css">
+    <script src="a11y-utils.js"></script>
+    <script src="storage-utils.js"></script>
+    <script src="navigationv2.js"></script>
+    <style>
+        /* Page layout only; colors, type, buttons and fields come from theme.css */
+        main { display: flex; flex-direction: column; gap: 24px; }
+        .prose p, .prose ul { margin: 0 0 12px; line-height: 1.65; }
+        .prose ul { padding-left: 1.3em; }
+        .prose li { margin-bottom: 6px; }
+        .prose :last-child { margin-bottom: 0; }
+        .sheet-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 24px; }
+        .sheet-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 0 0 16px; }
+        .sheet-pair figure { margin: 0; }
+        .sheet-pair img { display: block; width: 100%; height: auto; border: 1px solid var(--line); }
+        .sheet-pair figcaption { color: var(--dim); font-size: 0.85rem; margin-top: 6px; }
+        .status { border-left: 3px solid var(--hi); }
+        .stamp { color: var(--dim); font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <main id="main-content">
+        <div class="page-head">
+            <h1>printed reference sheets</h1>
+            <p class="lede">The subnet, port and command charts from this site, printed on Letter-size sheets for your wall or desk.</p>
+        </div>
+
+        <section class="box prose status" aria-labelledby="status-heading">
+            <div class="box-head"><h2 id="status-heading">status</h2></div>
+            <div class="box-body">
+                <p><strong>Not for sale yet.</strong> The artwork is finished and the first test prints are being ordered. There is no price, store or ship date to give you today.</p>
+                <p>To hear when they are available, use the feedback link at <a href="https://www.lawsoncyber.com" rel="noopener">Lawson Cyber</a> and mention the sheets.</p>
+            </div>
+        </section>
+
+        <div class="sheet-grid">
+            <section class="box prose" aria-labelledby="atlas-heading">
+                <div class="box-head"><h2 id="atlas-heading">address atlas &amp; port harbor</h2></div>
+                <div class="box-body">
+                    <div class="sheet-pair">
+                        <figure>
+                            <img src="img/sheets/address-atlas-port-harbor-portolan.jpg" width="936" height="1211" loading="lazy" alt="Address Atlas and Port Harbor, Portolan edition: a parchment sheet with an IPv4 subnet table and a table of well-known ports, framed with a compass rose and a ship's anchor.">
+                            <figcaption>Portolan (day)</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="img/sheets/address-atlas-port-harbor-vellum.jpg" width="936" height="1211" loading="lazy" alt="Address Atlas and Port Harbor, Vellum edition: the same sheet in indigo with gold lettering.">
+                            <figcaption>Celestial Vellum (night)</figcaption>
+                        </figure>
+                    </div>
+                    <ul>
+                        <li>Address Atlas: IPv4 prefix lengths (/8, /12 and /16 to /32) with masks and host counts, the special-use ranges, and the common IPv6 prefixes.</li>
+                        <li>Port Harbor: well-known TCP and UDP ports and protocol numbers, checked against the IANA registry when the sheet is built.</li>
+                        <li>The same data as the <a href="nettools/subnet-calculator.html">Subnet Calculator</a>, readable without a laptop.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="box prose" aria-labelledby="codex-heading">
+                <div class="box-head"><h2 id="codex-heading">rosetta codex</h2></div>
+                <div class="box-body">
+                    <div class="sheet-pair">
+                        <figure>
+                            <img src="img/sheets/rosetta-codex-portolan.jpg" width="936" height="1211" loading="lazy" alt="Rosetta Codex, Portolan edition: a parchment sheet with a table of the same network command in six vendor syntaxes.">
+                            <figcaption>Portolan (day)</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="img/sheets/rosetta-codex-vellum.jpg" width="936" height="1211" loading="lazy" alt="Rosetta Codex, Vellum edition: the command table in indigo with gold lettering.">
+                            <figcaption>Celestial Vellum (night)</figcaption>
+                        </figure>
+                    </div>
+                    <ul>
+                        <li>36 everyday tasks, two sides, each shown in six vendor syntaxes: Cisco IOS-XE, NX-OS and ASA, Palo Alto PAN-OS, Juniper Junos and Arista EOS.</li>
+                        <li>Built from vendor documentation. The commands are being checked on real devices before the sheets go on sale.</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+
+        <section class="box prose" aria-labelledby="details-heading">
+            <div class="box-head"><h2 id="details-heading">details</h2></div>
+            <div class="box-body">
+                <ul>
+                    <li>Letter size, 8.5 by 11 inches. Two matched editions, Portolan for a bright office and Celestial Vellum for a dim one.</li>
+                    <li>The material and finish are not decided yet. Test prints will settle that before anything is listed.</li>
+                    <li>Each sheet carries a QR code back to this site. It is tagged by sheet and edition, so the site's page statistics can count which sheet sent a visitor. See the <a href="privacy.html">privacy page</a>.</li>
+                </ul>
+                <p class="stamp">Last updated 2026-10-06.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="statusbar" role="contentinfo">
+        <span>[oldweb] sheets │ works offline │ no cookies │ <a href="/privacy.html">privacy</a></span>
+        <span><a href="https://www.lawsoncyber.com" rel="noopener">a Lawson Cyber project</a> · <a href="https://www.lawsoncyber.com" rel="noopener">feedback</a> │ / search · t theme</span>
+    </footer>
+</body>
+</html>
