@@ -78,12 +78,26 @@
         productivity: [
             { name: 'Pomodoro Timer', file: 'productivity/pomodoro.html', id: 'pomodoro' },
             { name: 'Scratchpad', file: 'productivity/scratchpad.html', id: 'scratchpad' },
-            { name: 'TZ Meeting Planner', file: 'productivity/tz-meeting-planner.html', id: 'tz-meeting-planner' }
-        ],
-        pdf: [
+            { name: 'TZ Meeting Planner', file: 'productivity/tz-meeting-planner.html', id: 'tz-meeting-planner' },
+            { separator: '(PDF)' },
             { name: 'PDF Merge', file: 'pdf/merge.html', id: 'pdf-merge' },
             { name: 'PDF Split', file: 'pdf/split.html', id: 'pdf-split' },
             { name: 'PDF Rotate', file: 'pdf/rotate.html', id: 'pdf-rotate' }
+        ],
+        certs: [
+            { name: 'Security+', file: 'certs/security-plus.html', id: 'cert-security-plus' },
+            { name: 'A+', file: 'certs/a-plus.html', id: 'cert-a-plus' },
+            { name: 'Network+', file: 'certs/network-plus.html', id: 'cert-network-plus' },
+            { name: 'CySA+', file: 'certs/cysa-plus.html', id: 'cert-cysa-plus' },
+            { name: 'CCNA', file: 'certs/ccna.html', id: 'cert-ccna' },
+            { name: 'CCNP ENCOR', file: 'certs/ccnp-encor.html', id: 'cert-ccnp-encor' },
+            { name: 'CCNP SCOR', file: 'certs/ccnp-scor.html', id: 'cert-ccnp-scor' },
+            { name: 'Cisco ISE', file: 'certs/cisco-ise.html', id: 'cert-cisco-ise' }
+        ],
+        games: [
+            { name: 'Lo-fi Wizard', file: 'games/lofi-wizard.html', id: 'lofi-wizard' },
+            { name: 'Spellcheck (typing)', file: 'games/spellcheck.html', id: 'spellcheck' },
+            { name: 'Datacenter Quest', file: 'games/datacenter-quest.html', id: 'datacenter-quest' }
         ]
     };
 
@@ -97,7 +111,9 @@
         data:         { displayName: 'Data Tools',         subdir: 'data/' },
         financials:   { displayName: 'Financial Tools',    subdir: 'financials/' },
         productivity: { displayName: 'Productivity Tools', subdir: 'productivity/' },
-        pdf:          { displayName: 'PDF Tools',          subdir: 'pdf/' }
+        pdf:          { displayName: 'PDF Tools',          subdir: 'pdf/' },
+        certs:        { displayName: 'Cert Practice',      subdir: 'certs/' },
+        games:        { displayName: 'Maintenance Window', subdir: 'games/' }
     };
 
     // Full registry of every page (including ones omitted from the dropdown menus).
@@ -153,7 +169,20 @@
         // PDF
         { id: 'pdf-merge',        name: 'PDF Merge',                     file: 'pdf/merge.html',                        category: 'pdf',          keywords: ['pdf', 'merge', 'combine', 'join', 'concatenate'],                related: ['pdf-split', 'pdf-rotate', 'base64'] },
         { id: 'pdf-split',        name: 'PDF Split',                     file: 'pdf/split.html',                        category: 'pdf',          keywords: ['pdf', 'split', 'extract', 'pages', 'separate'],                  related: ['pdf-merge', 'pdf-rotate', 'base64'] },
-        { id: 'pdf-rotate',       name: 'PDF Rotate',                    file: 'pdf/rotate.html',                       category: 'pdf',          keywords: ['pdf', 'rotate', 'turn', 'orientation', 'sideways'],              related: ['pdf-merge', 'pdf-split', 'base64'] }
+        { id: 'pdf-rotate',       name: 'PDF Rotate',                    file: 'pdf/rotate.html',                       category: 'pdf',          keywords: ['pdf', 'rotate', 'turn', 'orientation', 'sideways'],              related: ['pdf-merge', 'pdf-split', 'base64'] },
+        // Certification practice
+        { id: 'cert-security-plus', name: 'Security+ Practice Questions',  file: 'certs/security-plus.html',              category: 'certs',        keywords: ['security+', 'security plus', 'sy0-701', 'comptia', 'practice test', 'exam', 'certification'], related: ['cert-a-plus', 'cert-ccnp-scor', 'cert-cisco-ise'] },
+        { id: 'cert-a-plus',        name: 'A+ Practice Questions',         file: 'certs/a-plus.html',                     category: 'certs',        keywords: ['a+', 'a plus', 'comptia', 'core 1', 'core 2', '220-1201', '220-1202', 'practice test', 'certification'], related: ['cert-security-plus', 'cert-ccna', 'chmod'] },
+        { id: 'cert-network-plus',  name: 'Network+ Practice Questions',   file: 'certs/network-plus.html',               category: 'certs',        keywords: ['network+', 'network plus', 'n10-009', 'comptia', 'subnetting', 'practice test', 'certification'], related: ['cert-ccna', 'cert-a-plus', 'subnet'] },
+        { id: 'cert-cysa-plus',     name: 'CySA+ Practice Questions',      file: 'certs/cysa-plus.html',                  category: 'certs',        keywords: ['cysa+', 'cysa plus', 'cs0-004', 'cybersecurity analyst', 'comptia', 'soc', 'practice test', 'certification'], related: ['cert-security-plus', 'cert-ccnp-scor', 'log-parser'] },
+        { id: 'cert-ccna',          name: 'CCNA Practice Questions',       file: 'certs/ccna.html',                       category: 'certs',        keywords: ['ccna', '200-301', 'cisco', 'subnetting', 'practice test', 'certification'], related: ['subnet', 'cert-ccnp-encor', 'cidr'] },
+        { id: 'cert-ccnp-encor',    name: 'CCNP ENCOR Practice Questions', file: 'certs/ccnp-encor.html',                 category: 'certs',        keywords: ['ccnp', 'encor', '350-401', 'enterprise', 'cisco', 'practice test', 'certification'], related: ['cert-ccna', 'cert-ccnp-scor', 'jinja'] },
+        { id: 'cert-ccnp-scor',     name: 'CCNP SCOR Practice Questions',  file: 'certs/ccnp-scor.html',                  category: 'certs',        keywords: ['ccnp', 'scor', '350-701', 'security', 'cisco', 'practice test', 'certification'], related: ['cert-cisco-ise', 'cert-security-plus', 'cert-parser'] },
+        { id: 'cert-cisco-ise',     name: 'Cisco ISE Practice Questions',  file: 'certs/cisco-ise.html',                  category: 'certs',        keywords: ['ise', 'sise', '300-715', '802.1x', 'radius', 'nac', 'cisco', 'practice test', 'certification'], related: ['cert-ccnp-scor', 'cert-security-plus', 'cert-ccna'] },
+        // Maintenance Window (games)
+        { id: 'lofi-wizard',      name: 'Lo-fi Wizard',                  file: 'games/lofi-wizard.html',                category: 'games',        keywords: ['game', 'lofi', 'lo-fi', 'ascii', 'wizard', 'cat', 'music', 'ambient', 'relax', 'break', 'maintenance window'], related: ['spellcheck', 'pomodoro', 'scratchpad'] },
+        { id: 'spellcheck',       name: 'Spellcheck: Wizard Typing Game', file: 'games/spellcheck.html',                 category: 'games',        keywords: ['typing', 'typing test', 'typing game', 'wpm', 'words per minute', 'game', '8-bit', 'pixel', 'wizard', 'practice'], related: ['lofi-wizard', 'pomodoro', 'string-tools'] },
+        { id: 'datacenter-quest', name: 'Datacenter Quest',              file: 'games/datacenter-quest.html',           category: 'games',        keywords: ['text adventure', 'interactive fiction', 'quiz', 'game', 'wizard', 'knight', 'rogue', 'windows', 'linux', 'cisco', 'palo alto', 'python', 'subnetting', 'sysadmin', 'network', 'zork'], related: ['spellcheck', 'subnet', 'chmod'] }
     ];
 
     // Per-tool descriptions for JSON-LD (kept short; meta description owns long-form copy)
@@ -195,6 +224,17 @@
         'tz-meeting-planner':'Plan meetings across timezones with business-hours indicators.',
         'pdf-merge':         'Combine multiple PDFs into one entirely in your browser - no uploads, no watermarks.',
         'pdf-split':         'Extract pages or page ranges from a PDF entirely in your browser - no uploads, no watermarks.',
+        'datacenter-quest':  'A text adventure: play a wizard, knight or rogue through Windows, Linux, Cisco, Palo Alto, Python or classic on-call quests, answering IT questions to bring production back.',
+        'cert-security-plus': 'Free, original Security+ practice questions with an explanation for every answer.',
+        'cert-a-plus':       'Free, original A+ Core 1 and Core 2 practice questions with explanations.',
+        'cert-network-plus': 'Free, original Network+ practice questions, including subnetting, with explanations.',
+        'cert-cysa-plus':    'Free, original CySA+ practice questions for security analysts, with explanations.',
+        'cert-ccna':         'Free, original CCNA practice questions, including subnetting, with explanations.',
+        'cert-ccnp-encor':   'Free, original CCNP Enterprise (ENCOR) practice questions with explanations.',
+        'cert-ccnp-scor':    'Free, original CCNP Security (SCOR) practice questions with explanations.',
+        'cert-cisco-ise':    'Free, original Cisco ISE (SISE) practice questions with explanations.',
+        'spellcheck':        'An 8-bit typing game: type IT words to blast bugs, phishing emails and ransomware before they reach the wizard.',
+        'lofi-wizard':       'An ASCII lo-fi scene: a wizard types through a maintenance window with his cat, his coffee and a rack of blinking lights.',
         'pdf-rotate':        'Rotate PDF pages 90, 180, or 270 degrees with live previews - no uploads, no watermarks.',
         'ip-converter':      'Convert IPv4 addresses between dotted, binary, hexadecimal, and integer notations.',
         'my-ip':             'Show your public IP with country, ASN, ISP, and the RDAP registry record for the block.',
@@ -610,6 +650,12 @@
         }
     `;
 
+    // Categories without a tab of their own, and the tab that holds their tools.
+    // Their pages keep their own breadcrumb and search label.
+    const tabForCategory = {
+        pdf: 'productivity'
+    };
+
     // Short tab labels for the themed nav (tmux-style "1:network")
     const themedTabLabels = {
         network: 'network',
@@ -617,7 +663,8 @@
         data: 'data',
         financials: 'finance',
         productivity: 'productivity',
-        pdf: 'pdf'
+        certs: 'certs',
+        games: 'maint-window'
     };
 
     // Detect current page and its category
@@ -644,6 +691,12 @@
         if (pathname.includes('/pdf/') && (filename === 'index.html' || filename === '')) {
             return { id: 'pdf-home', category: 'pdf' };
         }
+        if (pathname.includes('/certs/') && (filename === 'index.html' || filename === '')) {
+            return { id: 'certs-home', category: 'certs' };
+        }
+        if (pathname.includes('/games/') && (filename === 'index.html' || filename === '')) {
+            return { id: 'games-home', category: 'games' };
+        }
 
         // Handle root home page (only if not in a subfolder)
         if (filename === '' || filename === '/' || filename === 'index.html') {
@@ -661,7 +714,8 @@
 
             const tool = tools.find(t => t.file && t.file.endsWith(filename));
             if (tool) {
-                return { id: tool.id, category: category };
+                const entry = toolRegistry.find(r => r.id === tool.id);
+                return { id: tool.id, category: entry ? entry.category : category };
             }
         }
 
@@ -684,6 +738,12 @@
         }
         if (pathname.includes('/pdf/')) {
             return { id: null, category: 'pdf' };
+        }
+        if (pathname.includes('/certs/')) {
+            return { id: null, category: 'certs' };
+        }
+        if (pathname.includes('/games/')) {
+            return { id: null, category: 'games' };
         }
 
         return { id: null, category: null };
@@ -709,7 +769,7 @@
         for (const [category, tools] of Object.entries(toolsData)) {
             if (category === 'home') continue;
 
-            const isCurrent = currentPage.category === category;
+            const isCurrent = (tabForCategory[currentPage.category] || currentPage.category) === category;
             const label = `${n}:${themedTabLabels[category] || category}${isCurrent ? '*' : ''}`;
             n++;
 

@@ -1358,6 +1358,18 @@ permit ip 192.168.100.0 0.0.0.255"></textarea>
 
         document.addEventListener('DOMContentLoaded', function() {
             StorageUtils.loadFormInputs('cidr-converter', cidrConverterFields);
+            // Prefill with example values (placeholders alone don't count as input)
+            const cidrDefaults = {
+                singleIP: '192.168.1.0',
+                singleCIDR: '24',
+                multipleInput: '192.168.1.0/24\n10.0.0.0/8\n172.16.0.0/12\n192.168.1.0 255.255.255.0\npermit ip 192.168.100.0 0.0.0.255',
+                reverseStart: '192.168.1.0',
+                reverseEnd: '192.168.1.255'
+            };
+            Object.keys(cidrDefaults).forEach(id => {
+                const el = document.getElementById(id);
+                if (el && !el.value) el.value = cidrDefaults[id];
+            });
             StorageUtils.autoSaveFormInputs('cidr-converter', cidrConverterFields);
         });
     </script>

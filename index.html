@@ -56,15 +56,27 @@
         .hero {
             display: flex;
             align-items: center;
-            gap: 56px;
+            gap: 40px;
         }
         .hero-logo {
             margin: 0;
             font-family: var(--font-display);
-            font-size: 30px;
+            font-size: 22px;
             line-height: 1;
             color: var(--hi);
             text-shadow: var(--glow);
+        }
+        .hero-top {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: -14px;
+        }
+        .hero-wizard {
+            flex: none;
+            width: 68px;
+            height: auto;
         }
         .hero-side {
             display: flex;
@@ -306,6 +318,9 @@
             .hero-logo {
                 font-size: 15px;
             }
+            .hero-wizard {
+                width: 44px;
+            }
             .myip {
                 flex-direction: column;
                 align-items: flex-start;
@@ -351,7 +366,29 @@
 | |_| || || (_| |  \ V  V /  |  __/| |_) |
  \___/ |_| \__,_|   \_/\_/    \___||_.__/</pre>
             <div class="hero-side">
-                <p class="motd"># fast, simple, offline-ready utilities<br># for network engineers and system administrators.</p>
+                <div class="hero-top">
+                    <p class="motd"># fast, simple, offline-ready utilities<br># for network engineers and system administrators.</p>
+                    <a href="games/datacenter-quest.html" class="mascot-link hero-wizard-link" aria-label="Play Datacenter Quest, a wizard text adventure" title="Play Datacenter Quest">
+                        <svg class="pixel-art hero-wizard" viewBox="0 -1 13 19" aria-hidden="true" focusable="false">
+                            <!-- hat -->
+                            <path class="px-hat" d="M5 0h1v1H5zM4 1h2v1H4zM4 2h3v1H4zM3 3h4v1H3zM3 4h5v1H3zM1 5h9v1H1z"/>
+                            <path class="px-beard" d="M5 3h1v1H5zM4 2h.5v.5H4z"/>
+                            <!-- face -->
+                            <path class="px-skin" d="M3 6h5v1H3z"/>
+                            <path class="px-eye" d="M4 6h1v1H4zM6 6h1v1H6z"/>
+                            <!-- robe, belt, hem -->
+                            <path class="px-robe" d="M2 8h2v1H2zM7 8h2v1H7zM2 9h3v1H2zM6 9h3v1H6zM2 10h7v3H2zM1 13h9v4H1z"/>
+                            <path class="px-hat" d="M2 12h7v1H2zM1 16h9v1H1z"/>
+                            <!-- beard -->
+                            <path class="px-beard" d="M3 7h5v1H3zM4 8h3v1H4zM5 9h1v2H5z"/>
+                            <!-- wand: staff, orb with console port, hand, sparks -->
+                            <path class="px-staff" d="M10 3h1v14h-1z"/>
+                            <path class="px-hat" d="M9 1h3v2H9zM8 -.5h.5v.5H8zM12.5 0h.5v.5h-.5zM12 3.5h.5v.5H12z"/>
+                            <path class="px-eye" d="M10 1.5h1v.6h-1z"/>
+                            <path class="px-skin" d="M9 11h2v1H9z"/>
+                        </svg>
+                    </a>
+                </div>
                 <section class="box myip" aria-labelledby="myip-heading">
                     <h2 id="myip-heading" class="sr-only">What is my IP address</h2>
                     <div class="myip-text">
@@ -494,6 +531,42 @@
                     <div class="cat-foot">
                         <span class="cat-more" data-category="pdf" data-listed="3"></span>
                         <a href="pdf/index.html" class="btn-link small" aria-label="All PDF tools">cd pdf/</a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="box cat" aria-labelledby="cat-certs">
+                <div class="box-head">
+                    <h2 id="cat-certs"><span aria-hidden="true">certs/</span><span class="sr-only">Certification practice tests</span></h2>
+                </div>
+                <div class="box-body">
+                    <p class="cat-desc">Free, original practice questions with explanations. No account, no paywall.</p>
+                    <ul class="cat-tools">
+                        <li><a href="certs/security-plus.html">Security+</a></li>
+                        <li><a href="certs/ccna.html">CCNA</a></li>
+                        <li><a href="certs/a-plus.html">A+</a></li>
+                        <li><a href="certs/network-plus.html">Network+</a></li>
+                    </ul>
+                    <div class="cat-foot">
+                        <span class="cat-more" data-category="certs" data-listed="4"></span>
+                        <a href="certs/index.html" class="btn-link small" aria-label="All certification practice tests">cd certs/</a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="box cat" aria-labelledby="cat-games">
+                <div class="box-head">
+                    <h2 id="cat-games"><span aria-hidden="true">games/</span><span class="sr-only">Maintenance Window games</span></h2>
+                </div>
+                <div class="box-body">
+                    <p class="cat-desc">Maintenance Window: ambient scenes and small games for the wait.</p>
+                    <ul class="cat-tools">
+                        <li><a href="games/lofi-wizard.html">Lo-fi Wizard</a></li>
+                        <li><a href="games/spellcheck.html">Spellcheck</a></li>
+                    </ul>
+                    <div class="cat-foot">
+                        <span class="cat-more" data-category="games" data-listed="2"></span>
+                        <a href="games/index.html" class="btn-link small" aria-label="All Maintenance Window games">cd games/</a>
                     </div>
                 </div>
             </section>

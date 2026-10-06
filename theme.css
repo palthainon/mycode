@@ -54,6 +54,14 @@
   --ok: #3f6b12;        /* success / positive values (distinct from --alt) */
   --warn: #8f4a00;      /* warnings: same as accent, pair with a text label */
   --glow: none;
+  /* pixel-art mascots (inline SVG) */
+  --art-hat: #8f4a00;
+  --art-robe: #5b3591;
+  --art-shroud: #4a3418;
+  --art-skin: #e0a868;
+  --art-beard: #a89a86;
+  --art-eye: #2d1f0d;
+  --art-staff: #8a5a24;
   --scan: repeating-linear-gradient(180deg, #fbf6ec 0 44px, #f6eddb 44px 88px);
 
   --font-body: 'IBM Plex Mono', Consolas, 'Liberation Mono', Menlo, monospace;
@@ -81,6 +89,13 @@
     --ok: #b5e36b;
     --warn: #ffb000;
     --glow: 0 0 10px rgba(255, 176, 0, 0.30);
+  --art-hat: #ffb000;
+  --art-robe: #7b4bc4;
+  --art-shroud: #5a3d1c;
+  --art-skin: #f0c890;
+  --art-beard: #fbeed3;
+  --art-eye: #0e0903;
+  --art-staff: #b8894f;
     --scan: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.22) 0 1px, transparent 1px 3px);
   }
 }
@@ -103,6 +118,13 @@
   --ok: #b5e36b;
   --warn: #ffb000;
   --glow: 0 0 10px rgba(255, 176, 0, 0.30);
+  --art-hat: #ffb000;
+  --art-robe: #7b4bc4;
+  --art-shroud: #5a3d1c;
+  --art-skin: #f0c890;
+  --art-beard: #fbeed3;
+  --art-eye: #0e0903;
+  --art-staff: #b8894f;
   --scan: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.22) 0 1px, transparent 1px 3px);
 }
 
@@ -420,6 +442,23 @@ textarea::placeholder {
   color: var(--dim);
   opacity: 0.8;
 }
+/* Custom arrow: the native one renders black on the dark field on mobile */
+select {
+  -webkit-appearance: none;
+  appearance: none;
+  padding-right: 36px;
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--fg) 50%),
+    linear-gradient(135deg, var(--fg) 50%, transparent 50%);
+  background-position: calc(100% - 20px) 50%, calc(100% - 14px) 50%;
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+}
+select:focus {
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--hi) 50%),
+    linear-gradient(135deg, var(--hi) 50%, transparent 50%);
+}
 select option {
   background: var(--field);
   color: var(--fg);
@@ -578,6 +617,13 @@ label.required::after {
     --err-bg: #ffffff;
     --glow: none;
     --scan: none;
+    --art-hat: #000000;
+    --art-robe: #555555;
+    --art-shroud: #555555;
+    --art-skin: #cccccc;
+    --art-beard: #999999;
+    --art-eye: #000000;
+    --art-staff: #333333;
   }
   body {
     background: #fff;
@@ -587,4 +633,31 @@ label.required::after {
   .owt-topbar {
     display: none;
   }
+}
+
+/* ---------- Pixel-art mascots ----------
+   Inline SVG drawn on a 1-unit grid; colors come from the --art-* tokens
+   so the art follows light, dark and print like everything else. */
+.pixel-art {
+  display: block;
+  shape-rendering: crispEdges;
+}
+.pixel-art .px-hat { fill: var(--art-hat); }
+.pixel-art .px-robe { fill: var(--art-robe); }
+.pixel-art .px-skin { fill: var(--art-skin); }
+.pixel-art .px-beard { fill: var(--art-beard); }
+.pixel-art .px-eye { fill: var(--art-eye); }
+.pixel-art .px-staff { fill: var(--art-staff); }
+.pixel-art .px-shroud { fill: var(--art-shroud); }
+.pixel-art .px-curse { fill: var(--err); }
+/* A mascot can link somewhere (e.g. the text adventure) */
+.mascot-link {
+  display: block;
+  flex: none;
+  line-height: 0;
+  transition: transform 0.15s;
+}
+.mascot-link:hover,
+.mascot-link:focus-visible {
+  transform: translateY(-3px);
 }

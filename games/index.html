@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="/app-insights.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Maintenance Window: small games and ambient scenes for the quiet stretch of a change window. ASCII art, generated music, no accounts, works offline.">
+    <meta name="keywords" content="ascii games, lofi, ambient, ascii art, browser games, maintenance window, sysadmin fun">
+    <meta name="author" content="OldWeb LLC">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://oldweb.tech/games/">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Maintenance Window - OldWeb.tech">
+    <meta property="og:description" content="Maintenance Window: small games and ambient scenes for the quiet stretch of a change window. ASCII art, generated music, no accounts, works offline.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oldweb.tech/games/">
+    <meta property="og:site_name" content="OldWeb.tech">
+    <meta property="og:image" content="https://oldweb.tech/logo/og-image.png">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Maintenance Window - OldWeb.tech">
+    <meta name="twitter:description" content="Maintenance Window: small games and ambient scenes for the quiet stretch of a change window. ASCII art, generated music, no accounts, works offline.">
+    <meta name="twitter:image" content="https://oldweb.tech/logo/og-image.png">
+
+    <!-- Additional Meta Tags -->
+    <meta name="theme-color" content="#0e0903">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
+
+    <title>Maintenance Window - OldWeb.tech</title>
+
+    <!-- Accessibility -->
+    <link rel="stylesheet" href="../a11y.css">
+    <link rel="stylesheet" href="../theme.css">
+    <script src="../a11y-utils.js"></script>
+
+    <!-- Utilities -->
+    <script src="../storage-utils.js"></script>
+    <script src="../navigationv2.js"></script>
+    <style>
+        /* Page layout only; colors, type, buttons and fields come from theme.css */
+        .category-intro,
+        .category-outro {
+            margin-bottom: 28px;
+        }
+        .category-intro .box-body,
+        .category-outro .box-body {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .card-grid {
+            margin-bottom: 28px;
+        }
+        /* Wizard stands on the intro box, beside the heading */
+        .games-head {
+            max-width: 900px; /* same cap navigationv2.js puts on .category-intro */
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 16px;
+        }
+        .games-wizard {
+            flex: none;
+            width: 68px;
+            height: auto;
+        }
+        @media (max-width: 640px) {
+            .games-wizard {
+                width: 44px;
+            }
+        }
+    </style>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": "Maintenance Window",
+      "description": "Maintenance Window: small games and ambient scenes for the quiet stretch of a change window. ASCII art, generated music, no accounts, works offline.",
+      "url": "https://oldweb.tech/games/",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "OldWeb.tech",
+        "url": "https://oldweb.tech/"
+      }
+    }
+    </script>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <main id="main-content" class="container">
+        <div class="games-head">
+            <div class="page-head">
+                <h1>Maintenance Window</h1>
+                <p class="lede">The change is staged, the rollback is written, and now you wait.</p>
+            </div>
+            <svg class="pixel-art games-wizard" viewBox="0 -1 13 19" aria-hidden="true" focusable="false">
+                <!-- hat -->
+                <path class="px-hat" d="M5 0h1v1H5zM4 1h2v1H4zM4 2h3v1H4zM3 3h4v1H3zM3 4h5v1H3zM1 5h9v1H1z"/>
+                <path class="px-beard" d="M5 3h1v1H5zM4 2h.5v.5H4z"/>
+                <!-- face -->
+                <path class="px-skin" d="M3 6h5v1H3z"/>
+                <path class="px-eye" d="M4 6h1v1H4zM6 6h1v1H6z"/>
+                <!-- robe, belt, hem -->
+                <path class="px-robe" d="M2 8h2v1H2zM7 8h2v1H7zM2 9h3v1H2zM6 9h3v1H6zM2 10h7v3H2zM1 13h9v4H1z"/>
+                <path class="px-hat" d="M2 12h7v1H2zM1 16h9v1H1z"/>
+                <!-- beard -->
+                <path class="px-beard" d="M3 7h5v1H3zM4 8h3v1H4zM5 9h1v2H5z"/>
+                <!-- wand: staff, orb with console port, hand, sparks -->
+                <path class="px-staff" d="M10 3h1v14h-1z"/>
+                <path class="px-hat" d="M9 1h3v2H9zM8 -.5h.5v.5H8zM12.5 0h.5v.5h-.5zM12 3.5h.5v.5H12z"/>
+                <path class="px-eye" d="M10 1.5h1v.6h-1z"/>
+                <path class="px-skin" d="M9 11h2v1H9z"/>
+            </svg>
+        </div>
+
+        <section class="box category-intro" aria-labelledby="category-intro-heading">
+            <div class="box-head">
+                <h2 id="category-intro-heading">what's in this section</h2>
+            </div>
+            <div class="box-body">
+            <p>Small games and ambient scenes for the quiet part of a change window: waiting on a reboot, a replication, or a vendor bridge that will reconvene "in about ten minutes." Everything runs in your browser and works offline. Music is generated live with the Web Audio API. Nothing streams, and nothing downloads.</p>
+            </div>
+        </section>
+
+        <div class="card-grid">
+            <a href="lofi-wizard.html" class="card-link">
+                <h2>Lo-fi Wizard</h2>
+                <p>An ASCII night shift. A wizard types through his change plan, sips coffee, pets his cat and checks the blinking racks behind him. Put it full screen and tune the radio to lo-fi, a fantasy tavern, an enchanted forest or 8-bit chiptune.</p>
+                <span class="card-cta">Start the shift</span>
+            </a>
+
+            <a href="spellcheck.html" class="card-link">
+                <h2>Spellcheck</h2>
+                <p>An 8-bit typing game. Bugs, phishing emails, jammed printers, 404 ghosts and ransomware march on the wizard, each carrying an IT word. Type it to cast. Every fifth wave a legacy mainframe shows up. Tracks your WPM and accuracy.</p>
+                <span class="card-cta">Defend the datacenter</span>
+            </a>
+
+            <a href="datacenter-quest.html" class="card-link">
+                <h2>Datacenter Quest</h2>
+                <p>A text adventure. Production is down and you're on call. Play as a wizard, knight or rogue, pick a Windows, Linux, Cisco, Palo Alto, Python or classic on-call quest, and get past guardians who quiz you at every door. Type commands like it's 1980, or play with buttons.</p>
+                <span class="card-cta">Take the page</span>
+            </a>
+        </div>
+
+        <section class="box category-outro" aria-labelledby="category-outro-heading">
+            <div class="box-head">
+                <h2 id="category-outro-heading">back to work</h2>
+            </div>
+            <div class="box-body">
+            <p>When the window closes: <a href="../productivity/pomodoro.html">Pomodoro Timer</a> for the next focus block, <a href="../productivity/scratchpad.html">Scratchpad</a> for the post-change notes, or <a href="../system/log-parser.html">Log Parser</a> to make sure it really went as quietly as it looked.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="statusbar" role="contentinfo">
+        <span>[oldweb] maint-window › index │ works offline │ no tracking</span>
+        <span><a href="https://www.lawsoncyber.com" rel="noopener">a Lawson Cyber project</a> · <a href="https://www.lawsoncyber.com" rel="noopener">feedback</a> │ / search · t theme</span>
+    </footer>
+
+    <script>
+        // Initialize accessibility - handle skip link
+        document.querySelector('.skip-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.getElementById('main-content');
+            if (target) {
+                target.setAttribute('tabindex', '-1');
+                target.focus();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    </script>
+</body>
+</html>

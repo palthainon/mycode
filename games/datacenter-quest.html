@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="/app-insights.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Datacenter Quest: a text adventure for network engineers and sysadmins. Play a wizard, knight or rogue through Windows, Linux, Cisco, Palo Alto, Python or classic on-call quests, answering IT questions to bring production back.">
+    <meta name="keywords" content="text adventure, interactive fiction, sysadmin game, network engineer game, subnetting quiz, it quiz game, wizard, browser game">
+    <meta name="author" content="OldWeb LLC">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://oldweb.tech/games/datacenter-quest.html">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Datacenter Quest - OldWeb.tech">
+    <meta property="og:description" content="A text adventure: pick a wizard, knight or rogue and a Windows, Linux, Cisco, Palo Alto or Python quest, then answer your way to the datacenter.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oldweb.tech/games/datacenter-quest.html">
+    <meta property="og:site_name" content="OldWeb.tech">
+    <meta property="og:image" content="https://oldweb.tech/logo/og-image.png">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Datacenter Quest - OldWeb.tech">
+    <meta name="twitter:description" content="A text adventure: pick a wizard, knight or rogue and a Windows, Linux, Cisco, Palo Alto or Python quest, then answer your way to the datacenter.">
+    <meta name="twitter:image" content="https://oldweb.tech/logo/og-image.png">
+
+    <meta name="theme-color" content="#0e0903">
+    <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
+
+    <title>Datacenter Quest - OldWeb.tech</title>
+    <link rel="stylesheet" href="../a11y.css">
+    <link rel="stylesheet" href="../theme.css">
+    <script src="../a11y-utils.js"></script>
+    <script src="../storage-utils.js"></script>
+    <script src="../navigationv2.js"></script>
+    <script src="quest/questions.js"></script>
+    <script src="quest/world.js"></script>
+    <script src="quest/quests/classic.js"></script>
+    <script src="quest/quests/windows.js"></script>
+    <script src="quest/quests/linux.js"></script>
+    <script src="quest/quests/cisco.js"></script>
+    <script src="quest/quests/paloalto.js"></script>
+    <script src="quest/quests/python.js"></script>
+    <script src="quest/engine.js"></script>
+    <style>
+        /* Page layout only; colors, type, buttons and fields come from theme.css */
+        .quest-head {
+            display: flex;
+            align-items: flex-end;
+            gap: 18px;
+        }
+        .quest-head .page-head { flex: 1; }
+        .quest-wizard {
+            width: 52px;
+            height: 76px;
+            flex-shrink: 0;
+        }
+        .game .box-body {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .hud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 18px;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+        .hud .stat { color: var(--dim); }
+        .hud .stat strong { color: var(--hi); font-weight: 600; }
+        .hud .lives strong { letter-spacing: 2px; }
+        .hud .spacer { flex: 1; }
+        .hud-stats { border-top: 1px dashed var(--line); padding-top: 10px; }
+        .btn.danger { color: var(--err); border-color: var(--err); }
+        .btn.danger:hover { background: var(--err-bg); color: var(--err); }
+
+        #log {
+            height: 58vh;
+            min-height: 280px;
+            overflow-y: auto;
+            padding: 14px 16px;
+            background: var(--field);
+            border: 1px solid var(--line);
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+            line-height: 1.5;
+        }
+        #log:focus-visible { outline: 2px solid var(--hi); outline-offset: 2px; }
+        #log p { margin: 0 0 8px; }
+        #log .cmd { color: var(--dim); margin-top: 14px; }
+        #log .title { color: var(--hi); font-weight: 600; text-shadow: var(--glow); }
+        #log .act { color: var(--hi); border: 1px dashed var(--line); padding: 8px 10px; margin: 6px 0 12px; }
+        #log .quiz { color: var(--alt); }
+        #log .good { color: var(--ok); }
+        #log .bad { color: var(--err); }
+        #log .sys { color: var(--dim); }
+        #log .clue { color: var(--alt); border-left: 2px solid var(--alt); padding-left: 10px; }
+        #log .ambient { color: var(--dim); font-style: italic; }
+
+        .cmd-form {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        .cmd-form .prompt {
+            color: var(--hi);
+            white-space: nowrap;
+        }
+        .cmd-form input { flex: 1; min-width: 0; }
+
+        #choices {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 8px;
+        }
+        #choices .btn {
+            width: 100%;
+            text-align: left;
+            display: flex;
+            align-items: baseline;
+            justify-content: flex-start;
+            white-space: normal;
+            overflow-wrap: anywhere;
+            text-transform: none;
+            letter-spacing: normal;
+        }
+        #choices .num { color: var(--dim); margin-right: 8px; flex-shrink: 0; }
+
+        [hidden] { display: none !important; }
+
+        .victory {
+            border: 1px solid var(--ok);
+            padding: 12px 14px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+        }
+        .victory code { flex: 1; min-width: 220px; color: var(--fg); }
+
+        .pick {
+            border: 1px solid var(--line);
+            margin: 0 0 16px;
+            padding: 10px 14px 14px;
+        }
+        .pick legend { color: var(--hi); padding: 0 6px; }
+        .pick-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 10px;
+        }
+        .pick-card {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            padding: 10px;
+            border: 1px solid var(--line);
+            cursor: pointer;
+        }
+        .pick-card:hover { border-color: var(--hi); }
+        .pick-card:has(input:checked) { border-color: var(--hi); box-shadow: var(--glow); background: var(--head); }
+        .pick-card:has(input:focus-visible) { outline: 2px solid var(--hi); outline-offset: 2px; }
+        .pick-card input { margin-top: 4px; accent-color: var(--hi); }
+        .pick-card svg { width: 30px; height: 44px; flex-shrink: 0; }
+        .pick-card strong { display: block; color: var(--hi); }
+        .pick-card span { display: block; color: var(--dim); font-size: 0.85rem; }
+        .check { display: flex; gap: 8px; align-items: center; margin: 0 0 14px; color: var(--dim); }
+
+        .info-box { margin-top: 18px; color: var(--dim); font-size: 0.85rem; }
+        .info-box code, .info-box kbd { color: var(--fg); }
+        .info-box ul { margin: 6px 0 0; padding-left: 20px; }
+
+        @media (max-width: 640px) {
+            .quest-wizard { display: none; }
+            .cmd-form .prompt { display: none; }
+            #log { height: 52vh; }
+            #choices { grid-template-columns: 1fr; }
+        }
+    </style>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "VideoGame",
+      "name": "Datacenter Quest",
+      "description": "A text adventure for network engineers and sysadmins: answer subnetting, chmod, cron, RAID, routing and IPv6 questions to reboot a crashed server.",
+      "url": "https://oldweb.tech/games/datacenter-quest.html",
+      "genre": ["Text adventure", "Interactive fiction", "Quiz"],
+      "gamePlatform": "Web Browser",
+      "playMode": "SinglePlayer",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "creator": { "@type": "Organization", "name": "OldWeb.tech" }
+    }
+    </script>
+</head>
+<body>
+    <a href="#cmd" class="skip-link">Skip to the game</a>
+
+    <main id="main-content">
+        <div class="quest-head">
+            <div class="page-head">
+                <h1>Datacenter Quest</h1>
+                <p class="lede">Have you tried turning it off and on again? Production is down and you're on call. Pick a hero and a realm (Windows, Linux, Cisco, Palo Alto, Python or the classic shift), answer the guardians of three acts, and bring it back.</p>
+            </div>
+            <svg class="pixel-art quest-wizard" id="heroSprite" viewBox="0 -1 13 19" aria-hidden="true" focusable="false"></svg>
+        </div>
+
+        <section class="box setup" id="setup" aria-labelledby="setup-heading" hidden>
+            <div class="box-head">
+                <h2 id="setup-heading">new-game.sh</h2>
+            </div>
+            <div class="box-body">
+                <form id="setupForm">
+                    <fieldset class="pick">
+                        <legend>Choose your character</legend>
+                        <div class="pick-grid" id="charPick"></div>
+                    </fieldset>
+                    <fieldset class="pick">
+                        <legend>Choose your quest</legend>
+                        <div class="pick-grid" id="questPick"></div>
+                    </fieldset>
+                    <label class="check"><input type="checkbox" id="startChoice"> Start in choice mode (buttons instead of typing)</label>
+                    <button type="submit" class="btn primary">Begin the quest</button>
+                </form>
+            </div>
+        </section>
+
+        <section class="box game" id="game" aria-labelledby="game-heading" hidden>
+            <div class="box-head">
+                <h2 id="game-heading">quest.log</h2>
+            </div>
+            <div class="box-body">
+                <div class="hud" role="group" aria-label="Game status">
+                    <span class="stat">Quest <strong id="hudQuest">-</strong></span>
+                    <span class="stat">Room <strong id="hudRoom">-</strong></span>
+                    <span class="spacer"></span>
+                    <button type="button" class="btn small" id="modeBtn" aria-pressed="false"
+                            aria-label="Choice mode: play with numbered buttons instead of typing">Choice mode</button>
+                    <button type="button" class="btn small danger" onclick="clearAllSavedData()"
+                            aria-label="Clear all saved game data and start over">Clear Saved Data</button>
+                </div>
+
+                <div id="log" role="log" aria-live="polite" aria-relevant="additions" aria-label="Game transcript" tabindex="0"></div>
+
+                <div class="victory" id="victory" hidden>
+                    <code id="resultLine"></code>
+                    <button type="button" class="btn small" id="copyResult" aria-label="Copy result line to clipboard">Copy result</button>
+                    <button type="button" class="btn small primary" id="newGame">New game</button>
+                </div>
+
+                <form class="cmd-form" id="cmdForm" autocomplete="off">
+                    <label for="cmd" class="sr-only">Command</label>
+                    <span class="prompt" id="prompt" aria-hidden="true">wizard@realm:~$</span>
+                    <input type="text" id="cmd" name="cmd" placeholder="type a command, or help"
+                           autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="send">
+                    <button type="submit" class="btn small primary">Enter</button>
+                </form>
+
+                <ol id="choices" aria-label="Choices" hidden></ol>
+
+                <div class="hud hud-stats" role="group" aria-label="Your stats">
+                    <span class="stat">Act <strong id="hudAct">1</strong></span>
+                    <span class="stat lives">Lives <strong id="hudLives" aria-describedby="hudLivesText">&#9829;&#9829;&#9829;</strong><span id="hudLivesText" class="sr-only">3 of 3</span></span>
+                    <span class="stat">Potions <strong id="hudPotions">0</strong></span>
+                    <span class="stat" id="hudPerkWrap" hidden><span id="hudPerkName">Perk</span> <strong id="hudPerk">0</strong></span>
+                    <span class="stat">Curios <strong id="hudCurios">0</strong></span>
+                    <span class="stat">Clues <strong id="hudClues">0</strong></span>
+                </div>
+            </div>
+        </section>
+
+        <div class="info-box">
+            <p><strong>How to play.</strong> Type commands like <code>look</code>, <code>north</code>, <code>examine desk</code>, <code>take lantern</code> or <code>help</code>. Shell habits work too: <code>ls</code>, <code>cd ..</code>, <code>cat note</code>, <code>man go</code>. Prefer buttons? Switch to choice mode and press <kbd>1</kbd>&ndash;<kbd>9</kbd>.</p>
+            <ul>
+                <li>You have 3 lives for the whole game (the knight has 4). A wrong answer costs one. Lose them all and the current act restarts.</li>
+                <li>Wizards get one free hint per act. Rogues can <code>sneak</code> past one guardian per act.</li>
+                <li>Each realm hides one potion. Drink it for a life, or trade it for a hint.</li>
+                <li>Poke around. Rooms hide curios (useless, but counted), things look different the second time, and <code>listen</code>, <code>smell</code> and <code>touch</code> work. Some details don't add up; <code>notes</code> keeps track of them.</li>
+                <li>Progress saves at the start of each act, in this browser only. <kbd>&uarr;</kbd> recalls earlier commands.</li>
+            </ul>
+        </div>
+    </main>
+
+    <footer class="statusbar" role="contentinfo">
+        <span>[oldweb] maint-window › datacenter-quest │ works offline │ no tracking</span>
+        <span><a href="https://www.lawsoncyber.com" rel="noopener">a Lawson Cyber project</a> · <a href="https://www.lawsoncyber.com" rel="noopener">feedback</a> │ / search · t theme</span>
+    </footer>
+
+    <script>
+    (function () {
+        'use strict';
+
+        const STORE_KEY = 'datacenter-quest';
+        const MAX_LOG = 400;
+        const $ = id => document.getElementById(id);
+        const log = $('log');
+        const form = $('cmdForm');
+        const input = $('cmd');
+        const choicesEl = $('choices');
+        const modeBtn = $('modeBtn');
+        let mode = 'parser';
+
+        const history = [];
+        let histPos = 0;
+
+        // 13 x 18 pixel sprites, colored by the --art-* tokens in theme.css
+        const SPRITES = {
+            wizard: '<path class="px-hat" d="M5 0h1v1H5zM4 1h2v1H4zM4 2h3v1H4zM3 3h4v1H3zM3 4h5v1H3zM1 5h9v1H1z"/>' +
+                '<path class="px-beard" d="M5 3h1v1H5zM4 2h.5v.5H4z"/><path class="px-skin" d="M3 6h5v1H3z"/>' +
+                '<path class="px-eye" d="M4 6h1v1H4zM6 6h1v1H6z"/>' +
+                '<path class="px-robe" d="M2 8h2v1H2zM7 8h2v1H7zM2 9h3v1H2zM6 9h3v1H6zM2 10h7v3H2zM1 13h9v4H1z"/>' +
+                '<path class="px-hat" d="M2 12h7v1H2zM1 16h9v1H1z"/><path class="px-beard" d="M3 7h5v1H3zM4 8h3v1H4zM5 9h1v2H5z"/>' +
+                '<path class="px-staff" d="M10 3h1v14h-1z"/><path class="px-hat" d="M9 1h3v2H9zM8 -.5h.5v.5H8zM12.5 0h.5v.5h-.5zM12 3.5h.5v.5H12z"/>' +
+                '<path class="px-eye" d="M10 1.5h1v.6h-1z"/><path class="px-skin" d="M9 11h2v1H9z"/>',
+            knight: '<path class="px-curse" d="M5 -1h3v1H5z"/>' +
+                '<path class="px-beard" d="M3 0h6v1H3zM2 1h8v4H2z"/><path class="px-eye" d="M3 2h6v1H3z"/>' +
+                '<path class="px-staff" d="M3 5h6v1H3z"/><path class="px-beard" d="M2 6h8v5H2z"/>' +
+                '<path class="px-robe" d="M4 6h4v7H4z"/><path class="px-hat" d="M5.5 7h1v3h-1zM4.5 8h3v1h-3z"/>' +
+                '<path class="px-staff" d="M2 11h8v1H2z"/><path class="px-beard" d="M3 12h2v4H3zM7 12h2v4H7z"/>' +
+                '<path class="px-eye" d="M2 16h3v1H2zM7 16h3v1H7z"/>' +
+                '<path class="px-hat" d="M0 7h3v5H0z"/><path class="px-curse" d="M1 8h1v3H1z"/>' +
+                '<path class="px-beard" d="M11 1h1v9h-1z"/><path class="px-hat" d="M10 10h3v1h-3z"/><path class="px-staff" d="M11 11h1v2h-1z"/>',
+            rogue: '<path class="px-shroud" d="M4 0h5v1H4zM3 1h7v1H3zM2 2h9v4H2z"/>' +
+                '<path class="px-eye" d="M4 3h5v2H4z"/><path class="px-hat" d="M5 3.5h1v.6H5zM7 3.5h1v.6H7z"/>' +
+                '<path class="px-robe" d="M4 5h5v1H4z"/>' +
+                '<path class="px-shroud" d="M2 6h9v8H2zM1 14h11v3H1z"/><path class="px-staff" d="M5 6h3v7H5z"/>' +
+                '<path class="px-eye" d="M2 10h9v1H2z"/><path class="px-hat" d="M6 10h1v1H6z"/>' +
+                '<path class="px-skin" d="M11 9h1v1h-1z"/><path class="px-beard" d="M11.5 5h1v4h-1z"/><path class="px-hat" d="M11 9h2v.5h-2z"/>' +
+                '<path class="px-eye" d="M3 17h3v1H3zM7 17h3v1H7z"/>'
+        };
+        const svg = id => `<svg class="pixel-art" viewBox="0 -1 13 19" aria-hidden="true" focusable="false">${SPRITES[id]}</svg>`;
+
+        function renderPickers() {
+            $('charPick').innerHTML = Object.entries(QuestWorld.CHARACTERS).map(([id, c], i) =>
+                `<label class="pick-card"><input type="radio" name="character" value="${id}"${i === 0 ? ' checked' : ''}>${svg(id)}` +
+                `<span><strong>${c.name}</strong><span>${c.perk}</span></span></label>`).join('');
+            $('questPick').innerHTML = Object.values(QuestWorld.QUESTS).map((q, i) =>
+                `<label class="pick-card"><input type="radio" name="quest" value="${q.id}"${i === 0 ? ' checked' : ''}>` +
+                `<span><strong>${q.name}</strong><span>${q.blurb}</span></span></label>`).join('');
+        }
+
+        function showSetup(on) {
+            $('setup').hidden = !on;
+            $('game').hidden = on;
+        }
+
+        const io = {
+            print(text, kind) {
+                const p = document.createElement('p');
+                p.className = kind || 'text';
+                p.textContent = text;
+                log.appendChild(p);
+                while (log.childElementCount > MAX_LOG) log.removeChild(log.firstElementChild);
+                log.scrollTop = log.scrollHeight;
+            },
+            clear() { log.textContent = ''; },
+            announce(text, priority) { A11yUtils.announce(text, priority); },
+            choices(list) {
+                choicesEl.textContent = '';
+                list.forEach((c, i) => {
+                    const li = document.createElement('li');
+                    const b = document.createElement('button');
+                    b.type = 'button';
+                    b.className = 'btn small';
+                    b.dataset.index = i;
+                    if (i < 9) {
+                        const num = document.createElement('span');
+                        num.className = 'num';
+                        num.setAttribute('aria-hidden', 'true');
+                        num.textContent = (i + 1) + '.';
+                        b.appendChild(num);
+                    }
+                    b.appendChild(document.createTextNode(c.label));
+                    li.appendChild(b);
+                    choicesEl.appendChild(li);
+                });
+            },
+            status(s) {
+                showSetup(false);
+                $('hudQuest').textContent = s.quest + ' (' + s.character + ')';
+                $('prompt').textContent = s.character.toLowerCase() + '@' + engine.world.id + ':~$';
+                $('heroSprite').innerHTML = SPRITES[engine.charId()];
+                const perk = s.freeHints !== null ? ['Free hints', s.freeHints] : s.sneaks !== null ? ['Sneaks', s.sneaks] : null;
+                $('hudPerkWrap').hidden = !perk;
+                if (perk) { $('hudPerkName').textContent = perk[0]; $('hudPerk').textContent = perk[1]; }
+                $('hudAct').textContent = s.act + ': ' + s.actName;
+                $('hudLives').textContent = '♥'.repeat(Math.max(s.lives, 0)) + '♡'.repeat(Math.max(s.maxLives - s.lives, 0));
+                $('hudLivesText').textContent = s.lives + ' of ' + s.maxLives;
+                $('hudPotions').textContent = s.potions;
+                $('hudCurios').textContent = s.curios + '/' + s.curiosTotal;
+                $('hudClues').textContent = s.clues + '/' + s.cluesTotal;
+                $('hudRoom').textContent = s.room;
+            },
+            mode(m) {
+                mode = m;
+                const choice = m === 'choice';
+                modeBtn.setAttribute('aria-pressed', String(choice));
+                choicesEl.hidden = !choice;
+                form.hidden = choice;
+            },
+            save(data) { StorageUtils.save(STORE_KEY, data); },
+            remove() { StorageUtils.remove(STORE_KEY); },
+            setup() {
+                $('victory').hidden = true;
+                showSetup(true);
+            },
+            victory(info) {
+                $('resultLine').textContent = info.line;
+                $('victory').hidden = false;
+            }
+        };
+
+        const engine = new QuestEngine(io);
+
+        // After every turn, put focus where the next action happens
+        function settleFocus() {
+            $('victory').hidden = !(engine.state && engine.state.won);
+            if (!engine.state) {
+                const picked = document.querySelector('#charPick input:checked');
+                if (picked) picked.focus({ preventScroll: true });
+            } else if (engine.state.won) {
+                $('newGame').focus({ preventScroll: true });
+            } else if (mode === 'choice') {
+                const first = choicesEl.querySelector('button');
+                if (first) first.focus({ preventScroll: true });
+            } else {
+                input.focus({ preventScroll: true });
+            }
+        }
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            const v = input.value.trim();
+            if (!v) return;
+            if (history[history.length - 1] !== v) history.push(v);
+            if (history.length > 100) history.shift();
+            histPos = history.length;
+            input.value = '';
+            engine.input(v);
+            settleFocus();
+        });
+
+        input.addEventListener('keydown', e => {
+            if (e.key === 'ArrowUp' && histPos > 0) {
+                histPos--;
+                input.value = history[histPos];
+                e.preventDefault();
+            } else if (e.key === 'ArrowDown') {
+                histPos = Math.min(histPos + 1, history.length);
+                input.value = history[histPos] || '';
+                e.preventDefault();
+            }
+        });
+
+        choicesEl.addEventListener('click', e => {
+            const b = e.target.closest('button');
+            if (!b) return;
+            engine.choose(Number(b.dataset.index));
+            settleFocus();
+        });
+
+        document.addEventListener('keydown', e => {
+            if (mode !== 'choice' || e.ctrlKey || e.metaKey || e.altKey) return;
+            const t = e.target;
+            if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT' || t.isContentEditable)) return;
+            if (!/^[1-9]$/.test(e.key)) return;
+            const b = choicesEl.querySelectorAll('button')[Number(e.key) - 1];
+            if (!b) return;
+            e.preventDefault();
+            b.click();
+        });
+
+        modeBtn.addEventListener('click', () => {
+            engine.input('mode ' + (mode === 'choice' ? 'parser' : 'choice'));
+            settleFocus();
+        });
+
+        $('copyResult').addEventListener('click', async () => {
+            const text = $('resultLine').textContent;
+            try {
+                await navigator.clipboard.writeText(text);
+            } catch (err) {
+                const r = document.createRange();
+                r.selectNodeContents($('resultLine'));
+                const sel = window.getSelection();
+                sel.removeAllRanges();
+                sel.addRange(r);
+                document.execCommand('copy');
+            }
+            A11yUtils.announceCopied('Result');
+        });
+
+        window.clearAllSavedData = function () {
+            if (!confirm('Clear your saved game and go back to the quest picker?')) return;
+            engine.cmdReset(['confirm']);
+            A11yUtils.announce('All saved data has been cleared', 'polite');
+            settleFocus();
+        };
+
+        $('newGame').addEventListener('click', () => {
+            engine.cmdReset(['confirm']);
+            settleFocus();
+        });
+
+        $('setupForm').addEventListener('submit', e => {
+            e.preventDefault();
+            const character = document.querySelector('#charPick input:checked').value;
+            const quest = document.querySelector('#questPick input:checked').value;
+            history.length = 0;
+            histPos = 0;
+            engine.newGame({ quest, character, mode: $('startChoice').checked ? 'choice' : 'parser' });
+            A11yUtils.announce(`${QuestWorld.QUESTS[quest].name} started as the ${QuestWorld.CHARACTERS[character].name}.`, 'polite');
+            settleFocus();
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderPickers();
+            $('heroSprite').innerHTML = SPRITES.wizard;
+            io.mode('parser');
+            engine.start(StorageUtils.load(STORE_KEY, null));
+        });
+
+        $('charPick').addEventListener('change', e => { $('heroSprite').innerHTML = SPRITES[e.target.value]; });
+
+        document.querySelector('.skip-link').addEventListener('click', e => {
+            e.preventDefault();
+            settleFocus();
+        });
+    })();
+    </script>
+</body>
+</html>

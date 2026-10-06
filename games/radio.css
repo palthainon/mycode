@@ -1,0 +1,170 @@
+/* Old-school radio faceplate shared by the Maintenance Window games.
+   Colors come from theme.css tokens. */
+.radio {
+    max-width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px 22px;
+    padding: 12px 22px;
+    background: linear-gradient(180deg, var(--head), var(--panel));
+    border: 2px solid var(--line);
+    border-radius: 14px;
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--fg) 12%, transparent),
+                0 4px 0 var(--line);
+}
+.radio-left {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 0;
+}
+.radio-display {
+    min-width: 15em;
+    max-width: 30em;
+    padding: 6px 12px;
+    background: var(--field);
+    border: 2px inset var(--line);
+    border-radius: 6px;
+    color: var(--alt);
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-shadow: 0 0 6px color-mix(in srgb, var(--alt) 50%, transparent);
+}
+.radio-display .status {
+    display: block;
+    color: var(--dim);
+    font-size: 0.95rem;
+    text-shadow: none;
+}
+.radio-controls {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+}
+.knob-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    color: var(--dim);
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+.led {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--line);
+}
+.led.on {
+    background: var(--ok);
+    box-shadow: 0 0 6px var(--ok);
+}
+.knob {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    border-radius: 50%;
+    border: 2px solid var(--line);
+    background: radial-gradient(circle at 35% 30%, var(--panel), var(--btn) 60%, var(--head));
+    color: var(--hi);
+    cursor: pointer;
+    box-shadow: 0 4px 0 var(--shadow), inset 0 1px 0 color-mix(in srgb, var(--fg) 18%, transparent);
+    transition: transform 60ms, box-shadow 60ms;
+}
+.knob:hover {
+    border-color: var(--hi);
+}
+.knob:active,
+.knob[aria-pressed="true"] {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 var(--shadow), inset 0 2px 4px color-mix(in srgb, #000 35%, transparent);
+}
+.knob svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+.knob .icon-alt { display: none; }
+.knob[aria-pressed="true"] .icon-main { display: none; }
+.knob[aria-pressed="true"] .icon-alt { display: block; }
+
+/* Station presets: rectangular latching keys, like a car radio */
+.presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding-bottom: 4px;
+}
+.preset {
+    min-height: 32px;
+    padding: 4px 9px;
+    border: 2px solid var(--line);
+    border-radius: 4px 4px 7px 7px;
+    background: linear-gradient(180deg, var(--panel), var(--btn));
+    color: var(--dim);
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 3px 0 var(--shadow);
+    transition: transform 60ms, box-shadow 60ms;
+}
+.preset:hover {
+    color: var(--hi);
+    border-color: var(--hi);
+}
+.preset[aria-checked="true"] {
+    color: var(--hi);
+    transform: translateY(2px);
+    box-shadow: 0 1px 0 var(--shadow), inset 0 2px 3px color-mix(in srgb, #000 30%, transparent);
+}
+
+/* Volume: a slider dressed as a tuning strip */
+.volume-field {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    color: var(--dim);
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+.volume-field input {
+    width: 120px;
+    margin: 14px 0 9px;
+    accent-color: var(--hi);
+}
+
+/* Phones: the faceplate spans the width and the display may shrink */
+@media (max-width: 600px) {
+    .radio {
+        width: 100%;
+        padding: 12px;
+        gap: 12px;
+    }
+    .radio-left {
+        width: 100%;
+    }
+    .radio-display {
+        min-width: 0;
+        max-width: none;
+    }
+    .radio-controls {
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+    }
+}

@@ -1,0 +1,1406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="/app-insights.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Spellcheck: an 8-bit typing game. A wizard defends the datacenter from bugs, phishing emails, jammed printers, 404 ghosts and ransomware by typing IT words. Tracks your WPM and accuracy.">
+    <meta name="keywords" content="typing game, typing test, wpm test, 8-bit game, pixel art, wizard, sysadmin game, it typing practice, browser game">
+    <meta name="author" content="OldWeb LLC">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://oldweb.tech/games/spellcheck.html">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Spellcheck - OldWeb.tech">
+    <meta property="og:description" content="An 8-bit typing game: type IT words to blast bugs, phishing emails and ransomware before they reach the wizard.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oldweb.tech/games/spellcheck.html">
+    <meta property="og:site_name" content="OldWeb.tech">
+    <meta property="og:image" content="https://oldweb.tech/logo/og-image.png">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Spellcheck - OldWeb.tech">
+    <meta name="twitter:description" content="An 8-bit typing game: type IT words to blast bugs, phishing emails and ransomware before they reach the wizard.">
+    <meta name="twitter:image" content="https://oldweb.tech/logo/og-image.png">
+
+    <!-- Additional Meta Tags -->
+    <meta name="theme-color" content="#0e0903">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../logo/favicon-32x32.png">
+
+    <title>Spellcheck - OldWeb.tech</title>
+    <link rel="stylesheet" href="../a11y.css">
+    <link rel="stylesheet" href="../theme.css">
+    <script src="../a11y-utils.js"></script>
+    <script src="../storage-utils.js"></script>
+    <script src="../navigationv2.js"></script>
+    <link rel="stylesheet" href="radio.css">
+    <script src="radio.js"></script>
+    <script src="spellcheck-words.js"></script>
+    <style>
+        /* Full-viewport stage; the game screen keeps its own night palette in both themes */
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .stage {
+            flex: 1;
+            width: 100%;
+            max-width: none;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            min-height: calc(100vh - 64px);
+            padding: 12px 16px 16px;
+            background: var(--bg);
+            overflow: hidden;
+        }
+        .stage:fullscreen {
+            min-height: 100vh;
+            padding: 24px;
+        }
+        #game {
+            display: block;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+            border: 2px solid var(--line);
+            border-radius: 6px;
+            background: #0b0a1a;
+            cursor: text;
+            touch-action: manipulation;
+        }
+        #game:focus-visible {
+            outline: none;
+        }
+        .play-area {
+            display: flex;
+            gap: 12px;
+            align-items: stretch;
+        }
+        .play-area.stacked {
+            flex-direction: column;
+        }
+        .game-wrap {
+            position: relative;
+        }
+
+        /* Command log: what each typed command does and what it prints */
+        .cmd-log {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            background: #0b0a1a;
+            border: 2px solid var(--line);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        .cmd-log-head {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 10px;
+            border-bottom: 1px solid #2b2540;
+            color: #8a84b0;
+            font-size: 0.75rem;
+        }
+        .cmd-log-body {
+            flex: 1;
+            margin: 0;
+            padding: 8px 10px;
+            overflow-y: auto;
+            list-style: none;
+            font-family: var(--font-body);
+            font-size: 0.78rem;
+            line-height: 1.35;
+            color: #c9c2e6;
+            overscroll-behavior: contain;
+        }
+        .cmd-log-body li {
+            margin-bottom: 8px;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+        }
+        .cmd-log-body .prompt { color: #5fc24f; }
+        .cmd-log-body .cmd { color: #ffffff; }
+        .cmd-log-body .out { color: #9a94b8; }
+        .cmd-log-body .about { color: #8fd3c7; }
+        .cmd-log-body .about::before { content: '# '; }
+        .cmd-log-body .sep { color: #ffb000; }
+        .cmd-log-body .boss .cmd { color: #ff7a66; }
+        .game-wrap.typing #game {
+            border-color: var(--hi);
+        }
+        .radio-display .stats {
+            display: block;
+            color: var(--fg);
+            font-size: 1.05rem;
+            text-shadow: none;
+        }
+        .reset-best {
+            background: none;
+            border: 0;
+            padding: 4px 2px;
+            color: var(--dim);
+            font-family: var(--font-body);
+            font-size: 0.75rem;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        .reset-best:hover {
+            color: var(--hi);
+        }
+        .preset-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .preset-row .row-label {
+            width: 5.5em;
+            color: var(--dim);
+            font-size: 0.7rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+    <a href="#stage" class="skip-link">Skip to main content</a>
+    <main id="stage" class="stage">
+        <h1 class="sr-only">Spellcheck: a wizard typing game</h1>
+        <p class="sr-only" id="how-to">Enemies walk toward the wizard, each carrying an IT word, Linux command or PowerShell cmdlet depending on the word set you pick. Type a word to cast a spell at that enemy. Press Enter to start, Escape to pause. The game area takes keyboard input once you click it or start typing.</p>
+
+        <div class="play-area" id="play-area">
+            <div class="game-wrap" id="game-wrap">
+                <canvas id="game" width="320" height="180" aria-hidden="true"></canvas>
+                <label class="sr-only" for="typer">Type the words here</label>
+                <input class="sr-only" id="typer" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-describedby="how-to">
+            </div>
+            <section class="cmd-log" id="cmd-log" aria-labelledby="cmd-log-title">
+                <div class="cmd-log-head">
+                    <span id="cmd-log-title">~/spellbook.log</span>
+                    <span aria-hidden="true">what each command does</span>
+                </div>
+                <ol class="cmd-log-body" id="cmd-log-body" role="log" aria-live="off" tabindex="0"></ol>
+            </section>
+        </div>
+
+        <div class="radio" role="group" aria-label="Game and music controls">
+            <div class="radio-left">
+                <div class="radio-display">
+                    <span class="stats" id="stats">wave 1 · score 0 · 0 wpm</span>
+                    <span id="now-playing">♪ radio off</span>
+                </div>
+                <div class="preset-row">
+                    <span class="row-label" aria-hidden="true">station</span>
+                    <div class="presets" role="radiogroup" aria-label="Music station" id="station-keys"></div>
+                </div>
+                <div class="preset-row">
+                    <span class="row-label" aria-hidden="true">words</span>
+                    <div class="presets" role="radiogroup" aria-label="Word set" id="word-keys">
+                        <button type="button" class="preset" role="radio" aria-checked="true" tabindex="0" data-set="it">it terms</button>
+                        <button type="button" class="preset" role="radio" aria-checked="false" tabindex="-1" data-set="linux">linux</button>
+                        <button type="button" class="preset" role="radio" aria-checked="false" tabindex="-1" data-set="powershell">powershell</button>
+                    </div>
+                </div>
+                <div class="preset-row">
+                    <span class="row-label" aria-hidden="true">pace</span>
+                    <div class="presets" role="radiogroup" aria-label="Difficulty" id="pace-keys">
+                        <button type="button" class="preset" role="radio" aria-checked="false" tabindex="-1" data-pace="0.6" data-advanced="0">relaxed</button>
+                        <button type="button" class="preset" role="radio" aria-checked="true" tabindex="0" data-pace="1" data-advanced="0.55">normal</button>
+                        <button type="button" class="preset" role="radio" aria-checked="false" tabindex="-1" data-pace="1.45" data-advanced="0.85">on-call</button>
+                    </div>
+                    <button type="button" class="reset-best" onclick="clearAllSavedData()" aria-label="Clear your saved best score from this page">reset best</button>
+                </div>
+            </div>
+            <div class="radio-controls">
+                <div class="knob-wrap">
+                    <span class="led" id="led-play" aria-hidden="true"></span>
+                    <button type="button" class="knob" id="btn-play" aria-pressed="false" aria-label="Play game" title="Start / pause (Enter / Esc)">
+                        <svg class="icon-main" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12.5-7.5z"/></svg>
+                        <svg class="icon-alt" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/></svg>
+                    </button>
+                    <span aria-hidden="true">game</span>
+                </div>
+                <div class="knob-wrap">
+                    <span class="led" id="led-music" aria-hidden="true"></span>
+                    <button type="button" class="knob" id="btn-music" aria-pressed="false" aria-label="Music" title="Music on / off">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 17.5a3 3 0 1 1-2-2.83V5l12-2v11.5a3 3 0 1 1-2-2.83V7.4l-8 1.4z"/></svg>
+                    </button>
+                    <span aria-hidden="true">music</span>
+                </div>
+                <div class="knob-wrap">
+                    <span class="led on" id="led-sfx" aria-hidden="true"></span>
+                    <button type="button" class="knob" id="btn-sfx" aria-pressed="true" aria-label="Sound effects" title="Sound effects on / off">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>
+                    </button>
+                    <span aria-hidden="true">sfx</span>
+                </div>
+                <label class="volume-field" for="volume">
+                    <span class="led" aria-hidden="true" style="visibility:hidden"></span>
+                    <input type="range" id="volume" min="0" max="100" value="50" aria-label="Music volume">
+                    <span aria-hidden="true">volume</span>
+                </label>
+                <div class="knob-wrap">
+                    <span class="led" id="led-full" aria-hidden="true"></span>
+                    <button type="button" class="knob" id="btn-full" aria-pressed="false" aria-label="Full screen" title="Full screen">
+                        <svg class="icon-main" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h6v2H6v4H4zm10 0h6v6h-2V6h-4zM4 14h2v4h4v2H4zm14 0h2v6h-6v-2h4z"/></svg>
+                        <svg class="icon-alt" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4h2v6H4V8h4zm6 0h2v4h4v2h-6zM4 14h6v6H8v-4H4zm10 0h6v2h-4v4h-2z"/></svg>
+                    </button>
+                    <span aria-hidden="true">full</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="statusbar" role="contentinfo">
+        <span>[oldweb] maint-window › spellcheck │ works offline │ no tracking</span>
+        <span><a href="https://www.lawsoncyber.com" rel="noopener">a Lawson Cyber project</a> · <a href="https://www.lawsoncyber.com" rel="noopener">feedback</a> │ / search · t theme</span>
+    </footer>
+
+    <script>
+    (function () {
+        'use strict';
+
+        // World is 320 x 180 game pixels; the canvas scales it up with smoothing off.
+        const W = 320, H = 180;
+        const GROUND = 152;
+        const WIZ_X = 18, WIZ_Y = GROUND - 22;
+        const GEM = { x: WIZ_X + 13, y: WIZ_Y + 4 };   // where spells leave the staff
+        const DEFENSE_X = WIZ_X + 16;                   // enemies that reach this line hurt you
+
+        const canvas = document.getElementById('game');
+        const ctx = canvas.getContext('2d');
+        const typer = document.getElementById('typer');
+        const wrap = document.getElementById('game-wrap');
+        const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const radio = window.OWTRadio;
+
+        // ---------- Pixel sprites ----------
+        // Each sprite is rows of palette characters; '.' is transparent.
+        const PAL = {
+            h: '#4b2a85', H: '#7b4bc4', Y: '#ffd23f', g: '#8fd3c7', G: '#e9fffb',
+            W: '#8a5a24', S: '#f0c890', K: '#14101e', B: '#f4f1e8', b: '#c9c2b0',
+            R: '#3f4fc9', r: '#28318a', O: '#ffb000',
+            L: '#2f6b2a', E: '#5fc24f', e: '#9be36b', w: '#ffffff',
+            P: '#dfe8ff', p: '#9fb0e0',
+            M: '#9aa0ad', m: '#c7ccd6', k: '#5d6270', X: '#ff4d3d',
+            Z: '#e8e2d0', z: '#b9b2a0', A: '#d9a400', a: '#a77c00'
+        };
+
+        const SPRITES = {
+            wizard: [
+                '......h.........',
+                '.....hH.........',
+                '.....HHh........',
+                '....HHYHh...gGg.',
+                '....HHHHH...GgG.',
+                '...HHHHHHh..gGg.',
+                '.hhHHHHHHHhh.W..',
+                '....SSSSKS...W..',
+                '....SSSSSSS..W..',
+                '....BBBBBB...W..',
+                '...rBBBBBBRRSS..',
+                '..rRRBBBBbRR.W..',
+                '..rRRRBBbRRR.W..',
+                '..rRRRRbRRRR.W..',
+                '..rRRRRRRRRR.W..',
+                '..rRRRROORRR.W..',
+                '..rRRRRRRRRR.W..',
+                '.rRRRRRRRRRR.W..',
+                '.rRRRRRRRRRRRW..',
+                'rRRRRRRRRRRRRW..',
+                'rrrrrrrrrrrrrW..',
+                '..KK....KK...W..'
+            ],
+            bug1: [
+                '...K........K...',
+                '....K......K....',
+                '.....LLLLLL.....',
+                '....LEEEEEEL....',
+                '...LEwKEEwKEL...',
+                '..KLEEEEEEEELK..',
+                '...LEeEEEEeEL...',
+                '.KLEEEEeeEEEELK.',
+                '...LEEeEEeEEL...',
+                '..KLEEEEEEEELK..',
+                '....LEEEEEEL....',
+                '.....LLLLLL.....'
+            ],
+            bug2: [
+                '....K......K....',
+                '...K........K...',
+                '.....LLLLLL.....',
+                '....LEEEEEEL....',
+                '...LEwKEEwKEL...',
+                '.K.LEEEEEEEEL.K.',
+                '..KLEeEEEEeELK..',
+                '...LEEEeeEEEL...',
+                '.KKLEEeEEeEELKK.',
+                '...LEEEEEEEEL...',
+                '....LEEEEEEL....',
+                '.....LLLLLL.....'
+            ],
+            phish1: [
+                'w.............w.',
+                'ww...........ww.',
+                'KKKKKKKKKKKKKK..',
+                'KpPPPPPPPPPPpK..',
+                'KPpPPPPPPPPpPK..',
+                'KPPpPPPPPPpPPK..',
+                'KPPPpPPPPpPPPK..',
+                'KPPPPpXXpPPPPK..',
+                'KPPPPPXXPPPPPK..',
+                'KPPPPPPPPPPPPK..',
+                'KKKKKKKKKKKKKK..',
+                '.......M........',
+                '.......M..M.....',
+                '........MM......'
+            ],
+            phish2: [
+                '................',
+                '................',
+                'KKKKKKKKKKKKKK..',
+                'KpPPPPPPPPPPpK..',
+                'KPpPPPPPPPPpPK..',
+                'KPPpPPPPPPpPPK..',
+                'KPPPpPPPPpPPPK..',
+                'KPPPPpXXpPPPPK..',
+                'KPPPPPXXPPPPPK..',
+                'KPPPPPPPPPPPPK..',
+                'KKKKKKKKKKKKKK..',
+                'ww.....M.....ww.',
+                'w......M..M...w.',
+                '........MM......'
+            ],
+            printer1: [
+                '....wwwwwwww....',
+                '....wkkkkkkw....',
+                '....wkkkkkw.....',
+                '..MMMMMMMMMMMM..',
+                '.MmmmmmmmmmmmmM.',
+                '.MmKKmmmmKKmmmM.',
+                '.MmmKmmmmKmmXmM.',
+                '.MmmmmmmmmmmmmM.',
+                '.MKKKKKKKKKKKKM.',
+                '.MmmmmmmmmmmmmM.',
+                '.MMMMMMMMMMMMMM.',
+                '..KK........KK..'
+            ],
+            printer2: [
+                '....wwwwwwww....',
+                '....wkkkkkkw....',
+                '....wkkkkkw.....',
+                '..MMMMMMMMMMMM..',
+                '.MmmmmmmmmmmmmM.',
+                '.MmKKmmmmKKmmmM.',
+                '.MmmKmmmmKmmkmM.',
+                '.MmmmmmmmmmmmmM.',
+                '.MKKKKKKKKKKKKM.',
+                '.MmmmmmmmmmmmmM.',
+                '.MMMMMMMMMMMMMM.',
+                '...KK......KK...'
+            ],
+            ghost1: [
+                '.....PPPPPP.....',
+                '...PPPPPPPPPP...',
+                '..PPPPPPPPPPPP..',
+                '..PPKKPPPPKKPP..',
+                '..PPKKPPPPKKPP..',
+                '..PPPPPPPPPPPP..',
+                '..PPPPPKKPPPPP..',
+                '..PPPPPKKPPPPP..',
+                '..PPPPPPPPPPPP..',
+                '..PPPPPPPPPPPP..',
+                '..PPpPPPpPPPpP..',
+                '..P...P...P.....'
+            ],
+            ghost2: [
+                '.....PPPPPP.....',
+                '...PPPPPPPPPP...',
+                '..PPPPPPPPPPPP..',
+                '..PPKKPPPPKKPP..',
+                '..PPKKPPPPKKPP..',
+                '..PPPPPPPPPPPP..',
+                '..PPPPPKKPPPPP..',
+                '..PPPPPKKPPPPP..',
+                '..PPPPPPPPPPPP..',
+                '..PPPPPPPPPPPP..',
+                '..PpPPPpPPPpPP..',
+                '....P...P...P...'
+            ],
+            ransom1: [
+                '....ZZZZZZZZ....',
+                '...ZZZZZZZZZZ...',
+                '..ZZZZZZZZZZZZ..',
+                '..ZZKKKZZKKKZZ..',
+                '..ZZKXKZZKXKZZ..',
+                '..ZZKKKZZKKKZZ..',
+                '..zZZZZKKZZZZz..',
+                '...zZZZZZZZZz...',
+                '....ZKZKZKZK....',
+                '....zZZZZZZz....',
+                '...aaa....aaa...',
+                '..AAAAAAAAAAAA..',
+                '..AAAAAKKAAAAA..',
+                '..AAAAAKKAAAAA..',
+                '..aaaaaaaaaaaa..'
+            ],
+            ransom2: [
+                '....ZZZZZZZZ....',
+                '...ZZZZZZZZZZ...',
+                '..ZZZZZZZZZZZZ..',
+                '..ZZKKKZZKKKZZ..',
+                '..ZZKKKZZKKKZZ..',
+                '..ZZKKKZZKKKZZ..',
+                '..zZZZZKKZZZZz..',
+                '...zZZZZZZZZz...',
+                '....ZKZKZKZK....',
+                '....zZZZZZZz....',
+                '...aaa....aaa...',
+                '..AAAAAAAAAAAA..',
+                '..AAAAAKKAAAAA..',
+                '..AAAAAKKAAAAA..',
+                '..aaaaaaaaaaaa..'
+            ],
+            moon: [
+                '...YYYY...',
+                '.YYYY.....',
+                'YYYY......',
+                'YYY.......',
+                'YYY.......',
+                'YYY.......',
+                'YYYY......',
+                '.YYYY.....',
+                '...YYYY...'
+            ],
+            heart: [
+                '.XX.XX.',
+                'XXXXXXX',
+                'XXXXXXX',
+                '.XXXXX.',
+                '..XXX..',
+                '...X...'
+            ],
+            heartEmpty: [
+                '.kk.kk.',
+                'k..k..k',
+                'k.....k',
+                '.k...k.',
+                '..k.k..',
+                '...k...'
+            ]
+        };
+
+        // Bake each sprite into its own small canvas once
+        const baked = {};
+        Object.entries(SPRITES).forEach(([name, rows]) => {
+            const w = Math.max(...rows.map(r => r.length));
+            const c = document.createElement('canvas');
+            c.width = w;
+            c.height = rows.length;
+            const g = c.getContext('2d');
+            rows.forEach((row, y) => {
+                [...row].forEach((ch, x) => {
+                    if (ch === '.' || !PAL[ch]) return;
+                    g.fillStyle = PAL[ch];
+                    g.fillRect(x, y, 1, 1);
+                });
+            });
+            baked[name] = c;
+        });
+
+        // ---------- Words ----------
+        // Entries live in spellcheck-words.js as [text, what it does, ...output lines].
+        // Each one lands in a length bucket that decides which enemy can carry it.
+        const bucketOf = text => text.length <= 7 ? 'short' : text.length <= 16 ? 'medium' : 'long';
+        const WORD_SETS = {};
+        Object.entries(window.SPELLCHECK_WORDS).forEach(([id, set]) => {
+            const toEntry = (tier) => ([c, about, ...out]) => ({ c, about, out, tier, bucket: bucketOf(c) });
+            WORD_SETS[id] = {
+                label: set.label,
+                prompt: set.prompt,
+                verb: set.verb,
+                entries: set.basic.map(toEntry('basic')).concat(set.advanced.map(toEntry('advanced'))),
+                boss: set.boss.map(toEntry('boss'))
+            };
+        });
+
+        // ---------- Enemy kinds ----------
+        const KINDS = {
+            bug:     { frames: ['bug1', 'bug2'], words: 'short', speed: 17, points: 10, fly: false, from: 1 },
+            phish:   { frames: ['phish1', 'phish2'], words: 'short', speed: 15, points: 15, fly: true, from: 1 },
+            ghost:   { frames: ['ghost1', 'ghost2'], words: 'medium', speed: 13, points: 25, fly: true, from: 2 },
+            printer: { frames: ['printer1', 'printer2'], words: 'long', speed: 8, points: 35, fly: false, from: 3 },
+            ransom:  { frames: ['ransom1', 'ransom2'], words: 'medium', speed: 21, points: 40, fly: false, from: 4 }
+        };
+
+        // ---------- Game state ----------
+        const game = {
+            mode: 'title',          // title | playing | paused | waveclear | over
+            wave: 1,
+            score: 0,
+            hearts: 3,
+            maxHearts: 5,
+            enemies: [],
+            shots: [],
+            parts: [],
+            target: null,
+            toSpawn: 0,
+            spawnTimer: 0,
+            bossPending: false,
+            bannerTimer: 0,
+            correct: 0,
+            errors: 0,
+            playTime: 0,          // seconds spent in 'playing', for WPM
+            castTimer: 0,
+            shake: 0,
+            missFlash: 0,
+            t: 0,
+            pace: 1,
+            advanced: 0.55,         // share of advanced commands; set by the pace keys
+            words: 'it',
+            flash: 0,
+            rings: []
+        };
+        // Best result per word set
+        const EMPTY_BEST = { score: 0, wpm: 0, wave: 0 };
+        let bests = StorageUtils.load('spellcheck', {});
+        if (!bests || typeof bests !== 'object') bests = {};
+        const bestFor = set => bests[set] || EMPTY_BEST;
+
+        const stars = Array.from({ length: 40 }, () => ({
+            x: Math.random() * W, y: Math.random() * 90, p: Math.random() * 6
+        }));
+        // Distant rack skyline with blinking LEDs
+        const skyline = [];
+        for (let x = 60; x < W; x += 14 + Math.floor(Math.random() * 6)) {
+            const h = 30 + Math.floor(Math.random() * 30);
+            skyline.push({
+                x, w: 11, h,
+                leds: Array.from({ length: Math.floor(h / 6) }, (_, i) => ({ y: GROUND - h + 4 + i * 6, p: Math.random() * 10, c: Math.random() < 0.8 ? '#5fc24f' : Math.random() < 0.5 ? '#ffb000' : '#5ab8ff' }))
+            });
+        }
+
+        function wpm() {
+            const minutes = game.playTime / 60;
+            return minutes > 0.05 ? Math.round(game.correct / 5 / minutes) : 0;
+        }
+        function accuracy() {
+            const total = game.correct + game.errors;
+            return total ? Math.round(game.correct / total * 100) : 100;
+        }
+
+        function pickWord(pool) {
+            // Pace decides how often the advanced entries (pipelines, flags) show up, and how
+            // often an enemy carries a word one size up from its usual
+            if (Math.random() < game.advanced * 0.6) pool = pool === 'short' ? 'medium' : 'long';
+            const tier = Math.random() < game.advanced ? 'advanced' : 'basic';
+            const all = WORD_SETS[game.words].entries;
+            let list = all.filter(e => e.bucket === pool && e.tier === tier);
+            if (!list.length) list = all.filter(e => e.bucket === pool);
+            if (!list.length) list = all;
+            // Prefer a word whose first letter no live enemy is using, so the first keystroke picks one target
+            const used = new Set(game.enemies.filter(e => !e.dead).map(e => e.match[e.typed] || ''));
+            const fresh = list.filter(e => !used.has(e.c[0].toLowerCase()));
+            const from = fresh.length ? fresh : list;
+            return from[Math.floor(Math.random() * from.length)];
+        }
+
+        function wordFields(entry) {
+            return { entry, word: entry.c, match: entry.c.toLowerCase() };
+        }
+
+        function spawn(kindName) {
+            const k = KINDS[kindName];
+            const sprite = baked[k.frames[0]];
+            const y = k.fly ? 50 + Math.random() * 50 : GROUND - sprite.height;
+            const entry = pickWord(k.words);
+            // Long commands walk slower so they stay typeable
+            const lengthFactor = entry.c.length > 12 ? Math.max(0.4, 12 / entry.c.length) : 1;
+            game.enemies.push({
+                kind: kindName, k, x: W + 4, y, baseY: y, w: sprite.width, h: sprite.height,
+                ...wordFields(entry), typed: 0, dead: false, doomed: false,
+                phase: Math.random() * 6, speed: k.speed * lengthFactor * (0.9 + Math.random() * 0.2)
+            });
+        }
+
+        function spawnBoss() {
+            const words = [];
+            const pool = WORD_SETS[game.words].boss;
+            while (words.length < Math.min(pool.length, 3 + Math.floor(game.wave / 5))) {
+                const w = pool[Math.floor(Math.random() * pool.length)];
+                if (!words.includes(w)) words.push(w);
+            }
+            game.enemies.push({
+                kind: 'boss', k: { points: 200, speed: 5, fly: false }, x: W + 4, y: GROUND - 34, baseY: GROUND - 34, w: 30, h: 34,
+                words, ...wordFields(words[0]), typed: 0, hp: words.length, dead: false, doomed: false, phase: 0, speed: 5
+            });
+        }
+
+        function startWave(n) {
+            game.wave = n;
+            logNote(`--- wave ${n}${n % 5 === 0 ? ' · the legacy mainframe wakes' : ''} ---`);
+            game.toSpawn = 4 + n * 2;
+            game.spawnTimer = 1.2;
+            game.bossPending = n % 5 === 0;
+            game.mode = 'playing';
+            radio.sfx('wave');
+            A11yUtils.announce(`Wave ${n}${game.bossPending ? '. A boss is coming' : ''}`, 'polite');
+        }
+
+        function newGame() {
+            logBody.textContent = '';
+            Object.assign(game, {
+                score: 0, hearts: 3, enemies: [], shots: [], parts: [], rings: [], target: null,
+                correct: 0, errors: 0, playTime: 0, shake: 0
+            });
+            startWave(1);
+            setPlayingUi();
+        }
+
+        function unlockedKinds() {
+            return Object.entries(KINDS).filter(([, k]) => k.from <= game.wave).map(([name]) => name);
+        }
+
+        // ---------- Command log ----------
+        const logBody = document.getElementById('cmd-log-body');
+        const LOG_MAX = 80;
+        function logLine(cls, text) {
+            const span = document.createElement('span');
+            span.className = cls;
+            span.textContent = text;
+            return span;
+        }
+        function appendLog(li) {
+            const stick = logBody.scrollHeight - logBody.scrollTop - logBody.clientHeight < 40;
+            logBody.appendChild(li);
+            while (logBody.children.length > LOG_MAX) logBody.firstChild.remove();
+            if (stick) logBody.scrollTop = logBody.scrollHeight;
+        }
+        function logCommand(entry, isBoss) {
+            const set = WORD_SETS[game.words];
+            const li = document.createElement('li');
+            if (isBoss) li.className = 'boss';
+            li.append(logLine('prompt', set.prompt), logLine('cmd', set.verb + entry.c), '\n');
+            if (set.verb) {
+                // IT terms read like a whatis lookup
+                li.append(logLine('out', `${entry.c} (7)  - ${entry.about}`));
+            } else {
+                entry.out.forEach(line => li.append(logLine('out', line), '\n'));
+                li.append(logLine('about', entry.about));
+            }
+            appendLog(li);
+        }
+        function logNote(text) {
+            const li = document.createElement('li');
+            li.append(logLine('sep', text));
+            appendLog(li);
+        }
+
+        // ---------- Typing ----------
+        function typeChar(ch) {
+            if (game.mode !== 'playing') return;
+            ch = ch.toLowerCase();
+            if (ch.length !== 1 || ch < ' ') return;
+            const live = game.enemies.filter(e => !e.dead && !e.doomed && e.x < W);
+
+            if (!game.target || game.target.dead || game.target.doomed) {
+                game.target = null;
+                const candidates = live.filter(e => e.match[e.typed] === ch).sort((a, b) => a.x - b.x);
+                if (!candidates.length) return miss();
+                game.target = candidates[0];
+            } else if (game.target.match[game.target.typed] !== ch) {
+                // Several words can share a prefix (Get-...): hop to one that fits what's been typed
+                const prefix = game.target.match.slice(0, game.target.typed) + ch;
+                const other = live.filter(e => e !== game.target && e.match.startsWith(prefix)).sort((a, b) => a.x - b.x)[0];
+                if (!other) return miss();
+                game.target.typed = 0;
+                other.typed = prefix.length - 1;
+                game.target = other;
+            }
+
+            const e = game.target;
+            e.typed++;
+            game.correct++;
+            game.castTimer = 0.15;
+            radio.sfx('key');
+            spark(GEM.x, GEM.y, 2, '#e9fffb');
+
+            if (e.typed >= e.match.length) {
+                logCommand(e.entry, e.kind === 'boss');
+                game.shots.push({ x: GEM.x, y: GEM.y, target: e, big: e.kind === 'boss' });
+                radio.sfx('fire');
+                if (e.kind === 'boss' && e.hp > 1) {
+                    // Next word on the boss; keep it targeted
+                    e.hp--;
+                    Object.assign(e, wordFields(e.words[e.words.length - e.hp]));
+                    e.typed = 0;
+                } else {
+                    e.doomed = true;
+                    game.target = null;
+                }
+            }
+        }
+
+        function miss() {
+            game.errors++;
+            game.missFlash = 0.2;
+            radio.sfx('miss');
+        }
+
+        // ---------- Effects ----------
+        function spark(x, y, n, color) {
+            for (let i = 0; i < n; i++) {
+                game.parts.push({ x, y, vx: (Math.random() - 0.3) * 60, vy: (Math.random() - 0.7) * 50, life: 0.3 + Math.random() * 0.2, color, size: 1 });
+            }
+        }
+        function explode(x, y, colors, n) {
+            const count = reduceMotion ? Math.ceil(n / 3) : n;
+            for (let i = 0; i < count; i++) {
+                const a = Math.random() * Math.PI * 2, s = 20 + Math.random() * 70;
+                game.parts.push({ x, y, vx: Math.cos(a) * s, vy: Math.sin(a) * s - 20, life: 0.4 + Math.random() * 0.5, color: colors[i % colors.length], size: Math.random() < 0.3 ? 2 : 1, grav: true });
+            }
+        }
+        const KIND_COLORS = {
+            bug: ['#5fc24f', '#9be36b', '#14101e'], phish: ['#dfe8ff', '#ff4d3d', '#9fb0e0'],
+            ghost: ['#dfe8ff', '#9fb0e0'], printer: ['#9aa0ad', '#ffffff', '#ff4d3d'],
+            ransom: ['#e8e2d0', '#d9a400', '#ff4d3d'], boss: ['#9aa0ad', '#5ab8ff', '#ffb000', '#ff4d3d']
+        };
+
+        function kill(e) {
+            e.dead = true;
+            game.score += e.k.points * game.wave;
+            const cx = e.x + e.w / 2, cy = e.y + e.h / 2;
+            explode(cx, cy, KIND_COLORS[e.kind].concat(['#ffd23f', '#ff7a1a']), e.kind === 'boss' ? 90 : 34);
+            game.rings.push({ x: cx, y: cy, r: 2, max: e.kind === 'boss' ? 46 : 22, life: 1 });
+            game.flash = e.kind === 'boss' ? 0.18 : 0.07;
+            if (!reduceMotion) game.shake = Math.max(game.shake, e.kind === 'boss' ? 0.5 : 0.12);
+            radio.sfx(e.kind === 'boss' ? 'bigboom' : 'boom');
+            if (e.kind === 'boss') {
+                game.hearts = Math.min(game.maxHearts, game.hearts + 1);
+                A11yUtils.announce('Boss defeated. Extra heart.', 'polite');
+            }
+        }
+
+        function hurt(e) {
+            e.dead = true;
+            if (game.target === e) game.target = null;
+            game.hearts--;
+            if (!reduceMotion) game.shake = 0.35;
+            explode(e.x, e.y + e.h / 2, ['#ff4d3d', '#ffb000'], 16);
+            radio.sfx('hurt');
+            if (game.hearts <= 0) return gameOver();
+            A11yUtils.announce(`Hit. ${game.hearts} ${game.hearts === 1 ? 'heart' : 'hearts'} left`, 'polite');
+        }
+
+        function gameOver() {
+            game.mode = 'over';
+            game.target = null;
+            logNote(`--- system down on wave ${game.wave} · ${game.score} pts · ${wpm()} wpm ---`);
+            radio.sfx('over');
+            const result = { score: game.score, wpm: wpm(), wave: game.wave };
+            const prev = bestFor(game.words);
+            game.newBest = result.score > prev.score;
+            bests[game.words] = {
+                score: Math.max(prev.score, result.score),
+                wpm: Math.max(prev.wpm, result.wpm),
+                wave: Math.max(prev.wave, result.wave)
+            };
+            StorageUtils.save('spellcheck', bests);
+            setPlayingUi();
+            A11yUtils.announce(`Game over on wave ${result.wave}. Score ${result.score}. ${result.wpm} words per minute, ${accuracy()} percent accuracy. Press Enter to play again.`, 'assertive');
+        }
+
+        // ---------- Update ----------
+        function update(dt) {
+            game.t += dt;
+            game.castTimer = Math.max(0, game.castTimer - dt);
+            game.missFlash = Math.max(0, game.missFlash - dt);
+            game.shake = Math.max(0, game.shake - dt);
+            game.flash = Math.max(0, game.flash - dt);
+            game.rings.forEach(r => { r.life -= dt * 2.5; r.r = r.max * (1 - r.life * r.life); });
+            game.rings = game.rings.filter(r => r.life > 0);
+
+            game.parts.forEach(p => {
+                p.x += p.vx * dt;
+                p.y += p.vy * dt;
+                if (p.grav) p.vy += 120 * dt;
+                p.life -= dt;
+            });
+            game.parts = game.parts.filter(p => p.life > 0);
+
+            if (game.mode === 'waveclear') {
+                game.bannerTimer -= dt;
+                if (game.bannerTimer <= 0) startWave(game.wave + 1);
+                return;
+            }
+            if (game.mode !== 'playing') return;
+            game.playTime += dt;
+
+            // Spawning
+            game.spawnTimer -= dt;
+            if (game.spawnTimer <= 0 && (game.toSpawn > 0 || game.bossPending)) {
+                if (game.toSpawn > 0) {
+                    const kinds = unlockedKinds();
+                    spawn(kinds[Math.floor(Math.random() * kinds.length)]);
+                    game.toSpawn--;
+                } else {
+                    spawnBoss();
+                    game.bossPending = false;
+                }
+                game.spawnTimer = Math.max(0.9, 3.2 - game.wave * 0.2) * (0.7 + Math.random() * 0.6) / Math.sqrt(game.pace);
+            }
+
+            // Enemies advance
+            const speedUp = game.pace * (1 + (game.wave - 1) * 0.07);
+            game.enemies.forEach(e => {
+                if (e.dead) return;
+                e.x -= e.speed * speedUp * dt;
+                if (e.k.fly) e.y = e.baseY + Math.sin(game.t * 2 + e.phase) * 6;
+                if (e.x <= DEFENSE_X && !e.doomed) hurt(e);
+            });
+
+            // Spells home in on their target
+            game.shots.forEach(s => {
+                const tx = s.target.x + s.target.w / 2, ty = s.target.y + s.target.h / 2;
+                const dx = tx - s.x, dy = ty - s.y, d = Math.hypot(dx, dy);
+                const step = 280 * dt;
+                if (d <= step || s.target.dead) {
+                    s.done = true;
+                    if (!s.target.dead) {
+                        if (s.target.kind === 'boss' && !s.target.doomed) {
+                            explode(tx, ty, KIND_COLORS.boss.concat(['#ff7a1a']), 18);
+                            game.rings.push({ x: tx, y: ty, r: 2, max: 14, life: 1 });
+                            radio.sfx('thud');
+                            s.target.x += 6;   // knocked back a little
+                        } else {
+                            kill(s.target);
+                        }
+                    }
+                } else {
+                    s.x += dx / d * step;
+                    s.y += dy / d * step;
+                    for (let i = 0; i < 2; i++) {
+                        const c = ['#ffd23f', '#ff7a1a', '#ff4d3d'][Math.floor(Math.random() * 3)];
+                        game.parts.push({ x: s.x + (Math.random() - 0.5) * 3, y: s.y + (Math.random() - 0.5) * 3, vx: -20 - Math.random() * 20, vy: -15 - Math.random() * 20, life: 0.15 + Math.random() * 0.2, color: c, size: Math.random() < 0.3 ? 2 : 1 });
+                    }
+                }
+            });
+            game.shots = game.shots.filter(s => !s.done);
+            game.enemies = game.enemies.filter(e => !e.dead);
+
+            if (game.mode === 'playing' && game.toSpawn === 0 && !game.bossPending && game.enemies.length === 0 && game.shots.length === 0) {
+                game.mode = 'waveclear';
+                game.bannerTimer = 2.4;
+                game.score += 50 * game.wave;
+                A11yUtils.announce(`Wave ${game.wave} cleared`, 'polite');
+            }
+        }
+
+        // ---------- Draw ----------
+        let scale = 1, dpr = 1;
+        function text(str, x, y, color, size, align) {
+            ctx.font = `${size || 10}px VT323, monospace`;
+            ctx.textAlign = align || 'left';
+            ctx.textBaseline = 'top';
+            ctx.fillStyle = color;
+            ctx.fillText(str, x, y);
+        }
+
+        function drawBackground() {
+            const sky = ctx.createLinearGradient(0, 0, 0, GROUND);
+            sky.addColorStop(0, '#0b0a1a');
+            sky.addColorStop(1, '#231a3d');
+            ctx.fillStyle = sky;
+            ctx.fillRect(0, 0, W, GROUND);
+
+            stars.forEach(s => {
+                const v = Math.sin(game.t * 1.5 + s.p);
+                if (v > -0.3) {
+                    ctx.fillStyle = v > 0.7 ? '#ffffff' : '#6c6890';
+                    ctx.fillRect(Math.round(s.x), Math.round(s.y), 1, 1);
+                }
+            });
+            // Moon
+            ctx.drawImage(baked.moon, 266, 12);
+
+            // Rack skyline
+            skyline.forEach(r => {
+                ctx.fillStyle = '#161226';
+                ctx.fillRect(r.x, GROUND - r.h, r.w, r.h);
+                ctx.fillStyle = '#221c38';
+                ctx.fillRect(r.x, GROUND - r.h, r.w, 1);
+                r.leds.forEach(l => {
+                    if (Math.sin(game.t * 3 + l.p) > -0.2) {
+                        ctx.fillStyle = l.c;
+                        ctx.fillRect(r.x + 8, l.y, 1, 1);
+                    }
+                    ctx.fillStyle = '#2a2444';
+                    ctx.fillRect(r.x + 2, l.y, 4, 1);
+                });
+            });
+
+            // Raised datacenter floor tiles
+            ctx.fillStyle = '#2b2540';
+            ctx.fillRect(0, GROUND, W, H - GROUND);
+            ctx.fillStyle = '#3b3358';
+            ctx.fillRect(0, GROUND, W, 1);
+            ctx.fillStyle = '#1d1830';
+            for (let x = 0; x < W; x += 16) ctx.fillRect(x, GROUND + 1, 1, H - GROUND);
+            ctx.fillRect(0, GROUND + 13, W, 1);
+        }
+
+        function drawWizard() {
+            const bob = game.mode === 'playing' || game.mode === 'title' ? Math.round(Math.sin(game.t * 3) * 0.6) : 0;
+            ctx.drawImage(baked.wizard, WIZ_X, WIZ_Y + bob);
+            // Staff gem glows while casting
+            if (game.castTimer > 0 || game.shots.length) {
+                ctx.fillStyle = 'rgba(143, 211, 199, 0.35)';
+                ctx.fillRect(GEM.x - 3, GEM.y - 3 + bob, 7, 7);
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(GEM.x, GEM.y + bob, 1, 1);
+            }
+        }
+
+        function drawBoss(e) {
+            const x = Math.round(e.x), y = Math.round(e.y);
+            ctx.fillStyle = '#5d6270';
+            ctx.fillRect(x, y, 30, 34);
+            ctx.fillStyle = '#9aa0ad';
+            ctx.fillRect(x + 1, y + 1, 28, 32);
+            // Tape reels spin
+            [[x + 4, y + 4], [x + 17, y + 4]].forEach(([rx, ry]) => {
+                ctx.fillStyle = '#14101e';
+                ctx.fillRect(rx, ry, 9, 9);
+                ctx.fillStyle = '#c7ccd6';
+                ctx.fillRect(rx + 1, ry + 1, 7, 7);
+                ctx.fillStyle = '#14101e';
+                const a = Math.floor(game.t * 8) % 4;
+                const spoke = [[4, 1], [7, 4], [4, 7], [1, 4]][a];
+                ctx.fillRect(rx + 4, ry + 4, 1, 1);
+                ctx.fillRect(rx + spoke[0], ry + spoke[1], 1, 1);
+            });
+            // Angry LED eyes
+            ctx.fillStyle = '#ff4d3d';
+            ctx.fillRect(x + 7, y + 16, 4, 2);
+            ctx.fillRect(x + 19, y + 16, 4, 2);
+            // Blinking front panel
+            for (let i = 0; i < 6; i++) {
+                ctx.fillStyle = Math.sin(game.t * 5 + i * 1.7) > 0 ? '#5ab8ff' : '#2b3550';
+                ctx.fillRect(x + 4 + i * 4, y + 22, 2, 2);
+            }
+            ctx.fillStyle = '#14101e';
+            ctx.fillRect(x + 4, y + 27, 22, 2);
+            // Health pips
+            for (let i = 0; i < e.words.length; i++) {
+                ctx.fillStyle = i < e.hp ? '#ff4d3d' : '#3b3358';
+                ctx.fillRect(x + 2 + i * 4, y - 3, 3, 2);
+            }
+        }
+
+        function drawEnemy(e) {
+            if (e.kind === 'boss') return drawBoss(e);
+            const frame = baked[e.k.frames[Math.floor(game.t * 4 + e.phase) % 2]];
+            if (e.kind === 'ghost') ctx.globalAlpha = 0.75 + Math.sin(game.t * 6 + e.phase) * 0.2;
+            ctx.drawImage(frame, Math.round(e.x), Math.round(e.y));
+            ctx.globalAlpha = 1;
+        }
+
+        function drawLabel(e) {
+            ctx.font = '10px VT323, monospace';
+            const isTarget = e === game.target;
+            const typed = e.word.slice(0, e.typed), rest = e.word.slice(e.typed);
+            const wTyped = ctx.measureText(typed).width, wRest = ctx.measureText(rest).width;
+            const total = wTyped + wRest;
+            let lx = Math.round(e.x + e.w / 2 - total / 2 - 2);
+            lx = Math.max(2, Math.min(W - total - 6, lx));
+            const ly = Math.round(e.y) - 12;
+            ctx.fillStyle = isTarget ? 'rgba(40, 24, 4, 0.92)' : 'rgba(11, 10, 26, 0.78)';
+            ctx.fillRect(lx, ly, total + 4, 10);
+            if (isTarget) {
+                ctx.fillStyle = game.missFlash > 0 ? '#ff4d3d' : '#ffb000';
+                ctx.fillRect(lx, ly + 10, total + 4, 1);
+            }
+            text(typed, lx + 2, ly, '#ffb000');
+            text(rest, lx + 2 + wTyped, ly, isTarget ? '#ffffff' : '#c9c2e6');
+        }
+
+        function drawHud() {
+            for (let i = 0; i < game.maxHearts; i++) {
+                if (i >= Math.max(3, game.hearts)) break;
+                ctx.drawImage(i < game.hearts ? baked.heart : baked.heartEmpty, 4 + i * 9, 4);
+            }
+            text(`WAVE ${game.wave}`, W / 2, 2, '#c9c2e6', 10, 'center');
+            text(`${game.score}`, W - 4, 2, '#ffb000', 10, 'right');
+            text(`${wpm()} WPM`, W - 4, 11, '#8fd3c7', 9, 'right');
+        }
+
+        function panel(lines, y) {
+            ctx.fillStyle = 'rgba(11, 10, 26, 0.86)';
+            ctx.fillRect(40, y, W - 80, lines.length * 12 + 10);
+            ctx.fillStyle = '#ffb000';
+            ctx.fillRect(40, y, W - 80, 1);
+            ctx.fillRect(40, y + lines.length * 12 + 9, W - 80, 1);
+            lines.forEach(([str, color, size], i) => text(str, W / 2, y + 5 + i * 12, color, size, 'center'));
+        }
+
+        function drawOverlay() {
+            const blink = Math.floor(game.t * 2) % 2 === 0;
+            if (game.mode === 'title') {
+                panel([
+                    ['SPELLCHECK', '#ffb000', 16],
+                    ['', '#fff'],
+                    [`type to defend the datacenter · words: ${WORD_SETS[game.words].label}`, '#c9c2e6'],
+                    [`best: ${bestFor(game.words).score} pts · ${bestFor(game.words).wpm} wpm · wave ${bestFor(game.words).wave}`, '#8fd3c7'],
+                    [blink ? 'press ENTER or tap to start' : '', '#ffffff']
+                ], 40);
+            } else if (game.mode === 'paused') {
+                panel([['PAUSED', '#ffb000', 14], ['press ESC or ENTER to resume', '#c9c2e6']], 60);
+            } else if (game.mode === 'waveclear') {
+                panel([[`WAVE ${game.wave} CLEARED`, '#5fc24f', 14], [`+${50 * game.wave} bonus · ${accuracy()}% accuracy`, '#c9c2e6']], 55);
+            } else if (game.mode === 'over') {
+                panel([
+                    ['SYSTEM DOWN', '#ff4d3d', 16],
+                    [`wave ${game.wave} · ${game.score} pts${game.newBest ? ' · NEW BEST' : ''}`, '#ffb000'],
+                    [`${wpm()} wpm · ${accuracy()}% accuracy`, '#8fd3c7'],
+                    [`best (${WORD_SETS[game.words].label}): ${bestFor(game.words).score} pts · ${bestFor(game.words).wpm} wpm`, '#c9c2e6'],
+                    [blink ? 'press ENTER or tap to reboot' : '', '#ffffff']
+                ], 36);
+            }
+        }
+
+        function render() {
+            ctx.setTransform(scale * dpr, 0, 0, scale * dpr, 0, 0);
+            ctx.imageSmoothingEnabled = false;
+            if (game.shake > 0) ctx.translate(Math.round((Math.random() - 0.5) * 4), Math.round((Math.random() - 0.5) * 4));
+
+            drawBackground();
+            drawWizard();
+            game.enemies.forEach(drawEnemy);
+            game.shots.forEach(s => {
+                // Flickering fireball: red rim, orange body, yellow-white core
+                const x = Math.round(s.x), y = Math.round(s.y);
+                const f = Math.floor(game.t * 30) % 2;
+                ctx.fillStyle = '#ff4d3d';
+                ctx.fillRect(x - 2 - f, y - 2, 5 + f, 5);
+                ctx.fillStyle = '#ff7a1a';
+                ctx.fillRect(x - 2, y - 1, 4, 3);
+                ctx.fillStyle = s.big ? '#ffffff' : '#ffd23f';
+                ctx.fillRect(x - 1, y - 1, 2, 2);
+            });
+            game.rings.forEach(r => {
+                ctx.strokeStyle = `rgba(255, 210, 63, ${Math.max(0, r.life).toFixed(2)})`;
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.arc(r.x, r.y, r.r, 0, Math.PI * 2);
+                ctx.stroke();
+            });
+            game.parts.forEach(p => {
+                ctx.fillStyle = p.color;
+                ctx.fillRect(Math.round(p.x), Math.round(p.y), p.size, p.size);
+            });
+            if (game.mode === 'playing' || game.mode === 'paused') {
+                game.enemies.filter(e => e !== game.target && e.x < W).forEach(drawLabel);
+                if (game.target && !game.target.dead) drawLabel(game.target);
+            }
+            if (game.flash > 0) {
+                ctx.fillStyle = `rgba(255, 240, 200, ${(game.flash * 2).toFixed(2)})`;
+                ctx.fillRect(-4, -4, W + 8, H + 8);
+            }
+            drawHud();
+            drawOverlay();
+        }
+
+        // ---------- Loop ----------
+        let last = performance.now();
+        function frame(now) {
+            const dt = Math.min(0.05, (now - last) / 1000);
+            last = now;
+            update(dt);
+            render();
+            requestAnimationFrame(frame);
+        }
+
+        // ---------- Sizing ----------
+        const stage = document.getElementById('stage');
+        // Height taken by everything else in the stage (breadcrumb, radio, notes) plus the gaps.
+        // Related Tools, which the nav adds at the end, is left to sit below the fold.
+        function siblingsHeight(except) {
+            const gap = parseFloat(getComputedStyle(stage).rowGap) || 0;
+            return [...stage.children]
+                .filter(el => el !== except && !el.classList.contains('related-tools') && el.offsetParent !== null && getComputedStyle(el).position !== 'absolute')
+                .reduce((sum, el) => sum + el.offsetHeight + gap, 0);
+        }
+        const playArea = document.getElementById('play-area');
+        const logPanel = document.getElementById('cmd-log');
+        function fit() {
+            const style = getComputedStyle(stage);
+            let availW = stage.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight) - 4;
+            const top = document.fullscreenElement ? 0 : Math.max(stage.getBoundingClientRect().top + window.scrollY, 0);
+            let availH = window.innerHeight - top - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom) - siblingsHeight(playArea) - 4;
+            const gap = 12;
+            const side = availW >= 860;
+            playArea.classList.toggle('stacked', !side);
+            let logW = 0;
+            if (side) {
+                logW = Math.round(Math.max(260, Math.min(440, availW * 0.3)));
+                availW -= logW + gap;
+            } else {
+                availH -= 150 + gap;
+            }
+            scale = Math.max(1, Math.min(availW / W, availH / H));
+            // Snap to whole pixels per game pixel when there's room; it keeps the art crisp
+            if (scale >= 2) scale = Math.floor(scale * 2) / 2;
+            dpr = window.devicePixelRatio || 1;
+            canvas.style.width = Math.round(W * scale) + 'px';
+            canvas.style.height = Math.round(H * scale) + 'px';
+            canvas.width = Math.round(W * scale * dpr);
+            canvas.height = Math.round(H * scale * dpr);
+            const canvasW = Math.round(W * scale) + 4, canvasH = Math.round(H * scale) + 4;
+            logPanel.style.width = side ? logW + 'px' : canvasW + 'px';
+            logPanel.style.height = side ? canvasH + 'px' : '150px';
+        }
+        window.addEventListener('resize', fit);
+        window.addEventListener('load', fit);   // the nav adds its breadcrumb after this script runs
+
+        // ---------- Input ----------
+        function focusTyper() {
+            typer.focus({ preventScroll: true });
+        }
+        typer.addEventListener('focus', () => wrap.classList.add('typing'));
+        typer.addEventListener('blur', () => wrap.classList.remove('typing'));
+
+        function primaryAction() {
+            if (game.mode === 'title' || game.mode === 'over') newGame();
+            else if (game.mode === 'paused') setPaused(false);
+        }
+
+        canvas.addEventListener('pointerdown', e => {
+            e.preventDefault();
+            focusTyper();
+            if (game.mode === 'title' || game.mode === 'over') primaryAction();
+        });
+
+        typer.addEventListener('keydown', e => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                primaryAction();
+            } else if (e.key === 'Escape') {
+                e.preventDefault();
+                if (game.mode === 'playing') setPaused(true);
+                else if (game.mode === 'paused') setPaused(false);
+            }
+        });
+        // 'input' works for hardware and on-screen keyboards alike
+        typer.addEventListener('input', () => {
+            for (const ch of typer.value) typeChar(ch);
+            typer.value = '';
+        });
+
+        // Typing anywhere on the page (outside other controls) goes to the game
+        document.addEventListener('keydown', e => {
+            if (e.target === typer || e.metaKey || e.ctrlKey || e.altKey) return;
+            const t = e.target;
+            if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT' || t.isContentEditable)) return;
+            if (document.querySelector('.search-overlay:not([hidden])')) return;
+            if (t && t.closest && t.closest('button, a')) {
+                if (e.key !== 'Escape') return;
+            }
+            if (e.key === 'Enter' && t === document.body) {
+                e.preventDefault();
+                focusTyper();
+                primaryAction();
+            } else if (e.key.length === 1 && game.mode === 'playing' && e.key !== '/' && e.key !== 't') {
+                e.preventDefault();
+                focusTyper();
+                typeChar(e.key);
+            } else if (e.key === 'Escape' && game.mode === 'playing') {
+                setPaused(true);
+            }
+        });
+
+        // ---------- Controls ----------
+        const playBtn = document.getElementById('btn-play');
+        function setPlayingUi() {
+            const running = game.mode === 'playing' || game.mode === 'waveclear';
+            playBtn.setAttribute('aria-pressed', String(running));
+            playBtn.setAttribute('aria-label', running ? 'Pause game' : 'Play game');
+            document.getElementById('led-play').classList.toggle('on', running);
+        }
+        function setPaused(p) {
+            if (p && (game.mode === 'playing' || game.mode === 'waveclear')) {
+                game.resumeTo = game.mode;
+                game.mode = 'paused';
+                A11yUtils.announce('Paused', 'polite');
+            } else if (!p && game.mode === 'paused') {
+                game.mode = game.resumeTo || 'playing';
+                focusTyper();
+                A11yUtils.announce('Resumed', 'polite');
+            }
+            setPlayingUi();
+        }
+        playBtn.addEventListener('click', () => {
+            if (game.mode === 'playing' || game.mode === 'waveclear') setPaused(true);
+            else primaryAction();
+            if (game.mode === 'playing') focusTyper();
+        });
+
+        // Music + stations (8-bit stations first: it's an 8-bit game)
+        const nowPlayingEl = document.getElementById('now-playing');
+        const musicBtn = document.getElementById('btn-music');
+        const stationOrder = ['chip-quest', 'chip-dungeon', 'tavern', 'forest', 'lofi'];
+        const stationBox = document.getElementById('station-keys');
+        const stationKeys = stationOrder.map((id, i) => {
+            const st = radio.stations.find(s => s.id === id);
+            const b = document.createElement('button');
+            b.type = 'button';
+            b.className = 'preset';
+            b.setAttribute('role', 'radio');
+            b.textContent = st.label;
+            b.dataset.id = id;
+            stationBox.appendChild(b);
+            return b;
+        });
+        radio.setStation('chip-quest');
+        function stationLabel() { return radio.stations[radio.station()].label; }
+        function syncRadio() {
+            nowPlayingEl.textContent = radio.isOn() ? `♪ ${stationLabel()}: ${radio.trackName()}` : '♪ radio off';
+            musicBtn.setAttribute('aria-pressed', String(radio.isOn()));
+            document.getElementById('led-music').classList.toggle('on', radio.isOn());
+            const current = radio.stations[radio.station()].id;
+            stationKeys.forEach(k => {
+                const on = k.dataset.id === current;
+                k.setAttribute('aria-checked', String(on));
+                k.tabIndex = on ? 0 : -1;
+            });
+        }
+        radio.onChange(syncRadio);
+        syncRadio();
+
+        function setMusic(on) {
+            if (!radio.setOn(on)) return A11yUtils.announce('This browser cannot generate audio', 'polite');
+            A11yUtils.announce(on ? `Music on. ${stationLabel()}: ${radio.trackName()}` : 'Music off', 'polite');
+        }
+        musicBtn.addEventListener('click', () => setMusic(!radio.isOn()));
+
+        function radioGroup(keys, onPick) {
+            keys.forEach((k, i) => {
+                k.addEventListener('click', () => onPick(i));
+                k.addEventListener('keydown', e => {
+                    const dir = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
+                    if (!dir) return;
+                    e.preventDefault();
+                    const next = (i + dir + keys.length) % keys.length;
+                    keys[next].focus();
+                    onPick(next);
+                });
+            });
+        }
+        radioGroup(stationKeys, i => {
+            radio.setStation(stationKeys[i].dataset.id);
+            if (!radio.isOn()) setMusic(true);
+            else A11yUtils.announce(`${stationLabel()}: ${radio.trackName()}`, 'polite');
+        });
+
+        const paceKeys = [...document.querySelectorAll('#pace-keys .preset')];
+        function setPace(i) {
+            game.pace = Number(paceKeys[i].dataset.pace);
+            game.advanced = Number(paceKeys[i].dataset.advanced);
+            paceKeys.forEach((k, j) => {
+                k.setAttribute('aria-checked', String(j === i));
+                k.tabIndex = j === i ? 0 : -1;
+            });
+            StorageUtils.save('spellcheck-pace', i);
+        }
+        radioGroup(paceKeys, i => {
+            setPace(i);
+            A11yUtils.announce(`Pace: ${paceKeys[i].textContent}`, 'polite');
+        });
+        setPace(Math.min(paceKeys.length - 1, Math.max(0, Number(StorageUtils.load('spellcheck-pace', 1)) || 0)));
+
+        // Word set applies to new spawns right away and picks which best score is shown
+        const wordKeys = [...document.querySelectorAll('#word-keys .preset')];
+        function setWords(i) {
+            game.words = wordKeys[i].dataset.set;
+            wordKeys.forEach((k, j) => {
+                k.setAttribute('aria-checked', String(j === i));
+                k.tabIndex = j === i ? 0 : -1;
+            });
+            StorageUtils.save('spellcheck-words', i);
+        }
+        radioGroup(wordKeys, i => {
+            setWords(i);
+            A11yUtils.announce(`Words: ${wordKeys[i].textContent}`, 'polite');
+        });
+        setWords(Math.min(wordKeys.length - 1, Math.max(0, Number(StorageUtils.load('spellcheck-words', 0)) || 0)));
+
+        const sfxBtn = document.getElementById('btn-sfx');
+        sfxBtn.addEventListener('click', () => {
+            const on = sfxBtn.getAttribute('aria-pressed') !== 'true';
+            radio.setSfx(on);
+            sfxBtn.setAttribute('aria-pressed', String(on));
+            document.getElementById('led-sfx').classList.toggle('on', on);
+        });
+
+        document.getElementById('volume').addEventListener('input', e => radio.setVolume(Number(e.target.value) / 100));
+        radio.setVolume(0.5);
+
+        const fullBtn = document.getElementById('btn-full');
+        fullBtn.addEventListener('click', () => {
+            if (document.fullscreenElement) document.exitFullscreen();
+            else if (stage.requestFullscreen) stage.requestFullscreen().catch(() => {});
+        });
+        document.addEventListener('fullscreenchange', () => {
+            const on = document.fullscreenElement === stage;
+            fullBtn.setAttribute('aria-pressed', String(on));
+            fullBtn.setAttribute('aria-label', on ? 'Exit full screen' : 'Full screen');
+            document.getElementById('led-full').classList.toggle('on', on);
+            fit();
+            focusTyper();
+        });
+        if (!document.fullscreenEnabled) fullBtn.parentElement.hidden = true;
+
+        // Saved data: best score and pace
+        window.clearAllSavedData = function () {
+            StorageUtils.remove('spellcheck');
+            StorageUtils.remove('spellcheck-pace');
+            StorageUtils.remove('spellcheck-words');
+            bests = {};
+            setPace(1);
+            setWords(0);
+            A11yUtils.announce('Best score cleared', 'polite');
+        };
+
+        // Stats readout on the radio display
+        const statsEl = document.getElementById('stats');
+        setInterval(() => {
+            statsEl.textContent = `${WORD_SETS[game.words].label} · wave ${game.wave} · ${game.score} pts · ${wpm()} wpm · ${accuracy()}% acc`;
+        }, 250);
+
+        // Pause when the tab is hidden
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden && game.mode === 'playing') setPaused(true);
+        });
+
+        // Skip link lands on the typing input
+        document.querySelector('.skip-link').addEventListener('click', e => {
+            e.preventDefault();
+            focusTyper();
+        });
+
+        fit();
+        if (document.fonts && document.fonts.load) document.fonts.load('10px VT323').then(fit);
+        requestAnimationFrame(frame);
+    })();
+    </script>
+</body>
+</html>

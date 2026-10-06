@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script>
+        // Azure serves this page at whatever missing URL was requested, so
+        // relative links (and the nav's '../' prefixes) would resolve from
+        // that path. Move the URL to /404.html before anything else loads.
+        if (/^https?:$/.test(location.protocol) && location.pathname !== '/404.html') {
+            window.owtMissingPath = location.pathname;
+            history.replaceState(null, '', '/404.html');
+        }
+    </script>
     <script src="/app-insights.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -47,6 +56,25 @@
             background: var(--hi);
             color: var(--hi);
         }
+        .term-row {
+            display: flex;
+            align-items: flex-end;
+            gap: 24px;
+        }
+        .term-row pre {
+            flex: 1;
+            min-width: 0;
+        }
+        .lich {
+            flex: none;
+            width: 96px;
+            height: auto;
+        }
+        @media (max-width: 640px) {
+            .lich {
+                width: 56px;
+            }
+        }
         .next-steps {
             display: flex;
             flex-wrap: wrap;
@@ -77,13 +105,36 @@
                 <h2 id="term-heading">tty1</h2>
             </div>
             <div class="box-body">
-<pre><span class="prompt">guest@oldweb:~$</span> <span class="cmd">cd ./that-page-you-wanted</span>
-<span class="err">bash: cd: ./that-page-you-wanted: No such file or directory</span>
-<span class="prompt">guest@oldweb:~$</span> <span class="cmd">ls ./that-page-you-wanted</span>
-<span class="err">ls: cannot access './that-page-you-wanted': No such file or directory</span>
+                <div class="term-row">
+<pre><span class="prompt">guest@oldweb:~$</span> <span class="cmd">cd <span class="missing-path">./that-page-you-wanted</span></span>
+<span class="err">bash: cd: <span class="missing-path">./that-page-you-wanted</span>: No such file or directory</span>
+<span class="prompt">guest@oldweb:~$</span> <span class="cmd">ls <span class="missing-path">./that-page-you-wanted</span></span>
+<span class="err">ls: cannot access '<span class="missing-path">./that-page-you-wanted</span>': No such file or directory</span>
 <span class="prompt">guest@oldweb:~$</span> <span class="cmd">man 404</span>
 No manual entry for 404. Try one of the options below.
+<span class="err">Kernel panic - not syncing: page not found (0xDEAD)</span>
 <span class="prompt">guest@oldweb:~$</span> <span class="cursor" aria-hidden="true">_</span></pre>
+                    <a href="games/datacenter-quest.html" class="mascot-link lich-link" aria-label="Face the Kernel-Panic Lich in Datacenter Quest, a wizard text adventure" title="Face the Kernel-Panic Lich in Datacenter Quest">
+                        <svg class="pixel-art lich" viewBox="0 -1 13 18" aria-hidden="true" focusable="false">
+                            <g transform="translate(2 0)">
+                                <!-- spiked crown -->
+                                <path class="px-hat" d="M3 0h1v2H3zM5 -1h1v3H5zM7 0h1v2H7zM3 2h5v1H3z"/>
+                                <!-- skull: red eyes, nose, teeth -->
+                                <path class="px-beard" d="M3 3h5v4H3z"/>
+                                <path class="px-curse" d="M4 4h1v1H4zM6 4h1v1H6z"/>
+                                <path class="px-eye" d="M5 5h1v.6H5zM4 6h.5v1H4zM5 6h.5v1H5zM6 6h.5v1H6zM7 6h.5v1H7z"/>
+                                <!-- tattered robe, ribs, bony hand -->
+                                <path class="px-shroud" d="M2 7h7v3H2zM1 10h9v6H1zM1 16h1v1H1zM3 16h1v1H3zM5 16h1v1H5zM7 16h1v1H7zM9 16h1v1H9z"/>
+                                <path class="px-beard" d="M4 8h3v.5H4zM4 9h3v.5H4zM0 9h1v1H0z"/>
+                                <!-- staff with severed plug, sparking -->
+                                <path class="px-staff" d="M-1 2h1v15h-1z"/>
+                                <path class="px-hat" d="M-2 0h3v2h-3z"/>
+                                <path class="px-eye" d="M-1 .5h1v.6h-1z"/>
+                                <path class="px-curse" d="M1 1h.5v.5H1zM1.5 1.5h.5v.5h-.5zM1 2.5h.5v.5H1z"/>
+                            </g>
+                        </svg>
+                    </a>
+                </div>
                 <div class="next-steps">
                     <a href="index.html" class="btn-link">cd ~ (home)</a>
                     <a href="index.html#cat-network" class="btn-link">ls all tools</a>
@@ -124,6 +175,16 @@ No manual entry for 404. Try one of the options below.
                 <p>Merge, split and rotate PDFs in your browser.</p>
                 <span class="card-cta">Open</span>
             </a>
+            <a href="certs/index.html" class="card-link">
+                <h3>certs/</h3>
+                <p>Free practice tests: Security+, A+, Network+, CySA+, CCNA, CCNP, Cisco ISE.</p>
+                <span class="card-cta">Open</span>
+            </a>
+            <a href="games/index.html" class="card-link">
+                <h3>games/</h3>
+                <p>Maintenance Window: ambient scenes and small games.</p>
+                <span class="card-cta">Open</span>
+            </a>
         </div>
     </main>
 
@@ -131,5 +192,13 @@ No manual entry for 404. Try one of the options below.
         <span>[oldweb] 404 │ works offline │ no cookies │ <a href="/privacy.html">privacy</a></span>
         <span><a href="https://www.lawsoncyber.com" rel="noopener">a Lawson Cyber project</a> · <a href="https://www.lawsoncyber.com" rel="noopener">feedback</a> │ / search · t theme</span>
     </footer>
+    <script>
+        // Show the path the visitor actually asked for in the transcript
+        if (window.owtMissingPath) {
+            document.querySelectorAll('.missing-path').forEach(el => {
+                el.textContent = window.owtMissingPath;
+            });
+        }
+    </script>
 </body>
 </html>
