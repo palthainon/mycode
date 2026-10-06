@@ -255,3 +255,29 @@ main {
     color: var(--dim);
     font-size: 0.85rem;
 }
+
+/* ---------- Downloads ---------- */
+.export-list {
+    list-style: none;
+    margin: 0 0 12px;
+    padding: 0;
+}
+.export-list li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 16px;
+    padding: 8px 0;
+    border-top: 1px solid var(--line);
+}
+.export-list li:first-child { border-top: 0; }
+.export-name { min-width: 9em; }
+.export-status {
+    color: var(--dim);
+    font-size: 0.85rem;
+}
+.export-license {
+    color: var(--dim);
+    font-size: 0.85rem;
+    margin-top: 12px;
+}
