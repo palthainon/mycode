@@ -91,15 +91,45 @@
             });
             if (r.quiz) need(r.quiz.topic && r.quiz.guardian && r.quiz.intro && r.quiz.cleared, `${id}: quiz needs topic, guardian, intro, cleared`);
             (r.items || []).forEach(it => need(items[it], `${id}: unknown item ${it}`));
+            need((r.features || []).length >= 1, `${id}: needs at least one feature to examine`);
             (r.features || []).forEach(f => {
                 need(Array.isArray(f.names) && f.names.length && f.text, `${id}: feature needs names and text`);
                 if (f.reveals) need(items[f.reveals], `${id}: feature reveals unknown item ${f.reveals}`);
+                if (f.clue) need(quest.mystery && quest.mystery.clues && quest.mystery.clues[f.clue], `${id}: feature clue ${f.clue} is not in mystery.clues`);
+                Object.keys(f.extra || {}).forEach(c => need(CHARACTERS[c], `${id}: feature extra for unknown character ${c}`));
+                Object.keys(f.uses || {}).forEach(it => need(items[it], `${id}: feature uses unknown item ${it}`));
             });
+            Object.keys(r.sense || {}).forEach(s => need(['listen', 'smell', 'touch'].includes(s), `${id}: sense "${s}" must be listen, smell or touch`));
         });
         Object.entries(items).forEach(([id, it]) => {
             need(it.name && Array.isArray(it.names) && it.names.length && it.desc, `item ${id}: needs name, names, desc`);
-            need(['potion', 'key', 'junk'].includes(it.kind), `item ${id}: kind must be potion, key or junk`);
+            need(['potion', 'key', 'junk', 'curio'].includes(it.kind), `item ${id}: kind must be potion, key, junk or curio`);
         });
+
+        // Where each item can be found: lying in a room, or revealed by a feature
+        const placed = {};
+        Object.entries(rooms).forEach(([id, r]) => {
+            (r.items || []).forEach(it => (placed[it] = placed[it] || []).push(r.act));
+            (r.features || []).forEach(f => { if (f.reveals) (placed[f.reveals] = placed[f.reveals] || []).push(r.act); });
+        });
+        const curios = Object.keys(items).filter(id => items[id].kind === 'curio');
+        curios.forEach(id => need((placed[id] || []).length === 1, `curio ${id}: must be placed exactly once`));
+        [1, 2, 3].forEach(n => need(curios.filter(id => (placed[id] || [])[0] === n).length >= 2, `act ${n}: needs at least 2 curios`));
+
+        const m = quest.mystery;
+        need(m && m.title && m.clues && m.solved, 'quest needs mystery { title, clues, solved }');
+        if (m && m.clues) {
+            const ids = Object.keys(m.clues);
+            need(ids.length >= 3 && ids.length <= 5, 'mystery needs 3 to 5 clues');
+            const clueActs = new Set();
+            ids.forEach(c => {
+                const where = Object.values(rooms).filter(r => (r.features || []).some(f => f.clue === c));
+                need(where.length === 1, `mystery clue ${c}: must be on exactly one feature`);
+                where.forEach(r => clueActs.add(r.act));
+            });
+            need(clueActs.size === 3, 'mystery clues must be spread across all 3 acts');
+        }
+        (quest.ambient || []).forEach((a, i) => need([1, 2, 3].includes(a.act) && a.text, `ambient ${i}: needs act 1-3 and text`));
         return errs;
     }
 

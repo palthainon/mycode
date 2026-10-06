@@ -100,7 +100,7 @@ function playAct(game, opts) {
     for (const id of actRooms) {
         const r = world.rooms[id];
         if (r.quiz && !st().cleared[id]) walkTo(game, id);
-        const potionFeature = (r.features || []).find(f => f.reveals);
+        const potionFeature = (r.features || []).find(f => f.reveals && world.items[f.reveals].kind === 'potion');
         if (potionFeature && opts.collect !== false) {
             walkTo(game, id);
             game.g.input('examine ' + potionFeature.names[0]);
@@ -407,7 +407,7 @@ section('Parser odds and ends');
 {
     const game = makeGame();
     game.g.input('ls'); assert(/Exits:/.test(last(game)), 'ls describes the room');
-    game.g.input('cat pager'); assert(/PROD-ORACLE-01/.test(last(game)), 'cat examines');
+    game.g.input('cat desk'); assert(/cold/.test(last(game)), 'cat examines');
     game.g.input('man go'); assert(/cd \.\./.test(last(game)), 'man shows one command');
     game.g.input('whoami'); assert(/wizard/.test(last(game)), 'whoami names the character');
     game.g.input('ping'); assert(/Exits:/.test(last(game)), 'ping lists exits');
@@ -418,6 +418,109 @@ section('Parser odds and ends');
     game.g.input('reset'); assert(/again to confirm/.test(last(game)), 'reset asks to confirm');
     game.g.input('look'); game.g.input('reset');
     assert(/again to confirm/.test(last(game)), 'any other command cancels a pending reset');
+}
+
+section('Exploration: curios, clues, second looks, senses');
+{
+    const game = makeGame({ character: 'rogue' });
+    const outText = () => game.out.map(o => o.t).join('\n');
+    game.g.input('examine pager');
+    assert(game.g.state.clues.includes('early-ack') && game.out.some(o => o.k === 'clue'), 'examining a clue feature notes the clue');
+    assert(game.io.saved.clues.includes('early-ack'), 'a clue is saved the moment it is found');
+    const before = game.g.state.clues.length;
+    game.g.input('examine pager');
+    assert(game.g.state.clues.length === before && /Neither does it/.test(last(game)), 'a second look shows the again text and does not re-count');
+    game.g.input('examine books');
+    assert(game.out.some(o => /hollow/.test(o.t)), 'character aside shows for the rogue');
+    game.g.input('notes');
+    assert(/nightowl/.test(last(game)) && /more things? out there/.test(last(game)), 'notes lists found clues and how many remain');
+    game.g.input('listen');
+    assert(/second pager/.test(last(game)), 'room listen text');
+    game.g.input('smell');
+    assert(/Solder/.test(last(game)), 'room smell text');
+    game.g.input('dance');
+    assert(game.out[game.out.length - 1].k === 'text' && !/don't know how/.test(last(game)), 'idle verbs answer');
+    game.g.input('examine stairs');
+    assert(/stairs/.test(last(game)) && !/You see no/.test(last(game)), 'nouns in the room text get a quip instead of "you see no"');
+    game.g.input('examine spaceship');
+    assert(/You see no "spaceship"/.test(last(game)), 'unknown nouns are still refused');
+    game.g.input('kick spaceship');
+    assert(/You see no "spaceship"/.test(last(game)), 'kicking something absent is refused');
+
+    // curios
+    game.g.input('w');
+    game.g.input('examine box');
+    game.g.input('take sfp');
+    assert(game.g.state.found.includes('mystery-sfp') && /Curio 1\//.test(outText()), 'taking a curio counts it');
+    assert(game.io.lastStatus.curios === 1 && game.io.lastStatus.curiosTotal >= 6, 'HUD status carries the curio tally');
+    game.g.input('drop sfp'); game.g.input('take sfp');
+    assert(game.g.state.found.length === 1, 're-taking a curio does not count twice');
+    game.g.input('i');
+    assert(/Curios: unlabelled SFP/.test(last(game)), 'inventory lists curios separately');
+    game.g.input('use sfp on glass');
+    assert(/Nothing happens, but you feel like you were thorough/.test(last(game)), 'use X on a feature without a reaction');
+    game.g.input('use sfp on spaceship');
+    assert(/You see no/.test(last(game)), 'use X on something absent');
+
+    // reload keeps discoveries even though the checkpoint predates them
+    const reloaded = makeGame({ saved: game.io.saved });
+    assert(reloaded.g.state.clues.includes('early-ack') && reloaded.g.state.found.includes('mystery-sfp'), 'reload keeps clues and curios found since the checkpoint');
+}
+{
+    // use X on Y reaction, and choice mode buttons
+    const game = makeGame({ mode: 'choice' });
+    assert(game.g.choiceList.some(c => c.label === 'Listen'), 'choice mode offers Listen when the room has a sound');
+    game.g.choose(game.g.choiceList.findIndex(c => c.label === 'Listen'));
+    assert(!game.g.choiceList.some(c => c.label === 'Listen'), 'Listen goes away once used');
+    game.g.choose(game.g.choiceList.findIndex(c => c.label === 'Examine the pager'));
+    assert(game.g.choiceList.some(c => c.label === 'Read your notes'), 'choice mode offers notes once a clue is found');
+}
+{
+    // ambient lines: only when random allows, once each
+    let r = 0.1;
+    const game = makeGame({ random: () => r });
+    game.g.input('w');
+    assert(game.out.some(o => o.k === 'ambient'), 'ambient line plays when the roll is low');
+    const n = game.out.filter(o => o.k === 'ambient').length;
+    game.g.input('e'); game.g.input('w'); game.g.input('e');
+    const lines = game.out.filter(o => o.k === 'ambient').map(o => o.t);
+    assert(new Set(lines).size === lines.length && lines.length <= 2 && n === 1, 'each ambient line plays at most once per act');
+    r = 0.9;
+}
+{
+    // victory: tallies and the solved line when every clue is found
+    const game = makeGame();
+    game.g.state.clues = Object.keys(game.g.world.mystery.clues);
+    playAct(game); playAct(game); playAct(game);
+    const v = game.io.victoryInfo;
+    assert(v && /curios \d+\/\d+, clues 5\/5 \(mystery solved\?\)/.test(v.line), 'victory line carries curio and clue tallies');
+    assert(game.out.some(o => o.t === game.g.world.mystery.solved), 'all clues prints the solved epilogue');
+    const partial = makeGame();
+    playAct(partial); playAct(partial); playAct(partial);
+    assert(partial.out.some(o => /never added up/.test(o.t)), 'missing clues get the "never added up" line');
+}
+
+section('Every quest: features and clues are reachable');
+for (const id of QUEST_IDS) {
+    const world = W.QUESTS[id];
+    // examine every feature of every room by its first name and check it resolves to itself
+    Object.entries(world.rooms).forEach(([rid, r]) => {
+        (r.features || []).forEach(f => {
+            const g = makeGame({ quest: id });
+            g.g.state.room = rid;
+            g.g.state.act = r.act;
+            const hit = g.g.findFeature(f.names[0].split(' '));
+            assert(hit === f, `${id}/${rid}: "examine ${f.names[0]}" finds its own feature`);
+        });
+    });
+    const curios = Object.keys(world.items).filter(k => world.items[k].kind === 'curio');
+    curios.forEach(c => {
+        const holder = Object.entries(world.rooms).find(([, r]) => (r.items || []).includes(c));
+        if (!holder) return;
+        const g = makeGame({ quest: id });
+        const hit = g.g.findItem(world.items[c].names[0].split(' '), (holder[1].items || []));
+        assert(hit === c, `${id}: "take ${world.items[c].names[0]}" picks up ${c} in ${holder[0]}`);
+    });
 }
 
 console.log(`\n${passed} passed, ${failed} failed`);

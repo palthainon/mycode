@@ -624,15 +624,67 @@
             desc: 'A pitchfork whose every tine is a separate process with its own interpreter. No single lock can hold it.'
         },
         'print-statement': {
-            name: 'print statement', names: ['print statement', 'statement', 'print'], kind: 'junk',
+            name: 'print statement', names: ['print statement', 'statement', 'print'], kind: 'curio',
             desc: 'A fossilized `print "hello"` from Python 2. It no longer compiles, but it has sentimental value.',
             use: 'You try it. SyntaxError: Missing parentheses in call to \'print\'. Did you mean print(...)?'
         },
+        'parrot': {
+            name: 'Norwegian Blue', names: ['parrot', 'norwegian blue', 'bird'], kind: 'curio',
+            desc: 'A Norwegian Blue, flat on its back, feet in the air. The canteen insists it is not dead. It is in state S, waiting on I/O.',
+            use: 'You poke the parrot. It does not respond to SIGCONT either. Beautiful plumage, though.'
+        },
+        'braces': {
+            name: 'pair of curly braces', names: ['braces', 'curly braces', 'pair of curly braces'], kind: 'curio',
+            desc: 'Two curly braces, carefully wrapped, waiting in __future__ for the day Python uses them for blocks. They will be waiting a while.',
+            use: 'You try from __future__ import braces. SyntaxError: not a chance. The interpreter has been waiting years to say that.'
+        },
         'pycache': {
-            name: '__pycache__ folder', names: ['pycache', '__pycache__', 'folder', 'cache'], kind: 'junk',
-            desc: 'A folder of .pyc files that someone committed to git. You will be deleting this in a separate PR.'
+            name: '__pycache__ folder', names: ['pycache', '__pycache__', 'folder', 'cache'], kind: 'curio',
+            desc: 'A folder of .pyc files that someone committed to git. You will be deleting this in a separate PR.',
+            use: 'You open the folder. Forty .pyc files, compiled by four different Python versions, none of them the one in production.'
+        },
+        'insecure-warning': {
+            name: 'framed InsecureRequestWarning', names: ['warning', 'framed warning', 'insecurerequestwarning'], kind: 'curio',
+            desc: 'A framed urllib3 InsecureRequestWarning, the kind verify=False earns you. It has fired on every request since 2017. Nobody has read it once.',
+            use: 'You read it aloud: an unverified HTTPS request is being made, and certificate verification is strongly advised. Everyone in earshot nods and carries on.'
+        },
+        'semicolon': {
+            name: 'stray semicolon', names: ['semicolon', 'stray semicolon'], kind: 'curio',
+            desc: 'A semicolon from a language you used to write. Python will let you end a line with it, and will judge you in silence.',
+            use: 'You end a line with it. Python runs the line without a word. The linter, on the other hand, has several.'
+        },
+        'antigravity': {
+            name: 'antigravity module', names: ['antigravity', 'antigravity module', 'module'], kind: 'curio',
+            desc: 'A module that ships with CPython and does exactly one thing. Nobody has ever removed it, and nobody ever will.',
+            use: 'You import antigravity. A browser tab opens to an old comic about Python, and for a moment you float a few inches above the outage.'
+        },
+        'walrus': {
+            name: 'walrus operator', names: ['walrus', 'walrus operator', ':=', 'operator'], kind: 'curio',
+            desc: 'A small, warm :=. It assigns and returns in one go, has been in the language since 3.8, and still gets stared at in code review.',
+            use: 'You tuck it into a while condition. It reads a line and tests it in one expression. Your reviewer leaves a comment anyway.'
         }
     };
+
+    // deploy.py has an author. Nobody will say who. The notes keep circling back.
+    const MYSTERY = {
+        title: 'Notes on deploy.py, the script nobody admits to writing:',
+        clues: {
+            'push': 'git log: deploy.py was pushed at 3:11 AM, one minute before the pipeline went red. "quick fix, will test in the morning." Author field: blank.',
+            'drawer': 'The archive\'s __author__ drawer holds one sticky note, in your handwriting: "tell on-call about deploy.py". You are on call. Nobody told you.',
+            'fingerprint': 'The stuck job was triggered by hand at 3:11 AM, by an SSH key whose fingerprint ends in the same four characters as yours.',
+            'runbook': 'A runbook in the tea room: "deploy.py. Written half asleep. If you are reading this, I am sorry." The handwriting slopes the way yours does after midnight.'
+        },
+        solved: 'At home you open your laptop to start the postmortem. It wakes to a terminal you don\'t remember leaving open. The last two lines of history are nano deploy.py and git push, and the timestamp beside them says 3:11 AM. You leave "Root cause" blank for now, and set an alarm called "go to bed".'
+    };
+
+    const AMBIENT = [
+        { act: 1, text: 'Behind you, a >>> prompt blinks for someone else. When you turn, the session has already been closed.' },
+        { act: 1, text: 'Footprints in the wet sand run ahead of yours, exactly four spaces apart, and stop at the water\'s edge.' },
+        { act: 2, text: 'A pip install finishes somewhere out of sight. The last log line scrolls past: "Successfully installed", user nightowl.' },
+        { act: 2, text: 'Every package in earshot rechecks its version at the same moment, then pretends nothing happened.' },
+        { act: 3, text: 'A runner wakes for half a second, says "picked up job", and goes back to waiting. Nobody queued anything.' },
+        { act: 3, text: 'Down the hall, a kettle clicks off. Two cups clink. You only brought one.' }
+    ];
 
     const ACTS = [
         {
@@ -653,75 +705,152 @@
         // ======================= ACT I =======================
         'repl-cove': {
             act: 1, name: 'The REPL Cove',
-            text: 'Three angle brackets blink at you from a tide pool: >>>. A failed pipeline log is pinned to a rock. Paths lead north to a gate, east over a bridge of quotation marks, and west to a canteen; a dark den gapes to the south.',
+            text: 'Three angle brackets blink at you from a tide pool: >>>. A failed pipeline log is pinned to a rock, and a git log scrolls across a wet slate beside it. Paths lead north to a gate, east over a bridge of quotation marks, and west to a canteen; a dark den gapes to the south.',
             exits: { north: 'truthy-gate', east: 'string-bridge', west: 'spam-canteen', south: 'hydra-den' },
             features: [
                 { names: ['log', 'pipeline log', 'rock'], text: 'deploy.py, line 212: IndentationError: unindent does not match any outer indentation level. Someone edited it in nano over SSH. On a Friday.' },
-                { names: ['pool', 'tide pool', 'prompt', '>>>'], text: 'You type import this. The pool murmurs "Errors should never pass silently." The pipeline disagrees.' },
+                {
+                    names: ['pool', 'tide pool', 'prompt', '>>>'], text: 'You type import this. The pool murmurs "Errors should never pass silently." The pipeline disagrees.',
+                    again: 'You type import this again. Nothing. A module is only imported once per session, and the pool has said its piece.'
+                },
+                {
+                    names: ['slate', 'git log', 'commits'], clue: 'push',
+                    text: 'commit a3f9e1c, 3:11 AM: "quick fix, will test in the morning". The pipeline went red one minute later. The author field is blank. You scroll down: every commit to deploy.py ever made landed between 3 and 4 AM.',
+                    again: 'Still blank. Whoever pushed it had git configured just badly enough to stay anonymous, which narrows it down to most engineers you know.'
+                },
                 { names: ['den', 'south', 'seals', 'seal'], text: 'The den mouth is sealed by five runes, one per guardian of this realm. Inside, something hisses about inconsistent indentation.' }
-            ]
+            ],
+            sense: { listen: 'Waves lap the rocks: >>> >>> >>>. Further out, a lonely ... waits for someone to close a bracket.', smell: 'Salt, seaweed, and ozone from a laptop that has been compiling something since midnight.' }
         },
         'spam-canteen': {
             act: 1, name: 'The Canteen of Spam',
-            text: 'A greasy spoon where every dish comes with spam, except one, which has less spam in it. A pantry door stands ajar. The cove is back east.',
+            text: 'A greasy spoon where every dish comes with spam, except one, which has less spam in it. A birdcage hangs by the till, and a pantry door stands ajar. The cove is back east.',
             exits: { east: 'repl-cove' },
             features: [
                 { names: ['pantry', 'door', 'shelf', 'shelves'], text: 'Behind a crate labelled "eggs" sits a single dented tin of spam.', reveals: 'spam-tin' },
-                { names: ['menu', 'dishes'], text: 'Egg and spam. Spam, bacon, sausage and spam. You do not like spam, but the on-call rota did not ask.' }
-            ]
+                {
+                    names: ['menu', 'dishes'], text: 'Egg and spam. Spam, bacon, sausage and spam. You do not like spam, but the on-call rota did not ask.',
+                    again: 'Small print at the bottom: "Ask about our eggs." You ask. There are no eggs. There have only ever been wheels.'
+                },
+                {
+                    names: ['birdcage', 'cage', 'till'], reveals: 'parrot',
+                    text: 'A parrot lies on the floor of the cage, very still. A tag on the door reads "Free to a good home. Does not need feeding." You open the door. It does not object.',
+                    again: 'The empty cage sways. The tag has been turned over: "No refunds. It was resting when it left."'
+                }
+            ],
+            sense: { smell: 'Fried spam, burnt toast and a fryer whose oil has not been changed since Python 2.7 went end of life.' }
         },
         'truthy-gate': {
             act: 1, name: 'The Gate of Truthiness',
-            text: 'A gate that opens for anything that is not empty, zero or None, which rules out most of your motivation at this hour. Stairs climb north. The cove is south.',
+            text: 'A gate on two brass hinges that opens for anything that is not empty, zero or None, which rules out most of your motivation at this hour. Stairs climb north. The cove is south.',
             exits: { south: 'repl-cove', north: 'index-stairs' },
+            features: [
+                {
+                    names: ['hinges', 'hinge', 'gate'], text: 'One hinge is stamped __bool__, the other __len__. An object with neither just walks through, which explains a lot of what is wandering around out here.',
+                    again: 'Someone has oiled both hinges recently. The rag is still on the step, folded neatly. It is not yours.'
+                }
+            ],
+            sense: { listen: 'The sphinx purrs. It sounds like a value being quietly coerced.' },
             quiz: { topic: 'python-types', guardian: 'the Truthiness Sphinx', intro: 'A sphinx with a bool() collar blocks the gate. "Everything here is either truthy or falsy," it purrs. "Which are you?"', cleared: 'The sphinx evaluates you as truthy and steps aside.' }
         },
         'index-stairs': {
             act: 1, name: 'The Zero-Indexed Stairs',
-            text: 'A staircase whose first step is numbered 0 and whose last is numbered -1. Everyone trips on the top one. A hall echoes to the east. The gate is back south.',
+            text: 'A staircase whose first step is numbered 0 and whose last is numbered -1. Everyone trips on the top one. Chalk marks cover the wall. A hall echoes to the east. The gate is back south.',
             exits: { south: 'truthy-gate', east: 'floor-hall' },
+            features: [
+                {
+                    names: ['chalk', 'chalk marks', 'wall', 'steps'], text: 'Someone chalked "len(stairs) - 1" next to the top step. Someone else crossed it out and wrote "just use -1". A third person has drawn a fence post and a sad face.',
+                    again: 'Halfway up, in fresher chalk: a tiny owl, the word nightowl, and the time 3:05. The dust is still settling.'
+                }
+            ],
+            sense: { touch: 'Step 0 is worn smooth. Step -1 is worn smoother. Nobody bothers with the middle.' },
             quiz: { topic: 'python-index', guardian: 'the Off-by-One Gnome', intro: 'A gnome sitting on step 1 insists it is the first step. "Prove me wrong," it says, holding up a list.', cleared: 'The gnome grumbles, renumbers itself to step 0, and lets you climb.' }
         },
         'floor-hall': {
             act: 1, name: 'The Hall of Floors',
-            text: 'The floor tiles slope gently toward negative infinity. Remainders roll down the slope and gather by the east door. The stairs are back west.',
+            text: 'The floor tiles slope gently toward negative infinity. Remainders roll down the slope and gather by the east door, under a warning sign. The stairs are back west.',
             exits: { west: 'index-stairs', east: 'style-shrine' },
+            features: [
+                {
+                    names: ['sign', 'warning sign', 'remainders'], text: '"MIND THE FLOOR. IT DOES NOT ROUND THE WAY YOU WERE TAUGHT." At the bottom of the slope sit a dozen C programmers, rubbing their elbows.',
+                    again: 'One of the C programmers is explaining that the floor is wrong. The floor is not listening. The floor has never listened.'
+                }
+            ],
+            sense: { touch: 'Cold tile, very slightly tilted. Your coffee would roll off toward negative infinity, if you had any coffee left.' },
             quiz: { topic: 'python-divmod', guardian: 'the Floor Division Troll', intro: 'A troll used to C rounds everything toward zero and has been wrong for years. "Divide this," it growls, "the Python way."', cleared: 'The troll floors itself out of the doorway. "Toward negative infinity. Fine."' }
         },
         'string-bridge': {
             act: 1, name: 'The Bridge of Quotation Marks',
-            text: 'The planks alternate single and double quotes, and nobody can agree which to step on. A market bustles to the east. The cove is back west.',
+            text: 'The planks alternate single and double quotes, and nobody can agree which to step on. Every so often a triple-quoted plank, wide as a bench, spans the gap. A market bustles to the east. The cove is back west.',
             exits: { west: 'repl-cove', east: 'split-market' },
+            features: [
+                {
+                    names: ['triple-quoted plank', 'plank', 'planks', 'bench'], text: 'Carved into the wide plank: """TODO: fix bridge.""" It is a docstring, so technically the bridge is documented.',
+                    again: 'Under the TODO, smaller: """Still TODO. 2019.""" And under that, in a different hand: """It holds. Probably. Walk on the raw strings."""'
+                }
+            ],
+            sense: { listen: 'The planks creak in two accents, single and double, still arguing about which one is canonical.' },
             quiz: { topic: 'python-strings', guardian: 'the f-String Weaver', intro: 'A spider weaves format specs between the railings. "Every thread here is interpolated," it clicks. "Read one for me."', cleared: 'The weaver formats you a passage, zero-padded to four digits.' }
         },
         'split-market': {
             act: 1, name: 'The Delimiter Market',
-            text: 'Stalls sell commas, colons and pipes by the pound. A path north leads past some old headstones. The bridge is back west.',
+            text: 'Stalls sell commas, colons and pipes by the pound, and a bargain bin overflows by the entrance. A path north leads past some old headstones. The bridge is back west.',
             exits: { west: 'string-bridge', north: 'py2-graveyard' },
+            features: [
+                { names: ['stalls', 'stall', 'pipes', 'commas'], text: 'One stall sells tabs by the yard and does a suspicious amount of business with the CSV crowd. Another sells pipes to people who swear the data will never contain a pipe.' },
+                {
+                    names: ['bargain bin', 'bin'], text: 'Unclosed brackets, mostly, sold by weight. One has a tag: "opened line 212, still waiting".',
+                    again: 'You dig deeper. A receipt from tonight: "1 x tab, 1 x space, mixed. Paid cash. No name."'
+                }
+            ],
+            sense: { smell: 'Sawdust from the chopping block and the sharp tang of freshly split strings.' },
             quiz: { topic: 'python-split', guardian: 'the Delimiter Merchant', intro: 'A merchant chops strings on a block. "Tell me how many pieces I get," she says, cleaver raised, "and I let you through."', cleared: 'The merchant joins your pieces back together with a hyphen and waves you on.' }
         },
         'py2-graveyard': {
             act: 1, name: 'The Graveyard of Python 2',
-            text: 'Headstones mark scripts that never made it past 2020. Something lies in the grass by the newest grave. A shrine stands to the north; the market is back south.',
+            text: 'Headstones mark scripts that never made it past 2020. Something lies in the grass by the newest grave, and a small mausoleum leans at the end of the row. A shrine stands to the north; the market is back south.',
             exits: { south: 'split-market', north: 'style-shrine' },
             items: ['print-statement'],
             features: [
-                { names: ['headstones', 'graves', 'grave', 'headstone'], text: 'One reads: "backup_switches.py. Used urllib2. Ran in production from 2011 until the server was recycled. Nobody noticed."' }
-            ]
+                {
+                    names: ['headstones', 'graves', 'grave', 'headstone'], text: 'One reads: "backup_switches.py. Used urllib2. Ran in production from 2011 until the server was recycled. Nobody noticed."',
+                    again: 'Another: "six.py. It helped two Pythons live as one. Now there is only one, and it still gets imported."'
+                },
+                {
+                    names: ['mausoleum', '__future__', 'niches'], reveals: 'braces',
+                    text: 'The mausoleum is marked __future__. Its niches hold features that arrived early and then simply became the present: print_function, division, with_statement. One niche holds a pair of curly braces, gift-wrapped, with a card that says "not a chance".',
+                    again: 'The braces niche is empty now. Someone has left the card propped up, as if expecting them back.'
+                }
+            ],
+            sense: { listen: 'From under the grass, a muffled print "help". Without parentheses, nobody can hear it.', smell: 'Damp earth and the mothball smell of a CentOS 6 box.' }
         },
         'style-shrine': {
             act: 1, name: 'The Shrine of PEP 8',
-            text: 'A quiet shrine where every line is under 80 characters and indented with four spaces. A steel ruler lies on the altar. Doors lead west to the hall and south to the graveyard.',
+            text: 'A quiet shrine where every line is under 80 characters and indented with four spaces. Candles stand in a long row, and a steel ruler lies on the altar. Doors lead west to the hall and south to the graveyard.',
             exits: { west: 'floor-hall', south: 'py2-graveyard' },
             items: ['pep8-ruler'],
             features: [
-                { names: ['altar'], text: 'Carved into the stone: "A foolish consistency is the hobgoblin of little minds." Someone has added: "but run the linter anyway."' }
-            ]
+                { names: ['altar'], text: 'Carved into the stone: "A foolish consistency is the hobgoblin of little minds." Someone has added: "but run the linter anyway."' },
+                {
+                    names: ['candles', 'candle', 'row'], text: 'Seventy-nine candles in a row. An eightieth was lit once, during a code review, and the acolytes still speak of it in whispers.',
+                    again: 'You count again. The 73rd candle has been snuffed out. Comments and docstrings stop at 72, so this was either an acolyte or a pedant. Possibly both.',
+                    extra: { wizard: 'You could relight them all with a word. You decide not to. Formatters have feelings.', rogue: 'You palm a candle stub out of habit, then put it back. In here, someone counts.' }
+                }
+            ],
+            sense: { smell: 'Incense and freshly formatted code. Somebody ran a formatter in here recently and it changed every quote in the building.' }
         },
         'hydra-den': {
             act: 1, name: 'The Den of the IndentationError Hydra', boss: true,
             text: 'A cave where every wall is indented differently. The IndentationError Hydra writhes in the middle, each head offset by a different mix of tabs and spaces. Beyond it, a passage leads into the Standard Library.',
             exits: { north: 'repl-cove' },
+            features: [
+                {
+                    names: ['walls', 'wall', 'blocks'], text: 'Every wall is carved with code blocks, each indented by a different person. One is indented with three spaces. That is not a style. That is a cry for help.',
+                    again: 'Under the three-space block, scratched small and neat: "not mine - nightowl". You had not asked.',
+                    extra: { knight: 'You run a gauntlet along the carvings and feel every tab catch on the steel.' }
+                }
+            ],
+            sense: { listen: 'Hissing in two pitches, one for tabs and one for spaces. They never quite harmonize.' },
             bossFight: {
                 name: 'the IndentationError Hydra', topics: ['python-errors', 'python-range'], key: 'pep8-ruler',
                 locked: 'The Hydra\'s heads shift left and right, never lining up. You cannot tell which block any of them belongs to. You need something that measures exactly four spaces.',
@@ -733,50 +862,103 @@
         // ======================= ACT II =======================
         'site-packages': {
             act: 2, name: 'The Plaza of site-packages',
-            text: 'A plaza crowded with installed packages, half of them pinned and half of them not. North is a forge, east a fortress, west a cellar door, and to the south a pit rumbles with version conflicts.',
+            text: 'A plaza crowded with installed packages, half of them pinned and half of them not. A noticeboard flaps in the wind. North is a forge, east a fortress, west a cellar door, and to the south a pit rumbles with version conflicts.',
             exits: { north: 'slice-forge', east: 'except-bastion', west: 'pickle-cellar', south: 'dependency-pit' },
             features: [
                 { names: ['packages', 'crowd'], text: 'requests is here, and urllib3 is standing very close to it. Someone installed both with sudo pip. You make a note.' },
+                {
+                    names: ['noticeboard', 'board', 'notices'], reveals: 'insecure-warning',
+                    text: 'Notices from upstream: "Python 2 is end of life" (laminated), "please pin your dependencies" (torn down and pinned back up), and one framed warning nobody has read in years. You take the warning. Someone should.',
+                    again: 'A fresh notice at the bottom, pinned at 3:02 AM tonight: "pip install worked fine for me. - nightowl". It does not say which package.'
+                },
                 { names: ['pit', 'south', 'seals', 'seal'], text: 'Five seals ring the pit, one per guardian of this realm. From below comes the sound of a resolver backtracking forever.' }
-            ]
+            ],
+            sense: { listen: 'A hundred packages murmur their version numbers. Two of them both insist they are urllib3.', smell: 'Fresh wheels, and from somewhere older, eggs.' }
         },
         'pickle-cellar': {
             act: 2, name: 'The Pickle Cellar',
-            text: 'Shelves of jars hold serialized objects of uncertain origin. A sign warns: "Never unpickle data you did not pickle yourself." The plaza is back east.',
+            text: 'Shelves of jars hold serialized objects of uncertain origin, and barrels line the far wall. A sign warns: "Never unpickle data you did not pickle yourself." The plaza is back east.',
             exits: { east: 'site-packages' },
             features: [
                 { names: ['shelves', 'shelf', 'jars'], text: 'Most jars are labelled "untrusted". One, in your own handwriting, holds actual pickles.', reveals: 'pickle-jar' },
-                { names: ['sign'], text: 'Below it, someone has scratched: "pickle.loads() is just eval() with extra steps."' }
-            ]
+                { names: ['sign'], text: 'Below it, someone has scratched: "pickle.loads() is just eval() with extra steps."' },
+                {
+                    names: ['barrels', 'barrel'], text: 'Each barrel is stamped with a pickle protocol, 0 through 5. Protocol 0 is the one humans can read, which is a generous use of the word "read".',
+                    again: 'At the back, a barrel with no protocol number at all. Just "DO NOT OPEN" and, very faintly, a ticking.'
+                }
+            ],
+            sense: { smell: 'Brine, dust and the faint tang of objects serialized by a stranger.', touch: 'The jars are cold, except one, which is warm. You leave that one alone.' }
         },
         'slice-forge': {
             act: 2, name: 'The Slice Forge',
-            text: 'A smith hammers lists into shorter lists on an anvil marked [start:stop:step]. Sparks fly backwards whenever the step is negative. A loom clatters to the north; the plaza is south.',
+            text: 'A smith hammers lists into shorter lists on an anvil marked [start:stop:step], and finished slices hang on a rack. Sparks fly backwards whenever the step is negative. A loom clatters to the north; the plaza is south.',
             exits: { south: 'site-packages', north: 'comp-loom' },
+            features: [
+                {
+                    names: ['rack', 'slices', 'anvil'], text: 'Every finished slice is tagged "copy". The smith refuses to make views. "That is numpy\'s shop," she says, "two doors down, and they never tell you when they share."',
+                    again: 'One tag on the rack is in a different hand: "collected 3:06 AM". The hook beside it is empty.'
+                }
+            ],
+            sense: { listen: 'Clang, clang, clang. Every so often the rhythm skips. "Step size," the smith says, without looking up.' },
             quiz: { topic: 'python-slice', guardian: 'the Slice Smith', intro: 'The smith blocks the door with a half-forged sequence. "Tell me what comes off the anvil," she says, "and mind the stop."', cleared: 'The smith hands you a slice, start included, stop excluded, and waves you through.' }
         },
         'comp-loom': {
             act: 2, name: 'The Comprehension Loom',
-            text: 'A loom weaves whole lists in a single line, each thread filtered by an if. A door to the east smells of old paper. The forge is back south.',
+            text: 'A loom weaves whole lists in a single line, each thread filtered by an if. A long one-liner is pinned to its frame, and scraps litter the floor. A door to the east smells of old paper. The forge is back south.',
             exits: { south: 'slice-forge', east: 'dict-archive' },
+            features: [
+                {
+                    names: ['one-liner', 'frame', 'loom'], text: 'Four nested fors, two ifs and a walrus, all on one line. A note beside it reads "Readability counts." Someone has stabbed the note with a shuttle.',
+                    again: 'The one-liner has a code review comment attached: "LGTM". It was not.'
+                },
+                {
+                    names: ['scraps', 'floor'], reveals: 'semicolon',
+                    text: 'Scraps of one-liners that were really three lines glued together. Among them, a stray semicolon, still trying to look like it belongs.',
+                    again: 'Nothing left but lint.'
+                }
+            ],
+            sense: { listen: 'Clack, clack. A whole list in one throw of the shuttle.' },
             quiz: { topic: 'python-comp', guardian: 'the Comprehension Spider', intro: 'A spider drops from the loom, eight legs working a one-liner. "Predict my weaving," it says, "before I finish."', cleared: 'The spider folds your answer into a list and scuttles aside.' }
         },
         'dict-archive': {
             act: 2, name: 'The Hash Table Archive',
             text: 'Endless drawers, each labelled with a key, filed in the order they were inserted. A vault door lies east. The loom is back west.',
             exits: { west: 'comp-loom', east: 'lockfile-vault' },
+            features: [
+                {
+                    names: ['drawers', 'drawer', '__author__'], clue: 'drawer',
+                    text: 'Most drawers hold what their keys promise: hostname, vlan, owner. One is labelled __author__. Inside is a single sticky note, in your handwriting: "tell on-call about deploy.py". You do not remember writing it. You are on call.',
+                    again: 'Same note, same handwriting. You have never written that neatly at 3 AM. Except, apparently, once.'
+                }
+            ],
+            sense: { listen: 'Drawers slide open and shut, each in about the same time no matter how many there are. The librarian looks smug about it.' },
             quiz: { topic: 'python-dict', guardian: 'the Key Librarian', intro: 'A librarian with a ring of hashed keys blocks the stacks. "KeyErrors are not tolerated here. Show me you know how to look things up."', cleared: 'The librarian get()s out of your way, with a default of politeness.' }
         },
         'except-bastion': {
             act: 2, name: 'The Bastion of try',
             text: 'A fortress with four gates in a row: try, except, else and finally. The last one is always open. An observatory dome rises to the east; the plaza is back west.',
             exits: { west: 'site-packages', east: 'net-observatory' },
+            features: [
+                {
+                    names: ['gates', 'gate', 'except gate'], text: 'The except gate has a smaller door cut into it, marked "bare". It has been bricked up by order of the linter. Scratches on the inside suggest something is still in there.',
+                    again: 'You press an ear to the bricked door. A KeyboardInterrupt, very faintly, asking to be let out.'
+                }
+            ],
+            sense: { listen: 'Footsteps behind the try gate, a thud, and then, as always, the creak of the finally gate.' },
             quiz: { topic: 'python-except', guardian: 'the Finally Knight', intro: 'A knight in plate stands at the last gate. "Whatever happens in there," it says, "I always run. Tell me in what order."', cleared: 'The knight salutes. "Cleanup complete." The gates swing open.' }
         },
         'net-observatory': {
             act: 2, name: 'The ipaddress Observatory',
             text: 'A brass telescope points at a sky full of CIDR blocks. Charts on the wall show every /24 in 10.0.0.0/8. A tunnel leads north. The bastion is back west.',
             exits: { west: 'except-bastion', north: 'pycache-crypt' },
+            features: [
+                {
+                    names: ['charts', 'chart', 'telescope'], text: 'One /24 is circled in red ink, with "DO NOT HAND-ROLL" beside it, in the handwriting of someone who once did. Through the telescope, a single address blinks in an empty /16, then goes dark.',
+                    again: 'You look again. The blinking address is back. It pings once, from somewhere on your home network, and is gone.',
+                    extra: { wizard: 'You recognize that circled /24. You carved it by hand in 2015. It still has a hole in the middle.' }
+                }
+            ],
+            sense: { listen: 'The telescope\'s gears tick from block to block, like a very slow ping sweep.' },
             quiz: { topic: 'python-ipaddress', guardian: 'the ipaddress Astronomer', intro: 'An astronomer looks up from the eyepiece. "No hand-rolled subnet math in my observatory. What does the module say?"', cleared: 'The astronomer checks your answer against the stars and lets you pass, strict=False.' }
         },
         'pycache-crypt': {
@@ -785,22 +967,40 @@
             exits: { south: 'net-observatory', north: 'lockfile-vault' },
             items: ['pycache'],
             features: [
-                { names: ['tombs', 'tomb', 'bytecode'], text: 'One tomb reads: "deploy.cpython-312.pyc. Stale since someone edited the .py and restarted nothing."' }
-            ]
+                { names: ['tombs', 'tomb', 'bytecode'], text: 'One tomb reads: "deploy.cpython-312.pyc. Stale since someone edited the .py and restarted nothing."' },
+                {
+                    names: ['magic number', 'magic numbers', 'stamps', 'stamp'], text: 'Every minor version of Python stamps its own magic number and ignores bytecode stamped by any other. The crypt keeper sweeps out the wrong-version ghosts monthly. They come back when someone upgrades.',
+                    again: 'Behind the stamps, drawn in the dust with one finger: a small owl. The dust around it has not settled yet.'
+                }
+            ],
+            sense: { smell: 'Dry bytecode and the papery smell of a directory nobody added to .gitignore.' }
         },
         'lockfile-vault': {
             act: 2, name: 'The Lockfile Vault',
-            text: 'A vault where every version is pinned with == and every hash is checked. A scroll lies on a pedestal. Doors lead west to the archive and south to the crypt.',
+            text: 'A vault where every version is pinned with == and every hash is checked. Safe-deposit boxes line the walls, and a scroll lies on a pedestal. Doors lead west to the archive and south to the crypt.',
             exits: { west: 'dict-archive', south: 'pycache-crypt' },
             items: ['lockfile'],
             features: [
-                { names: ['pedestal'], text: 'An inscription: "It worked on my machine" crossed out, and "It works in the venv" written underneath.' }
-            ]
+                { names: ['pedestal'], text: 'An inscription: "It worked on my machine" crossed out, and "It works in the venv" written underneath.' },
+                {
+                    names: ['boxes', 'box', 'safe-deposit boxes', 'safes'], text: 'Each box is sealed with a --hash=sha256 lock. One box is labelled "latest". It is empty, and has been every time anyone checked.',
+                    again: 'One box is labelled "works on my machine". It is locked from the inside.',
+                    uses: { 'pycache': 'You try to deposit the __pycache__ folder. The vault refuses: "Build artifacts are not stored here. They are regenerated, like hope."' }
+                }
+            ],
+            sense: { listen: 'Nothing updates. Nothing resolves. For the first time tonight, it is quiet.' }
         },
         'dependency-pit': {
             act: 2, name: 'The Pit of the Dependency Wyrm', boss: true,
             text: 'A pit coiled with version ranges. The Dependency Wyrm rests on a hoard of conflicting packages, each demanding a different urllib3. A stair at the back climbs toward the automation server.',
             exits: { north: 'site-packages' },
+            features: [
+                {
+                    names: ['hoard', 'packages', 'coins'], text: 'Coins stamped urllib3 1.26, urllib3 2.x, and one that claims to be both. The Wyrm sleeps on the ones that satisfy nobody.',
+                    again: 'Half-buried in the hoard, a requirements.txt with one line: "requests". No version. The Wyrm keeps it close, like a favorite egg.'
+                }
+            ],
+            sense: { listen: 'The resolver backtracks, and backtracks, and somewhere far below is still trying setuptools releases from 2014.' },
             bossFight: {
                 name: 'the Dependency Wyrm', topics: ['python-tooling', 'python-sorted'], key: 'lockfile',
                 locked: 'The Wyrm breathes a cloud of >= and ~= at you. Every time you install one thing, two others break. You need versions that hold still.',
@@ -812,10 +1012,16 @@
         // ======================= ACT III =======================
         'runner-hall': {
             act: 3, name: 'The Runner Hall',
-            text: 'Build agents stand in rows, all idle, all waiting on one job that will not finish. North a throne room glows hot. Halls run east and west, and a tea room sits to the south.',
+            text: 'Build agents stand in rows, all idle, all waiting on one stuck job at the head of the queue. North a throne room glows hot. Halls run east and west, and a tea room sits to the south.',
             exits: { north: 'gil-throne', east: 'mutable-hall', west: 'decorator-gallery', south: 'tea-room' },
+            sense: { listen: 'Thirty-two cores of fans, idling. And from the north, one fan screaming for all of them.' },
             features: [
                 { names: ['agents', 'runners', 'build agents'], text: 'Every agent shows the same status: "Waiting for lock." CPU usage on the 32-core host: 3%.' },
+                {
+                    names: ['stuck job', 'job', 'queue'], clue: 'fingerprint',
+                    text: 'The stuck job: deploy.py, triggered by hand at 3:11 AM, authenticated with an SSH key. The fingerprint ends in the same four characters as the key on your laptop. Your laptop has been asleep in your bag all night. Probably.',
+                    again: 'You compare the fingerprint a third time. It has not changed. You put your laptop bag down a little further away.'
+                },
                 { names: ['throne', 'north', 'seals', 'seal'], text: 'The throne room door has five seals, one per guardian of this realm. Behind it, a single core runs at 100%.' }
             ]
         },
@@ -825,61 +1031,132 @@
             exits: { north: 'runner-hall' },
             features: [
                 { names: ['kettle', 'cupboard', 'table'], text: 'Next to the kettle is a full thermos, labelled with your name in your own handwriting. Past you planned ahead.', reveals: 'thermos' },
-                { names: ['whiteboard', 'board'], text: 'Someone has drawn two threads incrementing one counter. The final value is circled, with three question marks.' }
-            ]
+                { names: ['whiteboard', 'board'], text: 'Someone has drawn two threads incrementing one counter. The final value is circled, with three question marks.' },
+                {
+                    names: ['runbooks', 'runbook', 'stack'], clue: 'runbook',
+                    text: 'The top runbook is titled "deploy.py: if it breaks at night". Page one, in pencil: "Written half asleep. If you are reading this, I am sorry. You will be fine." The handwriting slopes exactly the way yours does after midnight.',
+                    again: 'There is no page two. Whoever wrote it ran out of paper, or consciousness, or both.',
+                    uses: { 'insecure-warning': 'You file the framed warning in the runbook under "Known issues". It fits right in. It always does.' }
+                }
+            ],
+            sense: { smell: 'Earl Grey and dry-erase marker.', listen: 'The kettle ticks as it cools. It was boiled not long ago.' }
         },
         'mutable-hall': {
             act: 3, name: 'The Hall of Default Arguments',
             text: 'Every chair in this hall is the same chair, shared by everyone who ever sat in it. A well echoes to the north. The runner hall is back west.',
             exits: { west: 'runner-hall', north: 'generator-well' },
+            features: [
+                {
+                    names: ['chair', 'chairs'], text: 'The same dent, the same coffee ring, the same jacket over the back. You sit down and stand up again. Somewhere, every other chair in the hall creaks.',
+                    again: 'The jacket on the chair is not yours. The name tag on it has been cut out. It is still warm.',
+                    extra: { rogue: 'You check under the seat out of habit. Gum from every previous caller, shared by all of them.' },
+                    uses: { 'parrot': 'You sit the parrot on the chair. Every chair in the hall now has a parrot on it, and none of them is moving.' }
+                }
+            ],
+            sense: { touch: 'The chair is already warm. It always is.' },
             quiz: { topic: 'python-mutable', guardian: 'the Mutable Default Mimic', intro: 'A treasure chest marked acc=[] snaps open, already full of everything from the last call. "Trust me," it says. "I am empty."', cleared: 'You pass None as the default. The Mimic closes, finally empty.' }
         },
         'generator-well': {
             act: 3, name: 'The Generator Well',
-            text: 'A well that yields one bucket of water each time you ask, and nothing until you do. A cold draft blows from the east. The hall is back south.',
+            text: 'A well that yields one bucket of water each time you ask, and nothing until you do. A sign is nailed to the rim. A cold draft blows from the east. The hall is back south.',
             exits: { south: 'mutable-hall', east: 'closure-crypt' },
+            features: [
+                {
+                    names: ['sign', 'rim', 'well'], text: '"THIS WELL IS INFINITE. DO NOT CALL list() ON IT." Below, smaller: "In memory of the crane."',
+                    again: 'You lean over the rim. Far down, the crane is still lowering, one bucket at a time, toward a bottom that does not exist.'
+                }
+            ],
+            sense: { listen: 'Silence, until you lean in. Then a single drip, yielded on demand.' },
             quiz: { topic: 'python-generators', guardian: 'the Lazy Evaluator', intro: 'A figure lounges on the well\'s rim and will not do any work until something calls next(). "Ask nicely," it yawns.', cleared: 'The Evaluator yields you passage and goes back to being suspended.' }
         },
         'closure-crypt': {
             act: 3, name: 'The Closure Crypt',
-            text: 'Lambdas haunt this crypt, each still holding a variable from a loop that ended long ago. A forge glows to the east. The well is back west.',
+            text: 'Lambdas haunt this crypt between rows of nameless tombs, each still holding a variable from a loop that ended long ago. A forge glows to the east. The well is back west.',
             exits: { west: 'generator-well', east: 'process-forge' },
+            features: [
+                {
+                    names: ['tombs', 'tomb', 'lambdas'], text: 'No names on the tombs, only "<lambda>", over and over. Even in death, their tracebacks will not say who they were.',
+                    again: 'One tomb near the back has a single word scratched under the <lambda>: "mine". No signature. The scratches are new.'
+                }
+            ],
+            sense: { smell: 'Cold stone and stale scope.', touch: 'The air is cold, as if something reached past you to read a variable from a scope that closed hours ago.' },
             quiz: { topic: 'python-closures', guardian: 'the Late-Binding Wraith', intro: 'A wraith that remembers only the last value of every loop drifts toward you. "Call me," it whispers, "and see what I captured."', cleared: 'You bind the wraith with a default argument and it fades to its correct value.' }
         },
         'decorator-gallery': {
             act: 3, name: 'The Decorator Gallery',
             text: 'Portraits hang in frames inside frames inside frames. Each frame changes what the picture does. A labyrinth opens to the north; the runner hall is back east.',
             exits: { east: 'runner-hall', north: 'regex-maze' },
+            features: [
+                {
+                    names: ['portraits', 'portrait', 'frames'], text: 'At the center of every frame is the same plain function, looking a little overwhelmed by everything around it. The gift stand sells frames only. Nobody has ever asked for a picture.',
+                    again: 'One frame holds an empty canvas and a plaque: "self-portrait, 3:11 AM, artist unknown". The paint is still wet.'
+                }
+            ],
+            sense: { listen: 'Frames creaking as they close around each other, one @ at a time.' },
             quiz: { topic: 'python-decorators', guardian: 'the Wrapper', intro: 'A figure wrapped in layers of @ symbols steps out of a frame. "I am not the function you called," it says. "Tell me what I do."', cleared: 'The Wrapper unwraps itself, functools.wraps and all, and steps aside.' }
         },
         'regex-maze': {
             act: 3, name: 'The Regex Labyrinth',
             text: 'Walls of backslashes, brackets and question marks twist in every direction. Somewhere a greedy star is eating a corridor. Paths lead south and east.',
             exits: { south: 'decorator-gallery', east: 'debt-museum' },
+            features: [
+                {
+                    names: ['walls', 'wall', 'backslashes'], text: 'Someone has carved a regex to validate email addresses into the wall. It runs the length of the corridor and around the corner. At the very end, in small letters: "still lets in a@b".',
+                    again: 'Further along, a pattern has been scrubbed out and rewritten as a single call to a library. The handwriting of the rewrite looks relieved.'
+                }
+            ],
+            sense: { listen: 'Somewhere ahead, catastrophic backtracking. It sounds like a scream that keeps trying alternatives.' },
             quiz: { topic: 'python-regex', guardian: 'the Backreference Minotaur', intro: 'A minotaur with \\1 branded on its flank lowers its horns. "Match me," it bellows, "or be captured in a group."', cleared: 'The Minotaur\'s pattern fails to match you, and it backtracks out of the way.' }
         },
         'debt-museum': {
             act: 3, name: 'The Museum of Technical Debt',
-            text: 'Exhibits include a 4,000-line utils.py, a bare except: pass, and a script that shells out to Python from Python. A forge glows to the north; the labyrinth is back west.',
+            text: 'Exhibits include a 4,000-line utils.py, a bare except: pass, and a script that shells out to Python from Python. A gift shop and a guestbook wait by the exit. A forge glows to the north; the labyrinth is back west.',
             exits: { west: 'regex-maze', north: 'process-forge' },
             features: [
                 { names: ['utils.py', 'utils', 'exhibit', 'exhibits'], text: 'utils.py contains 212 functions. One is called do_stuff2_final. It is imported by everything.' },
-                { names: ['except', 'bare except'], text: 'The placard reads: "except: pass. Swallowed 14,000 errors and one KeyboardInterrupt. Donated by the network team."' }
-            ]
+                { names: ['except', 'bare except'], text: 'The placard reads: "except: pass. Swallowed 14,000 errors and one KeyboardInterrupt. Donated by the network team."' },
+                {
+                    names: ['gift shop', 'shop', 'mugs'], reveals: 'antigravity',
+                    text: 'Mugs reading "I survived the Python 3 migration", one for every year from 2008 to 2020. In the bargain bin, a module nobody ever got round to removing from the standard library.',
+                    again: 'Only the 2020 mugs are left. They are on clearance, forever.',
+                    uses: { 'print-statement': 'You offer the print statement to the museum. The curator labels it "Python 2, extinct 2020" and hands it back. They already have eleven.' }
+                },
+                {
+                    names: ['guestbook', 'book', 'visitors'], text: 'One visitor tonight: "nightowl, 3:04 AM. The bare except is load-bearing. Do not touch." The pen beside it is uncapped and still wet.',
+                    again: 'Further up the page, older entries, all from nightowl, all between 3 and 4 AM, going back years. Every one of them says the same thing about the bare except.',
+                    extra: { knight: 'You straighten the guestbook out of a sense of duty. Someone has already straightened it.', rogue: 'You check the pen for prints. Wiped. Even the ink looks careful.' }
+                }
+            ],
+            sense: { smell: 'Floor polish and old code. The museum is much cleaner than its exhibits.' }
         },
         'process-forge': {
             act: 3, name: 'The Process Forge',
-            text: 'A forge that splits one task into many, each with its own interpreter and its own memory. A pitchfork leans against the anvil. Doors lead west to the crypt and south to the museum.',
+            text: 'A forge that splits one task into many, each with its own interpreter and its own memory. A pitchfork leans against the anvil, and coals glow in the hearth. Doors lead west to the crypt and south to the museum.',
             exits: { west: 'closure-crypt', south: 'debt-museum' },
             items: ['pitchfork'],
             features: [
-                { names: ['anvil', 'forge'], text: 'Engraved on the anvil: "if __name__ == \'__main__\':". Forget it on Windows and the forge spawns forever.' }
-            ]
+                { names: ['anvil', 'forge'], text: 'Engraved on the anvil: "if __name__ == \'__main__\':". Forget it on Windows and the forge spawns forever.' },
+                {
+                    names: ['coals', 'hearth', 'coal'], reveals: 'walrus',
+                    text: 'Something small glows among the coals, tusks and all: a := operator, left here to keep warm. It has been part of the language since 3.8 and still has not been fully forgiven.',
+                    again: 'The coals settle. Nothing else in the hearth but ash, and a half-burned printout of a code review titled "PEP 572: no".',
+                    extra: { wizard: 'You warm your hands over the coals. They feel separate from each other, which is the whole point of this room.' },
+                    uses: { 'braces': 'You hold the braces over the coals to bend them into a block. They will not take the shape. Not a chance.' }
+                }
+            ],
+            sense: { listen: 'The bellows wheeze, and eight hammers strike at once, not one of them waiting for the others.' }
         },
         'gil-throne': {
             act: 3, name: 'The Throne of the GIL Golem', boss: true,
-            text: 'The automation server\'s throne room. The GIL Golem sits on the only lock in the building, letting one thread through at a time. Behind it, the deploy pipeline glows red.',
+            text: 'The automation server\'s throne room. The GIL Golem sits on the only lock in the building, letting one thread through at a time. Behind it, the deploy pipeline glows red, and a line of threads waits along the wall.',
             exits: { south: 'runner-hall' },
+            features: [
+                {
+                    names: ['threads', 'line', 'thread'], text: 'Threads queue along the wall, each holding a numbered ticket. The Golem calls one number at a time, and every time it is not yours.',
+                    again: 'At the very front of the line, a thread with no name. Its start time is 3:11 AM. It does not look round when you approach.'
+                }
+            ],
+            sense: { listen: 'One core screaming. Thirty-one cores politely waiting their turn.', touch: 'The floor near the throne is hot enough to feel through your boots. Everything in here has been running on one core for hours.' },
             bossFight: {
                 name: 'the GIL Golem', topics: ['python-concurrency', 'python-packaging'], key: 'pitchfork',
                 locked: 'The Golem grips the lock. Every thread you send at it waits its turn, and none of them gets far. One interpreter will never beat it.',
@@ -897,6 +1174,8 @@
         epilogue: 'You open a pull request that adds a linter, pins the requirements and deletes __pycache__ from git. It sits in review for three weeks.',
         items: ITEMS,
         acts: ACTS,
-        rooms: ROOMS
+        rooms: ROOMS,
+        mystery: MYSTERY,
+        ambient: AMBIENT
     });
 });

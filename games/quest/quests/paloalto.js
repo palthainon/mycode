@@ -500,15 +500,67 @@
             desc: 'A short patch cable tagged "HA1-BACKUP - DO NOT REMOVE". Someone removed it. It is the only thing that can get two firewalls talking again.'
         },
         'commit-sticker': {
-            name: 'commit sticker', names: ['sticker', 'commit sticker'], kind: 'junk',
+            name: 'commit sticker', names: ['sticker', 'commit sticker'], kind: 'curio',
             desc: 'A laptop sticker reading "It\'s not a change until you commit."',
             use: 'You stick it on your laptop, next to the one that says "Have you tried any-any-allow?" You peel that one off.'
         },
         'loopback-plug': {
-            name: 'loopback plug', names: ['plug', 'loopback plug', 'loopback'], kind: 'junk',
-            desc: 'An RJ-45 loopback plug. Everything you send it comes straight back, much like a vendor escalation.'
+            name: 'loopback plug', names: ['plug', 'loopback plug', 'loopback'], kind: 'curio',
+            desc: 'An RJ-45 loopback plug. Everything you send it comes straight back, much like a vendor escalation.',
+            use: 'You plug it into your own laptop. The link light comes up. For one brief moment, something on this network works.'
+        },
+        'denied-quarter': {
+            name: 'denied quarter', names: ['quarter', 'denied quarter', 'coin'], kind: 'curio',
+            desc: 'A quarter the vending machine refused. It is slightly warmer than a quarter should be, as if it has been bounced a lot tonight.',
+            use: 'You flip it. Heads: allow. Tails: deny. It lands on its edge and rolls under the interzone-default rule, where everything ends up.'
+        },
+        'sinkhole-coaster': {
+            name: 'sinkhole coaster', names: ['coaster', 'sinkhole coaster', 'beer mat'], kind: 'curio',
+            desc: 'A cardboard drinks coaster from the Sinkhole Tavern. Both sides are printed with the same single address. Every name you write on it resolves there.',
+            use: 'You write "help" on the coaster. It resolves to the sinkhole. Fair.'
+        },
+        'hotel-keycard': {
+            name: 'hotel keycard', names: ['keycard', 'hotel keycard', 'card'], kind: 'curio',
+            desc: 'A hotel keycard from a security conference. The sleeve says room 209. The Wi-Fi password is written on it in pen, which is the most secure thing about that hotel.',
+            use: 'You tap it on the nearest reader. Red light. Even here, its checkout time has passed.'
+        },
+        'blunt-chisel': {
+            name: 'blunt chisel', names: ['chisel', 'blunt chisel'], kind: 'curio',
+            desc: 'A stonemason\'s chisel worn down to a nub, with "custom-app" scratched into the handle. Every regex ever carved with it stopped half way.',
+            use: 'You consider finishing the custom signature yourself. You picture maintaining it until retirement. You put the chisel away.'
+        },
+        'orphan-tsf': {
+            name: 'orphaned tech support file', names: ['tsf', 'tech support file', 'support file', 'file'], kind: 'curio',
+            desc: 'A 1.4 GB tech support file on a USB stick, generated during an outage in 2022 and attached to no case. Everything about that night is in here. Nobody will ever open it.',
+            use: 'You try to upload it. The progress bar reaches 99% and stays there, like every upload to a support portal ever.'
+        },
+        'used-auth-code': {
+            name: 'used auth code', names: ['auth code', 'code', 'licence', 'license', 'printout'], kind: 'curio',
+            desc: 'A licence auth code printout for a Threat Prevention subscription. It has already been activated, on a firewall that was sent to e-waste in 2020. It is still technically worth more than your car.',
+            use: 'You type it in. "Authorization code has already been used." Of course it has.'
         }
     };
+
+    // Someone wanted tonight to happen. The quest never says who, or quite why.
+    const MYSTERY = {
+        title: 'Incident notes, things that don\'t add up:',
+        clues: {
+            'temp-commit': '2:09 AM: rule "any-any-allow (TEMP)" disabled and committed by admin "nightowl". Commit message: "finally." The outage began three minutes later.',
+            'cab-denied': 'Seven change requests since 2019 to remove "any-any-allow (TEMP)", all denied for "no rollback plan". An eighth was filed tonight by nightowl. Its rollback plan: "see HA1."',
+            'mgmt-ip': 'User-ID maps "nightowl" to PA-EDGE-01\'s own management address, idle timeout never. Logged in from the firewall itself.',
+            'ha1-socket': 'The HA1 backup cable was unplugged tonight, not years ago. A tag on the empty socket reads "rollback plan".'
+        },
+        solved: 'At 9:02 AM the Change Advisory Board\'s denial lands in your inbox. At 9:03 a second email arrives from an address nobody can find in the directory: "CHG for any-any-allow (TEMP): implemented 02:09. Rollback plan: on-call." You open the rulebase. The TEMP rule is gone. In its place is the rule you rebuilt by torchlight, scoped, logging, exactly what seven change requests asked for. The postmortem template asks for a root cause. You leave that field blank for now.'
+    };
+
+    const AMBIENT = [
+        { act: 1, text: 'Down the corridor, someone types fast on a mechanical keyboard, presses Enter once, hard, and stops.' },
+        { act: 1, text: 'The deny logs flicker. For half a second one line reads "allow". Then it is deny again, all the way down.' },
+        { act: 2, text: 'Across the crossing, a traveller in a hoodie passes the toll booth. Their address is the same on both sides. When you look properly, the booth is empty.' },
+        { act: 2, text: 'High on the Directory Tower a window lights up with "nightowl", holds for a heartbeat, and goes dark.' },
+        { act: 3, text: 'Somewhere above you, Panorama finishes a push. You didn\'t start one.' },
+        { act: 3, text: 'From the corridor comes the support line\'s hold music, hummed slightly off-key by someone who isn\'t on hold.' }
+    ];
 
     const ACTS = [
         {
@@ -529,51 +581,113 @@
         // ======================= ACT I =======================
         'noc': {
             act: 1, name: 'The Network Operations Center',
-            text: 'Wall screens glow red with "interzone-default: deny" in a scrolling font. Someone left a laptop sticker on the desk. A stone arch leads north, a cable bridge runs east, a vending alcove hums to the west, and a heavy door waits to the south.',
+            text: 'Wall screens glow red with "interzone-default: deny" in a scrolling font. Someone left a laptop sticker on the desk, beside an on-call chair that is still turning slowly. A stone arch leads north, a cable bridge runs east, a vending alcove hums to the west, and a heavy door waits to the south.',
             exits: { north: 'zone-gate', east: 'vwire-bridge', west: 'vending', south: 'gargoyle-hall' },
             items: ['commit-sticker'],
             features: [
-                { names: ['screens', 'wall', 'wall screens'], text: 'Every denied session in the company, one line each, in real time. The scroll bar is a single pixel tall.' },
+                {
+                    names: ['screens', 'wall', 'wall screens'], text: 'Every denied session in the company, one line each, in real time. The scroll bar is a single pixel tall.',
+                    again: 'You watch until the oldest line rolls past: 2:12 AM, the first deny of the night. Above it, hours of nothing but "allow". It looks like a cliff.'
+                },
+                {
+                    names: ['chair', 'on-call chair'], text: 'The on-call chair is still turning, slowly, the way chairs do when someone has just stood up out of them. The seat is warm. You are the only one on call.',
+                    again: 'The chair has stopped. It has stopped facing the door, as if whoever sat in it was watching for you.',
+                    extra: {
+                        wizard: 'You sense the lingering aura of someone who knows every password in this building and has never once written one on a sticky note.',
+                        knight: 'You sit down to steady yourself. The chair, built for someone lighter, sinks to its lowest setting with a long hydraulic sigh.',
+                        rogue: 'Habit makes you check under the seat. Taped there: a badge holder, empty, with the clip still warm.'
+                    }
+                },
                 { names: ['door', 'south door', 'seals', 'seal', 'south', 'runes'], text: 'Five runes are carved into the door, one per guardian of this realm. Something behind it says "deny" in a gravelly voice, again and again.' }
-            ]
+            ],
+            sense: { listen: 'The beep of a UPS on battery, which is normal, and the beep of a second UPS answering it, which is not.', smell: 'Burnt dust from a projector nobody has turned off since the last all-hands.' }
         },
         'vending': {
             act: 1, name: 'The Vending Alcove',
-            text: 'A vending machine stands in a nook, its display reading "SELECT ITEM (APP-ID: unknown-tcp)". A recycling bin overflows beside it. The NOC is back east.',
+            text: 'A vending machine stands in a nook, its display reading "SELECT ITEM (APP-ID: unknown-tcp)" and its coin return flap rattling. A recycling bin overflows beside it. The NOC is back east.',
             exits: { east: 'noc' },
             features: [
-                { names: ['machine', 'vending machine', 'display'], text: 'It accepts coins on application-default ports only. You put in a quarter. Nothing happens. It was denied.' },
+                {
+                    names: ['machine', 'vending machine', 'display'], text: 'It accepts coins on application-default ports only. You put in a quarter. Nothing happens. It was denied.',
+                    again: 'Row C is all energy drinks. Row D is all energy drinks. Row E is a single granola bar with a sticky note: "reserved: nightowl". The note has been there long enough to fade.'
+                },
+                {
+                    names: ['coin return', 'flap', 'return'], text: 'You push the flap. A quarter drops out with a sad clink, rejected and returned to sender.', reveals: 'denied-quarter',
+                    again: 'Empty now. A tiny sticker inside reads "dropped silently since 2:12 AM".',
+                    uses: { 'denied-quarter': 'You feed the quarter back in. It comes straight back out. You could do this all night, and in a sense, you are.' }
+                },
                 { names: ['bin', 'recycling bin', 'recycling'], text: 'Under the empties, one can is still half full and only slightly warm.', reveals: 'energy-drink' }
-            ]
+            ],
+            sense: { listen: 'The compressor hums, clicks off, and hums again, failing over between two states that both mean "cold enough".', smell: 'Taurine, and the sticky sweetness of every outage you have ever worked.' }
         },
         'zone-gate': {
             act: 1, name: 'The Gate of Zones',
             text: 'Four portcullises stand side by side, each painted a different colour: trust, untrust, dmz, guest. Every interface that passes is stamped with exactly one. A chapel lies north; the NOC is back south.',
             exits: { south: 'noc', north: 'default-chapel' },
+            features: [
+                {
+                    names: ['portcullises', 'portcullis', 'gates'], text: 'The guest portcullis is the only one with a cup holder. The dmz one has been painted over so many times it no longer closes all the way.',
+                    again: 'Someone has hung a sign on the trust portcullis: "Trust, but log." Underneath, smaller: "Actually, just log."'
+                }
+            ],
+            sense: { listen: 'Chains creak as each portcullis lifts a few inches for an allowed session, then crashes down again.' },
             quiz: { topic: 'paloalto-zones', guardian: 'the Zone Warden', intro: 'A warden in a four-coloured tabard bars your way. "Nothing passes here without a zone. What are you, and what are you plugged into?"', cleared: 'The warden stamps your hand with a zone and raises the nearest portcullis.' }
         },
         'default-chapel': {
             act: 1, name: 'The Chapel of Default Rules',
-            text: 'Two stone tablets sit at the bottom of a very long altar, below every other rule, greyed out and unmovable. A stair leads east; the gate is back south.',
+            text: 'Two stone tablets sit at the bottom of a very long altar, below every other rule, greyed out and unmovable. Rows of pews face them. A stair leads east; the gate is back south.',
             exits: { south: 'zone-gate', east: 'rulebase-stair' },
+            features: [
+                {
+                    names: ['pews', 'pew', 'rows'], text: 'The pews are packed with rules whose hit counts have read zero since they were written. They sit very still, hoping nobody runs a cleanup before the next audit.',
+                    again: 'One pew at the front is new. A brass plaque on it reads "any-any-allow (TEMP), 2019. It was only ever temporary." The varnish is still wet.'
+                }
+            ],
+            sense: { listen: 'Whispered prayers, all the same one: "please don\'t let me be shadowed."', smell: 'Candle wax and the toner of a rulebase printed out for review and never reviewed.' },
             quiz: { topic: 'paloalto-defaultrules', guardian: 'the Deacon of Defaults', intro: 'A deacon in grey robes rises from behind the tablets. "These rules were here before you, and they will be here after you. Tell me what they do."', cleared: 'The deacon nods. "Override us if you must. Never forget us." You may pass.' }
         },
         'rulebase-stair': {
             act: 1, name: 'The Rulebase Stair',
             text: 'A spiral staircase whose every step is a security rule, read from the top down. Some steps are worn smooth from hits; others have never been touched. A shack glows to the east; the chapel is back west.',
             exits: { west: 'default-chapel', east: 'mgmt-shack' },
+            features: [
+                {
+                    names: ['steps', 'step', 'staircase'], text: 'One step near the top is worn into a bowl. Step 4,212 has a hit count of zero and a small, hopeful welcome mat.',
+                    again: 'Right at the top, one step has been pried out tonight. The gap is shaped exactly like a rule that let everything through. You step over it carefully.'
+                }
+            ],
+            sense: { touch: 'The worn steps are warm. The untouched ones are cold, and slightly dusty, and resentful.' },
             quiz: { topic: 'paloalto-rulematch', guardian: 'the Stair Sentinel', intro: 'A sentinel made of stacked rule rows blocks the stair. "Climb only if you know which step a session lands on. First match. No do-overs."', cleared: 'The sentinel increments a hit counter and steps aside.' }
         },
         'vwire-bridge': {
             act: 1, name: 'The Virtual Wire Bridge',
-            text: 'A bridge of two cables bound together, carrying traffic straight across with no address of its own. A ghostly figure hovers at its middle, mouthing changes it never made real. An archive lies east; the NOC is back west.',
+            text: 'A bridge of two cables bound together, carrying traffic straight across with no address of its own. A ghostly figure hovers at its middle, mouthing changes it never made real. Far below runs a river of packets. An archive lies east; the NOC is back west.',
             exits: { west: 'noc', east: 'log-archive' },
+            features: [
+                {
+                    names: ['river', 'packets', 'river of packets'], text: 'Packets flow beneath the bridge without ever knowing it is there. The bridge seems at peace with this.',
+                    again: 'A single packet drifts past, upside down. Its TTL is 1. You lower your eyes respectfully until it is gone.'
+                },
+                { names: ['cables', 'cable', 'bridge'], text: 'The two cables are bound together with electrical tape and optimism. A label on one end says "do not unplug, nobody knows what this does". It is the most accurate label in the building.' }
+            ],
+            sense: { listen: 'The ghost sighs. Very faintly, from its laptop, a session-timeout chime.' },
             quiz: { topic: 'paloalto-commit', guardian: 'the Ghost of the Uncommitted Candidate', intro: 'The ghost of an admin who edited forty rules and went home without committing drifts into your path. "My changes," it moans. "Why aren\'t they working?"', cleared: 'The ghost finally clicks Commit. A progress bar crawls to 100% and the ghost fades away, at peace.' }
         },
         'log-archive': {
             act: 1, name: 'The Archive of Logs',
-            text: 'Shelves sorted into Traffic, Threat, URL Filtering, System and Configuration stretch into the dark. The disks hum like they are nearly full. A narrow closet lies north; the bridge is back west.',
+            text: 'Shelves sorted into Traffic, Threat, URL Filtering, System and Configuration stretch into the dark. The disks hum like they are nearly full, and a rolling ladder creaks in the aisle. A narrow closet lies north; the bridge is back west.',
             exits: { west: 'vwire-bridge', north: 'tap-closet' },
+            features: [
+                {
+                    names: ['disks', 'disk'], text: 'The disks report 97% full. Somebody set retention to "as long as possible" and nobody has had the heart to tell them what that means.',
+                    again: 'One disk is at 99% and has begun quietly deleting the oldest entries, starting with the ones from your last audit. It does not seem sorry.'
+                },
+                {
+                    names: ['ladder', 'rolling ladder'], text: 'The ladder rolls a few feet on its own, then stops, parked at a shelf someone was reading very recently. The rail is still warm where a hand rested.',
+                    again: 'You climb the ladder. On the top rung, written in marker: "n.o. was here, 02:05". You climb back down.'
+                }
+            ],
+            sense: { listen: 'Spinning disks, and under them the soft scratching of a log being written that nobody will ever read.', smell: 'Warm electronics and old paper. The archive has been printing to PDF and then printing the PDF.' },
             quiz: { topic: 'paloalto-logs', guardian: 'the Archivist', intro: 'An archivist with ink-stained hands blocks the aisle. "Everything that happens here is written down somewhere. Tell me where."', cleared: 'The archivist files you under "allowed" and goes back to the shelves.' }
         },
         'tap-closet': {
@@ -581,23 +695,44 @@
             text: 'A cramped closet where a tap interface listens to a SPAN port, seeing everything and stopping nothing. A shack lies north; the archive is back south.',
             exits: { south: 'log-archive', north: 'mgmt-shack' },
             features: [
-                { names: ['tap', 'tap interface', 'span', 'span port', 'port'], text: 'The tap has watched four breaches go by. It logged every one of them beautifully. It is not allowed to do anything else.' },
-                { names: ['closet', 'walls', 'wall'], text: 'Someone has written on the wall: "Monitor mode is not a security control." Underneath, in different handwriting: "It is if nobody checks."' }
-            ]
+                {
+                    names: ['tap', 'tap interface', 'span', 'span port', 'port'], text: 'The tap has watched four breaches go by. It logged every one of them beautifully. It is not allowed to do anything else.',
+                    again: 'Tonight the tap is watching nothing at all. There is no traffic to see. It looks almost relieved.',
+                    uses: { 'loopback-plug': 'You plug the loopback into a spare port beside the tap. The tap stares at it. Nothing comes back. You suspect it was hoping for company.' }
+                },
+                { names: ['closet', 'walls', 'wall'], text: 'Someone has written on the wall: "Monitor mode is not a security control." Underneath, in different handwriting: "It is if nobody checks."', again: 'A third line, in fresh marker: "someone checked." No name.' }
+            ],
+            sense: { listen: 'Silence. A tap makes no sound, and tonight there is nothing for it to hear.', touch: 'The SPAN cable is cold. Nothing is flowing through it at all.' }
         },
         'mgmt-shack': {
             act: 1, name: 'The Management Shack',
-            text: 'A shed on the management network, safe from the traffic outside. A brass clicker hangs from a nail above the desk, engraved with rule names. Paths lead west to the stair and south to the tap closet.',
+            text: 'A shed on the management network, safe from the traffic outside. A brass clicker hangs from a nail above the desk, engraved with rule names, and a laptop sits open beside it. Paths lead west to the stair and south to the tap closet.',
             exits: { west: 'rulebase-stair', south: 'tap-closet' },
             items: ['hit-counter', 'loopback-plug'],
             features: [
-                { names: ['desk', 'shed', 'shack'], text: 'A printout of the rulebase is taped to the desk. Someone has circled rule 1, "any-any-allow (TEMP)", and written "2019" next to it.' }
-            ]
+                {
+                    names: ['desk', 'shed', 'shack'], text: 'A printout of the rulebase is taped to the desk. Someone has circled rule 1, "any-any-allow (TEMP)", and written "2019" next to it.',
+                    again: 'Under that printout is another one, with the same rule circled and "2021" next to it. Under that, "2023". The circles get angrier each time.'
+                },
+                {
+                    names: ['laptop', 'screen', 'commit history'], clue: 'temp-commit',
+                    text: 'The laptop is still logged in to PA-EDGE-01. The commit history shows one line from tonight: 2:09 AM, admin "nightowl", rule "any-any-allow (TEMP)" disabled. The commit message is a single word: "finally." Your pager went off at 2:12.',
+                    again: 'You check the admin list for a "nightowl". There isn\'t one. There is, however, still a session for it, idle zero minutes.'
+                }
+            ],
+            sense: { listen: 'A laptop fan spinning up, as if somebody just closed a very large browser tab.', smell: 'Cold coffee and the faint plastic smell of a console cable that has been coiled too tight.' }
         },
         'gargoyle-hall': {
             act: 1, name: 'The Hall of the Implicit Deny Gargoyle', boss: true,
             text: 'A vaulted hall at the very bottom of the rulebase. The Implicit Deny Gargoyle crouches on a plinth, stone wings folded over everything nobody remembered to allow. Beyond it, a road leads into the Translation Borderlands.',
             exits: { north: 'noc' },
+            features: [
+                {
+                    names: ['plinth', 'carvings'], text: 'Carved into the plinth are the names of every session the Gargoyle has swallowed. The oldest are worn smooth. Thousands of new ones were carved tonight, all at 2:12 AM.',
+                    again: 'At the very top, older than anything else, one name has been chiselled away. Its outline is three letters long, and the letters were A, N and Y.'
+                }
+            ],
+            sense: { listen: '"Deny." Pause. "Deny." Pause. It never logs any of it, so it says it out loud instead.' },
             bossFight: {
                 name: 'the Implicit Deny Gargoyle', topics: ['paloalto-rulematch', 'paloalto-defaultrules'], key: 'hit-counter',
                 locked: 'The Gargoyle swallows every session you throw at it and logs none of them. Without a way to see which rule a session actually hits, you are guessing in the dark.',
@@ -609,60 +744,123 @@
         // ======================= ACT II =======================
         'crossing': {
             act: 2, name: 'The Translation Crossing',
-            text: 'A crossroads where every traveller swaps one address for another at a toll booth. North is a library, east a fortified wall, west a tavern with a sinkhole for a cellar. A mirrored gate stands to the south.',
+            text: 'A crossroads where every traveller swaps one address for another at a toll booth. A noticeboard leans against the booth, thick with paper. North is a library, east a fortified wall, west a tavern with a sinkhole for a cellar. A mirrored gate stands to the south.',
             exits: { north: 'appid-library', east: 'flood-wall', west: 'sinkhole-tavern', south: 'mirror-lair' },
             features: [
-                { names: ['booth', 'toll booth', 'travellers', 'travelers'], text: 'A sign on the booth reads "Original packet on the left, translated packet on the right. Security policy: please consult both."' },
+                {
+                    names: ['booth', 'toll booth', 'travellers', 'travelers'], text: 'A sign on the booth reads "Original packet on the left, translated packet on the right. Security policy: please consult both."',
+                    again: 'The toll keeper is asleep. The queue keeps moving anyway. Nobody can say who is stamping the faces.'
+                },
+                {
+                    names: ['noticeboard', 'board', 'notices', 'change requests'], clue: 'cab-denied',
+                    text: 'Change requests, pinned one over another, all asking to remove "any-any-allow (TEMP)". 2019: denied, no rollback plan. 2020: denied, no rollback plan. Five more just like them. On top, pinned tonight, an eighth, filed by "nightowl". Under "Rollback plan" it says only: "see HA1."',
+                    again: 'You look for an approval stamp on the eighth request. There isn\'t one. There is a coffee ring, still damp.'
+                },
                 { names: ['gate', 'mirrored gate', 'south', 'seals', 'seal', 'runes'], text: 'Five runes ring the mirrored gate, one per guardian of this realm. Your reflection in it has a different IP address.' }
-            ]
+            ],
+            sense: { listen: 'The thunk of the toll booth stamp, twice per traveller: once for each face.', smell: 'Exhaust from a queue of sessions idling at the booth.' }
         },
         'sinkhole-tavern': {
             act: 2, name: 'The Sinkhole Tavern',
-            text: 'Malware that tried to phone home ends up drinking here, resolving every name to the same sinkhole address. A shelf of vials sits behind the bar. The crossing is back east.',
+            text: 'Malware that tried to phone home ends up drinking here, resolving every name to the same sinkhole address. A shelf of vials sits behind the bar, and a weary bartender polishes glasses. The crossing is back east.',
             exits: { east: 'crossing' },
             features: [
                 { names: ['shelf', 'vials', 'bar'], text: 'Behind a bottle labelled "unknown-udp" sits a vial of fresh content update tonic.', reveals: 'content-tonic' },
-                { names: ['patrons', 'malware', 'drinkers'], text: 'A botnet client keeps asking the bartender for its command server. The bartender keeps handing it the same glass of nothing.' }
-            ]
+                {
+                    names: ['patrons', 'malware', 'drinkers'], text: 'A botnet client keeps asking the bartender for its command server. The bartender keeps handing it the same glass of nothing.',
+                    again: 'In the corner booth, a cryptominer is telling anyone who will listen that it used to make real money. Nobody is listening. Its CPU fan is still going.'
+                },
+                {
+                    names: ['bartender', 'glasses'], text: 'The bartender looks up. "Whatever they ask for, they get the sinkhole. Simplest job in the realm." A coaster slides across the bar to you.', reveals: 'sinkhole-coaster',
+                    again: '"Quiet one tonight," the bartender says. "Nobody\'s got out since about two. One regular left early, though. Paid in exact change. Didn\'t give a name, just a hoot."',
+                    uses: { 'sinkhole-coaster': 'You hand the coaster back. The bartender flips it over, shows you it\'s the same address on the other side, and slides it back. "On the house."' }
+                }
+            ],
+            sense: { listen: 'Glasses clinking, and a dozen beacons calling home at perfect sixty-second intervals, answered by the same polite nothing.', smell: 'Stale beer and burnt DNS.' }
         },
         'appid-library': {
             act: 2, name: 'The Library of App-ID',
-            text: 'Thousands of application signatures line the shelves, and a new crate arrives every week. A few volumes are labelled only "unknown-tcp". An armory lies north; the crossing is back south.',
+            text: 'Thousands of application signatures line the shelves, and a new crate arrives every week. A few volumes are labelled only "unknown-tcp", and a returns cart squeaks by itself in the aisle. An armory lies north; the crossing is back south.',
             exits: { south: 'crossing', north: 'profile-armory' },
+            features: [
+                {
+                    names: ['cart', 'returns cart', 'crate'], text: 'This week\'s crate is stencilled "NEW APPS". Someone has added in marker: "and some old ones with new names, check your rules."',
+                    again: 'One book on the returns cart is still warm. Its checkout card has one name on it, signed out and returned tonight: nightowl.'
+                }
+            ],
+            sense: { listen: 'Pages rustling as the librarian reads the first few packets of every session, and a frustrated "hmm" when there aren\'t enough.' },
             quiz: { topic: 'paloalto-appid', guardian: 'the Signature Librarian', intro: 'A librarian peers at you over a stack of decoders. "Port 443 tells me nothing. Tell me what you really are."', cleared: 'The librarian finds your entry, stamps it "identified", and waves you through.' }
         },
         'profile-armory': {
             act: 2, name: 'The Profile Armory',
             text: 'Racks of security profiles hang on the walls: antivirus, anti-spyware, vulnerability protection, URL filtering, file blocking, WildFire. They only fit rules that allow something. A tower rises east; the library is back south.',
             exits: { south: 'appid-library', east: 'directory-tower' },
+            features: [
+                {
+                    names: ['racks', 'rack', 'walls'], text: 'Most of the gear still has its tags on. A rack in the back holds one battered profile labelled "default", worn by every rule in the realm since the day it was installed.',
+                    again: 'One empty hook has a label: "any-any-allow (TEMP), size: everything". Nothing ever fitted it, because it never wanted to wear anything.'
+                }
+            ],
+            sense: { smell: 'Gun oil and new-signature smell, which is mostly ozone and urgency.' },
             quiz: { topic: 'paloalto-profiles', guardian: 'the Quartermaster of Profiles', intro: 'A quartermaster with a clipboard blocks the racks. "Allowing traffic without profiles is just routing with extra steps. What do you need?"', cleared: 'The quartermaster fits you with a profile group and lets you pass.' }
         },
         'directory-tower': {
             act: 2, name: 'The Directory Tower',
             text: 'A tower whose windows each show a username next to an IP address, updating as people log in and out. A vault door lies east; the armory is back west.',
             exits: { west: 'profile-armory', east: 'pool-vault' },
+            features: [
+                {
+                    names: ['windows', 'window', 'usernames'], clue: 'mgmt-ip',
+                    text: 'Most windows show sleepy names on laptops that went home hours ago. One window near the top shows "nightowl", mapped to the address of PA-EDGE-01\'s own management interface. Its timeout reads "never".',
+                    again: 'Three windows show the same intern on three IP addresses. One of them is a printer. You choose to leave that for the morning shift.'
+                }
+            ],
+            sense: { listen: 'The click of windows changing names as mappings expire, steady as a clock. One window near the top never clicks.' },
             quiz: { topic: 'paloalto-userid', guardian: 'the Identity Clerk', intro: 'A clerk looks up from a domain controller event log. "An IP address isn\'t a person. Tell me how I learn who is behind it."', cleared: 'The clerk maps you to your IP and stamps it with a timeout.' }
         },
         'flood-wall': {
             act: 2, name: 'The Flood Wall',
             text: 'A high wall protects the ingress zone from waves of SYN packets crashing against it. Gauges along the top read alarm, activate and maximum. A portal glows north; the crossing is back west.',
             exits: { west: 'crossing', north: 'gp-portal' },
+            features: [
+                {
+                    names: ['gauges', 'gauge', 'needles'], text: 'A sticky note on one gauge says "tap glass gently". The glass has been tapped very, very hard.',
+                    again: 'Tonight the needles barely move. Hard to flood a network nothing can get into.',
+                    extra: { knight: 'You stand at the parapet like you were made for it. A wave of SYNs breaks on your shield and none of them come back for the ACK.' }
+                },
+                { names: ['waves', 'wave', 'syn packets'], text: 'Each wave is a thousand handshakes that will never be finished. Like a vendor\'s "let\'s circle back."' }
+            ],
+            sense: { listen: 'SYN, SYN, SYN, SYN. Never once an ACK.', touch: 'The wall is damp with half-open connections.' },
             quiz: { topic: 'paloalto-zoneprot', guardian: 'the Flood Warden', intro: 'A warden in waders watches the gauges. "Ten thousand SYNs a second and rising. Prove you know how to hold the wall."', cleared: 'The warden switches on SYN cookies and the waves calm. "Go on, then."' }
         },
         'gp-portal': {
             act: 2, name: 'The GlobalProtect Portal',
-            text: 'A shimmering arch hands each traveller a list of gateways and wishes them luck. Some ruins lie north; the flood wall is back south.',
+            text: 'A shimmering arch hands each traveller a list of gateways and wishes them luck. A hotel keycard lies forgotten on the step. Some ruins lie north; the flood wall is back south.',
             exits: { south: 'flood-wall', north: 'unknown-ruins' },
+            items: ['hotel-keycard'],
+            features: [
+                {
+                    names: ['arch', 'shimmering arch', 'step'], text: 'Carved into the arch: the names of everyone who has ever connected from an airport lounge and opened a ticket called "VPN slow". The carving goes all the way around twice.',
+                    again: 'Someone has scratched a tally under the carving: the number of times "the VPN" was blamed for the Wi-Fi. The tally needed a second arch.'
+                }
+            ],
+            sense: { listen: 'A soft chime every time a laptop reconnects, which is constantly, because someone is roaming between two access points.' },
             quiz: { topic: 'paloalto-globalprotect', guardian: 'the Remote Access Gatekeeper', intro: 'A gatekeeper with a laptop bag blocks the arch. "Working from a hotel again? Before you tunnel in, tell me how this works."', cleared: 'The gatekeeper checks your HIP report, frowns at your patch level, and lets you through anyway.' }
         },
         'unknown-ruins': {
             act: 2, name: 'The Ruins of Unknown-TCP',
-            text: 'Broken sessions lie everywhere, their applications never identified. A custom app signature someone started writing in 2021 is half-carved into a stone. Paths lead north to a vault and south to the portal.',
+            text: 'Broken sessions lie everywhere, their applications never identified. A custom app signature someone started writing in 2021 is half-carved into a stone, with rubble piled at its foot. Paths lead north to a vault and south to the portal.',
             exits: { south: 'gp-portal', north: 'pool-vault' },
             features: [
-                { names: ['stone', 'signature', 'custom app', 'carving'], text: 'It reads: "custom-app-legacy-erp: match port 8443 AND ..." and stops. The author left the company. The rule still allows it.' },
+                {
+                    names: ['stone', 'signature', 'custom app', 'carving'], text: 'It reads: "custom-app-legacy-erp: match port 8443 AND ..." and stops. The author left the company. The rule still allows it.',
+                    again: 'The last chisel stroke is fresh. Someone stood here tonight, read the half-finished rule, added one character, and left. You can\'t tell which character.',
+                    extra: { wizard: 'You recognise the incantation style: regex, written in a hurry, by someone who planned to come back. Nobody ever comes back to a regex.' }
+                },
+                { names: ['rubble', 'pile', 'chippings'], text: 'Stone chippings, each one a fragment of regex: a stray backslash, half a lookahead, a lonely ".*". Buried in them is the chisel that did it.', reveals: 'blunt-chisel' },
                 { names: ['sessions', 'broken sessions'], text: 'One session is labelled "insufficient-data". It got as far as hello and then had nothing more to say.' }
-            ]
+            ],
+            sense: { listen: 'The wind through the ruins sounds like a three-way handshake that gives up halfway.', touch: 'The stone is cold, except for the last carved letter, which is faintly warm.' }
         },
         'pool-vault': {
             act: 2, name: 'The Address Pool Vault',
@@ -670,14 +868,25 @@
             exits: { west: 'directory-tower', south: 'unknown-ruins' },
             items: ['nat-ledger'],
             features: [
-                { names: ['addresses', 'bars', 'gold bars', 'ips'], text: 'One bar is labelled "the interface IP, do not use for anything else". It has been used for everything else.' },
+                {
+                    names: ['addresses', 'bars', 'gold bars', 'ips'], text: 'One bar is labelled "the interface IP, do not use for anything else". It has been used for everything else.',
+                    again: 'One bar is missing from the stack. Its slot has a reservation card: "borrowed, back by morning." No signature, just a small drawing of an owl.'
+                },
                 { names: ['lectern'], text: 'A plain lectern. The ledger on it is the only thing in this room that agrees with itself.' }
-            ]
+            ],
+            sense: { listen: 'The faint jingle of sixty-four thousand ports settling, like loose change in a very large pocket.', smell: 'Brass polish and the dust of IPv4 addresses that nobody can afford any more.' }
         },
         'mirror-lair': {
             act: 2, name: 'The Lair of the NAT Doppelganger', boss: true,
             text: 'A hall of mirrors where every packet sees itself with someone else\'s address. The NAT Doppelganger flickers between a private face and a public one. A stair at the back climbs toward a distant spire.',
             exits: { north: 'crossing' },
+            features: [
+                {
+                    names: ['mirrors', 'mirror', 'hall of mirrors'], text: 'In one mirror your reflection wears a public address. In the next it\'s private again and looks faintly embarrassed about it.',
+                    again: 'In the last mirror, a figure in a hoodie stands behind your reflection and raises a coffee in salute. Its address is the same before and after. When you turn around, the hall is empty.'
+                }
+            ],
+            sense: { listen: 'Your own footsteps, and a half-beat later, someone else\'s that match them exactly.' },
             bossFight: {
                 name: 'the NAT Doppelganger', topics: ['paloalto-nat', 'paloalto-snat'], key: 'nat-ledger',
                 locked: 'The Doppelganger swaps faces faster than you can follow, and every rule you write matches the wrong one. You need a record of which face is which.',
@@ -689,59 +898,124 @@
         // ======================= ACT III =======================
         'spire-foot': {
             act: 3, name: 'The Foot of the Panorama Spire',
-            text: 'A tower of templates and device groups rises into the clouds, pushing configuration down to every firewall in the realm. North is a catwalk, east a forge, west a break room. A rack room hums to the south.',
+            text: 'A tower of templates and device groups rises into the clouds, pushing configuration down to every firewall in the realm. A job board flickers by its door. North is a catwalk, east a forge, west a break room. A rack room hums to the south.',
             exits: { north: 'ha1-catwalk', east: 'decrypt-forge', west: 'break-room', south: 'twin-rack' },
             features: [
-                { names: ['spire', 'tower'], text: 'A plaque reads: "Commit to Panorama is not push to devices." Under it, someone has scratched a tally of how many times they forgot.' },
+                {
+                    names: ['spire', 'tower'], text: 'A plaque reads: "Commit to Panorama is not push to devices." Under it, someone has scratched a tally of how many times they forgot.',
+                    again: 'The tally has a new mark. It is still wet.'
+                },
+                {
+                    names: ['job board', 'board', 'jobs'], text: 'Every job on the board says "Completed with warnings". Nobody has read a warning since 2020.',
+                    again: 'Far down the list is a single job that just says "Completed". People still tell stories about it.'
+                },
                 { names: ['rack', 'rack room', 'south', 'seals', 'seal', 'runes'], text: 'Five runes glow over the rack room door, one per guardian of this realm. From inside come two voices, both insisting they are active.' }
-            ]
+            ],
+            sense: { listen: 'Configuration whistling down the threads from the spire, and the occasional thud of a push that timed out.', smell: 'Thin air, ozone, and the faint smell of a template nobody has dared to touch since the consultant left.' }
         },
         'break-room': {
             act: 3, name: 'The Support Case Break Room',
-            text: 'A speakerphone on the table plays hold music on a loop. A coffee machine sits by the sink. The spire is back east.',
+            text: 'A speakerphone on the table plays hold music on a loop, among a clutter of USB sticks. A coffee machine sits by the sink. The spire is back east.',
             exits: { east: 'spire-foot' },
             features: [
                 { names: ['coffee machine', 'machine', 'pot', 'coffee'], text: 'One mug is left in the pot, brewed during your last support case. You pour it.', reveals: 'tac-coffee' },
-                { names: ['speakerphone', 'phone', 'hold music'], text: '"Your call is important to us. Please collect a tech support file and attach it to your case."' }
-            ]
+                {
+                    names: ['speakerphone', 'phone', 'hold music'], text: '"Your call is important to us. Please collect a tech support file and attach it to your case."',
+                    again: 'The hold music is the same forty seconds it has been since 2018. You know every note. So, it seems, does whoever left the second mug in the sink.',
+                    uses: { 'orphan-tsf': 'You hold the tech support file up to the speakerphone. The hold music skips, restarts from the beginning, and your estimated wait time goes up by ten minutes.' }
+                },
+                {
+                    names: ['table', 'clutter', 'usb sticks', 'sticks'], text: 'Twenty USB sticks, all labelled "TSF". Most are blank. One is not.', reveals: 'orphan-tsf',
+                    again: 'Someone has written a case number on the table in pen. You call it in. The case was closed in 2021: "customer did not respond."'
+                }
+            ],
+            sense: { listen: 'Hold music, a smooth jazz loop that has driven better engineers than you to read the documentation.', smell: 'Coffee that has been on the warmer since the previous shift. Possibly the previous fiscal year.' }
         },
         'ha1-catwalk': {
             act: 3, name: 'The HA Catwalk',
             text: 'A narrow catwalk strung with labelled cables: HA1, HA2 and, on the active/active side, HA3. One cable socket hangs empty. A loom room lies north; the spire is back south.',
             exits: { south: 'spire-foot', north: 'template-loom' },
+            features: [
+                {
+                    names: ['socket', 'empty socket', 'cable socket'], clue: 'ha1-socket',
+                    text: 'The empty socket is labelled HA1-BACKUP. The dust around it leaves a clean rectangle: unplugged tonight, not years ago. A paper tag is tied to the latch. It says "rollback plan".',
+                    again: 'You turn the tag over. On the back, in the same pen: "you\'ll know where it is."'
+                }
+            ],
+            sense: { listen: 'Heartbeats along the cables, steady, then a long gap on one line where a heartbeat should be.', touch: 'The catwalk sways. One cable is warm. The socket beside it is cold.' },
             quiz: { topic: 'paloalto-ha', guardian: 'the Heartbeat Keeper', intro: 'A keeper with a stethoscope listens to the cables. "Steady pulse. For now. Before you cross, tell me how a pair stays a pair."', cleared: 'The keeper hears your heartbeat, marks you "peer up", and steps aside.' }
         },
         'template-loom': {
             act: 3, name: 'The Template Loom',
-            text: 'Giant looms weave templates and device groups into configuration and send it down threads to every firewall. A staircase climbs east; the catwalk is back south.',
+            text: 'Giant looms weave templates and device groups into configuration and send it down threads to every firewall. One thread has snarled into a knot. A staircase climbs east; the catwalk is back south.',
             exits: { south: 'ha1-catwalk', east: 'precedence-stair' },
+            features: [
+                {
+                    names: ['knot', 'thread', 'threads', 'looms'], text: 'The knot is a local override somebody made on a firewall during an outage in 2022. Nobody knows which one. The knot has grown a smaller knot of its own.',
+                    again: 'Tied into the knot is a scrap of paper: "temporary, will fix after the incident." The paper is yellow with age.'
+                }
+            ],
+            sense: { listen: 'The clack of shuttles, and a hundred firewalls, very far below, each saying "out of sync".' },
             quiz: { topic: 'paloalto-panorama', guardian: 'the Weaver of Templates', intro: 'A weaver with a hundred arms keeps working the loom. "Interfaces go in one thread, policy in another. Mix them up and the whole realm unravels. Which goes where?"', cleared: 'The weaver ties off your thread and pushes it to devices.' }
         },
         'precedence-stair': {
             act: 3, name: 'The Precedence Stair',
-            text: 'Stairs climb past layers of rules: some handed down from the spire, some written by the firewall itself. A storage closet lies east; the loom is back west.',
+            text: 'Stairs climb past layers of rules: some handed down from the spire, some written by the firewall itself. Half way up there is a landing with a bench. A storage closet lies east; the loom is back west.',
             exits: { west: 'template-loom', east: 'ha-closet' },
+            features: [
+                {
+                    names: ['landing', 'bench', 'sign'], text: 'A sign on the landing says "You are here." Someone has crossed it out and written "It depends."',
+                    again: 'Carved into the bench, in tiny letters: "nightowl sat here 02:07". The bench is still warm.'
+                }
+            ],
+            sense: { touch: 'The handrail is smooth where a thousand engineers have gripped it while explaining rule order to an auditor.' },
             quiz: { topic: 'paloalto-panorder', guardian: 'the Precedence Steward', intro: 'A steward with a clipboard of rule layers blocks the stair. "Every rule has its place. Show me you know the order."', cleared: 'The steward checks your order against the clipboard and nods you up the stairs.' }
         },
         'decrypt-forge': {
             act: 3, name: 'The Decryption Forge',
             text: 'Smiths split TLS sessions open on an anvil, inspect them and seal them again with a forward trust certificate. A terminal room glows north; the spire is back west.',
             exits: { west: 'spire-foot', north: 'cli-terminal' },
+            features: [
+                {
+                    names: ['anvil'], text: 'Stamped into the anvil is a certificate expiry date. It is next Tuesday. Nobody has a calendar reminder for it, and the person who made the certificate left in 2023.',
+                    again: 'Someone has chalked a reminder next to the date: "renew this". Then, smaller, in someone else\'s hand: "who has the private key?" Nobody has answered.',
+                    extra: { wizard: 'You run a finger over the stamp and feel the key length. It\'s fine. It\'s the expiry date that will kill you.' }
+                }
+            ],
+            sense: { listen: 'The ring of hammers, and the occasional crash of a browser somewhere throwing a certificate warning at a user who will click through it anyway.', smell: 'Hot iron and burnt cipher suites.' },
             quiz: { topic: 'paloalto-decrypt', guardian: 'the Certificate Smith', intro: 'A smith in a leather apron raises a hammer stamped "Forward Trust". "Ninety percent of what crosses this realm is encrypted. Prove you can see inside it."', cleared: 'The smith reseals the session and hands it back. "No browser warning. Good work."' }
         },
         'cli-terminal': {
             act: 3, name: 'The Terminal Chamber',
             text: 'A green-screen terminal sits on a stone desk, its prompt waiting: admin@PA-EDGE-01>. Some old licences are stacked in the corner. A graveyard lies north; the forge is back south.',
             exits: { south: 'decrypt-forge', north: 'license-graveyard' },
+            features: [
+                {
+                    names: ['licences', 'stack', 'corner'], text: 'A stack of licence printouts for firewalls long since recycled. One auth code is circled and starred, as if it mattered. You take it anyway.', reveals: 'used-auth-code'
+                },
+                {
+                    names: ['terminal', 'prompt', 'green-screen terminal'], text: 'The scrollback shows "Connection closed by foreign host." four times, then a fifth. Someone has been trying to get in all night, or out.',
+                    again: 'The screen above the prompt has been cleared. Not scrolled away: cleared. Whoever sat here last didn\'t want the next person to read it.'
+                }
+            ],
+            sense: { listen: 'The hum of a CRT that should have been retired before you were hired, and the patient blink of a cursor.', smell: 'Warm dust on old phosphor.' },
             quiz: { topic: 'paloalto-cli', guardian: 'the Operator of the Prompt', intro: 'The cursor blinks, and an operator in a hoodie materialises behind it. "The web UI is down. Again. What do you type?"', cleared: 'The operator presses Enter. The output scrolls by, and somewhere in it is your answer. "Carry on."' }
         },
         'license-graveyard': {
             act: 3, name: 'The Graveyard of Expired Licences',
-            text: 'Headstones list subscriptions that lapsed: Threat Prevention, URL Filtering, WildFire. Each one was renewed three days late. A closet lies north; the terminal chamber is back south.',
+            text: 'Headstones list subscriptions that lapsed: Threat Prevention, URL Filtering, WildFire. Each one was renewed three days late. Fresh flowers lie on one grave. A closet lies north; the terminal chamber is back south.',
             exits: { south: 'cli-terminal', north: 'ha-closet' },
             features: [
-                { names: ['headstones', 'headstone', 'graves', 'grave'], text: 'One reads: "Threat Prevention. Expired on a Friday. Content updates stopped Saturday. Nobody noticed until Monday."' }
-            ]
+                {
+                    names: ['headstones', 'headstone', 'graves', 'grave'], text: 'One reads: "Threat Prevention. Expired on a Friday. Content updates stopped Saturday. Nobody noticed until Monday."',
+                    again: 'Another reads: "Support contract. Expired the day before the hardware failed. Coincidence, said procurement."'
+                },
+                {
+                    names: ['flowers', 'fresh flowers', 'card'], text: 'Fresh flowers on the URL Filtering grave. The card says "sorry, the PO was stuck in approval." It is unsigned.',
+                    again: 'There is a second card underneath, older: "renewed now. you\'re welcome." Signed with a tiny drawing of an owl.'
+                }
+            ],
+            sense: { listen: 'Wind through the headstones, and very faintly, a renewal reminder email arriving for a subscription that died years ago.', smell: 'Damp earth and expired budget.' }
         },
         'ha-closet': {
             act: 3, name: 'The Cable Closet',
@@ -749,13 +1023,25 @@
             exits: { west: 'precedence-stair', south: 'license-graveyard' },
             items: ['ha1-backup'],
             features: [
-                { names: ['optics', 'hooks', 'spares'], text: 'Twelve SFPs, none labelled, three of them the wrong speed for anything in the building.' }
-            ]
+                {
+                    names: ['optics', 'hooks', 'spares'], text: 'Twelve SFPs, none labelled, three of them the wrong speed for anything in the building.',
+                    again: 'The hook the HA1 backup cable hangs from is bent, as if someone hung it here in a hurry, on purpose, where you would find it.'
+                }
+            ],
+            sense: { smell: 'Plastic, dust and the faint vinegar smell of a cable jacket from the last decade.', touch: 'The HA1 backup cable\'s connector is still warm, as if it was unplugged only a few minutes ago.' }
         },
         'twin-rack': {
             act: 3, name: 'The Rack of the Split-Brain Twins', boss: true,
             text: 'PA-EDGE-01 and its HA peer sit in the rack, both status LEDs reading ACTIVE, both answering ARP for the same address. The Split-Brain Twins stand in front of them, arguing with each other.',
             exits: { north: 'spire-foot' },
+            features: [
+                {
+                    names: ['leds', 'led', 'status leds'], text: 'Two ACTIVE LEDs, blinking in perfect unison, each refusing to acknowledge the other.',
+                    again: 'Behind the rack, a strip of gaffer tape covers the peer\'s HA1 port. One word on it, in marker: "now."',
+                    extra: { rogue: 'You lean in for a closer look at the rack doors. The lock has not been picked. It was opened with a key, and locked again behind whoever left.' }
+                }
+            ],
+            sense: { listen: 'Two firewalls, each sending gratuitous ARPs, each sure the other one is the problem. Like every postmortem you have ever attended.' },
             bossFight: {
                 name: 'the Split-Brain Twins', topics: ['paloalto-flow', 'paloalto-ha'], key: 'ha1-backup',
                 locked: 'Each Twin insists it is the active one and ignores the other entirely. With the control link down, nothing you say reaches both of them.',
@@ -773,6 +1059,8 @@
         epilogue: 'You write up the incident, recommend an HA1 backup link, and file a change to remove "any-any-allow (TEMP)". It is denied by the Change Advisory Board for lacking a rollback plan.',
         items: ITEMS,
         acts: ACTS,
-        rooms: ROOMS
+        rooms: ROOMS,
+        mystery: MYSTERY,
+        ambient: AMBIENT
     });
 });
