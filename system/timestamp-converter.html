@@ -1202,7 +1202,7 @@ Mon Jan 07 15:30:00 2024
         function clearAllSavedData() {
             try { if (typeof StorageUtils !== 'undefined') StorageUtils.remove('timestamp-converter'); } catch(e) {}
             // Reset to defaults
-            document.getElementById('timestampInput').value = '';
+            document.getElementById('timestampInput').value = sampleTimestamps;
             document.getElementById('sourceTz').value = '';
             document.getElementById('tz1').value = 'America/New_York';
             document.getElementById('tz2').value = 'UTC';
@@ -1213,27 +1213,29 @@ Mon Jan 07 15:30:00 2024
             safeAnnounce('All saved data has been cleared', 'polite');
         }
 
+        const sampleTimestamps = document.getElementById('timestampInput').defaultValue;
+
+        function applyDefaults() {
+            const input = document.getElementById('timestampInput');
+            if (!input.value.trim()) input.value = sampleTimestamps;
+            if (!document.getElementById('tz1').value) document.getElementById('tz1').value = 'America/New_York';
+            if (!document.getElementById('tz2').value) document.getElementById('tz2').value = 'UTC';
+            updateCharCounter();
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             setupDragDrop();
             try {
-                StorageUtils.loadFormInputs('timestamp-converter', timestampConverterFields, function() {
-                    // Set defaults if timezones are still empty after loading saved data
-                    if (!document.getElementById('tz1').value) {
-                        document.getElementById('tz1').value = 'America/New_York';
-                    }
-                    if (!document.getElementById('tz2').value) {
-                        document.getElementById('tz2').value = 'UTC';
-                    }
-                    updateCharCounter();
-                });
+                StorageUtils.loadFormInputs('timestamp-converter', timestampConverterFields);
                 StorageUtils.autoSaveFormInputs('timestamp-converter', timestampConverterFields);
             } catch(e) {
                 // External utils may not be available (file:// protocol, etc.)
-                document.getElementById('tz1').value = 'America/New_York';
-                document.getElementById('tz2').value = 'UTC';
-                updateCharCounter();
             }
+            applyDefaults();
         });
+
+        // Mobile browsers restore form state after DOMContentLoaded (reload, back/forward)
+        window.addEventListener('pageshow', applyDefaults);
     </script>
     <script>
         document.querySelector('.skip-link').addEventListener('click', function(e) {
