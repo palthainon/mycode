@@ -45,20 +45,20 @@ window.CERT_BANK = {
             domain: 'c1-1',
             objective: '1.2',
             type: 'single',
-            q: 'A user wants to pay at a store checkout by holding a smartphone a few centimeters from the payment terminal. Which technology makes this possible?',
+            q: 'A user pays at a store checkout by holding a smartphone within about 4 cm of the payment terminal. The phone was never paired with the terminal, and moving it 30 cm away stops the exchange. Which technology is the phone using?',
             choices: [
-                'Bluetooth',
-                'Wi-Fi hotspot',
+                'Bluetooth Low Energy',
+                'Wi-Fi Direct',
                 'NFC',
-                'USB-C tethering'
+                'Infrared (IR)'
             ],
             answer: [2],
-            explain: 'Near-field communication (NFC) works only over a few centimeters, which is why it is used for tap-to-pay and badge-style interactions.',
+            explain: 'Near-field communication (NFC) works only within a few centimeters and starts an exchange as soon as two devices come close, with no pairing step. That is why tap-to-pay and badge readers use it. Rule: centimeters and a tap with no pairing points to NFC; meters and pairing points to Bluetooth.',
             why: [
-                'Bluetooth works over several meters and requires pairing; it is not the contactless payment standard.',
-                'A hotspot shares the phone\'s cellular data with other devices; it does not talk to payment terminals.',
-                'Correct: NFC is a very short-range radio technology designed for contactless payments and tap interactions.',
-                'Tethering requires a cable connection and shares internet access, not payment credentials.'
+                'BLE is tempting because it is low power and used for proximity beacons, but it works over meters and the exchange would not stop at 30 cm.',
+                'Wi-Fi Direct is tempting because it connects devices without a router, but it reaches tens of meters and needs a connection setup first.',
+                'Correct: NFC only works within a few centimeters and needs no pairing, which matches both details in the scenario.',
+                'IR is tempting because it is short range and needs no pairing, but most current phones lack an IR receiver and payment terminals do not use it.'
             ]
         },
         {
@@ -66,20 +66,20 @@ window.CERT_BANK = {
             domain: 'c1-1',
             objective: '1.2',
             type: 'single',
-            q: 'Which connector is reversible, so it can be inserted either way up, and is now common for charging and data on both laptops and phones?',
+            q: 'A user with a thin laptop wants one cable from the laptop to a desk dock. That cable must charge the laptop, carry USB data to a keyboard and drive, and send video to an external monitor. Which laptop port should the dock connect to?',
             choices: [
                 'USB-C',
-                'microUSB',
-                'miniUSB',
-                'USB 3.0 Type-A'
+                'HDMI',
+                'USB 3.0 Type-A',
+                'Mini DisplayPort'
             ],
             answer: [0],
-            explain: 'USB-C has a symmetrical oval connector that works in either orientation, and it carries power, data and often video.',
+            explain: 'A USB-C port can carry USB Power Delivery charging, USB data and DisplayPort Alt Mode video over one cable, as long as that port supports those features. Rule: check every requirement in the stem; a port that meets only one, such as video only, is wrong.',
             why: [
-                'Correct: USB-C is the reversible connector used widely on current laptops and phones.',
-                'microUSB is keyed and only fits one way; it is found on older phones and accessories.',
-                'miniUSB is an older, keyed connector used on older cameras and devices.',
-                'Type-A is the flat rectangular host connector and only inserts one way.'
+                'Correct: a USB-C port with Power Delivery and Alt Mode carries power, data and video over one cable.',
+                'HDMI is tempting because it carries video and audio, but it cannot charge the laptop or carry USB data to the dock.',
+                'Type-A is tempting because it carries fast USB data, but a laptop cannot take charging power through it or send native video.',
+                'Mini DisplayPort is tempting for driving a monitor, but it carries no charging power and no USB data.'
             ]
         },
         {
@@ -87,20 +87,20 @@ window.CERT_BANK = {
             domain: 'c1-1',
             objective: '1.3',
             type: 'single',
-            q: 'A company lets employees read corporate email on their personal phones. Management wants to require a screen lock and be able to wipe only corporate data if an employee leaves. What should the technician implement?',
+            q: 'A company lets employees read corporate email on their personal phones. Management wants to require a screen lock and, if an employee leaves, remove company email and files without erasing the employee\'s personal photos. What should the technician implement?',
             choices: [
-                'Enable location services on every phone.',
-                'Replace each phone\'s physical SIM card with an eSIM from the company\'s carrier.',
-                'Enroll the phones in an MDM solution with a BYOD policy.',
-                'Require a Bluetooth pairing PIN on every phone.'
+                'Have each user enable the phone maker\'s locate-and-erase service.',
+                'Require full-device encryption on every personal phone.',
+                'Enroll the phones in MDM and manage the corporate apps and data.',
+                'Protect each email account with a strong password and 2FA.'
             ],
             answer: [2],
-            explain: 'Mobile device management (MDM) enrolls devices and pushes policies such as passcode requirements. In a BYOD model, MDM can separate corporate apps and data so only that portion is wiped.',
+            explain: 'MDM pushes policies such as passcode requirements. On personally owned (BYOD) phones it usually manages only the corporate apps or a work profile, so a selective wipe removes company data and leaves personal content. Rule: company-owned devices can get a full wipe; personally owned devices call for a selective wipe of managed data.',
             why: [
-                'Location services help find a device but do not enforce screen locks or selectively remove corporate data.',
-                'An eSIM changes how the carrier profile is stored; it has nothing to do with policy enforcement.',
-                'Correct: MDM enforces device policies and supports selective wipe of corporate data on personally owned devices.',
-                'Bluetooth PINs secure pairing with accessories, not access to corporate email.'
+                'A locate-and-erase service is tempting because it removes data remotely, but it wipes the whole phone, personal photos included, and the company does not control it.',
+                'Encryption is tempting because it protects data on a lost phone, but it cannot remove corporate data selectively when an employee leaves.',
+                'Correct: MDM enforces the screen lock policy and can wipe only the managed corporate apps and data.',
+                'Strong sign-in protects the account, but it does not enforce a device screen lock or remove mail already stored on the phone.'
             ]
         },
         {
@@ -133,16 +133,16 @@ window.CERT_BANK = {
             choices: [
                 'Limit the cloud app\'s sync to Wi-Fi only.',
                 'Disable location services for the camera app.',
-                'Turn off Bluetooth while traveling.',
-                'Switch the phone from a physical SIM to an eSIM.'
+                'Turn off cellular data for the camera app.',
+                'Lower the camera\'s photo and video resolution.'
             ],
             answer: [0],
-            explain: 'Most cloud storage and sync apps can be limited to upload only on Wi-Fi. That keeps large media uploads from consuming a capped cellular data plan.',
+            explain: 'Most cloud storage apps can be set to upload only over Wi-Fi, so large media uploads wait until the phone is off the cellular network. Rule: find the app that actually moves the data and change that app\'s setting, rather than the app that creates the files.',
             why: [
-                'Correct: restricting sync to Wi-Fi stops large uploads from counting against the cellular data cap.',
-                'Location tagging adds a tiny amount of data to each photo and does not cause the large uploads.',
-                'Bluetooth traffic does not use the cellular data plan.',
-                'The SIM type does not change how much data the apps consume.'
+                'Correct: restricting the cloud app to Wi-Fi stops large uploads from counting against the cellular data plan.',
+                'Location tagging is tempting because it is a camera setting, but it adds only a few bytes to each photo and does not cause uploads.',
+                'Tempting because the camera takes the photos, but the camera saves locally; the cloud app does the uploading over cellular.',
+                'Smaller files use less data, so this is tempting, but every photo and video would still upload over cellular.'
             ]
         },
         {
@@ -150,20 +150,20 @@ window.CERT_BANK = {
             domain: 'c1-2',
             objective: '2.1',
             type: 'single',
-            q: 'A firewall administrator needs to allow inbound Remote Desktop Protocol connections to a Windows server. Which port should be opened by default?',
+            q: 'After a firewall change, users at a branch office can still browse internal HTTPS sites and open mapped file shares, but their Remote Desktop connections to a Windows server time out. Which port was most likely left closed?',
             choices: [
                 '445',
                 '3389',
-                '22',
+                '5900',
                 '443'
             ],
             answer: [1],
-            explain: 'RDP listens on TCP port 3389 by default. Exposing it directly to the internet is risky, so it is usually reached through a VPN or gateway.',
+            explain: 'Remote Desktop Protocol listens on port 3389 by default. HTTPS (443) and SMB file sharing (445) still work, so those ports are open. Rule: map each working and failing service to its port; the services that still work rule out their own ports.',
             why: [
-                'Port 445 is SMB/CIFS file sharing.',
-                'Correct: 3389 is the default RDP port.',
-                'Port 22 is SSH.',
-                'Port 443 is HTTPS.'
+                'Port 445 is tempting because it is a common Windows port, but it carries SMB, and the mapped file shares still work.',
+                'Correct: RDP uses port 3389 by default, and it is the only failing service.',
+                'Port 5900 is tempting because VNC also provides a remote desktop, but VNC is a different protocol; Windows Remote Desktop uses 3389.',
+                'Port 443 is tempting because some remote access gateways use it, but HTTPS browsing still works, so 443 is open.'
             ]
         },
         {
@@ -171,7 +171,7 @@ window.CERT_BANK = {
             domain: 'c1-2',
             objective: '2.1',
             type: 'multi',
-            q: 'An email client must be configured to download or read messages from a mail server. Which two protocols are designed for retrieving mail? (Choose two.)',
+            q: 'A technician sets up a new mail client. Test messages send successfully, but no incoming mail ever appears in the client. Which two protocols could the technician configure for the incoming mail server? (Choose two.)',
             choices: [
                 'SMTP',
                 'POP3',
@@ -180,13 +180,13 @@ window.CERT_BANK = {
                 'SMB'
             ],
             answer: [1, 2],
-            explain: 'POP3 (port 110) and IMAP (port 143) are retrieval protocols used by mail clients. SMTP sends mail instead: port 25 between servers, and usually port 587 when a client submits mail.',
+            explain: 'POP3 (110, or 995 with TLS) and IMAP (143, or 993 with TLS) retrieve mail for a client. SMTP sends mail: port 25 between servers and usually 587 for client submission. Rule: sort mail protocols by direction; SMTP pushes mail out, while POP3 and IMAP pull it in.',
             why: [
-                'SMTP sends and relays mail; it does not retrieve messages for a client.',
-                'Correct: POP3 retrieves mail, typically downloading it to the client.',
-                'Correct: IMAP retrieves mail while keeping messages and folders synchronized on the server.',
-                'LDAP queries directory services such as user and group information.',
-                'SMB provides file and printer sharing, not mail retrieval.'
+                'SMTP is tempting because it appears in every mail setup, but it sends mail, and sending already works.',
+                'Correct: POP3 retrieves mail, typically downloading it to one client.',
+                'Correct: IMAP retrieves mail and keeps messages and folders synchronized on the server.',
+                'LDAP is tempting because mail clients use it for address book lookups, but it queries directories and does not retrieve messages.',
+                'SMB is tempting because it is a common Windows protocol, but it shares files and printers, not mail.'
             ]
         },
         {
@@ -194,20 +194,20 @@ window.CERT_BANK = {
             domain: 'c1-2',
             objective: '2.2',
             type: 'single',
-            q: 'A small office wants its new wireless network to use the 6GHz band to avoid congestion on older bands. Which Wi-Fi generation must both the access points and the clients support at minimum?',
+            q: 'A small office wants its new wireless network to run in the 6GHz band to avoid congestion. To keep costs down, it will buy the oldest Wi-Fi generation that can do this. Which generation must both the access points and the clients support?',
             choices: [
                 'Wi-Fi 5 (802.11ac)',
-                'Wi-Fi 6E (802.11ax in 6GHz)',
-                'Wi-Fi 4 (802.11n)',
-                '802.11g'
+                'Wi-Fi 6E (802.11ax)',
+                'Wi-Fi 6 (802.11ax)',
+                'Wi-Fi 7 (802.11be)'
             ],
             answer: [1],
-            explain: 'Wi-Fi 6E extends 802.11ax into the 6GHz band. Earlier generations such as Wi-Fi 5 and Wi-Fi 4 cannot use 6GHz at all.',
+            explain: 'Wi-Fi 6E is 802.11ax extended into the 6GHz band; plain Wi-Fi 6 uses only 2.4GHz and 5GHz. Wi-Fi 7 also supports 6GHz but is newer. Rule: band support comes from the certified generation, and a link can use only a band that both ends support.',
             why: [
-                'Wi-Fi 5 operates only in the 5GHz band.',
-                'Correct: Wi-Fi 6E is the first generation that operates in the 6GHz band.',
-                'Wi-Fi 4 operates in 2.4GHz and 5GHz only.',
-                '802.11g is a legacy 2.4GHz-only standard.'
+                'Wi-Fi 5 is tempting because it moved traffic off 2.4GHz, but it operates only in the 5GHz band.',
+                'Correct: Wi-Fi 6E is the first and oldest generation that can operate in the 6GHz band.',
+                'Tempting because it shares the 802.11ax standard with 6E, but original Wi-Fi 6 devices cannot use the 6GHz band.',
+                'Wi-Fi 7 supports 6GHz, but it is newer and costs more, so it is not the oldest generation that meets the need.'
             ]
         },
         {
@@ -257,7 +257,7 @@ window.CERT_BANK = {
             domain: 'c1-2',
             objective: '2.4',
             type: 'single',
-            q: 'A domain owner wants to publish, in a DNS TXT record, the list of mail servers that are allowed to send email for the domain. Which mechanism is this?',
+            q: 'A company starts sending invoices through a third-party billing service that uses the company\'s domain in the From address. Receiving servers reject the invoices, and the bounce messages say the sending IP address is not authorized to send for the domain. Which record should the administrator update?',
             choices: [
                 'SPF',
                 'DKIM',
@@ -265,12 +265,12 @@ window.CERT_BANK = {
                 'MX'
             ],
             answer: [0],
-            explain: 'Sender Policy Framework (SPF) is a TXT record that lists the hosts authorized to send mail for a domain. Receivers check it to detect spoofed senders.',
+            explain: 'An SPF record is a DNS TXT record listing the hosts allowed to send mail for a domain, so the billing service\'s servers must be added to it. Rule: SPF answers which servers may send, DKIM proves a message was signed by the domain, DMARC sets the policy for failures, and MX names inbound servers.',
             why: [
-                'Correct: SPF publishes the authorized sending servers for a domain.',
-                'DKIM publishes a public key used to verify a cryptographic signature on messages; it does not list sending servers.',
-                'DMARC tells receivers what to do when SPF or DKIM checks fail and where to send reports.',
-                'MX records identify servers that receive mail, not servers allowed to send it.'
+                'Correct: SPF lists authorized sending hosts, and the error says the sending IP is not authorized.',
+                'DKIM is tempting because third-party senders often need their own DKIM key, but DKIM checks a message signature, not the sending IP address.',
+                'DMARC is tempting because it tells receivers to reject failures, but it only sets policy and does not list allowed senders.',
+                'MX is tempting because it is the best-known mail record, but it names servers that receive mail, not servers allowed to send it.'
             ]
         },
         {
@@ -301,18 +301,18 @@ window.CERT_BANK = {
             type: 'single',
             q: 'A technician must mount a wireless access point on a ceiling where no electrical outlet is available. The existing switch does not provide Power over Ethernet. What is the simplest way to power the access point?',
             choices: [
-                'Replace the switch with an unmanaged switch that has more ports.',
-                'Terminate the cable on a patch panel.',
-                'Install a PoE injector between the switch and the access point.',
-                'Connect the access point to the cable modem.'
+                'Add a PoE splitter at the access point end.',
+                'Use powerline adapters to carry data to the access point.',
+                'Add a PoE injector at the switch end of the cable.',
+                'Replace the switch with a managed switch.'
             ],
             answer: [2],
-            explain: 'A PoE injector sits between a non-PoE switch and the device, adding power to the Ethernet cable so a single cable carries both data and power.',
+            explain: 'A PoE injector sits between a non-PoE switch and the device and adds power to the Ethernet cable, so one cable carries data and power. Rule: an injector adds power where the source lacks it; a splitter takes power off a PoE cable for a device that lacks PoE support.',
             why: [
-                'Being unmanaged has nothing to do with PoE; many unmanaged switches provide no power.',
-                'A patch panel is a passive termination point and supplies no power.',
-                'Correct: an injector adds PoE to a single link without replacing the switch.',
-                'A cable modem provides the internet connection, not power for other devices.'
+                'A splitter is tempting because it is PoE equipment, but it separates power from an already powered cable, and this switch supplies none.',
+                'Powerline adapters are tempting because they carry network traffic over building wiring, but they need an outlet at the access point.',
+                'Correct: an injector adds PoE to one link without replacing the switch.',
+                'Managed switches are tempting as an upgrade, but managed means configurable features such as VLANs, not that the ports supply power.'
             ]
         },
         {
@@ -362,20 +362,20 @@ window.CERT_BANK = {
             domain: 'c1-2',
             objective: '2.7',
             type: 'single',
-            q: 'Which network type is a dedicated high-speed network that gives servers block-level access to shared storage?',
+            q: 'A database cluster needs shared storage that each server sees as a locally attached disk it can format with its own file system. The storage traffic must run on a dedicated high-speed network, separate from user traffic. What should be deployed?',
             choices: [
-                'PAN',
+                'NAS',
                 'SAN',
-                'MAN',
-                'WLAN'
+                'DAS',
+                'VLAN'
             ],
             answer: [1],
-            explain: 'A storage area network (SAN) presents shared storage to servers as if it were locally attached block devices.',
+            explain: 'A storage area network (SAN) presents block-level storage to servers over a dedicated network, often Fibre Channel or iSCSI, so each server formats it like a local disk. A NAS shares files over the regular LAN using SMB or NFS. Rule: block-level storage the server formats points to a SAN; file shares point to a NAS.',
             why: [
-                'A personal area network links devices around one person, such as Bluetooth accessories.',
-                'Correct: a SAN provides block-level storage access to servers.',
-                'A metropolitan area network spans a city or campus; it is defined by geography, not storage.',
-                'A wireless LAN connects clients over Wi-Fi and is not a storage network.'
+                'A NAS is tempting because it is shared network storage, but it serves files over the LAN, not raw disks the servers format themselves.',
+                'Correct: a SAN gives servers block-level access to shared storage over a dedicated network.',
+                'Direct-attached storage is tempting because it looks like a local disk, but it connects to one server and is not shared over a network.',
+                'A VLAN is tempting because it separates traffic on shared switches, but it only segments the network; it provides no storage.'
             ]
         },
         {
@@ -383,20 +383,20 @@ window.CERT_BANK = {
             domain: 'c1-2',
             objective: '2.8',
             type: 'single',
-            q: 'A technician needs to find which unlabeled cable in a bundle at a patch panel connects to a specific wall jack. Which tool is designed for this job?',
+            q: 'A technician needs to find which of 48 unlabeled cables at a patch panel connects to a specific wall jack, without disconnecting each cable to check it. Which tool is designed for this job?',
             choices: [
                 'Loopback plug',
-                'Crimper',
-                'Wi-Fi analyzer',
+                'Punchdown tool',
+                'Cable tester',
                 'Toner probe'
             ],
             answer: [3],
-            explain: 'A toner probe puts a signal on the cable at the wall jack, and the probe detects that signal at the other end, so the technician can pick out the correct cable.',
+            explain: 'A toner puts a signal on the cable at the wall jack, and the probe picks up that signal at the patch panel without disconnecting anything. Rule: a toner and probe traces or identifies a cable, a cable tester checks the wiring of a cable you already know, and a loopback plug tests a port.',
             why: [
-                'A loopback plug tests whether a port can send and receive; it does not locate cables.',
-                'A crimper attaches connectors to cable ends.',
-                'A Wi-Fi analyzer examines wireless signals and channels, not copper cabling.',
-                'Correct: a toner and probe is used to trace and identify a specific cable.'
+                'A loopback plug is tempting for port testing, but it only checks whether one port can send and receive; it does not locate a cable.',
+                'A punchdown tool is tempting because the work happens at a patch panel, but it terminates wires and does not identify them.',
+                'A cable tester is tempting because it checks cables, but it needs both ends of a known cable connected, so each one would have to be checked.',
+                'Correct: the toner and probe trace a specific cable through a bundle without unplugging anything.'
             ]
         },
         {
@@ -427,18 +427,18 @@ window.CERT_BANK = {
             type: 'single',
             q: 'A contractor is running network cable through the space above a drop ceiling that the building uses as an air return for the HVAC system. Which cable type does fire code typically require?',
             choices: [
-                'Plenum-rated',
-                'Direct burial',
-                'Shielded twisted pair',
-                'Coaxial'
+                'Plenum-rated (CMP)',
+                'Riser-rated (CMR)',
+                'PVC general-purpose (CM)',
+                'Shielded twisted pair (STP)'
             ],
             answer: [0],
-            explain: 'Plenum-rated cable has a jacket that produces less smoke and fewer toxic fumes when it burns, so it is required in air-handling spaces.',
+            explain: 'Plenum-rated cable has a jacket that produces less smoke and fewer toxic fumes when it burns, so it is required in air-handling spaces. Rule: fire ratings form a hierarchy, CMP above CMR above CM; a higher rating can replace a lower one, but not the other way around.',
             why: [
-                'Correct: air-handling (plenum) spaces require plenum-rated cable.',
-                'Direct burial cable is built for underground runs, not air-handling spaces.',
-                'Shielding reduces interference; it says nothing about fire rating.',
-                'Coax is a cable construction, not a fire rating, and is not normally used for Ethernet runs.'
+                'Correct: air-handling spaces require plenum-rated cable because its jacket limits smoke and toxic fumes in a fire.',
+                'Riser cable is tempting because it is fire-rated, but it is rated for vertical shafts between floors, not air-handling spaces.',
+                'General-purpose PVC cable is common and cheap, but it gives off dense, toxic smoke when burned, so it is not allowed in a plenum.',
+                'STP is tempting because it is a higher-grade cable, but shielding reduces interference and says nothing about fire rating.'
             ]
         },
         {
@@ -467,20 +467,20 @@ window.CERT_BANK = {
             domain: 'c1-3',
             objective: '3.2',
             type: 'single',
-            q: 'A technician terminates one end of a patch cable using the T568A standard and the other end using T568B. What type of cable has been made?',
+            q: 'A technician must link two older switches through their regular access ports. Neither switch supports Auto-MDIX, and the link stays down with a standard patch cable. Which cable should the technician make?',
             choices: [
-                'Straight-through',
-                'Crossover',
-                'Rollover',
-                'Loopback'
+                'Straight-through (T568B to T568B)',
+                'Crossover (T568A to T568B)',
+                'Rollover (pin 1 to pin 8)',
+                'Straight-through (T568A to T568A)'
             ],
             answer: [1],
-            explain: 'A cable with T568A on one end and T568B on the other swaps the transmit and receive pairs, which makes it a crossover cable.',
+            explain: 'Two like devices, such as switch to switch or PC to PC, need their transmit and receive pairs swapped unless a port supports Auto-MDIX. T568A on one end and T568B on the other does that swap. Rule: the same standard on both ends makes a straight-through cable; mixed standards make a crossover.',
             why: [
-                'A straight-through cable uses the same standard, either A or B, on both ends.',
-                'Correct: mixing T568A and T568B on opposite ends produces a crossover cable.',
-                'A rollover (console) cable reverses all eight pins and is used for device console ports.',
-                'A loopback plug sends a port\'s output back to its own input; it is not a two-ended cable.'
+                'This is the standard patch cable already tried; it does not swap the pairs that two like devices need.',
+                'Correct: mixing T568A and T568B swaps the transmit and receive pairs for a switch-to-switch link.',
+                'A rollover is tempting because it is used with switches, but it connects a console port to a serial port, not two data ports.',
+                'Tempting because T568A is linked with crossovers, but the same standard on both ends is still a straight-through cable.'
             ]
         },
         {
@@ -488,22 +488,22 @@ window.CERT_BANK = {
             domain: 'c1-3',
             objective: '3.3',
             type: 'multi',
-            q: 'Which two statements about error-correcting code (ECC) memory are true? (Choose two.)',
+            q: 'A technician installs unbuffered ECC DIMMs in a desktop built on a consumer motherboard and CPU. The system boots and runs normally, but the firmware reports that ECC is not active. Which two conclusions are correct? (Choose two.)',
             choices: [
-                'It doubles memory bandwidth compared to non-ECC memory.',
-                'It is made only in the SODIMM form factor.',
-                'It can detect and correct single-bit memory errors.',
-                'It requires a motherboard and CPU that support ECC.',
-                'It is required for dual-channel memory to work.'
+                'Registered (buffered) ECC modules are needed to turn ECC on.',
+                'Enabling dual-channel mode in firmware will activate ECC.',
+                'The modules are most likely running as ordinary non-ECC memory.',
+                'ECC needs support from both the CPU and the motherboard.',
+                'ECC must be enabled in the operating system\'s memory settings.'
             ],
             answer: [2, 3],
-            explain: 'ECC memory stores extra check bits so it can detect and correct single-bit errors. It only works when the motherboard and CPU support it, which is why it is common in servers and workstations.',
+            explain: 'ECC memory stores extra check bits so the memory controller can detect and correct single-bit errors. The CPU and motherboard must both support it; otherwise unbuffered ECC modules usually run as plain memory. Rule: a feature built into one component only works when every part of the platform supports it.',
             why: [
-                'ECC adds reliability, not bandwidth; it can even be slightly slower.',
-                'ECC is available in DIMM form factors and is very common in server DIMMs.',
-                'Correct: that is the purpose of the extra ECC bits.',
-                'Correct: ECC needs platform support to work.',
-                'Dual-channel operation works with ordinary non-ECC memory.'
+                'Tempting because registered DIMMs are common in servers, but registered refers to signal buffering, and consumer boards generally cannot use registered modules at all.',
+                'Tempting because it is a memory setting, but channel mode affects bandwidth, not whether error correction runs.',
+                'Correct: without platform support, the extra check bits are ignored and the modules work as standard memory.',
+                'Correct: error correction is done by the memory controller, so the CPU and board must both support ECC.',
+                'Tempting because many features are toggled in the OS, but ECC runs in the memory controller below the OS, which can only report it.'
             ]
         },
         {
@@ -532,20 +532,20 @@ window.CERT_BANK = {
             domain: 'c1-3',
             objective: '3.4',
             type: 'single',
-            q: 'A small server needs striping with distributed parity so it can keep running if one drive fails, using the fewest drives possible. Which configuration meets this requirement?',
+            q: 'A small server must keep running if any one drive fails. The owner has three identical drives and wants as much usable capacity as possible from them. Which configuration meets these requirements?',
             choices: [
-                'RAID 0 with two drives',
-                'RAID 5 with three drives',
-                'RAID 1 with two drives',
-                'RAID 10 with four drives'
+                'RAID 0 across all three drives',
+                'RAID 5 across all three drives',
+                'RAID 1 with the third drive as a hot spare',
+                'RAID 6 across all three drives'
             ],
             answer: [1],
-            explain: 'RAID 5 stripes data with distributed parity across at least three drives and survives the loss of any one drive.',
+            explain: 'RAID 5 needs at least three drives, survives one drive failure, and gives the capacity of all drives but one. Rule: compare usable capacity for the drives you have: RAID 1 and RAID 10 give half, RAID 5 gives n-1, and RAID 6 gives n-2 but needs at least four drives.',
             why: [
-                'RAID 0 stripes without parity and has no fault tolerance.',
-                'Correct: RAID 5 needs a minimum of three drives and tolerates one drive failure.',
-                'RAID 1 mirrors; it is fault tolerant but uses no striping or parity.',
-                'RAID 10 combines mirroring and striping without parity and needs four drives.'
+                'RAID 0 is tempting because it uses all the capacity, but it has no fault tolerance, so one failure loses the array.',
+                'Correct: RAID 5 survives one failure and leaves two drives\' worth of usable space.',
+                'This survives a failure, but it leaves only one drive\'s worth of usable space, half of what RAID 5 provides.',
+                'RAID 6 is tempting because it survives two failures, but it needs at least four drives.'
             ]
         },
         {
@@ -553,7 +553,7 @@ window.CERT_BANK = {
             domain: 'c1-3',
             objective: '3.4',
             type: 'multi',
-            q: 'Which two RAID levels provide fault tolerance by mirroring data? (Choose two.)',
+            q: 'A server\'s storage must survive a drive failure. The administrator wants a rebuild to simply copy data from a surviving drive instead of recalculating parity. Which two RAID levels meet this goal? (Choose two.)',
             choices: [
                 'RAID 1',
                 'RAID 10',
@@ -562,13 +562,13 @@ window.CERT_BANK = {
                 'RAID 6'
             ],
             answer: [0, 1],
-            explain: 'RAID 1 mirrors data between drives, and RAID 10 stripes across mirrored pairs. RAID 5 and RAID 6 use parity instead, and RAID 0 has no redundancy.',
+            explain: 'RAID 1 mirrors data between drives, and RAID 10 stripes data across mirrored pairs, so a rebuild copies from the surviving mirror. RAID 5 and RAID 6 rebuild by calculating from parity. Rule: mirroring rebuilds by copying, parity rebuilds by computing, and RAID 0 has nothing to rebuild from.',
             why: [
-                'Correct: RAID 1 is a straight mirror.',
-                'Correct: RAID 10 stripes data across mirrored pairs.',
-                'RAID 0 stripes data with no redundancy at all.',
-                'RAID 5 uses distributed parity, not mirroring.',
-                'RAID 6 uses dual parity, not mirroring.'
+                'Correct: RAID 1 is a straight mirror, so a rebuild copies the surviving drive.',
+                'Correct: RAID 10 stripes across mirrored pairs, so a rebuild copies from the failed drive\'s partner.',
+                'RAID 0 is tempting because it is part of RAID 10, but on its own it stripes with no redundancy.',
+                'RAID 5 is the most common fault-tolerant level, but it rebuilds by recalculating from distributed parity.',
+                'RAID 6 survives two failures, which is tempting, but it also rebuilds by calculating from dual parity.'
             ]
         },
         {
@@ -597,20 +597,20 @@ window.CERT_BANK = {
             domain: 'c1-3',
             objective: '3.5',
             type: 'single',
-            q: 'Which motherboard component securely stores cryptographic keys, such as those used by BitLocker, and is a hardware requirement for Windows 11?',
+            q: 'A technician updates the UEFI firmware on a Windows 11 laptop. On the next boot, BitLocker asks for the 48-digit recovery key instead of starting normally. Which security component holds the BitLocker key and releases it only when the boot measurements match?',
             choices: [
                 'HSM',
-                'CMOS battery',
+                'UEFI administrator password',
                 'Secure Boot',
                 'TPM'
             ],
             answer: [3],
-            explain: 'The Trusted Platform Module (TPM) is a secure crypto processor that stores keys and measures the boot process. Windows 11 requires TPM 2.0.',
+            explain: 'The Trusted Platform Module (TPM) seals the BitLocker key to measurements of the boot process. The TPM can be a discrete chip or firmware TPM in the CPU, such as Intel PTT or AMD fTPM; Windows 11 requires TPM 2.0. Rule: changed boot measurements stop the TPM from releasing keys, so suspend BitLocker before firmware updates.',
             why: [
-                'A hardware security module is a separate, often network-attached, device for managing keys at scale, not a standard motherboard component.',
-                'The CMOS battery keeps the real-time clock and firmware settings powered; it stores no keys.',
-                'Secure Boot checks bootloader signatures, but it is a firmware feature, not key storage hardware.',
-                'Correct: the TPM stores keys and is required by Windows 11.'
+                'An HSM is tempting because it stores keys in hardware, but it is a separate appliance or card for managing keys at scale, not what laptop BitLocker uses.',
+                'Tempting because it is firmware security, but a setup password only controls access to firmware settings and stores no disk keys.',
+                'Secure Boot is tempting because it checks boot components, but it verifies signatures and does not store the BitLocker key.',
+                'Correct: the TPM, whether discrete or firmware-based, releases the key only when boot measurements match.'
             ]
         },
         {
@@ -641,18 +641,18 @@ window.CERT_BANK = {
             type: 'single',
             q: 'Confidential documents are being left in the output tray of a shared multifunction printer. Management wants each job held until its owner is at the device. Which feature meets this need?',
             choices: [
-                'Duplex printing',
-                'An automatic document feeder',
+                'Printer audit logging',
+                'Badge access to the print room',
                 'Secured print',
-                'Network scan to email'
+                'Encrypting print jobs in transit'
             ],
             answer: [2],
-            explain: 'Secured print (also called pull printing) holds a job in the queue until the user authenticates at the device, often with a badge or PIN, so documents are not left unattended.',
+            explain: 'Secured print, also called pull printing, holds a job in the queue until the user authenticates at the device with a badge or PIN. Rule: put the control where the exposure happens; here the risk is pages sitting in the tray, so the job must wait for its owner.',
             why: [
-                'Duplex prints on both sides of the page and does nothing to protect output.',
-                'The ADF feeds originals for scanning or copying, not print security.',
-                'Correct: held jobs are released only when the owner authenticates at the printer.',
-                'Scan to email sends scanned documents out; it does not hold print jobs.'
+                'Audit logging is tempting because it tracks who printed what, but it records events after the fact and leaves pages in the tray.',
+                'Restricting the room is tempting, but everyone allowed in can still pick up other people\'s printouts from the shared device.',
+                'Correct: held jobs print only when the owner authenticates at the printer.',
+                'Encryption protects the job on the network, but once it prints, the pages still sit unattended in the tray.'
             ]
         },
         {
@@ -681,20 +681,20 @@ window.CERT_BANK = {
             domain: 'c1-4',
             objective: '4.1',
             type: 'single',
-            q: 'Which statement best describes a Type 1 hypervisor?',
+            q: 'A company buys a new rack server with no operating system installed. It will host a dozen VMs running both Windows and Linux, and the administrator wants the virtualization layer to run directly on the hardware with the least overhead. What should be installed?',
             choices: [
-                'It runs directly on the host hardware, with no host OS beneath it.',
-                'It runs as an application on top of an installed desktop operating system.',
-                'It shares the host OS kernel among isolated application instances.',
-                'It streams a single application to a client without installing it.'
+                'A Type 1 hypervisor',
+                'A Type 2 hypervisor',
+                'A container engine',
+                'An application streaming service'
             ],
             answer: [0],
-            explain: 'A Type 1 (bare-metal) hypervisor runs directly on the host hardware with no general-purpose OS underneath. A Type 2 hypervisor runs as an application on top of a host OS.',
+            explain: 'A Type 1 (bare-metal) hypervisor installs directly on the server hardware with no general-purpose OS beneath it. A Type 2 hypervisor runs as an application on an existing OS. Rule: bare metal and servers point to Type 1; a laptop or desktop that already runs an OS points to Type 2.',
             why: [
-                'Correct: that is the definition of a bare-metal (Type 1) hypervisor.',
-                'This describes a Type 2 hypervisor.',
-                'This describes containers, not a hypervisor.',
-                'This describes application virtualization.'
+                'Correct: a bare-metal hypervisor runs directly on the hardware and hosts many VMs efficiently.',
+                'Type 2 is tempting because tools like it are familiar on desktops, but it needs a host OS underneath, which adds overhead.',
+                'Containers are tempting because they are lightweight, but they share one host kernel and cannot run full Windows and Linux VMs side by side.',
+                'Application streaming delivers individual apps to clients; it does not run full virtual machines.'
             ]
         },
         {
@@ -707,15 +707,15 @@ window.CERT_BANK = {
                 'A Type 2 hypervisor',
                 'Virtual Desktop Infrastructure',
                 'A container',
-                'A community cloud'
+                'Application virtualization (streaming)'
             ],
             answer: [2],
-            explain: 'Containers bundle an application and its dependencies but share the host operating system kernel. That makes them lighter and faster to start than VMs, each of which runs a full guest OS.',
+            explain: 'Containers bundle an application and its dependencies but share the host OS kernel, so they are lighter and start faster than VMs, each of which runs a full guest OS. Rule: if the workloads can share one OS kernel, use containers; if each needs its own OS, use VMs.',
             why: [
-                'A Type 2 hypervisor runs full VMs, each with its own OS, which uses more resources.',
-                'VDI delivers complete hosted desktops to users, not lightweight application packages.',
+                'A Type 2 hypervisor is tempting because it isolates workloads, but each VM runs its own full OS, which uses more resources.',
+                'VDI is tempting because it is a virtualization technology, but it delivers complete hosted desktops to users, not packaged server apps.',
                 'Correct: containers share the host kernel and package the app with its dependencies.',
-                'A community cloud is a deployment model shared by organizations, not a packaging method.'
+                'Tempting because it isolates an app with its files, but it delivers desktop apps to client computers, not portable packages for Linux hosts.'
             ]
         },
         {
@@ -749,15 +749,15 @@ window.CERT_BANK = {
                 'Multitenancy',
                 'Elasticity',
                 'Metered utilization',
-                'File synchronization'
+                'High availability'
             ],
             answer: [1],
-            explain: 'Elasticity is the ability to add and release resources automatically as demand changes, so capacity tracks load.',
+            explain: 'Elasticity is the ability to add and release resources automatically as demand changes, so capacity tracks load. Rule: elasticity grows and shrinks with demand, high availability survives failures, metering bills for use, and multitenancy means customers share infrastructure.',
             why: [
-                'Multitenancy means multiple customers share the same underlying infrastructure.',
+                'Multitenancy is tempting because cloud hosts serve many customers, but it describes sharing infrastructure, not changing capacity.',
                 'Correct: resources grow and shrink automatically with demand.',
-                'Metering is how usage is measured for billing; it does not add or remove capacity.',
-                'File synchronization keeps copies of files consistent across devices.'
+                'Metering is tempting because extra servers cost more, but it measures usage for billing and does not add or remove capacity.',
+                'High availability is tempting because it keeps the site running, but it uses redundancy to survive failures, not to follow demand.'
             ]
         },
         {
@@ -773,12 +773,12 @@ window.CERT_BANK = {
                 'Community cloud'
             ],
             answer: [3],
-            explain: 'A community cloud is shared by several organizations with common requirements, such as the same regulatory obligations, and is closed to the general public.',
+            explain: 'A community cloud is shared by several organizations with common requirements, such as the same regulations, and is closed to everyone else. Rule: ask who may use it: anyone (public), one organization (private), a defined group with shared needs (community), or a mix of models (hybrid).',
             why: [
-                'A public cloud is open to any paying customer.',
-                'A private cloud serves a single organization.',
-                'A hybrid cloud combines two or more models, such as private plus public.',
-                'Correct: several organizations with shared concerns share the infrastructure.'
+                'Public cloud is tempting because many organizations share it, but it is open to any paying customer.',
+                'Private cloud is tempting because it is closed and compliance-focused, but it serves a single organization.',
+                'Hybrid is tempting because several parties are involved, but hybrid means combining deployment models, such as private plus public.',
+                'Correct: several organizations with shared requirements share infrastructure closed to others.'
             ]
         },
         {
@@ -786,20 +786,20 @@ window.CERT_BANK = {
             domain: 'c1-5',
             objective: '5.1',
             type: 'single',
-            q: 'A desktop shuts down without warning after about 20 minutes of video rendering. The technician finds the CPU heat sink clogged with dust, and monitoring software shows CPU temperatures climbing steadily before each shutdown. What should the technician do first?',
+            q: 'A desktop shuts down without warning after about 20 minutes of video rendering and starts normally after sitting for a few minutes. Monitoring software shows the CPU temperature climbing steadily to about 100 degrees C just before each shutdown. What should the technician do first?',
             choices: [
-                'Replace the power supply with a higher-wattage modular unit.',
-                'Clean the heat sink and fans and renew the thermal paste.',
-                'Reinstall the operating system.',
-                'Replace the CMOS battery.'
+                'Replace the power supply with a higher-wattage unit.',
+                'Clean the CPU cooler and renew the thermal paste.',
+                'Update the graphics card driver.',
+                'Run a memory diagnostic overnight.'
             ],
             answer: [1],
-            explain: 'The symptoms point to thermal protection shutting the system down. Cleaning the heat sink and fans, and reapplying thermal paste if needed, addresses the root cause.',
+            explain: 'A shutdown that follows a rising temperature and clears after the system cools is the CPU\'s thermal protection. Restoring cooling, by removing dust and renewing old thermal paste, fixes the root cause. Rule: when a failure tracks temperature and recovers after cooling, fix the cooling before replacing parts.',
             why: [
-                'Rising temperatures before each shutdown point to heat, not insufficient power.',
-                'Correct: restoring cooling removes the overheating that triggers the shutdowns.',
-                'A software reinstall does nothing about a dust-clogged cooler.',
-                'A weak CMOS battery causes lost time and settings, not shutdowns under load.'
+                'A weak PSU is tempting because the shutdowns happen under load, but the climbing CPU temperature before each one points to heat, not power.',
+                'Correct: restoring heat transfer from the CPU removes the overheating that triggers the shutdowns.',
+                'A driver is tempting because rendering uses the GPU, but a driver fault causes crashes or errors, not a temperature-linked power-off.',
+                'Bad RAM can cause crashes under load, but it produces errors or blue screens, not shutdowns that follow the CPU temperature.'
             ]
         },
         {
@@ -831,16 +831,16 @@ window.CERT_BANK = {
             q: 'A user\'s computer displays a S.M.A.R.T. warning for the system drive at startup, but the computer still boots and works normally. What should the technician do first?',
             choices: [
                 'Back up the data now, then replace the drive.',
-                'Disable S.M.A.R.T. in the firmware to stop the warning.',
-                'Run a full defragmentation to repair bad sectors.',
+                'Run chkdsk /r to repair the drive\'s bad sectors.',
+                'Defragment the drive to move data off weak areas.',
                 'Reinstall the operating system on the same drive.'
             ],
             answer: [0],
-            explain: 'S.M.A.R.T. warnings predict drive failure. The priority is to protect the data by backing it up immediately, then replace the drive.',
+            explain: 'A S.M.A.R.T. warning means the drive is predicting its own failure. The priority is to copy the data off while the drive still works, then replace it. Rule: when hardware warns that it is failing, protect the data first; repairs and scans that stress the device come later, if at all.',
             why: [
-                'Correct: the drive is predicting its own failure, so the data must be protected first.',
-                'Hiding the warning does nothing about the failing drive and risks data loss.',
-                'Defragmentation does not repair sectors and adds heavy wear to a failing drive.',
+                'Correct: the drive is predicting failure, so the data must be protected before anything else.',
+                'chkdsk /r is tempting because it handles bad sectors, but its full surface scan stresses a failing drive before the data is safe.',
+                'Defragmenting is tempting as maintenance, but it does not repair anything and adds heavy wear to a drive that is already failing.',
                 'Reinstalling to a failing drive wastes time and can destroy data that has not been backed up.'
             ]
         },
@@ -870,22 +870,22 @@ window.CERT_BANK = {
             domain: 'c1-5',
             objective: '5.2',
             type: 'multi',
-            q: 'Which two symptoms most commonly indicate that a mechanical hard drive is failing? (Choose two.)',
+            q: 'A user brings in a desktop that has a mechanical hard drive. It has become noisy, and opening files is slow. Which two noises most likely mean the hard drive is failing and the data should be backed up now? (Choose two.)',
             choices: [
-                'Clicking sounds',
-                'Display burn-in',
-                'Jitter on VoIP calls',
-                'Capacitor swelling',
-                'Grinding noises'
+                'Repeated clicking',
+                'Fan noise that rises with CPU load',
+                'Beeps from the motherboard at power-on',
+                'A high-pitched whine under heavy load',
+                'Grinding or scraping'
             ],
             answer: [0, 4],
-            explain: 'Clicking and grinding noises come from the heads or spindle failing inside a mechanical drive. Both mean the data should be backed up and the drive replaced.',
+            explain: 'A mechanical drive has spinning platters and moving read/write heads. Repeated clicking usually means the heads cannot read or keep resetting, and grinding points to bearing failure or heads touching the platters. Rule: tie each noise to a part that moves; only parts with moving pieces make mechanical failure sounds.',
             why: [
                 'Correct: repeated clicking often means the read/write heads are failing.',
-                'Burn-in is a display problem, not a storage problem.',
-                'Jitter is a network symptom.',
-                'Swollen capacitors are a motherboard or power supply problem, not a drive symptom.',
-                'Correct: grinding points to bearing or platter damage.'
+                'Fan noise is tempting because it is a mechanical sound in the case, but fan speed tracks temperature, not drive health.',
+                'Beeps are tempting because they signal hardware faults, but POST beep codes usually point to RAM or video, before the drive is used.',
+                'A whine is tempting because it sounds electrical and worrying, but coil whine comes from power supply or GPU components, not the drive.',
+                'Correct: grinding points to bearing or platter damage inside the drive.'
             ]
         },
         {
@@ -914,20 +914,20 @@ window.CERT_BANK = {
             domain: 'c1-5',
             objective: '5.3',
             type: 'single',
-            q: 'A kiosk with an OLED display has shown the same menu bar for months. Now a faint outline of that menu bar stays visible even when other content is displayed. What is this called?',
+            q: 'A kiosk with an OLED display has shown the same menu bar for months. A faint outline of that menu bar now stays visible over other content, even after the kiosk was off overnight and the panel\'s pixel refresh routine ran. What is this called?',
             choices: [
                 'Dead pixels',
                 'Burn-in',
-                'Incorrect color display',
-                'A flashing screen'
+                'Temporary image retention',
+                'A failing backlight'
             ],
             answer: [1],
-            explain: 'Burn-in is permanent image retention caused by displaying static content for long periods. OLED pixels age unevenly, which leaves a ghost image.',
+            explain: 'Burn-in is permanent image retention caused by showing static content for long periods, because OLED pixels age unevenly. Rule: a ghost image that fades after rest or a refresh cycle is temporary image retention; one that survives them is burn-in.',
             why: [
-                'Dead pixels are single dots that stay off; they do not form the outline of an image.',
-                'Correct: static content has caused uneven pixel wear and a persistent ghost image.',
-                'Incorrect color affects the whole picture, such as a tint, rather than leaving a ghost of old content.',
-                'Flashing is an intermittent flicker, not a fixed ghost image.'
+                'Dead pixels are tempting because they are permanent too, but they are single dots that stay off, not the outline of an image.',
+                'Correct: uneven pixel wear from static content has left a permanent ghost image.',
+                'Image retention is tempting because it looks the same at first, but it fades with rest or a pixel refresh, and this ghost did not.',
+                'A backlight is tempting for display faults, but OLED pixels make their own light, so there is no backlight to fail.'
             ]
         },
         {
@@ -935,20 +935,20 @@ window.CERT_BANK = {
             domain: 'c1-5',
             objective: '5.3',
             type: 'single',
-            q: 'A conference room projector shuts itself off after about 30 minutes of use, then refuses to power back on until it has sat for a while. What should the technician check first?',
+            q: 'A conference room projector shuts itself off after about 30 minutes of use, then refuses to power back on until it has sat for a while. The lamp was replaced last month. What should the technician check first?',
             choices: [
                 'The video cable between the laptop and projector',
                 'The air filters and vents for dust or blockage',
-                'The laptop\'s display resolution',
-                'The projector\'s input source setting'
+                'The lamp\'s remaining hours',
+                'The auto power-off timer setting'
             ],
             answer: [1],
-            explain: 'Intermittent projector shutdowns usually come from overheating. Clogged air filters or blocked vents make the thermal protection shut the lamp off.',
+            explain: 'A projector that shuts down after running and will not restart until it cools is in thermal protection, usually from clogged filters or blocked vents. Rule: when a device fails after warming up and recovers after cooling, check airflow before anything else.',
             why: [
-                'A bad cable causes signal loss, not the projector turning itself off.',
-                'Correct: a projector that shuts down after running and recovers after cooling is overheating.',
-                'Resolution mismatches cause sizing or fuzzy-image problems, not shutdowns.',
-                'A wrong input shows a "no signal" message; it does not power off the projector.'
+                'A bad cable is tempting for projector problems, but it causes signal loss or a blank image, not the projector powering off.',
+                'Correct: shutting down after running and recovering after cooling points to overheating.',
+                'An old lamp is tempting, but this lamp is new, and a worn lamp dims or fails to light rather than recovering after a rest.',
+                'A power-off timer is tempting because it turns the projector off, but it would not stop the projector from powering on again right away.'
             ]
         },
         {
@@ -959,17 +959,17 @@ window.CERT_BANK = {
             q: 'A user reports that their phone\'s screen is lifting away from the frame and the back of the phone looks bulged. What should the technician advise?',
             choices: [
                 'Fully discharge and recharge the battery to recalibrate it.',
-                'Press the screen back into place with adhesive.',
+                'Reglue the screen and watch for further lifting.',
                 'Install an OS update to fix the battery driver.',
-                'Power it off, stop charging it, and replace the battery.'
+                'Stop using it and have the battery replaced.'
             ],
             answer: [3],
-            explain: 'A bulging case is a classic sign of a swollen lithium-ion battery, which is a fire hazard. The device should be powered off, not charged, and the battery replaced and disposed of properly.',
+            explain: 'A bulging case is a classic sign of a swollen lithium-ion battery, which can catch fire. The phone should be powered off, not charged or pressed, and the battery replaced and recycled properly. Rule: physical swelling is a safety hazard that only replacement fixes; calibration and software cannot repair a damaged cell.',
             why: [
-                'Cycling a swollen battery increases the risk of fire.',
-                'Pressing on a swollen battery can puncture it and start a fire.',
-                'Swelling is physical damage to the cell; software cannot fix it.',
-                'Correct: a swollen battery is a safety hazard and must be replaced.'
+                'Calibration is tempting for battery complaints, but cycling a swollen battery adds stress and raises the risk of fire.',
+                'Regluing is tempting because the screen is what lifted, but pressing on a swollen battery can puncture it and start a fire.',
+                'An update is tempting for battery issues, but swelling is physical damage to the cell that software cannot fix.',
+                'Correct: a swollen battery is a fire hazard, so the phone should not be used or charged until the battery is replaced.'
             ]
         },
         {
@@ -977,20 +977,20 @@ window.CERT_BANK = {
             domain: 'c1-5',
             objective: '5.5',
             type: 'single',
-            q: 'Users report choppy, robotic-sounding VoIP calls, but speed tests show plenty of bandwidth. Monitoring shows packet delay varying widely from one packet to the next. What is the problem, and what is a common fix?',
+            q: 'Users report choppy, robotic VoIP audio, although speed tests show plenty of bandwidth. A continuous ping to the voice server returns 18 ms, 95 ms, 22 ms, 140 ms and 25 ms, with no lost packets. What is the problem, and what is a common fix?',
             choices: [
                 'High jitter; configure QoS to prioritize voice traffic.',
-                'Low bandwidth; upgrade the internet connection.',
-                'A DNS failure; change the DNS servers.',
-                'An APIPA address; renew the DHCP lease.'
+                'Packet loss; replace the patch cables feeding the IP phones.',
+                'High latency; move to a closer voice server.',
+                'Low bandwidth; upgrade the internet connection.'
             ],
             answer: [0],
-            explain: 'Variation in packet delay is called jitter, and real-time voice is very sensitive to it. Quality of service (QoS) that prioritizes voice traffic is a common fix.',
+            explain: 'The replies swing widely from one packet to the next, which is jitter, and real-time voice is very sensitive to it. QoS that gives voice traffic priority is a common fix. Rule: latency is how long packets take, jitter is how much that delay varies, and packet loss is packets that never arrive.',
             why: [
-                'Correct: uneven delay is jitter, and QoS gives voice packets priority.',
-                'Speed tests show bandwidth is sufficient.',
-                'DNS affects name resolution at call setup, not audio quality during a call.',
-                'A host with an APIPA address could not place calls at all.'
+                'Correct: the delay varies widely between packets, which is jitter, and QoS gives voice packets priority.',
+                'Packet loss also causes choppy audio, but the ping shows every reply arrived.',
+                'Latency is tempting because some replies are slow, but the delay is mostly low; the problem is how much it varies.',
+                'Bandwidth is tempting for poor call quality, but the speed tests show plenty of it.'
             ]
         },
         {
@@ -1000,18 +1000,18 @@ window.CERT_BANK = {
             type: 'single',
             q: 'A switch log shows that the port connected to one workstation goes down and up dozens of times an hour, and the user complains of constant disconnects. What should the technician try first?',
             choices: [
-                'Reinstall the workstation\'s operating system.',
-                'Change the Wi-Fi channel on the nearest access point.',
+                'Update the workstation\'s NIC driver.',
+                'Set the switch port to a fixed speed and duplex.',
                 'Replace the workstation\'s patch cable.',
-                'Increase the DHCP lease time.'
+                'Release and renew the workstation\'s IP address.'
             ],
             answer: [2],
-            explain: 'Port flapping is often caused by a damaged cable, loose connector, or failing NIC. Replacing the patch cable is the quickest, least disruptive first step.',
+            explain: 'A port that keeps going down and up is flapping, which usually comes from a damaged cable, a loose connector or a failing NIC. Replacing the patch cable is the quickest and least disruptive test. Rule: work up from the physical layer, and test the cheapest physical part first.',
             why: [
-                'An OS reinstall is excessive and does not address physical link problems.',
-                'The workstation is wired, so Wi-Fi channel settings do not apply.',
+                'A driver is tempting because it can drop connections, but a link physically going down and up points first to the cable or connector.',
+                'Hard-setting speed and duplex is tempting for link problems, but a mismatch causes slow, error-filled traffic rather than repeated link loss.',
                 'Correct: a faulty cable is the most common and easiest-to-test cause of a flapping port.',
-                'Lease time does not affect whether the physical link stays up.'
+                'Renewing the address is tempting for disconnects, but IP addressing cannot bring the physical link down and up.'
             ]
         },
         {
@@ -1021,20 +1021,20 @@ window.CERT_BANK = {
             type: 'multi',
             q: 'Users in a break room lose their 2.4GHz Wi-Fi connection whenever the microwave oven is running. Which two actions would most likely resolve the problem? (Choose two.)',
             choices: [
-                'Create DHCP reservations for the break room devices.',
+                'Widen the access point\'s 2.4GHz channel to 40MHz.',
                 'Connect the clients to the 5GHz band instead.',
-                'Increase the DHCP lease duration.',
+                'Increase the access point\'s transmit power.',
                 'Relocate the access point farther from the microwave oven.',
-                'Replace the access point\'s patch cable with Cat 6.'
+                'Change the network\'s security from WPA2 to WPA3.'
             ],
             answer: [1, 3],
-            explain: 'Microwave ovens leak energy near 2.4GHz and interfere with Wi-Fi in that band. Moving clients to 5GHz or moving the access point away from the source reduces the interference.',
+            explain: 'Microwave ovens leak energy near 2.4GHz and drown out Wi-Fi signals in that band. Moving clients to 5GHz avoids the interference, and moving the access point away from the oven improves the signal-to-noise ratio. Rule: fix interference by moving away from it in frequency or distance, not by adding power or width.',
             why: [
-                'Addressing has nothing to do with radio interference.',
-                'Correct: 5GHz is not affected by microwave oven interference.',
-                'Lease length does not prevent radio interference.',
+                'A wider channel is tempting because it adds throughput, but it covers more of the 2.4GHz band and picks up even more interference.',
+                'Correct: the 5GHz band is outside the frequencies a microwave oven disrupts.',
+                'More power is tempting, but it only strengthens the access point\'s side; clients still transmit at the same power into the same noise.',
                 'Correct: more distance from the interference source improves the signal-to-noise ratio.',
-                'The wired uplink is not where the interference occurs.'
+                'WPA3 improves security, but the encryption method has no effect on radio interference.'
             ]
         },
         {
@@ -1046,16 +1046,16 @@ window.CERT_BANK = {
             choices: [
                 'Fuser assembly',
                 'Pickup roller',
-                'Duplexing assembly',
-                'Network interface'
+                'Imaging drum',
+                'Transfer roller'
             ],
             answer: [0],
-            explain: 'The fuser uses heat and pressure to bond toner to the paper. If it is not getting hot enough, the toner stays loose and smears.',
+            explain: 'The fuser uses heat and pressure to bond toner to the paper. If it is not getting hot enough, the toner stays loose and smears. Rule: map the symptom to the laser printing step: loose toner is fusing, faint output is transfer, repeating marks are the drum, and jams are paper feed.',
             why: [
-                'Correct: a weak or failing fuser leaves toner unbonded.',
-                'Pickup rollers cause misfeeds and jams, not smearing toner.',
-                'The duplexer only flips paper for two-sided printing.',
-                'Connectivity problems stop jobs from arriving; they do not affect toner adhesion.'
+                'Correct: a weak or failing fuser leaves the toner unbonded.',
+                'Pickup rollers are tempting because they wear out often, but they cause misfeeds and jams, not loose toner.',
+                'The drum is tempting because it handles toner, but a bad drum causes repeating marks or ghost images, not smearing.',
+                'The transfer roller is tempting because it moves toner onto the paper, but a fault there gives faint output, not toner that rubs off.'
             ]
         },
         {
@@ -1065,18 +1065,18 @@ window.CERT_BANK = {
             type: 'single',
             q: 'A Windows print queue shows several documents stuck as "Printing" and no new jobs go through, even though the printer itself is online and idle. What should the technician do first?',
             choices: [
-                'Replace the printer\'s toner cartridge.',
-                'Reinstall the operating system.',
-                'Change the printer\'s paper tray settings.',
+                'Power-cycle the printer.',
+                'Reinstall the printer driver.',
+                'Cancel the jobs from the printer\'s control panel.',
                 'Restart the Print Spooler service.'
             ],
             answer: [3],
-            explain: 'A frozen queue is usually cleared by restarting the Print Spooler service, which releases stuck jobs so printing can resume.',
+            explain: 'The printer is idle, so the jobs are stuck on the Windows side. Restarting the Print Spooler service releases the frozen queue so printing can resume. Rule: find where the job is stuck; a problem in the computer\'s queue is fixed on the computer, not at the printer.',
             why: [
-                'Toner does not affect whether jobs leave the Windows queue.',
-                'An OS reinstall is excessive for a stuck queue.',
-                'Tray settings affect paper selection, not a stalled queue.',
-                'Correct: restarting the spooler clears a frozen queue.'
+                'Power-cycling is tempting as a quick reset, but the printer is idle and the jobs are stuck in the Windows queue.',
+                'A driver reinstall is tempting for print problems, but drivers affect output format, and restarting the spooler is quicker and fixes a stuck queue.',
+                'Tempting because it clears jobs, but the jobs never reached the printer, so its control panel has nothing to cancel.',
+                'Correct: restarting the spooler clears a frozen Windows print queue.'
             ]
         },
         {
@@ -1147,7 +1147,7 @@ window.CERT_BANK = {
             domain: 'c2-1',
             objective: '1.3',
             type: 'single',
-            q: 'A technician tries to open the Local Group Policy Editor on a user\'s home computer, but the tool cannot be found. The computer most likely runs which Windows edition?',
+            q: 'A technician tries to open the Local Group Policy Editor on a user\'s personal laptop, but gpedit.msc cannot be found. The computer most likely runs which Windows edition?',
             choices: [
                 'Windows 11 Home',
                 'Windows 11 Pro',
@@ -1155,12 +1155,12 @@ window.CERT_BANK = {
                 'Windows 10 Pro for Workstations'
             ],
             answer: [0],
-            explain: 'gpedit.msc is not included in Windows Home editions. Pro, Enterprise and Education include it.',
+            explain: 'gpedit.msc is not included in Windows Home. Home also lacks domain join, BitLocker management, Remote Desktop hosting and Hyper-V, which Pro and higher editions include. Rule: when a business or admin feature is missing, check the edition first.',
             why: [
                 'Correct: Home editions do not include the Local Group Policy Editor.',
-                'Pro includes gpedit.msc.',
-                'Enterprise includes gpedit.msc.',
-                'Pro for Workstations is built on Pro and includes gpedit.msc.'
+                'Pro is tempting because it is common on personal laptops, but it includes gpedit.msc.',
+                'Enterprise is tempting because it is a business edition, but it includes gpedit.msc and more.',
+                'Tempting because it is unusual, but it is built on Pro and includes gpedit.msc.'
             ]
         },
         {
@@ -1173,15 +1173,15 @@ window.CERT_BANK = {
                 'Event Viewer (eventvwr.msc)',
                 'Task Scheduler (taskschd.msc)',
                 'Resource Monitor (resmon.exe)',
-                'Disk Cleanup (cleanmgr.exe)'
+                'Performance Monitor (perfmon.msc)'
             ],
             answer: [0],
-            explain: 'Event Viewer (eventvwr.msc) stores the Application and System logs, which record application errors with timestamps and event IDs.',
+            explain: 'Event Viewer stores the Application and System logs, which record application errors with timestamps, sources and event IDs. Rule: to find out what happened in the past, use a log; live monitoring tools show only what is happening now.',
             why: [
-                'Correct: the Application log records crashes with time and error details.',
-                'Task Scheduler runs and tracks scheduled tasks; it is not the place for application error logs.',
-                'Resource Monitor shows live resource usage, not past crashes.',
-                'Disk Cleanup removes unnecessary files and records no events.'
+                'Correct: the Application log records crashes with the time and error details.',
+                'Task Scheduler is tempting because the crash happened overnight, but it records task runs, not application error details.',
+                'Resource Monitor is tempting for application problems, but it shows live usage and keeps no history of past crashes.',
+                'Performance Monitor is tempting because it can log data, but it collects counters you set up in advance, not application error events.'
             ]
         },
         {
@@ -1189,20 +1189,20 @@ window.CERT_BANK = {
             domain: 'c2-1',
             objective: '1.5',
             type: 'single',
-            q: 'Windows on a workstation is behaving erratically, and the technician suspects that protected system files have been corrupted. Which command checks and repairs them?',
+            q: 'A Windows PC boots, but several built-in tools crash on launch, and an event log entry says a protected system file failed an integrity check. chkdsk /f has already run and found no file system errors. Which command should the technician run next?',
             choices: [
-                'chkdsk /f',
-                'gpupdate /force',
+                'chkdsk /r',
+                'bootrec /rebuildbcd',
                 'sfc /scannow',
-                'diskpart'
+                'gpupdate /force'
             ],
             answer: [2],
-            explain: 'System File Checker (sfc /scannow) verifies protected Windows system files and replaces corrupted ones with known good copies.',
+            explain: 'System File Checker compares protected Windows files with cached known-good copies and replaces damaged ones. If it cannot repair them, DISM /RestoreHealth repairs the component store and sfc is run again. Rule: match the tool to the layer: chkdsk fixes the file system and disk, sfc fixes Windows file contents.',
             why: [
-                'chkdsk repairs file system errors on a volume, not corrupted Windows system files.',
-                'gpupdate reapplies Group Policy and does not check file integrity.',
-                'Correct: SFC scans and repairs protected system files.',
-                'diskpart manages disks, partitions and volumes.'
+                'chkdsk /r is tempting as a deeper scan, but the file system was already clean, and the problem is damaged file contents.',
+                'bootrec is tempting because it repairs Windows, but it fixes boot records, and this PC already boots.',
+                'Correct: sfc checks protected system files and replaces corrupted ones.',
+                'gpupdate is tempting because policies change system behavior, but it reapplies Group Policy and does not check file integrity.'
             ]
         },
         {
@@ -1233,18 +1233,18 @@ window.CERT_BANK = {
             type: 'single',
             q: 'A user docks a Windows laptop to two external monitors and wants to keep working with the lid closed, but the laptop goes to sleep when the lid shuts. Where should the technician change this?',
             choices: [
-                'Display settings, under the multiple displays arrangement options',
+                'Display settings, under Multiple displays',
                 'Device Manager, on the monitor driver',
-                'Power Options, under "Choose what closing the lid does"',
-                'Ease of Access settings'
+                'Power Options in Control Panel',
+                'Screen saver settings in Personalization'
             ],
             answer: [2],
-            explain: 'In Power Options, "Choose what closing the lid does" lets the technician set the lid action to "Do nothing" when the laptop is plugged in.',
+            explain: 'In Power Options, "Choose what closing the lid does" sets the lid action, for example to Do nothing when plugged in. Rule: what a hardware switch does, such as the lid or power button, is a power setting, not a display setting.',
             why: [
-                'Display settings arrange monitors but do not control the lid action.',
-                'Driver settings do not decide what the lid switch does.',
-                'Correct: this setting controls the lid-close action.',
-                'Ease of Access covers accessibility features, not power behavior.'
+                'Display settings are tempting because the problem involves monitors, but they arrange screens and do not control the lid switch.',
+                'Device Manager is tempting for monitor problems, but driver settings do not decide what closing the lid does.',
+                'Correct: Power Options holds the lid-close action, which can be set to Do nothing.',
+                'Screen saver settings are tempting because they control idle behavior, but they do not respond to the lid switch.'
             ]
         },
         {
@@ -1273,20 +1273,20 @@ window.CERT_BANK = {
             domain: 'c2-1',
             objective: '1.8',
             type: 'single',
-            q: 'A Mac user wants the entire startup disk encrypted so that data cannot be read if the laptop is stolen. Which built-in macOS feature should be enabled?',
+            q: 'A company issues MacBooks to its sales staff. If a laptop is stolen, the data on its internal drive must be unreadable without the user\'s password, and IT wants each recovery key stored centrally. Which feature should be enabled?',
             choices: [
                 'Time Machine',
-                'Keychain',
-                'Disk Utility First Aid',
+                'BitLocker',
+                'Find My',
                 'FileVault'
             ],
             answer: [3],
-            explain: 'FileVault provides full-disk encryption for the macOS startup disk.',
+            explain: 'FileVault encrypts the whole macOS startup disk, and its recovery keys can be escrowed through MDM. Rule: protecting data on a stolen device calls for full-disk encryption; know each platform\'s tool: FileVault on macOS, BitLocker on Windows, and LUKS on Linux.',
             why: [
-                'Time Machine is the macOS backup tool.',
-                'Keychain stores passwords and certificates, not disk contents.',
-                'First Aid checks and repairs disks; it does not encrypt them.',
-                'Correct: FileVault encrypts the whole startup disk.'
+                'Time Machine is tempting because it protects data, but it makes backups and does nothing to stop a thief reading the drive.',
+                'BitLocker is tempting because it is full-disk encryption, but it is a Windows feature and is not available on macOS.',
+                'Find My is tempting for a stolen laptop, but it locates or erases the Mac remotely and does not encrypt the drive.',
+                'Correct: FileVault encrypts the whole startup disk, and its recovery keys can be stored centrally.'
             ]
         },
         {
@@ -1338,7 +1338,7 @@ window.CERT_BANK = {
             domain: 'c2-1',
             objective: '1.10',
             type: 'single',
-            q: 'A user\'s Windows installation fails with a message that the application is not compatible with this version of Windows. The technician confirms that the vendor only ships a 64-bit build. What is the most likely cause?',
+            q: 'A user\'s Windows 10 PC fails to install an application, showing a message that it is not compatible with this version of Windows. The technician confirms that the vendor only ships a 64-bit build. What is the most likely cause?',
             choices: [
                 'The computer does not have a dedicated graphics card.',
                 'The user is not a member of the Administrators group.',
@@ -1346,7 +1346,7 @@ window.CERT_BANK = {
                 'The installer was downloaded instead of installed from physical media.'
             ],
             answer: [2],
-            explain: 'A 64-bit application cannot run on a 32-bit operating system. A 64-bit OS, by contrast, can run most 32-bit applications.',
+            explain: 'A 64-bit application cannot run on a 32-bit operating system, while a 64-bit OS can run most 32-bit applications. Windows 10 was sold in both versions, but Windows 11 is 64-bit only. Rule: check the OS architecture in System > About before blaming permissions or hardware.',
             why: [
                 'A graphics requirement would cause a different message or poor performance, not an OS compatibility error.',
                 'A permissions problem would produce an access or elevation error, not a compatibility error.',
@@ -1380,20 +1380,20 @@ window.CERT_BANK = {
             domain: 'c2-2',
             objective: '2.1',
             type: 'single',
-            q: 'A data center wants to stop unauthorized people from following employees through a secure door. Which physical control forces each person to pass through individually, with one door closing before the next opens?',
+            q: 'A security review finds that visitors at a data center often walk in right behind employees who badge through the main door. Which physical control would best stop this?',
             choices: [
                 'Access control vestibule',
-                'Bollards',
                 'Video surveillance',
-                'Motion sensors'
+                'Bollards',
+                'Requiring a PIN with each badge swipe'
             ],
             answer: [0],
-            explain: 'An access control vestibule (formerly called a mantrap) has two interlocking doors, so only one person passes at a time. It is a direct countermeasure to tailgating.',
+            explain: 'An access control vestibule, formerly called a mantrap, has two interlocking doors so only one person passes at a time. That directly stops tailgating. Rule: pick a control that physically prevents the behavior; controls that record it or strengthen someone else\'s login do not.',
             why: [
-                'Correct: interlocking doors allow only one authenticated person through at a time.',
-                'Bollards stop vehicles; they do not control people at a doorway.',
-                'Cameras record tailgating but do not physically prevent it.',
-                'Motion sensors detect movement but do not control passage through a door.'
+                'Correct: interlocking doors let only one authenticated person through at a time.',
+                'Cameras are tempting because they watch the door, but they record tailgating rather than physically preventing it.',
+                'Bollards are tempting as a physical barrier, but they stop vehicles, not people walking through a doorway.',
+                'A PIN is tempting because it adds a factor, but it strengthens the employee\'s entry, and the visitor still walks in behind.'
             ]
         },
         {
@@ -1401,20 +1401,20 @@ window.CERT_BANK = {
             domain: 'c2-2',
             objective: '2.1',
             type: 'multi',
-            q: 'Which two are examples of the "something you have" authentication factor? (Choose two.)',
+            q: 'A bank\'s login asks for a password and then the answer to a security question. An auditor says this is not true multifactor authentication. Which two items could replace the security question to make it MFA? (Choose two.)',
             choices: [
-                'Fingerprint scan',
-                'PIN',
-                'Password',
-                'Smart card',
-                'Hardware token'
+                'A PIN',
+                'A longer, more complex password',
+                'A second security question',
+                'A smart card',
+                'A hardware token'
             ],
             answer: [3, 4],
-            explain: 'Possession factors are physical or digital items the user holds, such as smart cards and hardware tokens. Passwords and PINs are "something you know," and biometrics are "something you are."',
+            explain: 'MFA needs factors from different categories: something you know, have or are. A password plus a security question is two knowledge factors. Smart cards and hardware tokens are things the user has. Rule: count factor categories, not the number of steps.',
             why: [
-                'A fingerprint is "something you are" (biometric).',
-                'A PIN is "something you know."',
-                'A password is "something you know."',
+                'A PIN is tempting because it is a separate prompt, but it is something you know, the same category as the password.',
+                'A stronger password is tempting because it improves security, but it is still the same knowledge factor.',
+                'Adding another question adds a step but not a new category; it is still something you know.',
                 'Correct: a smart card is a physical item the user possesses.',
                 'Correct: a hardware token is a possession factor.'
             ]
@@ -1466,20 +1466,20 @@ window.CERT_BANK = {
             domain: 'c2-2',
             objective: '2.3',
             type: 'single',
-            q: 'Which wireless security protocol replaces the pre-shared key handshake with Simultaneous Authentication of Equals (SAE) for stronger protection against offline password guessing?',
+            q: 'A coffee shop\'s WPA2-Personal network uses a short passphrase. The owner learns that someone nearby could capture a client\'s connection handshake and then guess the passphrase offline at leisure. Which change best removes that offline guessing risk?',
             choices: [
-                'WPA3',
-                'WPA2 with AES',
-                'WPA2 with TKIP',
-                'RADIUS'
+                'Move the network to WPA3-Personal.',
+                'Switch the WPA2 cipher to AES-CCMP.',
+                'Hide the network\'s SSID.',
+                'Enable MAC address filtering on the AP.'
             ],
             answer: [0],
-            explain: 'WPA3-Personal uses SAE in place of the WPA2 pre-shared key exchange. That makes captured handshakes far less useful for offline dictionary attacks.',
+            explain: 'WPA3-Personal replaces the WPA2 pre-shared key handshake with Simultaneous Authentication of Equals (SAE). Each password guess then needs a live exchange with the access point, so a captured handshake is useless for offline cracking. Rule: offline cracking is stopped by changing the key exchange, not by changing the cipher or hiding the network.',
             why: [
-                'Correct: WPA3-Personal uses SAE.',
-                'WPA2-Personal still uses the pre-shared key four-way handshake.',
-                'TKIP is an older, deprecated encryption method and does not use SAE.',
-                'RADIUS is an authentication server protocol used with enterprise Wi-Fi, not a Wi-Fi security protocol.'
+                'Correct: WPA3-Personal uses SAE, which defeats offline guessing from a captured handshake.',
+                'AES is tempting because it is a strong cipher, but the WPA2-Personal handshake stays the same and can still be cracked offline.',
+                'Hiding the SSID is tempting, but the name still appears in client traffic, and the handshake can be captured as before.',
+                'MAC filtering is tempting, but addresses are easy to spoof and filtering does not change the handshake.'
             ]
         },
         {
@@ -1529,19 +1529,19 @@ window.CERT_BANK = {
             domain: 'c2-2',
             objective: '2.5',
             type: 'single',
-            q: 'An attacker sends a carefully researched email, made to look like it came from outside legal counsel, to a company\'s CEO, asking the CEO to approve a confidential payment. What type of attack is this?',
+            q: 'An attacker sends a carefully researched email, made to look like it came from outside legal counsel, to a company\'s CEO, asking the CEO to approve a confidential payment. Which term best describes this attack?',
             choices: [
-                'Vishing',
+                'Spear phishing',
                 'Smishing',
-                'Dumpster diving',
+                'Vishing',
                 'Whaling'
             ],
             answer: [3],
-            explain: 'Whaling is spear phishing aimed specifically at senior executives, who have the authority to approve high-value actions.',
+            explain: 'Whaling is spear phishing aimed at senior executives, who have the authority to approve high-value actions. Rule: classify social engineering by channel first (email, SMS, voice), then by target: broad, a specific person, or a top executive. Pick the most specific term that fits.',
             why: [
-                'Vishing uses voice calls, not email.',
-                'Smishing uses SMS text messages.',
-                'Dumpster diving means searching trash for information.',
+                'Spear phishing is tempting because the email is targeted and researched, but whaling is the more specific term when the target is a top executive.',
+                'Smishing is tempting as a phishing variant, but it arrives by SMS text message, not email.',
+                'Vishing is tempting as a phishing variant, but it uses voice calls, not email.',
                 'Correct: a targeted phishing attack against a top executive is whaling.'
             ]
         },
@@ -1550,20 +1550,20 @@ window.CERT_BANK = {
             domain: 'c2-2',
             objective: '2.5',
             type: 'single',
-            q: 'At a coffee shop, a laptop connects to a network with the same name as the shop\'s Wi-Fi, but it is actually broadcast from an attacker\'s device. What is this attack called?',
+            q: 'At a coffee shop, a laptop connects to a network with the same name as the shop\'s Wi-Fi, but the signal comes from a device in an attacker\'s backpack, not from the shop\'s equipment. Which term best describes this fake access point?',
             choices: [
                 'Evil twin',
-                'Tailgating',
-                'SQL injection',
-                'Brute-force attack'
+                'Rogue access point',
+                'On-path attack',
+                'Deauthentication attack'
             ],
             answer: [0],
-            explain: 'An evil twin is a rogue access point that imitates a legitimate SSID to lure clients in so the attacker can intercept their traffic.',
+            explain: 'An evil twin is an access point that imitates a legitimate network name to lure clients, so the attacker can intercept their traffic. Rule: an evil twin copies a trusted SSID from outside; a rogue AP is an unauthorized device connected to the organization\'s own network.',
             why: [
-                'Correct: a rogue AP copying a legitimate network name is an evil twin.',
-                'Tailgating is following someone through a secure door.',
-                'SQL injection targets databases behind web applications.',
-                'Brute force means trying many passwords; it does not involve a fake network.'
+                'Correct: a fake AP copying a legitimate network name is an evil twin.',
+                'A rogue AP is tempting because it is unauthorized, but the term usually means a device plugged into the organization\'s own network, not one imitating it.',
+                'An on-path attack is what the evil twin enables, which makes it tempting, but the question asks for the term for the fake access point itself.',
+                'A deauthentication attack is tempting because it often comes first, but it forces clients off a network rather than imitating one.'
             ]
         },
         {
@@ -1574,17 +1574,17 @@ window.CERT_BANK = {
             q: 'A technician has confirmed malware symptoms on a Windows 11 Home PC and has disconnected it from the network. According to the CompTIA malware removal process, what is the next step?',
             choices: [
                 'Disable System Restore.',
-                'Educate the end user.',
+                'Remediate the infected system.',
                 'Create a new restore point.',
                 'Schedule scans and run updates.'
             ],
             answer: [0],
-            explain: 'After investigating and quarantining, the next step is to disable System Restore in Windows Home so infected restore points are not kept or used to reinfect the system.',
+            explain: 'The order is: investigate and verify, quarantine, disable System Restore in Windows Home, remediate, schedule scans and run updates, enable System Restore and create a restore point, then educate the user. Rule: delete restore points before cleaning so the malware cannot come back from one.',
             why: [
-                'Correct: disabling System Restore follows quarantine in the process.',
-                'User education is the final step.',
-                'A restore point is created only after the system is clean.',
-                'Scheduling scans comes after remediation.'
+                'Correct: disabling System Restore follows quarantine, so infected restore points are removed.',
+                'Remediation is tempting because cleaning is the goal, but System Restore must be disabled first so infected restore points are not kept.',
+                'A restore point is tempting as a safety net, but creating one now would save the infection; it comes after the system is clean.',
+                'Scans and updates are tempting as protection, but they follow remediation in the process.'
             ]
         },
         {
@@ -1592,20 +1592,20 @@ window.CERT_BANK = {
             domain: 'c2-2',
             objective: '2.8',
             type: 'single',
-            q: 'An employee reports that a company smartphone containing customer data was left in a taxi and cannot be found. What should the technician do to protect the data?',
+            q: 'A company smartphone containing customer data was left in a taxi. The taxi company has no record of it, and the locator service last showed it moving across the city two days ago. What should the technician do to protect the data?',
             choices: [
-                'Disable the device\'s Bluetooth through MDM.',
+                'Remotely lock the device and show a contact message.',
                 'Issue a remote wipe to the device.',
-                'Push an OS update to the device.',
-                'Change the user\'s Wi-Fi password.'
+                'Keep tracking it with the locator service.',
+                'Reset the user\'s account password.'
             ],
             answer: [1],
-            explain: 'A remote wipe, usually sent through MDM or the platform\'s locator service, erases the device so the data cannot be recovered by whoever finds it.',
+            explain: 'A remote wipe, sent through MDM or the platform\'s locator service, erases the device so whoever has it cannot recover the data. Rule: lock a device when getting it back is likely; wipe it when it is not, because only a wipe removes the data.',
             why: [
-                'Turning off Bluetooth leaves the data on the device.',
-                'Correct: remote wipe removes the data from a lost device.',
-                'Updates patch vulnerabilities but do not protect data on a lost device.',
-                'The phone\'s stored data is still accessible to whoever has the device.'
+                'Locking is tempting because it is reversible, but the data stays on the device, and recovery here is unlikely.',
+                'Correct: the phone is not coming back, so a remote wipe removes the customer data.',
+                'Tracking is tempting because it might recover the phone, but it leaves the data exposed while the phone keeps moving.',
+                'A password reset is tempting, but it protects the online account and does nothing to data already stored on the phone.'
             ]
         },
         {
@@ -1613,20 +1613,20 @@ window.CERT_BANK = {
             domain: 'c2-2',
             objective: '2.9',
             type: 'single',
-            q: 'A company is decommissioning a batch of solid-state drives that held sensitive data. Which disposal method would NOT reliably destroy the data on these drives?',
+            q: 'A company is decommissioning solid-state drives that held sensitive data. The disposal vendor offers four methods. Which method would leave the data recoverable on these drives?',
             choices: [
-                'Shredding',
+                'Shredding to a particle size rated for SSDs',
                 'Incineration',
-                'Pulverizing the drives in a disintegrator',
+                'Disintegrating the drives into small particles',
                 'Degaussing'
             ],
             answer: [3],
-            explain: 'Degaussing works by disrupting magnetic media. SSDs store data in flash memory cells, so a degausser does not erase them; physical shredding is the reliable choice.',
+            explain: 'Degaussing erases magnetic media by disrupting its magnetic field. SSDs store data in flash memory cells, so a degausser leaves the data intact. Rule: match the method to how the media stores data; magnetic media can be degaussed, but flash needs physical destruction or a sanitize or crypto erase.',
             why: [
-                'Shredding physically destroys the flash chips.',
-                'Incineration destroys the storage media completely.',
-                'Reducing the drives to small particles destroys the flash chips.',
-                'Correct: SSDs are not magnetic storage, so degaussing does not reliably erase them.'
+                'Tempting to doubt because flash chips are small, but a shred size rated for SSDs breaks the chips apart.',
+                'Incineration destroys the flash chips completely, so no data survives.',
+                'Reducing the drives to small particles destroys the flash chips that hold the data.',
+                'Correct: SSDs are not magnetic storage, so degaussing does not erase them.'
             ]
         },
         {
@@ -1639,17 +1639,17 @@ window.CERT_BANK = {
                 'Enable Universal Plug and Play.',
                 'Enable remote management from the WAN.',
                 'Change the default administrator username and password.',
-                'Lengthen the DHCP lease time.',
+                'Disable SSID broadcast.',
                 'Update the router firmware.'
             ],
             answer: [2, 4],
-            explain: 'Default administrator credentials are widely published, and outdated firmware may contain known vulnerabilities. Changing the credentials and updating the firmware close both gaps.',
+            explain: 'Default administrator credentials are widely published, and outdated firmware may have known vulnerabilities. Changing the credentials and updating the firmware close both gaps. Rule: real hardening removes known weaknesses and unneeded exposure; hiding information, such as the SSID, only slows a casual observer.',
             why: [
-                'UPnP lets devices open ports automatically, which increases exposure.',
-                'Exposing the admin interface to the internet increases the attack surface.',
-                'Correct: default credentials are public knowledge.',
-                'Lease time has no security effect.',
-                'Correct: updates patch known vulnerabilities.'
+                'UPnP is tempting because it makes games and apps work, but it lets devices open ports automatically, which increases exposure.',
+                'Remote management is tempting for convenience, but exposing the admin interface to the internet increases the attack surface.',
+                'Correct: default credentials are public knowledge and must be changed.',
+                'Hiding the SSID is common advice, but the name still appears in client traffic, so it adds little real protection.',
+                'Correct: firmware updates patch known vulnerabilities that attackers actively scan for on SOHO routers.'
             ]
         },
         {
@@ -1659,18 +1659,18 @@ window.CERT_BANK = {
             type: 'single',
             q: 'A technician downloads a utility installer from the vendor\'s website, which also publishes a SHA-256 value for the file. What is the purpose of comparing that value to one computed from the downloaded file?',
             choices: [
-                'To decrypt the installer before running it',
+                'To scan the installer for known malware',
                 'To check that the browser\'s certificate store is current',
-                'To compress the installer for faster installation',
+                'To verify the identity of the software publisher',
                 'To confirm the file was not altered after publication'
             ],
             answer: [3],
-            explain: 'A hash value is a fingerprint of the file. If the computed hash matches the published one, the file was not corrupted or tampered with after the vendor published it.',
+            explain: 'A hash is a fingerprint of the file\'s contents. If the computed hash matches the published one, the file was not corrupted or changed after the vendor published it. Rule: a hash proves integrity, a digital signature proves integrity and who signed it, and encryption provides confidentiality.',
             why: [
-                'Hashing is one-way and does not decrypt anything.',
-                'A file hash says nothing about the browser\'s certificate store.',
-                'Hashing does not compress files.',
-                'Correct: matching hashes confirm file integrity.'
+                'Tempting because antivirus tools use hashes, but matching the vendor\'s hash only shows the file is unchanged, not that it is malware-free.',
+                'A file hash says nothing about the browser\'s certificate store, which is used to validate websites.',
+                'Tempting because signatures verify publishers, but a plain hash carries no identity; anyone who controls the page could post a matching hash.',
+                'Correct: matching hashes confirm the file is exactly what the vendor published, unaltered and uncorrupted.'
             ]
         },
         {
@@ -1699,19 +1699,19 @@ window.CERT_BANK = {
             domain: 'c2-3',
             objective: '3.1',
             type: 'single',
-            q: 'Several domain users at one site cannot sign in, and the error mentions a time or date difference. Their workstation clocks are about 15 minutes behind the domain controller. What should the technician do?',
+            q: 'Several domain users at one site suddenly cannot sign in to their workstations. The same accounts work at other sites, and the technician notices the workstations\' clocks are about 15 minutes behind the domain controller. What should the technician do?',
             choices: [
                 'Reset each user\'s password and require a change at next sign-in.',
-                'Rejoin each workstation to a workgroup.',
-                'Increase each workstation\'s page file size.',
+                'Rejoin each workstation to the domain.',
+                'Clear the cached credentials on each workstation.',
                 'Resync the workstations\' clocks with the domain time source.'
             ],
             answer: [3],
-            explain: 'Kerberos authentication rejects requests when the client and domain controller clocks differ by more than the allowed skew, which is five minutes by default. Resyncing the clocks restores sign-in.',
+            explain: 'Kerberos rejects authentication when the client and domain controller clocks differ by more than the allowed skew, five minutes by default. Resyncing the clocks restores sign-in. Rule: when many users at one location fail authentication at once, check time before accounts.',
             why: [
-                'The passwords are not the problem; authentication is failing on time skew.',
-                'Leaving the domain would stop domain sign-in entirely.',
-                'Virtual memory size does not affect authentication.',
+                'A password reset is tempting for sign-in failures, but the accounts work at other sites, so the passwords are fine.',
+                'Rejoining is tempting for trust problems, but the clock skew would still break Kerberos, and rejoining itself needs working authentication.',
+                'Clearing cached credentials is tempting, but the cache is not the problem; Kerberos is rejecting requests because of the time difference.',
                 'Correct: fixing the time drift brings the clocks back within the Kerberos tolerance.'
             ]
         },
@@ -1720,20 +1720,20 @@ window.CERT_BANK = {
             domain: 'c2-3',
             objective: '3.1',
             type: 'single',
-            q: 'A Windows service fails to start. Its properties show that it depends on a second service, and that second service is set to Disabled. What should the technician do?',
+            q: 'A Windows service will not start, and Windows shows: "Error 1068: The dependency service or group failed to start." The technician has already restarted the computer once. What should the technician do next?',
             choices: [
-                'Reinstall the operating system.',
-                'Run sfc /scannow, reboot, and then try starting the service again.',
-                'Delete the service\'s registry key and reinstall the application that uses it.',
-                'Enable and start the dependency service, then start the original service.'
+                'Reinstall the application that installed the service.',
+                'Run sfc /scannow, reboot, and then try again.',
+                'Set the service\'s Log On account to Local System.',
+                'Find and start the services it depends on.'
             ],
             answer: [3],
-            explain: 'A service cannot start if a service it depends on cannot run. Setting the dependency to an appropriate startup type, starting it, and then starting the original service resolves the failure.',
+            explain: 'Error 1068 means a service that this service needs did not start. The Dependencies tab lists them; set the required service to a suitable startup type, start it, then start the original. Rule: read the error code first; it usually points at the exact layer to check.',
             why: [
-                'Reinstalling is excessive for a configuration problem.',
-                'SFC repairs system files and will not change a service set to Disabled.',
-                'Deleting a service is destructive and leaves the original problem unsolved.',
-                'Correct: the dependency must be running first.'
+                'Reinstalling is tempting as a reset, but it is excessive when the error names a dependency problem.',
+                'sfc is tempting for Windows faults, but it repairs system files and does not change the startup type of other services.',
+                'Tempting because service logon problems are common, but those produce error 1069, not 1068.',
+                'Correct: the required services must run before this service can start.'
             ]
         },
         {
@@ -1741,20 +1741,20 @@ window.CERT_BANK = {
             domain: 'c2-3',
             objective: '3.1',
             type: 'single',
-            q: 'A user receives low memory warnings every afternoon. In Task Manager, one application\'s memory usage grows steadily throughout the day until the user closes it. What is the most likely cause?',
+            q: 'A user gets low memory warnings every afternoon. Task Manager shows one app using 600 MB at 9 a.m., 2.1 GB at noon and 4.8 GB at 4 p.m., while the user keeps the same two documents open all day. Other apps stay flat. What is the most likely cause?',
             choices: [
                 'A memory leak in that application',
-                'A failing hard drive',
-                'An incorrect system time',
-                'A disabled page file on a different drive'
+                'Not enough RAM installed for the workload',
+                'A page file that is set too small',
+                'A failing RAM module'
             ],
             answer: [0],
-            explain: 'Memory usage that keeps climbing in one process over time is the typical sign of a memory leak in that application. Updating or patching the application is the usual fix.',
+            explain: 'One process growing steadily while its workload stays the same is the typical sign of a memory leak. Updating or patching the application is the usual fix. Rule: growth in one process with a constant workload points to a leak; steady usage that is simply too high points to capacity.',
             why: [
-                'Correct: steadily growing memory in one process indicates a leak.',
-                'Disk failure causes errors and slowness, not one process growing in memory.',
-                'The clock setting does not affect memory consumption.',
-                'Page file settings would affect all applications, not cause one process to keep growing.'
+                'Correct: memory that climbs in one process while the work stays the same indicates a leak.',
+                'Tempting because more RAM would delay the warning, but the workload is constant, and the app would keep growing until it ran out again.',
+                'A larger page file is tempting because it eases low memory, but it would only delay the warning while the app keeps growing.',
+                'Failing RAM is tempting for memory problems, but it causes crashes or corrupted data, not one app\'s usage climbing.'
             ]
         },
         {
@@ -1762,20 +1762,20 @@ window.CERT_BANK = {
             domain: 'c2-3',
             objective: '3.2',
             type: 'single',
-            q: 'A smartphone repeatedly fails to install an available app update, and the app store shows a generic error. Other updates installed last month. What should the technician check first?',
+            q: 'A smartphone repeatedly fails to install a 1.5 GB game update, and the app store shows only a generic error. Several small app updates installed from the same store this morning. What should the technician check first?',
             choices: [
-                'Whether the phone\'s screen rotation is locked',
-                'Whether NFC is enabled',
-                'The phone\'s Bluetooth pairing list',
+                'Whether the phone\'s date and time are correct',
+                'Whether the OS version is too old for the app',
+                'Whether the app store\'s cache needs clearing',
                 'Available storage space on the phone'
             ],
             answer: [3],
-            explain: 'App updates need free space to download and unpack. Low storage is one of the most common reasons mobile updates fail.',
+            explain: 'App updates need free space to download and then unpack, so a large update can fail while small ones succeed. Rule: compare what works with what fails; here the difference is size, which points to storage space.',
             why: [
-                'Rotation lock does not affect app installs.',
-                'NFC is not used to download app updates.',
-                'Bluetooth pairing has no effect on app updates.',
-                'Correct: insufficient free space is a frequent cause of failed updates.'
+                'A wrong clock can break store connections, but small updates installed this morning, so the store is reachable.',
+                'Tempting because old OS versions lose app support, but the store normally says an update needs a newer OS instead of failing generically.',
+                'Clearing the store cache is a common fix, but small updates from the same store worked today, so the cache is not blocking downloads.',
+                'Correct: a large update needs room for the download and the unpacked files, which small updates do not.'
             ]
         },
         {
@@ -1783,20 +1783,20 @@ window.CERT_BANK = {
             domain: 'c2-3',
             objective: '3.2',
             type: 'single',
-            q: 'A tablet user complains that the screen stays in portrait orientation when the device is turned sideways in every app. What is the most likely cause?',
+            q: 'A tablet stays in portrait orientation when it is turned sideways. This happens in every app, including the web browser and photo viewer, which both rotated normally last week. What is the most likely cause?',
             choices: [
-                'The battery is failing.',
-                'Rotation lock is enabled.',
-                'The device is in airplane mode.',
-                'The OS needs a factory reset.'
+                'The accelerometer needs recalibration.',
+                'Rotation lock is turned on.',
+                'The current app supports only portrait mode.',
+                'A factory reset is needed to restore rotation.'
             ],
             answer: [1],
-            explain: 'When rotation lock (orientation lock) is enabled, the display stays in one orientation regardless of how the device is held.',
+            explain: 'When rotation lock is on, the display stays in one orientation no matter how the device is held. Rule: a symptom in every app points to a system-wide setting, while a symptom in one app points to that app; check simple toggles before blaming hardware.',
             why: [
-                'Battery health does not control screen orientation.',
-                'Correct: rotation lock pins the screen in one orientation.',
-                'Airplane mode disables radios, not the orientation sensor.',
-                'A reset is unnecessary for a settings toggle.'
+                'A sensor fault is tempting, but it is far less likely than a toggle, and the lock should be ruled out first.',
+                'Correct: rotation lock keeps the screen in one orientation in every app.',
+                'Tempting because some apps are portrait only, but the problem happens in every app, including ones that rotated last week.',
+                'A reset is tempting as a catch-all fix, but it wipes the device when one settings toggle is the likely cause.'
             ]
         },
         {
@@ -1804,20 +1804,20 @@ window.CERT_BANK = {
             domain: 'c2-3',
             objective: '3.2',
             type: 'single',
-            q: 'A user\'s phone was replaced with a new model, and it now will not connect to the user\'s car over Bluetooth, although the old phone worked. The car still lists the old phone. What should the technician try first?',
+            q: 'A user\'s phone was replaced with a new model, and it will not pair with the user\'s car over Bluetooth. The car\'s display says its list of paired phones is full, and the old phone is still on it. What should the technician try first?',
             choices: [
                 'Delete the old pairing in the car and pair again.',
-                'Enable NFC on the new phone.',
-                'Turn on the phone\'s Wi-Fi hotspot.',
-                'Update the phone\'s cellular carrier settings and restart it.'
+                'Reset the network settings on the new phone and retry.',
+                'Update the car\'s infotainment firmware.',
+                'Extend the car\'s Bluetooth visibility timeout.'
             ],
             answer: [0],
-            explain: 'Removing the stale pairing from the car and pairing the new phone from scratch establishes a fresh trust relationship between the two devices.',
+            explain: 'The car can store only a limited number of pairings, and the old phone is using one of them. Removing the stale pairing frees a slot so the new phone can pair. Rule: start with the device that reports the problem, and remove stale pairings before resetting or updating anything.',
             why: [
-                'Correct: a fresh pairing creates new keys for the new device.',
-                'NFC is not used for this Bluetooth audio connection.',
-                'A hotspot shares internet access and does not affect Bluetooth pairing.',
-                'Carrier settings affect the cellular connection, not Bluetooth.'
+                'Correct: removing the stale pairing frees a slot for the new phone.',
+                'A network reset is tempting because it clears Bluetooth on the phone, but the car is the device refusing new pairings.',
+                'A firmware update is tempting for compatibility, but it takes longer and does not free a slot in the full pairing list.',
+                'Visibility is tempting for pairing trouble, but the car is not hidden; its pairing list is full.'
             ]
         },
         {
@@ -1825,20 +1825,20 @@ window.CERT_BANK = {
             domain: 'c2-3',
             objective: '3.2',
             type: 'single',
-            q: 'Shortly after an OS update, a user\'s phone battery drains much faster than before. What should the technician check first?',
+            q: 'Shortly after an OS update, a user\'s phone battery drains much faster than before. What should the technician do first?',
             choices: [
-                'The phone\'s NFC payment settings',
-                'The phone\'s screen rotation setting',
-                'The battery usage breakdown by app',
-                'The cellular carrier\'s data cap'
+                'Replace the phone\'s battery.',
+                'Factory reset the phone.',
+                'Review battery usage by app.',
+                'Turn on Low Power Mode to stretch the battery.'
             ],
             answer: [2],
-            explain: 'The battery usage screen shows which apps consume the most power. After an update, a misbehaving app or a temporary background process is a common cause.',
+            explain: 'The battery usage screen shows which apps or processes use the most power. After an update, a misbehaving app or temporary background indexing is a common cause. Rule: when a problem starts right after a change, gather data about that change before replacing hardware or wiping the device.',
             why: [
-                'NFC is not a significant battery drain in normal use.',
-                'Rotation settings do not meaningfully affect battery life.',
-                'Correct: it shows which app or process is draining power.',
-                'A data cap affects billing, not battery drain.'
+                'A worn battery is tempting for fast drain, but the drain started right after an update, which points to software.',
+                'A reset is tempting as a clean start, but it is drastic and erases data before the cause is known.',
+                'Correct: it shows which app or process is draining power, so the fix can target it.',
+                'Low Power Mode is tempting because it extends battery life, but it hides the symptom and does not find the cause.'
             ]
         },
         {
@@ -1846,20 +1846,20 @@ window.CERT_BANK = {
             domain: 'c2-3',
             objective: '3.3',
             type: 'single',
-            q: 'A user installed a free game from a third-party website instead of the official app store. Since then, the phone shows many ads outside the game and has used far more data than usual. What should the technician do first?',
+            q: 'A user installed a free game from a third-party website instead of the official app store. Since then, ads appear on the home screen even when no browser is open, and the phone has used far more data than usual. What should the technician do first?',
             choices: [
-                'Increase the phone\'s cellular data plan.',
-                'Enable developer mode to get more detailed diagnostic options.',
-                'Root the phone to gain full access for cleanup.',
-                'Remove the unauthorized app, then run a malware scan.'
+                'Clear the browser\'s cache and cookies.',
+                'Factory reset the phone right away.',
+                'Install an ad-blocking app from the store.',
+                'Remove the unauthorized app, then scan.'
             ],
             answer: [3],
-            explain: 'Apps from unofficial sources often carry adware or other malware. Removing the unauthorized app and then scanning the device addresses the likely source.',
+            explain: 'Apps from unofficial sources skip app store vetting and often carry adware. Removing the sideloaded app and then scanning the phone addresses the likely source. Rule: remove the most likely source first, then verify with a scan; escalate to a reset only if that fails.',
             why: [
-                'This hides one symptom and leaves the malicious app in place.',
-                'Developer mode adds risk and does not remove the app.',
-                'Rooting weakens the device\'s security model and is not a cleanup step.',
-                'Correct: the sideloaded app is the most likely cause.'
+                'Clearing the browser is tempting for ad problems, but the ads appear with no browser open, so they come from an app.',
+                'A reset would remove the app, but it is drastic and erases data before the simpler fix has been tried.',
+                'An ad blocker is tempting, but it hides some symptoms and leaves the malicious app installed.',
+                'Correct: the sideloaded game is the most likely source, so remove it and confirm with a scan.'
             ]
         },
         {
@@ -1870,19 +1870,19 @@ window.CERT_BANK = {
             q: 'Every time a user types a search into the browser, they are sent to an unfamiliar search site, even after changing the default search engine back. Which two items should the technician check? (Choose two.)',
             choices: [
                 'Installed browser extensions',
-                'The DHCP lease duration',
+                'The browser cache',
                 'The hosts file and proxy settings',
-                'The display driver version',
-                'The print spooler service'
+                'The default homepage setting',
+                'The browser\'s pop-up blocker settings'
             ],
             answer: [0, 2],
-            explain: 'Browser hijacking is often done by a malicious extension or by changes to the hosts file or proxy settings that redirect traffic. Checking both covers the common causes.',
+            explain: 'Browser hijacking is often done by a malicious extension or by changes to the hosts file or proxy settings that redirect traffic. Rule: when a setting keeps reverting or being bypassed, look for the thing that is changing or overriding it, not the setting itself.',
             why: [
-                'Correct: malicious extensions often take over search and redirect results.',
-                'Lease time does not affect browser redirection.',
-                'Correct: altered name resolution or a rogue proxy can redirect traffic.',
-                'Display drivers do not control where the browser sends searches.',
-                'The spooler handles printing only.'
+                'Correct: malicious extensions often take over search and change it back after the user fixes it.',
+                'The cache is tempting because it stores browsing data, but cached pages do not reroute new searches.',
+                'Correct: altered name resolution or a rogue proxy can redirect traffic regardless of browser settings.',
+                'The homepage is tempting because hijackers often change it too, but it controls the start page, not where searches go.',
+                'The pop-up blocker is tempting for unwanted sites, but it controls new windows and does not redirect searches.'
             ]
         },
         {
@@ -1913,18 +1913,18 @@ window.CERT_BANK = {
             type: 'single',
             q: 'A pop-up on a user\'s screen claims the PC is infected with dozens of viruses and urges the user to buy a "cleanup" tool immediately. The company\'s installed antivirus shows no alerts. What should the technician do?',
             choices: [
-                'Buy the advertised tool to remove the infections.',
-                'Close it without clicking, then scan with trusted anti-malware.',
+                'Run System Restore to a point from last week.',
+                'End the browser in Task Manager, then run a trusted scan.',
                 'Disable the installed antivirus so the pop-up can finish its scan.',
-                'Click the pop-up\'s "Scan now" button to confirm the infections.'
+                'Click the pop-up\'s "Scan now" button to confirm.'
             ],
             answer: [1],
-            explain: 'This is a false antivirus alert (scareware). The user should not interact with it. The technician should close the browser or process safely and scan the system with the legitimate security tools.',
+            explain: 'This is a fake antivirus alert, often called scareware. Nobody should interact with it. Close it without clicking anything inside it, then check the system with the company\'s trusted security tools. Rule: verify alerts with tools you trust, never with the tool the alert is pushing.',
             why: [
-                'Paying rewards the scam and may install real malware.',
-                'Correct: treat it as scareware and verify with trusted tools.',
-                'Disabling protection makes the system more vulnerable.',
-                'Interacting with the pop-up can trigger a malicious download.'
+                'System Restore is tempting because it undoes changes, but nothing has been confirmed as installed, and restore does not reliably remove malware.',
+                'Correct: closing it without clicking avoids a malicious download, and a trusted scan checks whether anything got in.',
+                'Disabling protection is tempting to let the pop-up finish, but it removes the real defense and leaves the system exposed.',
+                'Clicking is tempting to confirm the warning, but any button in the pop-up can start a malicious download.'
             ]
         },
         {
@@ -1932,20 +1932,20 @@ window.CERT_BANK = {
             domain: 'c2-4',
             objective: '4.2',
             type: 'single',
-            q: 'A change request to modify a production firewall rule is being reviewed by the change board. Which item in the request describes how to restore the previous configuration if the change causes an outage?',
+            q: 'At 10 p.m., a technician applies an approved change to a production firewall rule. By 10:20 p.m., remote users cannot connect to the VPN, and the change is the suspected cause. Which part of the change request should the technician follow now?',
             choices: [
                 'Purpose of the change',
-                'End-user acceptance',
+                'Risk analysis',
                 'Rollback plan',
-                'Scope of the change'
+                'Scheduled change window'
             ],
             answer: [2],
-            explain: 'A rollback plan lists the steps to return the system to its prior state if the change fails or causes unexpected problems.',
+            explain: 'The rollback (backout) plan lists the steps to return the system to its previous state if a change fails or causes problems. Rule: each part of a change request answers one question: purpose says why, scope says what, the window says when, risk analysis says what could go wrong, and rollback says how to undo it.',
             why: [
-                'The purpose explains why the change is needed, not how to reverse it.',
-                'End-user acceptance confirms the change meets users\' needs after it is made.',
+                'The purpose is tempting as the reason for the change, but it explains why it was needed, not how to reverse it.',
+                'Risk analysis is tempting because it may have predicted this outage, but it rates likelihood and impact; it does not list undo steps.',
                 'Correct: the rollback plan defines how to undo the change.',
-                'The scope defines what the change affects, not how to undo it.'
+                'The change window is tempting because the work is still within it, but it sets when work may happen, not how to undo it.'
             ]
         },
         {
@@ -1974,20 +1974,20 @@ window.CERT_BANK = {
             domain: 'c2-4',
             objective: '4.3',
             type: 'single',
-            q: 'Which statement describes the 3-2-1 backup rule?',
+            q: 'A small office backs up its file server nightly to a NAS in the server closet. A second copy goes to LTO tape, and the tapes are stored on a shelf in the same closet. Which change would bring this setup in line with the 3-2-1 backup rule?',
             choices: [
-                'Run three full backups, two differentials and one incremental backup every week.',
-                'Keep three copies of data on two different media types, with one copy offsite.',
-                'Keep backups for three months, two years, and one decade.',
-                'Test three backups, restore two, and archive one each month.'
+                'Add a second NAS in the closet for another copy.',
+                'Move each tape offsite after the backup runs.',
+                'Switch the nightly backups from full to differential.',
+                'Keep the backups for one year instead of 30 days.'
             ],
             answer: [1],
-            explain: 'The 3-2-1 rule calls for three copies of the data, on two different types of media, with one copy kept offsite.',
+            explain: 'The 3-2-1 rule calls for three copies of the data, on two different media types, with one copy offsite. This office has three copies on disk and tape, but all are in one closet, so a fire or theft takes everything. Rule: check copies, media types and location separately, and fix whichever one is missing.',
             why: [
-                'This describes a schedule, not the 3-2-1 rule.',
-                'Correct: this is the 3-2-1 rule.',
-                'That describes a retention policy, not the 3-2-1 rule.',
-                'This is not the 3-2-1 rule, though regular restore testing is good practice.'
+                'More copies are tempting, but another NAS in the same closet still leaves every copy onsite.',
+                'Correct: the setup already has three copies on two media types; it lacks only an offsite copy.',
+                'Changing the backup type is tempting, but it changes what each backup contains, not where the copies are kept.',
+                'Longer retention is tempting, but it controls how long backups are kept, not whether one is offsite.'
             ]
         },
         {
@@ -1995,20 +1995,20 @@ window.CERT_BANK = {
             domain: 'c2-4',
             objective: '4.4',
             type: 'single',
-            q: 'A technician is about to install a RAM module in a desktop in a carpeted office. Which precaution best protects the module from electrostatic discharge?',
+            q: 'A technician must install a RAM module in a desktop at a customer\'s carpeted office in winter. The air is dry, and the technician gets a small shock touching the door handle. The PC is unplugged. Which precaution best protects the module?',
             choices: [
-                'Keep the PC plugged in and powered on while working.',
-                'Wear an ESD wrist strap connected to a proper ground.',
+                'Touch the metal door handle first to discharge.',
+                'Wear an ESD strap clipped to a proper ground.',
                 'Wear rubber-soled shoes while working.',
-                'Wipe the module with a dry cloth before installing it.'
+                'Wipe the module with a dry cloth first.'
             ],
             answer: [1],
-            explain: 'An ESD wrist strap attached to a proper ground keeps the technician at the same potential as the equipment, so static does not discharge into sensitive parts.',
+            explain: 'A grounded ESD wrist strap keeps the technician at the same electrical potential as the equipment the whole time, so static cannot discharge into the module. Rule: ESD protection must be continuous; a one-time discharge or insulating yourself does not stop charge from building up again.',
             why: [
-                'Working on powered equipment risks electrical damage and injury.',
-                'Correct: a grounded wrist strap prevents static buildup from discharging into components.',
-                'Insulating shoes do not bleed off static and can let a charge build up.',
-                'Rubbing a component with a cloth can generate static.'
+                'Touching metal is tempting because it releases the charge once, but walking on carpet builds it up again before the work is done.',
+                'Correct: a grounded strap continuously equalizes the technician\'s charge with the equipment.',
+                'Rubber soles are tempting because they insulate, but they keep static from draining away, so charge can build up.',
+                'Wiping is tempting for cleaning contacts, but rubbing a component with a dry cloth can create static.'
             ]
         },
         {
@@ -2039,18 +2039,18 @@ window.CERT_BANK = {
             type: 'single',
             q: 'While repairing an employee\'s laptop, a technician discovers files that appear to violate the law and company policy. What should the technician do?',
             choices: [
-                'Delete the files, finish the repair, and note in the ticket that the system was cleaned up.',
-                'Copy the files to a USB drive to show a coworker.',
-                'Confront the employee about the files.',
-                'Stop work, preserve the device unchanged, report it to management, and document the chain of custody.'
+                'Delete the files, finish the repair, and note it in the ticket.',
+                'Make an image of the drive, then finish the repair.',
+                'Ask the employee to explain the files before reporting.',
+                'Stop work, preserve the device, and report it to management.'
             ],
             answer: [3],
-            explain: 'The technician should stop, avoid altering the evidence, report to management (who may involve law enforcement), and document the chain of custody for the device.',
+            explain: 'The technician should stop, avoid changing anything, report through the proper channel (management may involve law enforcement), and document the chain of custody. Rule: a first responder preserves and reports; investigating, judging or fixing belongs to the people authorized to handle the incident.',
             why: [
-                'Deleting the files destroys evidence and may itself break policy or law.',
-                'This spreads the material and breaks the chain of custody.',
-                'Investigation is management\'s job; confronting the user can compromise the case.',
-                'Correct: this preserves evidence and follows the incident response process.'
+                'Deleting is tempting to clean up, but it destroys evidence and may itself break the law or policy.',
+                'Imaging is tempting because it sounds forensic, but finishing the repair changes the evidence, and imaging belongs to authorized investigators.',
+                'Asking the employee is tempting to be fair, but investigating is management\'s job, and it can alert the user and compromise the case.',
+                'Correct: this preserves the evidence and follows the incident response process.'
             ]
         },
         {
@@ -2060,18 +2060,18 @@ window.CERT_BANK = {
             type: 'single',
             q: 'A frustrated customer interrupts a technician several times and insists the problem is the technician\'s fault. What is the most professional response?',
             choices: [
-                'Explain firmly that the problem is the customer\'s fault.',
-                'Stay calm, do not argue, and ask open-ended questions.',
-                'Leave and send a different technician later.',
-                'Describe the issue in technical jargon to establish credibility.'
+                'Apologize and promise a fix by the end of the day.',
+                'Stay calm, avoid arguing, and ask open-ended questions.',
+                'Escalate the call to a manager right away.',
+                'Explain the technical cause in detail to show expertise.'
             ],
             answer: [1],
-            explain: 'The technician should stay calm, avoid arguing or getting defensive, listen actively, and ask clarifying questions to narrow the problem.',
+            explain: 'The technician should stay calm, not argue or get defensive, listen actively, and ask clarifying questions to narrow the problem. Rule: de-escalate by listening and gathering facts before committing to any outcome, and set expectations only once you know what the problem is.',
             why: [
-                'Arguing and assigning blame escalates the conflict.',
-                'Correct: this de-escalates the situation and helps gather useful information.',
-                'Walking away dismisses the customer\'s issue and delays the fix.',
-                'Jargon confuses customers and damages communication.'
+                'Promising a fix is tempting to calm the customer, but it commits to a deadline before the problem is understood.',
+                'Correct: this de-escalates the situation and gathers the information needed to solve the problem.',
+                'Escalating is tempting with an upset customer, but it is premature before the technician has tried to de-escalate and diagnose.',
+                'Detail is tempting to build credibility, but technical explanations to an upset customer usually come across as defensive and confusing.'
             ]
         },
         {
@@ -2079,20 +2079,20 @@ window.CERT_BANK = {
             domain: 'c2-4',
             objective: '4.8',
             type: 'single',
-            q: 'A technician is writing a script that will be run by the Bash shell on Linux workstations. Which file extension is conventionally used?',
+            q: 'A technician finds a script on a Linux workstation whose first line is #!/bin/bash. The file has no extension, and the team\'s convention is to name scripts by the interpreter that runs them. Which extension should it get?',
             choices: [
                 '.ps1',
                 '.sh',
                 '.bat',
-                '.vbs'
+                '.py'
             ],
             answer: [1],
-            explain: 'Shell scripts for Bash and other Unix shells conventionally use the .sh extension.',
+            explain: 'The first line, called a shebang, tells Linux which interpreter runs the script; here it is Bash, and shell scripts conventionally use .sh. Rule: on Linux the shebang and execute permission decide how a script runs, and the extension is a label; on Windows the extension decides.',
             why: [
-                '.ps1 is used for PowerShell scripts.',
-                'Correct: .sh is the conventional extension for shell scripts.',
-                '.bat is a Windows batch file.',
-                '.vbs is a VBScript file used on Windows.'
+                '.ps1 is tempting because PowerShell also runs on Linux, but the shebang names Bash, not PowerShell.',
+                'Correct: .sh is the conventional extension for Bash and other shell scripts.',
+                '.bat is tempting because it is a common script type, but it is a Windows batch file run by cmd.exe.',
+                '.py is tempting because Python scripts are common on Linux, but they start with a python shebang, not /bin/bash.'
             ]
         },
         {
@@ -2123,20 +2123,20 @@ window.CERT_BANK = {
             domain: 'c2-4',
             objective: '4.10',
             type: 'single',
-            q: 'A technician asks an AI assistant for a command to fix a printer problem. The assistant confidently gives a command-line switch that, according to the official documentation, does not exist. What is this AI limitation called?',
+            q: 'A technician asks an AI assistant for a command to fix a printer problem. The assistant confidently gives a command-line switch. The switch is not in the official documentation, and running it returns "invalid parameter." What is this AI limitation called?',
             choices: [
-                'Bias',
+                'Training data bias',
                 'Plagiarism',
                 'Data privacy',
                 'Hallucination'
             ],
             answer: [3],
-            explain: 'A hallucination is when an AI system generates plausible-sounding but false information. AI output should be checked against authoritative sources before it is used.',
+            explain: 'A hallucination is when an AI system produces plausible but false information, such as an option that does not exist. Rule: treat AI output as a draft; check commands against vendor documentation and test them somewhere safe before using them in production.',
             why: [
-                'Bias is a systematic skew in output, often learned from training data, not an invented fact.',
-                'Plagiarism is presenting someone else\'s work as your own.',
-                'Data privacy concerns how information shared with an AI is handled, not whether its answers are true.',
-                'Correct: confidently stated but fabricated output is a hallucination.'
+                'Bias is tempting because the answer is wrong, but bias is a consistent skew in output, often from training data, not an invented fact.',
+                'Plagiarism is tempting as an AI concern, but it means presenting someone else\'s work as your own, not making something up.',
+                'Data privacy is tempting as an AI concern, but it covers how shared information is handled, not whether answers are true.',
+                'Correct: a confidently stated option that does not exist is a hallucination.'
             ]
         }
     ]
