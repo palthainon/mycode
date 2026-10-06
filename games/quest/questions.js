@@ -213,8 +213,28 @@
         sequence(s) {
             const v = String(s).toUpperCase().replace(/[^A-Z]/g, '');
             return v || null;
-        }
+        },
+        // Code and command output: case-sensitive, whitespace-insensitive, ' and " equal,
+        // surrounding backticks ignored. "[1, 2]" == "[1,2]"; "True" != "true".
+        code(s) {
+            const v = String(s).trim().replace(/^`+|`+$/g, '').replace(/\s+/g, '').replace(/"/g, "'");
+            return v || null;
+        },
+        // Network OS commands (Cisco IOS style). Matching is done by iosMatch() below.
+        ios: s => cleanText(s) || null
     };
+
+    // IOS accepts any unambiguous prefix of each keyword: "sh ip int br" for
+    // "show ip interface brief". We accept a typed word if it is at least 2 letters and
+    // a prefix of the keyword in the same position. Words with digits or punctuation
+    // other than "-" (vlan numbers, 0x2142, nvram:) must be typed in full.
+    function iosMatch(typed, canonical) {
+        const t = typed.split(' ');
+        const c = canonical.split(' ');
+        if (t.length !== c.length) return false;
+        return c.every((word, i) => word === t[i] ||
+            (!/[^a-z-]/.test(word) && t[i].length >= 2 && word.startsWith(t[i])));
+    }
 
     function isCorrect(question, input) {
         const norm = NORMALIZERS[question.norm];
@@ -223,7 +243,9 @@
         if (question.norm === 'num' && typeof question.tol === 'number') {
             return Math.abs(Number(got) - Number(norm(question.answer))) <= question.tol;
         }
-        return (question.accept || [question.answer]).some(a => norm(a) === got);
+        const accept = question.accept || [question.answer];
+        if (question.norm === 'ios') return accept.some(a => iosMatch(got, norm(a)));
+        return accept.some(a => norm(a) === got);
     }
 
     // Drop distractors that are duplicated or equivalent to the answer. A distractor the
@@ -236,7 +258,7 @@
         const out = [];
         for (const d of list) {
             const key = keyOf(String(d));
-            if (key === 'raw:' || seen.has(key)) continue;
+            if (key === 'raw:' || seen.has(key) || isCorrect(question, String(d))) continue;
             if (question.norm === 'num' && typeof question.tol === 'number' &&
                 Math.abs(Number(key) - Number(norm(question.answer))) <= question.tol) continue;
             seen.add(key);
@@ -726,6 +748,8 @@
     }
 
     // ---------- registry ----------
+    // Shared topics below can be used by any quest. Quest files add their own
+    // with registerTopics(); ids must be unique across all quests.
 
     const TOPICS = {
         ports: { label: 'Well-known ports', gen: fromPool(PORTS, 'int'), tool: 'nettools/' },
@@ -763,7 +787,8 @@
         if (!q.accept.includes(q.answer)) q.accept.unshift(q.answer);
         let pool = raw.distractors.map(String);
         // Numeric answers get padded with near misses so choice-mode retries never run dry
-        if ((q.norm === 'int' || q.norm === 'num') && /^\d+(\.\d+)?$/.test(q.answer)) {
+        // (raw.noPad opts out, e.g. when valid answers are all multiples of 4096)
+        if (!raw.noPad && (q.norm === 'int' || q.norm === 'num') && /^\d+(\.\d+)?$/.test(q.answer)) {
             const n = Number(q.answer);
             const step = n >= 100 ? Math.max(1, Math.round(n / 20)) : 1;
             pool = pool.concat([n + step, n - step, n + 2 * step, n * 2, n + 3 * step, n * 3, n + 4 * step, n + 5 * step].filter(x => x >= 0).map(String));
@@ -772,8 +797,28 @@
         return q;
     }
 
+    // Every ordering of a string's letters: permutations('ABC') -> ['ABC', 'ACB', ...]
+    function permutations(s) {
+        if (s.length <= 1) return [s];
+        const out = [];
+        for (let i = 0; i < s.length; i++) {
+            permutations(s.slice(0, i) + s.slice(i + 1)).forEach(p => out.push(s[i] + p));
+        }
+        return out;
+    }
+
+    function registerTopics(topics) {
+        for (const [id, t] of Object.entries(topics)) {
+            if (TOPICS[id]) throw new Error('Duplicate topic id: ' + id);
+            if (typeof t.gen !== 'function') throw new Error('Topic ' + id + ' has no gen()');
+            TOPICS[id] = t;
+        }
+    }
+
     return {
-        TOPICS, NORMALIZERS, make, isCorrect, makeRng, hashString, shuffle,
+        TOPICS, NORMALIZERS, make, isCorrect, makeRng, hashString, shuffle, registerTopics,
+        // helpers for quest files' generators
+        util: { pick, randInt, shuffle, fromPool, permutations, ipToInt, intToIp, maskInt, octalToPerm, permToOctal, compressIpv6, expandIpv6 },
         // exported for tests
         _internal: { expandIpv6, compressIpv6, permToOctal, octalToPerm, maskToPrefix, parseIpv4 }
     };
