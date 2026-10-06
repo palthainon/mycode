@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="/app-insights.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta name="description" content="What OldWeb.tech collects, what it never sends, and which outside services a few tools contact. Short version: tools run in your browser, no cookies, anonymous page statistics only.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://oldweb.tech/privacy.html">
+    <meta name="theme-color" content="#0e0903">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="logo/favicon-32x32.png">
+
+    <title>Privacy - OldWeb.tech</title>
+
+    <link rel="stylesheet" href="a11y.css">
+    <link rel="stylesheet" href="theme.css">
+    <script src="a11y-utils.js"></script>
+    <script src="storage-utils.js"></script>
+    <script src="navigationv2.js"></script>
+    <style>
+        /* Page layout only; colors, type, buttons and fields come from theme.css */
+        main { display: flex; flex-direction: column; gap: 24px; }
+        .prose p, .prose ul { margin: 0 0 12px; line-height: 1.65; }
+        .prose ul { padding-left: 1.3em; }
+        .prose li { margin-bottom: 6px; }
+        .prose :last-child { margin-bottom: 0; }
+        .svc { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+        .svc th, .svc td { text-align: left; vertical-align: top; padding: 8px 10px; border-bottom: 1px solid var(--line); }
+        .svc th { color: var(--dim); font-weight: 600; }
+        .stamp { color: var(--dim); font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <main id="main-content">
+        <div class="page-head">
+            <h1>privacy</h1>
+            <p class="lede">What this site collects, and who it talks to.</p>
+        </div>
+
+        <section class="box prose" aria-labelledby="short-heading">
+            <div class="box-head"><h2 id="short-heading">the short version</h2></div>
+            <div class="box-body">
+                <ul>
+                    <li>The tools run in your browser. What you type, paste or open in a tool stays in the tab, with the exceptions listed under <a href="#outside">outside services</a>.</li>
+                    <li>No accounts, no ads, no cookies set by this site or its analytics.</li>
+                    <li>The site counts page views and errors with Microsoft Azure Application Insights, with cookies switched off. The details are below.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="box prose" aria-labelledby="stats-heading">
+            <div class="box-head"><h2 id="stats-heading">anonymous page statistics</h2></div>
+            <div class="box-body">
+                <p>Every page loads a small script that sends usage data to an Azure Application Insights resource run by the operator of this site. It is used to see which tools get used and which pages break. It records:</p>
+                <ul>
+                    <li>the page address, including anything after a <code>?</code> in it (for example a source tag on a printed QR code), and the page that referred you;</li>
+                    <li>page load timing, browser, operating system and device type;</li>
+                    <li>an approximate location (country, region, city) that Microsoft works out from your connecting IP address. Microsoft's documentation says Application Insights keeps the address itself out of storage by default and writes <code>0.0.0.0</code> instead (<a href="https://learn.microsoft.com/en-us/azure/azure-monitor/app/ip-collection" rel="noopener">Azure Monitor: geolocation and IP handling</a>);</li>
+                    <li>JavaScript errors raised on the page.</li>
+                </ul>
+                <p>It does not record what you enter into a tool, and request tracking is turned off, so the addresses you look up on the My IP tool are not logged here. The script sets no cookies and no per-visitor identifier is stored on your device. It can hold events in your browser's session storage until they are sent.</p>
+                <p>To opt out, block <code>js.monitor.azure.com</code> in your browser or content blocker. The tools keep working without it.</p>
+            </div>
+        </section>
+
+        <section class="box prose" id="outside" aria-labelledby="outside-heading">
+            <div class="box-head"><h2 id="outside-heading">outside services</h2></div>
+            <div class="box-body">
+                <p>A few tools contact other services from your browser. Your IP address is visible to each of them, because that is how the web works.</p>
+                <table class="svc">
+                    <thead><tr><th scope="col">Where</th><th scope="col">Service</th><th scope="col">Why</th></tr></thead>
+                    <tbody>
+                        <tr><td>Home page, when it opens</td><td>ipwho.is</td><td>Shows your public IP, country and network operator in the box at the top.</td></tr>
+                        <tr><td><a href="nettools/my-ip.html">My IP</a> tool</td><td>ipwho.is, ipapi.co, api64.ipify.org, rdap.org, rdap-bootstrap.arin.net</td><td>IP, location and registry lookups. If you type an address to look up, that address is sent to these services.</td></tr>
+                        <tr><td><a href="pdf/index.html">PDF tools</a></td><td>cdn.jsdelivr.net</td><td>Loads the open-source PDF libraries. Your PDF files are processed in the tab and are never uploaded.</td></tr>
+                        <tr><td>Every page</td><td>Microsoft Azure</td><td>Hosting, and the analytics described above.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="box prose" aria-labelledby="storage-heading">
+            <div class="box-head"><h2 id="storage-heading">what stays on your device</h2></div>
+            <div class="box-body">
+                <p>Tools save preferences and form entries in your browser's local storage, under keys that start with <code>owt_</code>. This includes your pinned tools and your theme choice. It never leaves your browser. Each tool that saves entries has a <em>Clear Saved Data</em> button, and clearing your browser's site data removes the rest.</p>
+            </div>
+        </section>
+
+        <section class="box prose" aria-labelledby="contact-heading">
+            <div class="box-head"><h2 id="contact-heading">questions</h2></div>
+            <div class="box-body">
+                <p>OldWeb.tech is a <a href="https://www.lawsoncyber.com" rel="noopener">Lawson Cyber</a> project. Use the feedback link there to ask anything about this page.</p>
+                <p class="stamp">Last updated 2026-10-06. Changes to what the site collects will be reflected here before they ship.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="statusbar" role="contentinfo">
+        <span>[oldweb] privacy │ works offline │ no cookies</span>
+        <span><a href="https://www.lawsoncyber.com" rel="noopener">a Lawson Cyber project</a> · <a href="https://www.lawsoncyber.com" rel="noopener">feedback</a> │ / search · t theme</span>
+    </footer>
+</body>
+</html>
