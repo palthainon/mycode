@@ -182,7 +182,7 @@
         // Maintenance Window (games)
         { id: 'lofi-wizard',      name: 'Lo-fi Wizard',                  file: 'games/lofi-wizard.html',                category: 'games',        keywords: ['game', 'lofi', 'lo-fi', 'ascii', 'wizard', 'cat', 'music', 'ambient', 'relax', 'break', 'maintenance window'], related: ['spellcheck', 'pomodoro', 'scratchpad'] },
         { id: 'spellcheck',       name: 'Spellcheck: Wizard Typing Game', file: 'games/spellcheck.html',                 category: 'games',        keywords: ['typing', 'typing test', 'typing game', 'wpm', 'words per minute', 'game', '8-bit', 'pixel', 'wizard', 'practice'], related: ['lofi-wizard', 'pomodoro', 'string-tools'] },
-        { id: 'datacenter-quest', name: 'Datacenter Quest',              file: 'games/datacenter-quest.html',           category: 'games',        keywords: ['text adventure', 'interactive fiction', 'quiz', 'game', 'wizard', 'subnetting', 'chmod', 'cron', 'raid', 'ipv6', 'sysadmin', 'network', 'zork'], related: ['spellcheck', 'subnet', 'chmod'] }
+        { id: 'datacenter-quest', name: 'Datacenter Quest',              file: 'games/datacenter-quest.html',           category: 'games',        keywords: ['text adventure', 'interactive fiction', 'quiz', 'game', 'wizard', 'knight', 'rogue', 'windows', 'linux', 'cisco', 'palo alto', 'python', 'subnetting', 'sysadmin', 'network', 'zork'], related: ['spellcheck', 'subnet', 'chmod'] }
     ];
 
     // Per-tool descriptions for JSON-LD (kept short; meta description owns long-form copy)
@@ -224,7 +224,7 @@
         'tz-meeting-planner':'Plan meetings across timezones with business-hours indicators.',
         'pdf-merge':         'Combine multiple PDFs into one entirely in your browser - no uploads, no watermarks.',
         'pdf-split':         'Extract pages or page ranges from a PDF entirely in your browser - no uploads, no watermarks.',
-        'datacenter-quest':  'A text adventure: answer subnetting, chmod, cron, RAID and IPv6 questions to get the on-call wizard to the datacenter and reboot a dead server.',
+        'datacenter-quest':  'A text adventure: play a wizard, knight or rogue through Windows, Linux, Cisco, Palo Alto, Python or classic on-call quests, answering IT questions to bring production back.',
         'cert-security-plus': 'Free, original Security+ practice questions with an explanation for every answer.',
         'cert-a-plus':       'Free, original A+ Core 1 and Core 2 practice questions with explanations.',
         'cert-network-plus': 'Free, original Network+ practice questions, including subnetting, with explanations.',
