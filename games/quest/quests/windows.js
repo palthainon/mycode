@@ -481,20 +481,56 @@
             desc: 'A tamper-evident envelope holding the DSRM password, written down at promotion by someone who knew this day would come.'
         },
         'ticket-stub': {
-            name: 'ticket stub', names: ['ticket', 'stub', 'ticket stub'], kind: 'junk',
+            name: 'ticket stub', names: ['ticket', 'stub', 'ticket stub'], kind: 'curio',
             desc: 'INC0042117: "Computer slow." No further detail. Closed as "Rebooted, works now." Reopened eleven times.',
             use: 'You close it as "Rebooted, works now." Somewhere, a twelfth reopen begins to stir.'
         },
         'floppy': {
-            name: 'floppy disk', names: ['floppy', 'floppy disk', 'disk', 'save icon'], kind: 'junk',
+            name: 'floppy disk', names: ['floppy', 'floppy disk', 'disk', 'save icon'], kind: 'curio',
             desc: 'A 3.5-inch floppy labelled "NT4 SP6a". It is also the save icon, which is the only job it still has.',
             use: 'There is nothing in this building that can read it. You put it back.'
         },
         'smart-card': {
-            name: 'expired smart card', names: ['smart card', 'card', 'badge', 'expired smart card'], kind: 'junk',
-            desc: 'A smart card whose certificate expired in 2019. It still opens the break room, for reasons nobody has investigated.'
+            name: 'expired smart card', names: ['smart card', 'card', 'badge', 'expired smart card'], kind: 'curio',
+            desc: 'A smart card whose certificate expired in 2019. It still opens the break room, for reasons nobody has investigated.',
+            use: 'You tap it on the nearest reader. Somewhere, very far away, the break room door clicks open.'
+        },
+        'win-cd': {
+            name: 'Server 2003 R2 disc 2', names: ['cd', 'disc', 'disc 2', 'install cd', 'jewel case', 'server 2003 r2 disc 2'], kind: 'curio',
+            desc: 'Windows Server 2003 R2, disc 2 of 2. Disc 2 only adds the R2 extras, so on its own it installs nothing at all. Disc 1 has not been seen since 2006.',
+            use: 'You hold it up to the light. A rainbow, a scratch, and your reflection, younger, still believing in documentation.'
+        },
+        'dr-plan': {
+            name: 'printed DR plan', names: ['plan', 'dr plan', 'disaster recovery plan', 'printout', 'printed dr plan'], kind: 'curio',
+            desc: 'Disaster Recovery Plan v1.0, 2011, 86 pages. Step 1: "Call Dave." Steps 2 to 86 assume Dave picks up.',
+            use: 'You call Dave. Voicemail. The greeting, recorded in 2018, says he is out until Monday. It does not say which Monday.'
+        },
+        'clippy': {
+            name: 'paperclip figurine', names: ['paperclip', 'clip', 'figurine', 'paperclip figurine'], kind: 'curio',
+            desc: 'A little paperclip with googly eyes, a relic of the Office 97 era. It is watching you. It has opinions about your letter.',
+            use: '"It looks like you\'re trying to fix Active Directory. Would you like help?" You click "Don\'t show me this tip again." It shows you the tip again.'
         }
     };
+
+    const MYSTERY = {
+        title: 'Incident notes, things that don\'t add up:',
+        clues: {
+            'dc02-lease': '4:41 AM: the DHCP ledger leased an address to DC02. DC02 has been powered off since March.',
+            'cleared-log': '5:03 AM: DC01\'s Security log was cleared. The account that did it: DC02$.',
+            'emergency-change': 'CHG-2299, requested 4:30 AM: "Power on DC02 for one final replication." Approver: nightowl. No implementer.',
+            'last-sync': 'DC01\'s last inbound replication from DC02 finished at 5:51 AM. Your phone rang at 5:52.'
+        },
+        solved: 'A week later, Facilities finally audits the PDUs. DC02\'s outlet was switched off in March, and the logs say it never came back on. Not once. Not that night. You are still reading the report when the queue refreshes with one new ticket, from DC02$. It says only: "Thank you for letting me finish."'
+    };
+
+    const AMBIENT = [
+        { act: 1, text: 'An empty desk chimes with a chat notification: "nightowl is typing..." Then nightowl isn\'t.' },
+        { act: 1, text: 'Two rooms away, a laptop finishes booting and plays the startup sound to nobody.' },
+        { act: 2, text: 'A rack door clicks shut behind you. The aisle is empty, and the handle is still swinging.' },
+        { act: 2, text: 'Somewhere across the room, a KVM switches channels on its own. DC01. DC02. DC01.' },
+        { act: 3, text: 'Deep in the forest, a tape drive spins up, reads for a few seconds, and stops.' },
+        { act: 3, text: 'Between the trees, a front panel blinks amber, then blue. The asset tag says DC02. When you look again, there are only trees.' }
+    ];
 
     const ACTS = [
         {
@@ -518,10 +554,18 @@
             text: 'Tickets pile up around a desk with three monitors and a headset still warm from the last shift. A corridor north leads to the Event Viewer archives, a hallway runs east to the file shares, and a supply closet sits to the west. A heavy door to the south hums an unhealthy blue.',
             exits: { north: 'event-archive', east: 'share-hall', west: 'supply-closet', south: 'bsod-crypt' },
             features: [
-                { names: ['tickets', 'queue', 'ticket'], text: 'Ticket 1: "Can\'t log on." Ticket 2: "Can\'t log on." Ticket 3: "Printer jammed, also can\'t log on." Ticket 412: "Is the network down? Asking for everyone."' },
-                { names: ['monitors', 'desk', 'headset'], text: 'One monitor shows the queue, one shows a knowledge base article last updated in 2014, and one shows a sticky note that says "have you tried turning it off".' },
+                {
+                    names: ['tickets', 'queue', 'ticket'], text: 'Ticket 1: "Can\'t log on." Ticket 2: "Can\'t log on." Ticket 3: "Printer jammed, also can\'t log on." Ticket 412: "Is the network down? Asking for everyone."',
+                    again: 'Ticket 207, from the CEO\'s assistant: "Is this outage a phishing test? If so, I passed." Priority: Critical. Assigned to: you.',
+                    uses: { 'ticket-stub': 'You add the stub to the pile. The queue is now 413. Somewhere, a dashboard turns slightly redder.' }
+                },
+                {
+                    names: ['monitors', 'desk', 'headset'], text: 'One monitor shows the queue, one shows a knowledge base article last updated in 2014, and one shows a sticky note that says "have you tried turning it off".',
+                    again: 'The sticky note has a second line, in smaller writing: "and on again. in that order. please."'
+                },
                 { names: ['door', 'south door', 'south', 'seals', 'seal', 'runes'], text: 'The door glows the exact blue of a stop screen. Five runes are carved into it, one per guardian of this floor.' }
-            ]
+            ],
+            sense: { listen: 'Forty desk phones ringing in forty slightly different ringtones, and under them all, the hold music, looping.', smell: 'Cold coffee and hand sanitizer nobody has refilled since 2021.' }
         },
         'supply-closet': {
             act: 1, name: 'The Supply Closet',
@@ -529,49 +573,115 @@
             exits: { east: 'ticket-queue' },
             items: ['ticket-stub'],
             features: [
-                { names: ['fridge', 'mini-fridge', 'mini fridge'], text: 'Behind a sad yogurt with someone\'s name on it, you find an opened energy drink. Close enough.', reveals: 'energy-drink' },
-                { names: ['bricks', 'power bricks', 'shelves', 'mice'], text: 'Forty-one power bricks, no two with the same barrel connector. Every one of them fits something that was thrown away.' },
-                { names: ['monitor', 'note'], text: 'You plug it in. It works. It was the cable. It is always the cable.' }
-            ]
+                {
+                    names: ['fridge', 'mini-fridge', 'mini fridge'], text: 'Behind a sad yogurt with someone\'s name on it, you find an opened energy drink. Close enough.', reveals: 'energy-drink',
+                    again: 'The name on the yogurt has been crossed out and rewritten so many times that it is now just a small black rectangle of ownership.'
+                },
+                {
+                    names: ['bricks', 'power bricks', 'shelves', 'mice'], text: 'Forty-one power bricks, no two with the same barrel connector. Every one of them fits something that was thrown away.',
+                    again: 'You find a brick that looks exactly right for your laptop. It is 19.5 volts instead of 20. You put it back with the dignity it deserves.'
+                },
+                { names: ['monitor', 'note'], text: 'You plug it in. It works. It was the cable. It is always the cable.', again: 'You unplug it again, just to be sure. It still works. You feel cheated.' }
+            ],
+            sense: { listen: 'The fridge hums, stops, and hums again, like it is thinking about something.', smell: 'Cardboard, anti-static bags, and a faint note of whatever that yogurt used to be.' }
         },
         'event-archive': {
             act: 1, name: 'The Event Viewer Archives',
-            text: 'Endless shelves of .evtx scrolls, most of them warnings nobody has read since the server was built. The path north climbs toward a firewall. The ticket queue is back south.',
+            text: 'Endless shelves of .evtx scrolls, most of them warnings nobody has read since the server was built. A lamp burns over a reading desk where one scroll lies open. The path north climbs toward a firewall. The ticket queue is back south.',
             exits: { south: 'ticket-queue', north: 'firewall-gate' },
-            quiz: { topic: 'windows-tools', guardian: 'the Archivist of Snap-ins', intro: 'A robed archivist with an MMC console for a face looks up from the scrolls. "This is not a place for clicking around. Name your tool."', cleared: 'The archivist adds your name to a log nobody will read. "Proceed. Warning level only."' }
+            quiz: { topic: 'windows-tools', guardian: 'the Archivist of Snap-ins', intro: 'A robed archivist with an MMC console for a face looks up from the scrolls. "This is not a place for clicking around. Name your tool."', cleared: 'The archivist adds your name to a log nobody will read. "Proceed. Warning level only."' },
+            features: [
+                {
+                    names: ['scrolls', 'shelves', 'warnings', 'evtx'], text: 'You unroll one at random. The same warning, logged every hour since 2016. Nothing has ever broken because of it, which is exactly what everyone said about the last one that did.',
+                    again: 'Another scroll is nothing but Information events, 300,000 of them, each one announcing that something started successfully. You feel very informed.'
+                },
+                {
+                    names: ['reading desk', 'desk', 'open scroll', 'lamp'], text: 'The open scroll is tonight\'s System log. Somebody has been reading it by lamplight, and the lamp is still warm.',
+                    again: 'A bookmark marks one spot: 4:41 AM. The entry under it has been smudged by a thumb.'
+                }
+            ],
+            sense: { listen: 'Pages rustling, though there is no draft to move them.', smell: 'Old paper and warm lamp oil.' }
         },
         'firewall-gate': {
             act: 1, name: 'The Defender Firewall Gate',
-            text: 'A stone gate studded with rules, half of them called "Allow All (temporary)". A recovery chapel lies east. The archives are back south.',
+            text: 'A stone gate studded with rules, half of them called "Allow All (temporary)". Someone has chalked a note on the gatepost. A recovery chapel lies east. The archives are back south.',
             exits: { south: 'event-archive', east: 'winre-chapel' },
-            quiz: { topic: 'windows-ports', guardian: 'the Firewall Gargoyle', intro: 'A gargoyle wakes on the lintel, inbound rules scrolling across its wings. "Inbound traffic blocked by default. State your port."', cleared: 'The gargoyle creates a rule for you, scoped properly for once. "Allowed. Domain profile only."' }
+            quiz: { topic: 'windows-ports', guardian: 'the Firewall Gargoyle', intro: 'A gargoyle wakes on the lintel, inbound rules scrolling across its wings. "Inbound traffic blocked by default. State your port."', cleared: 'The gargoyle creates a rule for you, scoped properly for once. "Allowed. Domain profile only."' },
+            features: [
+                {
+                    names: ['rules', 'stone', 'gate'], text: '"Allow All (temporary)", created 2015. "Allow All (temporary) (2)", created 2015. "Block Bob", created the day after Bob\'s laptop discovered BitTorrent.',
+                    again: 'At the very bottom, disabled, is a rule named "do not enable". Its description just says "you know why". You don\'t, and that is worse.'
+                },
+                {
+                    names: ['gatepost', 'note', 'chalk'], text: '"FIREWALL OFF FOR TESTING - BACK ON BY FRIDAY." The chalk is old enough to have fossilized.',
+                    extra: {
+                        knight: 'You rap on the gatepost with a gauntlet. Somewhere a log records it as a dropped packet.',
+                        rogue: 'Out of habit you look for a way around. There is one: a rule called "temp - vendor access". You decide you never saw it.'
+                    }
+                }
+            ],
+            sense: { listen: 'The gargoyle\'s wings click softly with every packet it drops. It drops a lot of packets.' }
         },
         'winre-chapel': {
             act: 1, name: 'The Chapel of Advanced Startup',
             text: 'Blue tiles, a single kneeler, and an altar with options: Continue, Troubleshoot, Turn off your PC. Something glints in a vestry to the east. The gate is back west.',
             exits: { west: 'firewall-gate', east: 'imaging-bench' },
-            quiz: { topic: 'windows-recovery', guardian: 'the Recovery Priest', intro: 'A priest in a blue chasuble raises a hand. "Two failed boots brought you here, child. Prove you know the rites of recovery."', cleared: 'The priest blesses you with a restore point. "Go in peace, and keep your BCD backed up."' }
+            quiz: { topic: 'windows-recovery', guardian: 'the Recovery Priest', intro: 'A priest in a blue chasuble raises a hand. "Two failed boots brought you here, child. Prove you know the rites of recovery."', cleared: 'The priest blesses you with a restore point. "Go in peace, and keep your BCD backed up."' },
+            features: [
+                {
+                    names: ['altar', 'options', 'tiles'], text: '"Continue" is worn smooth by desperate thumbs. "Turn off your PC" is pristine. Nobody has ever chosen it on purpose.',
+                    again: 'Under the altar cloth there is a fourth option, scratched out but still legible: "Ask nightowl".'
+                },
+                { names: ['kneeler'], text: 'Two dents are worn into the kneeler, about the depth of an all-nighter.', again: 'The dents are still warm. You are the only one here.' }
+            ],
+            sense: { listen: 'An organ plays the startup chime very slowly, in a minor key.', smell: 'Incense and hot plastic.' }
         },
         'share-hall': {
             act: 1, name: 'The Hall of File Shares',
-            text: 'A long hall of doors, each marked with a UNC path and an access-denied sign. A DHCP office lies further east. The ticket queue is back west.',
+            text: 'A long hall of doors, each marked with a UNC path and an access-denied sign. A lost-and-found bin sits by the first door. A DHCP office lies further east. The ticket queue is back west.',
             exits: { west: 'ticket-queue', east: 'dhcp-office' },
-            quiz: { topic: 'windows-ntfs', guardian: 'the Permissions Gatekeeper', intro: 'A gatekeeper with two keyrings, one for shares and one for NTFS, blocks the hall. "Everyone wants Full Control. Tell me what they actually get."', cleared: 'The gatekeeper grants you exactly the access you need and not a byte more. "Least privilege. Go on."' }
+            quiz: { topic: 'windows-ntfs', guardian: 'the Permissions Gatekeeper', intro: 'A gatekeeper with two keyrings, one for shares and one for NTFS, blocks the hall. "Everyone wants Full Control. Tell me what they actually get."', cleared: 'The gatekeeper grants you exactly the access you need and not a byte more. "Least privilege. Go on."' },
+            features: [
+                {
+                    names: ['doors', 'paths', 'signs', 'unc'], text: '\\\\FS01\\Finance. \\\\FS01\\Finance-OLD. \\\\FS01\\Finance-OLD-DONOTUSE. The last one has the most recent files.',
+                    again: 'One door, \\\\FS01\\Public, stands wide open. Someone has stored the entire 2019 holiday party slideshow in it. Twice.'
+                },
+                { names: ['bin', 'lost and found', 'lost-and-found'], text: 'Three phone chargers, a single glove, and a mapped drive letter nobody ever came back for: Q:.' }
+            ],
+            sense: { listen: 'Somewhere down the hall, a door keeps saying "Access is denied" in a polite, exhausted voice.' }
         },
         'dhcp-office': {
             act: 1, name: 'The Scope Office',
-            text: 'A clerk hands out IP addresses from a ledger, crossing them off one at a time. A stair north leads to the old workstation graveyard. The share hall is back west.',
+            text: 'A clerk hands out IP addresses from a ledger, crossing them off one at a time and thumping each with a rubber stamp. A stair north leads to the old workstation graveyard. The share hall is back west.',
             exits: { west: 'share-hall', north: 'workstation-graveyard' },
-            quiz: { topic: 'windows-dhcp', guardian: 'the Scope Clerk', intro: 'The clerk looks up from a ledger full of exclusions. "The scope is nearly exhausted and half the floor is on 169.254. Can you count?"', cleared: 'The clerk hands you a lease for eight days. "That is the default. Bring it back renewed."' }
+            quiz: { topic: 'windows-dhcp', guardian: 'the Scope Clerk', intro: 'The clerk looks up from a ledger full of exclusions. "The scope is nearly exhausted and half the floor is on 169.254. Can you count?"', cleared: 'The clerk hands you a lease for eight days. "That is the default. Bring it back renewed."' },
+            features: [
+                {
+                    names: ['ledger', 'leases'], clue: 'dc02-lease',
+                    text: 'You read over the clerk\'s shoulder. Most overnight leases went to laptops waking up for updates. One, at 4:41 AM, went to DC02. Domain controllers are supposed to have static addresses. DC02 isn\'t supposed to be switched on at all.',
+                    again: 'The DC02 entry has been crossed out, and then written back in, in different ink.'
+                },
+                { names: ['stamp', 'rubber stamp'], text: 'The stamp says DENIED. The ink pad for APPROVED dried out years ago, and nobody has filed a ticket for a new one.' }
+            ],
+            sense: { listen: 'Thump. Scratch. Thump. Lease after lease, all night long.' }
         },
         'workstation-graveyard': {
             act: 1, name: 'The Workstation Graveyard',
-            text: 'Beige towers stand in rows like headstones, each with a "Windows 7 - do not reimage" label. A floppy disk lies on one. North, a bench of imaging gear glows.',
+            text: 'Beige towers stand in rows like headstones, each with a "Windows 7 - do not reimage" label. A floppy disk lies on one, and a CRT at the end of a row still flickers. North, a bench of imaging gear glows.',
             exits: { south: 'dhcp-office', north: 'imaging-bench' },
             items: ['floppy'],
             features: [
-                { names: ['towers', 'headstones', 'workstations', 'labels'], text: 'One reads: "ACCT-PC-07. Ran the payroll macro. Nobody knows how. Do not touch." It has been unplugged since 2020. Payroll still works. Nobody knows how.' }
-            ]
+                {
+                    names: ['towers', 'headstones', 'workstations', 'labels'], text: 'One reads: "ACCT-PC-07. Ran the payroll macro. Nobody knows how. Do not touch." It has been unplugged since 2020. Payroll still works. Nobody knows how.',
+                    again: 'Another: "HR-PC-02. Kept alive for one internal app that only ran in IE6. Retired with honors. The app was not."',
+                    uses: { 'floppy': 'ACCT-PC-07 has a floppy drive. Of course it does. You hover the disk over the slot and the tower\'s fan spins up, unplugged. You put the disk away and walk faster.' }
+                },
+                {
+                    names: ['crt', 'glow'], text: 'Burned into the phosphor forever: a login screen with a single user tile named "Admin".',
+                    again: 'Look closer. Underneath, burned in more faintly, a second tile: "Admin (2)". Someone needed a second admin. Nobody remembers who.'
+                }
+            ],
+            sense: { listen: 'Wind through empty drive bays, and somewhere, one hard drive clicking.', smell: 'Dust bunnies and the warm-plastic ghost of beige.' }
         },
         'imaging-bench': {
             act: 1, name: 'The Imaging Bench',
@@ -579,14 +689,31 @@
             exits: { west: 'winre-chapel', south: 'workstation-graveyard' },
             items: ['recovery-usb'],
             features: [
-                { names: ['laptop', 'reimage', 'progress'], text: 'The progress bar reads 99% and has read 99% since you walked in. It will read 99% after you leave.' },
-                { names: ['sticks', 'usb sticks', 'adapters', 'bench'], text: 'Most of the sticks are labelled "misc". One is labelled "DO NOT USE". Nobody knows why, and nobody is brave enough to find out.' }
-            ]
+                {
+                    names: ['laptop', 'reimage', 'progress'], text: 'The progress bar reads 99% and has read 99% since you walked in. It will read 99% after you leave.',
+                    again: 'Still 99%. Everyone who has ever touched a reimage at 99% has regretted it. You keep your hands in your pockets.'
+                },
+                {
+                    names: ['sticks', 'usb sticks', 'adapters', 'bench'], text: 'Most of the sticks are labelled "misc". One is labelled "DO NOT USE". Nobody knows why, and nobody is brave enough to find out.',
+                    again: 'The "DO NOT USE" stick has an older label peeling off underneath. It says "USE THIS ONE". You leave both alone.',
+                    extra: { rogue: 'Reflex makes you palm one of the "misc" sticks. Then you think about where it has been, and put it back.' }
+                }
+            ],
+            sense: { listen: 'The quiet whir of a laptop thinking very hard about the last 1%.' }
         },
         'bsod-crypt': {
             act: 1, name: 'The Crypt of the Blue Screen', boss: true,
             text: 'Everything here is the same shade of blue. A sad face hovers in the air above a QR code, and a percentage counter never quite reaches 100. Beyond it, a stair leads up to the server room.',
             exits: { north: 'ticket-queue' },
+            features: [
+                {
+                    names: ['face', 'sad face'], text: 'The sad face is a colon and a parenthesis, eleven feet tall. It manages to look disappointed in you personally.',
+                    again: 'It blinks. Colons should not be able to blink.'
+                },
+                { names: ['qr code', 'qr', 'code'], text: 'You scan it. Your phone opens a help page about stop codes, which is helpful in the way a smoke alarm is helpful.' },
+                { names: ['counter', 'percentage'], text: '0% complete. 0% complete. Then, for one thrilling moment, 0% complete.' }
+            ],
+            sense: { listen: 'A fan running flat out on a machine that has stopped doing anything at all.' },
             bossFight: {
                 name: 'the Blue Screen Wraith', topics: ['windows-bsod', 'windows-recovery'], key: 'recovery-usb',
                 locked: 'The Wraith flickers, "Your device ran into a problem and needs to restart," and restarts. And restarts. You will never get past it without something that boots on its own.',
@@ -598,52 +725,107 @@
         // ======================= ACT II =======================
         'server-console': {
             act: 2, name: 'The Server Room Console',
-            text: 'A KVM drawer slides out of a rack, its screen showing Server Manager with every tile red. North is the operations hall, east a corridor of event logs, west a cold aisle. To the south, something with many heads is linking itself to OUs.',
+            text: 'A KVM drawer slides out of a rack, its screen showing Server Manager with every tile red. A sticky note on the drawer lists the KVM channels. North is the operations hall, east a corridor of event logs, west a cold aisle. To the south, something with many heads is linking itself to OUs.',
             exits: { north: 'fsmo-hall', east: 'log-corridor', west: 'cold-aisle', south: 'hydra-ou' },
             features: [
-                { names: ['kvm', 'screen', 'server manager', 'tiles'], text: 'Server Manager reports 47 problems. It also offers to help you get started with Windows Admin Center, which is not the problem.' },
+                {
+                    names: ['kvm', 'screen', 'server manager', 'tiles'], text: 'Server Manager reports 47 problems. It also offers to help you get started with Windows Admin Center, which is not the problem.',
+                    again: 'You dismiss the offer. It comes back. Some things in Server Manager cannot be closed, only postponed.'
+                },
+                {
+                    names: ['channels', 'sticky note', 'note'], text: 'Channel 1: DC01. Channel 2: DC02 (DEAD - DO NOT SELECT). Channel 3: "?". You check which channel is selected. Channel 2.',
+                    again: 'You switched it back to channel 1. You are sure you did. It is on channel 2.'
+                },
                 { names: ['south', 'seals', 'seal', 'runes', 'heads'], text: 'Five runes glow over the southern arch, one per guardian of this realm. Behind it you can hear something hissing "link order one" over and over.' }
-            ]
+            ],
+            sense: { listen: 'Fans, a UPS beeping politely every thirty seconds, and the hiss from the south.' }
         },
         'cold-aisle': {
             act: 2, name: 'The Cold Aisle',
-            text: 'Perforated tiles blow freezing air at your ankles. Someone has left a jacket on a rack door and a toolbox on the floor. The console is back east.',
+            text: 'Perforated tiles blow freezing air at your ankles. Someone has left a jacket on a rack door and a toolbox on the floor, and the rack door hangs ajar. The console is back east.',
             exits: { east: 'server-console' },
             features: [
-                { names: ['toolbox', 'tool box', 'box'], text: 'Under a tangle of cage nuts you find a small vial labelled "LastKnownGood".', reveals: 'snapshot-vial' },
-                { names: ['jacket'], text: 'The pocket holds a badge, a rack key and a receipt for 11 energy drinks. Whoever owns this has been here a while.' },
-                { names: ['tiles', 'floor'], text: 'One tile is missing. Through the gap you can see a cable labelled "DO NOT UNPLUG - DC01". It is unplugged.' }
-            ]
+                {
+                    names: ['toolbox', 'tool box', 'box'], text: 'Under a tangle of cage nuts you find a small vial labelled "LastKnownGood".', reveals: 'snapshot-vial',
+                    again: 'Nothing else in there but cage nuts and a cage nut tool nobody has ever used, because everyone uses a screwdriver and bleeds.'
+                },
+                {
+                    names: ['jacket'], text: 'The pocket holds a badge, a rack key and a receipt for 11 energy drinks. Whoever owns this has been here a while.',
+                    again: 'The badge has no photo, only a name: nightowl. The receipt is timestamped 4:12 AM. Tonight.'
+                },
+                { names: ['tiles', 'floor'], text: 'One tile is missing. Through the gap you can see a cable labelled "DO NOT UNPLUG - DC01". It is unplugged.' },
+                { names: ['rack door', 'rack', 'door'], text: 'Taped inside the rack door, "for emergencies": a jewel case so old the hinge has given up.', reveals: 'win-cd', again: 'The tape has left a rectangle of glue on the door. It will outlive the rack.' }
+            ],
+            sense: { listen: 'The tiles whistle. One of them whistles a slightly different note.', touch: 'Your ankles are now colder than the servers. Facilities says this is correct.' }
         },
         'fsmo-hall': {
             act: 2, name: 'The Hall of Operations Masters',
             text: 'Five thrones stand in a ring, each carved with a role. Two of them are much grander than the rest. A shrine to Kerberos lies north. The console is back south.',
             exits: { south: 'server-console', north: 'kerberos-shrine' },
-            quiz: { topic: 'windows-fsmo', guardian: 'the Five Masters', intro: 'Five figures rise from the thrones at once. "Flexible, we are not. Single master, we are. Name us, or be seized."', cleared: 'The masters sit back down. "You may pass. Transfer us gently, when the time comes."' }
+            quiz: { topic: 'windows-fsmo', guardian: 'the Five Masters', intro: 'Five figures rise from the thrones at once. "Flexible, we are not. Single master, we are. Name us, or be seized."', cleared: 'The masters sit back down. "You may pass. Transfer us gently, when the time comes."' },
+            features: [
+                {
+                    names: ['thrones', 'throne', 'ring'], text: 'The two grand thrones have velvet cushions. The other three are folding chairs on plinths, as if someone added them later and never got the budget.',
+                    again: 'In the corner, under a dust sheet, sits an old chair with a tag: "DC02. Roles seized in March. Must never return to the network."',
+                    extra: { knight: 'You bow out of habit. Two of the masters nod back. The other three are busy.' }
+                }
+            ],
+            sense: { listen: 'A low argument between the thrones about who gets the final word.' }
         },
         'kerberos-shrine': {
             act: 2, name: 'The Shrine of the Three-Headed Dog',
             text: 'A shrine to Kerberos, guarded by a statue of a dog with three heads and a wall clock that is exactly five minutes fast. A cloister of PowerShell monks lies east. The hall is back south.',
             exits: { south: 'fsmo-hall', east: 'ps-cloister' },
-            quiz: { topic: 'windows-dcauth', guardian: 'the Ticket-Granting Hound', intro: 'The statue\'s three heads turn toward you. "No ticket, no service. And your clock had better be right."', cleared: 'The hound stamps a TGT and drops it at your feet. "Valid for ten hours. Don\'t lose it."' }
+            quiz: { topic: 'windows-dcauth', guardian: 'the Ticket-Granting Hound', intro: 'The statue\'s three heads turn toward you. "No ticket, no service. And your clock had better be right."', cleared: 'The hound stamps a TGT and drops it at your feet. "Valid for ten hours. Don\'t lose it."' },
+            features: [
+                {
+                    names: ['statue', 'dog', 'collars'], text: 'Each head wears a collar: one for the client, one for the server, one for the KDC. The KDC head looks the most tired.',
+                    again: 'A bowl at the statue\'s feet is labelled "tickets". It is full of expired ones, chewed.',
+                    uses: { 'smart-card': 'The statue sniffs the card, reads the certificate\'s expiry date, and sneezes on it. Denied, but politely.' }
+                }
+            ],
+            sense: { listen: 'A low growl, in three-part harmony.' }
         },
         'ps-cloister': {
             act: 2, name: 'The Cloister of Verb-Noun',
             text: 'Monks in hooded robes chant in strict Verb-Noun pairs. A scriptorium door to the east is half-open. The shrine is back west.',
             exits: { west: 'kerberos-shrine', east: 'gpo-scriptorium' },
-            quiz: { topic: 'windows-pscmd', guardian: 'the Abbot of Approved Verbs', intro: 'An abbot steps forward with a scroll titled Get-Verb. "We do not Fetch here. We do not Grab. Speak the right cmdlet."', cleared: 'The abbot nods. "Approved." He makes a note in his transcript and lets you pass.' }
+            quiz: { topic: 'windows-pscmd', guardian: 'the Abbot of Approved Verbs', intro: 'An abbot steps forward with a scroll titled Get-Verb. "We do not Fetch here. We do not Grab. Speak the right cmdlet."', cleared: 'The abbot nods. "Approved." He makes a note in his transcript and lets you pass.' },
+            features: [
+                {
+                    names: ['monks', 'robes', 'chant'], text: 'You listen in. "Start-Day. Stop-Meeting. Wait-Coffee." A young monk whispers "Yeet-Process" and is quietly led away.',
+                    again: 'The young monk is back, chastened, copying out help files by hand. He has reached about_Quoting_Rules and is weeping softly.'
+                },
+                { names: ['door', 'scriptorium door'], text: 'The door is half-open, held by a wedge of folded printouts. Every one is an error message in red text that nobody read past the first line.' }
+            ],
+            sense: { listen: 'Chanting, strictly Verb-Noun, punctuated by the occasional pipe.' }
         },
         'log-corridor': {
             act: 2, name: 'The Security Log Corridor',
             text: 'The walls are covered in event IDs, most of them 4625. A chamber of pipelines opens to the east. The console is back west.',
             exits: { west: 'server-console', east: 'pipeline-works' },
-            quiz: { topic: 'windows-events', guardian: 'the Auditor', intro: 'A grey-suited auditor blocks the corridor with a clipboard. "Somebody cleared a log last night. Before you go further, prove you can read one."', cleared: 'The auditor marks you "compliant, pending evidence" and steps aside.' }
+            quiz: { topic: 'windows-events', guardian: 'the Auditor', intro: 'A grey-suited auditor blocks the corridor with a clipboard. "Somebody cleared a log last night. Before you go further, prove you can read one."', cleared: 'The auditor marks you "compliant, pending evidence" and steps aside.' },
+            features: [
+                {
+                    names: ['walls', 'wall', 'events', 'ids'], clue: 'cleared-log',
+                    text: 'Most of the wall is failed logons from one printer that still has an old password saved. Near the end, DC01\'s Security log simply stops. A note in the margin: cleared at 5:03 AM, by DC02$, the computer account of a server that is switched off.',
+                    again: 'You look at the gap again. It is very neat. Whoever did this was in no hurry at all.'
+                }
+            ],
+            sense: { smell: 'Hot toner, and the ozone of a log server that is out of disk.' }
         },
         'pipeline-works': {
             act: 2, name: 'The Pipeline Works',
             text: 'Brass pipes carry objects from one cmdlet to the next, hissing at every Where-Object valve. An annex of GUID-named folders lies north. The corridor is back west.',
             exits: { west: 'log-corridor', north: 'sysvol-annex' },
-            quiz: { topic: 'windows-ps', guardian: 'the Pipeline Engineer', intro: 'An engineer in overalls taps a gauge. "Objects in, objects out. Tell me how many come out the other end."', cleared: 'The engineer opens the valve. "Measured. Off you go."' }
+            quiz: { topic: 'windows-ps', guardian: 'the Pipeline Engineer', intro: 'An engineer in overalls taps a gauge. "Objects in, objects out. Tell me how many come out the other end."', cleared: 'The engineer opens the valve. "Measured. Off you go."' },
+            features: [
+                {
+                    names: ['pipes', 'pipe', 'valves', 'gauge'], text: 'One pipe is labelled "| Out-Null". Whatever goes in is never seen again. You hold on to your pockets.',
+                    again: 'You press an ear to the Out-Null pipe. Something inside is still trying to report an error.'
+                }
+            ],
+            sense: { listen: 'Hiss, clunk, hiss. Objects being filtered, one at a time.', touch: 'The pipes are warm. Someone left a ForEach-Object running in here.' }
         },
         'sysvol-annex': {
             act: 2, name: 'The SYSVOL Annex',
@@ -651,9 +833,18 @@
             exits: { south: 'pipeline-works', north: 'gpo-scriptorium' },
             items: ['smart-card'],
             features: [
-                { names: ['folders', 'guids', 'shelves'], text: 'You open {31B2F340-016D-11D2-945F-00C04FB984F9}. It is the Default Domain Policy, and someone has put a mapped drive in it.' },
-                { names: ['frs', 'engine', 'corner'], text: 'A plaque reads: "FRS. Replaced by DFSR. Still haunting migrations that were never finished."' }
-            ]
+                {
+                    names: ['folders', 'guids', 'shelves'], text: 'You open {31B2F340-016D-11D2-945F-00C04FB984F9}. It is the Default Domain Policy, and someone has put a mapped drive in it.',
+                    again: 'The next folder is {6AC1786C-016F-11D2-945F-00C04FB984F9}, the Default Domain Controllers Policy. Its modified date is tonight.',
+                    extra: { wizard: 'You try reading a GUID aloud as an incantation. Nothing happens, which is the most reassuring thing that has happened tonight.' }
+                },
+                {
+                    names: ['frs', 'engine', 'corner'], text: 'A plaque reads: "FRS. Replaced by DFSR. Still haunting migrations that were never finished."',
+                    again: 'The engine shudders, as if it heard the word "migration". Then it is still again.'
+                },
+                { names: ['filing cabinet', 'cabinet'], text: 'The top drawer is labelled "Policies (paper)". It holds one sheet: "Users must not write passwords down." Taped to the back of it is a password.' }
+            ],
+            sense: { smell: 'Rust, and the faint machine-oil smell of a replication engine nobody dared to scrap.' }
         },
         'gpo-scriptorium': {
             act: 2, name: 'The Policy Scriptorium',
@@ -661,13 +852,25 @@
             exits: { west: 'ps-cloister', south: 'sysvol-annex' },
             items: ['rsop-mirror'],
             features: [
-                { names: ['scribes', 'scrolls', 'string'], text: 'One scribe is writing "Disable Windows Firewall (temporary, 2017)". You decide to come back for him later.' }
-            ]
+                {
+                    names: ['scribes', 'scrolls', 'string'], text: 'One scribe is writing "Disable Windows Firewall (temporary, 2017)". You decide to come back for him later.',
+                    again: 'He has moved on to "Map drive Z: for everyone (temporary)". He hums while he works. He is very happy.'
+                },
+                { names: ['lectern'], text: 'Carved into the lectern: "Configured is not applied." Underneath, in smaller letters, someone has added "ask me how I know".' }
+            ],
+            sense: { listen: 'Quills scratching, and someone muttering "why is this filtered to Authenticated Users".' }
         },
         'hydra-ou': {
             act: 2, name: 'The Lair of the Group Policy Hydra', boss: true,
             text: 'A pit of tangled OUs, each with a GPO linked to it and three more inherited from above. The Group Policy Hydra coils in the middle, one head per link. A root-bound stair leads down into the forest.',
             exits: { north: 'server-console' },
+            features: [
+                {
+                    names: ['pit', 'ous', 'ou'], text: 'You count the OUs. There is one called "New Organizational Unit". Inside it, "New Organizational Unit (2)". Inside that, for some reason, the CEO.',
+                    again: 'At the bottom of the pit, an OU called "Disabled - Keep" holds 2,000 accounts. Exactly one of them is enabled. It is DC02$.'
+                }
+            ],
+            sense: { smell: 'Wet scales and stale Registry.pol.' },
             bossFight: {
                 name: 'the Group Policy Hydra', topics: ['windows-gpo', 'windows-gptools'], key: 'rsop-mirror',
                 locked: 'Every time you look at a head, another policy applies on top of it. Without seeing what actually took effect, you can\'t tell which head is real.',
@@ -682,30 +885,63 @@
             text: 'Ancient trees named after domains rise around a clearing, their roots tangled in replication links. North is a hall of replication, east a server farm, west a quiet records room. South, a vault door is covered in frost.',
             exits: { north: 'repl-hall', east: 'hyperv-farm', west: 'records-room', south: 'tombstone-vault' },
             features: [
-                { names: ['trees', 'roots', 'links'], text: 'The oldest tree is labelled corp.local. Everyone who planted it is sorry, and nobody will ever rename it.' },
-                { names: ['vault', 'door', 'south', 'frost', 'seals', 'seal', 'runes'], text: 'The vault door has five frozen runes, one per guardian of this realm. A label reads: "DC02. Offline since last March. DO NOT POWER ON."' }
-            ]
+                {
+                    names: ['trees', 'roots', 'links'], text: 'The oldest tree is labelled corp.local. Everyone who planted it is sorry, and nobody will ever rename it.',
+                    again: 'Carved into the bark of corp.local, very small: "nightowl was here". The cut is still pale. It was made tonight.'
+                },
+                {
+                    names: ['vault', 'door', 'south', 'frost', 'seals', 'seal', 'runes'], text: 'The vault door has five frozen runes, one per guardian of this realm. A label reads: "DC02. Offline since last March. DO NOT POWER ON."',
+                    again: 'Through the frost on the door you can see a status light on the other side, blinking slowly. Powered-off servers don\'t blink.'
+                }
+            ],
+            sense: { listen: 'Wind in the branches, and far away, LDAP queries rustling like leaves.', smell: 'Pine needles and cold ozone.' }
         },
         'records-room': {
             act: 3, name: 'The Records Room',
-            text: 'Change records line the walls in binders, most of them signed off after the change was made. A kettle sits on a cabinet. The forest root is back east.',
+            text: 'Change records line the walls in binders, most of them signed off after the change was made. A whiteboard by the door lists tonight\'s emergency changes. A kettle sits on a cabinet. The forest root is back east.',
             exits: { east: 'forest-root' },
             features: [
-                { names: ['kettle', 'cabinet'], text: 'The kettle is still warm, and next to it sits a mug of strong tea with a note: "Patch Tuesday only."', reveals: 'patch-tea' },
-                { names: ['binders', 'records', 'changes'], text: 'CHG-2231: "Raise forest functional level." Rollback plan: "None possible." Approved anyway.' }
-            ]
+                {
+                    names: ['kettle', 'cabinet'], text: 'The kettle is still warm, and next to it sits a mug of strong tea with a note: "Patch Tuesday only."', reveals: 'patch-tea',
+                    again: 'The kettle is still warm. The sign-in sheet says nobody has been in here since Friday.'
+                },
+                {
+                    names: ['binders', 'records', 'changes'], text: 'CHG-2231: "Raise forest functional level." Rollback plan: "None possible." Approved anyway. Wedged between two binders is a much thicker printout.', reveals: 'dr-plan',
+                    again: 'CHG-1180: "Rename the domain." Status: "Withdrawn, with tears."'
+                },
+                {
+                    names: ['whiteboard', 'board', 'emergency changes'], clue: 'emergency-change',
+                    text: 'In marker: "CHG-2299 - Power on DC02 for one final replication. Requested 4:30 AM. Approver: nightowl." The implementer field is blank. Under "Risk", someone has drawn a small smiling face.',
+                    again: 'You try to wipe the line off. The marker is permanent. Of course it is.'
+                }
+            ],
+            sense: { smell: 'Burnt kettle, and the toner-and-guilt smell of retroactive approvals.' }
         },
         'repl-hall': {
             act: 3, name: 'The Hall of Replication',
             text: 'Every DC in the forest is painted on the walls, with arrows between them in the KCC\'s spidery handwriting. A restore chamber lies north. The root is back south.',
             exits: { south: 'forest-root', north: 'restore-chamber' },
-            quiz: { topic: 'windows-repl', guardian: 'the Replication Warden', intro: 'A warden made of USNs steps away from the wall. "Changes flow both ways here, or not at all. Show me you know how."', cleared: 'The warden replicates you to the next room. "Converged. Eventually."' }
+            quiz: { topic: 'windows-repl', guardian: 'the Replication Warden', intro: 'A warden made of USNs steps away from the wall. "Changes flow both ways here, or not at all. Show me you know how."', cleared: 'The warden replicates you to the next room. "Converged. Eventually."' },
+            features: [
+                {
+                    names: ['walls', 'arrows', 'handwriting', 'dcs'], text: 'The arrow to DC02 has been painted over in grey. The paint has been scratched away again, from the inside of the wall.',
+                    again: 'You follow the arrows with a finger. Every path in the forest leads back to DC01 eventually. All but one, which leads into the floor.'
+                }
+            ],
+            sense: { listen: 'A soft scratching, like a pen on plaster. Nobody is holding a pen.' }
         },
         'restore-chamber': {
             act: 3, name: 'The Restore Chamber',
             text: 'Backup tapes hang from the ceiling like bats, each labelled with a date and a hope. A locked vault of credentials lies east. The replication hall is back south.',
             exits: { south: 'repl-hall', east: 'cred-vault' },
-            quiz: { topic: 'windows-adops', guardian: 'the Keeper of Backups', intro: 'An old keeper rises from a pile of tapes. "Anyone can back up. Few can restore. Prove you are one of the few."', cleared: 'The keeper hands you a tape. "Tested last quarter. Probably."' }
+            quiz: { topic: 'windows-adops', guardian: 'the Keeper of Backups', intro: 'An old keeper rises from a pile of tapes. "Anyone can back up. Few can restore. Prove you are one of the few."', cleared: 'The keeper hands you a tape. "Tested last quarter. Probably."' },
+            features: [
+                {
+                    names: ['tapes', 'tape', 'bats', 'labels'], text: '"Full - March." "Incremental - Tuesday." "LEGAL HOLD - DO NOT OVERWRITE." "??". The one labelled "??" is the newest.',
+                    again: 'One tape hangs apart from the rest, labelled "restore test - PASSED". It is the only one with dust on it.'
+                }
+            ],
+            sense: { listen: 'Tape reels creaking as they sway, and somewhere a drive seeking, and seeking, and seeking.' }
         },
         'tier0-armory': {
             act: 3, name: 'The Tier 0 Armory',
@@ -713,41 +949,86 @@
             exits: { west: 'cred-vault', south: 'wsus-shed' },
             items: ['dsrm-envelope'],
             features: [
-                { names: ['cases', 'credentials', 'admin'], text: 'One case holds a Domain Admin account named "svc_backup". Its password has not changed since it was created. You add a ticket. It joins 412 others.' },
-                { names: ['lockbox'], text: 'The lockbox is labelled "DSRM - break glass". The glass has been broken before.' }
-            ]
+                {
+                    names: ['cases', 'credentials', 'admin'], text: 'One case holds a Domain Admin account named "svc_backup". Its password has not changed since it was created. You add a ticket. It joins 412 others.',
+                    again: 'Next to it hangs "svc_backup2", created the day someone forgot the first one\'s password. Both are Domain Admins. Both are in use.',
+                    extra: { knight: 'Your gauntlet brushes a case and sets off a tamper alarm. It is the first alarm in the building that has worked tonight.' }
+                },
+                {
+                    names: ['lockbox'], text: 'The lockbox is labelled "DSRM - break glass". The glass has been broken before.',
+                    again: 'The break-glass log inside the lid has one entry from tonight: "4:29 AM - nightowl - just looking." The envelope is still sealed.'
+                }
+            ],
+            sense: { touch: 'The cases are cold. Tier 0 is always a few degrees colder than everything else.' }
         },
         'cred-vault': {
             act: 3, name: 'The Credential Vault',
             text: 'Password hashes hang in jars along the walls, each labelled with an account and how long ago it should have been rotated. An armory lies east. The restore chamber is back west.',
             exits: { west: 'restore-chamber', east: 'tier0-armory' },
-            quiz: { topic: 'windows-security', guardian: 'the Pass-the-Hash Phantom', intro: 'A phantom made of stolen NTLM hashes slides out of a jar. "I have been every admin in this forest. Prove you know how to keep me out."', cleared: 'The phantom tries to authenticate as you, finds nothing worth stealing, and evaporates.' }
+            quiz: { topic: 'windows-security', guardian: 'the Pass-the-Hash Phantom', intro: 'A phantom made of stolen NTLM hashes slides out of a jar. "I have been every admin in this forest. Prove you know how to keep me out."', cleared: 'The phantom tries to authenticate as you, finds nothing worth stealing, and evaporates.' },
+            features: [
+                {
+                    names: ['jars', 'jar', 'hashes'], text: 'The biggest jar is labelled "Administrator - last rotated: never". It is very full.',
+                    again: 'At the end of the shelf is an empty jar labelled DC02$. The lid is on the floor. Whatever was inside got out.'
+                }
+            ],
+            sense: { smell: 'Formaldehyde and old NTLM.' }
         },
         'hyperv-farm': {
             act: 3, name: 'The Hyper-V Farm',
             text: 'Rows of hosts run hundreds of VMs, half of them called "test" and none of them tests. An update shed stands to the east. The forest root is back west.',
             exits: { west: 'forest-root', east: 'wsus-shed-yard' },
-            quiz: { topic: 'windows-hyperv', guardian: 'the Hypervisor Shepherd', intro: 'A shepherd with a crook made of virtual switches herds VMs between hosts. "My flock is all virtual. Tell me how it is kept."', cleared: 'The shepherd live-migrates out of your way without dropping a packet.' }
+            quiz: { topic: 'windows-hyperv', guardian: 'the Hypervisor Shepherd', intro: 'A shepherd with a crook made of virtual switches herds VMs between hosts. "My flock is all virtual. Tell me how it is kept."', cleared: 'The shepherd live-migrates out of your way without dropping a packet.' },
+            features: [
+                {
+                    names: ['vms', 'vm', 'hosts', 'test'], text: '"test". "test2". "test-old". "test-DO-NOT-DELETE". "Dave\'s test". Dave left in 2018. His VM is the busiest one in the farm.',
+                    again: 'Dave\'s test VM is now using more CPU than it was a minute ago. You decide not to look at what it is doing.'
+                }
+            ],
+            sense: { listen: 'The farm hums. Every so often a host sighs, the way hosts do when memory is overcommitted.' }
         },
         'wsus-shed-yard': {
             act: 3, name: 'The Update Yard',
             text: 'Crates of patches are stacked in neat piles, half approved and half "declined, pending review since 2021". The shed is north. The farm is back west.',
             exits: { west: 'hyperv-farm', north: 'wsus-shed' },
-            quiz: { topic: 'windows-wsus', guardian: 'the Patch Warden', intro: 'A warden in a hi-vis vest blocks the crates. "Nothing gets installed here that I haven\'t approved. Prove you know the process."', cleared: 'The warden approves you for the production ring. "Reboot pending. Go."' }
+            quiz: { topic: 'windows-wsus', guardian: 'the Patch Warden', intro: 'A warden in a hi-vis vest blocks the crates. "Nothing gets installed here that I haven\'t approved. Prove you know the process."', cleared: 'The warden approves you for the production ring. "Reboot pending. Go."' },
+            features: [
+                {
+                    names: ['crates', 'crate', 'piles', 'patches'], text: 'One crate has been pending review so long that a newer crate has arrived to replace it. That one is pending review too.',
+                    again: 'A crate stamped "Optional" sits alone in the corner. Nobody approves optional things. It has started to grow a small, sad mold.'
+                }
+            ],
+            sense: { smell: 'Packing straw and superseded updates.' }
         },
         'wsus-shed': {
             act: 3, name: 'The Update Shed',
-            text: 'Inside, a WSUS server groans under a database that has never been cleaned up. Its fan sounds like a jet engine. Paths lead north to the armory and south to the update yard.',
+            text: 'Inside, a WSUS server groans under a database that has never been cleaned up. Its fan sounds like a jet engine. A shelf above it holds one dusty ornament. Paths lead north to the armory and south to the update yard.',
             exits: { south: 'wsus-shed-yard', north: 'tier0-armory' },
             features: [
-                { names: ['server', 'wsus', 'database'], text: 'It is still synchronizing Itanium updates. Nobody here has ever owned an Itanium.' },
-                { names: ['fan'], text: 'You can feel the fan from across the room. It is the only part of the server that works hard.' }
-            ]
+                {
+                    names: ['server', 'wsus', 'database'], text: 'It is still synchronizing Itanium updates. Nobody here has ever owned an Itanium.',
+                    again: 'It is also downloading drivers for printers the company sold in 2012. All of them. In every language.',
+                    extra: { wizard: 'You cast a small cleanup spell. The database grows four gigabytes out of spite.' }
+                },
+                { names: ['fan'], text: 'You can feel the fan from across the room. It is the only part of the server that works hard.', again: 'The fan pitch rises whenever you say the word "cleanup". You stop saying it.' },
+                { names: ['shelf', 'ornament', 'dust'], text: 'You blow the dust off the shelf. Something small and bent stares back at you with enormous eyes.', reveals: 'clippy', again: 'There is a clean outline in the dust where it stood. It had been there a long time, waiting for someone to need help.' }
+            ],
+            sense: { listen: 'The fan. Only the fan. It has drowned out every other sound in here since 2016.' }
         },
         'tombstone-vault': {
             act: 3, name: 'The Tombstone Vault', boss: true,
             text: 'A frozen vault where deleted objects wait out their 180 days. DC01 stands at the far end, its replication queue full of things that should not exist. Between you and it drifts a domain controller that died long ago and did not stay dead.',
             exits: { north: 'forest-root' },
+            features: [
+                {
+                    names: ['dc01', 'console', 'queue'], clue: 'last-sync',
+                    text: 'DC01\'s console is still lit. Under inbound partners there is one name: DC02. Last successful sync: 5:51 AM. One minute before your phone lit up.',
+                    again: 'The console refreshes. DC02, last attempt: just now.',
+                    uses: { 'clippy': 'You set the paperclip on DC01\'s console. "It looks like you\'re trying to restore a forest," it says. "Would you like help?" For the first time in its life, the answer is yes. It has no idea what to do.' }
+                },
+                { names: ['deleted objects', 'objects', 'ice'], text: 'Deleted accounts hang frozen in the ice, each with its date of death. One is your predecessor\'s. Their out-of-office is still on.' }
+            ],
+            sense: { touch: 'The ice is colder than anything in the building, and it hums faintly, like a disk trying to spin up.' },
             bossFight: {
                 name: 'the Tombstoned Domain Controller', topics: ['windows-repl', 'windows-runbook'], key: 'dsrm-envelope',
                 locked: 'The Tombstoned DC breathes lingering objects at you. "I was offline only 200 days," it moans. "Let me replicate." Without a way into the directory\'s restore mode, you can\'t touch it.',
@@ -765,6 +1046,8 @@
         epilogue: 'At 9:01 AM the first ticket of the day arrives: "Can\'t log on. Also, is the Wi-Fi slow?" You mark it resolved and go find breakfast.',
         items: ITEMS,
         acts: ACTS,
-        rooms: ROOMS
+        rooms: ROOMS,
+        mystery: MYSTERY,
+        ambient: AMBIENT
     });
 });

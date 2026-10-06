@@ -3,11 +3,11 @@
  * the `io` object, so the same engine runs in the page and in the Node tests.
  *
  * io = {
- *   print(text, kind)        kind: cmd | title | text | quiz | good | bad | sys | act
+ *   print(text, kind)        kind: cmd | title | text | quiz | good | bad | sys | act | clue | ambient
  *   clear()
  *   announce(text, priority) screen-reader announcement ('polite' | 'assertive')
  *   choices(list)            [{label}] for choice mode; [] hides them
- *   status(info)             {quest, character, act, actName, lives, maxLives, potions, room, ...}
+ *   status(info)             {quest, character, act, actName, lives, maxLives, potions, room, curios, clues, ...}
  *   mode(mode)               'parser' | 'choice'
  *   save(data) / remove()    persistence (StorageUtils in the page)
  *   setup()                  show the character / quest picker (no game running)
@@ -37,7 +37,45 @@
     const FILLER = new Set(['the', 'a', 'an', 'at', 'to', 'into', 'under', 'behind', 'inside', 'in', 'up', 'around', 'my', 'some', 'past']);
     // During a quiz, input starting with anything else is treated as an answer
     const QUIZ_VERBS = new Set(['answer', 'hint', 'back', 'flee', 'retreat', 'run', 'look', 'l', 'ls', 'help', '?', 'man',
-        'status', 'uptime', 'inventory', 'inv', 'i', 'mode', 'drink', 'quaff', 'whoami', 'sudo', 'clear', 'reset', 'question', 'repeat', 'use', 'sneak', 'examine', 'inspect']);
+        'status', 'uptime', 'inventory', 'inv', 'i', 'mode', 'drink', 'quaff', 'whoami', 'sudo', 'clear', 'reset', 'question', 'repeat', 'use', 'sneak', 'examine', 'inspect',
+        'notes', 'journal']);
+
+    // Verbs that do nothing useful but deserve an answer. A room's `sense` can override
+    // listen / smell / touch; {c} is the character class.
+    const IDLE = {
+        listen: ['You listen. Fans, mostly. Somewhere far off, a pager that isn\'t yours.', 'You hold your breath and listen. Nothing but the hum of things that are, for now, working.'],
+        smell: ['It smells like warm dust and someone else\'s problem.', 'Ozone, old coffee, and a faint note of burnt capacitor.'],
+        touch: ['You touch it. It is room temperature, which in this line of work is a relief.', 'You lay a hand on it, as if you could feel the packets go by. You can\'t.'],
+        wait: ['You wait. The outage does not resolve itself. It never does.', 'Time passes. Somewhere, an SLA ticks closer to breach.'],
+        sleep: ['You close your eyes for a second. The pager vibrates. Of course it does.'],
+        dance: ['You do a little dance. A motion sensor somewhere turns the lights back on.', 'The {c} dances. No one is watching. A security camera is.'],
+        sing: ['You hum the hold music from the vendor support line. It has been stuck in your head since 2019.'],
+        yell: ['You yell. The echo comes back slightly delayed, like a ping across the Atlantic.', 'You shout into the dark. Nobody answers. Nobody ever answers at this hour.'],
+        pray: ['You pray to the uptime gods. They have read your change tickets. They are not impressed.'],
+        eat: ['You find half a granola bar in your pocket. It has been there since the last incident. You eat it anyway.'],
+        kick: ['You kick it. Percussive maintenance has a long and honored history. Nothing happens.', 'You kick it, and immediately feel like the person in the post-mortem who kicked it.'],
+        sit: ['You sit for a moment. Your back reminds you that you are not twenty-five anymore.'],
+        jump: ['You jump. You land. Nothing has changed except your heart rate.'],
+        think: ['You think. The thought you have is "have you tried turning it off and on again?" That is, in fact, the plan.'],
+        hug: ['You hug yourself. It\'s been a long night.'],
+        knock: ['You knock. From somewhere inside, very faintly, something knocks back. Probably a fan bearing. Probably.'],
+        cry: ['You allow yourself one tear. It is logged at severity 6: informational.']
+    };
+    const IDLE_ALIAS = {
+        hear: 'listen', sniff: 'smell', feel: 'touch', pet: 'touch', z: 'wait', rest: 'sleep', nap: 'sleep', shout: 'yell', scream: 'yell',
+        hum: 'sing', lick: 'eat', taste: 'eat', hit: 'kick', punch: 'kick', attack: 'kick', kill: 'kick', ponder: 'think', cuddle: 'hug', sob: 'cry'
+    };
+
+    // When a word from the room text is examined but isn't a feature
+    const SHRUGS = [
+        'You study the {w} closely. It is exactly what it looks like, and it is not the root cause.',
+        'The {w} has nothing to say to you. You respect that.',
+        'You give the {w} the long look you give a log file you have no intention of reading.',
+        'You poke the {w}. It does not page anyone. Good.',
+        'You make a mental note to look into the {w} in the morning. You both know you won\'t.',
+        'The {w} looks back with the quiet confidence of something no longer under warranty.'
+    ];
+    const SHRUG_SKIP = new Set(['north', 'south', 'east', 'west', 'back', 'here', 'there', 'that', 'this', 'with', 'from', 'your', 'you', 'and', 'for', 'its', 'are', 'was', 'way', 'lies', 'leads', 'stands', 'room']);
 
     const HELP = [
         'Commands (shell aliases in brackets):',
@@ -48,6 +86,8 @@
         '  use <item> [on <target>]      use an item; drink <potion>',
         '  inventory [i]                 what you are carrying',
         '  answer <x>                    answer a guardian (or just type the answer)',
+        '  listen, smell, touch <thing>  use your other senses',
+        '  notes                         clues you have noticed tonight',
         '  hint                          trade one potion for a hint (wizards get one free per act)',
         '  sneak                         rogues only: slip past a guardian once per act',
         '  status [uptime]               lives, potions, perks, act',
@@ -63,7 +103,9 @@
         take: 'take <item> (get, grab): pick an item up. drop <item> puts it down.',
         use: 'use <item> [on <target>]: use an item. Key items open boss fights. Potions restore a life.',
         drink: 'drink <potion>: restore one life, up to your maximum.',
-        inventory: 'inventory (i): list what you carry.',
+        inventory: 'inventory (i): list what you carry, including any curios: odd finds that are no use at all but count toward your final tally.',
+        notes: 'notes (journal): things you noticed that don\'t add up. Find them all and the morning after may make more sense.',
+        listen: 'listen, smell, touch <thing>: your other senses. Some rooms have more to say than they show.',
         answer: 'answer <x>: answer the guardian blocking your way. While a question is open you can also type the answer on its own.',
         hint: 'hint: costs one potion. Wizards get one free hint per act. Gives a nudge, not the answer.',
         sneak: 'sneak: rogues only. Once per act, slip past a guardian without answering. Bosses notice everything.',
@@ -78,6 +120,10 @@
     }
 
     const cap = s => s[0].toUpperCase() + s.slice(1);
+
+    function union(a, b) {
+        return Array.from(new Set((Array.isArray(a) ? a : []).concat(Array.isArray(b) ? b : [])));
+    }
 
     function QuestEngine(io) {
         this.io = io;
@@ -114,6 +160,9 @@
         st.hintsUsed = Math.max(cp.hintsUsed || 0, s.hintsUsed || 0);
         if (typeof s.freeHints === 'number') st.freeHints = Math.min(st.freeHints, s.freeHints);
         if (typeof s.sneaks === 'number') st.sneaks = Math.min(st.sneaks, s.sneaks);
+        // What you've discovered is knowledge, not a resource: keep everything either copy knows
+        st.clues = union(st.clues, s.clues);
+        st.found = union(st.found, s.found);
         st.mode = s.mode === 'choice' ? 'choice' : 'parser';
         this.io.mode(st.mode);
         this.saveLive();
@@ -139,7 +188,7 @@
         this.io.clear();
         this.io.print(`${quest.name}, played as the ${ch.name}. ${ch.perk}`, 'sys');
         this.io.print(ch.intro, 'text');
-        this.newAct(1, { act: 1, lives: ch.maxLives, inventory: [], hintsUsed: 0, elapsedMs: 0 }, { quiet: false, mode: opts.mode });
+        this.newAct(1, { act: 1, lives: ch.maxLives, inventory: [], hintsUsed: 0, elapsedMs: 0, clues: [], found: [] }, { quiet: false, mode: opts.mode });
         this.io.mode(this.state.mode);
         this.saveLive();
         this.refresh();
@@ -168,6 +217,8 @@
             mode: opts.mode || (prev ? prev.mode : 'parser'),
             freeHints: this.char.freeHints,
             sneaks: this.char.sneaks,
+            clues: union(prev && prev.clues, from && from.clues),
+            found: union(prev && prev.found, from && from.found),
             roomItems,
             revealed: {},
             examined: {},
@@ -190,7 +241,7 @@
 
     P.checkpointData = function () {
         const st = this.state;
-        return { act: st.act, lives: st.lives, inventory: st.inventory.slice(), actSeed: st.actSeed, hintsUsed: st.hintsUsed, elapsedMs: this.elapsed() };
+        return { act: st.act, lives: st.lives, inventory: st.inventory.slice(), actSeed: st.actSeed, hintsUsed: st.hintsUsed, elapsedMs: this.elapsed(), clues: st.clues.slice(), found: st.found.slice() };
     };
 
     P.saveCheckpoint = function () {
@@ -204,7 +255,8 @@
         if (!st || st.won) return;
         this.io.save({
             v: SAVE_VERSION, quest: this.world.id, character: this.charId(), mode: st.mode, checkpoint: this.checkpoint,
-            lives: st.lives, potions: this.potionCount(), hintsUsed: st.hintsUsed, freeHints: st.freeHints, sneaks: st.sneaks
+            lives: st.lives, potions: this.potionCount(), hintsUsed: st.hintsUsed, freeHints: st.freeHints, sneaks: st.sneaks,
+            clues: st.clues, found: st.found
         });
     };
 
@@ -247,6 +299,19 @@
             ids.find(id => this.item(id).names.some(n => n.split(' ').includes(words[words.length - 1]))) || null;
     };
 
+    P.curioIds = function () {
+        return Object.keys(this.world.items).filter(id => this.item(id).kind === 'curio');
+    };
+
+    P.clueIds = function () {
+        return this.world.mystery ? Object.keys(this.world.mystery.clues) : [];
+    };
+
+    P.tally = function () {
+        const st = this.state;
+        return { curios: st.found.length, curiosTotal: this.curioIds().length, clues: st.clues.length, cluesTotal: this.clueIds().length };
+    };
+
     P.findFeature = function (words) {
         const phrase = words.join(' ');
         if (!phrase) return null;
@@ -264,7 +329,9 @@
 
     P.statusLine = function () {
         const st = this.state;
-        return `${this.world.name} (${this.char.name}) | Act ${st.act}: ${this.world.acts[st.act - 1].name} | Lives ${st.lives}/${this.maxLives()} | Potions ${this.potionCount()}${this.perkLine()} | ${this.room().name}`;
+        const t = this.tally();
+        return `${this.world.name} (${this.char.name}) | Act ${st.act}: ${this.world.acts[st.act - 1].name} | Lives ${st.lives}/${this.maxLives()} | Potions ${this.potionCount()}${this.perkLine()} | ` +
+            `Curios ${t.curios}/${t.curiosTotal} | Clues ${t.clues}/${t.cluesTotal} | ${this.room().name}`;
     };
 
     P.refresh = function () {
@@ -274,11 +341,11 @@
             this.io.choices([]);
             return;
         }
-        this.io.status({
+        this.io.status(Object.assign({
             quest: this.world.name, character: this.char.name, act: st.act, actName: this.world.acts[st.act - 1].name,
             lives: st.lives, maxLives: this.maxLives(), potions: this.potionCount(), room: this.room().name,
             freeHints: this.char.freeHints ? st.freeHints : null, sneaks: this.char.sneaks ? st.sneaks : null, over: !!st.won
-        });
+        }, this.tally()));
         this.choiceList = this.buildChoices();
         this.io.choices(this.choiceList.map(c => ({ label: c.label })));
     };
@@ -427,7 +494,10 @@
                 return this.io.print('You can\'t fix it from here. That\'s the whole problem.', 'sys');
             case 'talk': case 'ask':
                 return this.io.print('Nobody here wants to talk. They want answers.', 'sys');
+            case 'notes': case 'journal': case 'clues':
+                return this.showNotes();
             default:
+                if (IDLE[verb] || IDLE_ALIAS[verb]) return this.idle(IDLE_ALIAS[verb] || verb, args);
                 return this.io.print(`I don't know how to "${verb}". Type "help" for commands.`, 'sys');
         }
     };
@@ -489,6 +559,17 @@
             return;
         }
         this.describe();
+        this.ambient();
+    };
+
+    // Now and then, something happens just out of sight. Each line plays once per act.
+    P.ambient = function () {
+        const st = this.state;
+        const lines = (this.world.ambient || []).filter(a => a.act === st.act && !(st.heard || (st.heard = {}))[a.text]);
+        if (!lines.length || this.roomById(st.room).boss || this.random() >= 0.3) return;
+        const a = lines[Math.floor(this.random() * lines.length)];
+        st.heard[a.text] = true;
+        this.io.print(a.text, 'ambient');
     };
 
     // ---------------- quizzes ----------------
@@ -599,11 +680,16 @@
         const rank = this.char.ranks[Math.min(lost, 2)];
         const mins = Math.max(1, Math.round(this.elapsed() / 60000));
         const p = this.potionCount();
+        const t = this.tally();
+        const solved = t.cluesTotal > 0 && t.clues === t.cluesTotal;
         const line = `Datacenter Quest [${this.world.name}, ${this.char.name}]: restored ${this.world.target} with ${st.lives}/${this.maxLives()} lives, ` +
-            `${p} ${p === 1 ? 'potion' : 'potions'} unused, ${st.hintsUsed} ${st.hintsUsed === 1 ? 'hint' : 'hints'}, ${mins}m.`;
+            `${p} ${p === 1 ? 'potion' : 'potions'} unused, ${st.hintsUsed} ${st.hintsUsed === 1 ? 'hint' : 'hints'}, ${mins}m, ` +
+            `curios ${t.curios}/${t.curiosTotal}, clues ${t.clues}/${t.cluesTotal}${solved ? ' (mystery solved?)' : ''}.`;
         this.io.print('*** SERVICE RESTORED ***', 'act');
         this.io.print(`Rank: ${rank}`, 'good');
         this.io.print(this.world.epilogue, 'text');
+        if (solved) this.io.print(this.world.mystery.solved, 'clue');
+        else if (t.cluesTotal) this.io.print(`Still, a few things about tonight never added up. (Clues ${t.clues}/${t.cluesTotal}. Maybe next shift.)`, 'sys');
         this.io.print(line, 'sys');
         this.io.announce(`Service restored. Rank: ${rank}.`, 'assertive');
         this.io.remove();
@@ -648,14 +734,17 @@
         if (itemId) return this.io.print(this.item(itemId).desc, 'text');
         const f = this.findFeature(args);
         if (f) {
-            this.io.print(f.text, 'text');
             const key = st.room + ':' + f.names[0];
+            this.io.print(st.examined[key] && f.again ? f.again : f.text, 'text');
+            const aside = f.extra && f.extra[this.charId()];
+            if (aside && !st.examined[key]) this.io.print(aside, 'text');
             st.examined[key] = true;
             if (f.reveals && !st.revealed[key]) {
                 st.revealed[key] = true;
                 here.push(f.reveals);
                 this.io.print(`You found ${articled(this.item(f.reveals).name)}!`, 'good');
             }
+            if (f.clue) this.noteClue(f.clue);
             return;
         }
         if (st.quiz) {
@@ -664,7 +753,61 @@
                 return this.io.print(`${cap(st.quiz.guardian)} waits for your answer.`, 'text');
             }
         }
+        const w = this.mentioned(args);
+        if (w) return this.io.print(this.pickLine(SHRUGS, st.room + w).replace(/\{w\}/g, w), 'text');
         this.io.print(`You see no "${args.join(' ')}" here.`, 'sys');
+    };
+
+    // The last word typed, if the room's description mentions it
+    P.mentioned = function (args) {
+        const w = args[args.length - 1];
+        if (!w || w.length < 3 || SHRUG_SKIP.has(w)) return null;
+        const r = this.room();
+        const words = (r.text + ' ' + r.name).toLowerCase().match(/[a-z0-9][a-z0-9'.-]*/g) || [];
+        return words.some(x => x.replace(/[.']+$|'s$/g, '') === w) ? w : null;
+    };
+
+    // Same input, same line: picked from a hash, not Math.random, so replays read the same
+    P.pickLine = function (lines, seed) {
+        return lines[Math.floor(Q.makeRng(seed)() * lines.length)];
+    };
+
+    P.noteClue = function (id) {
+        const st = this.state;
+        if (st.clues.includes(id)) return;
+        st.clues.push(id);
+        this.saveLive();
+        const total = this.clueIds().length;
+        this.io.print(`You make a note of that. Something about tonight doesn't add up. (Clues ${st.clues.length}/${total}, type "notes")`, 'clue');
+        this.io.announce(`Clue noted, ${st.clues.length} of ${total}.`, 'polite');
+    };
+
+    P.showNotes = function () {
+        const st = this.state;
+        const m = this.world.mystery;
+        if (!m || !st.clues.length) return this.io.print('Your notes say: "Paged. Everything else: TBD." Keep your eyes open.', 'sys');
+        const lines = this.clueIds().filter(id => st.clues.includes(id)).map(id => '  - ' + m.clues[id]);
+        const left = this.clueIds().length - st.clues.length;
+        this.io.print(`${m.title}\n${lines.join('\n')}\n${left ? `${left} more ${left === 1 ? 'thing' : 'things'} out there still doesn't add up.` : 'That\'s everything. You have a theory now. You may not like it.'}`, 'clue');
+    };
+
+    P.idle = function (verb, args) {
+        const st = this.state;
+        const r = this.room();
+        const sense = r.sense && r.sense[verb];
+        if (sense && (!args.length || verb === 'listen' || verb === 'smell')) {
+            const key = st.room + ':' + verb;
+            st.examined[key] = true;
+            return this.io.print(sense, 'text');
+        }
+        if (args.length && (verb === 'touch' || verb === 'kick' || verb === 'knock')) {
+            const f = this.findFeature(args);
+            if (!f && !this.mentioned(args) && !this.findItem(args, st.inventory.concat(st.roomItems[st.room] || []))) {
+                return this.io.print(`You see no "${args.join(' ')}" here.`, 'sys');
+            }
+        }
+        const line = this.pickLine(IDLE[verb], st.room + verb + (st.idleCount = (st.idleCount || 0) + 1));
+        this.io.print(line.replace(/\{c\}/g, this.char.name.toLowerCase()), 'text');
     };
 
     P.take = function (args) {
@@ -693,6 +836,11 @@
         this.io.print(`Taken: ${it.name}.`, 'good');
         if (it.kind === 'potion') this.io.print('Drink it to restore a life, or keep it to trade for a hint.', 'sys');
         if (it.kind === 'key') this.io.print('This looks important. Something in this realm is waiting for it.', 'sys');
+        if (it.kind === 'curio' && !st.found.includes(id)) {
+            st.found.push(id);
+            this.saveLive();
+            this.io.print(`Curio ${st.found.length}/${this.curioIds().length}. Completely useless. You keep it anyway.`, 'clue');
+        }
     };
 
     P.drop = function (args) {
@@ -721,7 +869,19 @@
             this.startQuiz({ kind: 'boss', guardian: r.bossFight.name, topic: r.bossFight.topics[0], step: 0 });
             return;
         }
+        if (onAt >= 0 && args.length > onAt + 1) return this.useOn(id, args.slice(onAt + 1));
         this.io.print(it.use || `You wave the ${it.name} around. Nothing happens.`, it.use ? 'text' : 'sys');
+    };
+
+    // use <item> on <feature>: features may react to particular items with `uses`
+    P.useOn = function (id, target) {
+        const st = this.state;
+        const it = this.item(id);
+        const f = this.findFeature(target);
+        if (f && f.uses && f.uses[id]) return this.io.print(f.uses[id], 'text');
+        if (st.quiz) return this.io.print(`${cap(st.quiz.guardian)} glances at your ${it.name}, unimpressed, and waits for an answer.`, 'text');
+        if (f || this.mentioned(target)) return this.io.print(`You try the ${it.name} on the ${target.join(' ')}. Nothing happens, but you feel like you were thorough.`, 'text');
+        this.io.print(`You see no "${target.join(' ')}" here.`, 'sys');
     };
 
     P.drink = function (args) {
@@ -745,7 +905,11 @@
 
     P.showInventory = function () {
         const inv = this.state.inventory;
-        this.io.print(inv.length ? 'You are carrying: ' + inv.map(id => this.item(id).name).join(', ') + '.' : 'You are carrying nothing but a pager and a sense of dread.', 'sys');
+        const useful = inv.filter(id => this.item(id).kind !== 'curio').map(id => this.item(id).name);
+        const curios = inv.filter(id => this.item(id).kind === 'curio').map(id => this.item(id).name);
+        let line = useful.length ? 'You are carrying: ' + useful.join(', ') + '.' : 'You are carrying nothing useful but a pager and a sense of dread.';
+        if (curios.length) line += '\nCurios: ' + curios.join(', ') + '.';
+        this.io.print(line, 'sys');
     };
 
     // ---------------- settings ----------------
@@ -804,9 +968,11 @@
         (r.features || []).forEach(f => {
             if (!st.examined[st.room + ':' + f.names[0]]) add(`Examine the ${f.names[0]}`, () => this.examine(f.names[0].split(' ')));
         });
+        if (r.sense && r.sense.listen && !st.examined[st.room + ':listen']) add('Listen', () => this.idle('listen', []));
         if (canDrink) add('Drink a potion (+1 life)', () => this.drink([]));
         add('Look around', () => this.describe());
         add('Check inventory', () => this.showInventory());
+        if (st.clues.length) add('Read your notes', () => this.showNotes());
         return list;
     };
 

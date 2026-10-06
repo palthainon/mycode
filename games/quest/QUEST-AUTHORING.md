@@ -70,8 +70,47 @@ after `quest/world.js` and before `quest/engine.js`.
   Quiz rooms should sit between the hub and the exploration rooms so guardians gate
   the way forward.
 - `items`: potions (`kind: 'potion'`, 3, one per act), keys (`kind: 'key'`, 3), and
-  optional junk (`kind: 'junk'`, may have a `use` line). `names` are the words a player
-  types; put the most natural one first.
+  curios (`kind: 'curio'`, at least 2 per act). `names` are the words a player types; put
+  the most natural one first. (`kind: 'junk'` still works but doesn't count; use curios.)
+- `mystery` and `ambient`: see Exploration below.
+
+## Exploration
+
+Exploring should pay off even when it doesn't help. `world.js validate()` enforces the
+first three rules.
+
+- **Every room has at least one feature**, quiz and boss rooms included. Name the
+  features in the room text, so a player who reads carefully knows what to examine. Any
+  other noun from the room text gets a generic one-liner, but a real feature is better.
+- **Curios** (`kind: 'curio'`) are collectibles that do nothing useful: a funny `desc`, an
+  optional `use` line. Each one is placed exactly once, either lying in a room (`items`) or
+  turned up by a feature (`reveals: '<curio id>'`). Picking one up counts toward the
+  "Curios n/m" tally on the HUD and the victory line.
+- **A mystery.** `mystery: { title, clues: { id: 'one-line note' }, solved }`, with 3 to 5
+  clues spread across all 3 acts. A feature with `clue: '<id>'` adds that line to the
+  player's `notes` when examined. Finding every clue prints `solved` after the epilogue.
+  Imply; never explain. The clues should point at something odd about tonight (who
+  really caused the outage, who got here first, why the server went down when it did),
+  and `solved` should feel like the moment the player realizes, not a confession. The
+  answer is left to the player.
+- **nightowl.** Every quest has one recurring, never-explained figure in common:
+  "nightowl", someone who always seems to have been here a few minutes before you.
+  Mention nightowl at least twice per quest (a feature, `again` text or an ambient line).
+  Classic makes nightowl its whole mystery; other quests can make it a side note.
+- Optional extras for features and rooms:
+  - `again: '...'`: shown instead of `text` when the feature is examined a second time.
+    A good place for a second joke or an unsettling detail.
+  - `extra: { wizard, knight, rogue }`: one aside per character, shown after `text` the
+    first time. Use sparingly, 3 to 6 per quest.
+  - `uses: { '<item id>': '...' }`: the response to `use <item> on <feature>`. Curios are
+    good candidates.
+  - Room `sense: { listen, smell, touch }`: answers those verbs in this room. `listen`
+    also shows as a choice-mode button. Aim for one sense on most rooms.
+- `ambient: [{ act, text }]`: 4 to 6 short lines (about 2 per act) that may play when the
+  player walks into a non-boss room, each at most once per act. Things heard or glimpsed
+  just out of sight.
+- Exploration text must never give away a quiz answer or contradict one. Facts in jokes
+  must be right too.
 
 ## Voice
 

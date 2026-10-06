@@ -74,6 +74,7 @@
         .hud .stat strong { color: var(--hi); font-weight: 600; }
         .hud .lives strong { letter-spacing: 2px; }
         .hud .spacer { flex: 1; }
+        .hud-stats { border-top: 1px dashed var(--line); padding-top: 10px; }
         .btn.danger { color: var(--err); border-color: var(--err); }
         .btn.danger:hover { background: var(--err-bg); color: var(--err); }
 
@@ -97,6 +98,8 @@
         #log .good { color: var(--ok); }
         #log .bad { color: var(--err); }
         #log .sys { color: var(--dim); }
+        #log .clue { color: var(--alt); border-left: 2px solid var(--alt); padding-left: 10px; }
+        #log .ambient { color: var(--dim); font-style: italic; }
 
         .cmd-form {
             display: flex;
@@ -237,10 +240,6 @@
             <div class="box-body">
                 <div class="hud" role="group" aria-label="Game status">
                     <span class="stat">Quest <strong id="hudQuest">-</strong></span>
-                    <span class="stat">Act <strong id="hudAct">1</strong></span>
-                    <span class="stat lives">Lives <strong id="hudLives" aria-describedby="hudLivesText">&#9829;&#9829;&#9829;</strong><span id="hudLivesText" class="sr-only">3 of 3</span></span>
-                    <span class="stat">Potions <strong id="hudPotions">0</strong></span>
-                    <span class="stat" id="hudPerkWrap" hidden><span id="hudPerkName">Perk</span> <strong id="hudPerk">0</strong></span>
                     <span class="stat">Room <strong id="hudRoom">-</strong></span>
                     <span class="spacer"></span>
                     <button type="button" class="btn small" id="modeBtn" aria-pressed="false"
@@ -266,6 +265,15 @@
                 </form>
 
                 <ol id="choices" aria-label="Choices" hidden></ol>
+
+                <div class="hud hud-stats" role="group" aria-label="Your stats">
+                    <span class="stat">Act <strong id="hudAct">1</strong></span>
+                    <span class="stat lives">Lives <strong id="hudLives" aria-describedby="hudLivesText">&#9829;&#9829;&#9829;</strong><span id="hudLivesText" class="sr-only">3 of 3</span></span>
+                    <span class="stat">Potions <strong id="hudPotions">0</strong></span>
+                    <span class="stat" id="hudPerkWrap" hidden><span id="hudPerkName">Perk</span> <strong id="hudPerk">0</strong></span>
+                    <span class="stat">Curios <strong id="hudCurios">0</strong></span>
+                    <span class="stat">Clues <strong id="hudClues">0</strong></span>
+                </div>
             </div>
         </section>
 
@@ -275,6 +283,7 @@
                 <li>You have 3 lives for the whole game (the knight has 4). A wrong answer costs one. Lose them all and the current act restarts.</li>
                 <li>Wizards get one free hint per act. Rogues can <code>sneak</code> past one guardian per act.</li>
                 <li>Each realm hides one potion. Drink it for a life, or trade it for a hint.</li>
+                <li>Poke around. Rooms hide curios (useless, but counted), things look different the second time, and <code>listen</code>, <code>smell</code> and <code>touch</code> work. Some details don't add up; <code>notes</code> keeps track of them.</li>
                 <li>Progress saves at the start of each act, in this browser only. <kbd>&uarr;</kbd> recalls earlier commands.</li>
             </ul>
         </div>
@@ -386,6 +395,8 @@
                 $('hudLives').textContent = '♥'.repeat(Math.max(s.lives, 0)) + '♡'.repeat(Math.max(s.maxLives - s.lives, 0));
                 $('hudLivesText').textContent = s.lives + ' of ' + s.maxLives;
                 $('hudPotions').textContent = s.potions;
+                $('hudCurios').textContent = s.curios + '/' + s.curiosTotal;
+                $('hudClues').textContent = s.clues + '/' + s.cluesTotal;
                 $('hudRoom').textContent = s.room;
             },
             mode(m) {
