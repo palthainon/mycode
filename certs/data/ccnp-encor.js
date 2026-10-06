@@ -578,20 +578,20 @@ window.CERT_BANK = {
             domain: '3',
             objective: '3.1.a',
             type: 'single',
-            q: 'SW1 logs:\n\n%CDP-4-NATIVE_VLAN_MISMATCH: Native VLAN mismatch discovered on GigabitEthernet1/0/24 (1), with SW2 GigabitEthernet1/0/24 (99).\n\nWhat is the impact of this condition?',
+            q: 'Both switches run Rapid PVST+, the default. SW1 logs:\n\n%CDP-4-NATIVE_VLAN_MISMATCH: Native VLAN mismatch discovered on GigabitEthernet1/0/24 (1), with SW2 GigabitEthernet1/0/24 (99).\n\nWhat is the impact of this condition?',
             choices: [
                 'The trunk is shut down and placed in err-disabled state until the native VLANs match on both ends',
                 'All tagged VLANs stop forwarding across the trunk',
-                'Untagged frames sent in VLAN 1 on SW1 arrive in VLAN 99 on SW2, merging the two VLANs',
-                'CDP stops working, but user traffic is not affected'
+                'STP blocks the trunk for VLANs 1 and 99 as port VLAN ID inconsistent, while the other VLANs keep forwarding',
+                'Untagged frames sent in VLAN 1 on SW1 arrive in VLAN 99 on SW2, merging the two VLANs'
             ],
             answer: [2],
-            explain: 'Native VLAN traffic is sent untagged, and the receiving switch places it into its own native VLAN. With a mismatch, VLAN 1 on one side and VLAN 99 on the other become one broadcast domain, which can also cause STP inconsistencies.',
+            explain: 'Native VLAN frames cross a trunk untagged, so a mismatch would merge the two VLANs into one broadcast domain. PVST+ guards against this: its BPDUs carry the sender\'s native VLAN, and when it differs from the local one the port is put in a PVID-inconsistent blocking state for the two native VLANs until they match. Tagged VLANs are not affected.',
             why: [
-                'The trunk stays up; the condition is logged, and PVST+ may block the affected VLANs.',
-                'Tagged VLANs are unaffected because their tags are preserved.',
-                'Correct: untagged traffic leaks between the two different native VLANs.',
-                'CDP is what reports the problem, and user traffic in the native VLANs is affected.'
+                'The trunk stays up. A native VLAN mismatch is logged and handled by STP, not by err-disable.',
+                'Tagged VLANs keep their 802.1Q tags, so the mismatch does not affect them.',
+                'Correct: per-VLAN STP detects the native VLAN mismatch and blocks only the two native VLANs on that trunk.',
+                'This is what happens without per-VLAN STP, for example with MST or with STP disabled. Rapid PVST+ blocks the native VLANs instead, so they do not merge.'
             ]
         },
         {
