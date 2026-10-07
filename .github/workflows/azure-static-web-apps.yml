@@ -8,6 +8,13 @@ on:
     types: [opened, synchronize, reopened, closed]
     branches:
       - main
+    # Docs/planning-only PRs don't need a preview; each preview uses one of the
+    # limited staging environments.
+    paths-ignore:
+      - "**.md"
+      - ".claude/**"
+      - "mycode_plans/**"
+      - "tickets/**"
 
 jobs:
   build_and_deploy_job:
