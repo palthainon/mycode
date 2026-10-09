@@ -55,21 +55,23 @@ Review at days 7, 14 and 37. The Workbook shows discovery, calls, outcomes, clie
 
 Future publication/review work is scheduled in the associated Codex task after launch. GitHub's six-hour guard handles cost checks and automatic end-of-pilot ingress shutdown independently.
 
-## Launch handoff (2026-10-09)
+## Live deployment (2026-10-09)
 
-The isolated Azure foundation and initial app are deployed. GitHub OIDC and the `mcp-production` environment exist, but workflows remain local pending permission to push the public repository branch. No directory submissions or experiment dates have been activated. The landing/privacy pages are staged locally, not published.
+The implementation is published on `main`. The OldWeb landing page and privacy disclosure are live. GitHub MCP tests, static-site deployment, and the OIDC cost-guard run passed. The six-hour guard is scheduled on main; a separate Codex review reports usage every Friday at 09:00 America/New_York.
 
-Hostinger DNS records below were created and verified through public DNS on 2026-10-09 (TTL 300). Azure-managed certificate binding remains pending until ingress can be enabled with the cost guard active:
+Hostinger DNS is verified (TTL 300):
 
 | Type | Host | Value |
 |---|---|---|
 | CNAME | `mcp` | `oldweb-mcp.greencoast-980eedf2.eastus2.azurecontainerapps.io` |
 | TXT | `asuid.mcp` | `94B9870ED8C129786DAEB4D8C61BE643F1CF0CBBD321D7DB9343E368FC34F78E` |
 
-After DNS resolves, add and bind `mcp.oldweb.tech` using `az containerapp hostname add` and `az containerapp hostname bind` with the managed environment. Verify TLS and all three endpoints, publish the site/privacy updates, and activate the GitHub cost guard before setting launch dates. Record the actual launch in `experiment-status.json` and set `EXPERIMENT_START` and `EXPERIMENT_END` (37 days later) in the app. Schedule directory publication and reviews only then.
+Azure's managed certificate is bound with SNI enabled. All three endpoints passed initialization, discovery and real tool calls through `https://mcp.oldweb.tech`. Actual baseline dates and the latest validated revision are recorded in `experiment-status.json`; no directory listings have been submitted during preparation.
 
-Validation so far: all 10 MCP tests and 116 existing parser assertions pass; Inspector and an independent SDK client exercised all endpoints; live Azure calls verified managed-identity quota access. AppEvents retention was explicitly verified as 60 days. Searches across application telemetry and Container App console logs found zero occurrences of the distinctive smoke-test log string or queried diagnostic domain. The cost guard queried posted spend successfully. A failed candidate smoke test preserved the original serving revision.
+Validation: all 10 MCP tests and 116 existing parser assertions passed, along with Bicep compilation and static-artifact staging. Inspector and an independent SDK client exercised the endpoints. Live calls verified managed-identity quota access. AppEvents retention is 60 days. Application telemetry and Container App console logs contained neither the distinctive test log string nor queried diagnostic domain. Internal cleanup probes are marked internal. Candidate failure preserved the previous serving revision; rollback and public-ingress shutdown were tested successfully before launch.
 
-Final validation state: revision `oldweb-mcp--rfinal-20261009` passed candidate smoke tests and was promoted. Rollback to the retained bootstrap image passed all three endpoint checks. The final revision was restored and public ingress was disabled; Azure reports `ingress: null`. Internal cleanup probes were verified as internal in live telemetry. Registry/storage charges continue while paused.
+The cost guard's first posted month-to-date amount was $0.00, subject to reporting delay. Registry/storage charges continue after ingress shutdown. Public traffic must not be resumed after a budget or end-date shutdown without an explicit operating decision.
 
-Resume only after the cost guard is active and launch prerequisites are ready: explicitly enable external ingress on port 8080, route 100% to the validated final revision, bind the custom hostname/certificate, and rerun smoke tests before setting baseline dates. Existing launch placeholders and the bootstrap expiry must be reviewed when resuming.
+Baseline started **2026-10-09 17:19:14 UTC**. The application deadline is **2026-11-15 17:19:14 UTC**; the six-hour guard also disables ingress after the deadline. Directory publication is scheduled for October 16 at 15:00 America/New_York after seven full days, with actual listing dates recorded at publication. Weekly usage reviews remain Fridays at 09:00 America/New_York. The final pilot review is scheduled for November 15 at 15:00 America/New_York.
+
+Production workflow evidence: https://github.com/palthainon/mycode/actions/runs/37964839710 ; first cost-guard run: https://github.com/palthainon/mycode/actions/runs/37963952062 . The baseline configuration passed candidate and custom-domain smoke tests before launch was recorded.

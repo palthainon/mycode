@@ -1,7 +1,7 @@
 {
-  "status": "prepared_paused",
-  "experimentStart": null,
-  "experimentEnd": null,
+  "status": "baseline",
+  "experimentStart": "2026-10-09T17:19:14Z",
+  "experimentEnd": "2026-11-15T17:19:14Z",
   "listedAt": null,
   "budgetUsdMonthly": 25,
   "resourceGroup": "rg-oldweb-mcp-experiment",
@@ -14,20 +14,24 @@
   "listings": [],
   "reviews": [],
   "deployment": {
-    "publicLaunchComplete": false,
+    "publicLaunchComplete": true,
     "appName": "oldweb-mcp",
-    "customDomainBound": false,
+    "customDomainBound": true,
     "validatedOn": "2026-10-09",
-    "blockers": [
-      "Explicit permission to push the public GitHub branch",
-      "Publish and activate the six-hour cost guard before enabling ingress and binding the certificate"
-    ],
-    "costGuardScheduled": false,
-    "githubPublished": false,
+    "blockers": [],
+    "costGuardScheduled": true,
+    "githubPublished": true,
     "generatedHostname": "oldweb-mcp.greencoast-980eedf2.eastus2.azurecontainerapps.io",
-    "publicIngress": "disabled",
-    "validatedRevision": "oldweb-mcp--rfinal-20261009",
+    "publicIngress": "enabled",
+    "validatedRevision": "oldweb-mcp--rbaseline-20261009",
     "rollbackAndShutdownVerified": true,
     "dnsVerified": true
+  },
+  "schedules": {
+    "directoryPublication": "publish-oldweb-mcp-directory-listings",
+    "weeklyUsageReview": "oldweb-mcp-weekly-usage-review",
+    "finalReviewLocal": "2026-11-15T15:00:00 America/New_York",
+    "finalReview": "review-oldweb-mcp-pilot-results",
+    "directoryPublicationLocal": "2026-10-16T15:00:00 America/New_York"
   }
 }
