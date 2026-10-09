@@ -59,7 +59,7 @@ Future publication/review work is scheduled in the associated Codex task after l
 
 The isolated Azure foundation and initial app are deployed. GitHub OIDC and the `mcp-production` environment exist, but workflows remain local pending permission to push the public repository branch. No directory submissions or experiment dates have been activated. The landing/privacy pages are staged locally, not published.
 
-Hostinger DNS needs these records before Azure-managed certificate binding:
+Hostinger DNS records below were created and verified through public DNS on 2026-10-09 (TTL 300). Azure-managed certificate binding remains pending until ingress can be enabled with the cost guard active:
 
 | Type | Host | Value |
 |---|---|---|
