@@ -1,0 +1,117 @@
+{
+  "version": "Notebook/1.0",
+  "items": [
+    {
+      "type": 1,
+      "content": {
+        "json": "# OldWeb MCP experiment\nExternal activity excludes requests carrying the private internal-test header. Caller groups are keyed IP/user-agent approximations, not verified identities or exact sessions. Client names are self-reported. Probe counts are aggregated; gaps and throttling must be considered before comparing phases."
+      },
+      "name": "introduction"
+    },
+    {
+      "type": 3,
+      "name": "funnel",
+      "content": {
+        "version": "KqlItem/1.0",
+        "title": "Activity by service and phase",
+        "query": "customEvents | where name == 'mcp_activity' | extend service=tostring(customDimensions.service), phase=tostring(customDimensions.phase), method=tostring(customDimensions.method), outcome=tostring(customDimensions.outcome), internal=tostring(customDimensions.internal) | where internal != 'true' | summarize Events=sum(todouble(customMeasurements.count)) by service, phase, method, outcome | order by service asc",
+        "queryType": 0,
+        "resourceType": "microsoft.insights/components",
+        "visualization": "table",
+        "size": 0,
+        "timeContext": {
+          "durationMs": 5184000000
+        }
+      }
+    },
+    {
+      "type": 3,
+      "name": "adoption",
+      "content": {
+        "version": "KqlItem/1.0",
+        "title": "Successful tool use and approximate repeat callers",
+        "query": "customEvents | where name == 'mcp_activity' and tostring(customDimensions.internal) != 'true' and tostring(customDimensions.outcome) == 'tool_success' | extend service=tostring(customDimensions.service), caller=tostring(customDimensions.caller) | summarize Calls=count(), Days=dcount(bin(timestamp,1d)) by service, caller | summarize SuccessfulCalls=sum(Calls), CallerGroups=count(), ReturningThreeDays=countif(Days >= 3) by service",
+        "queryType": 0,
+        "resourceType": "microsoft.insights/components",
+        "visualization": "table",
+        "size": 0,
+        "timeContext": {
+          "durationMs": 5184000000
+        }
+      }
+    },
+    {
+      "type": 3,
+      "name": "latency",
+      "content": {
+        "version": "KqlItem/1.0",
+        "title": "Tool outcomes and latency",
+        "query": "customEvents | where name == 'mcp_activity' and tostring(customDimensions.internal) != 'true' and tostring(customDimensions.method) == 'tools/call' | extend service=tostring(customDimensions.service), tool=tostring(customDimensions.tool), outcome=tostring(customDimensions.outcome), ms=todouble(customMeasurements.durationMs) | summarize Calls=count(), Success=countif(outcome == 'tool_success'), ServiceErrors=countif(outcome == 'service_error'), ToolErrors=countif(outcome == 'tool_error'), p50=percentile(ms,50), p95=percentile(ms,95) by service, tool",
+        "queryType": 0,
+        "resourceType": "microsoft.insights/components",
+        "visualization": "table",
+        "size": 0,
+        "timeContext": {
+          "durationMs": 5184000000
+        }
+      }
+    },
+    {
+      "type": 3,
+      "name": "clients",
+      "content": {
+        "version": "KqlItem/1.0",
+        "title": "Reported client identities at initialization only",
+        "query": "customEvents | where name == 'mcp_activity' and tostring(customDimensions.internal) != 'true' and tostring(customDimensions.method) == 'initialize' | summarize Initializations=count() by Service=tostring(customDimensions.service), Client=tostring(customDimensions.clientName), Version=tostring(customDimensions.clientVersion), Outcome=tostring(customDimensions.outcome)",
+        "queryType": 0,
+        "resourceType": "microsoft.insights/components",
+        "visualization": "table",
+        "size": 0,
+        "timeContext": {
+          "durationMs": 5184000000
+        }
+      }
+    },
+    {
+      "type": 3,
+      "name": "gaps",
+      "content": {
+        "version": "KqlItem/1.0",
+        "title": "Telemetry gaps, throttling and probes",
+        "query": "customEvents | where name == 'mcp_activity' and tostring(customDimensions.internal) != 'true' | where tostring(customDimensions.method) in ('probe','system') or tostring(customDimensions.outcome) in ('quota_exhausted','rate_limited','busy') | summarize Count=sum(todouble(customMeasurements.count)) by bin(timestamp,1h), Outcome=tostring(customDimensions.outcome)",
+        "queryType": 0,
+        "resourceType": "microsoft.insights/components",
+        "visualization": "timechart",
+        "size": 0,
+        "timeContext": {
+          "durationMs": 5184000000
+        }
+      }
+    },
+    {
+      "type": 3,
+      "name": "reported-cost",
+      "content": {
+        "version": "KqlItem/1.0",
+        "title": "Last reported month-to-date cost (USD; billing may lag)",
+        "query": "customEvents | where name == 'mcp_cost' | summarize arg_max(timestamp, *) by Period=tostring(customDimensions.period) | project timestamp, Period, CostUSD=todouble(customMeasurements.reportedCostUsd)",
+        "queryType": 0,
+        "resourceType": "microsoft.insights/components",
+        "visualization": "table",
+        "size": 0,
+        "timeContext": {
+          "durationMs": 5184000000
+        }
+      }
+    },
+    {
+      "type": 1,
+      "name": "cost",
+      "content": {
+        "json": "## Cost and interpretation\nOpen Azure Cost Management filtered to resource group **rg-oldweb-mcp-experiment** for billing totals. The six-hour cost-guard workflow records reported month-to-date cost and pauses ingress at $20. Review its latest run before evaluating usage. Absence of events is not proof of zero traffic: check workspace ingestion caps and workflow health.\n\nDay 37: expand only when a service has at least 100 successful external calls, five approximate caller groups, two groups returning on three days, and at least 95% success among valid admitted calls. Listing delays, outages and telemetry gaps make results inconclusive."
+      }
+    }
+  ],
+  "isLocked": false,
+  "fallbackResourceIds": []
+}

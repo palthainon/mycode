@@ -83,6 +83,16 @@
             </div>
         </section>
 
+        <section class="box prose" id="mcp-privacy" aria-labelledby="mcp-heading">
+            <div class="box-head"><h2 id="mcp-heading">MCP experiment</h2></div>
+            <div class="box-body">
+                <p>The <a href="mcp.html">MCP services</a> process requests on an Azure server. Submitted log text and network plans are processed transiently and are not saved. DNS checks send the requested domain to Google Public DNS; HTTPS checks also contact the public website. Those services receive the query or request and our server's connecting address.</p>
+                <p>Dedicated Azure Application Insights telemetry records service and tool names, protocol actions, outcomes, timestamps, durations, input/output sizes and client-reported software name/version when supplied during initialization. We do not log submitted tool arguments or results, queried domains, full request URLs, raw source IP addresses, or unfiltered errors.</p>
+                <p>To estimate repeat use, the service derives a pseudonymous identifier from your source IP address and user-agent using an experiment-specific secret. It stores the derived identifier, not the source address. This is approximate: shared networks and changing addresses can combine or split caller groups. Client software names are self-reported.</p>
+                <p>Telemetry is retained for 60 days. Generic probes are counted in aggregate. Internal tests are marked and excluded from adoption reports. Azure necessarily processes connection metadata to operate the service. Application logging and diagnostics are configured to minimize collected data. No cookies or user accounts are used.</p>
+            </div>
+        </section>
+
         <section class="box prose" aria-labelledby="storage-heading">
             <div class="box-head"><h2 id="storage-heading">what stays on your device</h2></div>
             <div class="box-body">
@@ -94,7 +104,7 @@
             <div class="box-head"><h2 id="contact-heading">questions</h2></div>
             <div class="box-body">
                 <p>OldWeb.tech is a <a href="https://www.lawsoncyber.com" rel="noopener">Lawson Cyber</a> project. Use the feedback link there to ask anything about this page.</p>
-                <p class="stamp">Last updated 2026-10-06. Changes to what the site collects will be reflected here before they ship.</p>
+                <p class="stamp">Last updated 2026-10-09. Changes to what the site collects will be reflected here before they ship.</p>
             </div>
         </section>
     </main>

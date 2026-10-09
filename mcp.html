@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCP tools for agents - OldWeb.tech</title>
+  <meta name="description" content="Public MCP tools for DNS and HTTPS diagnostics, log parsing, and IPv4/IPv6 network planning. Free experimental access with published limits.">
+  <link rel="canonical" href="https://oldweb.tech/mcp.html">
+  <link rel="icon" href="logo/favicon-32x32.png">
+  <link rel="stylesheet" href="a11y.css">
+  <link rel="stylesheet" href="theme.css">
+  <script src="app-insights.js"></script>
+  <script src="a11y-utils.js"></script>
+  <script src="storage-utils.js"></script>
+  <script src="navigationv2.js"></script>
+  <style>
+    main { display:flex; flex-direction:column; gap:24px; }
+    pre { white-space:pre-wrap; overflow-wrap:anywhere; padding:16px; border:1px solid var(--line); }
+    code { overflow-wrap:anywhere; }
+    p,li { line-height:1.6; }
+    .copy { margin:8px 0; }
+    table { width:100%; border-collapse:collapse; }
+    th,td { padding:10px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <main id="main-content">
+    <div class="page-head"><h1>MCP tools for agents</h1><p class="lede">Small tools for deployment checks, log analysis and network planning.</p></div>
+    <section class="box" aria-labelledby="connect-heading"><div class="box-head"><h2 id="connect-heading">connect</h2></div><div class="box-body">
+      <p>Three public experimental MCP servers use Streamable HTTP. No account or API key is required. Add the server URL to your MCP client, then initialize and list its tools. Opening a server URL in a browser does not invoke a tool.</p>
+      <pre id="config">{
+  "mcpServers": {
+    "oldweb-diagnostics": { "url": "https://mcp.oldweb.tech/diagnostics/mcp" },
+    "oldweb-logs": { "url": "https://mcp.oldweb.tech/logs/mcp" },
+    "oldweb-network": { "url": "https://mcp.oldweb.tech/network/mcp" }
+  }
+}</pre>
+      <button type="button" class="btn copy" data-copy="config">Copy server configuration</button>
+      <p>Configuration keys vary by client; these are the server names and URLs to enter. Tools return structured JSON and a short completion message. Read the structured result for observations, errors and truncation details. <a href="mcp-tools.json">Download the tool schemas and descriptions</a>.</p>
+    </div></section>
+    <section class="box" aria-labelledby="diagnostics-heading"><div class="box-head"><h2 id="diagnostics-heading">deployment diagnostics</h2></div><div class="box-body">
+      <p><code>https://mcp.oldweb.tech/diagnostics/mcp</code></p>
+      <ul><li><code>lookup_dns</code>: DNS status, records, TTLs and observation time.</li><li><code>check_email_dns</code>: MX, SPF and DMARC record observations.</li><li><code>check_https</code>: HTTPS status, up to three HTTPS redirects, and TLS certificate metadata.</li></ul>
+      <pre>{ "name": "lookup_dns", "arguments": { "domain": "example.com", "type": "A" } }
+{ "name": "check_email_dns", "arguments": { "domain": "example.com" } }
+{ "name": "check_https", "arguments": { "domain": "example.com" } }</pre>
+      <p>Diagnostics contacts Google Public DNS and, for HTTPS checks, the requested public website. Supply a domain name, not a URL. HTTPS checks start at its root on port 443. Email observations are not deliverability guarantees.</p>
+    </div></section>
+    <section class="box" aria-labelledby="logs-heading"><div class="box-head"><h2 id="logs-heading">log parsing</h2></div><div class="box-body">
+      <p><code>https://mcp.oldweb.tech/logs/mcp</code></p>
+      <ul><li><code>parse_logs</code>: Up to 200 structured records, format counts and unparsed/truncated counts.</li><li><code>summarize_logs</code>: Severity counts and timestamp ranges, without AI interpretation.</li></ul>
+      <pre>{ "name": "parse_logs", "arguments": { "text": "{\"level\":\"ERROR\",\"timestamp\":\"2026-10-09T10:00:00Z\",\"message\":\"example\"}", "format": "auto" } }
+{ "name": "summarize_logs", "arguments": { "text": "Oct  9 10:00:00 router process: example", "format": "rfc3164" } }</pre>
+      <p>Formats: <code>auto</code>, <code>json</code>, <code>rfc5424</code>, <code>rfc3164</code>, <code>apache-common</code>, <code>apache-combined</code>, <code>windows-event</code>, <code>common-pid</code>. Times missing a year or timezone are excluded from timestamp ranges.</p>
+      <p>Submitted text is processed on our server and is not retained. Remove credentials and other sensitive material before submitting it. The <a href="system/log-parser.html">browser log parser</a> processes files locally.</p>
+    </div></section>
+    <section class="box" aria-labelledby="network-heading"><div class="box-head"><h2 id="network-heading">network planning</h2></div><div class="box-body">
+      <p><code>https://mcp.oldweb.tech/network/mcp</code></p>
+      <ul><li><code>inspect_subnet</code>: IPv4/IPv6 boundaries and exact address counts.</li><li><code>plan_subnets</code>: Largest-first prefix allocations inside a parent, retaining your labels.</li><li><code>check_cidr_overlap</code>: Overlapping input-index pairs and normalized ranges.</li></ul>
+      <pre>{ "name": "inspect_subnet", "arguments": { "cidr": "192.0.2.1/24" } }
+{ "name": "plan_subnets", "arguments": { "parent": "2001:db8::/48", "requests": [{ "label": "office", "prefix": 64 }] } }
+{ "name": "check_cidr_overlap", "arguments": { "cidrs": ["192.0.2.0/24", "192.0.2.128/25"] } }</pre>
+      <p>Large address counts are decimal strings so clients do not lose precision. Allocation results explicitly report insufficient capacity. These tools calculate plans; they do not change devices.</p>
+    </div></section>
+    <section class="box" aria-labelledby="limits-heading"><div class="box-head"><h2 id="limits-heading">limits and experiment</h2></div><div class="box-body">
+      <table><thead><tr><th scope="col">Limit</th><th scope="col">Allowance</th></tr></thead><tbody>
+        <tr><td>Per source address</td><td>60 HTTP requests/minute; 10 tool calls/minute across all three servers</td></tr>
+        <tr><td>Shared daily tool quota</td><td>5,000 calls, reset at midnight UTC</td></tr>
+        <tr><td>Request body</td><td>256 KiB including JSON encoding</td></tr>
+        <tr><td>Logs</td><td>1,000 lines; 200 returned records</td></tr>
+        <tr><td>Network planning</td><td>100 CIDRs or allocations per request</td></tr>
+        <tr><td>Diagnostics</td><td>10-second deadline; at most four simultaneous checks</td></tr>
+      </tbody></table>
+      <p>Respect HTTP 429 and <code>Retry-After</code>. Cold starts and pilot shutdowns are possible. We observe a seven-day site-linked baseline followed by thirty days of directory exposure; listing delays are recorded separately.</p>
+      <p>We measure connections, tool discovery, outcomes, timing and approximate returning caller groups. We do not log submitted text, queried domains, raw IP addresses or tool results. Read the <a href="privacy.html#mcp-privacy">MCP privacy details</a>.</p>
+      <p id="copy-status" role="status" aria-live="polite"></p>
+    </div></section>
+  </main>
+  <script>
+    document.querySelectorAll('[data-copy]').forEach(button => button.addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(document.getElementById(button.dataset.copy).textContent); document.getElementById('copy-status').textContent = 'Configuration copied.'; }
+      catch { document.getElementById('copy-status').textContent = 'Copy was unavailable. Select and copy the configuration above.'; }
+    }));
+  </script>
+</body>
+</html>

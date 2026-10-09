@@ -1,0 +1,258 @@
+{
+  "version": "1.0.0",
+  "services": {
+    "diagnostics": {
+      "url": "https://mcp.oldweb.tech/diagnostics/mcp",
+      "transport": "streamable-http",
+      "tools": [
+        {
+          "name": "lookup_dns",
+          "description": "Look up current public DNS records through Google Public DNS. Returns DNS status, answers, TTLs, observation time and DNSSEC validation flag. Contacts an external resolver.",
+          "inputSchema": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "type": "object",
+            "properties": {
+              "domain": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 253,
+                "description": "Public domain name only; no URL, path, port or credentials."
+              },
+              "type": {
+                "default": "A",
+                "type": "string",
+                "enum": [
+                  "A",
+                  "AAAA",
+                  "CNAME",
+                  "MX",
+                  "TXT",
+                  "NS",
+                  "SOA",
+                  "CAA"
+                ]
+              }
+            },
+            "required": [
+              "domain",
+              "type"
+            ],
+            "additionalProperties": false
+          }
+        },
+        {
+          "name": "check_email_dns",
+          "description": "Inspect a public domain’s MX, SPF and DMARC DNS records. Returns record observations and DNS status, not deliverability or full policy validation. Contacts Google Public DNS.",
+          "inputSchema": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "type": "object",
+            "properties": {
+              "domain": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 253,
+                "description": "Public domain name only; no URL, path, port or credentials."
+              }
+            },
+            "required": [
+              "domain"
+            ],
+            "additionalProperties": false
+          }
+        },
+        {
+          "name": "check_https",
+          "description": "Check a public domain’s HTTPS root, status, redirects and TLS certificate metadata. Contacts that site on port 443, follows at most three HTTPS redirects, and finishes within ten seconds. No page contents returned.",
+          "inputSchema": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "type": "object",
+            "properties": {
+              "domain": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 253,
+                "description": "Public domain name only; no URL, path, port or credentials."
+              }
+            },
+            "required": [
+              "domain"
+            ],
+            "additionalProperties": false
+          }
+        }
+      ]
+    },
+    "logs": {
+      "url": "https://mcp.oldweb.tech/logs/mcp",
+      "transport": "streamable-http",
+      "tools": [
+        {
+          "name": "parse_logs",
+          "description": "Parse supplied JSON, syslog, Apache/Nginx, Windows Event CSV or common PID logs. Returns up to 200 structured records, format counts and explicit truncation/unparsed counts; maximum 1,000 lines. Input is not retained.",
+          "inputSchema": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "type": "object",
+            "properties": {
+              "text": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 262144,
+                "description": "Up to 256 KiB and 1,000 log lines; processed transiently."
+              },
+              "format": {
+                "default": "auto",
+                "type": "string",
+                "enum": [
+                  "auto",
+                  "json",
+                  "rfc5424",
+                  "rfc3164",
+                  "apache-common",
+                  "apache-combined",
+                  "windows-event",
+                  "common-pid"
+                ]
+              }
+            },
+            "required": [
+              "text",
+              "format"
+            ],
+            "additionalProperties": false
+          }
+        },
+        {
+          "name": "summarize_logs",
+          "description": "Count formats and severities and find unambiguous timestamp ranges in up to 1,000 supplied log lines. Deterministic summary, no AI interpretation; timezone/year-ambiguous timestamps excluded. Input is not retained.",
+          "inputSchema": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "type": "object",
+            "properties": {
+              "text": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 262144,
+                "description": "Up to 256 KiB and 1,000 log lines; processed transiently."
+              },
+              "format": {
+                "default": "auto",
+                "type": "string",
+                "enum": [
+                  "auto",
+                  "json",
+                  "rfc5424",
+                  "rfc3164",
+                  "apache-common",
+                  "apache-combined",
+                  "windows-event",
+                  "common-pid"
+                ]
+              }
+            },
+            "required": [
+              "text",
+              "format"
+            ],
+            "additionalProperties": false
+          }
+        }
+      ]
+    },
+    "network": {
+      "url": "https://mcp.oldweb.tech/network/mcp",
+      "transport": "streamable-http",
+      "tools": [
+        {
+          "name": "inspect_subnet",
+          "description": "Calculate IPv4/IPv6 CIDR boundaries and exact address counts, serialized as decimal strings. IPv4 includes mask and usable-host bounds, with /31 and /32 handling.",
+          "inputSchema": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "type": "object",
+            "properties": {
+              "cidr": {
+                "type": "string",
+                "minLength": 3,
+                "maxLength": 64,
+                "description": "IPv4 or IPv6 CIDR, for example 192.0.2.0/24 or 2001:db8::/48."
+              }
+            },
+            "required": [
+              "cidr"
+            ],
+            "additionalProperties": false
+          }
+        },
+        {
+          "name": "plan_subnets",
+          "description": "Allocate up to 100 labeled prefix requests within an IPv4/IPv6 parent. Largest blocks first; returns allocations, exact remaining addresses, and explicit insufficient-capacity results.",
+          "inputSchema": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "type": "object",
+            "properties": {
+              "parent": {
+                "type": "string",
+                "minLength": 3,
+                "maxLength": 64,
+                "description": "IPv4 or IPv6 CIDR, for example 192.0.2.0/24 or 2001:db8::/48."
+              },
+              "requests": {
+                "minItems": 1,
+                "maxItems": 100,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "label": {
+                      "type": "string",
+                      "maxLength": 80
+                    },
+                    "prefix": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 128
+                    }
+                  },
+                  "required": [
+                    "label",
+                    "prefix"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "parent",
+              "requests"
+            ],
+            "additionalProperties": false
+          }
+        },
+        {
+          "name": "check_cidr_overlap",
+          "description": "Detect overlapping ranges among up to 100 IPv4/IPv6 CIDRs. Returns normalized subnets and overlapping input-index pairs; IPv4 and IPv6 are compared separately.",
+          "inputSchema": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "type": "object",
+            "properties": {
+              "cidrs": {
+                "minItems": 1,
+                "maxItems": 100,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 3,
+                  "maxLength": 64,
+                  "description": "IPv4 or IPv6 CIDR, for example 192.0.2.0/24 or 2001:db8::/48."
+                }
+              }
+            },
+            "required": [
+              "cidrs"
+            ],
+            "additionalProperties": false
+          }
+        }
+      ]
+    }
+  }
+}

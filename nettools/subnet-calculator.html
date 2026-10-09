@@ -41,6 +41,7 @@
     <script src="../a11y-utils.js"></script>
     <script src="../storage-utils.js"></script>
     <script src="../navigationv2.js"></script>
+    <script src="subnet-core.js"></script>
     <style>
         /* Page layout only; colors, type, buttons and fields come from theme.css */
         .tool-grid {
@@ -393,28 +394,17 @@
 
         // Validate IP address
         function isValidIP(ip) {
-            const parts = ip.split('.');
-            if (parts.length !== 4) return false;
-            return parts.every(part => {
-                const num = parseInt(part, 10);
-                return !isNaN(num) && num >= 0 && num <= 255 && part === num.toString();
-            });
+            return SubnetCore.isValidIP(ip);
         }
 
         // Convert IP to integer
         function ipToInt(ip) {
-            const parts = ip.split('.').map(Number);
-            return ((parts[0] << 24) | (parts[1] << 16) | (parts[2] << 8) | parts[3]) >>> 0;
+            return SubnetCore.ipToInt(ip);
         }
 
         // Convert integer to IP
         function intToIP(int) {
-            return [
-                (int >>> 24) & 255,
-                (int >>> 16) & 255,
-                (int >>> 8) & 255,
-                int & 255
-            ].join('.');
+            return SubnetCore.intToIP(int);
         }
 
         // Convert integer to binary with dots
@@ -429,7 +419,7 @@
 
         // Get subnet mask from CIDR
         function cidrToMask(cidr) {
-            return cidr === 0 ? 0 : (0xFFFFFFFF << (32 - cidr)) >>> 0;
+            return SubnetCore.cidrToMask(cidr);
         }
 
         // Get IP class
