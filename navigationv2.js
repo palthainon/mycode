@@ -82,7 +82,9 @@
             { separator: '(PDF)' },
             { name: 'PDF Merge', file: 'pdf/merge.html', id: 'pdf-merge' },
             { name: 'PDF Split', file: 'pdf/split.html', id: 'pdf-split' },
-            { name: 'PDF Rotate', file: 'pdf/rotate.html', id: 'pdf-rotate' }
+            { name: 'PDF Rotate', file: 'pdf/rotate.html', id: 'pdf-rotate' },
+            { separator: '(Open Source)' },
+            { name: 'Free PDF Editors', file: 'productivity/index.html#pdf-resources', id: 'pdf-resources' }
         ],
         certs: [
             { name: 'Security+', file: 'certs/security-plus.html', id: 'cert-security-plus' },
@@ -166,6 +168,7 @@
         { id: 'pomodoro',         name: 'Pomodoro Timer',                file: 'productivity/pomodoro.html',            category: 'productivity', keywords: ['pomodoro', 'timer', 'focus', 'productivity', '25 minute'],       related: ['scratchpad', 'tz-meeting-planner', 'timestamp'] },
         { id: 'scratchpad',       name: 'Plaintext Scratchpad',          file: 'productivity/scratchpad.html',          category: 'productivity', keywords: ['scratchpad', 'notepad', 'notes', 'plaintext', 'autosave', 'sticky'], related: ['string-tools', 'text-diff', 'pomodoro'] },
         { id: 'tz-meeting-planner', name: 'Timezone Meeting Planner',    file: 'productivity/tz-meeting-planner.html',  category: 'productivity', keywords: ['timezone', 'tz', 'meeting', 'world clock', 'time zone', 'converter', 'scheduler'], related: ['timestamp', 'pomodoro', 'scratchpad'] },
+        { id: 'pdf-resources', name: 'Free Open Source PDF Editors', file: 'productivity/index.html#pdf-resources', category: 'productivity', keywords: ['pdf', 'editor', 'free', 'open source', 'adobe', 'acrobat', 'pdfcraft', 'bentopdf', 'libreoffice', 'arranger', 'xournal', 'annotate'], related: ['pdf-merge', 'pdf-split', 'pdf-rotate'] },
         // PDF
         { id: 'pdf-merge',        name: 'PDF Merge',                     file: 'pdf/merge.html',                        category: 'pdf',          keywords: ['pdf', 'merge', 'combine', 'join', 'concatenate'],                related: ['pdf-split', 'pdf-rotate', 'base64'] },
         { id: 'pdf-split',        name: 'PDF Split',                     file: 'pdf/split.html',                        category: 'pdf',          keywords: ['pdf', 'split', 'extract', 'pages', 'separate'],                  related: ['pdf-merge', 'pdf-rotate', 'base64'] },
