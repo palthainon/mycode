@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Pomodoro timer, autosaving scratchpad, and a multi-zone meeting planner. Offline-ready, no accounts, no streaks to maintain.">
+    <meta name="description" content="Pomodoro timer, scratchpad, timezone meeting planner, and free open source PDF editors with official project and source links.">
     <meta name="keywords" content="productivity tools, pomodoro timer, timezone meeting planner, time management, focus timer, scratchpad, productivity utilities">
     <meta name="author" content="OldWeb LLC">
     <meta name="robots" content="index, follow">
@@ -15,7 +15,7 @@
 
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="Productivity Tools - OldWeb.tech">
-    <meta property="og:description" content="Productivity tools including Pomodoro Timer for focused work sessions. Fast, offline-ready utilities for managing your time and tasks effectively.">
+    <meta property="og:description" content="Tools for focused work, time management, and free open source PDF editing. Find official project, download, and source links.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://oldweb.tech/productivity/">
     <meta property="og:site_name" content="OldWeb.tech">
@@ -24,7 +24,7 @@
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Productivity Tools - OldWeb.tech">
-    <meta name="twitter:description" content="Productivity tools including Pomodoro Timer for focused work sessions. Fast, offline-ready utilities for managing your time and tasks effectively.">
+    <meta name="twitter:description" content="Tools for focused work, time management, and free open source PDF editing. Find official project, download, and source links.">
     <meta name="twitter:image" content="https://oldweb.tech/logo/og-image.png">
 
     <!-- Additional Meta Tags -->
@@ -55,6 +55,21 @@
             flex-direction: column;
             gap: 12px;
         }
+        .pdf-project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+            gap: 16px;
+        }
+        .pdf-project-grid .box {
+            min-width: 0;
+            margin: 0;
+        }
+        .pdf-project-grid h3 {
+            font-size: 1rem;
+        }
+        #pdf-resources {
+            scroll-margin-top: 80px;
+        }
         .card-grid {
             margin-bottom: 28px;
         }
@@ -66,7 +81,7 @@
       "@context": "https://schema.org",
       "@type": "CollectionPage",
       "name": "Productivity Tools",
-      "description": "Productivity tools including Pomodoro Timer for focused work sessions. Fast, offline-ready utilities for managing your time and tasks effectively.",
+      "description": "Tools for focused work, time management, and free open source PDF editing. Find official project, download, and source links.",
       "url": "https://oldweb.tech/productivity/",
       "isPartOf": {
         "@type": "WebSite",
@@ -81,7 +96,7 @@
     <main id="main-content" class="container">
         <div class="page-head">
             <h1>Productivity Tools</h1>
-            <p class="lede">Simple, effective tools for time management and focused work</p>
+            <p class="lede">Tools for focused work, time management, and free PDF editing</p>
         </div>
 
         <section class="box category-intro" aria-labelledby="category-intro-heading">
@@ -114,19 +129,82 @@
             </a>
         </div>
 
-        <section class="box category-outro" aria-labelledby="category-outro-heading">
+        <section class="box category-intro" id="pdf-resources" aria-labelledby="pdf-resources-heading">
             <div class="box-head">
-                <h2 id="category-outro-heading">nothing to install, nothing to log in to</h2>
+                <h2 id="pdf-resources-heading">free &amp; open source PDF tools</h2>
             </div>
             <div class="box-body">
-            <p>Everything saves locally to your browser &mdash; close the tab and your timer, notes, or meeting setup will still be there next visit. No account, no sync to a cloud service that might disappear, no subscription holding your data hostage.</p>
+                <p>Edit, annotate, and organize PDFs with community-built alternatives to Adobe Acrobat. These are external projects: use the official links below to try them, download them, or help improve their source code.</p>
+                <p>For existing text edits, start with LibreOffice Draw or BentoPDF. For handwritten notes, use Xournal++; for moving pages around, use PDF Arranger. PDFCraft and PdfCraft are two separate projects with similar names.</p>
+                <div class="pdf-project-grid">
+                    <article class="box" aria-labelledby="pdfcraft-browser-heading">
+                        <div class="box-head"><h3 id="pdfcraft-browser-heading">PDFCraft (browser toolkit)</h3></div>
+                        <div class="box-body">
+                            <p>Merge, split, compress, convert, fill forms, and add text, images, or annotations. The project processes documents locally in your browser.</p>
+                            <p>Browser &middot; AGPL-3.0</p>
+                            <p><a href="https://pdfcraft.devtoolcafe.com/" rel="noopener noreferrer">Use PDFCraft</a> &middot; <a href="https://github.com/PDFCraftTool/pdfcraft" rel="noopener noreferrer">PDFCraft source &amp; contribute</a></p>
+                        </div>
+                    </article>
+                    <article class="box" aria-labelledby="pdfcraft-desktop-heading">
+                        <div class="box-head"><h3 id="pdfcraft-desktop-heading">PdfCraft (ArtCraft)</h3></div>
+                        <div class="box-body">
+                            <p>A native PDF workbench for reading, organizing pages, combining documents, comments, and forms. Still in early development; editing existing text remains limited.</p>
+                            <p>Windows, macOS, Linux &middot; MIT / Apache-2.0</p>
+                            <p><a href="https://getartcraft.com/apps/pdfcraft" rel="noopener noreferrer">Get PdfCraft</a> &middot; <a href="https://github.com/storytold/pdfcraft" rel="noopener noreferrer">PdfCraft source &amp; contribute</a></p>
+                        </div>
+                    </article>
+                    <article class="box" aria-labelledby="bentopdf-heading">
+                        <div class="box-head"><h3 id="bentopdf-heading">BentoPDF</h3></div>
+                        <div class="box-body">
+                            <p>Edit text, annotate, sign, convert, and organize PDFs in your browser. Document processing runs locally; no signup is required.</p>
+                            <p>Browser &middot; AGPL-3.0; commercial licensing also available</p>
+                            <p><a href="https://www.bentopdf.com/" rel="noopener noreferrer">Use BentoPDF</a> &middot; <a href="https://github.com/alam00000/bentopdf" rel="noopener noreferrer">BentoPDF source &amp; contribute</a></p>
+                        </div>
+                    </article>
+                    <article class="box" aria-labelledby="libreoffice-heading">
+                        <div class="box-head"><h3 id="libreoffice-heading">LibreOffice Draw</h3></div>
+                        <div class="box-body">
+                            <p>Open a PDF in Draw to edit existing text and graphics, then export it back to PDF. Best for small corrections; complex layouts and fonts may shift during import.</p>
+                            <p>Windows, macOS, Linux &middot; MPL-2.0</p>
+                            <p><a href="https://www.libreoffice.org/download/" rel="noopener noreferrer">Get LibreOffice</a> &middot; <a href="https://www.libreoffice.org/community/get-involved/" rel="noopener noreferrer">Contribute to LibreOffice</a></p>
+                        </div>
+                    </article>
+                    <article class="box" aria-labelledby="pdf-arranger-heading">
+                        <div class="box-head"><h3 id="pdf-arranger-heading">PDF Arranger</h3></div>
+                        <div class="box-body">
+                            <p>Visually merge, split, rotate, crop, and reorder pages on your computer. A focused page organizer rather than an editor for existing text.</p>
+                            <p>Windows, Linux &middot; GPL-3.0</p>
+                            <p><a href="https://github.com/pdfarranger/pdfarranger/releases" rel="noopener noreferrer">Get PDF Arranger</a> &middot; <a href="https://github.com/pdfarranger/pdfarranger" rel="noopener noreferrer">PDF Arranger source &amp; contribute</a></p>
+                        </div>
+                    </article>
+                    <article class="box" aria-labelledby="xournalpp-heading">
+                        <div class="box-head"><h3 id="xournalpp-heading">Xournal++</h3></div>
+                        <div class="box-body">
+                            <p>Add handwritten notes, highlights, drawings, and text over PDF pages, then export to PDF. Works well with a pen tablet; it does not rewrite the original PDF text.</p>
+                            <p>Windows, macOS, Linux &middot; GPL-2.0</p>
+                            <p><a href="https://xournalpp.github.io/" rel="noopener noreferrer">Get Xournal++</a> &middot; <a href="https://github.com/xournalpp/xournalpp" rel="noopener noreferrer">Xournal++ source &amp; contribute</a></p>
+                        </div>
+                    </article>
+                </div>
+                <p>Support the maintainers by sharing these projects, reporting reproducible bugs, contributing documentation or code, or using their official donation and sponsorship links.</p>
+                <p>Need a quick page operation here? Try our <a href="../pdf/merge.html">PDF Merge</a>, <a href="../pdf/split.html">PDF Split</a>, or <a href="../pdf/rotate.html">PDF Rotate</a>.</p>
+                <p>Project links and features checked <time datetime="2026-10-09">October 9, 2026</time>.</p>
+            </div>
+        </section>
+
+        <section class="box category-outro" aria-labelledby="category-outro-heading">
+            <div class="box-head">
+                <h2 id="category-outro-heading">our focus tools save locally</h2>
+            </div>
+            <div class="box-body">
+            <p>Our timer, scratchpad, and meeting planner save locally to your browser &mdash; close the tab and your timer, notes, or meeting setup will still be there next visit. No account, no sync to a cloud service that might disappear, no subscription holding your data hostage.</p>
             <p>Useful next: <a href="../system/">System Tools</a> for technical tasks during a focused work block (regex, log parsing, cron). <a href="../nettools/">Network Tools</a> when the block is subnet planning or bandwidth math. <a href="../financials/">Financial Tools</a> pairs well with a Pomodoro session focused on budgeting.</p>
             </div>
         </section>
     </main>
 
     <footer class="statusbar" role="contentinfo">
-        <span>[oldweb] productivity › index │ works offline │ no cookies │ <a href="/privacy.html">privacy</a></span>
+        <span>[oldweb] productivity › index │ local tools work offline │ no cookies │ <a href="/privacy.html">privacy</a></span>
         <span><a href="https://www.lawsoncyber.com" rel="noopener">a Lawson Cyber project</a> · <a href="https://www.lawsoncyber.com" rel="noopener">feedback</a> │ / search · t theme</span>
     </footer>
 
