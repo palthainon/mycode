@@ -20,6 +20,8 @@ Manual **Deploy MCP experiment** builds an immutable image, freezes production t
 
 Manual **MCP cost guard and lifecycle** supports `check`, `shutdown`, and `rollback`. Shutdown disables ingress. Rollback routes traffic to the retained revision and does not unpause a stopped pilot. Cost query failures fail closed by disabling ingress. Cost data can lag; $25 is a target, not a hard spending ceiling. Baseline registry/storage charges remain after ingress is disabled.
 
+The billing query makes at most four attempts, waiting 5, 15, and 30 seconds between failures. Public access remains enabled during these bounded retries; exhausted retries or an invalid billing response still pause ingress. Successful verification at $20 or more still pauses immediately. Run `./scripts/test-cost-guard.ps1` to verify recovery, exhausted retries, budget shutdown, and invalid-response shutdown without contacting Azure.
+
 ## Runtime configuration
 
 | Setting | Purpose |

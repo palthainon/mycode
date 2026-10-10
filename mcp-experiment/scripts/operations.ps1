@@ -1,5 +1,6 @@
 param([ValidateSet('check','shutdown','rollback')][string]$Operation = 'check', [string]$Group = 'rg-oldweb-mcp-experiment', [string]$App = 'oldweb-mcp')
 $ErrorActionPreference = 'Stop'
+. (Join-Path $PSScriptRoot 'cost-query.ps1')
 function AzJson { $result = & az @args --only-show-errors -o json; if ($LASTEXITCODE) { throw 'Azure command failed' }; if ($result) { ($result -join "`n") | ConvertFrom-Json -Depth 100 } }
 $appState = AzJson containerapp show -g $Group -n $App
 function Stop-Pilot {
@@ -24,7 +25,9 @@ $query = @{ type = 'ActualCost'; timeframe = 'MonthToDate'; dataset = @{ granula
 $tempFile = Join-Path ([IO.Path]::GetTempPath()) ('mcp-cost-' + [guid]::NewGuid() + '.json')
 try {
   [IO.File]::WriteAllText($tempFile, $query)
-  $cost = AzJson rest --method post --url "https://management.azure.com/subscriptions/$subscription/resourceGroups/$Group/providers/Microsoft.CostManagement/query?api-version=2023-11-01" --body "@$tempFile"
+  $cost = Invoke-CostQueryWithRetry {
+    AzJson rest --method post --url "https://management.azure.com/subscriptions/$subscription/resourceGroups/$Group/providers/Microsoft.CostManagement/query?api-version=2023-11-01" --body "@$tempFile"
+  }
   $columns = @($cost.properties.columns.name)
   $costIndex = [array]::IndexOf($columns, 'PreTaxCost'); $currencyIndex = [array]::IndexOf($columns, 'Currency')
   if ($costIndex -lt 0 -or $currencyIndex -lt 0) { throw 'Unexpected cost schema' }

@@ -17,5 +17,8 @@ jobs:
           cache-dependency-path: mcp-experiment/package-lock.json
       - run: npm ci --ignore-scripts && npm test
         working-directory: mcp-experiment
+      - name: Test billing retries and shutdown
+        shell: pwsh
+        run: ./mcp-experiment/scripts/test-cost-guard.ps1
       - run: az bicep build --file mcp-experiment/infra/main.bicep --stdout > /dev/null
       - run: az bicep build --file mcp-experiment/infra/app.bicep --stdout > /dev/null
