@@ -1,0 +1,762 @@
+{
+  "model": "gpt-5.6-luna",
+  "at": "2026-10-10T14:44:23.414Z",
+  "elapsedMs": 9738,
+  "exitCode": 0,
+  "usage": {
+    "input_tokens": 44891,
+    "cached_input_tokens": 39168,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 995,
+    "reasoning_output_tokens": 147
+  },
+  "results": [
+    {
+      "id": "diagnostics-001",
+      "service": "diagnostics",
+      "tool": "lookup_dns",
+      "name": "A TTL preservation",
+      "passed": true,
+      "answer": {
+        "id": "diagnostics-001",
+        "summary": "Observed one A answer with TTL 60 seconds.",
+        "fact": 60,
+        "nextStep": "Review resolver behavior if testing propagation.",
+        "limitations": "Observed fixture DNS data; cached answers can lag changes."
+      }
+    },
+    {
+      "id": "diagnostics-002",
+      "service": "diagnostics",
+      "tool": "lookup_dns",
+      "name": "AAAA TTL preservation",
+      "passed": true,
+      "answer": {
+        "id": "diagnostics-002",
+        "summary": "Observed one AAAA answer with TTL 61 seconds.",
+        "fact": 61,
+        "nextStep": "Review resolver behavior if testing propagation.",
+        "limitations": "Observed fixture DNS data; cached answers can lag changes."
+      }
+    },
+    {
+      "id": "diagnostics-003",
+      "service": "diagnostics",
+      "tool": "lookup_dns",
+      "name": "CNAME TTL preservation",
+      "passed": true,
+      "answer": {
+        "id": "diagnostics-003",
+        "summary": "Observed one CNAME answer with TTL 62 seconds.",
+        "fact": 62,
+        "nextStep": "Review resolver behavior if testing propagation.",
+        "limitations": "Observed fixture DNS data; cached answers can lag changes."
+      }
+    },
+    {
+      "id": "diagnostics-004",
+      "service": "diagnostics",
+      "tool": "lookup_dns",
+      "name": "MX TTL preservation",
+      "passed": true,
+      "answer": {
+        "id": "diagnostics-004",
+        "summary": "Observed one MX answer with TTL 63 seconds.",
+        "fact": 63,
+        "nextStep": "Review resolver behavior if testing propagation.",
+        "limitations": "Observed fixture DNS data; cached answers can lag changes."
+      }
+    },
+    {
+      "id": "diagnostics-005",
+      "service": "diagnostics",
+      "tool": "lookup_dns",
+      "name": "TXT TTL preservation",
+      "passed": true,
+      "answer": {
+        "id": "diagnostics-005",
+        "summary": "Observed one TXT answer with TTL 64 seconds.",
+        "fact": 64,
+        "nextStep": "Review resolver behavior if testing propagation.",
+        "limitations": "Observed fixture DNS data; cached answers can lag changes."
+      }
+    },
+    {
+      "id": "diagnostics-006",
+      "service": "diagnostics",
+      "tool": "lookup_dns",
+      "name": "NS TTL preservation",
+      "passed": true,
+      "answer": {
+        "id": "diagnostics-006",
+        "summary": "Observed one NS answer with TTL 65 seconds.",
+        "fact": 65,
+        "nextStep": "Review resolver behavior if testing propagation.",
+        "limitations": "Observed fixture DNS data; cached answers can lag changes."
+      }
+    },
+    {
+      "id": "diagnostics-007",
+      "service": "diagnostics",
+      "tool": "lookup_dns",
+      "name": "SOA TTL preservation",
+      "passed": true,
+      "answer": {
+        "id": "diagnostics-007",
+        "summary": "Observed one SOA answer with TTL 66 seconds.",
+        "fact": 66,
+        "nextStep": "Review resolver behavior if testing propagation.",
+        "limitations": "Observed fixture DNS data; cached answers can lag changes."
+      }
+    },
+    {
+      "id": "diagnostics-008",
+      "service": "diagnostics",
+      "tool": "lookup_dns",
+      "name": "CAA TTL preservation",
+      "passed": true,
+      "answer": {
+        "id": "diagnostics-008",
+        "summary": "Observed one CAA answer with TTL 67 seconds.",
+        "fact": 67,
+        "nextStep": "Review resolver behavior if testing propagation.",
+        "limitations": "Observed fixture DNS data; cached answers can lag changes."
+      }
+    },
+    {
+      "id": "diagnostics-009",
+      "service": "diagnostics",
+      "tool": "lookup_dns",
+      "name": "DNS status 2 remains explicit",
+      "passed": true,
+      "answer": {
+        "id": "diagnostics-009",
+        "summary": "Observed DNS status 2 with no answers.",
+        "fact": 2,
+        "nextStep": "Investigate the fixture’s DNS response condition.",
+        "limitations": "Observed fixture DNS data; no answer records were returned."
+      }
+    },
+    {
+      "id": "diagnostics-010",
+      "service": "diagnostics",
+      "tool": "lookup_dns",
+      "name": "DNS status 3 remains explicit",
+      "passed": true,
+      "answer": {
+        "id": "diagnostics-010",
+        "summary": "Observed DNS status 3 with no answers.",
+        "fact": 3,
+        "nextStep": "Investigate the fixture’s DNS response condition.",
+        "limitations": "Observed fixture DNS data; no answer records were returned."
+      }
+    }
+  ],
+  "calls": [
+    {
+      "id": "item_1",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "lookup_dns",
+      "arguments": {
+        "domain": "dns0.example.com",
+        "type": "A"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "dns0.example.com: A lookup returned DNS status 0 and 1 answers.\n• 8.8.8.8 (TTL 60s)\nLimit: Observed DNS configuration; cached resolver answers can lag changes."
+          }
+        ],
+        "structured_content": {
+          "domain": "dns0.example.com",
+          "type": "A",
+          "status": 0,
+          "dnssecValidated": false,
+          "answers": [
+            {
+              "name": "dns0.example.com",
+              "type": 1,
+              "TTL": 60,
+              "data": "8.8.8.8"
+            }
+          ],
+          "observedAt": "2026-10-10T14:44:19.567Z",
+          "resolver": "Google Public DNS",
+          "admin": {
+            "summary": "dns0.example.com: A lookup returned DNS status 0 and 1 answers.",
+            "findings": [
+              "8.8.8.8 (TTL 60s)"
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Observed DNS configuration; cached resolver answers can lag changes."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_2",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "lookup_dns",
+      "arguments": {
+        "domain": "dns1.example.com",
+        "type": "AAAA"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "dns1.example.com: AAAA lookup returned DNS status 0 and 1 answers.\n• 2001:4860:4860::8888 (TTL 61s)\nLimit: Observed DNS configuration; cached resolver answers can lag changes."
+          }
+        ],
+        "structured_content": {
+          "domain": "dns1.example.com",
+          "type": "AAAA",
+          "status": 0,
+          "dnssecValidated": false,
+          "answers": [
+            {
+              "name": "dns1.example.com",
+              "type": 28,
+              "TTL": 61,
+              "data": "2001:4860:4860::8888"
+            }
+          ],
+          "observedAt": "2026-10-10T14:44:19.575Z",
+          "resolver": "Google Public DNS",
+          "admin": {
+            "summary": "dns1.example.com: AAAA lookup returned DNS status 0 and 1 answers.",
+            "findings": [
+              "2001:4860:4860::8888 (TTL 61s)"
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Observed DNS configuration; cached resolver answers can lag changes."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_3",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "lookup_dns",
+      "arguments": {
+        "domain": "dns2.example.com",
+        "type": "CNAME"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "dns2.example.com: CNAME lookup returned DNS status 0 and 1 answers.\n• fixture.example.com (TTL 62s)\nLimit: Observed DNS configuration; cached resolver answers can lag changes."
+          }
+        ],
+        "structured_content": {
+          "domain": "dns2.example.com",
+          "type": "CNAME",
+          "status": 0,
+          "dnssecValidated": false,
+          "answers": [
+            {
+              "name": "dns2.example.com",
+              "type": 5,
+              "TTL": 62,
+              "data": "fixture.example.com"
+            }
+          ],
+          "observedAt": "2026-10-10T14:44:19.578Z",
+          "resolver": "Google Public DNS",
+          "admin": {
+            "summary": "dns2.example.com: CNAME lookup returned DNS status 0 and 1 answers.",
+            "findings": [
+              "fixture.example.com (TTL 62s)"
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Observed DNS configuration; cached resolver answers can lag changes."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_4",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "lookup_dns",
+      "arguments": {
+        "domain": "dns3.example.com",
+        "type": "MX"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "dns3.example.com: MX lookup returned DNS status 0 and 1 answers.\n• fixture.example.com (TTL 63s)\nLimit: Observed DNS configuration; cached resolver answers can lag changes."
+          }
+        ],
+        "structured_content": {
+          "domain": "dns3.example.com",
+          "type": "MX",
+          "status": 0,
+          "dnssecValidated": false,
+          "answers": [
+            {
+              "name": "dns3.example.com",
+              "type": 15,
+              "TTL": 63,
+              "data": "fixture.example.com"
+            }
+          ],
+          "observedAt": "2026-10-10T14:44:19.582Z",
+          "resolver": "Google Public DNS",
+          "admin": {
+            "summary": "dns3.example.com: MX lookup returned DNS status 0 and 1 answers.",
+            "findings": [
+              "fixture.example.com (TTL 63s)"
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Observed DNS configuration; cached resolver answers can lag changes."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_5",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "lookup_dns",
+      "arguments": {
+        "domain": "dns4.example.com",
+        "type": "TXT"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "dns4.example.com: TXT lookup returned DNS status 0 and 1 answers.\n• fixture.example.com (TTL 64s)\nLimit: Observed DNS configuration; cached resolver answers can lag changes."
+          }
+        ],
+        "structured_content": {
+          "domain": "dns4.example.com",
+          "type": "TXT",
+          "status": 0,
+          "dnssecValidated": false,
+          "answers": [
+            {
+              "name": "dns4.example.com",
+              "type": 16,
+              "TTL": 64,
+              "data": "fixture.example.com"
+            }
+          ],
+          "observedAt": "2026-10-10T14:44:19.585Z",
+          "resolver": "Google Public DNS",
+          "admin": {
+            "summary": "dns4.example.com: TXT lookup returned DNS status 0 and 1 answers.",
+            "findings": [
+              "fixture.example.com (TTL 64s)"
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Observed DNS configuration; cached resolver answers can lag changes."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_6",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "lookup_dns",
+      "arguments": {
+        "domain": "dns5.example.com",
+        "type": "NS"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "dns5.example.com: NS lookup returned DNS status 0 and 1 answers.\n• fixture.example.com (TTL 65s)\nLimit: Observed DNS configuration; cached resolver answers can lag changes."
+          }
+        ],
+        "structured_content": {
+          "domain": "dns5.example.com",
+          "type": "NS",
+          "status": 0,
+          "dnssecValidated": false,
+          "answers": [
+            {
+              "name": "dns5.example.com",
+              "type": 2,
+              "TTL": 65,
+              "data": "fixture.example.com"
+            }
+          ],
+          "observedAt": "2026-10-10T14:44:19.588Z",
+          "resolver": "Google Public DNS",
+          "admin": {
+            "summary": "dns5.example.com: NS lookup returned DNS status 0 and 1 answers.",
+            "findings": [
+              "fixture.example.com (TTL 65s)"
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Observed DNS configuration; cached resolver answers can lag changes."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_7",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "lookup_dns",
+      "arguments": {
+        "domain": "dns6.example.com",
+        "type": "SOA"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "dns6.example.com: SOA lookup returned DNS status 0 and 1 answers.\n• fixture.example.com (TTL 66s)\nLimit: Observed DNS configuration; cached resolver answers can lag changes."
+          }
+        ],
+        "structured_content": {
+          "domain": "dns6.example.com",
+          "type": "SOA",
+          "status": 0,
+          "dnssecValidated": false,
+          "answers": [
+            {
+              "name": "dns6.example.com",
+              "type": 6,
+              "TTL": 66,
+              "data": "fixture.example.com"
+            }
+          ],
+          "observedAt": "2026-10-10T14:44:19.591Z",
+          "resolver": "Google Public DNS",
+          "admin": {
+            "summary": "dns6.example.com: SOA lookup returned DNS status 0 and 1 answers.",
+            "findings": [
+              "fixture.example.com (TTL 66s)"
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Observed DNS configuration; cached resolver answers can lag changes."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_8",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "lookup_dns",
+      "arguments": {
+        "domain": "dns7.example.com",
+        "type": "CAA"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "dns7.example.com: CAA lookup returned DNS status 0 and 1 answers.\n• fixture.example.com (TTL 67s)\nLimit: Observed DNS configuration; cached resolver answers can lag changes."
+          }
+        ],
+        "structured_content": {
+          "domain": "dns7.example.com",
+          "type": "CAA",
+          "status": 0,
+          "dnssecValidated": false,
+          "answers": [
+            {
+              "name": "dns7.example.com",
+              "type": 257,
+              "TTL": 67,
+              "data": "fixture.example.com"
+            }
+          ],
+          "observedAt": "2026-10-10T14:44:19.596Z",
+          "resolver": "Google Public DNS",
+          "admin": {
+            "summary": "dns7.example.com: CAA lookup returned DNS status 0 and 1 answers.",
+            "findings": [
+              "fixture.example.com (TTL 67s)"
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Observed DNS configuration; cached resolver answers can lag changes."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_9",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "lookup_dns",
+      "arguments": {
+        "domain": "status2.example.com",
+        "type": "A"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "status2.example.com: A lookup returned DNS status 2 and 0 answers.\nLimit: Observed DNS configuration; cached resolver answers can lag changes."
+          }
+        ],
+        "structured_content": {
+          "domain": "status2.example.com",
+          "type": "A",
+          "status": 2,
+          "dnssecValidated": false,
+          "answers": [],
+          "observedAt": "2026-10-10T14:44:19.600Z",
+          "resolver": "Google Public DNS",
+          "admin": {
+            "summary": "status2.example.com: A lookup returned DNS status 2 and 0 answers.",
+            "findings": [],
+            "nextSteps": [],
+            "limitations": [
+              "Observed DNS configuration; cached resolver answers can lag changes."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_10",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "lookup_dns",
+      "arguments": {
+        "domain": "status3.example.com",
+        "type": "A"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "status3.example.com: A lookup returned DNS status 3 and 0 answers.\nLimit: Observed DNS configuration; cached resolver answers can lag changes."
+          }
+        ],
+        "structured_content": {
+          "domain": "status3.example.com",
+          "type": "A",
+          "status": 3,
+          "dnssecValidated": false,
+          "answers": [],
+          "observedAt": "2026-10-10T14:44:19.604Z",
+          "resolver": "Google Public DNS",
+          "admin": {
+            "summary": "status3.example.com: A lookup returned DNS status 3 and 0 answers.",
+            "findings": [],
+            "nextSteps": [],
+            "limitations": [
+              "Observed DNS configuration; cached resolver answers can lag changes."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    }
+  ],
+  "events": [],
+  "stderr": "2026-10-10T14:44:14.099591Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n",
+  "telemetry": [
+    {
+      "service": "diagnostics",
+      "method": "initialize",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 31,
+      "inputBytes": 217,
+      "outputBytes": 173,
+      "clientName": "codex-mcp-client",
+      "clientVersion": "0.154.0"
+    },
+    {
+      "service": "diagnostics",
+      "method": "notifications/initialized",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 5,
+      "inputBytes": 54,
+      "outputBytes": 0
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/list",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 10,
+      "inputBytes": 85,
+      "outputBytes": 3875
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "lookup_dns",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 8,
+      "inputBytes": 780,
+      "outputBytes": 699
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "lookup_dns",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 2,
+      "inputBytes": 783,
+      "outputBytes": 748
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "lookup_dns",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 2,
+      "inputBytes": 784,
+      "outputBytes": 747
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "lookup_dns",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 2,
+      "inputBytes": 781,
+      "outputBytes": 739
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "lookup_dns",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 782,
+      "outputBytes": 742
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "lookup_dns",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 781,
+      "outputBytes": 738
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "lookup_dns",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 3,
+      "inputBytes": 782,
+      "outputBytes": 741
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "lookup_dns",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 2,
+      "inputBytes": 782,
+      "outputBytes": 743
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "lookup_dns",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 2,
+      "inputBytes": 784,
+      "outputBytes": 605
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "lookup_dns",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 2,
+      "inputBytes": 785,
+      "outputBytes": 605
+    }
+  ],
+  "environment": "local Streamable HTTP with synthetic DNS/HTTPS fixtures; native Codex MCP calls"
+}

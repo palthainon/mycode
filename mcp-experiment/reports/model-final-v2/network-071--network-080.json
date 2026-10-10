@@ -1,0 +1,3453 @@
+{
+  "model": "gpt-5.6-luna",
+  "at": "2026-10-10T17:04:28.746Z",
+  "elapsedMs": 28005,
+  "exitCode": 0,
+  "usage": {
+    "input_tokens": 80701,
+    "cached_input_tokens": 54528,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 1215,
+    "reasoning_output_tokens": 230
+  },
+  "results": [
+    {
+      "id": "network-071",
+      "service": "network",
+      "tool": "plan_subnets",
+      "name": "Largest first preserves original index",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-071",
+        "summary": "Largest-first allocation preserved the original request index for large.",
+        "fact": 1,
+        "nextStep": "None.",
+        "limitations": "Fixture calculation only; largest blocks are allocated first."
+      },
+      "responseBytes": 1410,
+      "textChars": 180
+    },
+    {
+      "id": "network-072",
+      "service": "network",
+      "tool": "plan_subnets",
+      "name": "Equal sizes stable labels",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-072",
+        "summary": "Equal-size requests remained label-stable; beta was second.",
+        "fact": "beta",
+        "nextStep": "None.",
+        "limitations": "Fixture calculation only."
+      },
+      "responseBytes": 1397,
+      "textChars": 178
+    },
+    {
+      "id": "network-073",
+      "service": "network",
+      "tool": "plan_subnets",
+      "name": "Single entire pool",
+      "passed": false,
+      "matchedCall": false,
+      "structuredPassed": false,
+      "answerPassed": false,
+      "failure": "Error: No matching native MCP call with the supplied arguments.",
+      "answer": {
+        "id": "network-073",
+        "summary": "The subnet inspection returned the complete IPv6 address count, not freeAddressCount.",
+        "fact": null,
+        "nextStep": "Use a subnet-planning request to obtain freeAddressCount.",
+        "limitations": "The requested field was absent from the inspection response; provider-reserved addresses are not accounted for."
+      },
+      "responseBytes": 0,
+      "textChars": 0
+    },
+    {
+      "id": "network-074",
+      "service": "network",
+      "tool": "plan_subnets",
+      "name": "100 allocations accepted",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-074",
+        "summary": "All 100 /32 allocations were accepted.",
+        "fact": 100,
+        "nextStep": "None.",
+        "limitations": "Fixture calculation only; the tool accepts at most 100 requests."
+      },
+      "responseBytes": 29576,
+      "textChars": 336
+    },
+    {
+      "id": "network-075",
+      "service": "network",
+      "tool": "plan_subnets",
+      "name": "101 allocations refused",
+      "passed": false,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": false,
+      "failure": "Error: Answer error mismatch.",
+      "answer": {
+        "id": "network-075",
+        "summary": "The 101-request allocation was rejected by the MCP tool.",
+        "fact": "-32600",
+        "nextStep": "Reduce the request list to 100 or fewer allocations.",
+        "limitations": "The tool rejected the argument set before producing allocation results."
+      },
+      "responseBytes": 4,
+      "textChars": 0
+    },
+    {
+      "id": "network-076",
+      "service": "network",
+      "tool": "check_cidr_overlap",
+      "name": "Nested IPv4 prefix 24",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-076",
+        "summary": "The normalized duplicate /24 ranges overlapped.",
+        "fact": 1,
+        "nextStep": "Check whether the overlapping routes or allocations are intentional.",
+        "limitations": "IPv4 fixture comparison only."
+      },
+      "responseBytes": 1268,
+      "textChars": 230
+    },
+    {
+      "id": "network-077",
+      "service": "network",
+      "tool": "check_cidr_overlap",
+      "name": "Nested IPv4 prefix 25",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-077",
+        "summary": "The /24 and nested /25 ranges overlapped.",
+        "fact": 1,
+        "nextStep": "Check whether the overlapping routes or allocations are intentional.",
+        "limitations": "IPv4 fixture comparison only."
+      },
+      "responseBytes": 1282,
+      "textChars": 232
+    },
+    {
+      "id": "network-078",
+      "service": "network",
+      "tool": "check_cidr_overlap",
+      "name": "Nested IPv4 prefix 26",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-078",
+        "summary": "The /24 and nested /26 ranges overlapped.",
+        "fact": 1,
+        "nextStep": "Check whether the overlapping routes or allocations are intentional.",
+        "limitations": "IPv4 fixture comparison only."
+      },
+      "responseBytes": 1280,
+      "textChars": 232
+    },
+    {
+      "id": "network-079",
+      "service": "network",
+      "tool": "check_cidr_overlap",
+      "name": "Nested IPv4 prefix 27",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-079",
+        "summary": "The /24 and nested /27 ranges overlapped.",
+        "fact": 1,
+        "nextStep": "Check whether the overlapping routes or allocations are intentional.",
+        "limitations": "IPv4 fixture comparison only."
+      },
+      "responseBytes": 1280,
+      "textChars": 232
+    },
+    {
+      "id": "network-080",
+      "service": "network",
+      "tool": "check_cidr_overlap",
+      "name": "Nested IPv4 prefix 28",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-080",
+        "summary": "The /24 and nested /28 ranges overlapped.",
+        "fact": 1,
+        "nextStep": "Check whether the overlapping routes or allocations are intentional.",
+        "limitations": "IPv4 fixture comparison only."
+      },
+      "responseBytes": 1280,
+      "textChars": 232
+    }
+  ],
+  "calls": [
+    {
+      "id": "item_1",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "plan_subnets",
+      "arguments": {
+        "parent": "192.0.2.0/24",
+        "requests": [
+          {
+            "label": "small",
+            "prefix": 28
+          },
+          {
+            "label": "large",
+            "prefix": 25
+          }
+        ]
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "192.0.2.0/24: 2/2 allocations; 112 addresses remain.\n• large: 192.0.2.0/25.\n• small: 192.0.2.128/28.\nLimit: Largest blocks allocated first; input indices preserve request identity."
+          }
+        ],
+        "structured_content": {
+          "parent": {
+            "version": 4,
+            "cidr": "192.0.2.0/24",
+            "prefix": 24,
+            "firstAddress": "192.0.2.0",
+            "lastAddress": "192.0.2.255",
+            "addressCount": "256",
+            "netmask": "255.255.255.0",
+            "usableHostCount": "254",
+            "firstUsable": "192.0.2.1",
+            "lastUsable": "192.0.2.254",
+            "broadcast": "192.0.2.255"
+          },
+          "complete": true,
+          "allocations": [
+            {
+              "label": "large",
+              "prefix": 25,
+              "index": 1,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.0/25",
+              "firstAddress": "192.0.2.0",
+              "lastAddress": "192.0.2.127",
+              "addressCount": "128",
+              "netmask": "255.255.255.128",
+              "usableHostCount": "126",
+              "firstUsable": "192.0.2.1",
+              "lastUsable": "192.0.2.126",
+              "broadcast": "192.0.2.127"
+            },
+            {
+              "label": "small",
+              "prefix": 28,
+              "index": 0,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.128/28",
+              "firstAddress": "192.0.2.128",
+              "lastAddress": "192.0.2.143",
+              "addressCount": "16",
+              "netmask": "255.255.255.240",
+              "usableHostCount": "14",
+              "firstUsable": "192.0.2.129",
+              "lastUsable": "192.0.2.142",
+              "broadcast": "192.0.2.143"
+            }
+          ],
+          "freeAddressCount": "112",
+          "admin": {
+            "summary": "192.0.2.0/24: 2/2 allocations; 112 addresses remain.",
+            "findings": [
+              "large: 192.0.2.0/25.",
+              "small: 192.0.2.128/28."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Largest blocks allocated first; input indices preserve request identity."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_2",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "plan_subnets",
+      "arguments": {
+        "parent": "192.0.2.0/24",
+        "requests": [
+          {
+            "label": "alpha",
+            "prefix": 26
+          },
+          {
+            "label": "beta",
+            "prefix": 26
+          }
+        ]
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "192.0.2.0/24: 2/2 allocations; 128 addresses remain.\n• alpha: 192.0.2.0/26.\n• beta: 192.0.2.64/26.\nLimit: Largest blocks allocated first; input indices preserve request identity."
+          }
+        ],
+        "structured_content": {
+          "parent": {
+            "version": 4,
+            "cidr": "192.0.2.0/24",
+            "prefix": 24,
+            "firstAddress": "192.0.2.0",
+            "lastAddress": "192.0.2.255",
+            "addressCount": "256",
+            "netmask": "255.255.255.0",
+            "usableHostCount": "254",
+            "firstUsable": "192.0.2.1",
+            "lastUsable": "192.0.2.254",
+            "broadcast": "192.0.2.255"
+          },
+          "complete": true,
+          "allocations": [
+            {
+              "label": "alpha",
+              "prefix": 26,
+              "index": 0,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.0/26",
+              "firstAddress": "192.0.2.0",
+              "lastAddress": "192.0.2.63",
+              "addressCount": "64",
+              "netmask": "255.255.255.192",
+              "usableHostCount": "62",
+              "firstUsable": "192.0.2.1",
+              "lastUsable": "192.0.2.62",
+              "broadcast": "192.0.2.63"
+            },
+            {
+              "label": "beta",
+              "prefix": 26,
+              "index": 1,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.64/26",
+              "firstAddress": "192.0.2.64",
+              "lastAddress": "192.0.2.127",
+              "addressCount": "64",
+              "netmask": "255.255.255.192",
+              "usableHostCount": "62",
+              "firstUsable": "192.0.2.65",
+              "lastUsable": "192.0.2.126",
+              "broadcast": "192.0.2.127"
+            }
+          ],
+          "freeAddressCount": "128",
+          "admin": {
+            "summary": "192.0.2.0/24: 2/2 allocations; 128 addresses remain.",
+            "findings": [
+              "alpha: 192.0.2.0/26.",
+              "beta: 192.0.2.64/26."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Largest blocks allocated first; input indices preserve request identity."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_3",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "inspect_subnet",
+      "arguments": {
+        "cidr": "2001:db8::/64"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "2001:db8::/64: 18446744073709551616 addresses.\n• Range 2001:db8:: – 2001:db8::ffff:ffff:ffff:ffff.\n• IPv6 has no broadcast.\nLimit: Capacity calculation does not account for provider-reserved addresses."
+          }
+        ],
+        "structured_content": {
+          "version": 6,
+          "cidr": "2001:db8::/64",
+          "prefix": 64,
+          "firstAddress": "2001:db8::",
+          "lastAddress": "2001:db8::ffff:ffff:ffff:ffff",
+          "addressCount": "18446744073709551616",
+          "note": "IPv6 has no broadcast address; addressCount includes the complete prefix.",
+          "admin": {
+            "summary": "2001:db8::/64: 18446744073709551616 addresses.",
+            "findings": [
+              "Range 2001:db8:: – 2001:db8::ffff:ffff:ffff:ffff.",
+              "IPv6 has no broadcast."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Capacity calculation does not account for provider-reserved addresses."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_4",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "plan_subnets",
+      "arguments": {
+        "parent": "192.0.2.0/24",
+        "requests": [
+          {
+            "label": "h0",
+            "prefix": 32
+          },
+          {
+            "label": "h1",
+            "prefix": 32
+          },
+          {
+            "label": "h2",
+            "prefix": 32
+          },
+          {
+            "label": "h3",
+            "prefix": 32
+          },
+          {
+            "label": "h4",
+            "prefix": 32
+          },
+          {
+            "label": "h5",
+            "prefix": 32
+          },
+          {
+            "label": "h6",
+            "prefix": 32
+          },
+          {
+            "label": "h7",
+            "prefix": 32
+          },
+          {
+            "label": "h8",
+            "prefix": 32
+          },
+          {
+            "label": "h9",
+            "prefix": 32
+          },
+          {
+            "label": "h10",
+            "prefix": 32
+          },
+          {
+            "label": "h11",
+            "prefix": 32
+          },
+          {
+            "label": "h12",
+            "prefix": 32
+          },
+          {
+            "label": "h13",
+            "prefix": 32
+          },
+          {
+            "label": "h14",
+            "prefix": 32
+          },
+          {
+            "label": "h15",
+            "prefix": 32
+          },
+          {
+            "label": "h16",
+            "prefix": 32
+          },
+          {
+            "label": "h17",
+            "prefix": 32
+          },
+          {
+            "label": "h18",
+            "prefix": 32
+          },
+          {
+            "label": "h19",
+            "prefix": 32
+          },
+          {
+            "label": "h20",
+            "prefix": 32
+          },
+          {
+            "label": "h21",
+            "prefix": 32
+          },
+          {
+            "label": "h22",
+            "prefix": 32
+          },
+          {
+            "label": "h23",
+            "prefix": 32
+          },
+          {
+            "label": "h24",
+            "prefix": 32
+          },
+          {
+            "label": "h25",
+            "prefix": 32
+          },
+          {
+            "label": "h26",
+            "prefix": 32
+          },
+          {
+            "label": "h27",
+            "prefix": 32
+          },
+          {
+            "label": "h28",
+            "prefix": 32
+          },
+          {
+            "label": "h29",
+            "prefix": 32
+          },
+          {
+            "label": "h30",
+            "prefix": 32
+          },
+          {
+            "label": "h31",
+            "prefix": 32
+          },
+          {
+            "label": "h32",
+            "prefix": 32
+          },
+          {
+            "label": "h33",
+            "prefix": 32
+          },
+          {
+            "label": "h34",
+            "prefix": 32
+          },
+          {
+            "label": "h35",
+            "prefix": 32
+          },
+          {
+            "label": "h36",
+            "prefix": 32
+          },
+          {
+            "label": "h37",
+            "prefix": 32
+          },
+          {
+            "label": "h38",
+            "prefix": 32
+          },
+          {
+            "label": "h39",
+            "prefix": 32
+          },
+          {
+            "label": "h40",
+            "prefix": 32
+          },
+          {
+            "label": "h41",
+            "prefix": 32
+          },
+          {
+            "label": "h42",
+            "prefix": 32
+          },
+          {
+            "label": "h43",
+            "prefix": 32
+          },
+          {
+            "label": "h44",
+            "prefix": 32
+          },
+          {
+            "label": "h45",
+            "prefix": 32
+          },
+          {
+            "label": "h46",
+            "prefix": 32
+          },
+          {
+            "label": "h47",
+            "prefix": 32
+          },
+          {
+            "label": "h48",
+            "prefix": 32
+          },
+          {
+            "label": "h49",
+            "prefix": 32
+          },
+          {
+            "label": "h50",
+            "prefix": 32
+          },
+          {
+            "label": "h51",
+            "prefix": 32
+          },
+          {
+            "label": "h52",
+            "prefix": 32
+          },
+          {
+            "label": "h53",
+            "prefix": 32
+          },
+          {
+            "label": "h54",
+            "prefix": 32
+          },
+          {
+            "label": "h55",
+            "prefix": 32
+          },
+          {
+            "label": "h56",
+            "prefix": 32
+          },
+          {
+            "label": "h57",
+            "prefix": 32
+          },
+          {
+            "label": "h58",
+            "prefix": 32
+          },
+          {
+            "label": "h59",
+            "prefix": 32
+          },
+          {
+            "label": "h60",
+            "prefix": 32
+          },
+          {
+            "label": "h61",
+            "prefix": 32
+          },
+          {
+            "label": "h62",
+            "prefix": 32
+          },
+          {
+            "label": "h63",
+            "prefix": 32
+          },
+          {
+            "label": "h64",
+            "prefix": 32
+          },
+          {
+            "label": "h65",
+            "prefix": 32
+          },
+          {
+            "label": "h66",
+            "prefix": 32
+          },
+          {
+            "label": "h67",
+            "prefix": 32
+          },
+          {
+            "label": "h68",
+            "prefix": 32
+          },
+          {
+            "label": "h69",
+            "prefix": 32
+          },
+          {
+            "label": "h70",
+            "prefix": 32
+          },
+          {
+            "label": "h71",
+            "prefix": 32
+          },
+          {
+            "label": "h72",
+            "prefix": 32
+          },
+          {
+            "label": "h73",
+            "prefix": 32
+          },
+          {
+            "label": "h74",
+            "prefix": 32
+          },
+          {
+            "label": "h75",
+            "prefix": 32
+          },
+          {
+            "label": "h76",
+            "prefix": 32
+          },
+          {
+            "label": "h77",
+            "prefix": 32
+          },
+          {
+            "label": "h78",
+            "prefix": 32
+          },
+          {
+            "label": "h79",
+            "prefix": 32
+          },
+          {
+            "label": "h80",
+            "prefix": 32
+          },
+          {
+            "label": "h81",
+            "prefix": 32
+          },
+          {
+            "label": "h82",
+            "prefix": 32
+          },
+          {
+            "label": "h83",
+            "prefix": 32
+          },
+          {
+            "label": "h84",
+            "prefix": 32
+          },
+          {
+            "label": "h85",
+            "prefix": 32
+          },
+          {
+            "label": "h86",
+            "prefix": 32
+          },
+          {
+            "label": "h87",
+            "prefix": 32
+          },
+          {
+            "label": "h88",
+            "prefix": 32
+          },
+          {
+            "label": "h89",
+            "prefix": 32
+          },
+          {
+            "label": "h90",
+            "prefix": 32
+          },
+          {
+            "label": "h91",
+            "prefix": 32
+          },
+          {
+            "label": "h92",
+            "prefix": 32
+          },
+          {
+            "label": "h93",
+            "prefix": 32
+          },
+          {
+            "label": "h94",
+            "prefix": 32
+          },
+          {
+            "label": "h95",
+            "prefix": 32
+          },
+          {
+            "label": "h96",
+            "prefix": 32
+          },
+          {
+            "label": "h97",
+            "prefix": 32
+          },
+          {
+            "label": "h98",
+            "prefix": 32
+          },
+          {
+            "label": "h99",
+            "prefix": 32
+          }
+        ]
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "192.0.2.0/24: 100/100 allocations; 156 addresses remain.\n• h0: 192.0.2.0/32.\n• h1: 192.0.2.1/32.\n• h2: 192.0.2.2/32.\n• h3: 192.0.2.3/32.\n• h4: 192.0.2.4/32.\n• h5: 192.0.2.5/32.\n• h6: 192.0.2.6/32.\n• h7: 192.0.2.7/32.\n• h8: 192.0.2.8/32.\n• h9: 192.0.2.9/32.\nLimit: Largest blocks allocated first; input indices preserve request identity."
+          }
+        ],
+        "structured_content": {
+          "parent": {
+            "version": 4,
+            "cidr": "192.0.2.0/24",
+            "prefix": 24,
+            "firstAddress": "192.0.2.0",
+            "lastAddress": "192.0.2.255",
+            "addressCount": "256",
+            "netmask": "255.255.255.0",
+            "usableHostCount": "254",
+            "firstUsable": "192.0.2.1",
+            "lastUsable": "192.0.2.254",
+            "broadcast": "192.0.2.255"
+          },
+          "complete": true,
+          "allocations": [
+            {
+              "label": "h0",
+              "prefix": 32,
+              "index": 0,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.0/32",
+              "firstAddress": "192.0.2.0",
+              "lastAddress": "192.0.2.0",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.0",
+              "lastUsable": "192.0.2.0",
+              "broadcast": null
+            },
+            {
+              "label": "h1",
+              "prefix": 32,
+              "index": 1,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.1/32",
+              "firstAddress": "192.0.2.1",
+              "lastAddress": "192.0.2.1",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.1",
+              "lastUsable": "192.0.2.1",
+              "broadcast": null
+            },
+            {
+              "label": "h2",
+              "prefix": 32,
+              "index": 2,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.2/32",
+              "firstAddress": "192.0.2.2",
+              "lastAddress": "192.0.2.2",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.2",
+              "lastUsable": "192.0.2.2",
+              "broadcast": null
+            },
+            {
+              "label": "h3",
+              "prefix": 32,
+              "index": 3,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.3/32",
+              "firstAddress": "192.0.2.3",
+              "lastAddress": "192.0.2.3",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.3",
+              "lastUsable": "192.0.2.3",
+              "broadcast": null
+            },
+            {
+              "label": "h4",
+              "prefix": 32,
+              "index": 4,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.4/32",
+              "firstAddress": "192.0.2.4",
+              "lastAddress": "192.0.2.4",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.4",
+              "lastUsable": "192.0.2.4",
+              "broadcast": null
+            },
+            {
+              "label": "h5",
+              "prefix": 32,
+              "index": 5,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.5/32",
+              "firstAddress": "192.0.2.5",
+              "lastAddress": "192.0.2.5",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.5",
+              "lastUsable": "192.0.2.5",
+              "broadcast": null
+            },
+            {
+              "label": "h6",
+              "prefix": 32,
+              "index": 6,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.6/32",
+              "firstAddress": "192.0.2.6",
+              "lastAddress": "192.0.2.6",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.6",
+              "lastUsable": "192.0.2.6",
+              "broadcast": null
+            },
+            {
+              "label": "h7",
+              "prefix": 32,
+              "index": 7,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.7/32",
+              "firstAddress": "192.0.2.7",
+              "lastAddress": "192.0.2.7",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.7",
+              "lastUsable": "192.0.2.7",
+              "broadcast": null
+            },
+            {
+              "label": "h8",
+              "prefix": 32,
+              "index": 8,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.8/32",
+              "firstAddress": "192.0.2.8",
+              "lastAddress": "192.0.2.8",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.8",
+              "lastUsable": "192.0.2.8",
+              "broadcast": null
+            },
+            {
+              "label": "h9",
+              "prefix": 32,
+              "index": 9,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.9/32",
+              "firstAddress": "192.0.2.9",
+              "lastAddress": "192.0.2.9",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.9",
+              "lastUsable": "192.0.2.9",
+              "broadcast": null
+            },
+            {
+              "label": "h10",
+              "prefix": 32,
+              "index": 10,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.10/32",
+              "firstAddress": "192.0.2.10",
+              "lastAddress": "192.0.2.10",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.10",
+              "lastUsable": "192.0.2.10",
+              "broadcast": null
+            },
+            {
+              "label": "h11",
+              "prefix": 32,
+              "index": 11,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.11/32",
+              "firstAddress": "192.0.2.11",
+              "lastAddress": "192.0.2.11",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.11",
+              "lastUsable": "192.0.2.11",
+              "broadcast": null
+            },
+            {
+              "label": "h12",
+              "prefix": 32,
+              "index": 12,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.12/32",
+              "firstAddress": "192.0.2.12",
+              "lastAddress": "192.0.2.12",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.12",
+              "lastUsable": "192.0.2.12",
+              "broadcast": null
+            },
+            {
+              "label": "h13",
+              "prefix": 32,
+              "index": 13,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.13/32",
+              "firstAddress": "192.0.2.13",
+              "lastAddress": "192.0.2.13",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.13",
+              "lastUsable": "192.0.2.13",
+              "broadcast": null
+            },
+            {
+              "label": "h14",
+              "prefix": 32,
+              "index": 14,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.14/32",
+              "firstAddress": "192.0.2.14",
+              "lastAddress": "192.0.2.14",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.14",
+              "lastUsable": "192.0.2.14",
+              "broadcast": null
+            },
+            {
+              "label": "h15",
+              "prefix": 32,
+              "index": 15,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.15/32",
+              "firstAddress": "192.0.2.15",
+              "lastAddress": "192.0.2.15",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.15",
+              "lastUsable": "192.0.2.15",
+              "broadcast": null
+            },
+            {
+              "label": "h16",
+              "prefix": 32,
+              "index": 16,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.16/32",
+              "firstAddress": "192.0.2.16",
+              "lastAddress": "192.0.2.16",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.16",
+              "lastUsable": "192.0.2.16",
+              "broadcast": null
+            },
+            {
+              "label": "h17",
+              "prefix": 32,
+              "index": 17,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.17/32",
+              "firstAddress": "192.0.2.17",
+              "lastAddress": "192.0.2.17",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.17",
+              "lastUsable": "192.0.2.17",
+              "broadcast": null
+            },
+            {
+              "label": "h18",
+              "prefix": 32,
+              "index": 18,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.18/32",
+              "firstAddress": "192.0.2.18",
+              "lastAddress": "192.0.2.18",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.18",
+              "lastUsable": "192.0.2.18",
+              "broadcast": null
+            },
+            {
+              "label": "h19",
+              "prefix": 32,
+              "index": 19,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.19/32",
+              "firstAddress": "192.0.2.19",
+              "lastAddress": "192.0.2.19",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.19",
+              "lastUsable": "192.0.2.19",
+              "broadcast": null
+            },
+            {
+              "label": "h20",
+              "prefix": 32,
+              "index": 20,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.20/32",
+              "firstAddress": "192.0.2.20",
+              "lastAddress": "192.0.2.20",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.20",
+              "lastUsable": "192.0.2.20",
+              "broadcast": null
+            },
+            {
+              "label": "h21",
+              "prefix": 32,
+              "index": 21,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.21/32",
+              "firstAddress": "192.0.2.21",
+              "lastAddress": "192.0.2.21",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.21",
+              "lastUsable": "192.0.2.21",
+              "broadcast": null
+            },
+            {
+              "label": "h22",
+              "prefix": 32,
+              "index": 22,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.22/32",
+              "firstAddress": "192.0.2.22",
+              "lastAddress": "192.0.2.22",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.22",
+              "lastUsable": "192.0.2.22",
+              "broadcast": null
+            },
+            {
+              "label": "h23",
+              "prefix": 32,
+              "index": 23,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.23/32",
+              "firstAddress": "192.0.2.23",
+              "lastAddress": "192.0.2.23",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.23",
+              "lastUsable": "192.0.2.23",
+              "broadcast": null
+            },
+            {
+              "label": "h24",
+              "prefix": 32,
+              "index": 24,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.24/32",
+              "firstAddress": "192.0.2.24",
+              "lastAddress": "192.0.2.24",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.24",
+              "lastUsable": "192.0.2.24",
+              "broadcast": null
+            },
+            {
+              "label": "h25",
+              "prefix": 32,
+              "index": 25,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.25/32",
+              "firstAddress": "192.0.2.25",
+              "lastAddress": "192.0.2.25",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.25",
+              "lastUsable": "192.0.2.25",
+              "broadcast": null
+            },
+            {
+              "label": "h26",
+              "prefix": 32,
+              "index": 26,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.26/32",
+              "firstAddress": "192.0.2.26",
+              "lastAddress": "192.0.2.26",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.26",
+              "lastUsable": "192.0.2.26",
+              "broadcast": null
+            },
+            {
+              "label": "h27",
+              "prefix": 32,
+              "index": 27,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.27/32",
+              "firstAddress": "192.0.2.27",
+              "lastAddress": "192.0.2.27",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.27",
+              "lastUsable": "192.0.2.27",
+              "broadcast": null
+            },
+            {
+              "label": "h28",
+              "prefix": 32,
+              "index": 28,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.28/32",
+              "firstAddress": "192.0.2.28",
+              "lastAddress": "192.0.2.28",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.28",
+              "lastUsable": "192.0.2.28",
+              "broadcast": null
+            },
+            {
+              "label": "h29",
+              "prefix": 32,
+              "index": 29,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.29/32",
+              "firstAddress": "192.0.2.29",
+              "lastAddress": "192.0.2.29",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.29",
+              "lastUsable": "192.0.2.29",
+              "broadcast": null
+            },
+            {
+              "label": "h30",
+              "prefix": 32,
+              "index": 30,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.30/32",
+              "firstAddress": "192.0.2.30",
+              "lastAddress": "192.0.2.30",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.30",
+              "lastUsable": "192.0.2.30",
+              "broadcast": null
+            },
+            {
+              "label": "h31",
+              "prefix": 32,
+              "index": 31,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.31/32",
+              "firstAddress": "192.0.2.31",
+              "lastAddress": "192.0.2.31",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.31",
+              "lastUsable": "192.0.2.31",
+              "broadcast": null
+            },
+            {
+              "label": "h32",
+              "prefix": 32,
+              "index": 32,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.32/32",
+              "firstAddress": "192.0.2.32",
+              "lastAddress": "192.0.2.32",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.32",
+              "lastUsable": "192.0.2.32",
+              "broadcast": null
+            },
+            {
+              "label": "h33",
+              "prefix": 32,
+              "index": 33,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.33/32",
+              "firstAddress": "192.0.2.33",
+              "lastAddress": "192.0.2.33",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.33",
+              "lastUsable": "192.0.2.33",
+              "broadcast": null
+            },
+            {
+              "label": "h34",
+              "prefix": 32,
+              "index": 34,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.34/32",
+              "firstAddress": "192.0.2.34",
+              "lastAddress": "192.0.2.34",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.34",
+              "lastUsable": "192.0.2.34",
+              "broadcast": null
+            },
+            {
+              "label": "h35",
+              "prefix": 32,
+              "index": 35,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.35/32",
+              "firstAddress": "192.0.2.35",
+              "lastAddress": "192.0.2.35",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.35",
+              "lastUsable": "192.0.2.35",
+              "broadcast": null
+            },
+            {
+              "label": "h36",
+              "prefix": 32,
+              "index": 36,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.36/32",
+              "firstAddress": "192.0.2.36",
+              "lastAddress": "192.0.2.36",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.36",
+              "lastUsable": "192.0.2.36",
+              "broadcast": null
+            },
+            {
+              "label": "h37",
+              "prefix": 32,
+              "index": 37,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.37/32",
+              "firstAddress": "192.0.2.37",
+              "lastAddress": "192.0.2.37",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.37",
+              "lastUsable": "192.0.2.37",
+              "broadcast": null
+            },
+            {
+              "label": "h38",
+              "prefix": 32,
+              "index": 38,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.38/32",
+              "firstAddress": "192.0.2.38",
+              "lastAddress": "192.0.2.38",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.38",
+              "lastUsable": "192.0.2.38",
+              "broadcast": null
+            },
+            {
+              "label": "h39",
+              "prefix": 32,
+              "index": 39,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.39/32",
+              "firstAddress": "192.0.2.39",
+              "lastAddress": "192.0.2.39",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.39",
+              "lastUsable": "192.0.2.39",
+              "broadcast": null
+            },
+            {
+              "label": "h40",
+              "prefix": 32,
+              "index": 40,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.40/32",
+              "firstAddress": "192.0.2.40",
+              "lastAddress": "192.0.2.40",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.40",
+              "lastUsable": "192.0.2.40",
+              "broadcast": null
+            },
+            {
+              "label": "h41",
+              "prefix": 32,
+              "index": 41,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.41/32",
+              "firstAddress": "192.0.2.41",
+              "lastAddress": "192.0.2.41",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.41",
+              "lastUsable": "192.0.2.41",
+              "broadcast": null
+            },
+            {
+              "label": "h42",
+              "prefix": 32,
+              "index": 42,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.42/32",
+              "firstAddress": "192.0.2.42",
+              "lastAddress": "192.0.2.42",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.42",
+              "lastUsable": "192.0.2.42",
+              "broadcast": null
+            },
+            {
+              "label": "h43",
+              "prefix": 32,
+              "index": 43,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.43/32",
+              "firstAddress": "192.0.2.43",
+              "lastAddress": "192.0.2.43",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.43",
+              "lastUsable": "192.0.2.43",
+              "broadcast": null
+            },
+            {
+              "label": "h44",
+              "prefix": 32,
+              "index": 44,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.44/32",
+              "firstAddress": "192.0.2.44",
+              "lastAddress": "192.0.2.44",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.44",
+              "lastUsable": "192.0.2.44",
+              "broadcast": null
+            },
+            {
+              "label": "h45",
+              "prefix": 32,
+              "index": 45,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.45/32",
+              "firstAddress": "192.0.2.45",
+              "lastAddress": "192.0.2.45",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.45",
+              "lastUsable": "192.0.2.45",
+              "broadcast": null
+            },
+            {
+              "label": "h46",
+              "prefix": 32,
+              "index": 46,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.46/32",
+              "firstAddress": "192.0.2.46",
+              "lastAddress": "192.0.2.46",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.46",
+              "lastUsable": "192.0.2.46",
+              "broadcast": null
+            },
+            {
+              "label": "h47",
+              "prefix": 32,
+              "index": 47,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.47/32",
+              "firstAddress": "192.0.2.47",
+              "lastAddress": "192.0.2.47",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.47",
+              "lastUsable": "192.0.2.47",
+              "broadcast": null
+            },
+            {
+              "label": "h48",
+              "prefix": 32,
+              "index": 48,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.48/32",
+              "firstAddress": "192.0.2.48",
+              "lastAddress": "192.0.2.48",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.48",
+              "lastUsable": "192.0.2.48",
+              "broadcast": null
+            },
+            {
+              "label": "h49",
+              "prefix": 32,
+              "index": 49,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.49/32",
+              "firstAddress": "192.0.2.49",
+              "lastAddress": "192.0.2.49",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.49",
+              "lastUsable": "192.0.2.49",
+              "broadcast": null
+            },
+            {
+              "label": "h50",
+              "prefix": 32,
+              "index": 50,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.50/32",
+              "firstAddress": "192.0.2.50",
+              "lastAddress": "192.0.2.50",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.50",
+              "lastUsable": "192.0.2.50",
+              "broadcast": null
+            },
+            {
+              "label": "h51",
+              "prefix": 32,
+              "index": 51,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.51/32",
+              "firstAddress": "192.0.2.51",
+              "lastAddress": "192.0.2.51",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.51",
+              "lastUsable": "192.0.2.51",
+              "broadcast": null
+            },
+            {
+              "label": "h52",
+              "prefix": 32,
+              "index": 52,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.52/32",
+              "firstAddress": "192.0.2.52",
+              "lastAddress": "192.0.2.52",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.52",
+              "lastUsable": "192.0.2.52",
+              "broadcast": null
+            },
+            {
+              "label": "h53",
+              "prefix": 32,
+              "index": 53,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.53/32",
+              "firstAddress": "192.0.2.53",
+              "lastAddress": "192.0.2.53",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.53",
+              "lastUsable": "192.0.2.53",
+              "broadcast": null
+            },
+            {
+              "label": "h54",
+              "prefix": 32,
+              "index": 54,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.54/32",
+              "firstAddress": "192.0.2.54",
+              "lastAddress": "192.0.2.54",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.54",
+              "lastUsable": "192.0.2.54",
+              "broadcast": null
+            },
+            {
+              "label": "h55",
+              "prefix": 32,
+              "index": 55,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.55/32",
+              "firstAddress": "192.0.2.55",
+              "lastAddress": "192.0.2.55",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.55",
+              "lastUsable": "192.0.2.55",
+              "broadcast": null
+            },
+            {
+              "label": "h56",
+              "prefix": 32,
+              "index": 56,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.56/32",
+              "firstAddress": "192.0.2.56",
+              "lastAddress": "192.0.2.56",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.56",
+              "lastUsable": "192.0.2.56",
+              "broadcast": null
+            },
+            {
+              "label": "h57",
+              "prefix": 32,
+              "index": 57,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.57/32",
+              "firstAddress": "192.0.2.57",
+              "lastAddress": "192.0.2.57",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.57",
+              "lastUsable": "192.0.2.57",
+              "broadcast": null
+            },
+            {
+              "label": "h58",
+              "prefix": 32,
+              "index": 58,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.58/32",
+              "firstAddress": "192.0.2.58",
+              "lastAddress": "192.0.2.58",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.58",
+              "lastUsable": "192.0.2.58",
+              "broadcast": null
+            },
+            {
+              "label": "h59",
+              "prefix": 32,
+              "index": 59,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.59/32",
+              "firstAddress": "192.0.2.59",
+              "lastAddress": "192.0.2.59",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.59",
+              "lastUsable": "192.0.2.59",
+              "broadcast": null
+            },
+            {
+              "label": "h60",
+              "prefix": 32,
+              "index": 60,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.60/32",
+              "firstAddress": "192.0.2.60",
+              "lastAddress": "192.0.2.60",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.60",
+              "lastUsable": "192.0.2.60",
+              "broadcast": null
+            },
+            {
+              "label": "h61",
+              "prefix": 32,
+              "index": 61,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.61/32",
+              "firstAddress": "192.0.2.61",
+              "lastAddress": "192.0.2.61",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.61",
+              "lastUsable": "192.0.2.61",
+              "broadcast": null
+            },
+            {
+              "label": "h62",
+              "prefix": 32,
+              "index": 62,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.62/32",
+              "firstAddress": "192.0.2.62",
+              "lastAddress": "192.0.2.62",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.62",
+              "lastUsable": "192.0.2.62",
+              "broadcast": null
+            },
+            {
+              "label": "h63",
+              "prefix": 32,
+              "index": 63,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.63/32",
+              "firstAddress": "192.0.2.63",
+              "lastAddress": "192.0.2.63",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.63",
+              "lastUsable": "192.0.2.63",
+              "broadcast": null
+            },
+            {
+              "label": "h64",
+              "prefix": 32,
+              "index": 64,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.64/32",
+              "firstAddress": "192.0.2.64",
+              "lastAddress": "192.0.2.64",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.64",
+              "lastUsable": "192.0.2.64",
+              "broadcast": null
+            },
+            {
+              "label": "h65",
+              "prefix": 32,
+              "index": 65,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.65/32",
+              "firstAddress": "192.0.2.65",
+              "lastAddress": "192.0.2.65",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.65",
+              "lastUsable": "192.0.2.65",
+              "broadcast": null
+            },
+            {
+              "label": "h66",
+              "prefix": 32,
+              "index": 66,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.66/32",
+              "firstAddress": "192.0.2.66",
+              "lastAddress": "192.0.2.66",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.66",
+              "lastUsable": "192.0.2.66",
+              "broadcast": null
+            },
+            {
+              "label": "h67",
+              "prefix": 32,
+              "index": 67,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.67/32",
+              "firstAddress": "192.0.2.67",
+              "lastAddress": "192.0.2.67",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.67",
+              "lastUsable": "192.0.2.67",
+              "broadcast": null
+            },
+            {
+              "label": "h68",
+              "prefix": 32,
+              "index": 68,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.68/32",
+              "firstAddress": "192.0.2.68",
+              "lastAddress": "192.0.2.68",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.68",
+              "lastUsable": "192.0.2.68",
+              "broadcast": null
+            },
+            {
+              "label": "h69",
+              "prefix": 32,
+              "index": 69,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.69/32",
+              "firstAddress": "192.0.2.69",
+              "lastAddress": "192.0.2.69",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.69",
+              "lastUsable": "192.0.2.69",
+              "broadcast": null
+            },
+            {
+              "label": "h70",
+              "prefix": 32,
+              "index": 70,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.70/32",
+              "firstAddress": "192.0.2.70",
+              "lastAddress": "192.0.2.70",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.70",
+              "lastUsable": "192.0.2.70",
+              "broadcast": null
+            },
+            {
+              "label": "h71",
+              "prefix": 32,
+              "index": 71,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.71/32",
+              "firstAddress": "192.0.2.71",
+              "lastAddress": "192.0.2.71",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.71",
+              "lastUsable": "192.0.2.71",
+              "broadcast": null
+            },
+            {
+              "label": "h72",
+              "prefix": 32,
+              "index": 72,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.72/32",
+              "firstAddress": "192.0.2.72",
+              "lastAddress": "192.0.2.72",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.72",
+              "lastUsable": "192.0.2.72",
+              "broadcast": null
+            },
+            {
+              "label": "h73",
+              "prefix": 32,
+              "index": 73,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.73/32",
+              "firstAddress": "192.0.2.73",
+              "lastAddress": "192.0.2.73",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.73",
+              "lastUsable": "192.0.2.73",
+              "broadcast": null
+            },
+            {
+              "label": "h74",
+              "prefix": 32,
+              "index": 74,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.74/32",
+              "firstAddress": "192.0.2.74",
+              "lastAddress": "192.0.2.74",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.74",
+              "lastUsable": "192.0.2.74",
+              "broadcast": null
+            },
+            {
+              "label": "h75",
+              "prefix": 32,
+              "index": 75,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.75/32",
+              "firstAddress": "192.0.2.75",
+              "lastAddress": "192.0.2.75",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.75",
+              "lastUsable": "192.0.2.75",
+              "broadcast": null
+            },
+            {
+              "label": "h76",
+              "prefix": 32,
+              "index": 76,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.76/32",
+              "firstAddress": "192.0.2.76",
+              "lastAddress": "192.0.2.76",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.76",
+              "lastUsable": "192.0.2.76",
+              "broadcast": null
+            },
+            {
+              "label": "h77",
+              "prefix": 32,
+              "index": 77,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.77/32",
+              "firstAddress": "192.0.2.77",
+              "lastAddress": "192.0.2.77",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.77",
+              "lastUsable": "192.0.2.77",
+              "broadcast": null
+            },
+            {
+              "label": "h78",
+              "prefix": 32,
+              "index": 78,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.78/32",
+              "firstAddress": "192.0.2.78",
+              "lastAddress": "192.0.2.78",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.78",
+              "lastUsable": "192.0.2.78",
+              "broadcast": null
+            },
+            {
+              "label": "h79",
+              "prefix": 32,
+              "index": 79,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.79/32",
+              "firstAddress": "192.0.2.79",
+              "lastAddress": "192.0.2.79",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.79",
+              "lastUsable": "192.0.2.79",
+              "broadcast": null
+            },
+            {
+              "label": "h80",
+              "prefix": 32,
+              "index": 80,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.80/32",
+              "firstAddress": "192.0.2.80",
+              "lastAddress": "192.0.2.80",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.80",
+              "lastUsable": "192.0.2.80",
+              "broadcast": null
+            },
+            {
+              "label": "h81",
+              "prefix": 32,
+              "index": 81,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.81/32",
+              "firstAddress": "192.0.2.81",
+              "lastAddress": "192.0.2.81",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.81",
+              "lastUsable": "192.0.2.81",
+              "broadcast": null
+            },
+            {
+              "label": "h82",
+              "prefix": 32,
+              "index": 82,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.82/32",
+              "firstAddress": "192.0.2.82",
+              "lastAddress": "192.0.2.82",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.82",
+              "lastUsable": "192.0.2.82",
+              "broadcast": null
+            },
+            {
+              "label": "h83",
+              "prefix": 32,
+              "index": 83,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.83/32",
+              "firstAddress": "192.0.2.83",
+              "lastAddress": "192.0.2.83",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.83",
+              "lastUsable": "192.0.2.83",
+              "broadcast": null
+            },
+            {
+              "label": "h84",
+              "prefix": 32,
+              "index": 84,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.84/32",
+              "firstAddress": "192.0.2.84",
+              "lastAddress": "192.0.2.84",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.84",
+              "lastUsable": "192.0.2.84",
+              "broadcast": null
+            },
+            {
+              "label": "h85",
+              "prefix": 32,
+              "index": 85,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.85/32",
+              "firstAddress": "192.0.2.85",
+              "lastAddress": "192.0.2.85",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.85",
+              "lastUsable": "192.0.2.85",
+              "broadcast": null
+            },
+            {
+              "label": "h86",
+              "prefix": 32,
+              "index": 86,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.86/32",
+              "firstAddress": "192.0.2.86",
+              "lastAddress": "192.0.2.86",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.86",
+              "lastUsable": "192.0.2.86",
+              "broadcast": null
+            },
+            {
+              "label": "h87",
+              "prefix": 32,
+              "index": 87,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.87/32",
+              "firstAddress": "192.0.2.87",
+              "lastAddress": "192.0.2.87",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.87",
+              "lastUsable": "192.0.2.87",
+              "broadcast": null
+            },
+            {
+              "label": "h88",
+              "prefix": 32,
+              "index": 88,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.88/32",
+              "firstAddress": "192.0.2.88",
+              "lastAddress": "192.0.2.88",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.88",
+              "lastUsable": "192.0.2.88",
+              "broadcast": null
+            },
+            {
+              "label": "h89",
+              "prefix": 32,
+              "index": 89,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.89/32",
+              "firstAddress": "192.0.2.89",
+              "lastAddress": "192.0.2.89",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.89",
+              "lastUsable": "192.0.2.89",
+              "broadcast": null
+            },
+            {
+              "label": "h90",
+              "prefix": 32,
+              "index": 90,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.90/32",
+              "firstAddress": "192.0.2.90",
+              "lastAddress": "192.0.2.90",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.90",
+              "lastUsable": "192.0.2.90",
+              "broadcast": null
+            },
+            {
+              "label": "h91",
+              "prefix": 32,
+              "index": 91,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.91/32",
+              "firstAddress": "192.0.2.91",
+              "lastAddress": "192.0.2.91",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.91",
+              "lastUsable": "192.0.2.91",
+              "broadcast": null
+            },
+            {
+              "label": "h92",
+              "prefix": 32,
+              "index": 92,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.92/32",
+              "firstAddress": "192.0.2.92",
+              "lastAddress": "192.0.2.92",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.92",
+              "lastUsable": "192.0.2.92",
+              "broadcast": null
+            },
+            {
+              "label": "h93",
+              "prefix": 32,
+              "index": 93,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.93/32",
+              "firstAddress": "192.0.2.93",
+              "lastAddress": "192.0.2.93",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.93",
+              "lastUsable": "192.0.2.93",
+              "broadcast": null
+            },
+            {
+              "label": "h94",
+              "prefix": 32,
+              "index": 94,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.94/32",
+              "firstAddress": "192.0.2.94",
+              "lastAddress": "192.0.2.94",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.94",
+              "lastUsable": "192.0.2.94",
+              "broadcast": null
+            },
+            {
+              "label": "h95",
+              "prefix": 32,
+              "index": 95,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.95/32",
+              "firstAddress": "192.0.2.95",
+              "lastAddress": "192.0.2.95",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.95",
+              "lastUsable": "192.0.2.95",
+              "broadcast": null
+            },
+            {
+              "label": "h96",
+              "prefix": 32,
+              "index": 96,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.96/32",
+              "firstAddress": "192.0.2.96",
+              "lastAddress": "192.0.2.96",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.96",
+              "lastUsable": "192.0.2.96",
+              "broadcast": null
+            },
+            {
+              "label": "h97",
+              "prefix": 32,
+              "index": 97,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.97/32",
+              "firstAddress": "192.0.2.97",
+              "lastAddress": "192.0.2.97",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.97",
+              "lastUsable": "192.0.2.97",
+              "broadcast": null
+            },
+            {
+              "label": "h98",
+              "prefix": 32,
+              "index": 98,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.98/32",
+              "firstAddress": "192.0.2.98",
+              "lastAddress": "192.0.2.98",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.98",
+              "lastUsable": "192.0.2.98",
+              "broadcast": null
+            },
+            {
+              "label": "h99",
+              "prefix": 32,
+              "index": 99,
+              "allocated": true,
+              "version": 4,
+              "cidr": "192.0.2.99/32",
+              "firstAddress": "192.0.2.99",
+              "lastAddress": "192.0.2.99",
+              "addressCount": "1",
+              "netmask": "255.255.255.255",
+              "usableHostCount": "1",
+              "firstUsable": "192.0.2.99",
+              "lastUsable": "192.0.2.99",
+              "broadcast": null
+            }
+          ],
+          "freeAddressCount": "156",
+          "admin": {
+            "summary": "192.0.2.0/24: 100/100 allocations; 156 addresses remain.",
+            "findings": [
+              "h0: 192.0.2.0/32.",
+              "h1: 192.0.2.1/32.",
+              "h2: 192.0.2.2/32.",
+              "h3: 192.0.2.3/32.",
+              "h4: 192.0.2.4/32.",
+              "h5: 192.0.2.5/32.",
+              "h6: 192.0.2.6/32.",
+              "h7: 192.0.2.7/32.",
+              "h8: 192.0.2.8/32.",
+              "h9: 192.0.2.9/32."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Largest blocks allocated first; input indices preserve request identity."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_5",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "plan_subnets",
+      "arguments": {
+        "parent": "192.0.2.0/24",
+        "requests": [
+          {
+            "label": "h0",
+            "prefix": 32
+          },
+          {
+            "label": "h1",
+            "prefix": 32
+          },
+          {
+            "label": "h2",
+            "prefix": 32
+          },
+          {
+            "label": "h3",
+            "prefix": 32
+          },
+          {
+            "label": "h4",
+            "prefix": 32
+          },
+          {
+            "label": "h5",
+            "prefix": 32
+          },
+          {
+            "label": "h6",
+            "prefix": 32
+          },
+          {
+            "label": "h7",
+            "prefix": 32
+          },
+          {
+            "label": "h8",
+            "prefix": 32
+          },
+          {
+            "label": "h9",
+            "prefix": 32
+          },
+          {
+            "label": "h10",
+            "prefix": 32
+          },
+          {
+            "label": "h11",
+            "prefix": 32
+          },
+          {
+            "label": "h12",
+            "prefix": 32
+          },
+          {
+            "label": "h13",
+            "prefix": 32
+          },
+          {
+            "label": "h14",
+            "prefix": 32
+          },
+          {
+            "label": "h15",
+            "prefix": 32
+          },
+          {
+            "label": "h16",
+            "prefix": 32
+          },
+          {
+            "label": "h17",
+            "prefix": 32
+          },
+          {
+            "label": "h18",
+            "prefix": 32
+          },
+          {
+            "label": "h19",
+            "prefix": 32
+          },
+          {
+            "label": "h20",
+            "prefix": 32
+          },
+          {
+            "label": "h21",
+            "prefix": 32
+          },
+          {
+            "label": "h22",
+            "prefix": 32
+          },
+          {
+            "label": "h23",
+            "prefix": 32
+          },
+          {
+            "label": "h24",
+            "prefix": 32
+          },
+          {
+            "label": "h25",
+            "prefix": 32
+          },
+          {
+            "label": "h26",
+            "prefix": 32
+          },
+          {
+            "label": "h27",
+            "prefix": 32
+          },
+          {
+            "label": "h28",
+            "prefix": 32
+          },
+          {
+            "label": "h29",
+            "prefix": 32
+          },
+          {
+            "label": "h30",
+            "prefix": 32
+          },
+          {
+            "label": "h31",
+            "prefix": 32
+          },
+          {
+            "label": "h32",
+            "prefix": 32
+          },
+          {
+            "label": "h33",
+            "prefix": 32
+          },
+          {
+            "label": "h34",
+            "prefix": 32
+          },
+          {
+            "label": "h35",
+            "prefix": 32
+          },
+          {
+            "label": "h36",
+            "prefix": 32
+          },
+          {
+            "label": "h37",
+            "prefix": 32
+          },
+          {
+            "label": "h38",
+            "prefix": 32
+          },
+          {
+            "label": "h39",
+            "prefix": 32
+          },
+          {
+            "label": "h40",
+            "prefix": 32
+          },
+          {
+            "label": "h41",
+            "prefix": 32
+          },
+          {
+            "label": "h42",
+            "prefix": 32
+          },
+          {
+            "label": "h43",
+            "prefix": 32
+          },
+          {
+            "label": "h44",
+            "prefix": 32
+          },
+          {
+            "label": "h45",
+            "prefix": 32
+          },
+          {
+            "label": "h46",
+            "prefix": 32
+          },
+          {
+            "label": "h47",
+            "prefix": 32
+          },
+          {
+            "label": "h48",
+            "prefix": 32
+          },
+          {
+            "label": "h49",
+            "prefix": 32
+          },
+          {
+            "label": "h50",
+            "prefix": 32
+          },
+          {
+            "label": "h51",
+            "prefix": 32
+          },
+          {
+            "label": "h52",
+            "prefix": 32
+          },
+          {
+            "label": "h53",
+            "prefix": 32
+          },
+          {
+            "label": "h54",
+            "prefix": 32
+          },
+          {
+            "label": "h55",
+            "prefix": 32
+          },
+          {
+            "label": "h56",
+            "prefix": 32
+          },
+          {
+            "label": "h57",
+            "prefix": 32
+          },
+          {
+            "label": "h58",
+            "prefix": 32
+          },
+          {
+            "label": "h59",
+            "prefix": 32
+          },
+          {
+            "label": "h60",
+            "prefix": 32
+          },
+          {
+            "label": "h61",
+            "prefix": 32
+          },
+          {
+            "label": "h62",
+            "prefix": 32
+          },
+          {
+            "label": "h63",
+            "prefix": 32
+          },
+          {
+            "label": "h64",
+            "prefix": 32
+          },
+          {
+            "label": "h65",
+            "prefix": 32
+          },
+          {
+            "label": "h66",
+            "prefix": 32
+          },
+          {
+            "label": "h67",
+            "prefix": 32
+          },
+          {
+            "label": "h68",
+            "prefix": 32
+          },
+          {
+            "label": "h69",
+            "prefix": 32
+          },
+          {
+            "label": "h70",
+            "prefix": 32
+          },
+          {
+            "label": "h71",
+            "prefix": 32
+          },
+          {
+            "label": "h72",
+            "prefix": 32
+          },
+          {
+            "label": "h73",
+            "prefix": 32
+          },
+          {
+            "label": "h74",
+            "prefix": 32
+          },
+          {
+            "label": "h75",
+            "prefix": 32
+          },
+          {
+            "label": "h76",
+            "prefix": 32
+          },
+          {
+            "label": "h77",
+            "prefix": 32
+          },
+          {
+            "label": "h78",
+            "prefix": 32
+          },
+          {
+            "label": "h79",
+            "prefix": 32
+          },
+          {
+            "label": "h80",
+            "prefix": 32
+          },
+          {
+            "label": "h81",
+            "prefix": 32
+          },
+          {
+            "label": "h82",
+            "prefix": 32
+          },
+          {
+            "label": "h83",
+            "prefix": 32
+          },
+          {
+            "label": "h84",
+            "prefix": 32
+          },
+          {
+            "label": "h85",
+            "prefix": 32
+          },
+          {
+            "label": "h86",
+            "prefix": 32
+          },
+          {
+            "label": "h87",
+            "prefix": 32
+          },
+          {
+            "label": "h88",
+            "prefix": 32
+          },
+          {
+            "label": "h89",
+            "prefix": 32
+          },
+          {
+            "label": "h90",
+            "prefix": 32
+          },
+          {
+            "label": "h91",
+            "prefix": 32
+          },
+          {
+            "label": "h92",
+            "prefix": 32
+          },
+          {
+            "label": "h93",
+            "prefix": 32
+          },
+          {
+            "label": "h94",
+            "prefix": 32
+          },
+          {
+            "label": "h95",
+            "prefix": 32
+          },
+          {
+            "label": "h96",
+            "prefix": 32
+          },
+          {
+            "label": "h97",
+            "prefix": 32
+          },
+          {
+            "label": "h98",
+            "prefix": 32
+          },
+          {
+            "label": "h99",
+            "prefix": 32
+          },
+          {
+            "label": "h100",
+            "prefix": 32
+          }
+        ]
+      },
+      "result": null,
+      "error": {
+        "message": "tool call error: tool call failed for `oldweb/plan_subnets`\n\nCaused by:\n    Mcp error: -32600: invalid_tool_or_arguments"
+      },
+      "status": "failed"
+    },
+    {
+      "id": "item_6",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "check_cidr_overlap",
+      "arguments": {
+        "cidrs": [
+          "192.0.2.0/24",
+          "192.0.2.128/24"
+        ]
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "2 subnets: 1 overlapping pairs; 0 pairs omitted.\n• Inputs 0 and 1: 192.0.2.0/24 overlaps 192.0.2.0/24.\nNext: Check whether the overlapping routes or allocations are intentional.\nLimit: IPv4 and IPv6 ranges are compared separately."
+          }
+        ],
+        "structured_content": {
+          "subnets": [
+            {
+              "version": 4,
+              "cidr": "192.0.2.0/24",
+              "prefix": 24,
+              "firstAddress": "192.0.2.0",
+              "lastAddress": "192.0.2.255",
+              "addressCount": "256",
+              "netmask": "255.255.255.0",
+              "usableHostCount": "254",
+              "firstUsable": "192.0.2.1",
+              "lastUsable": "192.0.2.254",
+              "broadcast": "192.0.2.255"
+            },
+            {
+              "version": 4,
+              "cidr": "192.0.2.0/24",
+              "prefix": 24,
+              "firstAddress": "192.0.2.0",
+              "lastAddress": "192.0.2.255",
+              "addressCount": "256",
+              "netmask": "255.255.255.0",
+              "usableHostCount": "254",
+              "firstUsable": "192.0.2.1",
+              "lastUsable": "192.0.2.254",
+              "broadcast": "192.0.2.255"
+            }
+          ],
+          "overlaps": [
+            {
+              "firstIndex": 0,
+              "secondIndex": 1,
+              "first": "192.0.2.0/24",
+              "second": "192.0.2.0/24"
+            }
+          ],
+          "overlapCount": 1,
+          "omittedOverlaps": 0,
+          "truncated": false,
+          "hasOverlap": true,
+          "admin": {
+            "summary": "2 subnets: 1 overlapping pairs; 0 pairs omitted.",
+            "findings": [
+              "Inputs 0 and 1: 192.0.2.0/24 overlaps 192.0.2.0/24."
+            ],
+            "nextSteps": [
+              "Check whether the overlapping routes or allocations are intentional."
+            ],
+            "limitations": [
+              "IPv4 and IPv6 ranges are compared separately."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_7",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "check_cidr_overlap",
+      "arguments": {
+        "cidrs": [
+          "192.0.2.0/24",
+          "192.0.2.128/25"
+        ]
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "2 subnets: 1 overlapping pairs; 0 pairs omitted.\n• Inputs 0 and 1: 192.0.2.0/24 overlaps 192.0.2.128/25.\nNext: Check whether the overlapping routes or allocations are intentional.\nLimit: IPv4 and IPv6 ranges are compared separately."
+          }
+        ],
+        "structured_content": {
+          "subnets": [
+            {
+              "version": 4,
+              "cidr": "192.0.2.0/24",
+              "prefix": 24,
+              "firstAddress": "192.0.2.0",
+              "lastAddress": "192.0.2.255",
+              "addressCount": "256",
+              "netmask": "255.255.255.0",
+              "usableHostCount": "254",
+              "firstUsable": "192.0.2.1",
+              "lastUsable": "192.0.2.254",
+              "broadcast": "192.0.2.255"
+            },
+            {
+              "version": 4,
+              "cidr": "192.0.2.128/25",
+              "prefix": 25,
+              "firstAddress": "192.0.2.128",
+              "lastAddress": "192.0.2.255",
+              "addressCount": "128",
+              "netmask": "255.255.255.128",
+              "usableHostCount": "126",
+              "firstUsable": "192.0.2.129",
+              "lastUsable": "192.0.2.254",
+              "broadcast": "192.0.2.255"
+            }
+          ],
+          "overlaps": [
+            {
+              "firstIndex": 0,
+              "secondIndex": 1,
+              "first": "192.0.2.0/24",
+              "second": "192.0.2.128/25"
+            }
+          ],
+          "overlapCount": 1,
+          "omittedOverlaps": 0,
+          "truncated": false,
+          "hasOverlap": true,
+          "admin": {
+            "summary": "2 subnets: 1 overlapping pairs; 0 pairs omitted.",
+            "findings": [
+              "Inputs 0 and 1: 192.0.2.0/24 overlaps 192.0.2.128/25."
+            ],
+            "nextSteps": [
+              "Check whether the overlapping routes or allocations are intentional."
+            ],
+            "limitations": [
+              "IPv4 and IPv6 ranges are compared separately."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_8",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "check_cidr_overlap",
+      "arguments": {
+        "cidrs": [
+          "192.0.2.0/24",
+          "192.0.2.128/26"
+        ]
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "2 subnets: 1 overlapping pairs; 0 pairs omitted.\n• Inputs 0 and 1: 192.0.2.0/24 overlaps 192.0.2.128/26.\nNext: Check whether the overlapping routes or allocations are intentional.\nLimit: IPv4 and IPv6 ranges are compared separately."
+          }
+        ],
+        "structured_content": {
+          "subnets": [
+            {
+              "version": 4,
+              "cidr": "192.0.2.0/24",
+              "prefix": 24,
+              "firstAddress": "192.0.2.0",
+              "lastAddress": "192.0.2.255",
+              "addressCount": "256",
+              "netmask": "255.255.255.0",
+              "usableHostCount": "254",
+              "firstUsable": "192.0.2.1",
+              "lastUsable": "192.0.2.254",
+              "broadcast": "192.0.2.255"
+            },
+            {
+              "version": 4,
+              "cidr": "192.0.2.128/26",
+              "prefix": 26,
+              "firstAddress": "192.0.2.128",
+              "lastAddress": "192.0.2.191",
+              "addressCount": "64",
+              "netmask": "255.255.255.192",
+              "usableHostCount": "62",
+              "firstUsable": "192.0.2.129",
+              "lastUsable": "192.0.2.190",
+              "broadcast": "192.0.2.191"
+            }
+          ],
+          "overlaps": [
+            {
+              "firstIndex": 0,
+              "secondIndex": 1,
+              "first": "192.0.2.0/24",
+              "second": "192.0.2.128/26"
+            }
+          ],
+          "overlapCount": 1,
+          "omittedOverlaps": 0,
+          "truncated": false,
+          "hasOverlap": true,
+          "admin": {
+            "summary": "2 subnets: 1 overlapping pairs; 0 pairs omitted.",
+            "findings": [
+              "Inputs 0 and 1: 192.0.2.0/24 overlaps 192.0.2.128/26."
+            ],
+            "nextSteps": [
+              "Check whether the overlapping routes or allocations are intentional."
+            ],
+            "limitations": [
+              "IPv4 and IPv6 ranges are compared separately."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_9",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "check_cidr_overlap",
+      "arguments": {
+        "cidrs": [
+          "192.0.2.0/24",
+          "192.0.2.128/27"
+        ]
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "2 subnets: 1 overlapping pairs; 0 pairs omitted.\n• Inputs 0 and 1: 192.0.2.0/24 overlaps 192.0.2.128/27.\nNext: Check whether the overlapping routes or allocations are intentional.\nLimit: IPv4 and IPv6 ranges are compared separately."
+          }
+        ],
+        "structured_content": {
+          "subnets": [
+            {
+              "version": 4,
+              "cidr": "192.0.2.0/24",
+              "prefix": 24,
+              "firstAddress": "192.0.2.0",
+              "lastAddress": "192.0.2.255",
+              "addressCount": "256",
+              "netmask": "255.255.255.0",
+              "usableHostCount": "254",
+              "firstUsable": "192.0.2.1",
+              "lastUsable": "192.0.2.254",
+              "broadcast": "192.0.2.255"
+            },
+            {
+              "version": 4,
+              "cidr": "192.0.2.128/27",
+              "prefix": 27,
+              "firstAddress": "192.0.2.128",
+              "lastAddress": "192.0.2.159",
+              "addressCount": "32",
+              "netmask": "255.255.255.224",
+              "usableHostCount": "30",
+              "firstUsable": "192.0.2.129",
+              "lastUsable": "192.0.2.158",
+              "broadcast": "192.0.2.159"
+            }
+          ],
+          "overlaps": [
+            {
+              "firstIndex": 0,
+              "secondIndex": 1,
+              "first": "192.0.2.0/24",
+              "second": "192.0.2.128/27"
+            }
+          ],
+          "overlapCount": 1,
+          "omittedOverlaps": 0,
+          "truncated": false,
+          "hasOverlap": true,
+          "admin": {
+            "summary": "2 subnets: 1 overlapping pairs; 0 pairs omitted.",
+            "findings": [
+              "Inputs 0 and 1: 192.0.2.0/24 overlaps 192.0.2.128/27."
+            ],
+            "nextSteps": [
+              "Check whether the overlapping routes or allocations are intentional."
+            ],
+            "limitations": [
+              "IPv4 and IPv6 ranges are compared separately."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_10",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "check_cidr_overlap",
+      "arguments": {
+        "cidrs": [
+          "192.0.2.0/24",
+          "192.0.2.128/28"
+        ]
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "2 subnets: 1 overlapping pairs; 0 pairs omitted.\n• Inputs 0 and 1: 192.0.2.0/24 overlaps 192.0.2.128/28.\nNext: Check whether the overlapping routes or allocations are intentional.\nLimit: IPv4 and IPv6 ranges are compared separately."
+          }
+        ],
+        "structured_content": {
+          "subnets": [
+            {
+              "version": 4,
+              "cidr": "192.0.2.0/24",
+              "prefix": 24,
+              "firstAddress": "192.0.2.0",
+              "lastAddress": "192.0.2.255",
+              "addressCount": "256",
+              "netmask": "255.255.255.0",
+              "usableHostCount": "254",
+              "firstUsable": "192.0.2.1",
+              "lastUsable": "192.0.2.254",
+              "broadcast": "192.0.2.255"
+            },
+            {
+              "version": 4,
+              "cidr": "192.0.2.128/28",
+              "prefix": 28,
+              "firstAddress": "192.0.2.128",
+              "lastAddress": "192.0.2.143",
+              "addressCount": "16",
+              "netmask": "255.255.255.240",
+              "usableHostCount": "14",
+              "firstUsable": "192.0.2.129",
+              "lastUsable": "192.0.2.142",
+              "broadcast": "192.0.2.143"
+            }
+          ],
+          "overlaps": [
+            {
+              "firstIndex": 0,
+              "secondIndex": 1,
+              "first": "192.0.2.0/24",
+              "second": "192.0.2.128/28"
+            }
+          ],
+          "overlapCount": 1,
+          "omittedOverlaps": 0,
+          "truncated": false,
+          "hasOverlap": true,
+          "admin": {
+            "summary": "2 subnets: 1 overlapping pairs; 0 pairs omitted.",
+            "findings": [
+              "Inputs 0 and 1: 192.0.2.0/24 overlaps 192.0.2.128/28."
+            ],
+            "nextSteps": [
+              "Check whether the overlapping routes or allocations are intentional."
+            ],
+            "limitations": [
+              "IPv4 and IPv6 ranges are compared separately."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    }
+  ],
+  "prohibitedActions": [],
+  "events": [],
+  "stderr": "2026-10-10T17:04:00.889283Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n2026-10-10T17:04:16.382479Z  WARN codex_core::mcp_tool_call: MCP tool call error: \"tool call error: tool call failed for `oldweb/plan_subnets`\\n\\nCaused by:\\n    Mcp error: -32600: invalid_tool_or_arguments\"\n",
+  "telemetry": [
+    {
+      "service": "network",
+      "method": "initialize",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 2,
+      "inputBytes": 217,
+      "outputBytes": 169,
+      "clientName": "codex-mcp-client",
+      "clientVersion": "0.154.0"
+    },
+    {
+      "service": "network",
+      "method": "notifications/initialized",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 1,
+      "inputBytes": 54,
+      "outputBytes": 0
+    },
+    {
+      "service": "network",
+      "method": "tools/list",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 2,
+      "inputBytes": 85,
+      "outputBytes": 2515
+    },
+    {
+      "service": "network",
+      "method": "tools/call",
+      "tool": "plan_subnets",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 840,
+      "outputBytes": 1443
+    },
+    {
+      "service": "network",
+      "method": "tools/call",
+      "tool": "plan_subnets",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 2,
+      "inputBytes": 839,
+      "outputBytes": 1430
+    },
+    {
+      "service": "network",
+      "method": "tools/call",
+      "tool": "inspect_subnet",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 768,
+      "outputBytes": 812
+    },
+    {
+      "service": "network",
+      "method": "tools/call",
+      "tool": "plan_subnets",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 2,
+      "inputBytes": 3570,
+      "outputBytes": 29609
+    },
+    {
+      "service": "network",
+      "method": "tools/call",
+      "tool": "plan_subnets",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "validation_error",
+      "durationMs": 1,
+      "inputBytes": 3599,
+      "outputBytes": 86
+    },
+    {
+      "service": "network",
+      "method": "tools/call",
+      "tool": "check_cidr_overlap",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 791,
+      "outputBytes": 1301
+    },
+    {
+      "service": "network",
+      "method": "tools/call",
+      "tool": "check_cidr_overlap",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 2,
+      "inputBytes": 791,
+      "outputBytes": 1315
+    },
+    {
+      "service": "network",
+      "method": "tools/call",
+      "tool": "check_cidr_overlap",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 2,
+      "inputBytes": 791,
+      "outputBytes": 1313
+    },
+    {
+      "service": "network",
+      "method": "tools/call",
+      "tool": "check_cidr_overlap",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 792,
+      "outputBytes": 1314
+    },
+    {
+      "service": "network",
+      "method": "tools/call",
+      "tool": "check_cidr_overlap",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 793,
+      "outputBytes": 1314
+    }
+  ],
+  "environment": "local Streamable HTTP with synthetic DNS/HTTPS fixtures; native Codex MCP calls"
+}

@@ -1,0 +1,967 @@
+{
+  "model": "gpt-5.6-luna",
+  "at": "2026-10-10T16:55:18.345Z",
+  "elapsedMs": 36676,
+  "exitCode": 0,
+  "usage": {
+    "input_tokens": 199358,
+    "cached_input_tokens": 183296,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 1278,
+    "reasoning_output_tokens": 211
+  },
+  "results": [
+    {
+      "id": "diagnostics-021",
+      "service": "diagnostics",
+      "tool": "check_email_dns",
+      "name": "Email DNS 2, 0 configured records",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-021",
+        "summary": "No records observed; DNS status 2 for MX, SPF, and DMARC.",
+        "fact": 0,
+        "nextStep": "Review DNS configuration and intended mail role.",
+        "limitations": "DNS observations only; no deliverability guarantee."
+      },
+      "responseBytes": 1369,
+      "textChars": 447
+    },
+    {
+      "id": "diagnostics-022",
+      "service": "diagnostics",
+      "tool": "check_email_dns",
+      "name": "Email DNS 0, 1 configured records",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-022",
+        "summary": "One record observed for each of MX, SPF, and DMARC; all status 0.",
+        "fact": 1,
+        "nextStep": "No immediate next step returned.",
+        "limitations": "DNS observations only; no policy validation or deliverability guarantee."
+      },
+      "responseBytes": 1097,
+      "textChars": 281
+    },
+    {
+      "id": "diagnostics-023",
+      "service": "diagnostics",
+      "tool": "check_email_dns",
+      "name": "Email DNS 3, 2 configured records",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-023",
+        "summary": "No records observed; DNS status 3 for all checks.",
+        "fact": 0,
+        "nextStep": "Review DNS configuration and intended mail role.",
+        "limitations": "DNS observations only; no deliverability guarantee."
+      },
+      "responseBytes": 1369,
+      "textChars": 447
+    },
+    {
+      "id": "diagnostics-024",
+      "service": "diagnostics",
+      "tool": "check_email_dns",
+      "name": "Email DNS 2, 3 configured records",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-024",
+        "summary": "No records observed; DNS status 2 for all checks.",
+        "fact": 0,
+        "nextStep": "Review DNS configuration and intended mail role.",
+        "limitations": "DNS observations only; no deliverability guarantee."
+      },
+      "responseBytes": 1369,
+      "textChars": 447
+    },
+    {
+      "id": "diagnostics-025",
+      "service": "diagnostics",
+      "tool": "check_email_dns",
+      "name": "Email DNS 0, 4 configured records",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-025",
+        "summary": "Four records observed for each check; DNS status 0.",
+        "fact": 4,
+        "nextStep": "Review MX, SPF, and DMARC configuration for duplicate records.",
+        "limitations": "DNS observations only; no deliverability guarantee."
+      },
+      "responseBytes": 1578,
+      "textChars": 447
+    },
+    {
+      "id": "diagnostics-026",
+      "service": "diagnostics",
+      "tool": "check_email_dns",
+      "name": "Email DNS 3, 0 configured records",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-026",
+        "summary": "No records observed; DNS status 3 for all checks.",
+        "fact": 0,
+        "nextStep": "Review DNS configuration and intended mail role.",
+        "limitations": "DNS observations only; no deliverability guarantee."
+      },
+      "responseBytes": 1372,
+      "textChars": 448
+    },
+    {
+      "id": "diagnostics-027",
+      "service": "diagnostics",
+      "tool": "check_email_dns",
+      "name": "Email DNS 2, 1 configured records",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-027",
+        "summary": "No records observed; DNS status 2 for all checks.",
+        "fact": 0,
+        "nextStep": "Review DNS configuration and intended mail role.",
+        "limitations": "DNS observations only; no deliverability guarantee."
+      },
+      "responseBytes": 1372,
+      "textChars": 448
+    },
+    {
+      "id": "diagnostics-028",
+      "service": "diagnostics",
+      "tool": "check_email_dns",
+      "name": "Email DNS 0, 2 configured records",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-028",
+        "summary": "Two records observed for each check; DNS status 0.",
+        "fact": 2,
+        "nextStep": "Review MX, SPF, and DMARC configuration for duplicate records.",
+        "limitations": "DNS observations only; no deliverability guarantee."
+      },
+      "responseBytes": 1475,
+      "textChars": 448
+    },
+    {
+      "id": "diagnostics-029",
+      "service": "diagnostics",
+      "tool": "check_email_dns",
+      "name": "Email DNS 3, 3 configured records",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-029",
+        "summary": "No records observed; DNS status 3 for all checks.",
+        "fact": 0,
+        "nextStep": "Review DNS configuration and intended mail role.",
+        "limitations": "DNS observations only; no deliverability guarantee."
+      },
+      "responseBytes": 1372,
+      "textChars": 448
+    },
+    {
+      "id": "diagnostics-030",
+      "service": "diagnostics",
+      "tool": "check_email_dns",
+      "name": "Email DNS 2, 4 configured records",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-030",
+        "summary": "No records observed; DNS status 2 for all checks.",
+        "fact": 0,
+        "nextStep": "Review DNS configuration and intended mail role.",
+        "limitations": "DNS observations only; no deliverability guarantee."
+      },
+      "responseBytes": 1372,
+      "textChars": 448
+    }
+  ],
+  "calls": [
+    {
+      "id": "item_1",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "check_email_dns",
+      "arguments": {
+        "domain": "mail5.example.com"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "mail5.example.com: email DNS observations.\n• MX: 0 records; DNS status 2.\n• SPF: 0 records; DNS status 2.\n• DMARC: 0 records; DNS status 2.\nNext: Review MX configuration and intended mail role.\nNext: Review SPF configuration and intended mail role.\nNext: Review DMARC configuration and intended mail role.\nLimit: DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee."
+          }
+        ],
+        "structured_content": {
+          "domain": "mail5.example.com",
+          "observations": [
+            {
+              "check": "MX",
+              "status": 2,
+              "records": []
+            },
+            {
+              "check": "SPF",
+              "status": 2,
+              "records": []
+            },
+            {
+              "check": "DMARC",
+              "status": 2,
+              "records": []
+            }
+          ],
+          "observedAt": "2026-10-10T16:54:50.679Z",
+          "note": "DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee.",
+          "admin": {
+            "summary": "mail5.example.com: email DNS observations.",
+            "findings": [
+              "MX: 0 records; DNS status 2.",
+              "SPF: 0 records; DNS status 2.",
+              "DMARC: 0 records; DNS status 2."
+            ],
+            "nextSteps": [
+              "Review MX configuration and intended mail role.",
+              "Review SPF configuration and intended mail role.",
+              "Review DMARC configuration and intended mail role."
+            ],
+            "limitations": [
+              "DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_2",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "check_email_dns",
+      "arguments": {
+        "domain": "mail6.example.com"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "mail6.example.com: email DNS observations.\n• MX: 1 records; DNS status 0.\n• SPF: 1 records; DNS status 0.\n• DMARC: 1 records; DNS status 0.\nLimit: DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee."
+          }
+        ],
+        "structured_content": {
+          "domain": "mail6.example.com",
+          "observations": [
+            {
+              "check": "MX",
+              "status": 0,
+              "records": [
+                "10 mx.example.com"
+              ]
+            },
+            {
+              "check": "SPF",
+              "status": 0,
+              "records": [
+                "v=spf1 -all"
+              ]
+            },
+            {
+              "check": "DMARC",
+              "status": 0,
+              "records": [
+                "v=DMARC1; p=none"
+              ]
+            }
+          ],
+          "observedAt": "2026-10-10T16:54:52.257Z",
+          "note": "DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee.",
+          "admin": {
+            "summary": "mail6.example.com: email DNS observations.",
+            "findings": [
+              "MX: 1 records; DNS status 0.",
+              "SPF: 1 records; DNS status 0.",
+              "DMARC: 1 records; DNS status 0."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_3",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "check_email_dns",
+      "arguments": {
+        "domain": "mail7.example.com"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "mail7.example.com: email DNS observations.\n• MX: 0 records; DNS status 3.\n• SPF: 0 records; DNS status 3.\n• DMARC: 0 records; DNS status 3.\nNext: Review MX configuration and intended mail role.\nNext: Review SPF configuration and intended mail role.\nNext: Review DMARC configuration and intended mail role.\nLimit: DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee."
+          }
+        ],
+        "structured_content": {
+          "domain": "mail7.example.com",
+          "observations": [
+            {
+              "check": "MX",
+              "status": 3,
+              "records": []
+            },
+            {
+              "check": "SPF",
+              "status": 3,
+              "records": []
+            },
+            {
+              "check": "DMARC",
+              "status": 3,
+              "records": []
+            }
+          ],
+          "observedAt": "2026-10-10T16:54:53.931Z",
+          "note": "DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee.",
+          "admin": {
+            "summary": "mail7.example.com: email DNS observations.",
+            "findings": [
+              "MX: 0 records; DNS status 3.",
+              "SPF: 0 records; DNS status 3.",
+              "DMARC: 0 records; DNS status 3."
+            ],
+            "nextSteps": [
+              "Review MX configuration and intended mail role.",
+              "Review SPF configuration and intended mail role.",
+              "Review DMARC configuration and intended mail role."
+            ],
+            "limitations": [
+              "DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_4",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "check_email_dns",
+      "arguments": {
+        "domain": "mail8.example.com"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "mail8.example.com: email DNS observations.\n• MX: 0 records; DNS status 2.\n• SPF: 0 records; DNS status 2.\n• DMARC: 0 records; DNS status 2.\nNext: Review MX configuration and intended mail role.\nNext: Review SPF configuration and intended mail role.\nNext: Review DMARC configuration and intended mail role.\nLimit: DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee."
+          }
+        ],
+        "structured_content": {
+          "domain": "mail8.example.com",
+          "observations": [
+            {
+              "check": "MX",
+              "status": 2,
+              "records": []
+            },
+            {
+              "check": "SPF",
+              "status": 2,
+              "records": []
+            },
+            {
+              "check": "DMARC",
+              "status": 2,
+              "records": []
+            }
+          ],
+          "observedAt": "2026-10-10T16:54:55.715Z",
+          "note": "DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee.",
+          "admin": {
+            "summary": "mail8.example.com: email DNS observations.",
+            "findings": [
+              "MX: 0 records; DNS status 2.",
+              "SPF: 0 records; DNS status 2.",
+              "DMARC: 0 records; DNS status 2."
+            ],
+            "nextSteps": [
+              "Review MX configuration and intended mail role.",
+              "Review SPF configuration and intended mail role.",
+              "Review DMARC configuration and intended mail role."
+            ],
+            "limitations": [
+              "DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_5",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "check_email_dns",
+      "arguments": {
+        "domain": "mail9.example.com"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "mail9.example.com: email DNS observations.\n• MX: 4 records; DNS status 0.\n• SPF: 4 records; DNS status 0.\n• DMARC: 4 records; DNS status 0.\nNext: Review MX configuration and intended mail role.\nNext: Review SPF configuration and intended mail role.\nNext: Review DMARC configuration and intended mail role.\nLimit: DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee."
+          }
+        ],
+        "structured_content": {
+          "domain": "mail9.example.com",
+          "observations": [
+            {
+              "check": "MX",
+              "status": 0,
+              "records": [
+                "10 mx.example.com",
+                "10 mx.example.com",
+                "10 mx.example.com",
+                "10 mx.example.com"
+              ]
+            },
+            {
+              "check": "SPF",
+              "status": 0,
+              "records": [
+                "v=spf1 -all",
+                "v=spf1 -all",
+                "v=spf1 -all",
+                "v=spf1 -all"
+              ]
+            },
+            {
+              "check": "DMARC",
+              "status": 0,
+              "records": [
+                "v=DMARC1; p=none",
+                "v=DMARC1; p=none",
+                "v=DMARC1; p=none",
+                "v=DMARC1; p=none"
+              ]
+            }
+          ],
+          "observedAt": "2026-10-10T16:54:57.419Z",
+          "note": "DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee.",
+          "admin": {
+            "summary": "mail9.example.com: email DNS observations.",
+            "findings": [
+              "MX: 4 records; DNS status 0.",
+              "SPF: 4 records; DNS status 0.",
+              "DMARC: 4 records; DNS status 0."
+            ],
+            "nextSteps": [
+              "Review MX configuration and intended mail role.",
+              "Review SPF configuration and intended mail role.",
+              "Review DMARC configuration and intended mail role."
+            ],
+            "limitations": [
+              "DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_6",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "check_email_dns",
+      "arguments": {
+        "domain": "mail10.example.com"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "mail10.example.com: email DNS observations.\n• MX: 0 records; DNS status 3.\n• SPF: 0 records; DNS status 3.\n• DMARC: 0 records; DNS status 3.\nNext: Review MX configuration and intended mail role.\nNext: Review SPF configuration and intended mail role.\nNext: Review DMARC configuration and intended mail role.\nLimit: DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee."
+          }
+        ],
+        "structured_content": {
+          "domain": "mail10.example.com",
+          "observations": [
+            {
+              "check": "MX",
+              "status": 3,
+              "records": []
+            },
+            {
+              "check": "SPF",
+              "status": 3,
+              "records": []
+            },
+            {
+              "check": "DMARC",
+              "status": 3,
+              "records": []
+            }
+          ],
+          "observedAt": "2026-10-10T16:54:59.481Z",
+          "note": "DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee.",
+          "admin": {
+            "summary": "mail10.example.com: email DNS observations.",
+            "findings": [
+              "MX: 0 records; DNS status 3.",
+              "SPF: 0 records; DNS status 3.",
+              "DMARC: 0 records; DNS status 3."
+            ],
+            "nextSteps": [
+              "Review MX configuration and intended mail role.",
+              "Review SPF configuration and intended mail role.",
+              "Review DMARC configuration and intended mail role."
+            ],
+            "limitations": [
+              "DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_7",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "check_email_dns",
+      "arguments": {
+        "domain": "mail11.example.com"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "mail11.example.com: email DNS observations.\n• MX: 0 records; DNS status 2.\n• SPF: 0 records; DNS status 2.\n• DMARC: 0 records; DNS status 2.\nNext: Review MX configuration and intended mail role.\nNext: Review SPF configuration and intended mail role.\nNext: Review DMARC configuration and intended mail role.\nLimit: DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee."
+          }
+        ],
+        "structured_content": {
+          "domain": "mail11.example.com",
+          "observations": [
+            {
+              "check": "MX",
+              "status": 2,
+              "records": []
+            },
+            {
+              "check": "SPF",
+              "status": 2,
+              "records": []
+            },
+            {
+              "check": "DMARC",
+              "status": 2,
+              "records": []
+            }
+          ],
+          "observedAt": "2026-10-10T16:55:01.088Z",
+          "note": "DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee.",
+          "admin": {
+            "summary": "mail11.example.com: email DNS observations.",
+            "findings": [
+              "MX: 0 records; DNS status 2.",
+              "SPF: 0 records; DNS status 2.",
+              "DMARC: 0 records; DNS status 2."
+            ],
+            "nextSteps": [
+              "Review MX configuration and intended mail role.",
+              "Review SPF configuration and intended mail role.",
+              "Review DMARC configuration and intended mail role."
+            ],
+            "limitations": [
+              "DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_8",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "check_email_dns",
+      "arguments": {
+        "domain": "mail12.example.com"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "mail12.example.com: email DNS observations.\n• MX: 2 records; DNS status 0.\n• SPF: 2 records; DNS status 0.\n• DMARC: 2 records; DNS status 0.\nNext: Review MX configuration and intended mail role.\nNext: Review SPF configuration and intended mail role.\nNext: Review DMARC configuration and intended mail role.\nLimit: DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee."
+          }
+        ],
+        "structured_content": {
+          "domain": "mail12.example.com",
+          "observations": [
+            {
+              "check": "MX",
+              "status": 0,
+              "records": [
+                "10 mx.example.com",
+                "10 mx.example.com"
+              ]
+            },
+            {
+              "check": "SPF",
+              "status": 0,
+              "records": [
+                "v=spf1 -all",
+                "v=spf1 -all"
+              ]
+            },
+            {
+              "check": "DMARC",
+              "status": 0,
+              "records": [
+                "v=DMARC1; p=none",
+                "v=DMARC1; p=none"
+              ]
+            }
+          ],
+          "observedAt": "2026-10-10T16:55:02.705Z",
+          "note": "DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee.",
+          "admin": {
+            "summary": "mail12.example.com: email DNS observations.",
+            "findings": [
+              "MX: 2 records; DNS status 0.",
+              "SPF: 2 records; DNS status 0.",
+              "DMARC: 2 records; DNS status 0."
+            ],
+            "nextSteps": [
+              "Review MX configuration and intended mail role.",
+              "Review SPF configuration and intended mail role.",
+              "Review DMARC configuration and intended mail role."
+            ],
+            "limitations": [
+              "DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_9",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "check_email_dns",
+      "arguments": {
+        "domain": "mail13.example.com"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "mail13.example.com: email DNS observations.\n• MX: 0 records; DNS status 3.\n• SPF: 0 records; DNS status 3.\n• DMARC: 0 records; DNS status 3.\nNext: Review MX configuration and intended mail role.\nNext: Review SPF configuration and intended mail role.\nNext: Review DMARC configuration and intended mail role.\nLimit: DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee."
+          }
+        ],
+        "structured_content": {
+          "domain": "mail13.example.com",
+          "observations": [
+            {
+              "check": "MX",
+              "status": 3,
+              "records": []
+            },
+            {
+              "check": "SPF",
+              "status": 3,
+              "records": []
+            },
+            {
+              "check": "DMARC",
+              "status": 3,
+              "records": []
+            }
+          ],
+          "observedAt": "2026-10-10T16:55:04.453Z",
+          "note": "DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee.",
+          "admin": {
+            "summary": "mail13.example.com: email DNS observations.",
+            "findings": [
+              "MX: 0 records; DNS status 3.",
+              "SPF: 0 records; DNS status 3.",
+              "DMARC: 0 records; DNS status 3."
+            ],
+            "nextSteps": [
+              "Review MX configuration and intended mail role.",
+              "Review SPF configuration and intended mail role.",
+              "Review DMARC configuration and intended mail role."
+            ],
+            "limitations": [
+              "DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_10",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "check_email_dns",
+      "arguments": {
+        "domain": "mail14.example.com"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "mail14.example.com: email DNS observations.\n• MX: 0 records; DNS status 2.\n• SPF: 0 records; DNS status 2.\n• DMARC: 0 records; DNS status 2.\nNext: Review MX configuration and intended mail role.\nNext: Review SPF configuration and intended mail role.\nNext: Review DMARC configuration and intended mail role.\nLimit: DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee."
+          }
+        ],
+        "structured_content": {
+          "domain": "mail14.example.com",
+          "observations": [
+            {
+              "check": "MX",
+              "status": 2,
+              "records": []
+            },
+            {
+              "check": "SPF",
+              "status": 2,
+              "records": []
+            },
+            {
+              "check": "DMARC",
+              "status": 2,
+              "records": []
+            }
+          ],
+          "observedAt": "2026-10-10T16:55:06.431Z",
+          "note": "DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee.",
+          "admin": {
+            "summary": "mail14.example.com: email DNS observations.",
+            "findings": [
+              "MX: 0 records; DNS status 2.",
+              "SPF: 0 records; DNS status 2.",
+              "DMARC: 0 records; DNS status 2."
+            ],
+            "nextSteps": [
+              "Review MX configuration and intended mail role.",
+              "Review SPF configuration and intended mail role.",
+              "Review DMARC configuration and intended mail role."
+            ],
+            "limitations": [
+              "DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    }
+  ],
+  "prohibitedActions": [],
+  "events": [],
+  "stderr": "2026-10-10T16:54:41.855477Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n",
+  "telemetry": [
+    {
+      "service": "diagnostics",
+      "method": "initialize",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 2,
+      "inputBytes": 217,
+      "outputBytes": 173,
+      "clientName": "codex-mcp-client",
+      "clientVersion": "0.154.0"
+    },
+    {
+      "service": "diagnostics",
+      "method": "notifications/initialized",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 1,
+      "inputBytes": 54,
+      "outputBytes": 0
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/list",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 3,
+      "inputBytes": 85,
+      "outputBytes": 4160
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "check_email_dns",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 775,
+      "outputBytes": 1402
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "check_email_dns",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 775,
+      "outputBytes": 1130
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "check_email_dns",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 2,
+      "inputBytes": 775,
+      "outputBytes": 1402
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "check_email_dns",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 2,
+      "inputBytes": 775,
+      "outputBytes": 1402
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "check_email_dns",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 2,
+      "inputBytes": 775,
+      "outputBytes": 1611
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "check_email_dns",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 2,
+      "inputBytes": 776,
+      "outputBytes": 1405
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "check_email_dns",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 776,
+      "outputBytes": 1405
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "check_email_dns",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 2,
+      "inputBytes": 776,
+      "outputBytes": 1508
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "check_email_dns",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 777,
+      "outputBytes": 1406
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "check_email_dns",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 2,
+      "inputBytes": 778,
+      "outputBytes": 1406
+    }
+  ],
+  "environment": "local Streamable HTTP with synthetic DNS/HTTPS fixtures; native Codex MCP calls"
+}

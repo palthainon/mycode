@@ -1,0 +1,2106 @@
+{
+  "model": "gpt-5.6-luna",
+  "at": "2026-10-10T14:49:58.591Z",
+  "elapsedMs": 31873,
+  "exitCode": 0,
+  "usage": {
+    "input_tokens": 90630,
+    "cached_input_tokens": 70656,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 1244,
+    "reasoning_output_tokens": 379
+  },
+  "results": [
+    {
+      "id": "logs-011",
+      "service": "logs",
+      "tool": "parse_logs",
+      "name": "20 compact records counted",
+      "passed": true,
+      "answer": {
+        "id": "logs-011",
+        "summary": "20 records parsed.",
+        "fact": 20,
+        "nextStep": "None.",
+        "limitations": "Ambiguous timestamps do not establish chronological order."
+      }
+    },
+    {
+      "id": "logs-012",
+      "service": "logs",
+      "tool": "parse_logs",
+      "name": "21 compact records counted",
+      "passed": true,
+      "answer": {
+        "id": "logs-012",
+        "summary": "21 records parsed.",
+        "fact": 21,
+        "nextStep": "None.",
+        "limitations": "Ambiguous timestamps do not establish chronological order."
+      }
+    },
+    {
+      "id": "logs-013",
+      "service": "logs",
+      "tool": "parse_logs",
+      "name": "1000 line limit",
+      "passed": true,
+      "answer": {
+        "id": "logs-013",
+        "summary": "1000 records parsed; 800 records omitted from returned records.",
+        "fact": 1000,
+        "nextStep": "Account for the 200-record return limit.",
+        "limitations": "800 records omitted; timestamps ambiguous."
+      }
+    },
+    {
+      "id": "logs-014",
+      "service": "logs",
+      "tool": "parse_logs",
+      "name": "1001 lines rejected",
+      "passed": false,
+      "failure": "AssertionError [ERR_ASSERTION]: expected rejection",
+      "answer": {
+        "id": "logs-014",
+        "summary": "Input rejected for exceeding the 1000-line limit.",
+        "fact": "too_many_lines",
+        "nextStep": "Submit at most 1000 lines.",
+        "limitations": "No parsed result returned."
+      }
+    },
+    {
+      "id": "logs-015",
+      "service": "logs",
+      "tool": "parse_logs",
+      "name": "Malformed JSON line does not invent a record",
+      "passed": true,
+      "answer": {
+        "id": "logs-015",
+        "summary": "The malformed JSON line was unparsed.",
+        "fact": 1,
+        "nextStep": "Inspect or correct the source line.",
+        "limitations": "No structured record was produced."
+      }
+    },
+    {
+      "id": "logs-016",
+      "service": "logs",
+      "tool": "parse_logs",
+      "name": "ambiguous timestamp",
+      "passed": false,
+      "failure": "Error: tool routing: expected parse_logs, got summarize_logs",
+      "answer": {
+        "id": "logs-016",
+        "summary": "One record parsed, but its timestamp was ambiguous.",
+        "fact": 1,
+        "nextStep": "Provide an unambiguous timestamp with timezone.",
+        "limitations": "Timestamp excluded from the range."
+      }
+    },
+    {
+      "id": "logs-017",
+      "service": "logs",
+      "tool": "parse_logs",
+      "name": "valid timestamp",
+      "passed": false,
+      "failure": "Error: tool routing: expected parse_logs, got summarize_logs",
+      "answer": {
+        "id": "logs-017",
+        "summary": "The valid timestamp produced the requested first range value.",
+        "fact": "2026-10-09T10:00:00.000Z",
+        "nextStep": "None.",
+        "limitations": "This reflects only the supplied fixture."
+      }
+    },
+    {
+      "id": "logs-018",
+      "service": "logs",
+      "tool": "parse_logs",
+      "name": "only malformed",
+      "passed": true,
+      "answer": {
+        "id": "logs-018",
+        "summary": "The only line was unparsed.",
+        "fact": 1,
+        "nextStep": "Provide valid supported log syntax.",
+        "limitations": "No structured record was produced."
+      }
+    },
+    {
+      "id": "logs-019",
+      "service": "logs",
+      "tool": "parse_logs",
+      "name": "CRLF",
+      "passed": true,
+      "answer": {
+        "id": "logs-019",
+        "summary": "Both CRLF-delimited JSON records parsed.",
+        "fact": 2,
+        "nextStep": "None.",
+        "limitations": "Both timestamps were ambiguous."
+      }
+    },
+    {
+      "id": "logs-020",
+      "service": "logs",
+      "tool": "parse_logs",
+      "name": "unknown format",
+      "passed": false,
+      "failure": "AssertionError [ERR_ASSERTION]: expected validation_error; got {\"message\":\"tool call error: tool call failed for `oldweb/parse_logs`\\n\\nCaused by:\\n    Mcp error: -32600: invalid_tool_or_arguments\"}",
+      "answer": {
+        "id": "logs-020",
+        "summary": "The call was rejected because the requested format was unsupported.",
+        "fact": "-32600",
+        "nextStep": "Use a supported format value.",
+        "limitations": "No parse result returned."
+      }
+    }
+  ],
+  "calls": [
+    {
+      "id": "item_1",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "parse_logs",
+      "arguments": {
+        "text": "{\"level\":\"INFO\",\"message\":\"agent fixture\"}\n{\"level\":\"INFO\",\"message\":\"agent fixture\"}\n{\"level\":\"INFO\",\"message\":\"agent fixture\"}\n{\"level\":\"INFO\",\"message\":\"agent fixture\"}\n{\"level\":\"INFO\",\"message\":\"agent fixture\"}\n{\"level\":\"INFO\",\"message\":\"agent fixture\"}\n{\"level\":\"INFO\",\"message\":\"agent fixture\"}\n{\"level\":\"INFO\",\"message\":\"agent fixture\"}\n{\"level\":\"INFO\",\"message\":\"agent fixture\"}\n{\"level\":\"INFO\",\"message\":\"agent fixture\"}\n{\"level\":\"INFO\",\"message\":\"agent fixture\"}\n{\"level\":\"INFO\",\"message\":\"agent fixture\"}\n{\"level\":\"INFO\",\"message\":\"agent fixture\"}\n{\"level\":\"INFO\",\"message\":\"agent fixture\"}\n{\"level\":\"INFO\",\"message\":\"agent fixture\"}\n{\"level\":\"INFO\",\"message\":\"agent fixture\"}\n{\"level\":\"INFO\",\"message\":\"agent fixture\"}\n{\"level\":\"INFO\",\"message\":\"agent fixture\"}\n{\"level\":\"INFO\",\"message\":\"agent fixture\"}\n{\"level\":\"INFO\",\"message\":\"agent fixture\"}"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "20 parsed, 0 unparsed, 0 skipped log lines.\n• Formats: {\"json\":20}.\n• Severities: {\"info\":20}.\n• Timestamp range: unknown to unknown.\n• 0 records omitted; 20 ambiguous timestamps.\nLimit: Counts are deterministic; ambiguous timestamps do not establish chronological order."
+          }
+        ],
+        "structured_content": {
+          "detectedFormat": "json",
+          "parsed": 20,
+          "unparsed": 0,
+          "skipped": 0,
+          "formatCounts": {
+            "json": 20
+          },
+          "severityCounts": {
+            "info": 20
+          },
+          "ambiguousTimestamps": 20,
+          "timestampRange": null,
+          "records": [
+            {
+              "line": 1,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "agent fixture"
+              }
+            },
+            {
+              "line": 2,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "agent fixture"
+              }
+            },
+            {
+              "line": 3,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "agent fixture"
+              }
+            },
+            {
+              "line": 4,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "agent fixture"
+              }
+            },
+            {
+              "line": 5,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "agent fixture"
+              }
+            },
+            {
+              "line": 6,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "agent fixture"
+              }
+            },
+            {
+              "line": 7,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "agent fixture"
+              }
+            },
+            {
+              "line": 8,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "agent fixture"
+              }
+            },
+            {
+              "line": 9,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "agent fixture"
+              }
+            },
+            {
+              "line": 10,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "agent fixture"
+              }
+            },
+            {
+              "line": 11,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "agent fixture"
+              }
+            },
+            {
+              "line": 12,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "agent fixture"
+              }
+            },
+            {
+              "line": 13,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "agent fixture"
+              }
+            },
+            {
+              "line": 14,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "agent fixture"
+              }
+            },
+            {
+              "line": 15,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "agent fixture"
+              }
+            },
+            {
+              "line": 16,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "agent fixture"
+              }
+            },
+            {
+              "line": 17,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "agent fixture"
+              }
+            },
+            {
+              "line": 18,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "agent fixture"
+              }
+            },
+            {
+              "line": 19,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "agent fixture"
+              }
+            },
+            {
+              "line": 20,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "agent fixture"
+              }
+            }
+          ],
+          "truncated": false,
+          "omittedRecords": 0,
+          "note": "Timezone/year-ambiguous timestamps are excluded from timestampRange; Windows CSV line numbers refer to logical records.",
+          "admin": {
+            "summary": "20 parsed, 0 unparsed, 0 skipped log lines.",
+            "findings": [
+              "Formats: {\"json\":20}.",
+              "Severities: {\"info\":20}.",
+              "Timestamp range: unknown to unknown.",
+              "0 records omitted; 20 ambiguous timestamps."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Counts are deterministic; ambiguous timestamps do not establish chronological order."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_2",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "parse_logs",
+      "arguments": {
+        "text": "{\"level\":\"INFO\",\"message\":\"agent fixture\"}\n{\"level\":\"INFO\",\"message\":\"agent fixture\"}\n{\"level\":\"INFO\",\"message\":\"agent fixture\"}\n{\"level\":\"INFO\",\"message\":\"agent fixture\"}\n{\"level\":\"INFO\",\"message\":\"agent fixture\"}\n{\"level\":\"INFO\",\"message\":\"agent fixture\"}\n{\"level\":\"INFO\",\"message\":\"agent fixture\"}\n{\"level\":\"INFO\",\"message\":\"agent fixture\"}\n{\"level\":\"INFO\",\"message\":\"agent fixture\"}\n{\"level\":\"INFO\",\"message\":\"agent fixture\"}\n{\"level\":\"INFO\",\"message\":\"agent fixture\"}\n{\"level\":\"INFO\",\"message\":\"agent fixture\"}\n{\"level\":\"INFO\",\"message\":\"agent fixture\"}\n{\"level\":\"INFO\",\"message\":\"agent fixture\"}\n{\"level\":\"INFO\",\"message\":\"agent fixture\"}\n{\"level\":\"INFO\",\"message\":\"agent fixture\"}\n{\"level\":\"INFO\",\"message\":\"agent fixture\"}\n{\"level\":\"INFO\",\"message\":\"agent fixture\"}\n{\"level\":\"INFO\",\"message\":\"agent fixture\"}\n{\"level\":\"INFO\",\"message\":\"agent fixture\"}\n{\"level\":\"INFO\",\"message\":\"agent fixture\"}"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "21 parsed, 0 unparsed, 0 skipped log lines.\n• Formats: {\"json\":21}.\n• Severities: {\"info\":21}.\n• Timestamp range: unknown to unknown.\n• 0 records omitted; 21 ambiguous timestamps.\nLimit: Counts are deterministic; ambiguous timestamps do not establish chronological order."
+          }
+        ],
+        "structured_content": {
+          "detectedFormat": "json",
+          "parsed": 21,
+          "unparsed": 0,
+          "skipped": 0,
+          "formatCounts": {
+            "json": 21
+          },
+          "severityCounts": {
+            "info": 21
+          },
+          "ambiguousTimestamps": 21,
+          "timestampRange": null,
+          "records": [
+            {
+              "line": 1,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "agent fixture"
+              }
+            },
+            {
+              "line": 2,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "agent fixture"
+              }
+            },
+            {
+              "line": 3,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "agent fixture"
+              }
+            },
+            {
+              "line": 4,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "agent fixture"
+              }
+            },
+            {
+              "line": 5,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "agent fixture"
+              }
+            },
+            {
+              "line": 6,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "agent fixture"
+              }
+            },
+            {
+              "line": 7,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "agent fixture"
+              }
+            },
+            {
+              "line": 8,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "agent fixture"
+              }
+            },
+            {
+              "line": 9,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "agent fixture"
+              }
+            },
+            {
+              "line": 10,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "agent fixture"
+              }
+            },
+            {
+              "line": 11,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "agent fixture"
+              }
+            },
+            {
+              "line": 12,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "agent fixture"
+              }
+            },
+            {
+              "line": 13,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "agent fixture"
+              }
+            },
+            {
+              "line": 14,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "agent fixture"
+              }
+            },
+            {
+              "line": 15,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "agent fixture"
+              }
+            },
+            {
+              "line": 16,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "agent fixture"
+              }
+            },
+            {
+              "line": 17,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "agent fixture"
+              }
+            },
+            {
+              "line": 18,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "agent fixture"
+              }
+            },
+            {
+              "line": 19,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "agent fixture"
+              }
+            },
+            {
+              "line": 20,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "agent fixture"
+              }
+            },
+            {
+              "line": 21,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "agent fixture"
+              }
+            }
+          ],
+          "truncated": false,
+          "omittedRecords": 0,
+          "note": "Timezone/year-ambiguous timestamps are excluded from timestampRange; Windows CSV line numbers refer to logical records.",
+          "admin": {
+            "summary": "21 parsed, 0 unparsed, 0 skipped log lines.",
+            "findings": [
+              "Formats: {\"json\":21}.",
+              "Severities: {\"info\":21}.",
+              "Timestamp range: unknown to unknown.",
+              "0 records omitted; 21 ambiguous timestamps."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Counts are deterministic; ambiguous timestamps do not establish chronological order."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_3",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "parse_logs",
+      "arguments": {
+        "text": "{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1000 parsed, 0 unparsed, 0 skipped log lines.\n• Formats: {\"json\":1000}.\n• Severities: {\"unknown\":1000}.\n• Timestamp range: unknown to unknown.\n• 800 records omitted; 1000 ambiguous timestamps.\nLimit: Counts are deterministic; ambiguous timestamps do not establish chronological order."
+          }
+        ],
+        "structured_content": {
+          "detectedFormat": "json",
+          "parsed": 1000,
+          "unparsed": 0,
+          "skipped": 0,
+          "formatCounts": {
+            "json": 1000
+          },
+          "severityCounts": {
+            "unknown": 1000
+          },
+          "ambiguousTimestamps": 1000,
+          "timestampRange": null,
+          "records": [
+            {
+              "line": 1,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 2,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 3,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 4,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 5,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 6,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 7,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 8,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 9,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 10,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 11,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 12,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 13,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 14,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 15,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 16,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 17,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 18,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 19,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 20,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 21,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 22,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 23,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 24,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 25,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 26,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 27,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 28,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 29,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 30,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 31,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 32,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 33,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 34,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 35,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 36,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 37,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 38,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 39,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 40,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 41,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 42,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 43,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 44,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 45,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 46,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 47,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 48,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 49,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 50,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 51,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 52,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 53,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 54,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 55,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 56,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 57,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 58,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 59,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 60,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 61,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 62,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 63,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 64,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 65,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 66,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 67,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 68,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 69,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 70,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 71,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 72,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 73,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 74,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 75,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 76,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 77,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 78,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 79,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 80,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 81,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 82,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 83,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 84,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 85,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 86,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 87,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 88,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 89,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 90,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 91,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 92,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 93,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 94,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 95,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 96,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 97,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 98,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 99,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 100,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 101,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 102,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 103,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 104,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 105,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 106,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 107,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 108,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 109,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 110,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 111,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 112,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 113,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 114,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 115,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 116,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 117,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 118,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 119,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 120,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 121,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 122,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 123,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 124,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 125,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 126,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 127,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 128,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 129,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 130,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 131,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 132,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 133,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 134,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 135,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 136,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 137,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 138,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 139,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 140,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 141,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 142,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 143,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 144,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 145,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 146,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 147,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 148,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 149,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 150,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 151,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 152,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 153,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 154,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 155,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 156,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 157,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 158,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 159,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 160,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 161,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 162,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 163,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 164,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 165,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 166,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 167,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 168,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 169,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 170,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 171,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 172,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 173,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 174,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 175,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 176,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 177,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 178,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 179,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 180,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 181,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 182,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 183,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 184,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 185,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 186,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 187,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 188,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 189,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 190,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 191,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 192,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 193,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 194,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 195,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 196,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 197,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 198,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 199,
+              "format": "json",
+              "fields": {}
+            },
+            {
+              "line": 200,
+              "format": "json",
+              "fields": {}
+            }
+          ],
+          "truncated": true,
+          "omittedRecords": 800,
+          "note": "Timezone/year-ambiguous timestamps are excluded from timestampRange; Windows CSV line numbers refer to logical records.",
+          "admin": {
+            "summary": "1000 parsed, 0 unparsed, 0 skipped log lines.",
+            "findings": [
+              "Formats: {\"json\":1000}.",
+              "Severities: {\"unknown\":1000}.",
+              "Timestamp range: unknown to unknown.",
+              "800 records omitted; 1000 ambiguous timestamps."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Counts are deterministic; ambiguous timestamps do not establish chronological order."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_4",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "parse_logs",
+      "arguments": {
+        "text": "{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "too_many_lines"
+          }
+        ],
+        "structured_content": null
+      },
+      "error": null,
+      "status": "failed"
+    },
+    {
+      "id": "item_5",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "parse_logs",
+      "arguments": {
+        "text": "{broken-agent-json"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "0 parsed, 1 unparsed, 0 skipped log lines.\n• Formats: {}.\n• Severities: {}.\n• Timestamp range: unknown to unknown.\n• 0 records omitted; 0 ambiguous timestamps.\nNext: Inspect unparsed source lines or supply the known format.\nLimit: Counts are deterministic; ambiguous timestamps do not establish chronological order."
+          }
+        ],
+        "structured_content": {
+          "detectedFormat": null,
+          "parsed": 0,
+          "unparsed": 1,
+          "skipped": 0,
+          "formatCounts": {},
+          "severityCounts": {},
+          "ambiguousTimestamps": 0,
+          "timestampRange": null,
+          "records": [],
+          "truncated": false,
+          "omittedRecords": 0,
+          "note": "Timezone/year-ambiguous timestamps are excluded from timestampRange; Windows CSV line numbers refer to logical records.",
+          "admin": {
+            "summary": "0 parsed, 1 unparsed, 0 skipped log lines.",
+            "findings": [
+              "Formats: {}.",
+              "Severities: {}.",
+              "Timestamp range: unknown to unknown.",
+              "0 records omitted; 0 ambiguous timestamps."
+            ],
+            "nextSteps": [
+              "Inspect unparsed source lines or supply the known format."
+            ],
+            "limitations": [
+              "Counts are deterministic; ambiguous timestamps do not establish chronological order."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_6",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "summarize_logs",
+      "arguments": {
+        "text": "{\"level\":\"INFO\",\"message\":\"synthetic admin fixture\",\"timestamp\":\"2026-10-09 10:00:00\"}"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 parsed, 0 unparsed, 0 skipped log lines.\n• Formats: {\"json\":1}.\n• Severities: {\"info\":1}.\n• Timestamp range: unknown to unknown.\n• 1 records omitted; 1 ambiguous timestamps.\nLimit: Counts are deterministic; ambiguous timestamps do not establish chronological order."
+          }
+        ],
+        "structured_content": {
+          "detectedFormat": "json",
+          "parsed": 1,
+          "unparsed": 0,
+          "skipped": 0,
+          "formatCounts": {
+            "json": 1
+          },
+          "severityCounts": {
+            "info": 1
+          },
+          "ambiguousTimestamps": 1,
+          "timestampRange": null,
+          "records": [],
+          "truncated": false,
+          "omittedRecords": 1,
+          "note": "Timezone/year-ambiguous timestamps are excluded from timestampRange; Windows CSV line numbers refer to logical records.",
+          "admin": {
+            "summary": "1 parsed, 0 unparsed, 0 skipped log lines.",
+            "findings": [
+              "Formats: {\"json\":1}.",
+              "Severities: {\"info\":1}.",
+              "Timestamp range: unknown to unknown.",
+              "1 records omitted; 1 ambiguous timestamps."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Counts are deterministic; ambiguous timestamps do not establish chronological order."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_7",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "summarize_logs",
+      "arguments": {
+        "text": "{\"level\":\"ERROR\",\"message\":\"synthetic admin fixture\",\"timestamp\":\"2026-10-09T10:00:00Z\"}"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 parsed, 0 unparsed, 0 skipped log lines.\n• Formats: {\"json\":1}.\n• Severities: {\"error\":1}.\n• Timestamp range: 2026-10-09T10:00:00.000Z to 2026-10-09T10:00:00.000Z.\n• 1 records omitted; 0 ambiguous timestamps.\nLimit: Counts are deterministic; ambiguous timestamps do not establish chronological order."
+          }
+        ],
+        "structured_content": {
+          "detectedFormat": "json",
+          "parsed": 1,
+          "unparsed": 0,
+          "skipped": 0,
+          "formatCounts": {
+            "json": 1
+          },
+          "severityCounts": {
+            "error": 1
+          },
+          "ambiguousTimestamps": 0,
+          "timestampRange": {
+            "first": "2026-10-09T10:00:00.000Z",
+            "last": "2026-10-09T10:00:00.000Z"
+          },
+          "records": [],
+          "truncated": false,
+          "omittedRecords": 1,
+          "note": "Timezone/year-ambiguous timestamps are excluded from timestampRange; Windows CSV line numbers refer to logical records.",
+          "admin": {
+            "summary": "1 parsed, 0 unparsed, 0 skipped log lines.",
+            "findings": [
+              "Formats: {\"json\":1}.",
+              "Severities: {\"error\":1}.",
+              "Timestamp range: 2026-10-09T10:00:00.000Z to 2026-10-09T10:00:00.000Z.",
+              "1 records omitted; 0 ambiguous timestamps."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Counts are deterministic; ambiguous timestamps do not establish chronological order."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_8",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "parse_logs",
+      "arguments": {
+        "text": "gibberish"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "0 parsed, 1 unparsed, 0 skipped log lines.\n• Formats: {}.\n• Severities: {}.\n• Timestamp range: unknown to unknown.\n• 0 records omitted; 0 ambiguous timestamps.\nNext: Inspect unparsed source lines or supply the known format.\nLimit: Counts are deterministic; ambiguous timestamps do not establish chronological order."
+          }
+        ],
+        "structured_content": {
+          "detectedFormat": null,
+          "parsed": 0,
+          "unparsed": 1,
+          "skipped": 0,
+          "formatCounts": {},
+          "severityCounts": {},
+          "ambiguousTimestamps": 0,
+          "timestampRange": null,
+          "records": [],
+          "truncated": false,
+          "omittedRecords": 0,
+          "note": "Timezone/year-ambiguous timestamps are excluded from timestampRange; Windows CSV line numbers refer to logical records.",
+          "admin": {
+            "summary": "0 parsed, 1 unparsed, 0 skipped log lines.",
+            "findings": [
+              "Formats: {}.",
+              "Severities: {}.",
+              "Timestamp range: unknown to unknown.",
+              "0 records omitted; 0 ambiguous timestamps."
+            ],
+            "nextSteps": [
+              "Inspect unparsed source lines or supply the known format."
+            ],
+            "limitations": [
+              "Counts are deterministic; ambiguous timestamps do not establish chronological order."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_9",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "parse_logs",
+      "arguments": {
+        "text": "{\"level\":\"INFO\",\"message\":\"synthetic admin fixture\"}\r\n{\"level\":\"INFO\",\"message\":\"synthetic admin fixture\"}"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "2 parsed, 0 unparsed, 0 skipped log lines.\n• Formats: {\"json\":2}.\n• Severities: {\"info\":2}.\n• Timestamp range: unknown to unknown.\n• 0 records omitted; 2 ambiguous timestamps.\nLimit: Counts are deterministic; ambiguous timestamps do not establish chronological order."
+          }
+        ],
+        "structured_content": {
+          "detectedFormat": "json",
+          "parsed": 2,
+          "unparsed": 0,
+          "skipped": 0,
+          "formatCounts": {
+            "json": 2
+          },
+          "severityCounts": {
+            "info": 2
+          },
+          "ambiguousTimestamps": 2,
+          "timestampRange": null,
+          "records": [
+            {
+              "line": 1,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "synthetic admin fixture"
+              }
+            },
+            {
+              "line": 2,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "synthetic admin fixture"
+              }
+            }
+          ],
+          "truncated": false,
+          "omittedRecords": 0,
+          "note": "Timezone/year-ambiguous timestamps are excluded from timestampRange; Windows CSV line numbers refer to logical records.",
+          "admin": {
+            "summary": "2 parsed, 0 unparsed, 0 skipped log lines.",
+            "findings": [
+              "Formats: {\"json\":2}.",
+              "Severities: {\"info\":2}.",
+              "Timestamp range: unknown to unknown.",
+              "0 records omitted; 2 ambiguous timestamps."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Counts are deterministic; ambiguous timestamps do not establish chronological order."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_10",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "parse_logs",
+      "arguments": {
+        "format": "imaginary",
+        "text": "{\"level\":\"INFO\",\"message\":\"synthetic admin fixture\"}"
+      },
+      "result": null,
+      "error": {
+        "message": "tool call error: tool call failed for `oldweb/parse_logs`\n\nCaused by:\n    Mcp error: -32600: invalid_tool_or_arguments"
+      },
+      "status": "failed"
+    }
+  ],
+  "events": [],
+  "stderr": "2026-10-10T14:49:27.441291Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n2026-10-10T14:49:47.805349Z  WARN codex_core::mcp_tool_call: MCP tool call error: \"tool call error: tool call failed for `oldweb/parse_logs`\\n\\nCaused by:\\n    Mcp error: -32600: invalid_tool_or_arguments\"\n",
+  "telemetry": [
+    {
+      "service": "logs",
+      "method": "initialize",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 1,
+      "inputBytes": 217,
+      "outputBytes": 166,
+      "clientName": "codex-mcp-client",
+      "clientVersion": "0.154.0"
+    },
+    {
+      "service": "logs",
+      "method": "notifications/initialized",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 1,
+      "inputBytes": 54,
+      "outputBytes": 0
+    },
+    {
+      "service": "logs",
+      "method": "tools/list",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 2,
+      "inputBytes": 85,
+      "outputBytes": 4730
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "parse_logs",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 1789,
+      "outputBytes": 2653
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "parse_logs",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 1841,
+      "outputBytes": 2733
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "parse_logs",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 3,
+      "inputBytes": 4749,
+      "outputBytes": 9192
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "parse_logs",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_error",
+      "durationMs": 1,
+      "inputBytes": 4753,
+      "outputBytes": 102
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "parse_logs",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 769,
+      "outputBytes": 1117
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "summarize_logs",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 853,
+      "outputBytes": 1051
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "summarize_logs",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 855,
+      "outputBytes": 1188
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "parse_logs",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 760,
+      "outputBytes": 1117
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "parse_logs",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 876,
+      "outputBytes": 1229
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "parse_logs",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "validation_error",
+      "durationMs": 1,
+      "inputBytes": 834,
+      "outputBytes": 87
+    }
+  ],
+  "environment": "local Streamable HTTP with synthetic DNS/HTTPS fixtures; native Codex MCP calls"
+}

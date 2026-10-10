@@ -1,0 +1,863 @@
+{
+  "model": "gpt-5.6-luna",
+  "at": "2026-10-10T16:55:27.463Z",
+  "elapsedMs": 9115,
+  "exitCode": 0,
+  "usage": {
+    "input_tokens": 63774,
+    "cached_input_tokens": 45312,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 985,
+    "reasoning_output_tokens": 159
+  },
+  "results": [
+    {
+      "id": "diagnostics-031",
+      "service": "diagnostics",
+      "tool": "check_https",
+      "name": "200 success",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-031",
+        "summary": "Fixture HTTPS root returned status 200 with authorized TLS and no redirects.",
+        "fact": 200,
+        "nextStep": "No redirect follow-up indicated.",
+        "limitations": "Root on port 443 only; no page content or full security audit."
+      },
+      "responseBytes": 626,
+      "textChars": 175
+    },
+    {
+      "id": "diagnostics-032",
+      "service": "diagnostics",
+      "tool": "check_https",
+      "name": "204 response",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-032",
+        "summary": "Fixture HTTPS root returned status 204 with authorized TLS and no redirects.",
+        "fact": 204,
+        "nextStep": "No redirect follow-up indicated.",
+        "limitations": "Root on port 443 only; no page content or full security audit."
+      },
+      "responseBytes": 626,
+      "textChars": 175
+    },
+    {
+      "id": "diagnostics-033",
+      "service": "diagnostics",
+      "tool": "check_https",
+      "name": "404 root",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-033",
+        "summary": "Fixture HTTPS root returned status 404 with authorized TLS and no redirects.",
+        "fact": 404,
+        "nextStep": "Review root-path availability in the fixture configuration.",
+        "limitations": "Root on port 443 only; no page content or full security audit."
+      },
+      "responseBytes": 626,
+      "textChars": 175
+    },
+    {
+      "id": "diagnostics-034",
+      "service": "diagnostics",
+      "tool": "check_https",
+      "name": "503 root",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-034",
+        "summary": "Fixture HTTPS root returned status 503 with authorized TLS and no redirects.",
+        "fact": 503,
+        "nextStep": "Investigate the fixture service availability.",
+        "limitations": "Root on port 443 only; no page content or full security audit."
+      },
+      "responseBytes": 626,
+      "textChars": 175
+    },
+    {
+      "id": "diagnostics-035",
+      "service": "diagnostics",
+      "tool": "check_https",
+      "name": "301 redirect",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-035",
+        "summary": "The fixture followed one redirect and finished at status 200.",
+        "fact": 2,
+        "nextStep": "Review the single redirect target if redirect behavior matters.",
+        "limitations": "Root on port 443 only; no page content or full security audit."
+      },
+      "responseBytes": 845,
+      "textChars": 235
+    },
+    {
+      "id": "diagnostics-036",
+      "service": "diagnostics",
+      "tool": "check_https",
+      "name": "302 redirect",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-036",
+        "summary": "The fixture followed one redirect and finished at status 200.",
+        "fact": 2,
+        "nextStep": "Review the single redirect target if redirect behavior matters.",
+        "limitations": "Root on port 443 only; no page content or full security audit."
+      },
+      "responseBytes": 845,
+      "textChars": 235
+    },
+    {
+      "id": "diagnostics-037",
+      "service": "diagnostics",
+      "tool": "check_https",
+      "name": "303 redirect",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-037",
+        "summary": "The fixture followed one redirect and finished at status 200.",
+        "fact": 2,
+        "nextStep": "Review the single redirect target if redirect behavior matters.",
+        "limitations": "Root on port 443 only; no page content or full security audit."
+      },
+      "responseBytes": 845,
+      "textChars": 235
+    },
+    {
+      "id": "diagnostics-038",
+      "service": "diagnostics",
+      "tool": "check_https",
+      "name": "307 redirect",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-038",
+        "summary": "The fixture followed one redirect and finished at status 200.",
+        "fact": 2,
+        "nextStep": "Review the single redirect target if redirect behavior matters.",
+        "limitations": "Root on port 443 only; no page content or full security audit."
+      },
+      "responseBytes": 845,
+      "textChars": 235
+    },
+    {
+      "id": "diagnostics-039",
+      "service": "diagnostics",
+      "tool": "check_https",
+      "name": "308 redirect",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-039",
+        "summary": "The fixture followed one redirect and finished at status 200.",
+        "fact": 2,
+        "nextStep": "Review the single redirect target if redirect behavior matters.",
+        "limitations": "Root on port 443 only; no page content or full security audit."
+      },
+      "responseBytes": 845,
+      "textChars": 235
+    },
+    {
+      "id": "diagnostics-040",
+      "service": "diagnostics",
+      "tool": "check_https",
+      "name": "three redirects",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-040",
+        "summary": "The fixture followed three redirects and finished at status 200.",
+        "fact": 4,
+        "nextStep": "Review the three-hop redirect chain for unnecessary complexity.",
+        "limitations": "Root on port 443 only; no page content or full security audit."
+      },
+      "responseBytes": 1283,
+      "textChars": 355
+    }
+  ],
+  "calls": [
+    {
+      "id": "item_1",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "check_https",
+      "arguments": {
+        "domain": "https30.example.com"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "HTTPS finished at status 200; 0 redirects.\n• https://https30.example.com/: HTTP 200, TLS authorized true.\nLimit: Root on port 443 only; no page content or full security audit."
+          }
+        ],
+        "structured_content": {
+          "hops": [
+            {
+              "url": "https://https30.example.com/",
+              "status": 200,
+              "certificate": {
+                "authorized": true
+              },
+              "headers": {}
+            }
+          ],
+          "observedAt": "2026-10-10T16:55:23.206Z",
+          "admin": {
+            "summary": "HTTPS finished at status 200; 0 redirects.",
+            "findings": [
+              "https://https30.example.com/: HTTP 200, TLS authorized true."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Root on port 443 only; no page content or full security audit."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_2",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "check_https",
+      "arguments": {
+        "domain": "https31.example.com"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "HTTPS finished at status 204; 0 redirects.\n• https://https31.example.com/: HTTP 204, TLS authorized true.\nLimit: Root on port 443 only; no page content or full security audit."
+          }
+        ],
+        "structured_content": {
+          "hops": [
+            {
+              "url": "https://https31.example.com/",
+              "status": 204,
+              "certificate": {
+                "authorized": true
+              },
+              "headers": {}
+            }
+          ],
+          "observedAt": "2026-10-10T16:55:23.209Z",
+          "admin": {
+            "summary": "HTTPS finished at status 204; 0 redirects.",
+            "findings": [
+              "https://https31.example.com/: HTTP 204, TLS authorized true."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Root on port 443 only; no page content or full security audit."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_3",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "check_https",
+      "arguments": {
+        "domain": "https32.example.com"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "HTTPS finished at status 404; 0 redirects.\n• https://https32.example.com/: HTTP 404, TLS authorized true.\nLimit: Root on port 443 only; no page content or full security audit."
+          }
+        ],
+        "structured_content": {
+          "hops": [
+            {
+              "url": "https://https32.example.com/",
+              "status": 404,
+              "certificate": {
+                "authorized": true
+              },
+              "headers": {}
+            }
+          ],
+          "observedAt": "2026-10-10T16:55:23.211Z",
+          "admin": {
+            "summary": "HTTPS finished at status 404; 0 redirects.",
+            "findings": [
+              "https://https32.example.com/: HTTP 404, TLS authorized true."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Root on port 443 only; no page content or full security audit."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_4",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "check_https",
+      "arguments": {
+        "domain": "https33.example.com"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "HTTPS finished at status 503; 0 redirects.\n• https://https33.example.com/: HTTP 503, TLS authorized true.\nLimit: Root on port 443 only; no page content or full security audit."
+          }
+        ],
+        "structured_content": {
+          "hops": [
+            {
+              "url": "https://https33.example.com/",
+              "status": 503,
+              "certificate": {
+                "authorized": true
+              },
+              "headers": {}
+            }
+          ],
+          "observedAt": "2026-10-10T16:55:23.214Z",
+          "admin": {
+            "summary": "HTTPS finished at status 503; 0 redirects.",
+            "findings": [
+              "https://https33.example.com/: HTTP 503, TLS authorized true."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Root on port 443 only; no page content or full security audit."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_5",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "check_https",
+      "arguments": {
+        "domain": "https34.example.com"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "HTTPS finished at status 200; 1 redirects.\n• https://https34.example.com/: HTTP 301, TLS authorized true.\n• https://hop1.example.com/: HTTP 200, TLS authorized true.\nLimit: Root on port 443 only; no page content or full security audit."
+          }
+        ],
+        "structured_content": {
+          "hops": [
+            {
+              "url": "https://https34.example.com/",
+              "status": 301,
+              "certificate": {
+                "authorized": true
+              },
+              "headers": {}
+            },
+            {
+              "url": "https://hop1.example.com/",
+              "status": 200,
+              "certificate": {
+                "authorized": true
+              },
+              "headers": {}
+            }
+          ],
+          "observedAt": "2026-10-10T16:55:23.216Z",
+          "admin": {
+            "summary": "HTTPS finished at status 200; 1 redirects.",
+            "findings": [
+              "https://https34.example.com/: HTTP 301, TLS authorized true.",
+              "https://hop1.example.com/: HTTP 200, TLS authorized true."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Root on port 443 only; no page content or full security audit."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_6",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "check_https",
+      "arguments": {
+        "domain": "https35.example.com"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "HTTPS finished at status 200; 1 redirects.\n• https://https35.example.com/: HTTP 302, TLS authorized true.\n• https://hop1.example.com/: HTTP 200, TLS authorized true.\nLimit: Root on port 443 only; no page content or full security audit."
+          }
+        ],
+        "structured_content": {
+          "hops": [
+            {
+              "url": "https://https35.example.com/",
+              "status": 302,
+              "certificate": {
+                "authorized": true
+              },
+              "headers": {}
+            },
+            {
+              "url": "https://hop1.example.com/",
+              "status": 200,
+              "certificate": {
+                "authorized": true
+              },
+              "headers": {}
+            }
+          ],
+          "observedAt": "2026-10-10T16:55:23.220Z",
+          "admin": {
+            "summary": "HTTPS finished at status 200; 1 redirects.",
+            "findings": [
+              "https://https35.example.com/: HTTP 302, TLS authorized true.",
+              "https://hop1.example.com/: HTTP 200, TLS authorized true."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Root on port 443 only; no page content or full security audit."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_7",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "check_https",
+      "arguments": {
+        "domain": "https36.example.com"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "HTTPS finished at status 200; 1 redirects.\n• https://https36.example.com/: HTTP 303, TLS authorized true.\n• https://hop1.example.com/: HTTP 200, TLS authorized true.\nLimit: Root on port 443 only; no page content or full security audit."
+          }
+        ],
+        "structured_content": {
+          "hops": [
+            {
+              "url": "https://https36.example.com/",
+              "status": 303,
+              "certificate": {
+                "authorized": true
+              },
+              "headers": {}
+            },
+            {
+              "url": "https://hop1.example.com/",
+              "status": 200,
+              "certificate": {
+                "authorized": true
+              },
+              "headers": {}
+            }
+          ],
+          "observedAt": "2026-10-10T16:55:23.222Z",
+          "admin": {
+            "summary": "HTTPS finished at status 200; 1 redirects.",
+            "findings": [
+              "https://https36.example.com/: HTTP 303, TLS authorized true.",
+              "https://hop1.example.com/: HTTP 200, TLS authorized true."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Root on port 443 only; no page content or full security audit."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_8",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "check_https",
+      "arguments": {
+        "domain": "https37.example.com"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "HTTPS finished at status 200; 1 redirects.\n• https://https37.example.com/: HTTP 307, TLS authorized true.\n• https://hop1.example.com/: HTTP 200, TLS authorized true.\nLimit: Root on port 443 only; no page content or full security audit."
+          }
+        ],
+        "structured_content": {
+          "hops": [
+            {
+              "url": "https://https37.example.com/",
+              "status": 307,
+              "certificate": {
+                "authorized": true
+              },
+              "headers": {}
+            },
+            {
+              "url": "https://hop1.example.com/",
+              "status": 200,
+              "certificate": {
+                "authorized": true
+              },
+              "headers": {}
+            }
+          ],
+          "observedAt": "2026-10-10T16:55:23.225Z",
+          "admin": {
+            "summary": "HTTPS finished at status 200; 1 redirects.",
+            "findings": [
+              "https://https37.example.com/: HTTP 307, TLS authorized true.",
+              "https://hop1.example.com/: HTTP 200, TLS authorized true."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Root on port 443 only; no page content or full security audit."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_9",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "check_https",
+      "arguments": {
+        "domain": "https38.example.com"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "HTTPS finished at status 200; 1 redirects.\n• https://https38.example.com/: HTTP 308, TLS authorized true.\n• https://hop1.example.com/: HTTP 200, TLS authorized true.\nLimit: Root on port 443 only; no page content or full security audit."
+          }
+        ],
+        "structured_content": {
+          "hops": [
+            {
+              "url": "https://https38.example.com/",
+              "status": 308,
+              "certificate": {
+                "authorized": true
+              },
+              "headers": {}
+            },
+            {
+              "url": "https://hop1.example.com/",
+              "status": 200,
+              "certificate": {
+                "authorized": true
+              },
+              "headers": {}
+            }
+          ],
+          "observedAt": "2026-10-10T16:55:23.227Z",
+          "admin": {
+            "summary": "HTTPS finished at status 200; 1 redirects.",
+            "findings": [
+              "https://https38.example.com/: HTTP 308, TLS authorized true.",
+              "https://hop1.example.com/: HTTP 200, TLS authorized true."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Root on port 443 only; no page content or full security audit."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_10",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "check_https",
+      "arguments": {
+        "domain": "https39.example.com"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "HTTPS finished at status 200; 3 redirects.\n• https://https39.example.com/: HTTP 302, TLS authorized true.\n• https://hop1.example.com/: HTTP 302, TLS authorized true.\n• https://hop2.example.com/: HTTP 302, TLS authorized true.\n• https://hop3.example.com/: HTTP 200, TLS authorized true.\nLimit: Root on port 443 only; no page content or full security audit."
+          }
+        ],
+        "structured_content": {
+          "hops": [
+            {
+              "url": "https://https39.example.com/",
+              "status": 302,
+              "certificate": {
+                "authorized": true
+              },
+              "headers": {}
+            },
+            {
+              "url": "https://hop1.example.com/",
+              "status": 302,
+              "certificate": {
+                "authorized": true
+              },
+              "headers": {}
+            },
+            {
+              "url": "https://hop2.example.com/",
+              "status": 302,
+              "certificate": {
+                "authorized": true
+              },
+              "headers": {}
+            },
+            {
+              "url": "https://hop3.example.com/",
+              "status": 200,
+              "certificate": {
+                "authorized": true
+              },
+              "headers": {}
+            }
+          ],
+          "observedAt": "2026-10-10T16:55:23.229Z",
+          "admin": {
+            "summary": "HTTPS finished at status 200; 3 redirects.",
+            "findings": [
+              "https://https39.example.com/: HTTP 302, TLS authorized true.",
+              "https://hop1.example.com/: HTTP 302, TLS authorized true.",
+              "https://hop2.example.com/: HTTP 302, TLS authorized true.",
+              "https://hop3.example.com/: HTTP 200, TLS authorized true."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Root on port 443 only; no page content or full security audit."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    }
+  ],
+  "prohibitedActions": [],
+  "events": [],
+  "stderr": "2026-10-10T16:55:18.507757Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n",
+  "telemetry": [
+    {
+      "service": "diagnostics",
+      "method": "initialize",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 2,
+      "inputBytes": 217,
+      "outputBytes": 173,
+      "clientName": "codex-mcp-client",
+      "clientVersion": "0.154.0"
+    },
+    {
+      "service": "diagnostics",
+      "method": "notifications/initialized",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 1,
+      "inputBytes": 54,
+      "outputBytes": 0
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/list",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 2,
+      "inputBytes": 85,
+      "outputBytes": 4160
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "check_https",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 2,
+      "inputBytes": 773,
+      "outputBytes": 659
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "check_https",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 773,
+      "outputBytes": 659
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "check_https",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 773,
+      "outputBytes": 659
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "check_https",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 773,
+      "outputBytes": 659
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "check_https",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 773,
+      "outputBytes": 878
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "check_https",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 2,
+      "inputBytes": 773,
+      "outputBytes": 878
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "check_https",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 773,
+      "outputBytes": 878
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "check_https",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 773,
+      "outputBytes": 878
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "check_https",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 774,
+      "outputBytes": 879
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "check_https",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 775,
+      "outputBytes": 1317
+    }
+  ],
+  "environment": "local Streamable HTTP with synthetic DNS/HTTPS fixtures; native Codex MCP calls"
+}

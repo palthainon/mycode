@@ -1,0 +1,789 @@
+{
+  "model": "gpt-5.6-luna",
+  "at": "2026-10-10T17:02:07.001Z",
+  "elapsedMs": 11260,
+  "exitCode": 0,
+  "usage": {
+    "input_tokens": 49184,
+    "cached_input_tokens": 38144,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 1129,
+    "reasoning_output_tokens": 152
+  },
+  "results": [
+    {
+      "id": "network-011",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "IPv4 /26",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-011",
+        "summary": "Observed IPv4 /26 capacity is 64 addresses.",
+        "fact": "64",
+        "nextStep": "Use the returned range and usable-host details as needed.",
+        "limitations": "Does not account for provider-reserved addresses."
+      },
+      "responseBytes": 806,
+      "textChars": 205
+    },
+    {
+      "id": "network-012",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "IPv4 /27",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-012",
+        "summary": "Observed IPv4 /27 capacity is 32 addresses.",
+        "fact": "32",
+        "nextStep": "Use the returned range and usable-host details as needed.",
+        "limitations": "Does not account for provider-reserved addresses."
+      },
+      "responseBytes": 806,
+      "textChars": 205
+    },
+    {
+      "id": "network-013",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "IPv4 /28",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-013",
+        "summary": "Observed IPv4 /28 capacity is 16 addresses.",
+        "fact": "16",
+        "nextStep": "Use the returned range and usable-host details as needed.",
+        "limitations": "Does not account for provider-reserved addresses."
+      },
+      "responseBytes": 806,
+      "textChars": 205
+    },
+    {
+      "id": "network-014",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "IPv4 /29",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-014",
+        "summary": "Observed IPv4 /29 capacity is 8 addresses.",
+        "fact": "8",
+        "nextStep": "Use the returned range and usable-host details as needed.",
+        "limitations": "Does not account for provider-reserved addresses."
+      },
+      "responseBytes": 800,
+      "textChars": 203
+    },
+    {
+      "id": "network-015",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "IPv4 /30",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-015",
+        "summary": "Observed IPv4 /30 capacity is 4 addresses.",
+        "fact": "4",
+        "nextStep": "Use the returned range and usable-host details as needed.",
+        "limitations": "Does not account for provider-reserved addresses."
+      },
+      "responseBytes": 800,
+      "textChars": 203
+    },
+    {
+      "id": "network-016",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "IPv4 /31",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-016",
+        "summary": "Observed IPv4 /31 capacity is 2 addresses, both usable.",
+        "fact": "2",
+        "nextStep": "Use the returned range and usable-host details as needed.",
+        "limitations": "Does not account for provider-reserved addresses."
+      },
+      "responseBytes": 791,
+      "textChars": 203
+    },
+    {
+      "id": "network-017",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "IPv4 /32",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-017",
+        "summary": "Observed IPv4 /32 capacity is 1 address.",
+        "fact": "1",
+        "nextStep": "Use the returned range and usable-host details as needed.",
+        "limitations": "Does not account for provider-reserved addresses."
+      },
+      "responseBytes": 791,
+      "textChars": 203
+    },
+    {
+      "id": "network-018",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "IPv6 /0",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-018",
+        "summary": "Observed IPv6 /0 capacity is the complete IPv6 address space.",
+        "fact": "340282366920938463463374607431768211456",
+        "nextStep": "Use the returned IPv6 range.",
+        "limitations": "IPv6 has no broadcast; capacity does not account for provider-reserved addresses."
+      },
+      "responseBytes": 814,
+      "textChars": 213
+    },
+    {
+      "id": "network-019",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "IPv6 /1",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-019",
+        "summary": "Observed IPv6 /1 capacity is 170141183460469231731687303715884105728 addresses.",
+        "fact": "170141183460469231731687303715884105728",
+        "nextStep": "Use the returned IPv6 range.",
+        "limitations": "IPv6 has no broadcast; capacity does not account for provider-reserved addresses."
+      },
+      "responseBytes": 814,
+      "textChars": 213
+    },
+    {
+      "id": "network-020",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "IPv6 /16",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-020",
+        "summary": "Observed IPv6 /16 capacity is 5192296858534827628530496329220096 addresses.",
+        "fact": "5192296858534827628530496329220096",
+        "nextStep": "Use the returned IPv6 range.",
+        "limitations": "IPv6 has no broadcast; capacity does not account for provider-reserved addresses."
+      },
+      "responseBytes": 827,
+      "textChars": 217
+    }
+  ],
+  "calls": [
+    {
+      "id": "item_1",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "inspect_subnet",
+      "arguments": {
+        "cidr": "192.0.2.129/26"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "192.0.2.128/26: 64 addresses.\n• Range 192.0.2.128 – 192.0.2.191.\n• Usable 192.0.2.129 – 192.0.2.190 (62); mask 255.255.255.192.\nLimit: Capacity calculation does not account for provider-reserved addresses."
+          }
+        ],
+        "structured_content": {
+          "version": 4,
+          "cidr": "192.0.2.128/26",
+          "prefix": 26,
+          "firstAddress": "192.0.2.128",
+          "lastAddress": "192.0.2.191",
+          "addressCount": "64",
+          "netmask": "255.255.255.192",
+          "usableHostCount": "62",
+          "firstUsable": "192.0.2.129",
+          "lastUsable": "192.0.2.190",
+          "broadcast": "192.0.2.191",
+          "admin": {
+            "summary": "192.0.2.128/26: 64 addresses.",
+            "findings": [
+              "Range 192.0.2.128 – 192.0.2.191.",
+              "Usable 192.0.2.129 – 192.0.2.190 (62); mask 255.255.255.192."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Capacity calculation does not account for provider-reserved addresses."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_2",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "inspect_subnet",
+      "arguments": {
+        "cidr": "192.0.2.129/27"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "192.0.2.128/27: 32 addresses.\n• Range 192.0.2.128 – 192.0.2.159.\n• Usable 192.0.2.129 – 192.0.2.158 (30); mask 255.255.255.224.\nLimit: Capacity calculation does not account for provider-reserved addresses."
+          }
+        ],
+        "structured_content": {
+          "version": 4,
+          "cidr": "192.0.2.128/27",
+          "prefix": 27,
+          "firstAddress": "192.0.2.128",
+          "lastAddress": "192.0.2.159",
+          "addressCount": "32",
+          "netmask": "255.255.255.224",
+          "usableHostCount": "30",
+          "firstUsable": "192.0.2.129",
+          "lastUsable": "192.0.2.158",
+          "broadcast": "192.0.2.159",
+          "admin": {
+            "summary": "192.0.2.128/27: 32 addresses.",
+            "findings": [
+              "Range 192.0.2.128 – 192.0.2.159.",
+              "Usable 192.0.2.129 – 192.0.2.158 (30); mask 255.255.255.224."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Capacity calculation does not account for provider-reserved addresses."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_3",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "inspect_subnet",
+      "arguments": {
+        "cidr": "192.0.2.129/28"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "192.0.2.128/28: 16 addresses.\n• Range 192.0.2.128 – 192.0.2.143.\n• Usable 192.0.2.129 – 192.0.2.142 (14); mask 255.255.255.240.\nLimit: Capacity calculation does not account for provider-reserved addresses."
+          }
+        ],
+        "structured_content": {
+          "version": 4,
+          "cidr": "192.0.2.128/28",
+          "prefix": 28,
+          "firstAddress": "192.0.2.128",
+          "lastAddress": "192.0.2.143",
+          "addressCount": "16",
+          "netmask": "255.255.255.240",
+          "usableHostCount": "14",
+          "firstUsable": "192.0.2.129",
+          "lastUsable": "192.0.2.142",
+          "broadcast": "192.0.2.143",
+          "admin": {
+            "summary": "192.0.2.128/28: 16 addresses.",
+            "findings": [
+              "Range 192.0.2.128 – 192.0.2.143.",
+              "Usable 192.0.2.129 – 192.0.2.142 (14); mask 255.255.255.240."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Capacity calculation does not account for provider-reserved addresses."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_4",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "inspect_subnet",
+      "arguments": {
+        "cidr": "192.0.2.129/29"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "192.0.2.128/29: 8 addresses.\n• Range 192.0.2.128 – 192.0.2.135.\n• Usable 192.0.2.129 – 192.0.2.134 (6); mask 255.255.255.248.\nLimit: Capacity calculation does not account for provider-reserved addresses."
+          }
+        ],
+        "structured_content": {
+          "version": 4,
+          "cidr": "192.0.2.128/29",
+          "prefix": 29,
+          "firstAddress": "192.0.2.128",
+          "lastAddress": "192.0.2.135",
+          "addressCount": "8",
+          "netmask": "255.255.255.248",
+          "usableHostCount": "6",
+          "firstUsable": "192.0.2.129",
+          "lastUsable": "192.0.2.134",
+          "broadcast": "192.0.2.135",
+          "admin": {
+            "summary": "192.0.2.128/29: 8 addresses.",
+            "findings": [
+              "Range 192.0.2.128 – 192.0.2.135.",
+              "Usable 192.0.2.129 – 192.0.2.134 (6); mask 255.255.255.248."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Capacity calculation does not account for provider-reserved addresses."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_5",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "inspect_subnet",
+      "arguments": {
+        "cidr": "192.0.2.129/30"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "192.0.2.128/30: 4 addresses.\n• Range 192.0.2.128 – 192.0.2.131.\n• Usable 192.0.2.129 – 192.0.2.130 (2); mask 255.255.255.252.\nLimit: Capacity calculation does not account for provider-reserved addresses."
+          }
+        ],
+        "structured_content": {
+          "version": 4,
+          "cidr": "192.0.2.128/30",
+          "prefix": 30,
+          "firstAddress": "192.0.2.128",
+          "lastAddress": "192.0.2.131",
+          "addressCount": "4",
+          "netmask": "255.255.255.252",
+          "usableHostCount": "2",
+          "firstUsable": "192.0.2.129",
+          "lastUsable": "192.0.2.130",
+          "broadcast": "192.0.2.131",
+          "admin": {
+            "summary": "192.0.2.128/30: 4 addresses.",
+            "findings": [
+              "Range 192.0.2.128 – 192.0.2.131.",
+              "Usable 192.0.2.129 – 192.0.2.130 (2); mask 255.255.255.252."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Capacity calculation does not account for provider-reserved addresses."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_6",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "inspect_subnet",
+      "arguments": {
+        "cidr": "192.0.2.129/31"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "192.0.2.128/31: 2 addresses.\n• Range 192.0.2.128 – 192.0.2.129.\n• Usable 192.0.2.128 – 192.0.2.129 (2); mask 255.255.255.254.\nLimit: Capacity calculation does not account for provider-reserved addresses."
+          }
+        ],
+        "structured_content": {
+          "version": 4,
+          "cidr": "192.0.2.128/31",
+          "prefix": 31,
+          "firstAddress": "192.0.2.128",
+          "lastAddress": "192.0.2.129",
+          "addressCount": "2",
+          "netmask": "255.255.255.254",
+          "usableHostCount": "2",
+          "firstUsable": "192.0.2.128",
+          "lastUsable": "192.0.2.129",
+          "broadcast": null,
+          "admin": {
+            "summary": "192.0.2.128/31: 2 addresses.",
+            "findings": [
+              "Range 192.0.2.128 – 192.0.2.129.",
+              "Usable 192.0.2.128 – 192.0.2.129 (2); mask 255.255.255.254."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Capacity calculation does not account for provider-reserved addresses."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_7",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "inspect_subnet",
+      "arguments": {
+        "cidr": "192.0.2.129/32"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "192.0.2.129/32: 1 addresses.\n• Range 192.0.2.129 – 192.0.2.129.\n• Usable 192.0.2.129 – 192.0.2.129 (1); mask 255.255.255.255.\nLimit: Capacity calculation does not account for provider-reserved addresses."
+          }
+        ],
+        "structured_content": {
+          "version": 4,
+          "cidr": "192.0.2.129/32",
+          "prefix": 32,
+          "firstAddress": "192.0.2.129",
+          "lastAddress": "192.0.2.129",
+          "addressCount": "1",
+          "netmask": "255.255.255.255",
+          "usableHostCount": "1",
+          "firstUsable": "192.0.2.129",
+          "lastUsable": "192.0.2.129",
+          "broadcast": null,
+          "admin": {
+            "summary": "192.0.2.129/32: 1 addresses.",
+            "findings": [
+              "Range 192.0.2.129 – 192.0.2.129.",
+              "Usable 192.0.2.129 – 192.0.2.129 (1); mask 255.255.255.255."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Capacity calculation does not account for provider-reserved addresses."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_8",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "inspect_subnet",
+      "arguments": {
+        "cidr": "2001:db8::1/0"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "::/0: 340282366920938463463374607431768211456 addresses.\n• Range :: – ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff.\n• IPv6 has no broadcast.\nLimit: Capacity calculation does not account for provider-reserved addresses."
+          }
+        ],
+        "structured_content": {
+          "version": 6,
+          "cidr": "::/0",
+          "prefix": 0,
+          "firstAddress": "::",
+          "lastAddress": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff",
+          "addressCount": "340282366920938463463374607431768211456",
+          "note": "IPv6 has no broadcast address; addressCount includes the complete prefix.",
+          "admin": {
+            "summary": "::/0: 340282366920938463463374607431768211456 addresses.",
+            "findings": [
+              "Range :: – ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff.",
+              "IPv6 has no broadcast."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Capacity calculation does not account for provider-reserved addresses."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_9",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "inspect_subnet",
+      "arguments": {
+        "cidr": "2001:db8::1/1"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "::/1: 170141183460469231731687303715884105728 addresses.\n• Range :: – 7fff:ffff:ffff:ffff:ffff:ffff:ffff:ffff.\n• IPv6 has no broadcast.\nLimit: Capacity calculation does not account for provider-reserved addresses."
+          }
+        ],
+        "structured_content": {
+          "version": 6,
+          "cidr": "::/1",
+          "prefix": 1,
+          "firstAddress": "::",
+          "lastAddress": "7fff:ffff:ffff:ffff:ffff:ffff:ffff:ffff",
+          "addressCount": "170141183460469231731687303715884105728",
+          "note": "IPv6 has no broadcast address; addressCount includes the complete prefix.",
+          "admin": {
+            "summary": "::/1: 170141183460469231731687303715884105728 addresses.",
+            "findings": [
+              "Range :: – 7fff:ffff:ffff:ffff:ffff:ffff:ffff:ffff.",
+              "IPv6 has no broadcast."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Capacity calculation does not account for provider-reserved addresses."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_10",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "inspect_subnet",
+      "arguments": {
+        "cidr": "2001:db8::1/16"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "2001::/16: 5192296858534827628530496329220096 addresses.\n• Range 2001:: – 2001:ffff:ffff:ffff:ffff:ffff:ffff:ffff.\n• IPv6 has no broadcast.\nLimit: Capacity calculation does not account for provider-reserved addresses."
+          }
+        ],
+        "structured_content": {
+          "version": 6,
+          "cidr": "2001::/16",
+          "prefix": 16,
+          "firstAddress": "2001::",
+          "lastAddress": "2001:ffff:ffff:ffff:ffff:ffff:ffff:ffff",
+          "addressCount": "5192296858534827628530496329220096",
+          "note": "IPv6 has no broadcast address; addressCount includes the complete prefix.",
+          "admin": {
+            "summary": "2001::/16: 5192296858534827628530496329220096 addresses.",
+            "findings": [
+              "Range 2001:: – 2001:ffff:ffff:ffff:ffff:ffff:ffff:ffff.",
+              "IPv6 has no broadcast."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Capacity calculation does not account for provider-reserved addresses."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    }
+  ],
+  "prohibitedActions": [],
+  "events": [],
+  "stderr": "2026-10-10T17:01:56.339666Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n",
+  "telemetry": [
+    {
+      "service": "network",
+      "method": "initialize",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 2,
+      "inputBytes": 217,
+      "outputBytes": 169,
+      "clientName": "codex-mcp-client",
+      "clientVersion": "0.154.0"
+    },
+    {
+      "service": "network",
+      "method": "notifications/initialized",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 1,
+      "inputBytes": 54,
+      "outputBytes": 0
+    },
+    {
+      "service": "network",
+      "method": "tools/list",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 2,
+      "inputBytes": 85,
+      "outputBytes": 2515
+    },
+    {
+      "service": "network",
+      "method": "tools/call",
+      "tool": "inspect_subnet",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 769,
+      "outputBytes": 839
+    },
+    {
+      "service": "network",
+      "method": "tools/call",
+      "tool": "inspect_subnet",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 769,
+      "outputBytes": 839
+    },
+    {
+      "service": "network",
+      "method": "tools/call",
+      "tool": "inspect_subnet",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 769,
+      "outputBytes": 839
+    },
+    {
+      "service": "network",
+      "method": "tools/call",
+      "tool": "inspect_subnet",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 769,
+      "outputBytes": 833
+    },
+    {
+      "service": "network",
+      "method": "tools/call",
+      "tool": "inspect_subnet",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 769,
+      "outputBytes": 833
+    },
+    {
+      "service": "network",
+      "method": "tools/call",
+      "tool": "inspect_subnet",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 769,
+      "outputBytes": 824
+    },
+    {
+      "service": "network",
+      "method": "tools/call",
+      "tool": "inspect_subnet",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 769,
+      "outputBytes": 824
+    },
+    {
+      "service": "network",
+      "method": "tools/call",
+      "tool": "inspect_subnet",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 2,
+      "inputBytes": 768,
+      "outputBytes": 847
+    },
+    {
+      "service": "network",
+      "method": "tools/call",
+      "tool": "inspect_subnet",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 769,
+      "outputBytes": 848
+    },
+    {
+      "service": "network",
+      "method": "tools/call",
+      "tool": "inspect_subnet",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 771,
+      "outputBytes": 861
+    }
+  ],
+  "environment": "local Streamable HTTP with synthetic DNS/HTTPS fixtures; native Codex MCP calls"
+}

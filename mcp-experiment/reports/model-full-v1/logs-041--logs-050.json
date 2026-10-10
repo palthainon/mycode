@@ -1,0 +1,790 @@
+{
+  "model": "gpt-5.6-luna",
+  "at": "2026-10-10T14:51:11.586Z",
+  "elapsedMs": 9039,
+  "exitCode": 0,
+  "usage": {
+    "input_tokens": 45294,
+    "cached_input_tokens": 36096,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 958,
+    "reasoning_output_tokens": 164
+  },
+  "results": [
+    {
+      "id": "logs-041",
+      "service": "logs",
+      "tool": "extract_ci_failures",
+      "name": "FAILED assertion",
+      "passed": true,
+      "answer": {
+        "id": "logs-041",
+        "summary": "The supplied text was classified as a test failure.",
+        "fact": "test",
+        "nextStep": "Inspect the earliest relevant failure and surrounding log.",
+        "limitations": "Pattern matching; no root-cause inference."
+      }
+    },
+    {
+      "id": "logs-042",
+      "service": "logs",
+      "tool": "extract_ci_failures",
+      "name": "AssertionError",
+      "passed": true,
+      "answer": {
+        "id": "logs-042",
+        "summary": "The supplied text was classified as a test failure.",
+        "fact": "test",
+        "nextStep": "Inspect the earliest relevant failure and surrounding log.",
+        "limitations": "Pattern matching; no root-cause inference."
+      }
+    },
+    {
+      "id": "logs-043",
+      "service": "logs",
+      "tool": "extract_ci_failures",
+      "name": "ERESOLVE",
+      "passed": true,
+      "answer": {
+        "id": "logs-043",
+        "summary": "ERESOLVE was classified as a dependency failure.",
+        "fact": "dependency",
+        "nextStep": "Inspect the earliest relevant failure and surrounding log.",
+        "limitations": "Pattern matching; no root-cause inference."
+      }
+    },
+    {
+      "id": "logs-044",
+      "service": "logs",
+      "tool": "extract_ci_failures",
+      "name": "ENOTFOUND",
+      "passed": true,
+      "answer": {
+        "id": "logs-044",
+        "summary": "ENOTFOUND was classified as a dependency failure.",
+        "fact": "dependency",
+        "nextStep": "Inspect the earliest relevant failure and surrounding log.",
+        "limitations": "Pattern matching; no root-cause inference."
+      }
+    },
+    {
+      "id": "logs-045",
+      "service": "logs",
+      "tool": "extract_ci_failures",
+      "name": "ECONNREFUSED",
+      "passed": true,
+      "answer": {
+        "id": "logs-045",
+        "summary": "ECONNREFUSED was classified as a dependency failure.",
+        "fact": "dependency",
+        "nextStep": "Inspect the earliest relevant failure and surrounding log.",
+        "limitations": "Pattern matching; no root-cause inference."
+      }
+    },
+    {
+      "id": "logs-046",
+      "service": "logs",
+      "tool": "extract_ci_failures",
+      "name": "Could not resolve dependency",
+      "passed": true,
+      "answer": {
+        "id": "logs-046",
+        "summary": "The dependency-resolution message was classified as a dependency failure.",
+        "fact": "dependency",
+        "nextStep": "Inspect the earliest relevant failure and surrounding log.",
+        "limitations": "Pattern matching; no root-cause inference."
+      }
+    },
+    {
+      "id": "logs-047",
+      "service": "logs",
+      "tool": "extract_ci_failures",
+      "name": "permission denied",
+      "passed": true,
+      "answer": {
+        "id": "logs-047",
+        "summary": "The supplied text was classified as a permission failure.",
+        "fact": "permission",
+        "nextStep": "Inspect the earliest relevant failure and surrounding log.",
+        "limitations": "Pattern matching; no root-cause inference."
+      }
+    },
+    {
+      "id": "logs-048",
+      "service": "logs",
+      "tool": "extract_ci_failures",
+      "name": "EACCES",
+      "passed": true,
+      "answer": {
+        "id": "logs-048",
+        "summary": "EACCES was classified as a permission failure.",
+        "fact": "permission",
+        "nextStep": "Inspect the earliest relevant failure and surrounding log.",
+        "limitations": "Pattern matching; no root-cause inference."
+      }
+    },
+    {
+      "id": "logs-049",
+      "service": "logs",
+      "tool": "extract_ci_failures",
+      "name": "unauthorized",
+      "passed": true,
+      "answer": {
+        "id": "logs-049",
+        "summary": "The supplied text was classified as a permission failure.",
+        "fact": "permission",
+        "nextStep": "Inspect the earliest relevant failure and surrounding log.",
+        "limitations": "Pattern matching; no root-cause inference."
+      }
+    },
+    {
+      "id": "logs-050",
+      "service": "logs",
+      "tool": "extract_ci_failures",
+      "name": "access denied",
+      "passed": true,
+      "answer": {
+        "id": "logs-050",
+        "summary": "The supplied text was classified as a permission failure.",
+        "fact": "permission",
+        "nextStep": "Inspect the earliest relevant failure and surrounding log.",
+        "limitations": "Pattern matching; no root-cause inference."
+      }
+    }
+  ],
+  "calls": [
+    {
+      "id": "item_1",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "extract_ci_failures",
+      "arguments": {
+        "text": "FAILED assertion"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 failure-like lines in 1 CI log lines.\n• Line 1 (test): FAILED assertion\nNext: Inspect the earliest relevant failure and its surrounding source log; later failures may be consequences.\nLimit: Pattern matching, not root-cause inference. Excerpts redact common credential assignments, not all possible secrets."
+          }
+        ],
+        "structured_content": {
+          "lines": 1,
+          "failureCount": 1,
+          "categoryCounts": {
+            "test": 1
+          },
+          "failures": [
+            {
+              "line": 1,
+              "category": "test",
+              "evidence": "FAILED assertion"
+            }
+          ],
+          "omittedFailures": 0,
+          "truncated": false,
+          "admin": {
+            "summary": "1 failure-like lines in 1 CI log lines.",
+            "findings": [
+              "Line 1 (test): FAILED assertion"
+            ],
+            "nextSteps": [
+              "Inspect the earliest relevant failure and its surrounding source log; later failures may be consequences."
+            ],
+            "limitations": [
+              "Pattern matching, not root-cause inference. Excerpts redact common credential assignments, not all possible secrets."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_2",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "extract_ci_failures",
+      "arguments": {
+        "text": "AssertionError: expected true"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 failure-like lines in 1 CI log lines.\n• Line 1 (test): AssertionError: expected true\nNext: Inspect the earliest relevant failure and its surrounding source log; later failures may be consequences.\nLimit: Pattern matching, not root-cause inference. Excerpts redact common credential assignments, not all possible secrets."
+          }
+        ],
+        "structured_content": {
+          "lines": 1,
+          "failureCount": 1,
+          "categoryCounts": {
+            "test": 1
+          },
+          "failures": [
+            {
+              "line": 1,
+              "category": "test",
+              "evidence": "AssertionError: expected true"
+            }
+          ],
+          "omittedFailures": 0,
+          "truncated": false,
+          "admin": {
+            "summary": "1 failure-like lines in 1 CI log lines.",
+            "findings": [
+              "Line 1 (test): AssertionError: expected true"
+            ],
+            "nextSteps": [
+              "Inspect the earliest relevant failure and its surrounding source log; later failures may be consequences."
+            ],
+            "limitations": [
+              "Pattern matching, not root-cause inference. Excerpts redact common credential assignments, not all possible secrets."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_3",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "extract_ci_failures",
+      "arguments": {
+        "text": "ERESOLVE"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 failure-like lines in 1 CI log lines.\n• Line 1 (dependency): ERESOLVE\nNext: Inspect the earliest relevant failure and its surrounding source log; later failures may be consequences.\nLimit: Pattern matching, not root-cause inference. Excerpts redact common credential assignments, not all possible secrets."
+          }
+        ],
+        "structured_content": {
+          "lines": 1,
+          "failureCount": 1,
+          "categoryCounts": {
+            "dependency": 1
+          },
+          "failures": [
+            {
+              "line": 1,
+              "category": "dependency",
+              "evidence": "ERESOLVE"
+            }
+          ],
+          "omittedFailures": 0,
+          "truncated": false,
+          "admin": {
+            "summary": "1 failure-like lines in 1 CI log lines.",
+            "findings": [
+              "Line 1 (dependency): ERESOLVE"
+            ],
+            "nextSteps": [
+              "Inspect the earliest relevant failure and its surrounding source log; later failures may be consequences."
+            ],
+            "limitations": [
+              "Pattern matching, not root-cause inference. Excerpts redact common credential assignments, not all possible secrets."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_4",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "extract_ci_failures",
+      "arguments": {
+        "text": "ENOTFOUND"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 failure-like lines in 1 CI log lines.\n• Line 1 (dependency): ENOTFOUND\nNext: Inspect the earliest relevant failure and its surrounding source log; later failures may be consequences.\nLimit: Pattern matching, not root-cause inference. Excerpts redact common credential assignments, not all possible secrets."
+          }
+        ],
+        "structured_content": {
+          "lines": 1,
+          "failureCount": 1,
+          "categoryCounts": {
+            "dependency": 1
+          },
+          "failures": [
+            {
+              "line": 1,
+              "category": "dependency",
+              "evidence": "ENOTFOUND"
+            }
+          ],
+          "omittedFailures": 0,
+          "truncated": false,
+          "admin": {
+            "summary": "1 failure-like lines in 1 CI log lines.",
+            "findings": [
+              "Line 1 (dependency): ENOTFOUND"
+            ],
+            "nextSteps": [
+              "Inspect the earliest relevant failure and its surrounding source log; later failures may be consequences."
+            ],
+            "limitations": [
+              "Pattern matching, not root-cause inference. Excerpts redact common credential assignments, not all possible secrets."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_5",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "extract_ci_failures",
+      "arguments": {
+        "text": "ECONNREFUSED"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 failure-like lines in 1 CI log lines.\n• Line 1 (dependency): ECONNREFUSED\nNext: Inspect the earliest relevant failure and its surrounding source log; later failures may be consequences.\nLimit: Pattern matching, not root-cause inference. Excerpts redact common credential assignments, not all possible secrets."
+          }
+        ],
+        "structured_content": {
+          "lines": 1,
+          "failureCount": 1,
+          "categoryCounts": {
+            "dependency": 1
+          },
+          "failures": [
+            {
+              "line": 1,
+              "category": "dependency",
+              "evidence": "ECONNREFUSED"
+            }
+          ],
+          "omittedFailures": 0,
+          "truncated": false,
+          "admin": {
+            "summary": "1 failure-like lines in 1 CI log lines.",
+            "findings": [
+              "Line 1 (dependency): ECONNREFUSED"
+            ],
+            "nextSteps": [
+              "Inspect the earliest relevant failure and its surrounding source log; later failures may be consequences."
+            ],
+            "limitations": [
+              "Pattern matching, not root-cause inference. Excerpts redact common credential assignments, not all possible secrets."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_6",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "extract_ci_failures",
+      "arguments": {
+        "text": "Could not resolve dependency"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 failure-like lines in 1 CI log lines.\n• Line 1 (dependency): Could not resolve dependency\nNext: Inspect the earliest relevant failure and its surrounding source log; later failures may be consequences.\nLimit: Pattern matching, not root-cause inference. Excerpts redact common credential assignments, not all possible secrets."
+          }
+        ],
+        "structured_content": {
+          "lines": 1,
+          "failureCount": 1,
+          "categoryCounts": {
+            "dependency": 1
+          },
+          "failures": [
+            {
+              "line": 1,
+              "category": "dependency",
+              "evidence": "Could not resolve dependency"
+            }
+          ],
+          "omittedFailures": 0,
+          "truncated": false,
+          "admin": {
+            "summary": "1 failure-like lines in 1 CI log lines.",
+            "findings": [
+              "Line 1 (dependency): Could not resolve dependency"
+            ],
+            "nextSteps": [
+              "Inspect the earliest relevant failure and its surrounding source log; later failures may be consequences."
+            ],
+            "limitations": [
+              "Pattern matching, not root-cause inference. Excerpts redact common credential assignments, not all possible secrets."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_7",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "extract_ci_failures",
+      "arguments": {
+        "text": "permission denied"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 failure-like lines in 1 CI log lines.\n• Line 1 (permission): permission denied\nNext: Inspect the earliest relevant failure and its surrounding source log; later failures may be consequences.\nLimit: Pattern matching, not root-cause inference. Excerpts redact common credential assignments, not all possible secrets."
+          }
+        ],
+        "structured_content": {
+          "lines": 1,
+          "failureCount": 1,
+          "categoryCounts": {
+            "permission": 1
+          },
+          "failures": [
+            {
+              "line": 1,
+              "category": "permission",
+              "evidence": "permission denied"
+            }
+          ],
+          "omittedFailures": 0,
+          "truncated": false,
+          "admin": {
+            "summary": "1 failure-like lines in 1 CI log lines.",
+            "findings": [
+              "Line 1 (permission): permission denied"
+            ],
+            "nextSteps": [
+              "Inspect the earliest relevant failure and its surrounding source log; later failures may be consequences."
+            ],
+            "limitations": [
+              "Pattern matching, not root-cause inference. Excerpts redact common credential assignments, not all possible secrets."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_8",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "extract_ci_failures",
+      "arguments": {
+        "text": "EACCES"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 failure-like lines in 1 CI log lines.\n• Line 1 (permission): EACCES\nNext: Inspect the earliest relevant failure and its surrounding source log; later failures may be consequences.\nLimit: Pattern matching, not root-cause inference. Excerpts redact common credential assignments, not all possible secrets."
+          }
+        ],
+        "structured_content": {
+          "lines": 1,
+          "failureCount": 1,
+          "categoryCounts": {
+            "permission": 1
+          },
+          "failures": [
+            {
+              "line": 1,
+              "category": "permission",
+              "evidence": "EACCES"
+            }
+          ],
+          "omittedFailures": 0,
+          "truncated": false,
+          "admin": {
+            "summary": "1 failure-like lines in 1 CI log lines.",
+            "findings": [
+              "Line 1 (permission): EACCES"
+            ],
+            "nextSteps": [
+              "Inspect the earliest relevant failure and its surrounding source log; later failures may be consequences."
+            ],
+            "limitations": [
+              "Pattern matching, not root-cause inference. Excerpts redact common credential assignments, not all possible secrets."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_9",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "extract_ci_failures",
+      "arguments": {
+        "text": "unauthorized"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 failure-like lines in 1 CI log lines.\n• Line 1 (permission): unauthorized\nNext: Inspect the earliest relevant failure and its surrounding source log; later failures may be consequences.\nLimit: Pattern matching, not root-cause inference. Excerpts redact common credential assignments, not all possible secrets."
+          }
+        ],
+        "structured_content": {
+          "lines": 1,
+          "failureCount": 1,
+          "categoryCounts": {
+            "permission": 1
+          },
+          "failures": [
+            {
+              "line": 1,
+              "category": "permission",
+              "evidence": "unauthorized"
+            }
+          ],
+          "omittedFailures": 0,
+          "truncated": false,
+          "admin": {
+            "summary": "1 failure-like lines in 1 CI log lines.",
+            "findings": [
+              "Line 1 (permission): unauthorized"
+            ],
+            "nextSteps": [
+              "Inspect the earliest relevant failure and its surrounding source log; later failures may be consequences."
+            ],
+            "limitations": [
+              "Pattern matching, not root-cause inference. Excerpts redact common credential assignments, not all possible secrets."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_10",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "extract_ci_failures",
+      "arguments": {
+        "text": "access denied"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 failure-like lines in 1 CI log lines.\n• Line 1 (permission): access denied\nNext: Inspect the earliest relevant failure and its surrounding source log; later failures may be consequences.\nLimit: Pattern matching, not root-cause inference. Excerpts redact common credential assignments, not all possible secrets."
+          }
+        ],
+        "structured_content": {
+          "lines": 1,
+          "failureCount": 1,
+          "categoryCounts": {
+            "permission": 1
+          },
+          "failures": [
+            {
+              "line": 1,
+              "category": "permission",
+              "evidence": "access denied"
+            }
+          ],
+          "omittedFailures": 0,
+          "truncated": false,
+          "admin": {
+            "summary": "1 failure-like lines in 1 CI log lines.",
+            "findings": [
+              "Line 1 (permission): access denied"
+            ],
+            "nextSteps": [
+              "Inspect the earliest relevant failure and its surrounding source log; later failures may be consequences."
+            ],
+            "limitations": [
+              "Pattern matching, not root-cause inference. Excerpts redact common credential assignments, not all possible secrets."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    }
+  ],
+  "events": [],
+  "stderr": "2026-10-10T14:51:02.698289Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n",
+  "telemetry": [
+    {
+      "service": "logs",
+      "method": "initialize",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 1,
+      "inputBytes": 217,
+      "outputBytes": 166,
+      "clientName": "codex-mcp-client",
+      "clientVersion": "0.154.0"
+    },
+    {
+      "service": "logs",
+      "method": "notifications/initialized",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 1,
+      "inputBytes": 54,
+      "outputBytes": 0
+    },
+    {
+      "service": "logs",
+      "method": "tools/list",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 3,
+      "inputBytes": 85,
+      "outputBytes": 4730
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "extract_ci_failures",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 776,
+      "outputBytes": 940
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "extract_ci_failures",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 789,
+      "outputBytes": 979
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "extract_ci_failures",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 768,
+      "outputBytes": 940
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "extract_ci_failures",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 769,
+      "outputBytes": 943
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "extract_ci_failures",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 772,
+      "outputBytes": 952
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "extract_ci_failures",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 788,
+      "outputBytes": 1000
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "extract_ci_failures",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 777,
+      "outputBytes": 967
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "extract_ci_failures",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 766,
+      "outputBytes": 934
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "extract_ci_failures",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 773,
+      "outputBytes": 953
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "extract_ci_failures",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 775,
+      "outputBytes": 956
+    }
+  ],
+  "environment": "local Streamable HTTP with synthetic DNS/HTTPS fixtures; native Codex MCP calls"
+}

@@ -1,0 +1,5916 @@
+{
+  "run": "full-v1",
+  "scoredAt": "2026-10-10T16:57:11.837Z",
+  "scoringVersion": 2,
+  "scoringCorrections": [
+    "Match calls by normalized arguments, not parallel completion order.",
+    "Codex status=failed preserves SDK tool errors without isError."
+  ],
+  "prohibitedActions": [],
+  "total": 300,
+  "passed": 292,
+  "calls": 300,
+  "elapsedMs": 733893,
+  "usage": {
+    "input_tokens": 2923805,
+    "cached_input_tokens": 2400512,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 39220,
+    "reasoning_output_tokens": 7606
+  },
+  "byService": {
+    "diagnostics": {
+      "total": 100,
+      "passed": 98,
+      "matchedCalls": 98,
+      "structuredPassed": 98,
+      "answerPassed": 98
+    },
+    "logs": {
+      "total": 100,
+      "passed": 94,
+      "matchedCalls": 95,
+      "structuredPassed": 95,
+      "answerPassed": 94
+    },
+    "network": {
+      "total": 100,
+      "passed": 100,
+      "matchedCalls": 100,
+      "structuredPassed": 100,
+      "answerPassed": 100
+    }
+  },
+  "failures": [
+    {
+      "id": "diagnostics-097",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "hops truncated",
+      "passed": false,
+      "matchedCall": false,
+      "structuredPassed": false,
+      "answerPassed": false,
+      "failure": "Error: No matching native MCP call with the supplied arguments.",
+      "answer": {
+        "id": "diagnostics-097",
+        "summary": "The analyzer reported 50 hops and no omitted hops; timestamps parsed as UTC.",
+        "fact": 0,
+        "nextStep": "Compare the supplied chain with trusted relay logs.",
+        "limitations": "Headers are unverified and may be forged."
+      },
+      "responseBytes": 0,
+      "textChars": 0
+    },
+    {
+      "id": "diagnostics-098",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "status lines truncated",
+      "passed": false,
+      "matchedCall": false,
+      "structuredPassed": false,
+      "answerPassed": false,
+      "failure": "Error: No matching native MCP call with the supplied arguments.",
+      "answer": {
+        "id": "diagnostics-098",
+        "summary": "The analyzer reported 50 delivery lines and no omitted delivery lines; each recognized line was temporary failure.",
+        "fact": 0,
+        "nextStep": "Inspect queue history for retry or final disposition.",
+        "limitations": "Repeated temporary statuses do not establish final delivery."
+      },
+      "responseBytes": 0,
+      "textChars": 0
+    },
+    {
+      "id": "logs-005",
+      "service": "logs",
+      "tool": "parse_logs",
+      "name": "Legacy apache-combined.log",
+      "passed": false,
+      "matchedCall": false,
+      "structuredPassed": false,
+      "answerPassed": false,
+      "failure": "Error: No matching native MCP call with the supplied arguments.",
+      "answer": {
+        "id": "logs-005",
+        "summary": "All 10 Apache combined lines parsed with no unparsed records or omitted records.",
+        "fact": 10,
+        "nextStep": "Use the parsed status and request fields for fixture analysis.",
+        "limitations": "Parsing does not establish live request behavior."
+      },
+      "responseBytes": 0,
+      "textChars": 0
+    },
+    {
+      "id": "logs-006",
+      "service": "logs",
+      "tool": "parse_logs",
+      "name": "Legacy windows-event.csv",
+      "passed": false,
+      "matchedCall": false,
+      "structuredPassed": false,
+      "answerPassed": false,
+      "failure": "Error: No matching native MCP call with the supplied arguments.",
+      "answer": {
+        "id": "logs-006",
+        "summary": "Ten Windows Event CSV records parsed and one blank/header line was skipped.",
+        "fact": 10,
+        "nextStep": "Review the three errors and one critical event.",
+        "limitations": "All timestamps were treated as ambiguous; no range was produced."
+      },
+      "responseBytes": 0,
+      "textChars": 0
+    },
+    {
+      "id": "logs-016",
+      "service": "logs",
+      "tool": "parse_logs",
+      "name": "ambiguous timestamp",
+      "passed": false,
+      "matchedCall": false,
+      "structuredPassed": false,
+      "answerPassed": false,
+      "failure": "Error: No matching native MCP call with the supplied arguments.",
+      "answer": {
+        "id": "logs-016",
+        "summary": "One record parsed, but its timestamp was ambiguous.",
+        "fact": 1,
+        "nextStep": "Provide an unambiguous timestamp with timezone.",
+        "limitations": "Timestamp excluded from the range."
+      },
+      "responseBytes": 0,
+      "textChars": 0
+    },
+    {
+      "id": "logs-017",
+      "service": "logs",
+      "tool": "parse_logs",
+      "name": "valid timestamp",
+      "passed": false,
+      "matchedCall": false,
+      "structuredPassed": false,
+      "answerPassed": false,
+      "failure": "Error: No matching native MCP call with the supplied arguments.",
+      "answer": {
+        "id": "logs-017",
+        "summary": "The valid timestamp produced the requested first range value.",
+        "fact": "2026-10-09T10:00:00.000Z",
+        "nextStep": "None.",
+        "limitations": "This reflects only the supplied fixture."
+      },
+      "responseBytes": 0,
+      "textChars": 0
+    },
+    {
+      "id": "logs-031",
+      "service": "logs",
+      "tool": "summarize_logs",
+      "name": "summary no records",
+      "passed": false,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": false,
+      "failure": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n\n1 !== 0\n",
+      "answer": {
+        "id": "logs-031",
+        "summary": "One JSON log parsed; records were omitted from the response.",
+        "fact": 1,
+        "nextStep": "",
+        "limitations": "Ambiguous timestamps excluded from range."
+      },
+      "responseBytes": 1018,
+      "textChars": 267
+    },
+    {
+      "id": "logs-060",
+      "service": "logs",
+      "tool": "extract_ci_failures",
+      "name": "oversized CI log",
+      "passed": false,
+      "matchedCall": false,
+      "structuredPassed": false,
+      "answerPassed": false,
+      "failure": "Error: No matching native MCP call with the supplied arguments.",
+      "answer": {
+        "id": "logs-060",
+        "summary": "No error code was returned; no failure pattern was recognized.",
+        "fact": null,
+        "nextStep": "Check whether the supplied log was actually oversized and inspect runner status.",
+        "limitations": "The requested field was absent from the MCP response."
+      },
+      "responseBytes": 0,
+      "textChars": 0
+    }
+  ],
+  "results": [
+    {
+      "id": "diagnostics-001",
+      "service": "diagnostics",
+      "tool": "lookup_dns",
+      "name": "A TTL preservation",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-001",
+        "summary": "Observed one A answer with TTL 60 seconds.",
+        "fact": 60,
+        "nextStep": "Review resolver behavior if testing propagation.",
+        "limitations": "Observed fixture DNS data; cached answers can lag changes."
+      },
+      "responseBytes": 666,
+      "textChars": 159
+    },
+    {
+      "id": "diagnostics-002",
+      "service": "diagnostics",
+      "tool": "lookup_dns",
+      "name": "AAAA TTL preservation",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-002",
+        "summary": "Observed one AAAA answer with TTL 61 seconds.",
+        "fact": 61,
+        "nextStep": "Review resolver behavior if testing propagation.",
+        "limitations": "Observed fixture DNS data; cached answers can lag changes."
+      },
+      "responseBytes": 715,
+      "textChars": 175
+    },
+    {
+      "id": "diagnostics-003",
+      "service": "diagnostics",
+      "tool": "lookup_dns",
+      "name": "CNAME TTL preservation",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-003",
+        "summary": "Observed one CNAME answer with TTL 62 seconds.",
+        "fact": 62,
+        "nextStep": "Review resolver behavior if testing propagation.",
+        "limitations": "Observed fixture DNS data; cached answers can lag changes."
+      },
+      "responseBytes": 714,
+      "textChars": 175
+    },
+    {
+      "id": "diagnostics-004",
+      "service": "diagnostics",
+      "tool": "lookup_dns",
+      "name": "MX TTL preservation",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-004",
+        "summary": "Observed one MX answer with TTL 63 seconds.",
+        "fact": 63,
+        "nextStep": "Review resolver behavior if testing propagation.",
+        "limitations": "Observed fixture DNS data; cached answers can lag changes."
+      },
+      "responseBytes": 706,
+      "textChars": 172
+    },
+    {
+      "id": "diagnostics-005",
+      "service": "diagnostics",
+      "tool": "lookup_dns",
+      "name": "TXT TTL preservation",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-005",
+        "summary": "Observed one TXT answer with TTL 64 seconds.",
+        "fact": 64,
+        "nextStep": "Review resolver behavior if testing propagation.",
+        "limitations": "Observed fixture DNS data; cached answers can lag changes."
+      },
+      "responseBytes": 709,
+      "textChars": 173
+    },
+    {
+      "id": "diagnostics-006",
+      "service": "diagnostics",
+      "tool": "lookup_dns",
+      "name": "NS TTL preservation",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-006",
+        "summary": "Observed one NS answer with TTL 65 seconds.",
+        "fact": 65,
+        "nextStep": "Review resolver behavior if testing propagation.",
+        "limitations": "Observed fixture DNS data; cached answers can lag changes."
+      },
+      "responseBytes": 705,
+      "textChars": 172
+    },
+    {
+      "id": "diagnostics-007",
+      "service": "diagnostics",
+      "tool": "lookup_dns",
+      "name": "SOA TTL preservation",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-007",
+        "summary": "Observed one SOA answer with TTL 66 seconds.",
+        "fact": 66,
+        "nextStep": "Review resolver behavior if testing propagation.",
+        "limitations": "Observed fixture DNS data; cached answers can lag changes."
+      },
+      "responseBytes": 708,
+      "textChars": 173
+    },
+    {
+      "id": "diagnostics-008",
+      "service": "diagnostics",
+      "tool": "lookup_dns",
+      "name": "CAA TTL preservation",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-008",
+        "summary": "Observed one CAA answer with TTL 67 seconds.",
+        "fact": 67,
+        "nextStep": "Review resolver behavior if testing propagation.",
+        "limitations": "Observed fixture DNS data; cached answers can lag changes."
+      },
+      "responseBytes": 710,
+      "textChars": 173
+    },
+    {
+      "id": "diagnostics-009",
+      "service": "diagnostics",
+      "tool": "lookup_dns",
+      "name": "DNS status 2 remains explicit",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-009",
+        "summary": "Observed DNS status 2 with no answers.",
+        "fact": 2,
+        "nextStep": "Investigate the fixture’s DNS response condition.",
+        "limitations": "Observed fixture DNS data; no answer records were returned."
+      },
+      "responseBytes": 571,
+      "textChars": 142
+    },
+    {
+      "id": "diagnostics-010",
+      "service": "diagnostics",
+      "tool": "lookup_dns",
+      "name": "DNS status 3 remains explicit",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-010",
+        "summary": "Observed DNS status 3 with no answers.",
+        "fact": 3,
+        "nextStep": "Investigate the fixture’s DNS response condition.",
+        "limitations": "Observed fixture DNS data; no answer records were returned."
+      },
+      "responseBytes": 571,
+      "textChars": 142
+    },
+    {
+      "id": "diagnostics-011",
+      "service": "diagnostics",
+      "tool": "lookup_dns",
+      "name": "DNS status 5 remains explicit",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-011",
+        "summary": "Observed DNS status 5 with no A answers.",
+        "fact": 5,
+        "nextStep": "Review DNS configuration.",
+        "limitations": "Cached resolver answers can lag changes."
+      },
+      "responseBytes": 571,
+      "textChars": 142
+    },
+    {
+      "id": "diagnostics-012",
+      "service": "diagnostics",
+      "tool": "lookup_dns",
+      "name": "Case and trailing dot normalization",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-012",
+        "summary": "Input normalized to lowercase without trailing dot.",
+        "fact": "example.com",
+        "nextStep": "None.",
+        "limitations": "Observed through Google Public DNS."
+      },
+      "responseBytes": 646,
+      "textChars": 154
+    },
+    {
+      "id": "diagnostics-013",
+      "service": "diagnostics",
+      "tool": "lookup_dns",
+      "name": "DNSSEC observation",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-013",
+        "summary": "A lookup returned one answer and DNSSEC validated true.",
+        "fact": true,
+        "nextStep": "None.",
+        "limitations": "Observed DNS configuration only."
+      },
+      "responseBytes": 673,
+      "textChars": 161
+    },
+    {
+      "id": "diagnostics-014",
+      "service": "diagnostics",
+      "tool": "lookup_dns",
+      "name": "No fabricated answer on empty DNS",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-014",
+        "summary": "Lookup succeeded but returned zero A answers.",
+        "fact": 0,
+        "nextStep": "Review DNS configuration if an A record is expected.",
+        "limitations": "No answer was fabricated."
+      },
+      "responseBytes": 565,
+      "textChars": 140
+    },
+    {
+      "id": "diagnostics-015",
+      "service": "diagnostics",
+      "tool": "lookup_dns",
+      "name": "URL rejected as domain",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-015",
+        "summary": "URL-form input was rejected as an invalid public domain.",
+        "fact": "invalid_public_domain",
+        "nextStep": "Supply a domain name only.",
+        "limitations": "No DNS lookup was performed."
+      },
+      "responseBytes": 86,
+      "textChars": 21
+    },
+    {
+      "id": "diagnostics-016",
+      "service": "diagnostics",
+      "tool": "check_email_dns",
+      "name": "Email DNS 0, 0 configured records",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-016",
+        "summary": "MX observation contained zero records with DNS status 0.",
+        "fact": 0,
+        "nextStep": "Review MX configuration and intended mail role.",
+        "limitations": "DNS observations only; no deliverability guarantee."
+      },
+      "responseBytes": 1369,
+      "textChars": 447
+    },
+    {
+      "id": "diagnostics-017",
+      "service": "diagnostics",
+      "tool": "check_email_dns",
+      "name": "Email DNS 3, 1 configured records",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-017",
+        "summary": "MX observation contained zero records with DNS status 3.",
+        "fact": 0,
+        "nextStep": "Review MX configuration and intended mail role.",
+        "limitations": "DNS observations only; no deliverability guarantee."
+      },
+      "responseBytes": 1369,
+      "textChars": 447
+    },
+    {
+      "id": "diagnostics-018",
+      "service": "diagnostics",
+      "tool": "check_email_dns",
+      "name": "Email DNS 2, 2 configured records",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-018",
+        "summary": "MX observation contained zero records with DNS status 2.",
+        "fact": 0,
+        "nextStep": "Review MX configuration and intended mail role.",
+        "limitations": "DNS observations only; no deliverability guarantee."
+      },
+      "responseBytes": 1369,
+      "textChars": 447
+    },
+    {
+      "id": "diagnostics-019",
+      "service": "diagnostics",
+      "tool": "check_email_dns",
+      "name": "Email DNS 0, 3 configured records",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-019",
+        "summary": "MX observation contained three records with DNS status 0.",
+        "fact": 3,
+        "nextStep": "Review MX configuration and intended mail role.",
+        "limitations": "DNS observations only; no deliverability guarantee."
+      },
+      "responseBytes": 1525,
+      "textChars": 447
+    },
+    {
+      "id": "diagnostics-020",
+      "service": "diagnostics",
+      "tool": "check_email_dns",
+      "name": "Email DNS 3, 4 configured records",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-020",
+        "summary": "MX observation contained zero records with DNS status 3.",
+        "fact": 0,
+        "nextStep": "Review MX configuration and intended mail role.",
+        "limitations": "DNS observations only; no deliverability guarantee."
+      },
+      "responseBytes": 1369,
+      "textChars": 447
+    },
+    {
+      "id": "diagnostics-021",
+      "service": "diagnostics",
+      "tool": "check_email_dns",
+      "name": "Email DNS 2, 0 configured records",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-021",
+        "summary": "No MX records observed; DNS status was 2.",
+        "fact": 0,
+        "nextStep": "Review MX configuration and intended mail role.",
+        "limitations": "DNS observations only; no deliverability guarantee."
+      },
+      "responseBytes": 1369,
+      "textChars": 447
+    },
+    {
+      "id": "diagnostics-022",
+      "service": "diagnostics",
+      "tool": "check_email_dns",
+      "name": "Email DNS 0, 1 configured records",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-022",
+        "summary": "One MX record observed; DNS status was 0.",
+        "fact": 1,
+        "nextStep": "No immediate next step returned.",
+        "limitations": "DNS observations only; no deliverability guarantee."
+      },
+      "responseBytes": 1097,
+      "textChars": 281
+    },
+    {
+      "id": "diagnostics-023",
+      "service": "diagnostics",
+      "tool": "check_email_dns",
+      "name": "Email DNS 3, 2 configured records",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-023",
+        "summary": "No MX records observed; DNS status was 3.",
+        "fact": 0,
+        "nextStep": "Review MX configuration and intended mail role.",
+        "limitations": "DNS observations only; no deliverability guarantee."
+      },
+      "responseBytes": 1369,
+      "textChars": 447
+    },
+    {
+      "id": "diagnostics-024",
+      "service": "diagnostics",
+      "tool": "check_email_dns",
+      "name": "Email DNS 2, 3 configured records",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-024",
+        "summary": "No MX records observed; DNS status was 2.",
+        "fact": 0,
+        "nextStep": "Review MX configuration and intended mail role.",
+        "limitations": "DNS observations only; no deliverability guarantee."
+      },
+      "responseBytes": 1369,
+      "textChars": 447
+    },
+    {
+      "id": "diagnostics-025",
+      "service": "diagnostics",
+      "tool": "check_email_dns",
+      "name": "Email DNS 0, 4 configured records",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-025",
+        "summary": "Four MX records observed; DNS status was 0.",
+        "fact": 4,
+        "nextStep": "Review MX configuration and intended mail role.",
+        "limitations": "DNS observations only; no deliverability guarantee."
+      },
+      "responseBytes": 1578,
+      "textChars": 447
+    },
+    {
+      "id": "diagnostics-026",
+      "service": "diagnostics",
+      "tool": "check_email_dns",
+      "name": "Email DNS 3, 0 configured records",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-026",
+        "summary": "No MX records observed; DNS status was 3.",
+        "fact": 0,
+        "nextStep": "Review MX configuration and intended mail role.",
+        "limitations": "DNS observations only; no deliverability guarantee."
+      },
+      "responseBytes": 1372,
+      "textChars": 448
+    },
+    {
+      "id": "diagnostics-027",
+      "service": "diagnostics",
+      "tool": "check_email_dns",
+      "name": "Email DNS 2, 1 configured records",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-027",
+        "summary": "No MX records observed; DNS status was 2.",
+        "fact": 0,
+        "nextStep": "Review MX configuration and intended mail role.",
+        "limitations": "DNS observations only; no deliverability guarantee."
+      },
+      "responseBytes": 1372,
+      "textChars": 448
+    },
+    {
+      "id": "diagnostics-028",
+      "service": "diagnostics",
+      "tool": "check_email_dns",
+      "name": "Email DNS 0, 2 configured records",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-028",
+        "summary": "Two MX records observed; DNS status was 0.",
+        "fact": 2,
+        "nextStep": "Review MX configuration and intended mail role.",
+        "limitations": "DNS observations only; no deliverability guarantee."
+      },
+      "responseBytes": 1475,
+      "textChars": 448
+    },
+    {
+      "id": "diagnostics-029",
+      "service": "diagnostics",
+      "tool": "check_email_dns",
+      "name": "Email DNS 3, 3 configured records",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-029",
+        "summary": "No MX records observed; DNS status was 3.",
+        "fact": 0,
+        "nextStep": "Review MX configuration and intended mail role.",
+        "limitations": "DNS observations only; no deliverability guarantee."
+      },
+      "responseBytes": 1372,
+      "textChars": 448
+    },
+    {
+      "id": "diagnostics-030",
+      "service": "diagnostics",
+      "tool": "check_email_dns",
+      "name": "Email DNS 2, 4 configured records",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-030",
+        "summary": "No MX records observed; DNS status was 2.",
+        "fact": 0,
+        "nextStep": "Review MX configuration and intended mail role.",
+        "limitations": "DNS observations only; no deliverability guarantee."
+      },
+      "responseBytes": 1372,
+      "textChars": 448
+    },
+    {
+      "id": "diagnostics-031",
+      "service": "diagnostics",
+      "tool": "check_https",
+      "name": "200 success",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-031",
+        "summary": "Root HTTPS returned status 200 with authorized TLS and no redirects.",
+        "fact": 200,
+        "nextStep": "No redirect follow-up indicated.",
+        "limitations": "Root on port 443 only; no page content or full security audit."
+      },
+      "responseBytes": 626,
+      "textChars": 175
+    },
+    {
+      "id": "diagnostics-032",
+      "service": "diagnostics",
+      "tool": "check_https",
+      "name": "204 response",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-032",
+        "summary": "Root HTTPS returned status 204 with authorized TLS and no redirects.",
+        "fact": 204,
+        "nextStep": "No redirect follow-up indicated.",
+        "limitations": "Root on port 443 only; no page content or full security audit."
+      },
+      "responseBytes": 626,
+      "textChars": 175
+    },
+    {
+      "id": "diagnostics-033",
+      "service": "diagnostics",
+      "tool": "check_https",
+      "name": "404 root",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-033",
+        "summary": "Root HTTPS returned status 404 with authorized TLS and no redirects.",
+        "fact": 404,
+        "nextStep": "Review root-path availability if a resource is expected.",
+        "limitations": "Root on port 443 only; no page content or full security audit."
+      },
+      "responseBytes": 626,
+      "textChars": 175
+    },
+    {
+      "id": "diagnostics-034",
+      "service": "diagnostics",
+      "tool": "check_https",
+      "name": "503 root",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-034",
+        "summary": "Root HTTPS returned status 503 with authorized TLS and no redirects.",
+        "fact": 503,
+        "nextStep": "Investigate the fixture service-availability condition.",
+        "limitations": "Root on port 443 only; no page content or full security audit."
+      },
+      "responseBytes": 626,
+      "textChars": 175
+    },
+    {
+      "id": "diagnostics-035",
+      "service": "diagnostics",
+      "tool": "check_https",
+      "name": "301 redirect",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-035",
+        "summary": "The 301 root response was followed by one redirect to a 200 endpoint.",
+        "fact": 2,
+        "nextStep": "Review the redirect target and intended canonical URL.",
+        "limitations": "Root on port 443 only; no page content or full security audit."
+      },
+      "responseBytes": 845,
+      "textChars": 235
+    },
+    {
+      "id": "diagnostics-036",
+      "service": "diagnostics",
+      "tool": "check_https",
+      "name": "302 redirect",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-036",
+        "summary": "The 302 root response was followed by one redirect to a 200 endpoint.",
+        "fact": 2,
+        "nextStep": "Review the temporary redirect target and expected permanence.",
+        "limitations": "Root on port 443 only; no page content or full security audit."
+      },
+      "responseBytes": 845,
+      "textChars": 235
+    },
+    {
+      "id": "diagnostics-037",
+      "service": "diagnostics",
+      "tool": "check_https",
+      "name": "303 redirect",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-037",
+        "summary": "The 303 root response was followed by one redirect to a 200 endpoint.",
+        "fact": 2,
+        "nextStep": "Review the redirect target and method semantics.",
+        "limitations": "Root on port 443 only; no page content or full security audit."
+      },
+      "responseBytes": 845,
+      "textChars": 235
+    },
+    {
+      "id": "diagnostics-038",
+      "service": "diagnostics",
+      "tool": "check_https",
+      "name": "307 redirect",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-038",
+        "summary": "The 307 root response was followed by one redirect to a 200 endpoint.",
+        "fact": 2,
+        "nextStep": "Review the redirect target and method-preservation behavior.",
+        "limitations": "Root on port 443 only; no page content or full security audit."
+      },
+      "responseBytes": 845,
+      "textChars": 235
+    },
+    {
+      "id": "diagnostics-039",
+      "service": "diagnostics",
+      "tool": "check_https",
+      "name": "308 redirect",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-039",
+        "summary": "The 308 root response was followed by one redirect to a 200 endpoint.",
+        "fact": 2,
+        "nextStep": "Review the permanent redirect target and canonical URL.",
+        "limitations": "Root on port 443 only; no page content or full security audit."
+      },
+      "responseBytes": 845,
+      "textChars": 235
+    },
+    {
+      "id": "diagnostics-040",
+      "service": "diagnostics",
+      "tool": "check_https",
+      "name": "three redirects",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-040",
+        "summary": "The root request traversed three redirects before reaching a 200 endpoint.",
+        "fact": 4,
+        "nextStep": "Reduce redirect depth if operationally appropriate.",
+        "limitations": "Root on port 443 only; no page content or full security audit."
+      },
+      "responseBytes": 1283,
+      "textChars": 355
+    },
+    {
+      "id": "diagnostics-041",
+      "service": "diagnostics",
+      "tool": "check_https",
+      "name": "four redirects refused",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-041",
+        "summary": "The HTTPS check was rejected after exceeding the redirect limit.",
+        "fact": "too_many_redirects",
+        "nextStep": "Review the redirect chain and keep it within the diagnostic limit.",
+        "limitations": "No final HTTPS status or certificate evidence was returned."
+      },
+      "responseBytes": 83,
+      "textChars": 18
+    },
+    {
+      "id": "diagnostics-042",
+      "service": "diagnostics",
+      "tool": "check_https",
+      "name": "loop refused",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-042",
+        "summary": "The HTTPS check detected a redirect loop and rejected the diagnostic.",
+        "fact": "redirect_loop",
+        "nextStep": "Inspect redirects for a cycle.",
+        "limitations": "No final HTTPS status or certificate evidence was returned."
+      },
+      "responseBytes": 78,
+      "textChars": 13
+    },
+    {
+      "id": "diagnostics-043",
+      "service": "diagnostics",
+      "tool": "check_https",
+      "name": "private resolution",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-043",
+        "summary": "The target resolved to a non-public destination and was rejected.",
+        "fact": "non_public_target",
+        "nextStep": "Use a publicly addressable target.",
+        "limitations": "No HTTPS status or certificate evidence was returned."
+      },
+      "responseBytes": 82,
+      "textChars": 17
+    },
+    {
+      "id": "diagnostics-044",
+      "service": "diagnostics",
+      "tool": "check_https",
+      "name": "private redirect",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-044",
+        "summary": "The redirect target was rejected as an invalid public domain.",
+        "fact": "invalid_public_domain",
+        "nextStep": "Review the redirect destination’s domain syntax and public resolution.",
+        "limitations": "No final HTTPS status or certificate evidence was returned."
+      },
+      "responseBytes": 86,
+      "textChars": 21
+    },
+    {
+      "id": "diagnostics-045",
+      "service": "diagnostics",
+      "tool": "check_https",
+      "name": "HTTP downgrade",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-045",
+        "summary": "The redirect downgraded from HTTPS and was rejected.",
+        "fact": "unsupported_redirect",
+        "nextStep": "Keep redirects on HTTPS.",
+        "limitations": "No final HTTPS status or certificate evidence was returned."
+      },
+      "responseBytes": 85,
+      "textChars": 20
+    },
+    {
+      "id": "diagnostics-046",
+      "service": "diagnostics",
+      "tool": "check_https",
+      "name": "credential redirect",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-046",
+        "summary": "The credential-bearing redirect was rejected.",
+        "fact": "unsupported_redirect",
+        "nextStep": "Remove credentials from redirect targets.",
+        "limitations": "No final HTTPS status or certificate evidence was returned."
+      },
+      "responseBytes": 85,
+      "textChars": 20
+    },
+    {
+      "id": "diagnostics-047",
+      "service": "diagnostics",
+      "tool": "check_https",
+      "name": "non443 redirect",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-047",
+        "summary": "The redirect to a nonstandard port was rejected.",
+        "fact": "unsupported_redirect",
+        "nextStep": "Redirect to HTTPS on port 443.",
+        "limitations": "No final HTTPS status or certificate evidence was returned."
+      },
+      "responseBytes": 85,
+      "textChars": 20
+    },
+    {
+      "id": "diagnostics-048",
+      "service": "diagnostics",
+      "tool": "check_https",
+      "name": "TLS failure",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-048",
+        "summary": "TLS certificate validation failed during the HTTPS check.",
+        "fact": "tls_validation_failed",
+        "nextStep": "Inspect the certificate chain, hostname, validity, and trust configuration.",
+        "limitations": "No authenticated HTTPS status was returned."
+      },
+      "responseBytes": 86,
+      "textChars": 21
+    },
+    {
+      "id": "diagnostics-049",
+      "service": "diagnostics",
+      "tool": "check_https",
+      "name": "deadline failure",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-049",
+        "summary": "The HTTPS diagnostic exceeded its deadline.",
+        "fact": "diagnostic_timeout",
+        "nextStep": "Investigate endpoint responsiveness and connection timing.",
+        "limitations": "No final HTTPS status or certificate evidence was returned."
+      },
+      "responseBytes": 83,
+      "textChars": 18
+    },
+    {
+      "id": "diagnostics-050",
+      "service": "diagnostics",
+      "tool": "check_https",
+      "name": "HEAD 405 fallback",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-050",
+        "summary": "The HTTPS root completed successfully with status 200 and an authorized certificate.",
+        "fact": 200,
+        "nextStep": "No immediate HTTPS follow-up was reported by this check.",
+        "limitations": "Root on port 443 only; no page content or full security audit."
+      },
+      "responseBytes": 626,
+      "textChars": 175
+    },
+    {
+      "id": "diagnostics-051",
+      "service": "diagnostics",
+      "tool": "deployment_readiness",
+      "name": "Readiness partial evidence 1",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-051",
+        "summary": "All four readiness checks were observed; HTTPS returned 200 with selected security headers.",
+        "fact": "observed",
+        "nextStep": "Review DNS intent, HTTP status, and missing headers before rollout.",
+        "limitations": "Point-in-time root checks; not a complete security or deliverability audit."
+      },
+      "responseBytes": 2604,
+      "textChars": 475
+    },
+    {
+      "id": "diagnostics-052",
+      "service": "diagnostics",
+      "tool": "deployment_readiness",
+      "name": "Readiness partial evidence 2",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-052",
+        "summary": "All four readiness checks were observed; HTTPS returned 204 without selected security headers.",
+        "fact": "observed",
+        "nextStep": "Review DNS intent, HTTP status, and missing headers before rollout.",
+        "limitations": "Point-in-time root checks; not a complete security or deliverability audit."
+      },
+      "responseBytes": 2554,
+      "textChars": 553
+    },
+    {
+      "id": "diagnostics-053",
+      "service": "diagnostics",
+      "tool": "deployment_readiness",
+      "name": "Readiness partial evidence 3",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-053",
+        "summary": "All four readiness checks were observed; HTTPS returned 301 with selected security headers.",
+        "fact": "observed",
+        "nextStep": "Review DNS intent, HTTP status, and missing headers before rollout.",
+        "limitations": "Point-in-time root checks; not a complete security or deliverability audit."
+      },
+      "responseBytes": 2707,
+      "textChars": 475
+    },
+    {
+      "id": "diagnostics-054",
+      "service": "diagnostics",
+      "tool": "deployment_readiness",
+      "name": "Readiness partial evidence 4",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-054",
+        "summary": "All four readiness checks were observed; HTTPS returned 302 without selected security headers.",
+        "fact": "observed",
+        "nextStep": "Review DNS intent, HTTP status, and missing headers before rollout.",
+        "limitations": "Point-in-time root checks; not a complete security or deliverability audit."
+      },
+      "responseBytes": 2504,
+      "textChars": 553
+    },
+    {
+      "id": "diagnostics-055",
+      "service": "diagnostics",
+      "tool": "deployment_readiness",
+      "name": "Readiness partial evidence 5",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-055",
+        "summary": "All four readiness checks were observed; HTTPS returned 400 with selected security headers.",
+        "fact": "observed",
+        "nextStep": "Review DNS intent, HTTP status, and missing headers before rollout.",
+        "limitations": "Point-in-time root checks; not a complete security or deliverability audit."
+      },
+      "responseBytes": 2654,
+      "textChars": 475
+    },
+    {
+      "id": "diagnostics-056",
+      "service": "diagnostics",
+      "tool": "deployment_readiness",
+      "name": "Readiness partial evidence 6",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-056",
+        "summary": "All four readiness checks were observed; HTTPS returned 401 without selected security headers.",
+        "fact": "observed",
+        "nextStep": "Review DNS intent, HTTP status, and missing headers before rollout.",
+        "limitations": "Point-in-time root checks; not a complete security or deliverability audit."
+      },
+      "responseBytes": 2607,
+      "textChars": 553
+    },
+    {
+      "id": "diagnostics-057",
+      "service": "diagnostics",
+      "tool": "deployment_readiness",
+      "name": "Readiness partial evidence 7",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-057",
+        "summary": "All four readiness checks were observed; HTTPS returned 403 with selected security headers.",
+        "fact": "observed",
+        "nextStep": "Review DNS intent, HTTP status, and missing headers before rollout.",
+        "limitations": "Point-in-time root checks; not a complete security or deliverability audit."
+      },
+      "responseBytes": 2604,
+      "textChars": 475
+    },
+    {
+      "id": "diagnostics-058",
+      "service": "diagnostics",
+      "tool": "deployment_readiness",
+      "name": "Readiness partial evidence 8",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-058",
+        "summary": "All four readiness checks were observed; HTTPS returned 404 without selected security headers.",
+        "fact": "observed",
+        "nextStep": "Review DNS intent, HTTP status, and missing headers before rollout.",
+        "limitations": "Point-in-time root checks; not a complete security or deliverability audit."
+      },
+      "responseBytes": 2554,
+      "textChars": 553
+    },
+    {
+      "id": "diagnostics-059",
+      "service": "diagnostics",
+      "tool": "deployment_readiness",
+      "name": "Readiness partial evidence 9",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-059",
+        "summary": "All four readiness checks were observed; HTTPS returned 429 with selected security headers.",
+        "fact": "observed",
+        "nextStep": "Review DNS intent, HTTP status, and missing headers before rollout.",
+        "limitations": "Point-in-time root checks; not a complete security or deliverability audit."
+      },
+      "responseBytes": 2707,
+      "textChars": 475
+    },
+    {
+      "id": "diagnostics-060",
+      "service": "diagnostics",
+      "tool": "deployment_readiness",
+      "name": "Readiness partial evidence 10",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-060",
+        "summary": "All four readiness checks were observed; HTTPS returned 503 without selected security headers.",
+        "fact": "observed",
+        "nextStep": "Review DNS intent, HTTP status, and missing headers before rollout.",
+        "limitations": "Point-in-time root checks; not a complete security or deliverability audit."
+      },
+      "responseBytes": 2504,
+      "textChars": 553
+    },
+    {
+      "id": "diagnostics-061",
+      "service": "diagnostics",
+      "tool": "deployment_readiness",
+      "name": "Readiness partial evidence 11",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-061",
+        "summary": "3/4 checks observed; HTTPS unavailable due to TLS validation failure.",
+        "fact": "unavailable",
+        "nextStep": "Review unavailable checks, DNS intent, final HTTP status and missing headers before rollout.",
+        "limitations": "Point-in-time root checks, not a complete security or deliverability audit. Missing mail records may be intentional. HEAD responses can differ from browser responses."
+      },
+      "responseBytes": 2035,
+      "textChars": 371
+    },
+    {
+      "id": "diagnostics-062",
+      "service": "diagnostics",
+      "tool": "deployment_readiness",
+      "name": "Readiness partial evidence 12",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-062",
+        "summary": "3/4 checks observed; HTTPS diagnostic timed out.",
+        "fact": "unavailable",
+        "nextStep": "Review unavailable checks, DNS intent, final HTTP status and missing headers before rollout.",
+        "limitations": "Point-in-time root checks, not a complete security or deliverability audit. Missing mail records may be intentional. HEAD responses can differ from browser responses."
+      },
+      "responseBytes": 2026,
+      "textChars": 368
+    },
+    {
+      "id": "diagnostics-063",
+      "service": "diagnostics",
+      "tool": "deployment_readiness",
+      "name": "Readiness partial evidence 13",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-063",
+        "summary": "3/4 checks observed; HTTPS target was non-public.",
+        "fact": "unavailable",
+        "nextStep": "Review unavailable checks, DNS intent, final HTTP status and missing headers before rollout.",
+        "limitations": "Point-in-time root checks, not a complete security or deliverability audit. Missing mail records may be intentional. HEAD responses can differ from browser responses."
+      },
+      "responseBytes": 2023,
+      "textChars": 367
+    },
+    {
+      "id": "diagnostics-064",
+      "service": "diagnostics",
+      "tool": "deployment_readiness",
+      "name": "Readiness partial evidence 14",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-064",
+        "summary": "3/4 checks observed; HTTPS encountered a redirect loop.",
+        "fact": "unavailable",
+        "nextStep": "Review unavailable checks, DNS intent, final HTTP status and missing headers before rollout.",
+        "limitations": "Point-in-time root checks, not a complete security or deliverability audit. Missing mail records may be intentional. HEAD responses can differ from browser responses."
+      },
+      "responseBytes": 2011,
+      "textChars": 363
+    },
+    {
+      "id": "diagnostics-065",
+      "service": "diagnostics",
+      "tool": "deployment_readiness",
+      "name": "Readiness partial evidence 15",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-065",
+        "summary": "3/4 checks observed; HTTPS had an unsupported redirect.",
+        "fact": "unavailable",
+        "nextStep": "Review unavailable checks, DNS intent, final HTTP status and missing headers before rollout.",
+        "limitations": "Point-in-time root checks, not a complete security or deliverability audit. Missing mail records may be intentional. HEAD responses can differ from browser responses."
+      },
+      "responseBytes": 2032,
+      "textChars": 370
+    },
+    {
+      "id": "diagnostics-066",
+      "service": "diagnostics",
+      "tool": "deployment_readiness",
+      "name": "Readiness partial evidence 16",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-066",
+        "summary": "3/4 checks observed; HTTPS had an unsupported redirect.",
+        "fact": "unavailable",
+        "nextStep": "Review unavailable checks, DNS intent, final HTTP status and missing headers before rollout.",
+        "limitations": "Point-in-time root checks, not a complete security or deliverability audit. Missing mail records may be intentional. HEAD responses can differ from browser responses."
+      },
+      "responseBytes": 2032,
+      "textChars": 370
+    },
+    {
+      "id": "diagnostics-067",
+      "service": "diagnostics",
+      "tool": "deployment_readiness",
+      "name": "Readiness partial evidence 17",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-067",
+        "summary": "3/4 checks observed; HTTPS had an unsupported redirect.",
+        "fact": "unavailable",
+        "nextStep": "Review unavailable checks, DNS intent, final HTTP status and missing headers before rollout.",
+        "limitations": "Point-in-time root checks, not a complete security or deliverability audit. Missing mail records may be intentional. HEAD responses can differ from browser responses."
+      },
+      "responseBytes": 2032,
+      "textChars": 370
+    },
+    {
+      "id": "diagnostics-068",
+      "service": "diagnostics",
+      "tool": "deployment_readiness",
+      "name": "Readiness partial evidence 18",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-068",
+        "summary": "3/4 checks observed; HTTPS rejected the public-domain validation.",
+        "fact": "unavailable",
+        "nextStep": "Review unavailable checks, DNS intent, final HTTP status and missing headers before rollout.",
+        "limitations": "Point-in-time root checks, not a complete security or deliverability audit. Missing mail records may be intentional. HEAD responses can differ from browser responses."
+      },
+      "responseBytes": 2035,
+      "textChars": 371
+    },
+    {
+      "id": "diagnostics-069",
+      "service": "diagnostics",
+      "tool": "deployment_readiness",
+      "name": "Readiness partial evidence 19",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-069",
+        "summary": "3/4 checks observed; HTTPS unavailable due to TLS validation failure.",
+        "fact": "unavailable",
+        "nextStep": "Review unavailable checks, DNS intent, final HTTP status and missing headers before rollout.",
+        "limitations": "Point-in-time root checks, not a complete security or deliverability audit. Missing mail records may be intentional. HEAD responses can differ from browser responses."
+      },
+      "responseBytes": 2035,
+      "textChars": 371
+    },
+    {
+      "id": "diagnostics-070",
+      "service": "diagnostics",
+      "tool": "deployment_readiness",
+      "name": "Readiness partial evidence 20",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-070",
+        "summary": "3/4 checks observed; HTTPS diagnostic timed out.",
+        "fact": "unavailable",
+        "nextStep": "Review unavailable checks, DNS intent, final HTTP status and missing headers before rollout.",
+        "limitations": "Point-in-time root checks, not a complete security or deliverability audit. Missing mail records may be intentional. HEAD responses can differ from browser responses."
+      },
+      "responseBytes": 2026,
+      "textChars": 368
+    },
+    {
+      "id": "diagnostics-071",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "one hop",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-071",
+        "summary": "One supplied Received hop was parsed.",
+        "fact": 1,
+        "nextStep": "Correlate with trusted receiving-server queue logs.",
+        "limitations": "Supplied headers are unverified; no DNS, cryptographic authentication, mailbox access, or inbox-delivery guarantee."
+      },
+      "responseBytes": 1357,
+      "textChars": 406
+    },
+    {
+      "id": "diagnostics-072",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "two hop delay",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-072",
+        "summary": "Two hops show a reported five-minute gap.",
+        "fact": 300,
+        "nextStep": "Correlate the delay with relay queue logs.",
+        "limitations": "Delay derives only from supplied, unverified timestamps."
+      },
+      "responseBytes": 1623,
+      "textChars": 406
+    },
+    {
+      "id": "diagnostics-073",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "queue delay",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-073",
+        "summary": "Two hops show a reported ten-minute queue gap.",
+        "fact": 600,
+        "nextStep": "Inspect the relay queue for the delay.",
+        "limitations": "Delay derives only from supplied, unverified timestamps."
+      },
+      "responseBytes": 1864,
+      "textChars": 486
+    },
+    {
+      "id": "diagnostics-074",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "clock goes backwards",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-074",
+        "summary": "The reported hop timestamps move backward.",
+        "fact": -3600,
+        "nextStep": "Check clock synchronization and header validity.",
+        "limitations": "Negative delay may reflect inconsistent clocks or forged claims."
+      },
+      "responseBytes": 1875,
+      "textChars": 489
+    },
+    {
+      "id": "diagnostics-075",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "no timezone",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-075",
+        "summary": "The timestamp was not usable without an explicit timezone/year.",
+        "fact": null,
+        "nextStep": "Obtain a timestamp with explicit timezone and year.",
+        "limitations": "No reliable timestamp or delay can be inferred."
+      },
+      "responseBytes": 1510,
+      "textChars": 466
+    },
+    {
+      "id": "diagnostics-076",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "invalid date",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-076",
+        "summary": "The supplied date was not parseable.",
+        "fact": null,
+        "nextStep": "Obtain a valid Received timestamp.",
+        "limitations": "No reliable timestamp or delay can be inferred."
+      },
+      "responseBytes": 1493,
+      "textChars": 466
+    },
+    {
+      "id": "diagnostics-077",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "folded Received",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-077",
+        "summary": "The folded Received header was parsed successfully.",
+        "fact": "b.example.com",
+        "nextStep": "Correlate with trusted receiving-server logs.",
+        "limitations": "The parsed header is supplied and unverified."
+      },
+      "responseBytes": 1339,
+      "textChars": 406
+    },
+    {
+      "id": "diagnostics-078",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "body excluded",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-078",
+        "summary": "Content after the blank line was ignored; no hops were found.",
+        "fact": 0,
+        "nextStep": "Supply the relevant Received headers before the blank line.",
+        "limitations": "Message body/content is ignored; no delivery conclusion is possible."
+      },
+      "responseBytes": 1182,
+      "textChars": 436
+    },
+    {
+      "id": "diagnostics-079",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "malformed header",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-079",
+        "summary": "One malformed header line was reported.",
+        "fact": 1,
+        "nextStep": "Correct the malformed header and resubmit.",
+        "limitations": "No Received chain or delivery evidence was available."
+      },
+      "responseBytes": 1269,
+      "textChars": 464
+    },
+    {
+      "id": "diagnostics-080",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "orphan continuation",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-080",
+        "summary": "The orphan continuation was reported as malformed.",
+        "fact": 1,
+        "nextStep": "Provide a preceding header for the continuation line.",
+        "limitations": "No Received chain or delivery evidence was available."
+      },
+      "responseBytes": 1269,
+      "textChars": 464
+    },
+    {
+      "id": "diagnostics-081",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "forged auth result",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-081",
+        "summary": "Authentication claim is untrusted; designated trust is false.",
+        "fact": false,
+        "nextStep": "Correlate with trusted receiving-server queue logs.",
+        "limitations": "Supplied headers are forgeable; no cryptographic validation or DNS lookup."
+      },
+      "responseBytes": 1585,
+      "textChars": 508
+    },
+    {
+      "id": "diagnostics-082",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "reported DKIM",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-082",
+        "summary": "DKIM was reported as pass, but the claim is unverified.",
+        "fact": "pass",
+        "nextStep": "Correlate with trusted receiving-server queue logs.",
+        "limitations": "No DKIM validation or mailbox access."
+      },
+      "responseBytes": 1439,
+      "textChars": 480
+    },
+    {
+      "id": "diagnostics-083",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "no auth methods",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-083",
+        "summary": "No recognized authentication results were parsed.",
+        "fact": 0,
+        "nextStep": "Correlate with trusted receiving-server queue logs.",
+        "limitations": "Unknown methods are not authentication evidence."
+      },
+      "responseBytes": 1422,
+      "textChars": 492
+    },
+    {
+      "id": "diagnostics-084",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "SMTP 250",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-084",
+        "summary": "Synthetic SMTP 250 was accepted at the reported hop.",
+        "fact": "accepted_at_reported_hop",
+        "nextStep": "Check downstream queue and mailbox evidence.",
+        "limitations": "SMTP acceptance does not prove inbox delivery."
+      },
+      "responseBytes": 1406,
+      "textChars": 481
+    },
+    {
+      "id": "diagnostics-085",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "SMTP 251",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-085",
+        "summary": "Synthetic SMTP 251 was accepted at the reported hop.",
+        "fact": "accepted_at_reported_hop",
+        "nextStep": "Check downstream queue and mailbox evidence.",
+        "limitations": "SMTP acceptance does not prove inbox delivery."
+      },
+      "responseBytes": 1406,
+      "textChars": 481
+    },
+    {
+      "id": "diagnostics-086",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "SMTP 421",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-086",
+        "summary": "Synthetic SMTP 421 indicates temporary failure.",
+        "fact": "temporary_failure",
+        "nextStep": "Review retry and queue logs.",
+        "limitations": "No downstream delivery evidence was supplied."
+      },
+      "responseBytes": 1385,
+      "textChars": 474
+    },
+    {
+      "id": "diagnostics-087",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "SMTP 450",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-087",
+        "summary": "Synthetic SMTP 450 indicates temporary failure.",
+        "fact": "temporary_failure",
+        "nextStep": "Review retry and queue logs.",
+        "limitations": "No downstream delivery evidence was supplied."
+      },
+      "responseBytes": 1385,
+      "textChars": 474
+    },
+    {
+      "id": "diagnostics-088",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "SMTP 451",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-088",
+        "summary": "Synthetic SMTP 451 indicates temporary failure.",
+        "fact": "temporary_failure",
+        "nextStep": "Review retry and queue logs.",
+        "limitations": "No downstream delivery evidence was supplied."
+      },
+      "responseBytes": 1385,
+      "textChars": 474
+    },
+    {
+      "id": "diagnostics-089",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "SMTP 452",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-089",
+        "summary": "Synthetic SMTP 452 indicates temporary failure.",
+        "fact": "temporary_failure",
+        "nextStep": "Review retry and queue logs.",
+        "limitations": "No downstream delivery evidence was supplied."
+      },
+      "responseBytes": 1385,
+      "textChars": 474
+    },
+    {
+      "id": "diagnostics-090",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "SMTP 550",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-090",
+        "summary": "Synthetic SMTP 550 indicates permanent failure at the reported hop.",
+        "fact": "permanent_failure_at_reported_hop",
+        "nextStep": "Investigate the reported-hop rejection and recipient status.",
+        "limitations": "No downstream delivery evidence was supplied."
+      },
+      "responseBytes": 1433,
+      "textChars": 490
+    },
+    {
+      "id": "diagnostics-091",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "SMTP 551",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-091",
+        "summary": "Observed one SMTP 551 permanent failure at the reported hop; no Received chain was supplied.",
+        "fact": "permanent_failure_at_reported_hop",
+        "nextStep": "Correlate with trusted receiving-server queue logs.",
+        "limitations": "Supplied headers/logs are unverified; no inbox or cryptographic validation."
+      },
+      "responseBytes": 1433,
+      "textChars": 490
+    },
+    {
+      "id": "diagnostics-092",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "SMTP 552",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-092",
+        "summary": "Observed one SMTP 552 permanent failure at the reported hop; no Received chain was supplied.",
+        "fact": "permanent_failure_at_reported_hop",
+        "nextStep": "Correlate with trusted receiving-server queue logs.",
+        "limitations": "Supplied headers/logs are unverified; no inbox or cryptographic validation."
+      },
+      "responseBytes": 1433,
+      "textChars": 490
+    },
+    {
+      "id": "diagnostics-093",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "SMTP 553",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-093",
+        "summary": "Observed one SMTP 553 permanent failure at the reported hop; no Received chain was supplied.",
+        "fact": "permanent_failure_at_reported_hop",
+        "nextStep": "Correlate with trusted receiving-server queue logs.",
+        "limitations": "Supplied headers/logs are unverified; no inbox or cryptographic validation."
+      },
+      "responseBytes": 1433,
+      "textChars": 490
+    },
+    {
+      "id": "diagnostics-094",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "SMTP 554",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-094",
+        "summary": "Observed one SMTP 554 permanent failure at the reported hop; no Received chain was supplied.",
+        "fact": "permanent_failure_at_reported_hop",
+        "nextStep": "Correlate with trusted receiving-server queue logs.",
+        "limitations": "Supplied headers/logs are unverified; no inbox or cryptographic validation."
+      },
+      "responseBytes": 1433,
+      "textChars": 490
+    },
+    {
+      "id": "diagnostics-095",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "enhanced-only DSN",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-095",
+        "summary": "Observed enhanced status 5.1.1 classified as a permanent failure at the reported hop.",
+        "fact": "5.1.1",
+        "nextStep": "Correlate with trusted receiving-server queue logs.",
+        "limitations": "The enhanced status is supplied evidence, not independently verified."
+      },
+      "responseBytes": 1446,
+      "textChars": 492
+    },
+    {
+      "id": "diagnostics-096",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "ambiguous log line",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-096",
+        "summary": "The ambiguous log produced no recognized delivery status entries.",
+        "fact": 0,
+        "nextStep": "Obtain structured SMTP queue or delivery records.",
+        "limitations": "No delivery conclusion can be drawn from this line."
+      },
+      "responseBytes": 1182,
+      "textChars": 436
+    },
+    {
+      "id": "diagnostics-097",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "hops truncated",
+      "passed": false,
+      "matchedCall": false,
+      "structuredPassed": false,
+      "answerPassed": false,
+      "failure": "Error: No matching native MCP call with the supplied arguments.",
+      "answer": {
+        "id": "diagnostics-097",
+        "summary": "The analyzer reported 50 hops and no omitted hops; timestamps parsed as UTC.",
+        "fact": 0,
+        "nextStep": "Compare the supplied chain with trusted relay logs.",
+        "limitations": "Headers are unverified and may be forged."
+      },
+      "responseBytes": 0,
+      "textChars": 0
+    },
+    {
+      "id": "diagnostics-098",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "status lines truncated",
+      "passed": false,
+      "matchedCall": false,
+      "structuredPassed": false,
+      "answerPassed": false,
+      "failure": "Error: No matching native MCP call with the supplied arguments.",
+      "answer": {
+        "id": "diagnostics-098",
+        "summary": "The analyzer reported 50 delivery lines and no omitted delivery lines; each recognized line was temporary failure.",
+        "fact": 0,
+        "nextStep": "Inspect queue history for retry or final disposition.",
+        "limitations": "Repeated temporary statuses do not establish final delivery."
+      },
+      "responseBytes": 0,
+      "textChars": 0
+    },
+    {
+      "id": "diagnostics-099",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "GMT explicit",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-099",
+        "summary": "The explicit GMT timestamp parsed to 2026-10-09T10:00:00.000Z.",
+        "fact": "2026-10-09T10:00:00.000Z",
+        "nextStep": "Validate the hop against trusted relay logs.",
+        "limitations": "The supplied Received header is unverified."
+      },
+      "responseBytes": 1355,
+      "textChars": 406
+    },
+    {
+      "id": "diagnostics-100",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "prompt injection treated as subject",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-100",
+        "summary": "The injection-like Subject was treated as ordinary header content; no delivery entries were observed.",
+        "fact": 0,
+        "nextStep": "Obtain actual SMTP delivery evidence.",
+        "limitations": "No inbox access, authentication validation, or delivery guarantee."
+      },
+      "responseBytes": 1182,
+      "textChars": 436
+    },
+    {
+      "id": "logs-001",
+      "service": "logs",
+      "tool": "parse_logs",
+      "name": "Legacy json.log",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-001",
+        "summary": "All 10 JSON lines parsed; seven severities were unknown and three timestamps were ambiguous.",
+        "fact": 10,
+        "nextStep": "Review ambiguous timestamps if chronological ordering matters.",
+        "limitations": "Deterministic parsing; ambiguous timestamps do not establish order."
+      },
+      "responseBytes": 3118,
+      "textChars": 328
+    },
+    {
+      "id": "logs-002",
+      "service": "logs",
+      "tool": "parse_logs",
+      "name": "Legacy rfc5424.log",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-002",
+        "summary": "All 10 RFC5424 lines parsed, including one timestamp-less record.",
+        "fact": 10,
+        "nextStep": "Review the ambiguous timestamp record.",
+        "limitations": "Ambiguous timestamps do not establish chronological order."
+      },
+      "responseBytes": 4527,
+      "textChars": 330
+    },
+    {
+      "id": "logs-003",
+      "service": "logs",
+      "tool": "parse_logs",
+      "name": "Legacy rfc3164.log",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-003",
+        "summary": "Four RFC3164 lines parsed and six were unparsed; all parsed timestamps were year-ambiguous.",
+        "fact": 4,
+        "nextStep": "Inspect unparsed lines or verify the input format.",
+        "limitations": "No reliable timestamp range was produced."
+      },
+      "responseBytes": 1854,
+      "textChars": 337
+    },
+    {
+      "id": "logs-004",
+      "service": "logs",
+      "tool": "parse_logs",
+      "name": "Legacy apache-common.log",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-004",
+        "summary": "All eight Apache common lines parsed, including the request-target placeholder line.",
+        "fact": 8,
+        "nextStep": "Review the 408 record separately if needed.",
+        "limitations": "One timestamp was ambiguous."
+      },
+      "responseBytes": 2904,
+      "textChars": 313
+    },
+    {
+      "id": "logs-005",
+      "service": "logs",
+      "tool": "parse_logs",
+      "name": "Legacy apache-combined.log",
+      "passed": false,
+      "matchedCall": false,
+      "structuredPassed": false,
+      "answerPassed": false,
+      "failure": "Error: No matching native MCP call with the supplied arguments.",
+      "answer": {
+        "id": "logs-005",
+        "summary": "All 10 Apache combined lines parsed with no unparsed records or omitted records.",
+        "fact": 10,
+        "nextStep": "Use the parsed status and request fields for fixture analysis.",
+        "limitations": "Parsing does not establish live request behavior."
+      },
+      "responseBytes": 0,
+      "textChars": 0
+    },
+    {
+      "id": "logs-006",
+      "service": "logs",
+      "tool": "parse_logs",
+      "name": "Legacy windows-event.csv",
+      "passed": false,
+      "matchedCall": false,
+      "structuredPassed": false,
+      "answerPassed": false,
+      "failure": "Error: No matching native MCP call with the supplied arguments.",
+      "answer": {
+        "id": "logs-006",
+        "summary": "Ten Windows Event CSV records parsed and one blank/header line was skipped.",
+        "fact": 10,
+        "nextStep": "Review the three errors and one critical event.",
+        "limitations": "All timestamps were treated as ambiguous; no range was produced."
+      },
+      "responseBytes": 0,
+      "textChars": 0
+    },
+    {
+      "id": "logs-007",
+      "service": "logs",
+      "tool": "parse_logs",
+      "name": "Legacy common-pid.log",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-007",
+        "summary": "All 10 common-PID lines parsed across info, error, warning, critical, debug, trace, and fatal-like inputs.",
+        "fact": 10,
+        "nextStep": "Review the error and critical records.",
+        "limitations": "Eight timestamps were ambiguous."
+      },
+      "responseBytes": 2912,
+      "textChars": 364
+    },
+    {
+      "id": "logs-008",
+      "service": "logs",
+      "tool": "parse_logs",
+      "name": "mixed JSON/unparsed",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-008",
+        "summary": "One JSON line parsed and the malformed line remained unparsed.",
+        "fact": 1,
+        "nextStep": "Inspect or correct the malformed line.",
+        "limitations": "The tool reported one unparsed input line."
+      },
+      "responseBytes": 1230,
+      "textChars": 331
+    },
+    {
+      "id": "logs-009",
+      "service": "logs",
+      "tool": "parse_logs",
+      "name": "empty line",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-009",
+        "summary": "Two JSON lines parsed and the empty line was skipped.",
+        "fact": 1,
+        "nextStep": "No parsing action is required.",
+        "limitations": "Both timestamps were absent and therefore ambiguous."
+      },
+      "responseBytes": 1195,
+      "textChars": 267
+    },
+    {
+      "id": "logs-010",
+      "service": "logs",
+      "tool": "parse_logs",
+      "name": "JSON prototype guard",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-010",
+        "summary": "The prototype-guard JSON object was rejected as unparsed.",
+        "fact": 1,
+        "nextStep": "Inspect the rejected object if it must be accepted.",
+        "limitations": "No structured record was returned."
+      },
+      "responseBytes": 1086,
+      "textChars": 315
+    },
+    {
+      "id": "logs-011",
+      "service": "logs",
+      "tool": "parse_logs",
+      "name": "20 compact records counted",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-011",
+        "summary": "20 records parsed.",
+        "fact": 20,
+        "nextStep": "None.",
+        "limitations": "Ambiguous timestamps do not establish chronological order."
+      },
+      "responseBytes": 2620,
+      "textChars": 271
+    },
+    {
+      "id": "logs-012",
+      "service": "logs",
+      "tool": "parse_logs",
+      "name": "21 compact records counted",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-012",
+        "summary": "21 records parsed.",
+        "fact": 21,
+        "nextStep": "None.",
+        "limitations": "Ambiguous timestamps do not establish chronological order."
+      },
+      "responseBytes": 2700,
+      "textChars": 271
+    },
+    {
+      "id": "logs-013",
+      "service": "logs",
+      "tool": "parse_logs",
+      "name": "1000 line limit",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-013",
+        "summary": "1000 records parsed; 800 records omitted from returned records.",
+        "fact": 1000,
+        "nextStep": "Account for the 200-record return limit.",
+        "limitations": "800 records omitted; timestamps ambiguous."
+      },
+      "responseBytes": 9159,
+      "textChars": 284
+    },
+    {
+      "id": "logs-014",
+      "service": "logs",
+      "tool": "parse_logs",
+      "name": "1001 lines rejected",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-014",
+        "summary": "Input rejected for exceeding the 1000-line limit.",
+        "fact": "too_many_lines",
+        "nextStep": "Submit at most 1000 lines.",
+        "limitations": "No parsed result returned."
+      },
+      "responseBytes": 79,
+      "textChars": 14
+    },
+    {
+      "id": "logs-015",
+      "service": "logs",
+      "tool": "parse_logs",
+      "name": "Malformed JSON line does not invent a record",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-015",
+        "summary": "The malformed JSON line was unparsed.",
+        "fact": 1,
+        "nextStep": "Inspect or correct the source line.",
+        "limitations": "No structured record was produced."
+      },
+      "responseBytes": 1084,
+      "textChars": 315
+    },
+    {
+      "id": "logs-016",
+      "service": "logs",
+      "tool": "parse_logs",
+      "name": "ambiguous timestamp",
+      "passed": false,
+      "matchedCall": false,
+      "structuredPassed": false,
+      "answerPassed": false,
+      "failure": "Error: No matching native MCP call with the supplied arguments.",
+      "answer": {
+        "id": "logs-016",
+        "summary": "One record parsed, but its timestamp was ambiguous.",
+        "fact": 1,
+        "nextStep": "Provide an unambiguous timestamp with timezone.",
+        "limitations": "Timestamp excluded from the range."
+      },
+      "responseBytes": 0,
+      "textChars": 0
+    },
+    {
+      "id": "logs-017",
+      "service": "logs",
+      "tool": "parse_logs",
+      "name": "valid timestamp",
+      "passed": false,
+      "matchedCall": false,
+      "structuredPassed": false,
+      "answerPassed": false,
+      "failure": "Error: No matching native MCP call with the supplied arguments.",
+      "answer": {
+        "id": "logs-017",
+        "summary": "The valid timestamp produced the requested first range value.",
+        "fact": "2026-10-09T10:00:00.000Z",
+        "nextStep": "None.",
+        "limitations": "This reflects only the supplied fixture."
+      },
+      "responseBytes": 0,
+      "textChars": 0
+    },
+    {
+      "id": "logs-018",
+      "service": "logs",
+      "tool": "parse_logs",
+      "name": "only malformed",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-018",
+        "summary": "The only line was unparsed.",
+        "fact": 1,
+        "nextStep": "Provide valid supported log syntax.",
+        "limitations": "No structured record was produced."
+      },
+      "responseBytes": 1084,
+      "textChars": 315
+    },
+    {
+      "id": "logs-019",
+      "service": "logs",
+      "tool": "parse_logs",
+      "name": "CRLF",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-019",
+        "summary": "Both CRLF-delimited JSON records parsed.",
+        "fact": 2,
+        "nextStep": "None.",
+        "limitations": "Both timestamps were ambiguous."
+      },
+      "responseBytes": 1195,
+      "textChars": 267
+    },
+    {
+      "id": "logs-020",
+      "service": "logs",
+      "tool": "parse_logs",
+      "name": "unknown format",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-020",
+        "summary": "The call was rejected because the requested format was unsupported.",
+        "fact": "-32600",
+        "nextStep": "Use a supported format value.",
+        "limitations": "No parse result returned."
+      },
+      "responseBytes": 4,
+      "textChars": 0
+    },
+    {
+      "id": "logs-021",
+      "service": "logs",
+      "tool": "summarize_logs",
+      "name": "INFO summary",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-021",
+        "summary": "One INFO log parsed as JSON.",
+        "fact": 1,
+        "nextStep": "None indicated.",
+        "limitations": "Timestamp is ambiguous; no chronological order established."
+      },
+      "responseBytes": 1018,
+      "textChars": 267
+    },
+    {
+      "id": "logs-022",
+      "service": "logs",
+      "tool": "summarize_logs",
+      "name": "ERROR summary",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-022",
+        "summary": "One ERROR log parsed as JSON.",
+        "fact": 1,
+        "nextStep": "None indicated.",
+        "limitations": "Timestamp is ambiguous; no chronological order established."
+      },
+      "responseBytes": 1021,
+      "textChars": 268
+    },
+    {
+      "id": "logs-023",
+      "service": "logs",
+      "tool": "summarize_logs",
+      "name": "WARN summary",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-023",
+        "summary": "One WARN log parsed as JSON.",
+        "fact": 1,
+        "nextStep": "None indicated.",
+        "limitations": "Timestamp is ambiguous; no chronological order established."
+      },
+      "responseBytes": 1027,
+      "textChars": 270
+    },
+    {
+      "id": "logs-024",
+      "service": "logs",
+      "tool": "summarize_logs",
+      "name": "FATAL summary",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-024",
+        "summary": "One FATAL log parsed as JSON.",
+        "fact": 1,
+        "nextStep": "None indicated.",
+        "limitations": "Timestamp is ambiguous; no chronological order established."
+      },
+      "responseBytes": 1030,
+      "textChars": 271
+    },
+    {
+      "id": "logs-025",
+      "service": "logs",
+      "tool": "summarize_logs",
+      "name": "DEBUG summary",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-025",
+        "summary": "One DEBUG log parsed as JSON.",
+        "fact": 1,
+        "nextStep": "None indicated.",
+        "limitations": "Timestamp is ambiguous; no chronological order established."
+      },
+      "responseBytes": 1021,
+      "textChars": 268
+    },
+    {
+      "id": "logs-026",
+      "service": "logs",
+      "tool": "summarize_logs",
+      "name": "TRACE summary",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-026",
+        "summary": "One TRACE log parsed as JSON.",
+        "fact": 1,
+        "nextStep": "None indicated.",
+        "limitations": "Timestamp is ambiguous; no chronological order established."
+      },
+      "responseBytes": 1021,
+      "textChars": 268
+    },
+    {
+      "id": "logs-027",
+      "service": "logs",
+      "tool": "summarize_logs",
+      "name": "NOTICE summary",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-027",
+        "summary": "One NOTICE log parsed as JSON.",
+        "fact": 1,
+        "nextStep": "None indicated.",
+        "limitations": "Timestamp is ambiguous; no chronological order established."
+      },
+      "responseBytes": 1024,
+      "textChars": 269
+    },
+    {
+      "id": "logs-028",
+      "service": "logs",
+      "tool": "summarize_logs",
+      "name": "ALERT summary",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-028",
+        "summary": "One ALERT log parsed as JSON.",
+        "fact": 1,
+        "nextStep": "None indicated.",
+        "limitations": "Timestamp is ambiguous; no chronological order established."
+      },
+      "responseBytes": 1021,
+      "textChars": 268
+    },
+    {
+      "id": "logs-029",
+      "service": "logs",
+      "tool": "summarize_logs",
+      "name": "EMERGENCY summary",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-029",
+        "summary": "One EMERGENCY log parsed as JSON.",
+        "fact": 1,
+        "nextStep": "None indicated.",
+        "limitations": "Timestamp is ambiguous; no chronological order established."
+      },
+      "responseBytes": 1033,
+      "textChars": 272
+    },
+    {
+      "id": "logs-030",
+      "service": "logs",
+      "tool": "summarize_logs",
+      "name": "VERBOSE summary",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-030",
+        "summary": "One VERBOSE log parsed as JSON.",
+        "fact": 1,
+        "nextStep": "None indicated.",
+        "limitations": "Timestamp is ambiguous; no chronological order established."
+      },
+      "responseBytes": 1027,
+      "textChars": 270
+    },
+    {
+      "id": "logs-031",
+      "service": "logs",
+      "tool": "summarize_logs",
+      "name": "summary no records",
+      "passed": false,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": false,
+      "failure": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n\n1 !== 0\n",
+      "answer": {
+        "id": "logs-031",
+        "summary": "One JSON log parsed; records were omitted from the response.",
+        "fact": 1,
+        "nextStep": "",
+        "limitations": "Ambiguous timestamps excluded from range."
+      },
+      "responseBytes": 1018,
+      "textChars": 267
+    },
+    {
+      "id": "logs-032",
+      "service": "logs",
+      "tool": "summarize_logs",
+      "name": "summary omitted count",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-032",
+        "summary": "Two JSON logs parsed; both records were omitted.",
+        "fact": 2,
+        "nextStep": "",
+        "limitations": "Ambiguous timestamps excluded from range."
+      },
+      "responseBytes": 1018,
+      "textChars": 267
+    },
+    {
+      "id": "logs-033",
+      "service": "logs",
+      "tool": "summarize_logs",
+      "name": "summary malformed",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-033",
+        "summary": "The supplied line was not parsed.",
+        "fact": 1,
+        "nextStep": "Inspect the unparsed source or provide the known format.",
+        "limitations": "Deterministic pattern parsing only."
+      },
+      "responseBytes": 1084,
+      "textChars": 315
+    },
+    {
+      "id": "logs-034",
+      "service": "logs",
+      "tool": "summarize_logs",
+      "name": "unknown severity",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-034",
+        "summary": "The custom severity was counted as unknown.",
+        "fact": 1,
+        "nextStep": "",
+        "limitations": "Ambiguous timestamps excluded from range."
+      },
+      "responseBytes": 1027,
+      "textChars": 270
+    },
+    {
+      "id": "logs-035",
+      "service": "logs",
+      "tool": "summarize_logs",
+      "name": "range ignores ambiguous",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-035",
+        "summary": "The ambiguous timestamp was excluded from the timestamp range.",
+        "fact": null,
+        "nextStep": "",
+        "limitations": "Timezone/year-ambiguous timestamps do not establish chronology."
+      },
+      "responseBytes": 1018,
+      "textChars": 267
+    },
+    {
+      "id": "logs-036",
+      "service": "logs",
+      "tool": "extract_ci_failures",
+      "name": "TypeScript error",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-036",
+        "summary": "The TypeScript error was classified as a compile failure.",
+        "fact": "compile",
+        "nextStep": "Inspect the earliest failure and surrounding source log.",
+        "limitations": "Pattern matching, not root-cause inference."
+      },
+      "responseBytes": 1003,
+      "textChars": 340
+    },
+    {
+      "id": "logs-037",
+      "service": "logs",
+      "tool": "extract_ci_failures",
+      "name": "C# error",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-037",
+        "summary": "The C# compiler error was classified as a compile failure.",
+        "fact": "compile",
+        "nextStep": "Inspect the earliest failure and surrounding source log.",
+        "limitations": "Pattern matching, not root-cause inference."
+      },
+      "responseBytes": 967,
+      "textChars": 328
+    },
+    {
+      "id": "logs-038",
+      "service": "logs",
+      "tool": "extract_ci_failures",
+      "name": "C compiler",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-038",
+        "summary": "The fatal C compiler message was classified as a compile failure.",
+        "fact": "compile",
+        "nextStep": "Inspect the earliest failure and surrounding source log.",
+        "limitations": "Pattern matching, not root-cause inference."
+      },
+      "responseBytes": 952,
+      "textChars": 323
+    },
+    {
+      "id": "logs-039",
+      "service": "logs",
+      "tool": "extract_ci_failures",
+      "name": "SyntaxError",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-039",
+        "summary": "The SyntaxError was classified as a compile failure.",
+        "fact": "compile",
+        "nextStep": "Inspect the earliest failure and surrounding source log.",
+        "limitations": "Pattern matching, not root-cause inference."
+      },
+      "responseBytes": 937,
+      "textChars": 318
+    },
+    {
+      "id": "logs-040",
+      "service": "logs",
+      "tool": "extract_ci_failures",
+      "name": "FAIL test",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-040",
+        "summary": "The FAIL line was classified as a test failure.",
+        "fact": "test",
+        "nextStep": "Inspect the earliest failure and surrounding source log.",
+        "limitations": "Pattern matching, not root-cause inference."
+      },
+      "responseBytes": 919,
+      "textChars": 313
+    },
+    {
+      "id": "logs-041",
+      "service": "logs",
+      "tool": "extract_ci_failures",
+      "name": "FAILED assertion",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-041",
+        "summary": "The supplied text was classified as a test failure.",
+        "fact": "test",
+        "nextStep": "Inspect the earliest relevant failure and surrounding log.",
+        "limitations": "Pattern matching; no root-cause inference."
+      },
+      "responseBytes": 907,
+      "textChars": 309
+    },
+    {
+      "id": "logs-042",
+      "service": "logs",
+      "tool": "extract_ci_failures",
+      "name": "AssertionError",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-042",
+        "summary": "The supplied text was classified as a test failure.",
+        "fact": "test",
+        "nextStep": "Inspect the earliest relevant failure and surrounding log.",
+        "limitations": "Pattern matching; no root-cause inference."
+      },
+      "responseBytes": 946,
+      "textChars": 322
+    },
+    {
+      "id": "logs-043",
+      "service": "logs",
+      "tool": "extract_ci_failures",
+      "name": "ERESOLVE",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-043",
+        "summary": "ERESOLVE was classified as a dependency failure.",
+        "fact": "dependency",
+        "nextStep": "Inspect the earliest relevant failure and surrounding log.",
+        "limitations": "Pattern matching; no root-cause inference."
+      },
+      "responseBytes": 907,
+      "textChars": 307
+    },
+    {
+      "id": "logs-044",
+      "service": "logs",
+      "tool": "extract_ci_failures",
+      "name": "ENOTFOUND",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-044",
+        "summary": "ENOTFOUND was classified as a dependency failure.",
+        "fact": "dependency",
+        "nextStep": "Inspect the earliest relevant failure and surrounding log.",
+        "limitations": "Pattern matching; no root-cause inference."
+      },
+      "responseBytes": 910,
+      "textChars": 308
+    },
+    {
+      "id": "logs-045",
+      "service": "logs",
+      "tool": "extract_ci_failures",
+      "name": "ECONNREFUSED",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-045",
+        "summary": "ECONNREFUSED was classified as a dependency failure.",
+        "fact": "dependency",
+        "nextStep": "Inspect the earliest relevant failure and surrounding log.",
+        "limitations": "Pattern matching; no root-cause inference."
+      },
+      "responseBytes": 919,
+      "textChars": 311
+    },
+    {
+      "id": "logs-046",
+      "service": "logs",
+      "tool": "extract_ci_failures",
+      "name": "Could not resolve dependency",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-046",
+        "summary": "The dependency-resolution message was classified as a dependency failure.",
+        "fact": "dependency",
+        "nextStep": "Inspect the earliest relevant failure and surrounding log.",
+        "limitations": "Pattern matching; no root-cause inference."
+      },
+      "responseBytes": 967,
+      "textChars": 327
+    },
+    {
+      "id": "logs-047",
+      "service": "logs",
+      "tool": "extract_ci_failures",
+      "name": "permission denied",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-047",
+        "summary": "The supplied text was classified as a permission failure.",
+        "fact": "permission",
+        "nextStep": "Inspect the earliest relevant failure and surrounding log.",
+        "limitations": "Pattern matching; no root-cause inference."
+      },
+      "responseBytes": 934,
+      "textChars": 316
+    },
+    {
+      "id": "logs-048",
+      "service": "logs",
+      "tool": "extract_ci_failures",
+      "name": "EACCES",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-048",
+        "summary": "EACCES was classified as a permission failure.",
+        "fact": "permission",
+        "nextStep": "Inspect the earliest relevant failure and surrounding log.",
+        "limitations": "Pattern matching; no root-cause inference."
+      },
+      "responseBytes": 901,
+      "textChars": 305
+    },
+    {
+      "id": "logs-049",
+      "service": "logs",
+      "tool": "extract_ci_failures",
+      "name": "unauthorized",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-049",
+        "summary": "The supplied text was classified as a permission failure.",
+        "fact": "permission",
+        "nextStep": "Inspect the earliest relevant failure and surrounding log.",
+        "limitations": "Pattern matching; no root-cause inference."
+      },
+      "responseBytes": 919,
+      "textChars": 311
+    },
+    {
+      "id": "logs-050",
+      "service": "logs",
+      "tool": "extract_ci_failures",
+      "name": "access denied",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-050",
+        "summary": "The supplied text was classified as a permission failure.",
+        "fact": "permission",
+        "nextStep": "Inspect the earliest relevant failure and surrounding log.",
+        "limitations": "Pattern matching; no root-cause inference."
+      },
+      "responseBytes": 922,
+      "textChars": 312
+    },
+    {
+      "id": "logs-051",
+      "service": "logs",
+      "tool": "extract_ci_failures",
+      "name": "exit code",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-051",
+        "summary": "One failure-like line was detected.",
+        "fact": 1,
+        "nextStep": "Inspect the earliest failure and surrounding log.",
+        "limitations": "Pattern matching does not establish root cause."
+      },
+      "responseBytes": 917,
+      "textChars": 312
+    },
+    {
+      "id": "logs-052",
+      "service": "logs",
+      "tool": "extract_ci_failures",
+      "name": "clean build",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-052",
+        "summary": "No recognized failure pattern was detected.",
+        "fact": 0,
+        "nextStep": "Inspect runner status and remaining log.",
+        "limitations": "A clean text line does not prove build success."
+      },
+      "responseBytes": 721,
+      "textChars": 250
+    },
+    {
+      "id": "logs-053",
+      "service": "logs",
+      "tool": "extract_ci_failures",
+      "name": "source line numbers",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-053",
+        "summary": "A compile failure was found on line 3.",
+        "fact": 3,
+        "nextStep": "Inspect the source around line 3.",
+        "limitations": "Line number refers to the supplied log."
+      },
+      "responseBytes": 943,
+      "textChars": 320
+    },
+    {
+      "id": "logs-054",
+      "service": "logs",
+      "tool": "extract_ci_failures",
+      "name": "ANSI escapes",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-054",
+        "summary": "ANSI escapes were handled and the failure categorized as compile.",
+        "fact": "compile",
+        "nextStep": "Inspect the reported TypeScript error.",
+        "limitations": "Pattern matching does not establish root cause."
+      },
+      "responseBytes": 943,
+      "textChars": 320
+    },
+    {
+      "id": "logs-055",
+      "service": "logs",
+      "tool": "extract_ci_failures",
+      "name": "51 failures truncation",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-055",
+        "summary": "Fifty failures were returned and one was omitted.",
+        "fact": 1,
+        "nextStep": "Review the earliest failure and omitted context.",
+        "limitations": "The report is truncated to 50 failure entries."
+      },
+      "responseBytes": 3890,
+      "textChars": 427
+    },
+    {
+      "id": "logs-056",
+      "service": "logs",
+      "tool": "extract_ci_failures",
+      "name": "password redaction",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-056",
+        "summary": "Password content was redacted in the evidence.",
+        "fact": "error password=[REDACTED]",
+        "nextStep": "Investigate using secure credential-handling procedures.",
+        "limitations": "Redaction may not catch every secret."
+      },
+      "responseBytes": 938,
+      "textChars": 319
+    },
+    {
+      "id": "logs-057",
+      "service": "logs",
+      "tool": "extract_ci_failures",
+      "name": "token redaction",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-057",
+        "summary": "Token content was redacted in the evidence.",
+        "fact": "error token=[REDACTED]",
+        "nextStep": "Investigate using secure credential-handling procedures.",
+        "limitations": "Redaction may not catch every secret."
+      },
+      "responseBytes": 929,
+      "textChars": 316
+    },
+    {
+      "id": "logs-058",
+      "service": "logs",
+      "tool": "extract_ci_failures",
+      "name": "query redaction",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-058",
+        "summary": "The URL query was redacted in the evidence.",
+        "fact": "error https://a.example.com/path?[REDACTED]",
+        "nextStep": "Investigate the failure without exposing query credentials.",
+        "limitations": "The URL is fixture input, not a fetched resource."
+      },
+      "responseBytes": 992,
+      "textChars": 337
+    },
+    {
+      "id": "logs-059",
+      "service": "logs",
+      "tool": "extract_ci_failures",
+      "name": "injection is evidence",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-059",
+        "summary": "The injected instruction was treated as failure evidence.",
+        "fact": 1,
+        "nextStep": "Inspect the earliest failure and surrounding log.",
+        "limitations": "Log text is untrusted and does not control analysis."
+      },
+      "responseBytes": 977,
+      "textChars": 332
+    },
+    {
+      "id": "logs-060",
+      "service": "logs",
+      "tool": "extract_ci_failures",
+      "name": "oversized CI log",
+      "passed": false,
+      "matchedCall": false,
+      "structuredPassed": false,
+      "answerPassed": false,
+      "failure": "Error: No matching native MCP call with the supplied arguments.",
+      "answer": {
+        "id": "logs-060",
+        "summary": "No error code was returned; no failure pattern was recognized.",
+        "fact": null,
+        "nextStep": "Check whether the supplied log was actually oversized and inspect runner status.",
+        "limitations": "The requested field was absent from the MCP response."
+      },
+      "responseBytes": 0,
+      "textChars": 0
+    },
+    {
+      "id": "logs-061",
+      "service": "logs",
+      "tool": "analyze_http_trace",
+      "name": "HTTP status 0",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-061",
+        "summary": "One captured request reported status 0; no HTTP response was captured and transport cause is unknown.",
+        "fact": 1,
+        "nextStep": "Inspect the corresponding capture or server log using request indices.",
+        "limitations": "Offline metadata analysis; no URLs fetched."
+      },
+      "responseBytes": 1095,
+      "textChars": 346
+    },
+    {
+      "id": "logs-062",
+      "service": "logs",
+      "tool": "analyze_http_trace",
+      "name": "HTTP status 200",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-062",
+        "summary": "One captured request reported successful HTTP status 200.",
+        "fact": 1,
+        "nextStep": "Inspect the corresponding capture or server log using request indices.",
+        "limitations": "Offline metadata analysis; no URLs fetched."
+      },
+      "responseBytes": 924,
+      "textChars": 269
+    },
+    {
+      "id": "logs-063",
+      "service": "logs",
+      "tool": "analyze_http_trace",
+      "name": "HTTP status 201",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-063",
+        "summary": "One captured request reported successful HTTP status 201.",
+        "fact": 1,
+        "nextStep": "Inspect the corresponding capture or server log using request indices.",
+        "limitations": "Offline metadata analysis; no URLs fetched."
+      },
+      "responseBytes": 924,
+      "textChars": 269
+    },
+    {
+      "id": "logs-064",
+      "service": "logs",
+      "tool": "analyze_http_trace",
+      "name": "HTTP status 204",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-064",
+        "summary": "One captured request reported successful HTTP status 204.",
+        "fact": 1,
+        "nextStep": "Inspect the corresponding capture or server log using request indices.",
+        "limitations": "Offline metadata analysis; no URLs fetched."
+      },
+      "responseBytes": 924,
+      "textChars": 269
+    },
+    {
+      "id": "logs-065",
+      "service": "logs",
+      "tool": "analyze_http_trace",
+      "name": "HTTP status 301",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-065",
+        "summary": "One captured request reported HTTP 301; the redirect was captured but not followed.",
+        "fact": 1,
+        "nextStep": "Inspect the corresponding capture or server log using request indices.",
+        "limitations": "Offline metadata analysis; no URLs fetched."
+      },
+      "responseBytes": 1094,
+      "textChars": 345
+    },
+    {
+      "id": "logs-066",
+      "service": "logs",
+      "tool": "analyze_http_trace",
+      "name": "HTTP status 302",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-066",
+        "summary": "One captured request reported HTTP 302; the redirect was captured but not followed.",
+        "fact": 1,
+        "nextStep": "Inspect the corresponding capture or server log using request indices.",
+        "limitations": "Offline metadata analysis; no URLs fetched."
+      },
+      "responseBytes": 1094,
+      "textChars": 345
+    },
+    {
+      "id": "logs-067",
+      "service": "logs",
+      "tool": "analyze_http_trace",
+      "name": "HTTP status 307",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-067",
+        "summary": "One captured request reported HTTP 307; the redirect was captured but not followed.",
+        "fact": 1,
+        "nextStep": "Inspect the corresponding capture or server log using request indices.",
+        "limitations": "Offline metadata analysis; no URLs fetched."
+      },
+      "responseBytes": 1094,
+      "textChars": 345
+    },
+    {
+      "id": "logs-068",
+      "service": "logs",
+      "tool": "analyze_http_trace",
+      "name": "HTTP status 308",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-068",
+        "summary": "One captured request reported HTTP 308; the redirect was captured but not followed.",
+        "fact": 1,
+        "nextStep": "Inspect the corresponding capture or server log using request indices.",
+        "limitations": "Offline metadata analysis; no URLs fetched."
+      },
+      "responseBytes": 1094,
+      "textChars": 345
+    },
+    {
+      "id": "logs-069",
+      "service": "logs",
+      "tool": "analyze_http_trace",
+      "name": "HTTP status 400",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-069",
+        "summary": "One captured request reported HTTP 400; the supplied capture identifies a client error.",
+        "fact": 1,
+        "nextStep": "Inspect the corresponding capture or server log using request indices.",
+        "limitations": "Offline metadata analysis; no URLs fetched."
+      },
+      "responseBytes": 1112,
+      "textChars": 351
+    },
+    {
+      "id": "logs-070",
+      "service": "logs",
+      "tool": "analyze_http_trace",
+      "name": "HTTP status 401",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-070",
+        "summary": "One captured request reported HTTP 401; authentication or access policy rejected it.",
+        "fact": 1,
+        "nextStep": "Inspect the corresponding capture or server log using request indices.",
+        "limitations": "Offline metadata analysis; no URLs fetched."
+      },
+      "responseBytes": 1109,
+      "textChars": 350
+    },
+    {
+      "id": "logs-071",
+      "service": "logs",
+      "tool": "analyze_http_trace",
+      "name": "HTTP status 403",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-071",
+        "summary": "The captured GET returned HTTP 403, indicating authentication or access policy rejection.",
+        "fact": 1,
+        "nextStep": "Inspect the corresponding capture or server log using request index 0.",
+        "limitations": "Offline metadata analysis; no URLs fetched."
+      },
+      "responseBytes": 1109,
+      "textChars": 350
+    },
+    {
+      "id": "logs-072",
+      "service": "logs",
+      "tool": "analyze_http_trace",
+      "name": "HTTP status 404",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-072",
+        "summary": "The captured GET returned HTTP 404; check the supplied request inputs and route.",
+        "fact": 1,
+        "nextStep": "Inspect the corresponding capture or server log using request index 0.",
+        "limitations": "Offline metadata analysis; no URLs fetched."
+      },
+      "responseBytes": 1112,
+      "textChars": 351
+    },
+    {
+      "id": "logs-073",
+      "service": "logs",
+      "tool": "analyze_http_trace",
+      "name": "HTTP status 408",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-073",
+        "summary": "The captured GET returned HTTP 408; check the supplied request inputs and route.",
+        "fact": 1,
+        "nextStep": "Inspect the corresponding capture or server log using request index 0.",
+        "limitations": "Offline metadata analysis; no URLs fetched."
+      },
+      "responseBytes": 1112,
+      "textChars": 351
+    },
+    {
+      "id": "logs-074",
+      "service": "logs",
+      "tool": "analyze_http_trace",
+      "name": "HTTP status 429",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-074",
+        "summary": "The captured GET returned HTTP 429, indicating rate limiting in the supplied metadata.",
+        "fact": 1,
+        "nextStep": "Respect the captured Retry-After value when retrying, if applicable.",
+        "limitations": "Offline metadata analysis; no URLs fetched."
+      },
+      "responseBytes": 1094,
+      "textChars": 345
+    },
+    {
+      "id": "logs-075",
+      "service": "logs",
+      "tool": "analyze_http_trace",
+      "name": "HTTP status 500",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-075",
+        "summary": "The captured GET returned HTTP 500, indicating a reported server error.",
+        "fact": 1,
+        "nextStep": "Inspect server logs for request index 0.",
+        "limitations": "Offline metadata analysis; no URLs fetched."
+      },
+      "responseBytes": 1079,
+      "textChars": 340
+    },
+    {
+      "id": "logs-076",
+      "service": "logs",
+      "tool": "analyze_http_trace",
+      "name": "HTTP credentials/query removed",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-076",
+        "summary": "Sensitive URL components were sanitized; the captured request path remained visible.",
+        "fact": "https://capture.example.com/a?[REDACTED]",
+        "nextStep": "Use the sanitized URL and request index 0 when reviewing the capture.",
+        "limitations": "Query strings, userinfo and sensitive headers are omitted; no URLs were fetched."
+      },
+      "responseBytes": 937,
+      "textChars": 269
+    },
+    {
+      "id": "logs-077",
+      "service": "logs",
+      "tool": "analyze_http_trace",
+      "name": "HTTP retry guidance",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-077",
+        "summary": "The captured HTTP 429 included Retry-After value 60; Authorization was omitted.",
+        "fact": "60",
+        "nextStep": "Respect the captured Retry-After value when retrying, if applicable.",
+        "limitations": "Sensitive headers are omitted; no URLs were fetched."
+      },
+      "responseBytes": 1094,
+      "textChars": 345
+    },
+    {
+      "id": "logs-078",
+      "service": "logs",
+      "tool": "analyze_http_trace",
+      "name": "Relative captured redirect",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-078",
+        "summary": "The captured HTTP 302 redirect was normalized to an absolute sanitized location and not followed.",
+        "fact": "https://capture.example.com/next?[REDACTED]",
+        "nextStep": "Review the captured redirect target without assuming it was fetched.",
+        "limitations": "Redirects are not followed; query strings are omitted; no URLs were fetched."
+      },
+      "responseBytes": 1140,
+      "textChars": 345
+    },
+    {
+      "id": "logs-079",
+      "service": "logs",
+      "tool": "analyze_http_trace",
+      "name": "Malformed captured URL",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-079",
+        "summary": "The malformed captured URL was represented as invalid, with HTTP status 0 and no response captured.",
+        "fact": "[invalid URL]",
+        "nextStep": "Inspect the corresponding capture or transport logs for request index 0.",
+        "limitations": "The transport cause is unknown; no URLs were fetched."
+      },
+      "responseBytes": 1080,
+      "textChars": 346
+    },
+    {
+      "id": "logs-080",
+      "service": "logs",
+      "tool": "analyze_http_trace",
+      "name": "Timing sum explicit",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-080",
+        "summary": "Captured durations summed to 6020 ms; one request exceeded five seconds and another returned HTTP 503.",
+        "fact": 6020,
+        "nextStep": "Inspect server logs for request index 1 and investigate the long duration at index 0.",
+        "limitations": "Timing sum is not wall-clock elapsed time; no cause is inferred; no URLs were fetched."
+      },
+      "responseBytes": 1565,
+      "textChars": 457
+    },
+    {
+      "id": "logs-081",
+      "service": "logs",
+      "tool": "validate_config",
+      "name": "object type pass",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-081",
+        "summary": "The configuration matched the supplied schema.",
+        "fact": true,
+        "nextStep": "No correction indicated.",
+        "limitations": "Bounded JSON Schema subset; application-specific semantics are not validated."
+      },
+      "responseBytes": 811,
+      "textChars": 224
+    },
+    {
+      "id": "logs-082",
+      "service": "logs",
+      "tool": "validate_config",
+      "name": "type failure",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-082",
+        "summary": "The array failed the object type check.",
+        "fact": false,
+        "nextStep": "Correct the reported type violation and validate again.",
+        "limitations": "Bounded JSON Schema subset; application-specific semantics are not validated."
+      },
+      "responseBytes": 935,
+      "textChars": 274
+    },
+    {
+      "id": "logs-083",
+      "service": "logs",
+      "tool": "validate_config",
+      "name": "required missing",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-083",
+        "summary": "The required property check failed.",
+        "fact": "required",
+        "nextStep": "Add the required property and validate again.",
+        "limitations": "Bounded JSON Schema subset; application-specific semantics are not validated."
+      },
+      "responseBytes": 947,
+      "textChars": 278
+    },
+    {
+      "id": "logs-084",
+      "service": "logs",
+      "tool": "validate_config",
+      "name": "required present",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-084",
+        "summary": "The configuration matched the required-property schema.",
+        "fact": true,
+        "nextStep": "No correction indicated.",
+        "limitations": "Bounded JSON Schema subset; application-specific semantics are not validated."
+      },
+      "responseBytes": 811,
+      "textChars": 224
+    },
+    {
+      "id": "logs-085",
+      "service": "logs",
+      "tool": "validate_config",
+      "name": "additional field rejected",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-085",
+        "summary": "The additional field was rejected by the schema.",
+        "fact": false,
+        "nextStep": "Remove the additional field or revise the schema, then validate again.",
+        "limitations": "Bounded JSON Schema subset; application-specific semantics are not validated."
+      },
+      "responseBytes": 975,
+      "textChars": 287
+    },
+    {
+      "id": "logs-086",
+      "service": "logs",
+      "tool": "validate_config",
+      "name": "integer rejected",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-086",
+        "summary": "The decimal value failed the integer type check.",
+        "fact": false,
+        "nextStep": "Supply an integer and validate again.",
+        "limitations": "Bounded JSON Schema subset; application-specific semantics are not validated."
+      },
+      "responseBytes": 935,
+      "textChars": 274
+    },
+    {
+      "id": "logs-087",
+      "service": "logs",
+      "tool": "validate_config",
+      "name": "integer accepted",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-087",
+        "summary": "The supplied integer matched the schema.",
+        "fact": true,
+        "nextStep": "No correction indicated.",
+        "limitations": "Bounded JSON Schema subset; application-specific semantics are not validated."
+      },
+      "responseBytes": 811,
+      "textChars": 224
+    },
+    {
+      "id": "logs-088",
+      "service": "logs",
+      "tool": "validate_config",
+      "name": "minimum",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-088",
+        "summary": "The value failed the minimum constraint.",
+        "fact": false,
+        "nextStep": "Supply a value meeting the minimum and validate again.",
+        "limitations": "Bounded JSON Schema subset; application-specific semantics are not validated."
+      },
+      "responseBytes": 944,
+      "textChars": 277
+    },
+    {
+      "id": "logs-089",
+      "service": "logs",
+      "tool": "validate_config",
+      "name": "maximum",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-089",
+        "summary": "The value failed the maximum constraint.",
+        "fact": false,
+        "nextStep": "Supply a value meeting the maximum and validate again.",
+        "limitations": "Bounded JSON Schema subset; application-specific semantics are not validated."
+      },
+      "responseBytes": 944,
+      "textChars": 277
+    },
+    {
+      "id": "logs-090",
+      "service": "logs",
+      "tool": "validate_config",
+      "name": "Unicode length",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-090",
+        "summary": "The Unicode string matched the supplied length constraints.",
+        "fact": true,
+        "nextStep": "No correction indicated.",
+        "limitations": "Bounded JSON Schema subset; application-specific semantics are not validated."
+      },
+      "responseBytes": 811,
+      "textChars": 224
+    },
+    {
+      "id": "logs-091",
+      "service": "logs",
+      "tool": "validate_config",
+      "name": "string too short",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-091",
+        "summary": "Validation rejected the empty string under minLength 1.",
+        "fact": false,
+        "nextStep": "Correct the reported path and validate again.",
+        "limitations": "Bounded JSON Schema subset; values are not echoed."
+      },
+      "responseBytes": 950,
+      "textChars": 279
+    },
+    {
+      "id": "logs-092",
+      "service": "logs",
+      "tool": "validate_config",
+      "name": "string too long",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-092",
+        "summary": "Validation rejected the two-character string under maxLength 1.",
+        "fact": false,
+        "nextStep": "Correct the reported path and validate again.",
+        "limitations": "Bounded JSON Schema subset; values are not echoed."
+      },
+      "responseBytes": 950,
+      "textChars": 279
+    },
+    {
+      "id": "logs-093",
+      "service": "logs",
+      "tool": "validate_config",
+      "name": "array minItems",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-093",
+        "summary": "Validation rejected the empty array under minItems 1.",
+        "fact": false,
+        "nextStep": "Correct the reported path and validate again.",
+        "limitations": "Bounded JSON Schema subset; values are not echoed."
+      },
+      "responseBytes": 947,
+      "textChars": 278
+    },
+    {
+      "id": "logs-094",
+      "service": "logs",
+      "tool": "validate_config",
+      "name": "array maxItems",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-094",
+        "summary": "Validation rejected the two-item array under maxItems 1.",
+        "fact": false,
+        "nextStep": "Correct the reported path and validate again.",
+        "limitations": "Bounded JSON Schema subset; values are not echoed."
+      },
+      "responseBytes": 947,
+      "textChars": 278
+    },
+    {
+      "id": "logs-095",
+      "service": "logs",
+      "tool": "validate_config",
+      "name": "array items",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-095",
+        "summary": "Validation found a type violation at array index 1.",
+        "fact": "/1",
+        "nextStep": "Correct the reported path and validate again.",
+        "limitations": "Bounded JSON Schema subset; values are not echoed."
+      },
+      "responseBytes": 939,
+      "textChars": 275
+    },
+    {
+      "id": "logs-096",
+      "service": "logs",
+      "tool": "validate_config",
+      "name": "enum structural equality",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-096",
+        "summary": "The object matched the enum structurally despite member order.",
+        "fact": true,
+        "nextStep": "No validation correction is indicated.",
+        "limitations": "Bounded JSON Schema subset; values are not echoed."
+      },
+      "responseBytes": 811,
+      "textChars": 224
+    },
+    {
+      "id": "logs-097",
+      "service": "logs",
+      "tool": "validate_config",
+      "name": "null type",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-097",
+        "summary": "The null value matched the null type schema.",
+        "fact": true,
+        "nextStep": "No validation correction is indicated.",
+        "limitations": "Bounded JSON Schema subset; values are not echoed."
+      },
+      "responseBytes": 811,
+      "textChars": 224
+    },
+    {
+      "id": "logs-098",
+      "service": "logs",
+      "tool": "validate_config",
+      "name": "boolean schema",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-098",
+        "summary": "The empty object was rejected by the false schema.",
+        "fact": false,
+        "nextStep": "Correct the schema or configuration and validate again.",
+        "limitations": "Bounded JSON Schema subset; values are not echoed."
+      },
+      "responseBytes": 959,
+      "textChars": 282
+    },
+    {
+      "id": "logs-099",
+      "service": "logs",
+      "tool": "validate_config",
+      "name": "refs refused",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-099",
+        "summary": "The schema was rejected because remote references are unsupported.",
+        "fact": "unsupported_schema",
+        "nextStep": "Use a supported local schema subset.",
+        "limitations": "Remote references are not fetched."
+      },
+      "responseBytes": 83,
+      "textChars": 18
+    },
+    {
+      "id": "logs-100",
+      "service": "logs",
+      "tool": "validate_config",
+      "name": "regex refused",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-100",
+        "summary": "The schema was rejected because regex patterns are unsupported.",
+        "fact": "unsupported_schema",
+        "nextStep": "Use supported schema keywords instead.",
+        "limitations": "Regex validation is unsupported."
+      },
+      "responseBytes": 83,
+      "textChars": 18
+    },
+    {
+      "id": "network-001",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "IPv4 /0",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-001",
+        "summary": "Observed /0 subnet capacity and boundaries.",
+        "fact": "4294967296",
+        "nextStep": "None reported.",
+        "limitations": "Capacity calculation does not account for provider-reserved addresses."
+      },
+      "responseBytes": 818,
+      "textChars": 208
+    },
+    {
+      "id": "network-002",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "IPv4 /1",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-002",
+        "summary": "Observed /1 subnet capacity and boundaries.",
+        "fact": "2147483648",
+        "nextStep": "None reported.",
+        "limitations": "Capacity calculation does not account for provider-reserved addresses."
+      },
+      "responseBytes": 842,
+      "textChars": 216
+    },
+    {
+      "id": "network-003",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "IPv4 /2",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-003",
+        "summary": "Observed /2 subnet capacity and boundaries.",
+        "fact": "1073741824",
+        "nextStep": "None reported.",
+        "limitations": "Capacity calculation does not account for provider-reserved addresses."
+      },
+      "responseBytes": 842,
+      "textChars": 216
+    },
+    {
+      "id": "network-004",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "IPv4 /4",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-004",
+        "summary": "Observed /4 subnet capacity and boundaries.",
+        "fact": "268435456",
+        "nextStep": "None reported.",
+        "limitations": "Capacity calculation does not account for provider-reserved addresses."
+      },
+      "responseBytes": 836,
+      "textChars": 214
+    },
+    {
+      "id": "network-005",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "IPv4 /8",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-005",
+        "summary": "Observed /8 subnet capacity and boundaries.",
+        "fact": "16777216",
+        "nextStep": "None reported.",
+        "limitations": "Capacity calculation does not account for provider-reserved addresses."
+      },
+      "responseBytes": 830,
+      "textChars": 212
+    },
+    {
+      "id": "network-006",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "IPv4 /12",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-006",
+        "summary": "Observed /12 subnet capacity and boundaries.",
+        "fact": "1048576",
+        "nextStep": "None reported.",
+        "limitations": "Capacity calculation does not account for provider-reserved addresses."
+      },
+      "responseBytes": 827,
+      "textChars": 211
+    },
+    {
+      "id": "network-007",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "IPv4 /16",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-007",
+        "summary": "Observed /16 subnet capacity and boundaries.",
+        "fact": "65536",
+        "nextStep": "None reported.",
+        "limitations": "Capacity calculation does not account for provider-reserved addresses."
+      },
+      "responseBytes": 808,
+      "textChars": 205
+    },
+    {
+      "id": "network-008",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "IPv4 /20",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-008",
+        "summary": "Observed /20 subnet capacity and boundaries.",
+        "fact": "4096",
+        "nextStep": "None reported.",
+        "limitations": "Capacity calculation does not account for provider-reserved addresses."
+      },
+      "responseBytes": 801,
+      "textChars": 203
+    },
+    {
+      "id": "network-009",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "IPv4 /24",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-009",
+        "summary": "Observed /24 subnet capacity and boundaries.",
+        "fact": "256",
+        "nextStep": "None reported.",
+        "limitations": "Capacity calculation does not account for provider-reserved addresses."
+      },
+      "responseBytes": 788,
+      "textChars": 199
+    },
+    {
+      "id": "network-010",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "IPv4 /25",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-010",
+        "summary": "Observed /25 subnet capacity and boundaries.",
+        "fact": "128",
+        "nextStep": "None reported.",
+        "limitations": "Capacity calculation does not account for provider-reserved addresses."
+      },
+      "responseBytes": 812,
+      "textChars": 207
+    },
+    {
+      "id": "network-011",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "IPv4 /26",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-011",
+        "summary": "Normalized to 192.0.2.128/26 with 64 addresses.",
+        "fact": "64",
+        "nextStep": "Review provider reservations if applicable.",
+        "limitations": "Capacity calculation does not account for provider-reserved addresses."
+      },
+      "responseBytes": 806,
+      "textChars": 205
+    },
+    {
+      "id": "network-012",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "IPv4 /27",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-012",
+        "summary": "Normalized to 192.0.2.128/27 with 32 addresses.",
+        "fact": "32",
+        "nextStep": "Review provider reservations if applicable.",
+        "limitations": "Capacity calculation does not account for provider-reserved addresses."
+      },
+      "responseBytes": 806,
+      "textChars": 205
+    },
+    {
+      "id": "network-013",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "IPv4 /28",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-013",
+        "summary": "Normalized to 192.0.2.128/28 with 16 addresses.",
+        "fact": "16",
+        "nextStep": "Review provider reservations if applicable.",
+        "limitations": "Capacity calculation does not account for provider-reserved addresses."
+      },
+      "responseBytes": 806,
+      "textChars": 205
+    },
+    {
+      "id": "network-014",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "IPv4 /29",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-014",
+        "summary": "Normalized to 192.0.2.128/29 with 8 addresses.",
+        "fact": "8",
+        "nextStep": "Review provider reservations if applicable.",
+        "limitations": "Capacity calculation does not account for provider-reserved addresses."
+      },
+      "responseBytes": 800,
+      "textChars": 203
+    },
+    {
+      "id": "network-015",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "IPv4 /30",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-015",
+        "summary": "Normalized to 192.0.2.128/30 with 4 addresses.",
+        "fact": "4",
+        "nextStep": "Review provider reservations if applicable.",
+        "limitations": "Capacity calculation does not account for provider-reserved addresses."
+      },
+      "responseBytes": 800,
+      "textChars": 203
+    },
+    {
+      "id": "network-016",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "IPv4 /31",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-016",
+        "summary": "Normalized to 192.0.2.128/31 with 2 addresses.",
+        "fact": "2",
+        "nextStep": "Review provider reservations if applicable.",
+        "limitations": "Capacity calculation does not account for provider-reserved addresses."
+      },
+      "responseBytes": 791,
+      "textChars": 203
+    },
+    {
+      "id": "network-017",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "IPv4 /32",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-017",
+        "summary": "The host prefix contains 1 address.",
+        "fact": "1",
+        "nextStep": "Review provider reservations if applicable.",
+        "limitations": "Capacity calculation does not account for provider-reserved addresses."
+      },
+      "responseBytes": 791,
+      "textChars": 203
+    },
+    {
+      "id": "network-018",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "IPv6 /0",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-018",
+        "summary": "Normalized to ::/0 with the complete IPv6 address space.",
+        "fact": "340282366920938463463374607431768211456",
+        "nextStep": "Review provider reservations if applicable.",
+        "limitations": "Capacity calculation does not account for provider-reserved addresses."
+      },
+      "responseBytes": 814,
+      "textChars": 213
+    },
+    {
+      "id": "network-019",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "IPv6 /1",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-019",
+        "summary": "Normalized to ::/1 with the observed IPv6 range.",
+        "fact": "170141183460469231731687303715884105728",
+        "nextStep": "Review provider reservations if applicable.",
+        "limitations": "Capacity calculation does not account for provider-reserved addresses."
+      },
+      "responseBytes": 814,
+      "textChars": 213
+    },
+    {
+      "id": "network-020",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "IPv6 /16",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-020",
+        "summary": "Normalized to 2001::/16 with the observed IPv6 range.",
+        "fact": "5192296858534827628530496329220096",
+        "nextStep": "Review provider reservations if applicable.",
+        "limitations": "Capacity calculation does not account for provider-reserved addresses."
+      },
+      "responseBytes": 827,
+      "textChars": 217
+    },
+    {
+      "id": "network-021",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "IPv6 /32",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-021",
+        "summary": "Observed fixture result: the normalized /32 contains the reported IPv6 capacity.",
+        "fact": "79228162514264337593543950336",
+        "nextStep": "Use the returned normalized prefix and range for planning.",
+        "limitations": "Capacity calculation does not account for provider-reserved addresses."
+      },
+      "responseBytes": 833,
+      "textChars": 219
+    },
+    {
+      "id": "network-022",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "IPv6 /48",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-022",
+        "summary": "Observed fixture result: the normalized /48 contains the reported IPv6 capacity.",
+        "fact": "1208925819614629174706176",
+        "nextStep": "Use the returned normalized prefix and range for planning.",
+        "limitations": "Capacity calculation does not account for provider-reserved addresses."
+      },
+      "responseBytes": 812,
+      "textChars": 212
+    },
+    {
+      "id": "network-023",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "IPv6 /56",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-023",
+        "summary": "Observed fixture result: the normalized /56 contains the reported IPv6 capacity.",
+        "fact": "4722366482869645213696",
+        "nextStep": "Use the returned normalized prefix and range for planning.",
+        "limitations": "Capacity calculation does not account for provider-reserved addresses."
+      },
+      "responseBytes": 797,
+      "textChars": 207
+    },
+    {
+      "id": "network-024",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "IPv6 /64",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-024",
+        "summary": "Observed fixture result: the normalized /64 contains the reported IPv6 capacity.",
+        "fact": "18446744073709551616",
+        "nextStep": "Use the returned normalized prefix and range for planning.",
+        "limitations": "Capacity calculation does not account for provider-reserved addresses."
+      },
+      "responseBytes": 779,
+      "textChars": 201
+    },
+    {
+      "id": "network-025",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "IPv6 /96",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-025",
+        "summary": "Observed fixture result: the normalized /96 contains the reported IPv6 capacity.",
+        "fact": "4294967296",
+        "nextStep": "Use the returned normalized prefix and range for planning.",
+        "limitations": "Capacity calculation does not account for provider-reserved addresses."
+      },
+      "responseBytes": 719,
+      "textChars": 181
+    },
+    {
+      "id": "network-026",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "IPv6 /112",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-026",
+        "summary": "Observed fixture result: the normalized /112 contains the reported IPv6 capacity.",
+        "fact": "65536",
+        "nextStep": "Use the returned normalized prefix and range for planning.",
+        "limitations": "Capacity calculation does not account for provider-reserved addresses."
+      },
+      "responseBytes": 693,
+      "textChars": 172
+    },
+    {
+      "id": "network-027",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "IPv6 /120",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-027",
+        "summary": "Observed fixture result: the normalized /120 contains the reported IPv6 capacity.",
+        "fact": "256",
+        "nextStep": "Use the returned normalized prefix and range for planning.",
+        "limitations": "Capacity calculation does not account for provider-reserved addresses."
+      },
+      "responseBytes": 681,
+      "textChars": 168
+    },
+    {
+      "id": "network-028",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "IPv6 /126",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-028",
+        "summary": "Observed fixture result: the normalized /126 contains the reported IPv6 capacity.",
+        "fact": "4",
+        "nextStep": "Use the returned normalized prefix and range for planning.",
+        "limitations": "Capacity calculation does not account for provider-reserved addresses."
+      },
+      "responseBytes": 672,
+      "textChars": 165
+    },
+    {
+      "id": "network-029",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "IPv6 /127",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-029",
+        "summary": "Observed fixture result: the normalized /127 contains the reported IPv6 capacity.",
+        "fact": "2",
+        "nextStep": "Use the returned normalized prefix and range for planning.",
+        "limitations": "Capacity calculation does not account for provider-reserved addresses."
+      },
+      "responseBytes": 672,
+      "textChars": 165
+    },
+    {
+      "id": "network-030",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "IPv6 /128",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-030",
+        "summary": "Observed fixture result: the /128 identifies one IPv6 address.",
+        "fact": "1",
+        "nextStep": "Use the returned normalized address for planning.",
+        "limitations": "Capacity calculation does not account for provider-reserved addresses."
+      },
+      "responseBytes": 678,
+      "textChars": 167
+    },
+    {
+      "id": "network-031",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "Reject 999.0.0.1/24",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-031",
+        "summary": "The CIDR was rejected by the MCP tool.",
+        "fact": "invalid_cidr",
+        "nextStep": "Provide a valid CIDR.",
+        "limitations": "Observed tool result only."
+      },
+      "responseBytes": 77,
+      "textChars": 12
+    },
+    {
+      "id": "network-032",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "Reject 01.2.3.4/24",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-032",
+        "summary": "The CIDR was rejected by the MCP tool.",
+        "fact": "invalid_cidr",
+        "nextStep": "Provide a valid CIDR.",
+        "limitations": "Observed tool result only."
+      },
+      "responseBytes": 77,
+      "textChars": 12
+    },
+    {
+      "id": "network-033",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "Reject 127.1/8",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-033",
+        "summary": "The CIDR was rejected by the MCP tool.",
+        "fact": "invalid_cidr",
+        "nextStep": "Provide a valid CIDR.",
+        "limitations": "Observed tool result only."
+      },
+      "responseBytes": 77,
+      "textChars": 12
+    },
+    {
+      "id": "network-034",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "Reject 192.0.2.1/33",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-034",
+        "summary": "The CIDR was rejected by the MCP tool.",
+        "fact": "invalid_cidr",
+        "nextStep": "Provide a valid CIDR.",
+        "limitations": "Observed tool result only."
+      },
+      "responseBytes": 77,
+      "textChars": 12
+    },
+    {
+      "id": "network-035",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "Reject 2001:db8::/129",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-035",
+        "summary": "The CIDR was rejected by the MCP tool.",
+        "fact": "invalid_cidr",
+        "nextStep": "Provide a valid CIDR.",
+        "limitations": "Observed tool result only."
+      },
+      "responseBytes": 77,
+      "textChars": 12
+    },
+    {
+      "id": "network-036",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "Reject fe80::1%eth0/64",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-036",
+        "summary": "The CIDR was rejected by the MCP tool.",
+        "fact": "invalid_cidr",
+        "nextStep": "Provide a valid CIDR.",
+        "limitations": "Observed tool result only."
+      },
+      "responseBytes": 77,
+      "textChars": 12
+    },
+    {
+      "id": "network-037",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "Reject bad/cidr",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-037",
+        "summary": "The CIDR was rejected by the MCP tool.",
+        "fact": "invalid_cidr",
+        "nextStep": "Provide a valid CIDR.",
+        "limitations": "Observed tool result only."
+      },
+      "responseBytes": 77,
+      "textChars": 12
+    },
+    {
+      "id": "network-038",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "Reject 192.0.2.1/-1",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-038",
+        "summary": "The CIDR was rejected by the MCP tool.",
+        "fact": "invalid_cidr",
+        "nextStep": "Provide a valid CIDR.",
+        "limitations": "Observed tool result only."
+      },
+      "responseBytes": 77,
+      "textChars": 12
+    },
+    {
+      "id": "network-039",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "/31 has two usable endpoints",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-039",
+        "summary": "The MCP tool reported two usable hosts for the normalized /31 subnet.",
+        "fact": "2",
+        "nextStep": "Use both reported endpoints if /31 semantics are intended.",
+        "limitations": "Capacity excludes provider-reserved addresses."
+      },
+      "responseBytes": 761,
+      "textChars": 193
+    },
+    {
+      "id": "network-040",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "/32 same start/end",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-040",
+        "summary": "The MCP tool reported the same address as the last usable address for /32.",
+        "fact": "192.0.2.1",
+        "nextStep": "Use the reported single-address range.",
+        "limitations": "Capacity excludes provider-reserved addresses."
+      },
+      "responseBytes": 761,
+      "textChars": 193
+    },
+    {
+      "id": "network-041",
+      "service": "network",
+      "tool": "plan_subnets",
+      "name": "IPv4 allocate 1 /28 blocks",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-041",
+        "summary": "One /28 allocated; 240 addresses remain.",
+        "fact": "240",
+        "nextStep": "No next step reported.",
+        "limitations": "Observed fixture output only; evidence is untrusted."
+      },
+      "responseBytes": 1053,
+      "textChars": 156
+    },
+    {
+      "id": "network-042",
+      "service": "network",
+      "tool": "plan_subnets",
+      "name": "IPv4 allocate 2 /28 blocks",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-042",
+        "summary": "Two /28 blocks allocated; 224 addresses remain.",
+        "fact": "224",
+        "nextStep": "No next step reported.",
+        "limitations": "Observed fixture output only; evidence is untrusted."
+      },
+      "responseBytes": 1403,
+      "textChars": 181
+    },
+    {
+      "id": "network-043",
+      "service": "network",
+      "tool": "plan_subnets",
+      "name": "IPv4 allocate 3 /28 blocks",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-043",
+        "summary": "Three /28 blocks allocated; 208 addresses remain.",
+        "fact": "208",
+        "nextStep": "No next step reported.",
+        "limitations": "Observed fixture output only; evidence is untrusted."
+      },
+      "responseBytes": 1753,
+      "textChars": 206
+    },
+    {
+      "id": "network-044",
+      "service": "network",
+      "tool": "plan_subnets",
+      "name": "IPv4 allocate 4 /28 blocks",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-044",
+        "summary": "Four /28 blocks allocated; 192 addresses remain.",
+        "fact": "192",
+        "nextStep": "No next step reported.",
+        "limitations": "Observed fixture output only; evidence is untrusted."
+      },
+      "responseBytes": 2103,
+      "textChars": 231
+    },
+    {
+      "id": "network-045",
+      "service": "network",
+      "tool": "plan_subnets",
+      "name": "IPv4 allocate 5 /28 blocks",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-045",
+        "summary": "Five /28 blocks allocated; 176 addresses remain.",
+        "fact": "176",
+        "nextStep": "No next step reported.",
+        "limitations": "Observed fixture output only; evidence is untrusted."
+      },
+      "responseBytes": 2453,
+      "textChars": 256
+    },
+    {
+      "id": "network-046",
+      "service": "network",
+      "tool": "plan_subnets",
+      "name": "IPv4 allocate 6 /28 blocks",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-046",
+        "summary": "Six /28 blocks allocated; 160 addresses remain.",
+        "fact": "160",
+        "nextStep": "No next step reported.",
+        "limitations": "Observed fixture output only; evidence is untrusted."
+      },
+      "responseBytes": 2803,
+      "textChars": 281
+    },
+    {
+      "id": "network-047",
+      "service": "network",
+      "tool": "plan_subnets",
+      "name": "IPv4 allocate 7 /28 blocks",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-047",
+        "summary": "Seven /28 blocks allocated; 144 addresses remain.",
+        "fact": "144",
+        "nextStep": "No next step reported.",
+        "limitations": "Observed fixture output only; evidence is untrusted."
+      },
+      "responseBytes": 3156,
+      "textChars": 306
+    },
+    {
+      "id": "network-048",
+      "service": "network",
+      "tool": "plan_subnets",
+      "name": "IPv4 allocate 8 /28 blocks",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-048",
+        "summary": "Eight /28 blocks allocated; 128 addresses remain.",
+        "fact": "128",
+        "nextStep": "No next step reported.",
+        "limitations": "Observed fixture output only; evidence is untrusted."
+      },
+      "responseBytes": 3514,
+      "textChars": 332
+    },
+    {
+      "id": "network-049",
+      "service": "network",
+      "tool": "plan_subnets",
+      "name": "IPv4 allocate 9 /28 blocks",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-049",
+        "summary": "Nine /28 blocks allocated; 112 addresses remain.",
+        "fact": "112",
+        "nextStep": "No next step reported.",
+        "limitations": "Observed fixture output only; evidence is untrusted."
+      },
+      "responseBytes": 3872,
+      "textChars": 358
+    },
+    {
+      "id": "network-050",
+      "service": "network",
+      "tool": "plan_subnets",
+      "name": "IPv4 allocate 10 /28 blocks",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-050",
+        "summary": "Ten /28 blocks allocated; 96 addresses remain.",
+        "fact": "96",
+        "nextStep": "No next step reported.",
+        "limitations": "Observed fixture output only; evidence is untrusted."
+      },
+      "responseBytes": 4231,
+      "textChars": 385
+    },
+    {
+      "id": "network-051",
+      "service": "network",
+      "tool": "plan_subnets",
+      "name": "IPv6 allocate 1 /64 blocks",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-051",
+        "summary": "One /64 allocation completed; remaining capacity is reported by the fixture.",
+        "fact": "276701161105643274240",
+        "nextStep": "None reported.",
+        "limitations": "Largest blocks allocated first; input indices preserve request identity."
+      },
+      "responseBytes": 1109,
+      "textChars": 179
+    },
+    {
+      "id": "network-052",
+      "service": "network",
+      "tool": "plan_subnets",
+      "name": "IPv6 allocate 2 /64 blocks",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-052",
+        "summary": "Two /64 allocations completed; remaining capacity is reported by the fixture.",
+        "fact": "258254417031933722624",
+        "nextStep": "None reported.",
+        "limitations": "Largest blocks allocated first; input indices preserve request identity."
+      },
+      "responseBytes": 1478,
+      "textChars": 211
+    },
+    {
+      "id": "network-053",
+      "service": "network",
+      "tool": "plan_subnets",
+      "name": "IPv6 allocate 3 /64 blocks",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-053",
+        "summary": "Three /64 allocations completed; remaining capacity is reported by the fixture.",
+        "fact": "239807672958224171008",
+        "nextStep": "None reported.",
+        "limitations": "Largest blocks allocated first; input indices preserve request identity."
+      },
+      "responseBytes": 1847,
+      "textChars": 243
+    },
+    {
+      "id": "network-054",
+      "service": "network",
+      "tool": "plan_subnets",
+      "name": "IPv6 allocate 4 /64 blocks",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-054",
+        "summary": "Four /64 allocations completed; remaining capacity is reported by the fixture.",
+        "fact": "221360928884514619392",
+        "nextStep": "None reported.",
+        "limitations": "Largest blocks allocated first; input indices preserve request identity."
+      },
+      "responseBytes": 2216,
+      "textChars": 275
+    },
+    {
+      "id": "network-055",
+      "service": "network",
+      "tool": "plan_subnets",
+      "name": "IPv6 allocate 5 /64 blocks",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-055",
+        "summary": "Five /64 allocations completed; remaining capacity is reported by the fixture.",
+        "fact": "202914184810805067776",
+        "nextStep": "None reported.",
+        "limitations": "Largest blocks allocated first; input indices preserve request identity."
+      },
+      "responseBytes": 2585,
+      "textChars": 307
+    },
+    {
+      "id": "network-056",
+      "service": "network",
+      "tool": "plan_subnets",
+      "name": "IPv6 allocate 6 /64 blocks",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-056",
+        "summary": "Six /64 allocations completed; remaining capacity is reported by the fixture.",
+        "fact": "184467440737095516160",
+        "nextStep": "None reported.",
+        "limitations": "Largest blocks allocated first; input indices preserve request identity."
+      },
+      "responseBytes": 2954,
+      "textChars": 339
+    },
+    {
+      "id": "network-057",
+      "service": "network",
+      "tool": "plan_subnets",
+      "name": "IPv6 allocate 7 /64 blocks",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-057",
+        "summary": "Seven /64 allocations completed; remaining capacity is reported by the fixture.",
+        "fact": "166020696663385964544",
+        "nextStep": "None reported.",
+        "limitations": "Largest blocks allocated first; input indices preserve request identity."
+      },
+      "responseBytes": 3323,
+      "textChars": 371
+    },
+    {
+      "id": "network-058",
+      "service": "network",
+      "tool": "plan_subnets",
+      "name": "IPv6 allocate 8 /64 blocks",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-058",
+        "summary": "Eight /64 allocations completed; remaining capacity is reported by the fixture.",
+        "fact": "147573952589676412928",
+        "nextStep": "None reported.",
+        "limitations": "Largest blocks allocated first; input indices preserve request identity."
+      },
+      "responseBytes": 3692,
+      "textChars": 403
+    },
+    {
+      "id": "network-059",
+      "service": "network",
+      "tool": "plan_subnets",
+      "name": "IPv6 allocate 9 /64 blocks",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-059",
+        "summary": "Nine /64 allocations completed; remaining capacity is reported by the fixture.",
+        "fact": "129127208515966861312",
+        "nextStep": "None reported.",
+        "limitations": "Largest blocks allocated first; input indices preserve request identity."
+      },
+      "responseBytes": 4061,
+      "textChars": 435
+    },
+    {
+      "id": "network-060",
+      "service": "network",
+      "tool": "plan_subnets",
+      "name": "IPv6 allocate 10 /64 blocks",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-060",
+        "summary": "Ten /64 allocations completed; remaining capacity is reported by the fixture.",
+        "fact": "110680464442257309696",
+        "nextStep": "None reported.",
+        "limitations": "Largest blocks allocated first; input indices preserve request identity."
+      },
+      "responseBytes": 4434,
+      "textChars": 469
+    },
+    {
+      "id": "network-061",
+      "service": "network",
+      "tool": "plan_subnets",
+      "name": "Capacity exceeded by 1",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-061",
+        "summary": "Four allocations succeeded; host-4 could not be allocated because the /30 parent was exhausted.",
+        "fact": false,
+        "nextStep": "Reduce requested block sizes or use a larger parent.",
+        "limitations": "Largest blocks allocated first; input indices preserve request identity."
+      },
+      "responseBytes": 2301,
+      "textChars": 318
+    },
+    {
+      "id": "network-062",
+      "service": "network",
+      "tool": "plan_subnets",
+      "name": "Capacity exceeded by 2",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-062",
+        "summary": "Four allocations succeeded; host-4 and host-5 could not be allocated because the /30 parent was exhausted.",
+        "fact": false,
+        "nextStep": "Reduce requested block sizes or use a larger parent.",
+        "limitations": "Largest blocks allocated first; input indices preserve request identity."
+      },
+      "responseBytes": 2461,
+      "textChars": 351
+    },
+    {
+      "id": "network-063",
+      "service": "network",
+      "tool": "plan_subnets",
+      "name": "Capacity exceeded by 3",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-063",
+        "summary": "Four allocations succeeded; host-4 through host-6 could not be allocated because the /30 parent was exhausted.",
+        "fact": false,
+        "nextStep": "Reduce requested block sizes or use a larger parent.",
+        "limitations": "Largest blocks allocated first; input indices preserve request identity."
+      },
+      "responseBytes": 2621,
+      "textChars": 384
+    },
+    {
+      "id": "network-064",
+      "service": "network",
+      "tool": "plan_subnets",
+      "name": "Capacity exceeded by 4",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-064",
+        "summary": "Four allocations succeeded; host-4 through host-7 could not be allocated because the /30 parent was exhausted.",
+        "fact": false,
+        "nextStep": "Reduce requested block sizes or use a larger parent.",
+        "limitations": "Largest blocks allocated first; input indices preserve request identity."
+      },
+      "responseBytes": 2781,
+      "textChars": 417
+    },
+    {
+      "id": "network-065",
+      "service": "network",
+      "tool": "plan_subnets",
+      "name": "Capacity exceeded by 5",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-065",
+        "summary": "Four allocations succeeded; host-4 through host-8 could not be allocated because the /30 parent was exhausted.",
+        "fact": false,
+        "nextStep": "Reduce requested block sizes or use a larger parent.",
+        "limitations": "Largest blocks allocated first; input indices preserve request identity."
+      },
+      "responseBytes": 2941,
+      "textChars": 450
+    },
+    {
+      "id": "network-066",
+      "service": "network",
+      "tool": "plan_subnets",
+      "name": "Prefix 0 outside parent/family",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-066",
+        "summary": "The request was rejected because the allocation prefix was invalid.",
+        "fact": "invalid_allocation_prefix",
+        "nextStep": "Provide a valid allocation prefix within the parent address family and range.",
+        "limitations": "No allocation result was returned."
+      },
+      "responseBytes": 90,
+      "textChars": 25
+    },
+    {
+      "id": "network-067",
+      "service": "network",
+      "tool": "plan_subnets",
+      "name": "Prefix 8 outside parent/family",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-067",
+        "summary": "The request was rejected because the allocation prefix was invalid.",
+        "fact": "invalid_allocation_prefix",
+        "nextStep": "Provide a valid allocation prefix within the parent address family and range.",
+        "limitations": "No allocation result was returned."
+      },
+      "responseBytes": 90,
+      "textChars": 25
+    },
+    {
+      "id": "network-068",
+      "service": "network",
+      "tool": "plan_subnets",
+      "name": "Prefix 16 outside parent/family",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-068",
+        "summary": "The request was rejected because the allocation prefix was invalid.",
+        "fact": "invalid_allocation_prefix",
+        "nextStep": "Provide a valid allocation prefix within the parent address family and range.",
+        "limitations": "No allocation result was returned."
+      },
+      "responseBytes": 90,
+      "textChars": 25
+    },
+    {
+      "id": "network-069",
+      "service": "network",
+      "tool": "plan_subnets",
+      "name": "Prefix 23 outside parent/family",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-069",
+        "summary": "The request was rejected because the allocation prefix was invalid.",
+        "fact": "invalid_allocation_prefix",
+        "nextStep": "Provide a valid allocation prefix within the parent address family and range.",
+        "limitations": "No allocation result was returned."
+      },
+      "responseBytes": 90,
+      "textChars": 25
+    },
+    {
+      "id": "network-070",
+      "service": "network",
+      "tool": "plan_subnets",
+      "name": "Prefix 33 outside parent/family",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-070",
+        "summary": "The request was rejected because the allocation prefix was invalid.",
+        "fact": "invalid_allocation_prefix",
+        "nextStep": "Provide a valid allocation prefix within the parent address family and range.",
+        "limitations": "No allocation result was returned."
+      },
+      "responseBytes": 90,
+      "textChars": 25
+    },
+    {
+      "id": "network-071",
+      "service": "network",
+      "tool": "plan_subnets",
+      "name": "Largest first preserves original index",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-071",
+        "summary": "Largest block allocated first; original request index preserved.",
+        "fact": 1,
+        "nextStep": "Review allocation ordering.",
+        "limitations": "Observed fixture output only."
+      },
+      "responseBytes": 1410,
+      "textChars": 180
+    },
+    {
+      "id": "network-072",
+      "service": "network",
+      "tool": "plan_subnets",
+      "name": "Equal sizes stable labels",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-072",
+        "summary": "Equal-size allocations retain stable label order.",
+        "fact": "beta",
+        "nextStep": "Review allocation labels.",
+        "limitations": "Observed fixture output only."
+      },
+      "responseBytes": 1397,
+      "textChars": 178
+    },
+    {
+      "id": "network-073",
+      "service": "network",
+      "tool": "plan_subnets",
+      "name": "Single entire pool",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-073",
+        "summary": "The entire IPv6 pool was allocated.",
+        "fact": "0",
+        "nextStep": "No free addresses remain.",
+        "limitations": "Observed fixture output only."
+      },
+      "responseBytes": 1033,
+      "textChars": 155
+    },
+    {
+      "id": "network-074",
+      "service": "network",
+      "tool": "plan_subnets",
+      "name": "100 allocations accepted",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-074",
+        "summary": "All 100 allocations were accepted.",
+        "fact": 100,
+        "nextStep": "Review remaining capacity.",
+        "limitations": "Observed fixture output only."
+      },
+      "responseBytes": 29576,
+      "textChars": 336
+    },
+    {
+      "id": "network-075",
+      "service": "network",
+      "tool": "plan_subnets",
+      "name": "101 allocations refused",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-075",
+        "summary": "The 101-request input was rejected.",
+        "fact": -32600,
+        "nextStep": "Reduce requests to the supported limit.",
+        "limitations": "Rejected by MCP argument validation."
+      },
+      "responseBytes": 4,
+      "textChars": 0
+    },
+    {
+      "id": "network-076",
+      "service": "network",
+      "tool": "check_cidr_overlap",
+      "name": "Nested IPv4 prefix 24",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-076",
+        "summary": "The two normalized IPv4 ranges overlap.",
+        "fact": 1,
+        "nextStep": "Check whether overlap is intentional.",
+        "limitations": "Observed fixture output only."
+      },
+      "responseBytes": 1268,
+      "textChars": 230
+    },
+    {
+      "id": "network-077",
+      "service": "network",
+      "tool": "check_cidr_overlap",
+      "name": "Nested IPv4 prefix 25",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-077",
+        "summary": "The nested /25 range overlaps the /24 range.",
+        "fact": 1,
+        "nextStep": "Check whether overlap is intentional.",
+        "limitations": "Observed fixture output only."
+      },
+      "responseBytes": 1282,
+      "textChars": 232
+    },
+    {
+      "id": "network-078",
+      "service": "network",
+      "tool": "check_cidr_overlap",
+      "name": "Nested IPv4 prefix 26",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-078",
+        "summary": "The nested /26 range overlaps the /24 range.",
+        "fact": 1,
+        "nextStep": "Check whether overlap is intentional.",
+        "limitations": "Observed fixture output only."
+      },
+      "responseBytes": 1280,
+      "textChars": 232
+    },
+    {
+      "id": "network-079",
+      "service": "network",
+      "tool": "check_cidr_overlap",
+      "name": "Nested IPv4 prefix 27",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-079",
+        "summary": "The nested /27 range overlaps the /24 range.",
+        "fact": 1,
+        "nextStep": "Check whether overlap is intentional.",
+        "limitations": "Observed fixture output only."
+      },
+      "responseBytes": 1280,
+      "textChars": 232
+    },
+    {
+      "id": "network-080",
+      "service": "network",
+      "tool": "check_cidr_overlap",
+      "name": "Nested IPv4 prefix 28",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-080",
+        "summary": "The nested /28 range overlaps the /24 range.",
+        "fact": 1,
+        "nextStep": "Check whether overlap is intentional.",
+        "limitations": "Observed fixture output only."
+      },
+      "responseBytes": 1280,
+      "textChars": 232
+    },
+    {
+      "id": "network-081",
+      "service": "network",
+      "tool": "check_cidr_overlap",
+      "name": "Nested IPv4 prefix 29",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-081",
+        "summary": "The /29 is nested within the /24, producing one overlap.",
+        "fact": 1,
+        "nextStep": "Check whether the overlapping routes or allocations are intentional.",
+        "limitations": "IPv4 and IPv6 ranges are compared separately."
+      },
+      "responseBytes": 1278,
+      "textChars": 232
+    },
+    {
+      "id": "network-082",
+      "service": "network",
+      "tool": "check_cidr_overlap",
+      "name": "Nested IPv4 prefix 30",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-082",
+        "summary": "The /30 is nested within the /24, producing one overlap.",
+        "fact": 1,
+        "nextStep": "Check whether the overlapping routes or allocations are intentional.",
+        "limitations": "IPv4 and IPv6 ranges are compared separately."
+      },
+      "responseBytes": 1278,
+      "textChars": 232
+    },
+    {
+      "id": "network-083",
+      "service": "network",
+      "tool": "check_cidr_overlap",
+      "name": "Nested IPv4 prefix 31",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-083",
+        "summary": "The /31 is nested within the /24, producing one overlap.",
+        "fact": 1,
+        "nextStep": "Check whether the overlapping routes or allocations are intentional.",
+        "limitations": "IPv4 and IPv6 ranges are compared separately."
+      },
+      "responseBytes": 1269,
+      "textChars": 232
+    },
+    {
+      "id": "network-084",
+      "service": "network",
+      "tool": "check_cidr_overlap",
+      "name": "Nested IPv6 prefix 48",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-084",
+        "summary": "The IPv6 /48 is nested within the /32, producing one overlap.",
+        "fact": 1,
+        "nextStep": "Check whether the overlapping routes or allocations are intentional.",
+        "limitations": "IPv4 and IPv6 ranges are compared separately."
+      },
+      "responseBytes": 1285,
+      "textChars": 232
+    },
+    {
+      "id": "network-085",
+      "service": "network",
+      "tool": "check_cidr_overlap",
+      "name": "Nested IPv6 prefix 56",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-085",
+        "summary": "The IPv6 /56 is nested within the /32, producing one overlap.",
+        "fact": 1,
+        "nextStep": "Check whether the overlapping routes or allocations are intentional.",
+        "limitations": "IPv4 and IPv6 ranges are compared separately."
+      },
+      "responseBytes": 1280,
+      "textChars": 232
+    },
+    {
+      "id": "network-086",
+      "service": "network",
+      "tool": "check_cidr_overlap",
+      "name": "Nested IPv6 prefix 64",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-086",
+        "summary": "The IPv6 /64 is nested within the /32, producing one overlap.",
+        "fact": 1,
+        "nextStep": "Check whether the overlapping routes or allocations are intentional.",
+        "limitations": "IPv4 and IPv6 ranges are compared separately."
+      },
+      "responseBytes": 1274,
+      "textChars": 232
+    },
+    {
+      "id": "network-087",
+      "service": "network",
+      "tool": "check_cidr_overlap",
+      "name": "Nested IPv6 prefix 96",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-087",
+        "summary": "The IPv6 /96 is nested within the /32, producing one overlap.",
+        "fact": 1,
+        "nextStep": "Check whether the overlapping routes or allocations are intentional.",
+        "limitations": "IPv4 and IPv6 ranges are compared separately."
+      },
+      "responseBytes": 1254,
+      "textChars": 232
+    },
+    {
+      "id": "network-088",
+      "service": "network",
+      "tool": "check_cidr_overlap",
+      "name": "Nested IPv6 prefix 112",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-088",
+        "summary": "The IPv6 /112 is nested within the /32, producing one overlap.",
+        "fact": 1,
+        "nextStep": "Check whether the overlapping routes or allocations are intentional.",
+        "limitations": "IPv4 and IPv6 ranges are compared separately."
+      },
+      "responseBytes": 1249,
+      "textChars": 233
+    },
+    {
+      "id": "network-089",
+      "service": "network",
+      "tool": "check_cidr_overlap",
+      "name": "Nested IPv6 prefix 120",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-089",
+        "summary": "The IPv6 /120 is nested within the /32, producing one overlap.",
+        "fact": 1,
+        "nextStep": "Check whether the overlapping routes or allocations are intentional.",
+        "limitations": "IPv4 and IPv6 ranges are compared separately."
+      },
+      "responseBytes": 1245,
+      "textChars": 233
+    },
+    {
+      "id": "network-090",
+      "service": "network",
+      "tool": "check_cidr_overlap",
+      "name": "Nested IPv6 prefix 127",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-090",
+        "summary": "The IPv6 /127 is nested within the /32, producing one overlap.",
+        "fact": 1,
+        "nextStep": "Check whether the overlapping routes or allocations are intentional.",
+        "limitations": "IPv4 and IPv6 ranges are compared separately."
+      },
+      "responseBytes": 1242,
+      "textChars": 233
+    },
+    {
+      "id": "network-091",
+      "service": "network",
+      "tool": "check_cidr_overlap",
+      "name": "Nested IPv6 prefix 128",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-091",
+        "summary": "The IPv6 /128 is nested within the /32.",
+        "fact": 1,
+        "nextStep": "Check whether the overlapping allocations are intentional.",
+        "limitations": "Fixture evidence only; IPv4 and IPv6 are compared separately."
+      },
+      "responseBytes": 1247,
+      "textChars": 234
+    },
+    {
+      "id": "network-092",
+      "service": "network",
+      "tool": "check_cidr_overlap",
+      "name": "adjacent v4",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-092",
+        "summary": "The adjacent IPv4 /25 ranges do not overlap.",
+        "fact": false,
+        "nextStep": "No overlap action indicated.",
+        "limitations": "Fixture evidence only; adjacency is not overlap."
+      },
+      "responseBytes": 944,
+      "textChars": 101
+    },
+    {
+      "id": "network-093",
+      "service": "network",
+      "tool": "check_cidr_overlap",
+      "name": "adjacent v6",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-093",
+        "summary": "The adjacent IPv6 /64 ranges do not overlap.",
+        "fact": false,
+        "nextStep": "No overlap action indicated.",
+        "limitations": "Fixture evidence only; adjacency is not overlap."
+      },
+      "responseBytes": 927,
+      "textChars": 101
+    },
+    {
+      "id": "network-094",
+      "service": "network",
+      "tool": "check_cidr_overlap",
+      "name": "mixed families",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-094",
+        "summary": "IPv4 and IPv6 default routes were not treated as overlapping.",
+        "fact": false,
+        "nextStep": "No overlap action indicated.",
+        "limitations": "Fixture evidence only; families are compared separately."
+      },
+      "responseBytes": 948,
+      "textChars": 101
+    },
+    {
+      "id": "network-095",
+      "service": "network",
+      "tool": "check_cidr_overlap",
+      "name": "duplicates",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-095",
+        "summary": "The two normalized duplicate IPv4 subnets overlap.",
+        "fact": 1,
+        "nextStep": "Check whether the duplicate allocation is intentional.",
+        "limitations": "Fixture evidence only; input host bits were normalized."
+      },
+      "responseBytes": 1268,
+      "textChars": 230
+    },
+    {
+      "id": "network-096",
+      "service": "network",
+      "tool": "check_cidr_overlap",
+      "name": "triple nesting",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-096",
+        "summary": "All three nested IPv4 ranges overlap pairwise.",
+        "fact": 3,
+        "nextStep": "Check whether the nested allocations are intentional.",
+        "limitations": "Fixture evidence only."
+      },
+      "responseBytes": 1902,
+      "textChars": 338
+    },
+    {
+      "id": "network-097",
+      "service": "network",
+      "tool": "check_cidr_overlap",
+      "name": "single subnet",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-097",
+        "summary": "A single subnet produces no overlap pairs.",
+        "fact": false,
+        "nextStep": "No overlap action indicated.",
+        "limitations": "Fixture evidence only; self-overlap is not counted."
+      },
+      "responseBytes": 683,
+      "textChars": 101
+    },
+    {
+      "id": "network-098",
+      "service": "network",
+      "tool": "check_cidr_overlap",
+      "name": "malformed member",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-098",
+        "summary": "The malformed CIDR member was rejected.",
+        "fact": "invalid_cidr",
+        "nextStep": "Correct or remove the malformed member and retry.",
+        "limitations": "No overlap result was returned."
+      },
+      "responseBytes": 77,
+      "textChars": 12
+    },
+    {
+      "id": "network-099",
+      "service": "network",
+      "tool": "check_cidr_overlap",
+      "name": "100 duplicate subnets",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-099",
+        "summary": "One hundred identical subnets produced 4,950 overlapping pairs.",
+        "fact": 4950,
+        "nextStep": "Review duplicate allocations; returned pair details were truncated.",
+        "limitations": "Fixture evidence only; 4,750 pairs were omitted and the result was truncated."
+      },
+      "responseBytes": 43184,
+      "textChars": 725
+    },
+    {
+      "id": "network-100",
+      "service": "network",
+      "tool": "check_cidr_overlap",
+      "name": "101 subnets refused",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-100",
+        "summary": "The 101-subnet request was rejected by the MCP tool.",
+        "fact": "invalid_tool_or_arguments",
+        "nextStep": "Retry within the tool’s accepted input limit.",
+        "limitations": "No overlap result was returned."
+      },
+      "responseBytes": 4,
+      "textChars": 0
+    }
+  ]
+}

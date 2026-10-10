@@ -1,0 +1,1 @@
+This was a harness setup mistake: the source edit used the wrong working directory before EVAL_CASE_FILE support existed. The saved three calls are DNS readiness checks, not email regressions. Do not count them as email-date validation. The actual corrected regression evidence is ../model-date-fix-v1/. Retained to avoid silently discarding a setup failure.

@@ -1,0 +1,593 @@
+{
+  "model": "gpt-5.6-luna",
+  "at": "2026-10-10T16:55:36.812Z",
+  "elapsedMs": 9346,
+  "exitCode": 0,
+  "usage": {
+    "input_tokens": 61155,
+    "cached_input_tokens": 48384,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 817,
+    "reasoning_output_tokens": 140
+  },
+  "results": [
+    {
+      "id": "diagnostics-041",
+      "service": "diagnostics",
+      "tool": "check_https",
+      "name": "four redirects refused",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-041",
+        "summary": "The HTTPS check was rejected after exceeding the redirect limit.",
+        "fact": "too_many_redirects",
+        "nextStep": "Review the redirect chain and reduce it to the permitted limit.",
+        "limitations": "Fixture observation only; no live-Internet conclusion."
+      },
+      "responseBytes": 83,
+      "textChars": 18
+    },
+    {
+      "id": "diagnostics-042",
+      "service": "diagnostics",
+      "tool": "check_https",
+      "name": "loop refused",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-042",
+        "summary": "The HTTPS check detected a redirect loop.",
+        "fact": "redirect_loop",
+        "nextStep": "Break the cyclic redirect configuration.",
+        "limitations": "Fixture observation only; no live-Internet conclusion."
+      },
+      "responseBytes": 78,
+      "textChars": 13
+    },
+    {
+      "id": "diagnostics-043",
+      "service": "diagnostics",
+      "tool": "check_https",
+      "name": "private resolution",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-043",
+        "summary": "The target resolved to a non-public destination and was rejected.",
+        "fact": "non_public_target",
+        "nextStep": "Use a publicly routable fixture target.",
+        "limitations": "Fixture observation only; no live-Internet conclusion."
+      },
+      "responseBytes": 82,
+      "textChars": 17
+    },
+    {
+      "id": "diagnostics-044",
+      "service": "diagnostics",
+      "tool": "check_https",
+      "name": "private redirect",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-044",
+        "summary": "The redirect target was rejected as an invalid public domain.",
+        "fact": "invalid_public_domain",
+        "nextStep": "Correct the redirect destination to a valid public domain.",
+        "limitations": "Fixture observation only; no live-Internet conclusion."
+      },
+      "responseBytes": 86,
+      "textChars": 21
+    },
+    {
+      "id": "diagnostics-045",
+      "service": "diagnostics",
+      "tool": "check_https",
+      "name": "HTTP downgrade",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-045",
+        "summary": "The redirect attempted an unsupported HTTPS downgrade.",
+        "fact": "unsupported_redirect",
+        "nextStep": "Keep redirects on HTTPS.",
+        "limitations": "Fixture observation only; no live-Internet conclusion."
+      },
+      "responseBytes": 85,
+      "textChars": 20
+    },
+    {
+      "id": "diagnostics-046",
+      "service": "diagnostics",
+      "tool": "check_https",
+      "name": "credential redirect",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-046",
+        "summary": "The redirect was unsupported because it involved credentials.",
+        "fact": "unsupported_redirect",
+        "nextStep": "Remove credentials from the redirect target.",
+        "limitations": "Fixture observation only; no live-Internet conclusion."
+      },
+      "responseBytes": 85,
+      "textChars": 20
+    },
+    {
+      "id": "diagnostics-047",
+      "service": "diagnostics",
+      "tool": "check_https",
+      "name": "non443 redirect",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-047",
+        "summary": "The redirect used an unsupported non-443 port.",
+        "fact": "unsupported_redirect",
+        "nextStep": "Redirect to HTTPS on port 443.",
+        "limitations": "Fixture observation only; no live-Internet conclusion."
+      },
+      "responseBytes": 85,
+      "textChars": 20
+    },
+    {
+      "id": "diagnostics-048",
+      "service": "diagnostics",
+      "tool": "check_https",
+      "name": "TLS failure",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-048",
+        "summary": "TLS certificate validation failed during the HTTPS check.",
+        "fact": "tls_validation_failed",
+        "nextStep": "Correct the fixture certificate or its validation chain.",
+        "limitations": "Fixture observation only; no live-Internet conclusion."
+      },
+      "responseBytes": 86,
+      "textChars": 21
+    },
+    {
+      "id": "diagnostics-049",
+      "service": "diagnostics",
+      "tool": "check_https",
+      "name": "deadline failure",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-049",
+        "summary": "The HTTPS diagnostic exceeded its deadline.",
+        "fact": "diagnostic_timeout",
+        "nextStep": "Investigate fixture responsiveness and timeout conditions.",
+        "limitations": "Fixture observation only; no live-Internet conclusion."
+      },
+      "responseBytes": 83,
+      "textChars": 18
+    },
+    {
+      "id": "diagnostics-050",
+      "service": "diagnostics",
+      "tool": "check_https",
+      "name": "HEAD 405 fallback",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-050",
+        "summary": "The HTTPS check completed successfully with HTTP status 200 and no redirects.",
+        "fact": 200,
+        "nextStep": "No redirect remediation is indicated by this observation.",
+        "limitations": "Root on port 443 only; no page content or full security audit."
+      },
+      "responseBytes": 626,
+      "textChars": 175
+    }
+  ],
+  "calls": [
+    {
+      "id": "item_1",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "check_https",
+      "arguments": {
+        "domain": "https40.example.com"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "too_many_redirects"
+          }
+        ],
+        "structured_content": null
+      },
+      "error": null,
+      "status": "failed"
+    },
+    {
+      "id": "item_2",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "check_https",
+      "arguments": {
+        "domain": "https41.example.com"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "redirect_loop"
+          }
+        ],
+        "structured_content": null
+      },
+      "error": null,
+      "status": "failed"
+    },
+    {
+      "id": "item_3",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "check_https",
+      "arguments": {
+        "domain": "https42.example.com"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "non_public_target"
+          }
+        ],
+        "structured_content": null
+      },
+      "error": null,
+      "status": "failed"
+    },
+    {
+      "id": "item_4",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "check_https",
+      "arguments": {
+        "domain": "https43.example.com"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "invalid_public_domain"
+          }
+        ],
+        "structured_content": null
+      },
+      "error": null,
+      "status": "failed"
+    },
+    {
+      "id": "item_5",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "check_https",
+      "arguments": {
+        "domain": "https44.example.com"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "unsupported_redirect"
+          }
+        ],
+        "structured_content": null
+      },
+      "error": null,
+      "status": "failed"
+    },
+    {
+      "id": "item_6",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "check_https",
+      "arguments": {
+        "domain": "https45.example.com"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "unsupported_redirect"
+          }
+        ],
+        "structured_content": null
+      },
+      "error": null,
+      "status": "failed"
+    },
+    {
+      "id": "item_7",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "check_https",
+      "arguments": {
+        "domain": "https46.example.com"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "unsupported_redirect"
+          }
+        ],
+        "structured_content": null
+      },
+      "error": null,
+      "status": "failed"
+    },
+    {
+      "id": "item_8",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "check_https",
+      "arguments": {
+        "domain": "https47.example.com"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "tls_validation_failed"
+          }
+        ],
+        "structured_content": null
+      },
+      "error": null,
+      "status": "failed"
+    },
+    {
+      "id": "item_9",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "check_https",
+      "arguments": {
+        "domain": "https48.example.com"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "diagnostic_timeout"
+          }
+        ],
+        "structured_content": null
+      },
+      "error": null,
+      "status": "failed"
+    },
+    {
+      "id": "item_10",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "check_https",
+      "arguments": {
+        "domain": "https49.example.com"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "HTTPS finished at status 200; 0 redirects.\n• https://https49.example.com/: HTTP 200, TLS authorized true.\nLimit: Root on port 443 only; no page content or full security audit."
+          }
+        ],
+        "structured_content": {
+          "hops": [
+            {
+              "url": "https://https49.example.com/",
+              "status": 200,
+              "certificate": {
+                "authorized": true
+              },
+              "headers": {}
+            }
+          ],
+          "observedAt": "2026-10-10T16:55:32.342Z",
+          "admin": {
+            "summary": "HTTPS finished at status 200; 0 redirects.",
+            "findings": [
+              "https://https49.example.com/: HTTP 200, TLS authorized true."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Root on port 443 only; no page content or full security audit."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    }
+  ],
+  "prohibitedActions": [],
+  "events": [],
+  "stderr": "2026-10-10T16:55:27.623356Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n",
+  "telemetry": [
+    {
+      "service": "diagnostics",
+      "method": "initialize",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 2,
+      "inputBytes": 217,
+      "outputBytes": 173,
+      "clientName": "codex-mcp-client",
+      "clientVersion": "0.154.0"
+    },
+    {
+      "service": "diagnostics",
+      "method": "notifications/initialized",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 1,
+      "inputBytes": 54,
+      "outputBytes": 0
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/list",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 2,
+      "inputBytes": 85,
+      "outputBytes": 4160
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "check_https",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_error",
+      "durationMs": 1,
+      "inputBytes": 773,
+      "outputBytes": 106
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "check_https",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_error",
+      "durationMs": 1,
+      "inputBytes": 773,
+      "outputBytes": 101
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "check_https",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_error",
+      "durationMs": 1,
+      "inputBytes": 773,
+      "outputBytes": 105
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "check_https",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_error",
+      "durationMs": 1,
+      "inputBytes": 773,
+      "outputBytes": 109
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "check_https",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_error",
+      "durationMs": 1,
+      "inputBytes": 773,
+      "outputBytes": 108
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "check_https",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_error",
+      "durationMs": 2,
+      "inputBytes": 773,
+      "outputBytes": 108
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "check_https",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_error",
+      "durationMs": 1,
+      "inputBytes": 773,
+      "outputBytes": 108
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "check_https",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_error",
+      "durationMs": 1,
+      "inputBytes": 773,
+      "outputBytes": 109
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "check_https",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_error",
+      "durationMs": 1,
+      "inputBytes": 774,
+      "outputBytes": 107
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "check_https",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 775,
+      "outputBytes": 660
+    }
+  ],
+  "environment": "local Streamable HTTP with synthetic DNS/HTTPS fixtures; native Codex MCP calls"
+}

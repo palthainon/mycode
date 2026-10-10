@@ -1,0 +1,805 @@
+{
+  "model": "gpt-5.6-luna",
+  "at": "2026-10-10T14:44:35.672Z",
+  "elapsedMs": 12253,
+  "exitCode": 0,
+  "usage": {
+    "input_tokens": 45764,
+    "cached_input_tokens": 36096,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 1152,
+    "reasoning_output_tokens": 287
+  },
+  "results": [
+    {
+      "id": "diagnostics-011",
+      "service": "diagnostics",
+      "tool": "lookup_dns",
+      "name": "DNS status 5 remains explicit",
+      "passed": true,
+      "answer": {
+        "id": "diagnostics-011",
+        "summary": "Observed DNS status 5 with no A answers.",
+        "fact": 5,
+        "nextStep": "Review DNS configuration.",
+        "limitations": "Cached resolver answers can lag changes."
+      }
+    },
+    {
+      "id": "diagnostics-012",
+      "service": "diagnostics",
+      "tool": "lookup_dns",
+      "name": "Case and trailing dot normalization",
+      "passed": true,
+      "answer": {
+        "id": "diagnostics-012",
+        "summary": "Input normalized to lowercase without trailing dot.",
+        "fact": "example.com",
+        "nextStep": "None.",
+        "limitations": "Observed through Google Public DNS."
+      }
+    },
+    {
+      "id": "diagnostics-013",
+      "service": "diagnostics",
+      "tool": "lookup_dns",
+      "name": "DNSSEC observation",
+      "passed": true,
+      "answer": {
+        "id": "diagnostics-013",
+        "summary": "A lookup returned one answer and DNSSEC validated true.",
+        "fact": true,
+        "nextStep": "None.",
+        "limitations": "Observed DNS configuration only."
+      }
+    },
+    {
+      "id": "diagnostics-014",
+      "service": "diagnostics",
+      "tool": "lookup_dns",
+      "name": "No fabricated answer on empty DNS",
+      "passed": true,
+      "answer": {
+        "id": "diagnostics-014",
+        "summary": "Lookup succeeded but returned zero A answers.",
+        "fact": 0,
+        "nextStep": "Review DNS configuration if an A record is expected.",
+        "limitations": "No answer was fabricated."
+      }
+    },
+    {
+      "id": "diagnostics-015",
+      "service": "diagnostics",
+      "tool": "lookup_dns",
+      "name": "URL rejected as domain",
+      "passed": false,
+      "failure": "AssertionError [ERR_ASSERTION]: expected rejection",
+      "answer": {
+        "id": "diagnostics-015",
+        "summary": "URL-form input was rejected as an invalid public domain.",
+        "fact": "invalid_public_domain",
+        "nextStep": "Supply a domain name only.",
+        "limitations": "No DNS lookup was performed."
+      }
+    },
+    {
+      "id": "diagnostics-016",
+      "service": "diagnostics",
+      "tool": "check_email_dns",
+      "name": "Email DNS 0, 0 configured records",
+      "passed": true,
+      "answer": {
+        "id": "diagnostics-016",
+        "summary": "MX observation contained zero records with DNS status 0.",
+        "fact": 0,
+        "nextStep": "Review MX configuration and intended mail role.",
+        "limitations": "DNS observations only; no deliverability guarantee."
+      }
+    },
+    {
+      "id": "diagnostics-017",
+      "service": "diagnostics",
+      "tool": "check_email_dns",
+      "name": "Email DNS 3, 1 configured records",
+      "passed": true,
+      "answer": {
+        "id": "diagnostics-017",
+        "summary": "MX observation contained zero records with DNS status 3.",
+        "fact": 0,
+        "nextStep": "Review MX configuration and intended mail role.",
+        "limitations": "DNS observations only; no deliverability guarantee."
+      }
+    },
+    {
+      "id": "diagnostics-018",
+      "service": "diagnostics",
+      "tool": "check_email_dns",
+      "name": "Email DNS 2, 2 configured records",
+      "passed": true,
+      "answer": {
+        "id": "diagnostics-018",
+        "summary": "MX observation contained zero records with DNS status 2.",
+        "fact": 0,
+        "nextStep": "Review MX configuration and intended mail role.",
+        "limitations": "DNS observations only; no deliverability guarantee."
+      }
+    },
+    {
+      "id": "diagnostics-019",
+      "service": "diagnostics",
+      "tool": "check_email_dns",
+      "name": "Email DNS 0, 3 configured records",
+      "passed": true,
+      "answer": {
+        "id": "diagnostics-019",
+        "summary": "MX observation contained three records with DNS status 0.",
+        "fact": 3,
+        "nextStep": "Review MX configuration and intended mail role.",
+        "limitations": "DNS observations only; no deliverability guarantee."
+      }
+    },
+    {
+      "id": "diagnostics-020",
+      "service": "diagnostics",
+      "tool": "check_email_dns",
+      "name": "Email DNS 3, 4 configured records",
+      "passed": true,
+      "answer": {
+        "id": "diagnostics-020",
+        "summary": "MX observation contained zero records with DNS status 3.",
+        "fact": 0,
+        "nextStep": "Review MX configuration and intended mail role.",
+        "limitations": "DNS observations only; no deliverability guarantee."
+      }
+    }
+  ],
+  "calls": [
+    {
+      "id": "item_1",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "lookup_dns",
+      "arguments": {
+        "domain": "status5.example.com",
+        "type": "A"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "status5.example.com: A lookup returned DNS status 5 and 0 answers.\nLimit: Observed DNS configuration; cached resolver answers can lag changes."
+          }
+        ],
+        "structured_content": {
+          "domain": "status5.example.com",
+          "type": "A",
+          "status": 5,
+          "dnssecValidated": false,
+          "answers": [],
+          "observedAt": "2026-10-10T14:44:31.231Z",
+          "resolver": "Google Public DNS",
+          "admin": {
+            "summary": "status5.example.com: A lookup returned DNS status 5 and 0 answers.",
+            "findings": [],
+            "nextSteps": [],
+            "limitations": [
+              "Observed DNS configuration; cached resolver answers can lag changes."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_2",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "lookup_dns",
+      "arguments": {
+        "domain": "EXAMPLE.COM.",
+        "type": "A"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "example.com: A lookup returned DNS status 0 and 1 answers.\n• 8.8.8.8 (TTL 60s)\nLimit: Observed DNS configuration; cached resolver answers can lag changes."
+          }
+        ],
+        "structured_content": {
+          "domain": "example.com",
+          "type": "A",
+          "status": 0,
+          "dnssecValidated": false,
+          "answers": [
+            {
+              "name": "example.com",
+              "type": 1,
+              "TTL": 60,
+              "data": "8.8.8.8"
+            }
+          ],
+          "observedAt": "2026-10-10T14:44:31.257Z",
+          "resolver": "Google Public DNS",
+          "admin": {
+            "summary": "example.com: A lookup returned DNS status 0 and 1 answers.",
+            "findings": [
+              "8.8.8.8 (TTL 60s)"
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Observed DNS configuration; cached resolver answers can lag changes."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_3",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "lookup_dns",
+      "arguments": {
+        "domain": "signed.example.com",
+        "type": "A"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "signed.example.com: A lookup returned DNS status 0 and 1 answers.\n• 8.8.8.8 (TTL 60s)\nLimit: Observed DNS configuration; cached resolver answers can lag changes."
+          }
+        ],
+        "structured_content": {
+          "domain": "signed.example.com",
+          "type": "A",
+          "status": 0,
+          "dnssecValidated": true,
+          "answers": [
+            {
+              "name": "signed.example.com",
+              "type": 1,
+              "TTL": 60,
+              "data": "8.8.8.8"
+            }
+          ],
+          "observedAt": "2026-10-10T14:44:31.267Z",
+          "resolver": "Google Public DNS",
+          "admin": {
+            "summary": "signed.example.com: A lookup returned DNS status 0 and 1 answers.",
+            "findings": [
+              "8.8.8.8 (TTL 60s)"
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Observed DNS configuration; cached resolver answers can lag changes."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_4",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "lookup_dns",
+      "arguments": {
+        "domain": "empty.example.com",
+        "type": "A"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "empty.example.com: A lookup returned DNS status 0 and 0 answers.\nLimit: Observed DNS configuration; cached resolver answers can lag changes."
+          }
+        ],
+        "structured_content": {
+          "domain": "empty.example.com",
+          "type": "A",
+          "status": 0,
+          "dnssecValidated": false,
+          "answers": [],
+          "observedAt": "2026-10-10T14:44:31.274Z",
+          "resolver": "Google Public DNS",
+          "admin": {
+            "summary": "empty.example.com: A lookup returned DNS status 0 and 0 answers.",
+            "findings": [],
+            "nextSteps": [],
+            "limitations": [
+              "Observed DNS configuration; cached resolver answers can lag changes."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_5",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "lookup_dns",
+      "arguments": {
+        "domain": "https://example.com",
+        "type": "A"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "invalid_public_domain"
+          }
+        ],
+        "structured_content": null
+      },
+      "error": null,
+      "status": "failed"
+    },
+    {
+      "id": "item_6",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "check_email_dns",
+      "arguments": {
+        "domain": "mail0.example.com"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "mail0.example.com: email DNS observations.\n• MX: 0 records; DNS status 0.\n• SPF: 0 records; DNS status 0.\n• DMARC: 0 records; DNS status 0.\nNext: Review MX configuration and intended mail role.\nNext: Review SPF configuration and intended mail role.\nNext: Review DMARC configuration and intended mail role.\nLimit: DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee."
+          }
+        ],
+        "structured_content": {
+          "domain": "mail0.example.com",
+          "observations": [
+            {
+              "check": "MX",
+              "status": 0,
+              "records": []
+            },
+            {
+              "check": "SPF",
+              "status": 0,
+              "records": []
+            },
+            {
+              "check": "DMARC",
+              "status": 0,
+              "records": []
+            }
+          ],
+          "observedAt": "2026-10-10T14:44:31.293Z",
+          "note": "DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee.",
+          "admin": {
+            "summary": "mail0.example.com: email DNS observations.",
+            "findings": [
+              "MX: 0 records; DNS status 0.",
+              "SPF: 0 records; DNS status 0.",
+              "DMARC: 0 records; DNS status 0."
+            ],
+            "nextSteps": [
+              "Review MX configuration and intended mail role.",
+              "Review SPF configuration and intended mail role.",
+              "Review DMARC configuration and intended mail role."
+            ],
+            "limitations": [
+              "DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_7",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "check_email_dns",
+      "arguments": {
+        "domain": "mail1.example.com"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "mail1.example.com: email DNS observations.\n• MX: 0 records; DNS status 3.\n• SPF: 0 records; DNS status 3.\n• DMARC: 0 records; DNS status 3.\nNext: Review MX configuration and intended mail role.\nNext: Review SPF configuration and intended mail role.\nNext: Review DMARC configuration and intended mail role.\nLimit: DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee."
+          }
+        ],
+        "structured_content": {
+          "domain": "mail1.example.com",
+          "observations": [
+            {
+              "check": "MX",
+              "status": 3,
+              "records": []
+            },
+            {
+              "check": "SPF",
+              "status": 3,
+              "records": []
+            },
+            {
+              "check": "DMARC",
+              "status": 3,
+              "records": []
+            }
+          ],
+          "observedAt": "2026-10-10T14:44:31.300Z",
+          "note": "DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee.",
+          "admin": {
+            "summary": "mail1.example.com: email DNS observations.",
+            "findings": [
+              "MX: 0 records; DNS status 3.",
+              "SPF: 0 records; DNS status 3.",
+              "DMARC: 0 records; DNS status 3."
+            ],
+            "nextSteps": [
+              "Review MX configuration and intended mail role.",
+              "Review SPF configuration and intended mail role.",
+              "Review DMARC configuration and intended mail role."
+            ],
+            "limitations": [
+              "DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_8",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "check_email_dns",
+      "arguments": {
+        "domain": "mail2.example.com"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "mail2.example.com: email DNS observations.\n• MX: 0 records; DNS status 2.\n• SPF: 0 records; DNS status 2.\n• DMARC: 0 records; DNS status 2.\nNext: Review MX configuration and intended mail role.\nNext: Review SPF configuration and intended mail role.\nNext: Review DMARC configuration and intended mail role.\nLimit: DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee."
+          }
+        ],
+        "structured_content": {
+          "domain": "mail2.example.com",
+          "observations": [
+            {
+              "check": "MX",
+              "status": 2,
+              "records": []
+            },
+            {
+              "check": "SPF",
+              "status": 2,
+              "records": []
+            },
+            {
+              "check": "DMARC",
+              "status": 2,
+              "records": []
+            }
+          ],
+          "observedAt": "2026-10-10T14:44:31.308Z",
+          "note": "DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee.",
+          "admin": {
+            "summary": "mail2.example.com: email DNS observations.",
+            "findings": [
+              "MX: 0 records; DNS status 2.",
+              "SPF: 0 records; DNS status 2.",
+              "DMARC: 0 records; DNS status 2."
+            ],
+            "nextSteps": [
+              "Review MX configuration and intended mail role.",
+              "Review SPF configuration and intended mail role.",
+              "Review DMARC configuration and intended mail role."
+            ],
+            "limitations": [
+              "DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_9",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "check_email_dns",
+      "arguments": {
+        "domain": "mail3.example.com"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "mail3.example.com: email DNS observations.\n• MX: 3 records; DNS status 0.\n• SPF: 3 records; DNS status 0.\n• DMARC: 3 records; DNS status 0.\nNext: Review MX configuration and intended mail role.\nNext: Review SPF configuration and intended mail role.\nNext: Review DMARC configuration and intended mail role.\nLimit: DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee."
+          }
+        ],
+        "structured_content": {
+          "domain": "mail3.example.com",
+          "observations": [
+            {
+              "check": "MX",
+              "status": 0,
+              "records": [
+                "10 mx.example.com",
+                "10 mx.example.com",
+                "10 mx.example.com"
+              ]
+            },
+            {
+              "check": "SPF",
+              "status": 0,
+              "records": [
+                "v=spf1 -all",
+                "v=spf1 -all",
+                "v=spf1 -all"
+              ]
+            },
+            {
+              "check": "DMARC",
+              "status": 0,
+              "records": [
+                "v=DMARC1; p=none",
+                "v=DMARC1; p=none",
+                "v=DMARC1; p=none"
+              ]
+            }
+          ],
+          "observedAt": "2026-10-10T14:44:31.315Z",
+          "note": "DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee.",
+          "admin": {
+            "summary": "mail3.example.com: email DNS observations.",
+            "findings": [
+              "MX: 3 records; DNS status 0.",
+              "SPF: 3 records; DNS status 0.",
+              "DMARC: 3 records; DNS status 0."
+            ],
+            "nextSteps": [
+              "Review MX configuration and intended mail role.",
+              "Review SPF configuration and intended mail role.",
+              "Review DMARC configuration and intended mail role."
+            ],
+            "limitations": [
+              "DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_10",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "check_email_dns",
+      "arguments": {
+        "domain": "mail4.example.com"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "mail4.example.com: email DNS observations.\n• MX: 0 records; DNS status 3.\n• SPF: 0 records; DNS status 3.\n• DMARC: 0 records; DNS status 3.\nNext: Review MX configuration and intended mail role.\nNext: Review SPF configuration and intended mail role.\nNext: Review DMARC configuration and intended mail role.\nLimit: DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee."
+          }
+        ],
+        "structured_content": {
+          "domain": "mail4.example.com",
+          "observations": [
+            {
+              "check": "MX",
+              "status": 3,
+              "records": []
+            },
+            {
+              "check": "SPF",
+              "status": 3,
+              "records": []
+            },
+            {
+              "check": "DMARC",
+              "status": 3,
+              "records": []
+            }
+          ],
+          "observedAt": "2026-10-10T14:44:31.324Z",
+          "note": "DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee.",
+          "admin": {
+            "summary": "mail4.example.com: email DNS observations.",
+            "findings": [
+              "MX: 0 records; DNS status 3.",
+              "SPF: 0 records; DNS status 3.",
+              "DMARC: 0 records; DNS status 3."
+            ],
+            "nextSteps": [
+              "Review MX configuration and intended mail role.",
+              "Review SPF configuration and intended mail role.",
+              "Review DMARC configuration and intended mail role."
+            ],
+            "limitations": [
+              "DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    }
+  ],
+  "events": [],
+  "stderr": "2026-10-10T14:44:23.762223Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n",
+  "telemetry": [
+    {
+      "service": "diagnostics",
+      "method": "initialize",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 6,
+      "inputBytes": 217,
+      "outputBytes": 173,
+      "clientName": "codex-mcp-client",
+      "clientVersion": "0.154.0"
+    },
+    {
+      "service": "diagnostics",
+      "method": "notifications/initialized",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 3,
+      "inputBytes": 54,
+      "outputBytes": 0
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/list",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 6,
+      "inputBytes": 85,
+      "outputBytes": 3875
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "lookup_dns",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 2,
+      "inputBytes": 783,
+      "outputBytes": 604
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "lookup_dns",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 2,
+      "inputBytes": 776,
+      "outputBytes": 679
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "lookup_dns",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 2,
+      "inputBytes": 782,
+      "outputBytes": 706
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "lookup_dns",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 2,
+      "inputBytes": 781,
+      "outputBytes": 598
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "lookup_dns",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_error",
+      "durationMs": 2,
+      "inputBytes": 783,
+      "outputBytes": 109
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "check_email_dns",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 3,
+      "inputBytes": 775,
+      "outputBytes": 1402
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "check_email_dns",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 2,
+      "inputBytes": 775,
+      "outputBytes": 1402
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "check_email_dns",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 2,
+      "inputBytes": 775,
+      "outputBytes": 1402
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "check_email_dns",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 2,
+      "inputBytes": 776,
+      "outputBytes": 1559
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "check_email_dns",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 2,
+      "inputBytes": 777,
+      "outputBytes": 1403
+    }
+  ],
+  "environment": "local Streamable HTTP with synthetic DNS/HTTPS fixtures; native Codex MCP calls"
+}

@@ -1,0 +1,1645 @@
+{
+  "model": "gpt-5.6-luna",
+  "at": "2026-10-10T14:46:30.874Z",
+  "elapsedMs": 35870,
+  "exitCode": 0,
+  "usage": {
+    "input_tokens": 53222,
+    "cached_input_tokens": 38144,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 1016,
+    "reasoning_output_tokens": 191
+  },
+  "results": [
+    {
+      "id": "diagnostics-051",
+      "service": "diagnostics",
+      "tool": "deployment_readiness",
+      "name": "Readiness partial evidence 1",
+      "passed": true,
+      "answer": {
+        "id": "diagnostics-051",
+        "summary": "All four readiness checks were observed; HTTPS returned 200 with selected security headers.",
+        "fact": "observed",
+        "nextStep": "Review DNS intent, HTTP status, and missing headers before rollout.",
+        "limitations": "Point-in-time root checks; not a complete security or deliverability audit."
+      }
+    },
+    {
+      "id": "diagnostics-052",
+      "service": "diagnostics",
+      "tool": "deployment_readiness",
+      "name": "Readiness partial evidence 2",
+      "passed": true,
+      "answer": {
+        "id": "diagnostics-052",
+        "summary": "All four readiness checks were observed; HTTPS returned 204 without selected security headers.",
+        "fact": "observed",
+        "nextStep": "Review DNS intent, HTTP status, and missing headers before rollout.",
+        "limitations": "Point-in-time root checks; not a complete security or deliverability audit."
+      }
+    },
+    {
+      "id": "diagnostics-053",
+      "service": "diagnostics",
+      "tool": "deployment_readiness",
+      "name": "Readiness partial evidence 3",
+      "passed": true,
+      "answer": {
+        "id": "diagnostics-053",
+        "summary": "All four readiness checks were observed; HTTPS returned 301 with selected security headers.",
+        "fact": "observed",
+        "nextStep": "Review DNS intent, HTTP status, and missing headers before rollout.",
+        "limitations": "Point-in-time root checks; not a complete security or deliverability audit."
+      }
+    },
+    {
+      "id": "diagnostics-054",
+      "service": "diagnostics",
+      "tool": "deployment_readiness",
+      "name": "Readiness partial evidence 4",
+      "passed": true,
+      "answer": {
+        "id": "diagnostics-054",
+        "summary": "All four readiness checks were observed; HTTPS returned 302 without selected security headers.",
+        "fact": "observed",
+        "nextStep": "Review DNS intent, HTTP status, and missing headers before rollout.",
+        "limitations": "Point-in-time root checks; not a complete security or deliverability audit."
+      }
+    },
+    {
+      "id": "diagnostics-055",
+      "service": "diagnostics",
+      "tool": "deployment_readiness",
+      "name": "Readiness partial evidence 5",
+      "passed": true,
+      "answer": {
+        "id": "diagnostics-055",
+        "summary": "All four readiness checks were observed; HTTPS returned 400 with selected security headers.",
+        "fact": "observed",
+        "nextStep": "Review DNS intent, HTTP status, and missing headers before rollout.",
+        "limitations": "Point-in-time root checks; not a complete security or deliverability audit."
+      }
+    },
+    {
+      "id": "diagnostics-056",
+      "service": "diagnostics",
+      "tool": "deployment_readiness",
+      "name": "Readiness partial evidence 6",
+      "passed": true,
+      "answer": {
+        "id": "diagnostics-056",
+        "summary": "All four readiness checks were observed; HTTPS returned 401 without selected security headers.",
+        "fact": "observed",
+        "nextStep": "Review DNS intent, HTTP status, and missing headers before rollout.",
+        "limitations": "Point-in-time root checks; not a complete security or deliverability audit."
+      }
+    },
+    {
+      "id": "diagnostics-057",
+      "service": "diagnostics",
+      "tool": "deployment_readiness",
+      "name": "Readiness partial evidence 7",
+      "passed": true,
+      "answer": {
+        "id": "diagnostics-057",
+        "summary": "All four readiness checks were observed; HTTPS returned 403 with selected security headers.",
+        "fact": "observed",
+        "nextStep": "Review DNS intent, HTTP status, and missing headers before rollout.",
+        "limitations": "Point-in-time root checks; not a complete security or deliverability audit."
+      }
+    },
+    {
+      "id": "diagnostics-058",
+      "service": "diagnostics",
+      "tool": "deployment_readiness",
+      "name": "Readiness partial evidence 8",
+      "passed": true,
+      "answer": {
+        "id": "diagnostics-058",
+        "summary": "All four readiness checks were observed; HTTPS returned 404 without selected security headers.",
+        "fact": "observed",
+        "nextStep": "Review DNS intent, HTTP status, and missing headers before rollout.",
+        "limitations": "Point-in-time root checks; not a complete security or deliverability audit."
+      }
+    },
+    {
+      "id": "diagnostics-059",
+      "service": "diagnostics",
+      "tool": "deployment_readiness",
+      "name": "Readiness partial evidence 9",
+      "passed": true,
+      "answer": {
+        "id": "diagnostics-059",
+        "summary": "All four readiness checks were observed; HTTPS returned 429 with selected security headers.",
+        "fact": "observed",
+        "nextStep": "Review DNS intent, HTTP status, and missing headers before rollout.",
+        "limitations": "Point-in-time root checks; not a complete security or deliverability audit."
+      }
+    },
+    {
+      "id": "diagnostics-060",
+      "service": "diagnostics",
+      "tool": "deployment_readiness",
+      "name": "Readiness partial evidence 10",
+      "passed": true,
+      "answer": {
+        "id": "diagnostics-060",
+        "summary": "All four readiness checks were observed; HTTPS returned 503 without selected security headers.",
+        "fact": "observed",
+        "nextStep": "Review DNS intent, HTTP status, and missing headers before rollout.",
+        "limitations": "Point-in-time root checks; not a complete security or deliverability audit."
+      }
+    }
+  ],
+  "calls": [
+    {
+      "id": "item_1",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "deployment_readiness",
+      "arguments": {
+        "domain": "ready0.example.com"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "ready0.example.com: 4/4 deployment checks observed.\n• HTTPS final status 200; 0 redirects.\n• strict-transport-security: observed.\n• content-security-policy: observed.\n• x-content-type-options: observed.\nNext: Review unavailable checks, DNS intent, final HTTP status and missing headers before rollout.\nLimit: Point-in-time root checks, not a complete security or deliverability audit. Missing mail records may be intentional. HEAD responses can differ from browser responses."
+          }
+        ],
+        "structured_content": {
+          "domain": "ready0.example.com",
+          "checks": [
+            {
+              "check": "A",
+              "outcome": "observed",
+              "result": {
+                "domain": "ready0.example.com",
+                "type": "A",
+                "status": 0,
+                "dnssecValidated": false,
+                "answers": [
+                  {
+                    "name": "ready0.example.com",
+                    "type": 1,
+                    "TTL": 60,
+                    "data": "8.8.8.8"
+                  }
+                ],
+                "observedAt": "2026-10-10T14:46:06.801Z",
+                "resolver": "Google Public DNS"
+              }
+            },
+            {
+              "check": "AAAA",
+              "outcome": "observed",
+              "result": {
+                "domain": "ready0.example.com",
+                "type": "AAAA",
+                "status": 0,
+                "dnssecValidated": false,
+                "answers": [
+                  {
+                    "name": "ready0.example.com",
+                    "type": 28,
+                    "TTL": 60,
+                    "data": "2001:4860:4860::8888"
+                  }
+                ],
+                "observedAt": "2026-10-10T14:46:06.802Z",
+                "resolver": "Google Public DNS"
+              }
+            },
+            {
+              "check": "email_dns",
+              "outcome": "observed",
+              "result": {
+                "domain": "ready0.example.com",
+                "observations": [
+                  {
+                    "check": "MX",
+                    "status": 0,
+                    "records": []
+                  },
+                  {
+                    "check": "SPF",
+                    "status": 0,
+                    "records": []
+                  },
+                  {
+                    "check": "DMARC",
+                    "status": 0,
+                    "records": []
+                  }
+                ],
+                "observedAt": "2026-10-10T14:46:06.802Z",
+                "note": "DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee."
+              }
+            },
+            {
+              "check": "https",
+              "outcome": "observed",
+              "result": {
+                "hops": [
+                  {
+                    "url": "https://ready0.example.com/",
+                    "status": 200,
+                    "certificate": {
+                      "authorized": true
+                    },
+                    "headers": {
+                      "strict-transport-security": "max-age=31536000",
+                      "content-security-policy": "default-src 'self'",
+                      "x-content-type-options": "nosniff"
+                    }
+                  }
+                ],
+                "observedAt": "2026-10-10T14:46:06.802Z"
+              }
+            }
+          ],
+          "securityHeaders": {
+            "strict-transport-security": "max-age=31536000",
+            "content-security-policy": "default-src 'self'",
+            "x-content-type-options": "nosniff"
+          },
+          "observedAt": "2026-10-10T14:46:06.802Z",
+          "admin": {
+            "summary": "ready0.example.com: 4/4 deployment checks observed.",
+            "findings": [
+              "HTTPS final status 200; 0 redirects.",
+              "strict-transport-security: observed.",
+              "content-security-policy: observed.",
+              "x-content-type-options: observed."
+            ],
+            "nextSteps": [
+              "Review unavailable checks, DNS intent, final HTTP status and missing headers before rollout."
+            ],
+            "limitations": [
+              "Point-in-time root checks, not a complete security or deliverability audit. Missing mail records may be intentional. HEAD responses can differ from browser responses."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_2",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "deployment_readiness",
+      "arguments": {
+        "domain": "ready1.example.com"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "ready1.example.com: 4/4 deployment checks observed.\n• HTTPS final status 204; 0 redirects.\n• strict-transport-security: not observed at this root response.\n• content-security-policy: not observed at this root response.\n• x-content-type-options: not observed at this root response.\nNext: Review unavailable checks, DNS intent, final HTTP status and missing headers before rollout.\nLimit: Point-in-time root checks, not a complete security or deliverability audit. Missing mail records may be intentional. HEAD responses can differ from browser responses."
+          }
+        ],
+        "structured_content": {
+          "domain": "ready1.example.com",
+          "checks": [
+            {
+              "check": "A",
+              "outcome": "observed",
+              "result": {
+                "domain": "ready1.example.com",
+                "type": "A",
+                "status": 0,
+                "dnssecValidated": false,
+                "answers": [
+                  {
+                    "name": "ready1.example.com",
+                    "type": 1,
+                    "TTL": 60,
+                    "data": "8.8.8.8"
+                  }
+                ],
+                "observedAt": "2026-10-10T14:46:06.808Z",
+                "resolver": "Google Public DNS"
+              }
+            },
+            {
+              "check": "AAAA",
+              "outcome": "observed",
+              "result": {
+                "domain": "ready1.example.com",
+                "type": "AAAA",
+                "status": 0,
+                "dnssecValidated": false,
+                "answers": [
+                  {
+                    "name": "ready1.example.com",
+                    "type": 28,
+                    "TTL": 60,
+                    "data": "2001:4860:4860::8888"
+                  }
+                ],
+                "observedAt": "2026-10-10T14:46:06.808Z",
+                "resolver": "Google Public DNS"
+              }
+            },
+            {
+              "check": "email_dns",
+              "outcome": "observed",
+              "result": {
+                "domain": "ready1.example.com",
+                "observations": [
+                  {
+                    "check": "MX",
+                    "status": 0,
+                    "records": [
+                      "10 mx.example.com"
+                    ]
+                  },
+                  {
+                    "check": "SPF",
+                    "status": 0,
+                    "records": [
+                      "v=spf1 -all"
+                    ]
+                  },
+                  {
+                    "check": "DMARC",
+                    "status": 0,
+                    "records": [
+                      "v=DMARC1; p=none"
+                    ]
+                  }
+                ],
+                "observedAt": "2026-10-10T14:46:06.808Z",
+                "note": "DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee."
+              }
+            },
+            {
+              "check": "https",
+              "outcome": "observed",
+              "result": {
+                "hops": [
+                  {
+                    "url": "https://ready1.example.com/",
+                    "status": 204,
+                    "certificate": {
+                      "authorized": true
+                    },
+                    "headers": {}
+                  }
+                ],
+                "observedAt": "2026-10-10T14:46:06.808Z"
+              }
+            }
+          ],
+          "securityHeaders": {},
+          "observedAt": "2026-10-10T14:46:06.808Z",
+          "admin": {
+            "summary": "ready1.example.com: 4/4 deployment checks observed.",
+            "findings": [
+              "HTTPS final status 204; 0 redirects.",
+              "strict-transport-security: not observed at this root response.",
+              "content-security-policy: not observed at this root response.",
+              "x-content-type-options: not observed at this root response."
+            ],
+            "nextSteps": [
+              "Review unavailable checks, DNS intent, final HTTP status and missing headers before rollout."
+            ],
+            "limitations": [
+              "Point-in-time root checks, not a complete security or deliverability audit. Missing mail records may be intentional. HEAD responses can differ from browser responses."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_3",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "deployment_readiness",
+      "arguments": {
+        "domain": "ready2.example.com"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "ready2.example.com: 4/4 deployment checks observed.\n• HTTPS final status 301; 0 redirects.\n• strict-transport-security: observed.\n• content-security-policy: observed.\n• x-content-type-options: observed.\nNext: Review unavailable checks, DNS intent, final HTTP status and missing headers before rollout.\nLimit: Point-in-time root checks, not a complete security or deliverability audit. Missing mail records may be intentional. HEAD responses can differ from browser responses."
+          }
+        ],
+        "structured_content": {
+          "domain": "ready2.example.com",
+          "checks": [
+            {
+              "check": "A",
+              "outcome": "observed",
+              "result": {
+                "domain": "ready2.example.com",
+                "type": "A",
+                "status": 0,
+                "dnssecValidated": false,
+                "answers": [
+                  {
+                    "name": "ready2.example.com",
+                    "type": 1,
+                    "TTL": 60,
+                    "data": "8.8.8.8"
+                  }
+                ],
+                "observedAt": "2026-10-10T14:46:06.815Z",
+                "resolver": "Google Public DNS"
+              }
+            },
+            {
+              "check": "AAAA",
+              "outcome": "observed",
+              "result": {
+                "domain": "ready2.example.com",
+                "type": "AAAA",
+                "status": 0,
+                "dnssecValidated": false,
+                "answers": [
+                  {
+                    "name": "ready2.example.com",
+                    "type": 28,
+                    "TTL": 60,
+                    "data": "2001:4860:4860::8888"
+                  }
+                ],
+                "observedAt": "2026-10-10T14:46:06.815Z",
+                "resolver": "Google Public DNS"
+              }
+            },
+            {
+              "check": "email_dns",
+              "outcome": "observed",
+              "result": {
+                "domain": "ready2.example.com",
+                "observations": [
+                  {
+                    "check": "MX",
+                    "status": 0,
+                    "records": [
+                      "10 mx.example.com",
+                      "10 mx.example.com"
+                    ]
+                  },
+                  {
+                    "check": "SPF",
+                    "status": 0,
+                    "records": [
+                      "v=spf1 -all",
+                      "v=spf1 -all"
+                    ]
+                  },
+                  {
+                    "check": "DMARC",
+                    "status": 0,
+                    "records": [
+                      "v=DMARC1; p=none",
+                      "v=DMARC1; p=none"
+                    ]
+                  }
+                ],
+                "observedAt": "2026-10-10T14:46:06.815Z",
+                "note": "DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee."
+              }
+            },
+            {
+              "check": "https",
+              "outcome": "observed",
+              "result": {
+                "hops": [
+                  {
+                    "url": "https://ready2.example.com/",
+                    "status": 301,
+                    "certificate": {
+                      "authorized": true
+                    },
+                    "headers": {
+                      "strict-transport-security": "max-age=31536000",
+                      "content-security-policy": "default-src 'self'",
+                      "x-content-type-options": "nosniff"
+                    }
+                  }
+                ],
+                "observedAt": "2026-10-10T14:46:06.815Z"
+              }
+            }
+          ],
+          "securityHeaders": {
+            "strict-transport-security": "max-age=31536000",
+            "content-security-policy": "default-src 'self'",
+            "x-content-type-options": "nosniff"
+          },
+          "observedAt": "2026-10-10T14:46:06.815Z",
+          "admin": {
+            "summary": "ready2.example.com: 4/4 deployment checks observed.",
+            "findings": [
+              "HTTPS final status 301; 0 redirects.",
+              "strict-transport-security: observed.",
+              "content-security-policy: observed.",
+              "x-content-type-options: observed."
+            ],
+            "nextSteps": [
+              "Review unavailable checks, DNS intent, final HTTP status and missing headers before rollout."
+            ],
+            "limitations": [
+              "Point-in-time root checks, not a complete security or deliverability audit. Missing mail records may be intentional. HEAD responses can differ from browser responses."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_4",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "deployment_readiness",
+      "arguments": {
+        "domain": "ready3.example.com"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "ready3.example.com: 4/4 deployment checks observed.\n• HTTPS final status 302; 0 redirects.\n• strict-transport-security: not observed at this root response.\n• content-security-policy: not observed at this root response.\n• x-content-type-options: not observed at this root response.\nNext: Review unavailable checks, DNS intent, final HTTP status and missing headers before rollout.\nLimit: Point-in-time root checks, not a complete security or deliverability audit. Missing mail records may be intentional. HEAD responses can differ from browser responses."
+          }
+        ],
+        "structured_content": {
+          "domain": "ready3.example.com",
+          "checks": [
+            {
+              "check": "A",
+              "outcome": "observed",
+              "result": {
+                "domain": "ready3.example.com",
+                "type": "A",
+                "status": 0,
+                "dnssecValidated": false,
+                "answers": [
+                  {
+                    "name": "ready3.example.com",
+                    "type": 1,
+                    "TTL": 60,
+                    "data": "8.8.8.8"
+                  }
+                ],
+                "observedAt": "2026-10-10T14:46:06.821Z",
+                "resolver": "Google Public DNS"
+              }
+            },
+            {
+              "check": "AAAA",
+              "outcome": "observed",
+              "result": {
+                "domain": "ready3.example.com",
+                "type": "AAAA",
+                "status": 0,
+                "dnssecValidated": false,
+                "answers": [
+                  {
+                    "name": "ready3.example.com",
+                    "type": 28,
+                    "TTL": 60,
+                    "data": "2001:4860:4860::8888"
+                  }
+                ],
+                "observedAt": "2026-10-10T14:46:06.821Z",
+                "resolver": "Google Public DNS"
+              }
+            },
+            {
+              "check": "email_dns",
+              "outcome": "observed",
+              "result": {
+                "domain": "ready3.example.com",
+                "observations": [
+                  {
+                    "check": "MX",
+                    "status": 0,
+                    "records": []
+                  },
+                  {
+                    "check": "SPF",
+                    "status": 0,
+                    "records": []
+                  },
+                  {
+                    "check": "DMARC",
+                    "status": 0,
+                    "records": []
+                  }
+                ],
+                "observedAt": "2026-10-10T14:46:06.821Z",
+                "note": "DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee."
+              }
+            },
+            {
+              "check": "https",
+              "outcome": "observed",
+              "result": {
+                "hops": [
+                  {
+                    "url": "https://ready3.example.com/",
+                    "status": 302,
+                    "certificate": {
+                      "authorized": true
+                    },
+                    "headers": {}
+                  }
+                ],
+                "observedAt": "2026-10-10T14:46:06.821Z"
+              }
+            }
+          ],
+          "securityHeaders": {},
+          "observedAt": "2026-10-10T14:46:06.821Z",
+          "admin": {
+            "summary": "ready3.example.com: 4/4 deployment checks observed.",
+            "findings": [
+              "HTTPS final status 302; 0 redirects.",
+              "strict-transport-security: not observed at this root response.",
+              "content-security-policy: not observed at this root response.",
+              "x-content-type-options: not observed at this root response."
+            ],
+            "nextSteps": [
+              "Review unavailable checks, DNS intent, final HTTP status and missing headers before rollout."
+            ],
+            "limitations": [
+              "Point-in-time root checks, not a complete security or deliverability audit. Missing mail records may be intentional. HEAD responses can differ from browser responses."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_5",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "deployment_readiness",
+      "arguments": {
+        "domain": "ready4.example.com"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "ready4.example.com: 4/4 deployment checks observed.\n• HTTPS final status 400; 0 redirects.\n• strict-transport-security: observed.\n• content-security-policy: observed.\n• x-content-type-options: observed.\nNext: Review unavailable checks, DNS intent, final HTTP status and missing headers before rollout.\nLimit: Point-in-time root checks, not a complete security or deliverability audit. Missing mail records may be intentional. HEAD responses can differ from browser responses."
+          }
+        ],
+        "structured_content": {
+          "domain": "ready4.example.com",
+          "checks": [
+            {
+              "check": "A",
+              "outcome": "observed",
+              "result": {
+                "domain": "ready4.example.com",
+                "type": "A",
+                "status": 0,
+                "dnssecValidated": false,
+                "answers": [
+                  {
+                    "name": "ready4.example.com",
+                    "type": 1,
+                    "TTL": 60,
+                    "data": "8.8.8.8"
+                  }
+                ],
+                "observedAt": "2026-10-10T14:46:06.827Z",
+                "resolver": "Google Public DNS"
+              }
+            },
+            {
+              "check": "AAAA",
+              "outcome": "observed",
+              "result": {
+                "domain": "ready4.example.com",
+                "type": "AAAA",
+                "status": 0,
+                "dnssecValidated": false,
+                "answers": [
+                  {
+                    "name": "ready4.example.com",
+                    "type": 28,
+                    "TTL": 60,
+                    "data": "2001:4860:4860::8888"
+                  }
+                ],
+                "observedAt": "2026-10-10T14:46:06.827Z",
+                "resolver": "Google Public DNS"
+              }
+            },
+            {
+              "check": "email_dns",
+              "outcome": "observed",
+              "result": {
+                "domain": "ready4.example.com",
+                "observations": [
+                  {
+                    "check": "MX",
+                    "status": 0,
+                    "records": [
+                      "10 mx.example.com"
+                    ]
+                  },
+                  {
+                    "check": "SPF",
+                    "status": 0,
+                    "records": [
+                      "v=spf1 -all"
+                    ]
+                  },
+                  {
+                    "check": "DMARC",
+                    "status": 0,
+                    "records": [
+                      "v=DMARC1; p=none"
+                    ]
+                  }
+                ],
+                "observedAt": "2026-10-10T14:46:06.828Z",
+                "note": "DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee."
+              }
+            },
+            {
+              "check": "https",
+              "outcome": "observed",
+              "result": {
+                "hops": [
+                  {
+                    "url": "https://ready4.example.com/",
+                    "status": 400,
+                    "certificate": {
+                      "authorized": true
+                    },
+                    "headers": {
+                      "strict-transport-security": "max-age=31536000",
+                      "content-security-policy": "default-src 'self'",
+                      "x-content-type-options": "nosniff"
+                    }
+                  }
+                ],
+                "observedAt": "2026-10-10T14:46:06.828Z"
+              }
+            }
+          ],
+          "securityHeaders": {
+            "strict-transport-security": "max-age=31536000",
+            "content-security-policy": "default-src 'self'",
+            "x-content-type-options": "nosniff"
+          },
+          "observedAt": "2026-10-10T14:46:06.828Z",
+          "admin": {
+            "summary": "ready4.example.com: 4/4 deployment checks observed.",
+            "findings": [
+              "HTTPS final status 400; 0 redirects.",
+              "strict-transport-security: observed.",
+              "content-security-policy: observed.",
+              "x-content-type-options: observed."
+            ],
+            "nextSteps": [
+              "Review unavailable checks, DNS intent, final HTTP status and missing headers before rollout."
+            ],
+            "limitations": [
+              "Point-in-time root checks, not a complete security or deliverability audit. Missing mail records may be intentional. HEAD responses can differ from browser responses."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_6",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "deployment_readiness",
+      "arguments": {
+        "domain": "ready5.example.com"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "ready5.example.com: 4/4 deployment checks observed.\n• HTTPS final status 401; 0 redirects.\n• strict-transport-security: not observed at this root response.\n• content-security-policy: not observed at this root response.\n• x-content-type-options: not observed at this root response.\nNext: Review unavailable checks, DNS intent, final HTTP status and missing headers before rollout.\nLimit: Point-in-time root checks, not a complete security or deliverability audit. Missing mail records may be intentional. HEAD responses can differ from browser responses."
+          }
+        ],
+        "structured_content": {
+          "domain": "ready5.example.com",
+          "checks": [
+            {
+              "check": "A",
+              "outcome": "observed",
+              "result": {
+                "domain": "ready5.example.com",
+                "type": "A",
+                "status": 0,
+                "dnssecValidated": false,
+                "answers": [
+                  {
+                    "name": "ready5.example.com",
+                    "type": 1,
+                    "TTL": 60,
+                    "data": "8.8.8.8"
+                  }
+                ],
+                "observedAt": "2026-10-10T14:46:06.833Z",
+                "resolver": "Google Public DNS"
+              }
+            },
+            {
+              "check": "AAAA",
+              "outcome": "observed",
+              "result": {
+                "domain": "ready5.example.com",
+                "type": "AAAA",
+                "status": 0,
+                "dnssecValidated": false,
+                "answers": [
+                  {
+                    "name": "ready5.example.com",
+                    "type": 28,
+                    "TTL": 60,
+                    "data": "2001:4860:4860::8888"
+                  }
+                ],
+                "observedAt": "2026-10-10T14:46:06.833Z",
+                "resolver": "Google Public DNS"
+              }
+            },
+            {
+              "check": "email_dns",
+              "outcome": "observed",
+              "result": {
+                "domain": "ready5.example.com",
+                "observations": [
+                  {
+                    "check": "MX",
+                    "status": 0,
+                    "records": [
+                      "10 mx.example.com",
+                      "10 mx.example.com"
+                    ]
+                  },
+                  {
+                    "check": "SPF",
+                    "status": 0,
+                    "records": [
+                      "v=spf1 -all",
+                      "v=spf1 -all"
+                    ]
+                  },
+                  {
+                    "check": "DMARC",
+                    "status": 0,
+                    "records": [
+                      "v=DMARC1; p=none",
+                      "v=DMARC1; p=none"
+                    ]
+                  }
+                ],
+                "observedAt": "2026-10-10T14:46:06.833Z",
+                "note": "DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee."
+              }
+            },
+            {
+              "check": "https",
+              "outcome": "observed",
+              "result": {
+                "hops": [
+                  {
+                    "url": "https://ready5.example.com/",
+                    "status": 401,
+                    "certificate": {
+                      "authorized": true
+                    },
+                    "headers": {}
+                  }
+                ],
+                "observedAt": "2026-10-10T14:46:06.833Z"
+              }
+            }
+          ],
+          "securityHeaders": {},
+          "observedAt": "2026-10-10T14:46:06.833Z",
+          "admin": {
+            "summary": "ready5.example.com: 4/4 deployment checks observed.",
+            "findings": [
+              "HTTPS final status 401; 0 redirects.",
+              "strict-transport-security: not observed at this root response.",
+              "content-security-policy: not observed at this root response.",
+              "x-content-type-options: not observed at this root response."
+            ],
+            "nextSteps": [
+              "Review unavailable checks, DNS intent, final HTTP status and missing headers before rollout."
+            ],
+            "limitations": [
+              "Point-in-time root checks, not a complete security or deliverability audit. Missing mail records may be intentional. HEAD responses can differ from browser responses."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_7",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "deployment_readiness",
+      "arguments": {
+        "domain": "ready6.example.com"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "ready6.example.com: 4/4 deployment checks observed.\n• HTTPS final status 403; 0 redirects.\n• strict-transport-security: observed.\n• content-security-policy: observed.\n• x-content-type-options: observed.\nNext: Review unavailable checks, DNS intent, final HTTP status and missing headers before rollout.\nLimit: Point-in-time root checks, not a complete security or deliverability audit. Missing mail records may be intentional. HEAD responses can differ from browser responses."
+          }
+        ],
+        "structured_content": {
+          "domain": "ready6.example.com",
+          "checks": [
+            {
+              "check": "A",
+              "outcome": "observed",
+              "result": {
+                "domain": "ready6.example.com",
+                "type": "A",
+                "status": 0,
+                "dnssecValidated": false,
+                "answers": [
+                  {
+                    "name": "ready6.example.com",
+                    "type": 1,
+                    "TTL": 60,
+                    "data": "8.8.8.8"
+                  }
+                ],
+                "observedAt": "2026-10-10T14:46:06.839Z",
+                "resolver": "Google Public DNS"
+              }
+            },
+            {
+              "check": "AAAA",
+              "outcome": "observed",
+              "result": {
+                "domain": "ready6.example.com",
+                "type": "AAAA",
+                "status": 0,
+                "dnssecValidated": false,
+                "answers": [
+                  {
+                    "name": "ready6.example.com",
+                    "type": 28,
+                    "TTL": 60,
+                    "data": "2001:4860:4860::8888"
+                  }
+                ],
+                "observedAt": "2026-10-10T14:46:06.839Z",
+                "resolver": "Google Public DNS"
+              }
+            },
+            {
+              "check": "email_dns",
+              "outcome": "observed",
+              "result": {
+                "domain": "ready6.example.com",
+                "observations": [
+                  {
+                    "check": "MX",
+                    "status": 0,
+                    "records": []
+                  },
+                  {
+                    "check": "SPF",
+                    "status": 0,
+                    "records": []
+                  },
+                  {
+                    "check": "DMARC",
+                    "status": 0,
+                    "records": []
+                  }
+                ],
+                "observedAt": "2026-10-10T14:46:06.839Z",
+                "note": "DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee."
+              }
+            },
+            {
+              "check": "https",
+              "outcome": "observed",
+              "result": {
+                "hops": [
+                  {
+                    "url": "https://ready6.example.com/",
+                    "status": 403,
+                    "certificate": {
+                      "authorized": true
+                    },
+                    "headers": {
+                      "strict-transport-security": "max-age=31536000",
+                      "content-security-policy": "default-src 'self'",
+                      "x-content-type-options": "nosniff"
+                    }
+                  }
+                ],
+                "observedAt": "2026-10-10T14:46:06.839Z"
+              }
+            }
+          ],
+          "securityHeaders": {
+            "strict-transport-security": "max-age=31536000",
+            "content-security-policy": "default-src 'self'",
+            "x-content-type-options": "nosniff"
+          },
+          "observedAt": "2026-10-10T14:46:06.839Z",
+          "admin": {
+            "summary": "ready6.example.com: 4/4 deployment checks observed.",
+            "findings": [
+              "HTTPS final status 403; 0 redirects.",
+              "strict-transport-security: observed.",
+              "content-security-policy: observed.",
+              "x-content-type-options: observed."
+            ],
+            "nextSteps": [
+              "Review unavailable checks, DNS intent, final HTTP status and missing headers before rollout."
+            ],
+            "limitations": [
+              "Point-in-time root checks, not a complete security or deliverability audit. Missing mail records may be intentional. HEAD responses can differ from browser responses."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_8",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "deployment_readiness",
+      "arguments": {
+        "domain": "ready7.example.com"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "ready7.example.com: 4/4 deployment checks observed.\n• HTTPS final status 404; 0 redirects.\n• strict-transport-security: not observed at this root response.\n• content-security-policy: not observed at this root response.\n• x-content-type-options: not observed at this root response.\nNext: Review unavailable checks, DNS intent, final HTTP status and missing headers before rollout.\nLimit: Point-in-time root checks, not a complete security or deliverability audit. Missing mail records may be intentional. HEAD responses can differ from browser responses."
+          }
+        ],
+        "structured_content": {
+          "domain": "ready7.example.com",
+          "checks": [
+            {
+              "check": "A",
+              "outcome": "observed",
+              "result": {
+                "domain": "ready7.example.com",
+                "type": "A",
+                "status": 0,
+                "dnssecValidated": false,
+                "answers": [
+                  {
+                    "name": "ready7.example.com",
+                    "type": 1,
+                    "TTL": 60,
+                    "data": "8.8.8.8"
+                  }
+                ],
+                "observedAt": "2026-10-10T14:46:06.845Z",
+                "resolver": "Google Public DNS"
+              }
+            },
+            {
+              "check": "AAAA",
+              "outcome": "observed",
+              "result": {
+                "domain": "ready7.example.com",
+                "type": "AAAA",
+                "status": 0,
+                "dnssecValidated": false,
+                "answers": [
+                  {
+                    "name": "ready7.example.com",
+                    "type": 28,
+                    "TTL": 60,
+                    "data": "2001:4860:4860::8888"
+                  }
+                ],
+                "observedAt": "2026-10-10T14:46:06.845Z",
+                "resolver": "Google Public DNS"
+              }
+            },
+            {
+              "check": "email_dns",
+              "outcome": "observed",
+              "result": {
+                "domain": "ready7.example.com",
+                "observations": [
+                  {
+                    "check": "MX",
+                    "status": 0,
+                    "records": [
+                      "10 mx.example.com"
+                    ]
+                  },
+                  {
+                    "check": "SPF",
+                    "status": 0,
+                    "records": [
+                      "v=spf1 -all"
+                    ]
+                  },
+                  {
+                    "check": "DMARC",
+                    "status": 0,
+                    "records": [
+                      "v=DMARC1; p=none"
+                    ]
+                  }
+                ],
+                "observedAt": "2026-10-10T14:46:06.845Z",
+                "note": "DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee."
+              }
+            },
+            {
+              "check": "https",
+              "outcome": "observed",
+              "result": {
+                "hops": [
+                  {
+                    "url": "https://ready7.example.com/",
+                    "status": 404,
+                    "certificate": {
+                      "authorized": true
+                    },
+                    "headers": {}
+                  }
+                ],
+                "observedAt": "2026-10-10T14:46:06.845Z"
+              }
+            }
+          ],
+          "securityHeaders": {},
+          "observedAt": "2026-10-10T14:46:06.845Z",
+          "admin": {
+            "summary": "ready7.example.com: 4/4 deployment checks observed.",
+            "findings": [
+              "HTTPS final status 404; 0 redirects.",
+              "strict-transport-security: not observed at this root response.",
+              "content-security-policy: not observed at this root response.",
+              "x-content-type-options: not observed at this root response."
+            ],
+            "nextSteps": [
+              "Review unavailable checks, DNS intent, final HTTP status and missing headers before rollout."
+            ],
+            "limitations": [
+              "Point-in-time root checks, not a complete security or deliverability audit. Missing mail records may be intentional. HEAD responses can differ from browser responses."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_9",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "deployment_readiness",
+      "arguments": {
+        "domain": "ready8.example.com"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "ready8.example.com: 4/4 deployment checks observed.\n• HTTPS final status 429; 0 redirects.\n• strict-transport-security: observed.\n• content-security-policy: observed.\n• x-content-type-options: observed.\nNext: Review unavailable checks, DNS intent, final HTTP status and missing headers before rollout.\nLimit: Point-in-time root checks, not a complete security or deliverability audit. Missing mail records may be intentional. HEAD responses can differ from browser responses."
+          }
+        ],
+        "structured_content": {
+          "domain": "ready8.example.com",
+          "checks": [
+            {
+              "check": "A",
+              "outcome": "observed",
+              "result": {
+                "domain": "ready8.example.com",
+                "type": "A",
+                "status": 0,
+                "dnssecValidated": false,
+                "answers": [
+                  {
+                    "name": "ready8.example.com",
+                    "type": 1,
+                    "TTL": 60,
+                    "data": "8.8.8.8"
+                  }
+                ],
+                "observedAt": "2026-10-10T14:46:06.850Z",
+                "resolver": "Google Public DNS"
+              }
+            },
+            {
+              "check": "AAAA",
+              "outcome": "observed",
+              "result": {
+                "domain": "ready8.example.com",
+                "type": "AAAA",
+                "status": 0,
+                "dnssecValidated": false,
+                "answers": [
+                  {
+                    "name": "ready8.example.com",
+                    "type": 28,
+                    "TTL": 60,
+                    "data": "2001:4860:4860::8888"
+                  }
+                ],
+                "observedAt": "2026-10-10T14:46:06.850Z",
+                "resolver": "Google Public DNS"
+              }
+            },
+            {
+              "check": "email_dns",
+              "outcome": "observed",
+              "result": {
+                "domain": "ready8.example.com",
+                "observations": [
+                  {
+                    "check": "MX",
+                    "status": 0,
+                    "records": [
+                      "10 mx.example.com",
+                      "10 mx.example.com"
+                    ]
+                  },
+                  {
+                    "check": "SPF",
+                    "status": 0,
+                    "records": [
+                      "v=spf1 -all",
+                      "v=spf1 -all"
+                    ]
+                  },
+                  {
+                    "check": "DMARC",
+                    "status": 0,
+                    "records": [
+                      "v=DMARC1; p=none",
+                      "v=DMARC1; p=none"
+                    ]
+                  }
+                ],
+                "observedAt": "2026-10-10T14:46:06.850Z",
+                "note": "DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee."
+              }
+            },
+            {
+              "check": "https",
+              "outcome": "observed",
+              "result": {
+                "hops": [
+                  {
+                    "url": "https://ready8.example.com/",
+                    "status": 429,
+                    "certificate": {
+                      "authorized": true
+                    },
+                    "headers": {
+                      "strict-transport-security": "max-age=31536000",
+                      "content-security-policy": "default-src 'self'",
+                      "x-content-type-options": "nosniff"
+                    }
+                  }
+                ],
+                "observedAt": "2026-10-10T14:46:06.850Z"
+              }
+            }
+          ],
+          "securityHeaders": {
+            "strict-transport-security": "max-age=31536000",
+            "content-security-policy": "default-src 'self'",
+            "x-content-type-options": "nosniff"
+          },
+          "observedAt": "2026-10-10T14:46:06.850Z",
+          "admin": {
+            "summary": "ready8.example.com: 4/4 deployment checks observed.",
+            "findings": [
+              "HTTPS final status 429; 0 redirects.",
+              "strict-transport-security: observed.",
+              "content-security-policy: observed.",
+              "x-content-type-options: observed."
+            ],
+            "nextSteps": [
+              "Review unavailable checks, DNS intent, final HTTP status and missing headers before rollout."
+            ],
+            "limitations": [
+              "Point-in-time root checks, not a complete security or deliverability audit. Missing mail records may be intentional. HEAD responses can differ from browser responses."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_10",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "deployment_readiness",
+      "arguments": {
+        "domain": "ready9.example.com"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "ready9.example.com: 4/4 deployment checks observed.\n• HTTPS final status 503; 0 redirects.\n• strict-transport-security: not observed at this root response.\n• content-security-policy: not observed at this root response.\n• x-content-type-options: not observed at this root response.\nNext: Review unavailable checks, DNS intent, final HTTP status and missing headers before rollout.\nLimit: Point-in-time root checks, not a complete security or deliverability audit. Missing mail records may be intentional. HEAD responses can differ from browser responses."
+          }
+        ],
+        "structured_content": {
+          "domain": "ready9.example.com",
+          "checks": [
+            {
+              "check": "A",
+              "outcome": "observed",
+              "result": {
+                "domain": "ready9.example.com",
+                "type": "A",
+                "status": 0,
+                "dnssecValidated": false,
+                "answers": [
+                  {
+                    "name": "ready9.example.com",
+                    "type": 1,
+                    "TTL": 60,
+                    "data": "8.8.8.8"
+                  }
+                ],
+                "observedAt": "2026-10-10T14:46:06.856Z",
+                "resolver": "Google Public DNS"
+              }
+            },
+            {
+              "check": "AAAA",
+              "outcome": "observed",
+              "result": {
+                "domain": "ready9.example.com",
+                "type": "AAAA",
+                "status": 0,
+                "dnssecValidated": false,
+                "answers": [
+                  {
+                    "name": "ready9.example.com",
+                    "type": 28,
+                    "TTL": 60,
+                    "data": "2001:4860:4860::8888"
+                  }
+                ],
+                "observedAt": "2026-10-10T14:46:06.856Z",
+                "resolver": "Google Public DNS"
+              }
+            },
+            {
+              "check": "email_dns",
+              "outcome": "observed",
+              "result": {
+                "domain": "ready9.example.com",
+                "observations": [
+                  {
+                    "check": "MX",
+                    "status": 0,
+                    "records": []
+                  },
+                  {
+                    "check": "SPF",
+                    "status": 0,
+                    "records": []
+                  },
+                  {
+                    "check": "DMARC",
+                    "status": 0,
+                    "records": []
+                  }
+                ],
+                "observedAt": "2026-10-10T14:46:06.856Z",
+                "note": "DNS observations only. No SPF include expansion, organizational-domain fallback, DKIM selector discovery, or deliverability guarantee."
+              }
+            },
+            {
+              "check": "https",
+              "outcome": "observed",
+              "result": {
+                "hops": [
+                  {
+                    "url": "https://ready9.example.com/",
+                    "status": 503,
+                    "certificate": {
+                      "authorized": true
+                    },
+                    "headers": {}
+                  }
+                ],
+                "observedAt": "2026-10-10T14:46:06.856Z"
+              }
+            }
+          ],
+          "securityHeaders": {},
+          "observedAt": "2026-10-10T14:46:06.856Z",
+          "admin": {
+            "summary": "ready9.example.com: 4/4 deployment checks observed.",
+            "findings": [
+              "HTTPS final status 503; 0 redirects.",
+              "strict-transport-security: not observed at this root response.",
+              "content-security-policy: not observed at this root response.",
+              "x-content-type-options: not observed at this root response."
+            ],
+            "nextSteps": [
+              "Review unavailable checks, DNS intent, final HTTP status and missing headers before rollout."
+            ],
+            "limitations": [
+              "Point-in-time root checks, not a complete security or deliverability audit. Missing mail records may be intentional. HEAD responses can differ from browser responses."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    }
+  ],
+  "events": [],
+  "stderr": "2026-10-10T14:45:56.746017Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n2026-10-10T14:46:30.406763Z  WARN codex_analytics::client: failed to send events request: error sending request for url ([URL]\n",
+  "telemetry": [
+    {
+      "service": "diagnostics",
+      "method": "initialize",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 2,
+      "inputBytes": 217,
+      "outputBytes": 173,
+      "clientName": "codex-mcp-client",
+      "clientVersion": "0.154.0"
+    },
+    {
+      "service": "diagnostics",
+      "method": "notifications/initialized",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 2,
+      "inputBytes": 54,
+      "outputBytes": 0
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/list",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 3,
+      "inputBytes": 85,
+      "outputBytes": 3875
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "deployment_readiness",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 3,
+      "inputBytes": 781,
+      "outputBytes": 2637
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "deployment_readiness",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 3,
+      "inputBytes": 781,
+      "outputBytes": 2587
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "deployment_readiness",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 4,
+      "inputBytes": 781,
+      "outputBytes": 2740
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "deployment_readiness",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 4,
+      "inputBytes": 781,
+      "outputBytes": 2537
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "deployment_readiness",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 3,
+      "inputBytes": 781,
+      "outputBytes": 2687
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "deployment_readiness",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 3,
+      "inputBytes": 781,
+      "outputBytes": 2640
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "deployment_readiness",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 3,
+      "inputBytes": 781,
+      "outputBytes": 2637
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "deployment_readiness",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 3,
+      "inputBytes": 781,
+      "outputBytes": 2587
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "deployment_readiness",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 3,
+      "inputBytes": 782,
+      "outputBytes": 2741
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "deployment_readiness",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 3,
+      "inputBytes": 783,
+      "outputBytes": 2538
+    }
+  ],
+  "environment": "local Streamable HTTP with synthetic DNS/HTTPS fixtures; native Codex MCP calls"
+}

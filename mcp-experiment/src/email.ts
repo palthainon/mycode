@@ -17,7 +17,7 @@ export function traceEmail(headers: string, deliveryLog = '', trustedAuthservIds
   const hops = received.slice(0, 50).reverse().map((f, index) => {
     const split = f.value.lastIndexOf(';'); const timestampText = split < 0 ? '' : f.value.slice(split + 1).trim();
     // Do not infer a local timezone, year, or chronology from an incomplete date.
-    const parsed = /\b\d{4}\b/.test(timestampText) && /(?:[+-]\d{4}|\b(?:UT|UTC|GMT))\s*(?:\([^)]*\))?$/.test(timestampText) ? Date.parse(timestampText) : NaN;
+    const parsed = /(?:^|\s)\d{1,2}\s+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+\d{4}\s+/i.test(timestampText) && /(?:[+-]\d{4}|\b(?:UT|UTC|GMT))\s*(?:\([^)]*\))?$/.test(timestampText) ? Date.parse(timestampText) : NaN;
     const time = Number.isFinite(parsed) ? parsed : null; const delaySeconds = time !== null && previous !== null ? (time - previous) / 1000 : null;
     previous = time;
     const route = split < 0 ? f.value : f.value.slice(0, split);

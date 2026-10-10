@@ -1,0 +1,1752 @@
+{
+  "model": "gpt-5.6-luna",
+  "at": "2026-10-10T14:49:26.716Z",
+  "elapsedMs": 98123,
+  "exitCode": 0,
+  "usage": {
+    "input_tokens": 296465,
+    "cached_input_tokens": 254976,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 4376,
+    "reasoning_output_tokens": 269
+  },
+  "results": [
+    {
+      "id": "logs-001",
+      "service": "logs",
+      "tool": "parse_logs",
+      "name": "Legacy json.log",
+      "passed": false,
+      "failure": "Error: argument mismatch: text",
+      "answer": {
+        "id": "logs-001",
+        "summary": "All 10 JSON lines parsed; seven severities were unknown and three timestamps were ambiguous.",
+        "fact": 10,
+        "nextStep": "Review ambiguous timestamps if chronological ordering matters.",
+        "limitations": "Deterministic parsing; ambiguous timestamps do not establish order."
+      }
+    },
+    {
+      "id": "logs-002",
+      "service": "logs",
+      "tool": "parse_logs",
+      "name": "Legacy rfc5424.log",
+      "passed": false,
+      "failure": "Error: argument mismatch: text",
+      "answer": {
+        "id": "logs-002",
+        "summary": "All 10 RFC5424 lines parsed, including one timestamp-less record.",
+        "fact": 10,
+        "nextStep": "Review the ambiguous timestamp record.",
+        "limitations": "Ambiguous timestamps do not establish chronological order."
+      }
+    },
+    {
+      "id": "logs-003",
+      "service": "logs",
+      "tool": "parse_logs",
+      "name": "Legacy rfc3164.log",
+      "passed": false,
+      "failure": "Error: argument mismatch: text",
+      "answer": {
+        "id": "logs-003",
+        "summary": "Four RFC3164 lines parsed and six were unparsed; all parsed timestamps were year-ambiguous.",
+        "fact": 4,
+        "nextStep": "Inspect unparsed lines or verify the input format.",
+        "limitations": "No reliable timestamp range was produced."
+      }
+    },
+    {
+      "id": "logs-004",
+      "service": "logs",
+      "tool": "parse_logs",
+      "name": "Legacy apache-common.log",
+      "passed": false,
+      "failure": "Error: argument mismatch: text",
+      "answer": {
+        "id": "logs-004",
+        "summary": "All eight Apache common lines parsed, including the request-target placeholder line.",
+        "fact": 8,
+        "nextStep": "Review the 408 record separately if needed.",
+        "limitations": "One timestamp was ambiguous."
+      }
+    },
+    {
+      "id": "logs-005",
+      "service": "logs",
+      "tool": "parse_logs",
+      "name": "Legacy apache-combined.log",
+      "passed": false,
+      "failure": "Error: argument mismatch: text",
+      "answer": {
+        "id": "logs-005",
+        "summary": "All 10 Apache combined lines parsed with no unparsed records or omitted records.",
+        "fact": 10,
+        "nextStep": "Use the parsed status and request fields for fixture analysis.",
+        "limitations": "Parsing does not establish live request behavior."
+      }
+    },
+    {
+      "id": "logs-006",
+      "service": "logs",
+      "tool": "parse_logs",
+      "name": "Legacy windows-event.csv",
+      "passed": false,
+      "failure": "Error: argument mismatch: text",
+      "answer": {
+        "id": "logs-006",
+        "summary": "Ten Windows Event CSV records parsed and one blank/header line was skipped.",
+        "fact": 10,
+        "nextStep": "Review the three errors and one critical event.",
+        "limitations": "All timestamps were treated as ambiguous; no range was produced."
+      }
+    },
+    {
+      "id": "logs-007",
+      "service": "logs",
+      "tool": "parse_logs",
+      "name": "Legacy common-pid.log",
+      "passed": false,
+      "failure": "Error: argument mismatch: text",
+      "answer": {
+        "id": "logs-007",
+        "summary": "All 10 common-PID lines parsed across info, error, warning, critical, debug, trace, and fatal-like inputs.",
+        "fact": 10,
+        "nextStep": "Review the error and critical records.",
+        "limitations": "Eight timestamps were ambiguous."
+      }
+    },
+    {
+      "id": "logs-008",
+      "service": "logs",
+      "tool": "parse_logs",
+      "name": "mixed JSON/unparsed",
+      "passed": true,
+      "answer": {
+        "id": "logs-008",
+        "summary": "One JSON line parsed and the malformed line remained unparsed.",
+        "fact": 1,
+        "nextStep": "Inspect or correct the malformed line.",
+        "limitations": "The tool reported one unparsed input line."
+      }
+    },
+    {
+      "id": "logs-009",
+      "service": "logs",
+      "tool": "parse_logs",
+      "name": "empty line",
+      "passed": true,
+      "answer": {
+        "id": "logs-009",
+        "summary": "Two JSON lines parsed and the empty line was skipped.",
+        "fact": 1,
+        "nextStep": "No parsing action is required.",
+        "limitations": "Both timestamps were absent and therefore ambiguous."
+      }
+    },
+    {
+      "id": "logs-010",
+      "service": "logs",
+      "tool": "parse_logs",
+      "name": "JSON prototype guard",
+      "passed": true,
+      "answer": {
+        "id": "logs-010",
+        "summary": "The prototype-guard JSON object was rejected as unparsed.",
+        "fact": 1,
+        "nextStep": "Inspect the rejected object if it must be accepted.",
+        "limitations": "No structured record was returned."
+      }
+    }
+  ],
+  "calls": [
+    {
+      "id": "item_1",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "parse_logs",
+      "arguments": {
+        "format": "json",
+        "text": "{\"name\":\"myservice\",\"pid\":123,\"hostname\":\"example.com\",\"level\":30,\"msg\":\"My message\",\"time\":\"2012-02-08T22:56:52.856Z\",\"v\":0}\n{\"name\":\"myservice\",\"pid\":123,\"hostname\":\"example.com\",\"level\":50,\"msg\":\"Connection failed\",\"time\":\"2012-02-08T22:56:54.856Z\",\"v\":0}\n{\"name\":\"myservice\",\"pid\":123,\"hostname\":\"example.com\",\"level\":30,\"nested\":{\"a\":\"json object\"},\"msg\":\"With nested data\",\"time\":\"2012-02-08T22:56:52.856Z\",\"v\":0}\n{\"name\":\"myservice\",\"pid\":123,\"hostname\":\"example.com\",\"level\":30,\"tags\":[\"web\",\"api\",\"v2\"],\"msg\":\"Array field\",\"time\":\"2012-02-08T22:56:52.856Z\",\"v\":0}\n{\"L\":\"info\",\"T\":\"2018-06-19T16:33:42.000Z\",\"N\":\"bob\",\"M\":\"lob law\",\"so\":\"passes\",\"answer\":42}\n{\"message\":\"test\",\"context\":{},\"level\":300,\"level_name\":\"WARNING\",\"channel\":\"test\",\"datetime\":\"2022-02-22T00:00:00+00:00\",\"extra\":{}}\n{\"event\":\"hello\",\"logger\":\"test\",\"level\":\"warning\",\"timestamp\":\"2017-03-06T07:39:09.518720Z\"}\n{\"timestamp\":\"2024-01-07T15:30:00Z\",\"level\":\"ERROR\",\"message\":\"Connection refused\",\"service\":\"api-gateway\",\"trace_id\":\"abc123\"}\n{\"name\":\"amon-master\",\"hostname\":\"9724a190-27b6-4fd8-830b-a574f839c67d\",\"pid\":12859,\"audit\":true,\"level\":30,\"remoteAddress\":\"10.2.207.2\",\"req\":{\"method\":\"HEAD\",\"url\":\"/agentprobes\"},\"res\":{\"statusCode\":200},\"msg\":\"HeadAgentProbes handled: 200\",\"time\":\"2012-08-08T10:25:47.637Z\",\"v\":0}\n{\"severity\":\"ERROR\",\"timestamp\":1672531200,\"source\":\"payment-service\",\"message\":\"Transaction timeout after 30s\",\"request_id\":\"req-789xyz\"}"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "10 parsed, 0 unparsed, 0 skipped log lines.\n• Formats: {\"json\":10}.\n• Severities: {\"unknown\":7,\"warning\":1,\"error\":2}.\n• Timestamp range: 2012-02-08T22:56:52.856Z to 2024-01-07T15:30:00.000Z.\n• 0 records omitted; 3 ambiguous timestamps.\nLimit: Counts are deterministic; ambiguous timestamps do not establish chronological order."
+          }
+        ],
+        "structured_content": {
+          "detectedFormat": "json",
+          "parsed": 10,
+          "unparsed": 0,
+          "skipped": 0,
+          "formatCounts": {
+            "json": 10
+          },
+          "severityCounts": {
+            "unknown": 7,
+            "warning": 1,
+            "error": 2
+          },
+          "ambiguousTimestamps": 3,
+          "timestampRange": {
+            "first": "2012-02-08T22:56:52.856Z",
+            "last": "2024-01-07T15:30:00.000Z"
+          },
+          "records": [
+            {
+              "line": 1,
+              "format": "json",
+              "fields": {
+                "name": "myservice",
+                "pid": "123",
+                "hostname": "example.com",
+                "level": "30",
+                "msg": "My message",
+                "time": "2012-02-08T22:56:52.856Z",
+                "v": "0"
+              }
+            },
+            {
+              "line": 2,
+              "format": "json",
+              "fields": {
+                "name": "myservice",
+                "pid": "123",
+                "hostname": "example.com",
+                "level": "50",
+                "msg": "Connection failed",
+                "time": "2012-02-08T22:56:54.856Z",
+                "v": "0"
+              }
+            },
+            {
+              "line": 3,
+              "format": "json",
+              "fields": {
+                "name": "myservice",
+                "pid": "123",
+                "hostname": "example.com",
+                "level": "30",
+                "nested": "{\"a\":\"json object\"}",
+                "msg": "With nested data",
+                "time": "2012-02-08T22:56:52.856Z",
+                "v": "0"
+              }
+            },
+            {
+              "line": 4,
+              "format": "json",
+              "fields": {
+                "name": "myservice",
+                "pid": "123",
+                "hostname": "example.com",
+                "level": "30",
+                "tags": "[\"web\",\"api\",\"v2\"]",
+                "msg": "Array field",
+                "time": "2012-02-08T22:56:52.856Z",
+                "v": "0"
+              }
+            },
+            {
+              "line": 5,
+              "format": "json",
+              "fields": {
+                "L": "info",
+                "T": "2018-06-19T16:33:42.000Z",
+                "N": "bob",
+                "M": "lob law",
+                "so": "passes",
+                "answer": "42"
+              }
+            },
+            {
+              "line": 6,
+              "format": "json",
+              "fields": {
+                "message": "test",
+                "context": "{}",
+                "level": "300",
+                "level_name": "WARNING",
+                "channel": "test",
+                "datetime": "2022-02-22T00:00:00+00:00",
+                "extra": "{}"
+              }
+            },
+            {
+              "line": 7,
+              "format": "json",
+              "fields": {
+                "event": "hello",
+                "logger": "test",
+                "level": "warning",
+                "timestamp": "2017-03-06T07:39:09.518720Z"
+              }
+            },
+            {
+              "line": 8,
+              "format": "json",
+              "fields": {
+                "timestamp": "2024-01-07T15:30:00Z",
+                "level": "ERROR",
+                "message": "Connection refused",
+                "service": "api-gateway",
+                "trace_id": "abc123"
+              }
+            },
+            {
+              "line": 9,
+              "format": "json",
+              "fields": {
+                "name": "amon-master",
+                "hostname": "9724a190-27b6-4fd8-830b-a574f839c67d",
+                "pid": "12859",
+                "audit": "true",
+                "level": "30",
+                "remoteAddress": "10.2.207.2",
+                "req": "{\"method\":\"HEAD\",\"url\":\"/agentprobes\"}",
+                "res": "{\"statusCode\":200}",
+                "msg": "HeadAgentProbes handled: 200",
+                "time": "2012-08-08T10:25:47.637Z",
+                "v": "0"
+              }
+            },
+            {
+              "line": 10,
+              "format": "json",
+              "fields": {
+                "severity": "ERROR",
+                "timestamp": "1672531200",
+                "source": "payment-service",
+                "message": "Transaction timeout after 30s",
+                "request_id": "req-789xyz"
+              }
+            }
+          ],
+          "truncated": false,
+          "omittedRecords": 0,
+          "note": "Timezone/year-ambiguous timestamps are excluded from timestampRange; Windows CSV line numbers refer to logical records.",
+          "admin": {
+            "summary": "10 parsed, 0 unparsed, 0 skipped log lines.",
+            "findings": [
+              "Formats: {\"json\":10}.",
+              "Severities: {\"unknown\":7,\"warning\":1,\"error\":2}.",
+              "Timestamp range: 2012-02-08T22:56:52.856Z to 2024-01-07T15:30:00.000Z.",
+              "0 records omitted; 3 ambiguous timestamps."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Counts are deterministic; ambiguous timestamps do not establish chronological order."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_2",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "parse_logs",
+      "arguments": {
+        "format": "rfc5424",
+        "text": "<34>1 2003-10-11T22:14:15.003Z mymachine.example.com su - ID47 - 'su root' failed for lonvick on /dev/pts/8\n<165>1 2003-08-24T05:14:15.000003-07:00 192.0.2.1 myproc 8710 - - %% It's time to make the do-nuts.\n<165>1 2003-10-11T22:14:15.003Z mymachine.example.com evntslog - ID47 [exampleSDID@32473 iut=\"3\" eventSource=\"Application\" eventID=\"1011\"] An application event log entry...\n<165>1 2003-10-11T22:14:15.003Z mymachine.example.com evntslog - ID47 [exampleSDID@32473 iut=\"3\" eventSource=\"Application\" eventID=\"1011\"][examplePriority@32473 class=\"high\"]\n<10>1 - - - - - -\n<78>1 2016-01-15T00:04:01+00:00 host1 CROND 10391 - [meta sequenceId=\"29\"] some_message\n<29>1 2016-01-15T01:00:43Z some-host-name SEKRETPROGRAM prg - [origin x-service=\"svcname\"][meta sequenceId=\"1\"] 127.0.0.1 - - 1452819643 \"GET /health HTTP/1.1\" 200 175 \"-\" \"hacheck 0.9.0\" 20812 127.0.0.1:40150 1199\n<85>1 2017-03-02T13:21:15.733598-08:00 vrs-1 polkitd 20481 - - msg\n<29>1 2018-05-14T08:23:01.520Z leyal_test4 mgd 13894 UI_CHILD_EXITED [junos@2636.1.1.1.2.57 pid=\"14374\" return-value=\"5\" core-dump-status=\"\" command=\"/usr/sbin/mustd\"]\n<134>1 2019-01-20T23:43:41.087236Z 172.16.3.1 NAT 15634 SADD [nsess SSUBIX=\"0\" SVLAN=\"0\" IATYP=\"IPv4\" ISADDR=\"172.16.1.2\" ISPORT=\"6303\" XATYP=\"IPv4\" XSADDR=\"10.0.0.3\" XSPORT=\"16253\" PROTO=\"6\" XDADDR=\"172.16.2.2\" XDPORT=\"80\"]"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "10 parsed, 0 unparsed, 0 skipped log lines.\n• Formats: {\"rfc5424\":10}.\n• Severities: {\"critical\":2,\"notice\":6,\"info\":2}.\n• Timestamp range: 2003-08-24T12:14:15.000Z to 2019-01-20T23:43:41.087Z.\n• 0 records omitted; 1 ambiguous timestamps.\nLimit: Counts are deterministic; ambiguous timestamps do not establish chronological order."
+          }
+        ],
+        "structured_content": {
+          "detectedFormat": "rfc5424",
+          "parsed": 10,
+          "unparsed": 0,
+          "skipped": 0,
+          "formatCounts": {
+            "rfc5424": 10
+          },
+          "severityCounts": {
+            "critical": 2,
+            "notice": 6,
+            "info": 2
+          },
+          "ambiguousTimestamps": 1,
+          "timestampRange": {
+            "first": "2003-08-24T12:14:15.000Z",
+            "last": "2019-01-20T23:43:41.087Z"
+          },
+          "records": [
+            {
+              "line": 1,
+              "format": "rfc5424",
+              "fields": {
+                "priority": "34",
+                "facility": "auth",
+                "severity": "critical",
+                "version": "1",
+                "timestamp": "2003-10-11T22:14:15.003Z",
+                "hostname": "mymachine.example.com",
+                "app": "su",
+                "pid": "",
+                "msgid": "ID47",
+                "structured_data": "",
+                "message": "'su root' failed for lonvick on /dev/pts/8"
+              }
+            },
+            {
+              "line": 2,
+              "format": "rfc5424",
+              "fields": {
+                "priority": "165",
+                "facility": "local4",
+                "severity": "notice",
+                "version": "1",
+                "timestamp": "2003-08-24T05:14:15.000003-07:00",
+                "hostname": "192.0.2.1",
+                "app": "myproc",
+                "pid": "8710",
+                "msgid": "",
+                "structured_data": "",
+                "message": "%% It's time to make the do-nuts."
+              }
+            },
+            {
+              "line": 3,
+              "format": "rfc5424",
+              "fields": {
+                "priority": "165",
+                "facility": "local4",
+                "severity": "notice",
+                "version": "1",
+                "timestamp": "2003-10-11T22:14:15.003Z",
+                "hostname": "mymachine.example.com",
+                "app": "evntslog",
+                "pid": "",
+                "msgid": "ID47",
+                "structured_data": "[exampleSDID@32473 iut=\"3\" eventSource=\"Application\" eventID=\"1011\"]",
+                "message": "An application event log entry..."
+              }
+            },
+            {
+              "line": 4,
+              "format": "rfc5424",
+              "fields": {
+                "priority": "165",
+                "facility": "local4",
+                "severity": "notice",
+                "version": "1",
+                "timestamp": "2003-10-11T22:14:15.003Z",
+                "hostname": "mymachine.example.com",
+                "app": "evntslog",
+                "pid": "",
+                "msgid": "ID47",
+                "structured_data": "[exampleSDID@32473 iut=\"3\" eventSource=\"Application\" eventID=\"1011\"][examplePriority@32473 class=\"high\"]",
+                "message": ""
+              }
+            },
+            {
+              "line": 5,
+              "format": "rfc5424",
+              "fields": {
+                "priority": "10",
+                "facility": "user",
+                "severity": "critical",
+                "version": "1",
+                "timestamp": "",
+                "hostname": "",
+                "app": "",
+                "pid": "",
+                "msgid": "",
+                "structured_data": "",
+                "message": ""
+              }
+            },
+            {
+              "line": 6,
+              "format": "rfc5424",
+              "fields": {
+                "priority": "78",
+                "facility": "cron",
+                "severity": "info",
+                "version": "1",
+                "timestamp": "2016-01-15T00:04:01+00:00",
+                "hostname": "host1",
+                "app": "CROND",
+                "pid": "10391",
+                "msgid": "",
+                "structured_data": "[meta sequenceId=\"29\"]",
+                "message": "some_message"
+              }
+            },
+            {
+              "line": 7,
+              "format": "rfc5424",
+              "fields": {
+                "priority": "29",
+                "facility": "daemon",
+                "severity": "notice",
+                "version": "1",
+                "timestamp": "2016-01-15T01:00:43Z",
+                "hostname": "some-host-name",
+                "app": "SEKRETPROGRAM",
+                "pid": "prg",
+                "msgid": "",
+                "structured_data": "[origin x-service=\"svcname\"][meta sequenceId=\"1\"]",
+                "message": "127.0.0.1 - - 1452819643 \"GET /health HTTP/1.1\" 200 175 \"-\" \"hacheck 0.9.0\" 20812 127.0.0.1:40150 1199"
+              }
+            },
+            {
+              "line": 8,
+              "format": "rfc5424",
+              "fields": {
+                "priority": "85",
+                "facility": "authpriv",
+                "severity": "notice",
+                "version": "1",
+                "timestamp": "2017-03-02T13:21:15.733598-08:00",
+                "hostname": "vrs-1",
+                "app": "polkitd",
+                "pid": "20481",
+                "msgid": "",
+                "structured_data": "",
+                "message": "msg"
+              }
+            },
+            {
+              "line": 9,
+              "format": "rfc5424",
+              "fields": {
+                "priority": "29",
+                "facility": "daemon",
+                "severity": "notice",
+                "version": "1",
+                "timestamp": "2018-05-14T08:23:01.520Z",
+                "hostname": "leyal_test4",
+                "app": "mgd",
+                "pid": "13894",
+                "msgid": "UI_CHILD_EXITED",
+                "structured_data": "[junos@2636.1.1.1.2.57 pid=\"14374\" return-value=\"5\" core-dump-status=\"\" command=\"/usr/sbin/mustd\"]",
+                "message": ""
+              }
+            },
+            {
+              "line": 10,
+              "format": "rfc5424",
+              "fields": {
+                "priority": "134",
+                "facility": "local0",
+                "severity": "info",
+                "version": "1",
+                "timestamp": "2019-01-20T23:43:41.087236Z",
+                "hostname": "172.16.3.1",
+                "app": "NAT",
+                "pid": "15634",
+                "msgid": "SADD",
+                "structured_data": "[nsess SSUBIX=\"0\" SVLAN=\"0\" IATYP=\"IPv4\" ISADDR=\"172.16.1.2\" ISPORT=\"6303\" XATYP=\"IPv4\" XSADDR=\"10.0.0.3\" XSPORT=\"16253\" PROTO=\"6\" XDADDR=\"172.16.2.2\" XDPORT=\"80\"]",
+                "message": ""
+              }
+            }
+          ],
+          "truncated": false,
+          "omittedRecords": 0,
+          "note": "Timezone/year-ambiguous timestamps are excluded from timestampRange; Windows CSV line numbers refer to logical records.",
+          "admin": {
+            "summary": "10 parsed, 0 unparsed, 0 skipped log lines.",
+            "findings": [
+              "Formats: {\"rfc5424\":10}.",
+              "Severities: {\"critical\":2,\"notice\":6,\"info\":2}.",
+              "Timestamp range: 2003-08-24T12:14:15.000Z to 2019-01-20T23:43:41.087Z.",
+              "0 records omitted; 1 ambiguous timestamps."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Counts are deterministic; ambiguous timestamps do not establish chronological order."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_3",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "parse_logs",
+      "arguments": {
+        "format": "rfc3164",
+        "text": "<34>Oct 11 22:14:15 mymachine su: 'su root' failed for lonvick on /dev/pts/8\n<13>Feb  5 17:32:18 10.0.0.99 Use the BFG!\n<165>Aug 24 05:34:00 mymachine myproc[10]: %% It's time to make the do-nuts.\n<0>Oct 22 10:52:01 10.1.2.3 sched[0]: That's All Folks!\n<34>Jan 12 06:30:00 xxx apache: 1.2.3.4 - - [12/Jan/2011:06:29:59 +0100] \"GET /foo/bar.html HTTP/1.1\" 301 96 \"-\" \"Mozilla/5.0\"\n<85>Jan 24 15:50:41 ip-172-31-30-110 sudo[6040]: ec2-user : TTY=pts/0 ; PWD=/var/log ; USER=root ; COMMAND=/bin/tail secure\nJan  7 15:30:00 web01 nginx[1234]: 200 GET /api/health\nJan 17 08:00:00 firewall01 kernel: [UFW BLOCK] IN=eth0 OUT= SRC=192.168.1.100\nMar  3 14:22:01 myhost CRON[12345]: (root) CMD (/usr/bin/find /tmp -mtime +7 -delete)\nFeb  5 17:32:18 10.0.0.99 snmpd[1234]: Connection from UDP: [192.168.1.1]:161"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "4 parsed, 6 unparsed, 0 skipped log lines.\n• Formats: {\"rfc3164\":4}.\n• Severities: {\"unknown\":4}.\n• Timestamp range: unknown to unknown.\n• 0 records omitted; 4 ambiguous timestamps.\nNext: Inspect unparsed source lines or supply the known format.\nLimit: Counts are deterministic; ambiguous timestamps do not establish chronological order."
+          }
+        ],
+        "structured_content": {
+          "detectedFormat": "rfc3164",
+          "parsed": 4,
+          "unparsed": 6,
+          "skipped": 0,
+          "formatCounts": {
+            "rfc3164": 4
+          },
+          "severityCounts": {
+            "unknown": 4
+          },
+          "ambiguousTimestamps": 4,
+          "timestampRange": null,
+          "records": [
+            {
+              "line": 7,
+              "format": "rfc3164",
+              "fields": {
+                "timestamp": "Jan  7 15:30:00",
+                "hostname": "web01",
+                "process": "nginx",
+                "pid": "1234",
+                "message": "200 GET /api/health"
+              }
+            },
+            {
+              "line": 8,
+              "format": "rfc3164",
+              "fields": {
+                "timestamp": "Jan 17 08:00:00",
+                "hostname": "firewall01",
+                "process": "kernel",
+                "pid": "",
+                "message": "[UFW BLOCK] IN=eth0 OUT= SRC=192.168.1.100"
+              }
+            },
+            {
+              "line": 9,
+              "format": "rfc3164",
+              "fields": {
+                "timestamp": "Mar  3 14:22:01",
+                "hostname": "myhost",
+                "process": "CRON",
+                "pid": "12345",
+                "message": "(root) CMD (/usr/bin/find /tmp -mtime +7 -delete)"
+              }
+            },
+            {
+              "line": 10,
+              "format": "rfc3164",
+              "fields": {
+                "timestamp": "Feb  5 17:32:18",
+                "hostname": "10.0.0.99",
+                "process": "snmpd",
+                "pid": "1234",
+                "message": "Connection from UDP: [192.168.1.1]:161"
+              }
+            }
+          ],
+          "truncated": false,
+          "omittedRecords": 0,
+          "note": "Timezone/year-ambiguous timestamps are excluded from timestampRange; Windows CSV line numbers refer to logical records.",
+          "admin": {
+            "summary": "4 parsed, 6 unparsed, 0 skipped log lines.",
+            "findings": [
+              "Formats: {\"rfc3164\":4}.",
+              "Severities: {\"unknown\":4}.",
+              "Timestamp range: unknown to unknown.",
+              "0 records omitted; 4 ambiguous timestamps."
+            ],
+            "nextSteps": [
+              "Inspect unparsed source lines or supply the known format."
+            ],
+            "limitations": [
+              "Counts are deterministic; ambiguous timestamps do not establish chronological order."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_4",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "parse_logs",
+      "arguments": {
+        "format": "apache-common",
+        "text": "127.0.0.1 - frank [10/Oct/2000:13:55:36 -0700] \"GET /apache_pb.gif HTTP/1.0\" 200 2326\n127.0.0.1 - - [28/Jul/2006:10:27:32 -0300] \"GET /hidden/ HTTP/1.0\" 404 7218\n192.168.2.20 - - [28/Jul/2006:10:27:10 -0300] \"GET /cgi-bin/try/ HTTP/1.0\" 200 3395\n127.0.0.1 - peter [9/Feb/2017:10:34:12 -0700] \"GET /sample-image.png HTTP/2\" 200 1479\n10.0.0.1 - - [15/Mar/2026:14:30:00 +0000] \"HEAD /health HTTP/1.1\" 200 0\n172.16.0.50 - admin [22/Jan/2024:08:15:22 +0000] \"DELETE /api/v1/users/42 HTTP/1.1\" 204 0\n10.10.10.10 - - [01/Jan/2025:00:00:01 +0000] \"OPTIONS /api HTTP/1.1\" 200 -\n192.168.1.1 - - [05/Dec/2024:12:00:00 +0000] \"-\" 408 0"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "8 parsed, 0 unparsed, 0 skipped log lines.\n• Formats: {\"apache-common\":8}.\n• Severities: {\"unknown\":8}.\n• Timestamp range: 2000-10-10T20:55:36.000Z to 2026-03-15T14:30:00.000Z.\n• 0 records omitted; 1 ambiguous timestamps.\nLimit: Counts are deterministic; ambiguous timestamps do not establish chronological order."
+          }
+        ],
+        "structured_content": {
+          "detectedFormat": "apache-common",
+          "parsed": 8,
+          "unparsed": 0,
+          "skipped": 0,
+          "formatCounts": {
+            "apache-common": 8
+          },
+          "severityCounts": {
+            "unknown": 8
+          },
+          "ambiguousTimestamps": 1,
+          "timestampRange": {
+            "first": "2000-10-10T20:55:36.000Z",
+            "last": "2026-03-15T14:30:00.000Z"
+          },
+          "records": [
+            {
+              "line": 1,
+              "format": "apache-common",
+              "fields": {
+                "ip": "127.0.0.1",
+                "ident": "",
+                "user": "frank",
+                "timestamp": "10/Oct/2000:13:55:36 -0700",
+                "method": "GET",
+                "path": "/apache_pb.gif",
+                "protocol": "HTTP/1.0",
+                "status": "200",
+                "bytes": "2326"
+              }
+            },
+            {
+              "line": 2,
+              "format": "apache-common",
+              "fields": {
+                "ip": "127.0.0.1",
+                "ident": "",
+                "user": "",
+                "timestamp": "28/Jul/2006:10:27:32 -0300",
+                "method": "GET",
+                "path": "/hidden/",
+                "protocol": "HTTP/1.0",
+                "status": "404",
+                "bytes": "7218"
+              }
+            },
+            {
+              "line": 3,
+              "format": "apache-common",
+              "fields": {
+                "ip": "192.168.2.20",
+                "ident": "",
+                "user": "",
+                "timestamp": "28/Jul/2006:10:27:10 -0300",
+                "method": "GET",
+                "path": "/cgi-bin/try/",
+                "protocol": "HTTP/1.0",
+                "status": "200",
+                "bytes": "3395"
+              }
+            },
+            {
+              "line": 4,
+              "format": "apache-common",
+              "fields": {
+                "ip": "127.0.0.1",
+                "ident": "",
+                "user": "peter",
+                "timestamp": "9/Feb/2017:10:34:12 -0700",
+                "method": "GET",
+                "path": "/sample-image.png",
+                "protocol": "HTTP/2",
+                "status": "200",
+                "bytes": "1479"
+              }
+            },
+            {
+              "line": 5,
+              "format": "apache-common",
+              "fields": {
+                "ip": "10.0.0.1",
+                "ident": "",
+                "user": "",
+                "timestamp": "15/Mar/2026:14:30:00 +0000",
+                "method": "HEAD",
+                "path": "/health",
+                "protocol": "HTTP/1.1",
+                "status": "200",
+                "bytes": "0"
+              }
+            },
+            {
+              "line": 6,
+              "format": "apache-common",
+              "fields": {
+                "ip": "172.16.0.50",
+                "ident": "",
+                "user": "admin",
+                "timestamp": "22/Jan/2024:08:15:22 +0000",
+                "method": "DELETE",
+                "path": "/api/v1/users/42",
+                "protocol": "HTTP/1.1",
+                "status": "204",
+                "bytes": "0"
+              }
+            },
+            {
+              "line": 7,
+              "format": "apache-common",
+              "fields": {
+                "ip": "10.10.10.10",
+                "ident": "",
+                "user": "",
+                "timestamp": "01/Jan/2025:00:00:01 +0000",
+                "method": "OPTIONS",
+                "path": "/api",
+                "protocol": "HTTP/1.1",
+                "status": "200",
+                "bytes": "0"
+              }
+            },
+            {
+              "line": 8,
+              "format": "apache-common",
+              "fields": {
+                "ip": "192.168.1.1",
+                "ident": "",
+                "user": "",
+                "timestamp": "05/Dec/2024:12:00:00 +0000",
+                "method": "",
+                "path": "",
+                "protocol": "",
+                "status": "408",
+                "bytes": "0"
+              }
+            }
+          ],
+          "truncated": false,
+          "omittedRecords": 0,
+          "note": "Timezone/year-ambiguous timestamps are excluded from timestampRange; Windows CSV line numbers refer to logical records.",
+          "admin": {
+            "summary": "8 parsed, 0 unparsed, 0 skipped log lines.",
+            "findings": [
+              "Formats: {\"apache-common\":8}.",
+              "Severities: {\"unknown\":8}.",
+              "Timestamp range: 2000-10-10T20:55:36.000Z to 2026-03-15T14:30:00.000Z.",
+              "0 records omitted; 1 ambiguous timestamps."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Counts are deterministic; ambiguous timestamps do not establish chronological order."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_5",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "parse_logs",
+      "arguments": {
+        "format": "apache-combined",
+        "text": "83.149.9.216 - - [17/May/2015:10:05:03 +0000] \"GET /presentations/logstash-monitorama-2013/images/kibana-search.png HTTP/1.1\" 200 203023 \"http://semicomplete.com/presentations/logstash-monitorama-2013/\" \"Mozilla/5.0\"\n10.0.1.2 - - [16/Jul/2020:03:57:51 +0000] \"POST /dns-query HTTP/1.1\" 200 1300 \"-\" \"Chrome\"\n200.49.190.101 - - [17/May/2015:10:05:36 +0000] \"GET /reset.css HTTP/1.1\" 200 1015 \"-\" \"-\"\n111.199.235.239 - - [17/May/2015:13:05:25 +0000] \"GET /missing.gif HTTP/1.1\" 404 364 \"http://example.com\" \"Mozilla/5.0\"\n93.180.71.3 - - [17/May/2015:08:05:32 +0000] \"GET /downloads/product_1 HTTP/1.1\" 304 0 \"-\" \"Debian APT-HTTP/1.3\"\n218.30.103.62 - - [17/May/2015:11:05:28 +0000] \"GET /blog/geekery/jquery-interface-puffer.html%20target= HTTP/1.1\" 200 202 \"-\" \"Sogou web spider\"\n127.0.0.1 - frank [10/Oct/2000:13:55:36 -0700] \"GET /apache_pb.gif HTTP/1.0\" 200 2326 \"http://www.example.com/start.html\" \"Mozilla/4.08\"\n209.126.136.4 - - [01/Nov/2017:07:28:29 +0000] \"GET / HTTP/1.1\" 301 521 \"-\" \"Mozilla/5.0\"\n50.150.204.184 - - [17/May/2015:10:05:46 +0000] \"GET /images/googledotcom.png HTTP/1.1\" 200 65748 \"http://www.google.com/search?q=test\" \"Mozilla/5.0\"\n192.168.1.1 - - [18/Jun/2025:07:26:41 -0400] \"GET / HTTP/1.1\" 200 1234 \"http://example.com\" \"\""
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "10 parsed, 0 unparsed, 0 skipped log lines.\n• Formats: {\"apache-combined\":10}.\n• Severities: {\"unknown\":10}.\n• Timestamp range: 2000-10-10T20:55:36.000Z to 2025-06-18T11:26:41.000Z.\n• 0 records omitted; 0 ambiguous timestamps.\nLimit: Counts are deterministic; ambiguous timestamps do not establish chronological order."
+          }
+        ],
+        "structured_content": {
+          "detectedFormat": "apache-combined",
+          "parsed": 10,
+          "unparsed": 0,
+          "skipped": 0,
+          "formatCounts": {
+            "apache-combined": 10
+          },
+          "severityCounts": {
+            "unknown": 10
+          },
+          "ambiguousTimestamps": 0,
+          "timestampRange": {
+            "first": "2000-10-10T20:55:36.000Z",
+            "last": "2025-06-18T11:26:41.000Z"
+          },
+          "records": [
+            {
+              "line": 1,
+              "format": "apache-combined",
+              "fields": {
+                "ip": "83.149.9.216",
+                "ident": "",
+                "user": "",
+                "timestamp": "17/May/2015:10:05:03 +0000",
+                "method": "GET",
+                "path": "/presentations/logstash-monitorama-2013/images/kibana-search.png",
+                "protocol": "HTTP/1.1",
+                "status": "200",
+                "bytes": "203023",
+                "referrer": "http://semicomplete.com/presentations/logstash-monitorama-2013/",
+                "user_agent": "Mozilla/5.0"
+              }
+            },
+            {
+              "line": 2,
+              "format": "apache-combined",
+              "fields": {
+                "ip": "10.0.1.2",
+                "ident": "",
+                "user": "",
+                "timestamp": "16/Jul/2020:03:57:51 +0000",
+                "method": "POST",
+                "path": "/dns-query",
+                "protocol": "HTTP/1.1",
+                "status": "200",
+                "bytes": "1300",
+                "referrer": "",
+                "user_agent": "Chrome"
+              }
+            },
+            {
+              "line": 3,
+              "format": "apache-combined",
+              "fields": {
+                "ip": "200.49.190.101",
+                "ident": "",
+                "user": "",
+                "timestamp": "17/May/2015:10:05:36 +0000",
+                "method": "GET",
+                "path": "/reset.css",
+                "protocol": "HTTP/1.1",
+                "status": "200",
+                "bytes": "1015",
+                "referrer": "",
+                "user_agent": "-"
+              }
+            },
+            {
+              "line": 4,
+              "format": "apache-combined",
+              "fields": {
+                "ip": "111.199.235.239",
+                "ident": "",
+                "user": "",
+                "timestamp": "17/May/2015:13:05:25 +0000",
+                "method": "GET",
+                "path": "/missing.gif",
+                "protocol": "HTTP/1.1",
+                "status": "404",
+                "bytes": "364",
+                "referrer": "http://example.com",
+                "user_agent": "Mozilla/5.0"
+              }
+            },
+            {
+              "line": 5,
+              "format": "apache-combined",
+              "fields": {
+                "ip": "93.180.71.3",
+                "ident": "",
+                "user": "",
+                "timestamp": "17/May/2015:08:05:32 +0000",
+                "method": "GET",
+                "path": "/downloads/product_1",
+                "protocol": "HTTP/1.1",
+                "status": "304",
+                "bytes": "0",
+                "referrer": "",
+                "user_agent": "Debian APT-HTTP/1.3"
+              }
+            },
+            {
+              "line": 6,
+              "format": "apache-combined",
+              "fields": {
+                "ip": "218.30.103.62",
+                "ident": "",
+                "user": "",
+                "timestamp": "17/May/2015:11:05:28 +0000",
+                "method": "GET",
+                "path": "/blog/geekery/jquery-interface-puffer.html%20target=",
+                "protocol": "HTTP/1.1",
+                "status": "200",
+                "bytes": "202",
+                "referrer": "",
+                "user_agent": "Sogou web spider"
+              }
+            },
+            {
+              "line": 7,
+              "format": "apache-combined",
+              "fields": {
+                "ip": "127.0.0.1",
+                "ident": "",
+                "user": "frank",
+                "timestamp": "10/Oct/2000:13:55:36 -0700",
+                "method": "GET",
+                "path": "/apache_pb.gif",
+                "protocol": "HTTP/1.0",
+                "status": "200",
+                "bytes": "2326",
+                "referrer": "http://www.example.com/start.html",
+                "user_agent": "Mozilla/4.08"
+              }
+            },
+            {
+              "line": 8,
+              "format": "apache-combined",
+              "fields": {
+                "ip": "209.126.136.4",
+                "ident": "",
+                "user": "",
+                "timestamp": "01/Nov/2017:07:28:29 +0000",
+                "method": "GET",
+                "path": "/",
+                "protocol": "HTTP/1.1",
+                "status": "301",
+                "bytes": "521",
+                "referrer": "",
+                "user_agent": "Mozilla/5.0"
+              }
+            },
+            {
+              "line": 9,
+              "format": "apache-combined",
+              "fields": {
+                "ip": "50.150.204.184",
+                "ident": "",
+                "user": "",
+                "timestamp": "17/May/2015:10:05:46 +0000",
+                "method": "GET",
+                "path": "/images/googledotcom.png",
+                "protocol": "HTTP/1.1",
+                "status": "200",
+                "bytes": "65748",
+                "referrer": "http://www.google.com/search?q=test",
+                "user_agent": "Mozilla/5.0"
+              }
+            },
+            {
+              "line": 10,
+              "format": "apache-combined",
+              "fields": {
+                "ip": "192.168.1.1",
+                "ident": "",
+                "user": "",
+                "timestamp": "18/Jun/2025:07:26:41 -0400",
+                "method": "GET",
+                "path": "/",
+                "protocol": "HTTP/1.1",
+                "status": "200",
+                "bytes": "1234",
+                "referrer": "http://example.com",
+                "user_agent": ""
+              }
+            }
+          ],
+          "truncated": false,
+          "omittedRecords": 0,
+          "note": "Timezone/year-ambiguous timestamps are excluded from timestampRange; Windows CSV line numbers refer to logical records.",
+          "admin": {
+            "summary": "10 parsed, 0 unparsed, 0 skipped log lines.",
+            "findings": [
+              "Formats: {\"apache-combined\":10}.",
+              "Severities: {\"unknown\":10}.",
+              "Timestamp range: 2000-10-10T20:55:36.000Z to 2025-06-18T11:26:41.000Z.",
+              "0 records omitted; 0 ambiguous timestamps."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Counts are deterministic; ambiguous timestamps do not establish chronological order."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_6",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "parse_logs",
+      "arguments": {
+        "format": "windows-event",
+        "text": "Level,Date and Time,Source,Event ID,Task Category\nInformation,3/18/2026 9:29:33 AM,CoworkVMService,1,None,Incorrect function.\nInformation,3/18/2026 9:11:33 AM,SecurityCenter,15,None,Updated Windows Defender status successfully to SECURITY_PRODUCT_STATE_ON.\nWarning,3/17/2026 8:59:42 AM,Microsoft-Windows-Perflib,1008,None,\"The Open procedure for service \"\"WmiApRpl\"\" in DLL \"\"C:WINDOWSsystem32wbemwmiaprpl.dll\"\" failed with error code The device is not ready.. Performance data for this service will not be available.\"\nWarning,3/17/2026 8:59:42 AM,Microsoft-Windows-Perflib,1008,None,\"The Open procedure for service \"\".NETFramework\"\" in DLL \"\"C:WINDOWSsystem32mscoree.dll\"\" failed with error code Access is denied.. Performance data for this service will not be available.\"\nError,3/18/2026 9:11:33 AM,Microsoft-Windows-Perflib,1023,None,\"Windows cannot load the extensible counter DLL \"\"C:WINDOWSsystem32sysmain.dll\"\" (Win32 error code The specified module could not be found.).\"\nError,3/16/2026 9:10:37 PM,Application Hang,1002,Hanging Events,\"The program TextInputHost.exe version 2126.2401.0.0 stopped interacting with Windows and was closed.\"\nError,3/18/2026 7:55:00 AM,.NET Runtime,1026,None,\"Application: MyApp.exe\nFramework Version: v4.0.30319\nDescription: The process was terminated due to an unhandled exception.\"\nCritical,3/18/2026 7:50:00 AM,Microsoft-Windows-Kernel-Power,41,63,The system has rebooted without cleanly shutting down first.\nVerbose,3/18/2026 7:45:00 AM,PowerShell,600,Provider Lifecycle,\"Provider \"\"Variable\"\" is Started.\"\nInformation,3/18/2026 7:40:00 AM,\"Service Control Manager\",7036,None,The Windows Update service entered the running state."
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "10 parsed, 0 unparsed, 1 skipped log lines.\n• Formats: {\"windows-event\":10}.\n• Severities: {\"info\":3,\"warning\":2,\"error\":3,\"critical\":1,\"verbose\":1}.\n• Timestamp range: unknown to unknown.\n• 0 records omitted; 10 ambiguous timestamps.\nLimit: Counts are deterministic; ambiguous timestamps do not establish chronological order."
+          }
+        ],
+        "structured_content": {
+          "detectedFormat": "windows-event",
+          "parsed": 10,
+          "unparsed": 0,
+          "skipped": 1,
+          "formatCounts": {
+            "windows-event": 10
+          },
+          "severityCounts": {
+            "info": 3,
+            "warning": 2,
+            "error": 3,
+            "critical": 1,
+            "verbose": 1
+          },
+          "ambiguousTimestamps": 10,
+          "timestampRange": null,
+          "records": [
+            {
+              "line": 2,
+              "format": "windows-event",
+              "fields": {
+                "level": "Information",
+                "timestamp": "3/18/2026 9:29:33 AM",
+                "source": "CoworkVMService",
+                "event_id": "1",
+                "task_category": "None",
+                "message": "Incorrect function."
+              }
+            },
+            {
+              "line": 3,
+              "format": "windows-event",
+              "fields": {
+                "level": "Information",
+                "timestamp": "3/18/2026 9:11:33 AM",
+                "source": "SecurityCenter",
+                "event_id": "15",
+                "task_category": "None",
+                "message": "Updated Windows Defender status successfully to SECURITY_PRODUCT_STATE_ON."
+              }
+            },
+            {
+              "line": 4,
+              "format": "windows-event",
+              "fields": {
+                "level": "Warning",
+                "timestamp": "3/17/2026 8:59:42 AM",
+                "source": "Microsoft-Windows-Perflib",
+                "event_id": "1008",
+                "task_category": "None",
+                "message": "The Open procedure for service \"WmiApRpl\" in DLL \"C:WINDOWSsystem32wbemwmiaprpl.dll\" failed with error code The device is not ready.. Performance data for this service will not be available."
+              }
+            },
+            {
+              "line": 5,
+              "format": "windows-event",
+              "fields": {
+                "level": "Warning",
+                "timestamp": "3/17/2026 8:59:42 AM",
+                "source": "Microsoft-Windows-Perflib",
+                "event_id": "1008",
+                "task_category": "None",
+                "message": "The Open procedure for service \".NETFramework\" in DLL \"C:WINDOWSsystem32mscoree.dll\" failed with error code Access is denied.. Performance data for this service will not be available."
+              }
+            },
+            {
+              "line": 6,
+              "format": "windows-event",
+              "fields": {
+                "level": "Error",
+                "timestamp": "3/18/2026 9:11:33 AM",
+                "source": "Microsoft-Windows-Perflib",
+                "event_id": "1023",
+                "task_category": "None",
+                "message": "Windows cannot load the extensible counter DLL \"C:WINDOWSsystem32sysmain.dll\" (Win32 error code The specified module could not be found.)."
+              }
+            },
+            {
+              "line": 7,
+              "format": "windows-event",
+              "fields": {
+                "level": "Error",
+                "timestamp": "3/16/2026 9:10:37 PM",
+                "source": "Application Hang",
+                "event_id": "1002",
+                "task_category": "Hanging Events",
+                "message": "The program TextInputHost.exe version 2126.2401.0.0 stopped interacting with Windows and was closed."
+              }
+            },
+            {
+              "line": 8,
+              "format": "windows-event",
+              "fields": {
+                "level": "Error",
+                "timestamp": "3/18/2026 7:55:00 AM",
+                "source": ".NET Runtime",
+                "event_id": "1026",
+                "task_category": "None",
+                "message": "Application: MyApp.exe\nFramework Version: v4.0.30319\nDescription: The process was terminated due to an unhandled exception."
+              }
+            },
+            {
+              "line": 9,
+              "format": "windows-event",
+              "fields": {
+                "level": "Critical",
+                "timestamp": "3/18/2026 7:50:00 AM",
+                "source": "Microsoft-Windows-Kernel-Power",
+                "event_id": "41",
+                "task_category": "63",
+                "message": "The system has rebooted without cleanly shutting down first."
+              }
+            },
+            {
+              "line": 10,
+              "format": "windows-event",
+              "fields": {
+                "level": "Verbose",
+                "timestamp": "3/18/2026 7:45:00 AM",
+                "source": "PowerShell",
+                "event_id": "600",
+                "task_category": "Provider Lifecycle",
+                "message": "Provider \"Variable\" is Started."
+              }
+            },
+            {
+              "line": 11,
+              "format": "windows-event",
+              "fields": {
+                "level": "Information",
+                "timestamp": "3/18/2026 7:40:00 AM",
+                "source": "Service Control Manager",
+                "event_id": "7036",
+                "task_category": "None",
+                "message": "The Windows Update service entered the running state."
+              }
+            }
+          ],
+          "truncated": false,
+          "omittedRecords": 0,
+          "note": "Timezone/year-ambiguous timestamps are excluded from timestampRange; Windows CSV line numbers refer to logical records.",
+          "admin": {
+            "summary": "10 parsed, 0 unparsed, 1 skipped log lines.",
+            "findings": [
+              "Formats: {\"windows-event\":10}.",
+              "Severities: {\"info\":3,\"warning\":2,\"error\":3,\"critical\":1,\"verbose\":1}.",
+              "Timestamp range: unknown to unknown.",
+              "0 records omitted; 10 ambiguous timestamps."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Counts are deterministic; ambiguous timestamps do not establish chronological order."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_7",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "parse_logs",
+      "arguments": {
+        "format": "common-pid",
+        "text": "2024-01-07 15:30:00.123 INFO [worker-1] Starting processing batch\n2024-01-07 15:30:01.456 ERROR [main] Failed to connect to database\n2024-01-07T15:30:02.789Z DEBUG (http-handler) Request received from 10.0.0.1\n2024-01-07 15:30:03 WARNING PID:1234 Disk usage at 85%\n2024-01-07 15:30:04.000+00:00 CRITICAL [app.service] Unrecoverable error in pipeline\n2024-01-07 15:30:05 FATAL (worker-3) Out of memory\n2024-01-07 15:30:06.500 TRACE [com.example.dao] SQL query: SELECT * FROM users\n2024-01-07 15:30:07 WARN [scheduler-2] Task overdue by 30s\n2024-01-07T15:30:08.123456Z INFO [myapp.controllers.UserController] User login successful\n2024-01-07 15:30:09 ERROR PID:5678 Connection reset by peer"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "10 parsed, 0 unparsed, 0 skipped log lines.\n• Formats: {\"common-pid\":10}.\n• Severities: {\"info\":2,\"error\":2,\"debug\":1,\"warning\":2,\"critical\":2,\"trace\":1}.\n• Timestamp range: 2024-01-07T15:30:02.789Z to 2024-01-07T15:30:08.123Z.\n• 0 records omitted; 8 ambiguous timestamps.\nLimit: Counts are deterministic; ambiguous timestamps do not establish chronological order."
+          }
+        ],
+        "structured_content": {
+          "detectedFormat": "common-pid",
+          "parsed": 10,
+          "unparsed": 0,
+          "skipped": 0,
+          "formatCounts": {
+            "common-pid": 10
+          },
+          "severityCounts": {
+            "info": 2,
+            "error": 2,
+            "debug": 1,
+            "warning": 2,
+            "critical": 2,
+            "trace": 1
+          },
+          "ambiguousTimestamps": 8,
+          "timestampRange": {
+            "first": "2024-01-07T15:30:02.789Z",
+            "last": "2024-01-07T15:30:08.123Z"
+          },
+          "records": [
+            {
+              "line": 1,
+              "format": "common-pid",
+              "fields": {
+                "timestamp": "2024-01-07 15:30:00.123",
+                "level": "INFO",
+                "pid": "worker-1",
+                "message": "Starting processing batch"
+              }
+            },
+            {
+              "line": 2,
+              "format": "common-pid",
+              "fields": {
+                "timestamp": "2024-01-07 15:30:01.456",
+                "level": "ERROR",
+                "pid": "main",
+                "message": "Failed to connect to database"
+              }
+            },
+            {
+              "line": 3,
+              "format": "common-pid",
+              "fields": {
+                "timestamp": "2024-01-07T15:30:02.789Z",
+                "level": "DEBUG",
+                "pid": "http-handler",
+                "message": "Request received from 10.0.0.1"
+              }
+            },
+            {
+              "line": 4,
+              "format": "common-pid",
+              "fields": {
+                "timestamp": "2024-01-07 15:30:03",
+                "level": "WARNING",
+                "pid": "1234",
+                "message": "Disk usage at 85%"
+              }
+            },
+            {
+              "line": 5,
+              "format": "common-pid",
+              "fields": {
+                "timestamp": "2024-01-07 15:30:04.000+00:00",
+                "level": "CRITICAL",
+                "pid": "app.service",
+                "message": "Unrecoverable error in pipeline"
+              }
+            },
+            {
+              "line": 6,
+              "format": "common-pid",
+              "fields": {
+                "timestamp": "2024-01-07 15:30:05",
+                "level": "FATAL",
+                "pid": "worker-3",
+                "message": "Out of memory"
+              }
+            },
+            {
+              "line": 7,
+              "format": "common-pid",
+              "fields": {
+                "timestamp": "2024-01-07 15:30:06.500",
+                "level": "TRACE",
+                "pid": "com.example.dao",
+                "message": "SQL query: SELECT * FROM users"
+              }
+            },
+            {
+              "line": 8,
+              "format": "common-pid",
+              "fields": {
+                "timestamp": "2024-01-07 15:30:07",
+                "level": "WARN",
+                "pid": "scheduler-2",
+                "message": "Task overdue by 30s"
+              }
+            },
+            {
+              "line": 9,
+              "format": "common-pid",
+              "fields": {
+                "timestamp": "2024-01-07T15:30:08.123456Z",
+                "level": "INFO",
+                "pid": "myapp.controllers.UserController",
+                "message": "User login successful"
+              }
+            },
+            {
+              "line": 10,
+              "format": "common-pid",
+              "fields": {
+                "timestamp": "2024-01-07 15:30:09",
+                "level": "ERROR",
+                "pid": "5678",
+                "message": "Connection reset by peer"
+              }
+            }
+          ],
+          "truncated": false,
+          "omittedRecords": 0,
+          "note": "Timezone/year-ambiguous timestamps are excluded from timestampRange; Windows CSV line numbers refer to logical records.",
+          "admin": {
+            "summary": "10 parsed, 0 unparsed, 0 skipped log lines.",
+            "findings": [
+              "Formats: {\"common-pid\":10}.",
+              "Severities: {\"info\":2,\"error\":2,\"debug\":1,\"warning\":2,\"critical\":2,\"trace\":1}.",
+              "Timestamp range: 2024-01-07T15:30:02.789Z to 2024-01-07T15:30:08.123Z.",
+              "0 records omitted; 8 ambiguous timestamps."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Counts are deterministic; ambiguous timestamps do not establish chronological order."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_8",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "parse_logs",
+      "arguments": {
+        "format": "auto",
+        "text": "{\"level\":\"INFO\",\"message\":\"synthetic admin fixture\"}\nmalformed"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 parsed, 1 unparsed, 0 skipped log lines.\n• Formats: {\"json\":1}.\n• Severities: {\"info\":1}.\n• Timestamp range: unknown to unknown.\n• 0 records omitted; 1 ambiguous timestamps.\nNext: Inspect unparsed source lines or supply the known format.\nLimit: Counts are deterministic; ambiguous timestamps do not establish chronological order."
+          }
+        ],
+        "structured_content": {
+          "detectedFormat": "json",
+          "parsed": 1,
+          "unparsed": 1,
+          "skipped": 0,
+          "formatCounts": {
+            "json": 1
+          },
+          "severityCounts": {
+            "info": 1
+          },
+          "ambiguousTimestamps": 1,
+          "timestampRange": null,
+          "records": [
+            {
+              "line": 1,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "synthetic admin fixture"
+              }
+            }
+          ],
+          "truncated": false,
+          "omittedRecords": 0,
+          "note": "Timezone/year-ambiguous timestamps are excluded from timestampRange; Windows CSV line numbers refer to logical records.",
+          "admin": {
+            "summary": "1 parsed, 1 unparsed, 0 skipped log lines.",
+            "findings": [
+              "Formats: {\"json\":1}.",
+              "Severities: {\"info\":1}.",
+              "Timestamp range: unknown to unknown.",
+              "0 records omitted; 1 ambiguous timestamps."
+            ],
+            "nextSteps": [
+              "Inspect unparsed source lines or supply the known format."
+            ],
+            "limitations": [
+              "Counts are deterministic; ambiguous timestamps do not establish chronological order."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_9",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "parse_logs",
+      "arguments": {
+        "format": "auto",
+        "text": "{\"level\":\"INFO\",\"message\":\"synthetic admin fixture\"}\n\n{\"level\":\"INFO\",\"message\":\"synthetic admin fixture\"}"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "2 parsed, 0 unparsed, 1 skipped log lines.\n• Formats: {\"json\":2}.\n• Severities: {\"info\":2}.\n• Timestamp range: unknown to unknown.\n• 0 records omitted; 2 ambiguous timestamps.\nLimit: Counts are deterministic; ambiguous timestamps do not establish chronological order."
+          }
+        ],
+        "structured_content": {
+          "detectedFormat": "json",
+          "parsed": 2,
+          "unparsed": 0,
+          "skipped": 1,
+          "formatCounts": {
+            "json": 2
+          },
+          "severityCounts": {
+            "info": 2
+          },
+          "ambiguousTimestamps": 2,
+          "timestampRange": null,
+          "records": [
+            {
+              "line": 1,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "synthetic admin fixture"
+              }
+            },
+            {
+              "line": 3,
+              "format": "json",
+              "fields": {
+                "level": "INFO",
+                "message": "synthetic admin fixture"
+              }
+            }
+          ],
+          "truncated": false,
+          "omittedRecords": 0,
+          "note": "Timezone/year-ambiguous timestamps are excluded from timestampRange; Windows CSV line numbers refer to logical records.",
+          "admin": {
+            "summary": "2 parsed, 0 unparsed, 1 skipped log lines.",
+            "findings": [
+              "Formats: {\"json\":2}.",
+              "Severities: {\"info\":2}.",
+              "Timestamp range: unknown to unknown.",
+              "0 records omitted; 2 ambiguous timestamps."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Counts are deterministic; ambiguous timestamps do not establish chronological order."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_10",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "parse_logs",
+      "arguments": {
+        "format": "auto",
+        "text": "{\"hasOwnProperty\":\"x\"}"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "0 parsed, 1 unparsed, 0 skipped log lines.\n• Formats: {}.\n• Severities: {}.\n• Timestamp range: unknown to unknown.\n• 0 records omitted; 0 ambiguous timestamps.\nNext: Inspect unparsed source lines or supply the known format.\nLimit: Counts are deterministic; ambiguous timestamps do not establish chronological order."
+          }
+        ],
+        "structured_content": {
+          "detectedFormat": "json",
+          "parsed": 0,
+          "unparsed": 1,
+          "skipped": 0,
+          "formatCounts": {},
+          "severityCounts": {},
+          "ambiguousTimestamps": 0,
+          "timestampRange": null,
+          "records": [],
+          "truncated": false,
+          "omittedRecords": 0,
+          "note": "Timezone/year-ambiguous timestamps are excluded from timestampRange; Windows CSV line numbers refer to logical records.",
+          "admin": {
+            "summary": "0 parsed, 1 unparsed, 0 skipped log lines.",
+            "findings": [
+              "Formats: {}.",
+              "Severities: {}.",
+              "Timestamp range: unknown to unknown.",
+              "0 records omitted; 0 ambiguous timestamps."
+            ],
+            "nextSteps": [
+              "Inspect unparsed source lines or supply the known format."
+            ],
+            "limitations": [
+              "Counts are deterministic; ambiguous timestamps do not establish chronological order."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    }
+  ],
+  "events": [],
+  "stderr": "2026-10-10T14:47:48.828743Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n",
+  "telemetry": [
+    {
+      "service": "logs",
+      "method": "initialize",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 1,
+      "inputBytes": 217,
+      "outputBytes": 166,
+      "clientName": "codex-mcp-client",
+      "clientVersion": "0.154.0"
+    },
+    {
+      "service": "logs",
+      "method": "notifications/initialized",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 1,
+      "inputBytes": 54,
+      "outputBytes": 0
+    },
+    {
+      "service": "logs",
+      "method": "tools/list",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 5,
+      "inputBytes": 85,
+      "outputBytes": 4730
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "parse_logs",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 3,
+      "inputBytes": 2464,
+      "outputBytes": 3151
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "parse_logs",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 2171,
+      "outputBytes": 4560
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "parse_logs",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 2,
+      "inputBytes": 1585,
+      "outputBytes": 1887
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "parse_logs",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 2,
+      "inputBytes": 1422,
+      "outputBytes": 2937
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "parse_logs",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 3,
+      "inputBytes": 2096,
+      "outputBytes": 4103
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "parse_logs",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 2,
+      "inputBytes": 2498,
+      "outputBytes": 4115
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "parse_logs",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 2,
+      "inputBytes": 1470,
+      "outputBytes": 2945
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "parse_logs",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 3,
+      "inputBytes": 838,
+      "outputBytes": 1263
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "parse_logs",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 892,
+      "outputBytes": 1229
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "parse_logs",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 2,
+      "inputBytes": 795,
+      "outputBytes": 1120
+    }
+  ],
+  "environment": "local Streamable HTTP with synthetic DNS/HTTPS fixtures; native Codex MCP calls"
+}

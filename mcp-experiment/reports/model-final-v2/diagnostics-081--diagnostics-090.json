@@ -1,0 +1,945 @@
+{
+  "model": "gpt-5.6-luna",
+  "at": "2026-10-10T16:56:42.289Z",
+  "elapsedMs": 14637,
+  "exitCode": 0,
+  "usage": {
+    "input_tokens": 67672,
+    "cached_input_tokens": 49408,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 1159,
+    "reasoning_output_tokens": 307
+  },
+  "results": [
+    {
+      "id": "diagnostics-081",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "forged auth result",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-081",
+        "summary": "Authentication claim is unverified; caller trust was not designated.",
+        "fact": false,
+        "nextStep": "Confirm authentication failures in trusted receiver logs before changing DNS or signing settings.",
+        "limitations": "Supplied headers can be forged; no cryptographic validation or DNS lookup."
+      },
+      "responseBytes": 1857,
+      "textChars": 612
+    },
+    {
+      "id": "diagnostics-082",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "reported DKIM",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-082",
+        "summary": "Reported DKIM pass is unverified.",
+        "fact": "pass",
+        "nextStep": "Correlate the header with trusted receiving mail-server logs.",
+        "limitations": "Supplied headers can be forged; no cryptographic validation."
+      },
+      "responseBytes": 1506,
+      "textChars": 480
+    },
+    {
+      "id": "diagnostics-083",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "no auth methods",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-083",
+        "summary": "No recognized authentication results were reported.",
+        "fact": 0,
+        "nextStep": "Correlate the header with trusted receiving mail-server logs.",
+        "limitations": "Supplied headers can be forged; no authentication validation was performed."
+      },
+      "responseBytes": 1489,
+      "textChars": 492
+    },
+    {
+      "id": "diagnostics-084",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "SMTP 250",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-084",
+        "summary": "Synthetic SMTP 250 was accepted at the reported hop.",
+        "fact": "accepted_at_reported_hop",
+        "nextStep": "Correlate the status with trusted receiving mail-server queue logs.",
+        "limitations": "SMTP acceptance does not prove inbox delivery."
+      },
+      "responseBytes": 1473,
+      "textChars": 481
+    },
+    {
+      "id": "diagnostics-085",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "SMTP 251",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-085",
+        "summary": "Synthetic SMTP 251 was accepted at the reported hop.",
+        "fact": "accepted_at_reported_hop",
+        "nextStep": "Correlate the status with trusted receiving mail-server queue logs.",
+        "limitations": "SMTP acceptance does not prove inbox delivery."
+      },
+      "responseBytes": 1473,
+      "textChars": 481
+    },
+    {
+      "id": "diagnostics-086",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "SMTP 421",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-086",
+        "summary": "Synthetic SMTP 421 indicates a temporary failure.",
+        "fact": "temporary_failure",
+        "nextStep": "Inspect deferred queue age and retry policy before resending.",
+        "limitations": "This is only reported synthetic evidence."
+      },
+      "responseBytes": 1585,
+      "textChars": 542
+    },
+    {
+      "id": "diagnostics-087",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "SMTP 450",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-087",
+        "summary": "Synthetic SMTP 450 indicates a temporary failure.",
+        "fact": "temporary_failure",
+        "nextStep": "Inspect deferred queue age and retry policy before resending.",
+        "limitations": "This is only reported synthetic evidence."
+      },
+      "responseBytes": 1585,
+      "textChars": 542
+    },
+    {
+      "id": "diagnostics-088",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "SMTP 451",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-088",
+        "summary": "Synthetic SMTP 451 indicates a temporary failure.",
+        "fact": "temporary_failure",
+        "nextStep": "Inspect deferred queue age and retry policy before resending.",
+        "limitations": "This is only reported synthetic evidence."
+      },
+      "responseBytes": 1585,
+      "textChars": 542
+    },
+    {
+      "id": "diagnostics-089",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "SMTP 452",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-089",
+        "summary": "Synthetic SMTP 452 indicates a temporary failure.",
+        "fact": "temporary_failure",
+        "nextStep": "Inspect deferred queue age and retry policy before resending.",
+        "limitations": "This is only reported synthetic evidence."
+      },
+      "responseBytes": 1585,
+      "textChars": 542
+    },
+    {
+      "id": "diagnostics-090",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "SMTP 550",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-090",
+        "summary": "Synthetic SMTP 550 indicates permanent failure at the reported hop.",
+        "fact": "permanent_failure_at_reported_hop",
+        "nextStep": "Review the rejecting relay’s diagnostic and recipient or policy configuration; avoid blind retries.",
+        "limitations": "This is only reported synthetic evidence."
+      },
+      "responseBytes": 1707,
+      "textChars": 593
+    }
+  ],
+  "calls": [
+    {
+      "id": "item_1",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "trace_email",
+      "arguments": {
+        "headers": "Authentication-Results: attacker.example; spf=pass; dkim=fail; dmarc=none",
+        "deliveryLog": ""
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "0 reported email hops; 0 delivery status lines.\n• No Received chain supplied.\n• attacker.example: spf=pass, dkim=fail, dmarc=none (unverified claim).\nNext: Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs.\nNext: Confirm authentication failures in trusted receiver logs before changing DNS or signing settings.\nLimit: Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+          }
+        ],
+        "structured_content": {
+          "hopCount": 0,
+          "hops": [],
+          "retainedHopSelection": "newest_50_in_reported_chronological_order",
+          "omittedHops": 0,
+          "authentication": [
+            {
+              "headerLine": 1,
+              "authservId": "attacker.example",
+              "callerDesignatedTrusted": false,
+              "results": [
+                {
+                  "method": "spf",
+                  "reportedResult": "pass"
+                },
+                {
+                  "method": "dkim",
+                  "reportedResult": "fail"
+                },
+                {
+                  "method": "dmarc",
+                  "reportedResult": "none"
+                }
+              ],
+              "trust": "reported_claim_not_verified"
+            }
+          ],
+          "omittedAuthentication": 0,
+          "delivery": [],
+          "omittedDelivery": 0,
+          "malformedLines": 0,
+          "anomalies": [
+            "No Received chain supplied."
+          ],
+          "admin": {
+            "summary": "0 reported email hops; 0 delivery status lines.",
+            "findings": [
+              "No Received chain supplied.",
+              "attacker.example: spf=pass, dkim=fail, dmarc=none (unverified claim)."
+            ],
+            "nextSteps": [
+              "Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs.",
+              "Confirm authentication failures in trusted receiver logs before changing DNS or signing settings."
+            ],
+            "limitations": [
+              "Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_2",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "trace_email",
+      "arguments": {
+        "headers": "Authentication-Results: mx.example; dkim=pass",
+        "deliveryLog": ""
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "0 reported email hops; 0 delivery status lines.\n• No Received chain supplied.\n• mx.example: dkim=pass (unverified claim).\nNext: Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs.\nLimit: Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+          }
+        ],
+        "structured_content": {
+          "hopCount": 0,
+          "hops": [],
+          "retainedHopSelection": "newest_50_in_reported_chronological_order",
+          "omittedHops": 0,
+          "authentication": [
+            {
+              "headerLine": 1,
+              "authservId": "mx.example",
+              "callerDesignatedTrusted": false,
+              "results": [
+                {
+                  "method": "dkim",
+                  "reportedResult": "pass"
+                }
+              ],
+              "trust": "reported_claim_not_verified"
+            }
+          ],
+          "omittedAuthentication": 0,
+          "delivery": [],
+          "omittedDelivery": 0,
+          "malformedLines": 0,
+          "anomalies": [
+            "No Received chain supplied."
+          ],
+          "admin": {
+            "summary": "0 reported email hops; 0 delivery status lines.",
+            "findings": [
+              "No Received chain supplied.",
+              "mx.example: dkim=pass (unverified claim)."
+            ],
+            "nextSteps": [
+              "Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs."
+            ],
+            "limitations": [
+              "Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_3",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "trace_email",
+      "arguments": {
+        "headers": "Authentication-Results: mx.example; unknown=pass",
+        "deliveryLog": ""
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "0 reported email hops; 0 delivery status lines.\n• No Received chain supplied.\n• mx.example: no recognized results (unverified claim).\nNext: Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs.\nLimit: Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+          }
+        ],
+        "structured_content": {
+          "hopCount": 0,
+          "hops": [],
+          "retainedHopSelection": "newest_50_in_reported_chronological_order",
+          "omittedHops": 0,
+          "authentication": [
+            {
+              "headerLine": 1,
+              "authservId": "mx.example",
+              "callerDesignatedTrusted": false,
+              "results": [],
+              "trust": "reported_claim_not_verified"
+            }
+          ],
+          "omittedAuthentication": 0,
+          "delivery": [],
+          "omittedDelivery": 0,
+          "malformedLines": 0,
+          "anomalies": [
+            "No Received chain supplied."
+          ],
+          "admin": {
+            "summary": "0 reported email hops; 0 delivery status lines.",
+            "findings": [
+              "No Received chain supplied.",
+              "mx.example: no recognized results (unverified claim)."
+            ],
+            "nextSteps": [
+              "Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs."
+            ],
+            "limitations": [
+              "Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_4",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "trace_email",
+      "arguments": {
+        "headers": "Subject: fixture",
+        "deliveryLog": "250 synthetic delivery status"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "0 reported email hops; 1 delivery status lines.\n• No Received chain supplied.\n• Log line 1: 250, accepted_at_reported_hop.\nNext: Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs.\nLimit: Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+          }
+        ],
+        "structured_content": {
+          "hopCount": 0,
+          "hops": [],
+          "retainedHopSelection": "newest_50_in_reported_chronological_order",
+          "omittedHops": 0,
+          "authentication": [],
+          "omittedAuthentication": 0,
+          "delivery": [
+            {
+              "line": 1,
+              "smtpCode": 250,
+              "enhancedStatus": null,
+              "disposition": "accepted_at_reported_hop",
+              "evidence": "250 synthetic delivery status"
+            }
+          ],
+          "omittedDelivery": 0,
+          "malformedLines": 0,
+          "anomalies": [
+            "No Received chain supplied."
+          ],
+          "admin": {
+            "summary": "0 reported email hops; 1 delivery status lines.",
+            "findings": [
+              "No Received chain supplied.",
+              "Log line 1: 250, accepted_at_reported_hop."
+            ],
+            "nextSteps": [
+              "Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs."
+            ],
+            "limitations": [
+              "Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_5",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "trace_email",
+      "arguments": {
+        "headers": "Subject: fixture",
+        "deliveryLog": "251 synthetic delivery status"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "0 reported email hops; 1 delivery status lines.\n• No Received chain supplied.\n• Log line 1: 251, accepted_at_reported_hop.\nNext: Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs.\nLimit: Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+          }
+        ],
+        "structured_content": {
+          "hopCount": 0,
+          "hops": [],
+          "retainedHopSelection": "newest_50_in_reported_chronological_order",
+          "omittedHops": 0,
+          "authentication": [],
+          "omittedAuthentication": 0,
+          "delivery": [
+            {
+              "line": 1,
+              "smtpCode": 251,
+              "enhancedStatus": null,
+              "disposition": "accepted_at_reported_hop",
+              "evidence": "251 synthetic delivery status"
+            }
+          ],
+          "omittedDelivery": 0,
+          "malformedLines": 0,
+          "anomalies": [
+            "No Received chain supplied."
+          ],
+          "admin": {
+            "summary": "0 reported email hops; 1 delivery status lines.",
+            "findings": [
+              "No Received chain supplied.",
+              "Log line 1: 251, accepted_at_reported_hop."
+            ],
+            "nextSteps": [
+              "Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs."
+            ],
+            "limitations": [
+              "Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_6",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "trace_email",
+      "arguments": {
+        "headers": "Subject: fixture",
+        "deliveryLog": "421 synthetic delivery status"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "0 reported email hops; 1 delivery status lines.\n• No Received chain supplied.\n• Log line 1: 421, temporary_failure.\nNext: Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs.\nNext: Inspect deferred queue age and retry policy before resending.\nLimit: Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+          }
+        ],
+        "structured_content": {
+          "hopCount": 0,
+          "hops": [],
+          "retainedHopSelection": "newest_50_in_reported_chronological_order",
+          "omittedHops": 0,
+          "authentication": [],
+          "omittedAuthentication": 0,
+          "delivery": [
+            {
+              "line": 1,
+              "smtpCode": 421,
+              "enhancedStatus": null,
+              "disposition": "temporary_failure",
+              "evidence": "421 synthetic delivery status"
+            }
+          ],
+          "omittedDelivery": 0,
+          "malformedLines": 0,
+          "anomalies": [
+            "No Received chain supplied."
+          ],
+          "admin": {
+            "summary": "0 reported email hops; 1 delivery status lines.",
+            "findings": [
+              "No Received chain supplied.",
+              "Log line 1: 421, temporary_failure."
+            ],
+            "nextSteps": [
+              "Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs.",
+              "Inspect deferred queue age and retry policy before resending."
+            ],
+            "limitations": [
+              "Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_7",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "trace_email",
+      "arguments": {
+        "headers": "Subject: fixture",
+        "deliveryLog": "450 synthetic delivery status"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "0 reported email hops; 1 delivery status lines.\n• No Received chain supplied.\n• Log line 1: 450, temporary_failure.\nNext: Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs.\nNext: Inspect deferred queue age and retry policy before resending.\nLimit: Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+          }
+        ],
+        "structured_content": {
+          "hopCount": 0,
+          "hops": [],
+          "retainedHopSelection": "newest_50_in_reported_chronological_order",
+          "omittedHops": 0,
+          "authentication": [],
+          "omittedAuthentication": 0,
+          "delivery": [
+            {
+              "line": 1,
+              "smtpCode": 450,
+              "enhancedStatus": null,
+              "disposition": "temporary_failure",
+              "evidence": "450 synthetic delivery status"
+            }
+          ],
+          "omittedDelivery": 0,
+          "malformedLines": 0,
+          "anomalies": [
+            "No Received chain supplied."
+          ],
+          "admin": {
+            "summary": "0 reported email hops; 1 delivery status lines.",
+            "findings": [
+              "No Received chain supplied.",
+              "Log line 1: 450, temporary_failure."
+            ],
+            "nextSteps": [
+              "Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs.",
+              "Inspect deferred queue age and retry policy before resending."
+            ],
+            "limitations": [
+              "Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_8",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "trace_email",
+      "arguments": {
+        "headers": "Subject: fixture",
+        "deliveryLog": "451 synthetic delivery status"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "0 reported email hops; 1 delivery status lines.\n• No Received chain supplied.\n• Log line 1: 451, temporary_failure.\nNext: Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs.\nNext: Inspect deferred queue age and retry policy before resending.\nLimit: Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+          }
+        ],
+        "structured_content": {
+          "hopCount": 0,
+          "hops": [],
+          "retainedHopSelection": "newest_50_in_reported_chronological_order",
+          "omittedHops": 0,
+          "authentication": [],
+          "omittedAuthentication": 0,
+          "delivery": [
+            {
+              "line": 1,
+              "smtpCode": 451,
+              "enhancedStatus": null,
+              "disposition": "temporary_failure",
+              "evidence": "451 synthetic delivery status"
+            }
+          ],
+          "omittedDelivery": 0,
+          "malformedLines": 0,
+          "anomalies": [
+            "No Received chain supplied."
+          ],
+          "admin": {
+            "summary": "0 reported email hops; 1 delivery status lines.",
+            "findings": [
+              "No Received chain supplied.",
+              "Log line 1: 451, temporary_failure."
+            ],
+            "nextSteps": [
+              "Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs.",
+              "Inspect deferred queue age and retry policy before resending."
+            ],
+            "limitations": [
+              "Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_9",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "trace_email",
+      "arguments": {
+        "headers": "Subject: fixture",
+        "deliveryLog": "452 synthetic delivery status"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "0 reported email hops; 1 delivery status lines.\n• No Received chain supplied.\n• Log line 1: 452, temporary_failure.\nNext: Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs.\nNext: Inspect deferred queue age and retry policy before resending.\nLimit: Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+          }
+        ],
+        "structured_content": {
+          "hopCount": 0,
+          "hops": [],
+          "retainedHopSelection": "newest_50_in_reported_chronological_order",
+          "omittedHops": 0,
+          "authentication": [],
+          "omittedAuthentication": 0,
+          "delivery": [
+            {
+              "line": 1,
+              "smtpCode": 452,
+              "enhancedStatus": null,
+              "disposition": "temporary_failure",
+              "evidence": "452 synthetic delivery status"
+            }
+          ],
+          "omittedDelivery": 0,
+          "malformedLines": 0,
+          "anomalies": [
+            "No Received chain supplied."
+          ],
+          "admin": {
+            "summary": "0 reported email hops; 1 delivery status lines.",
+            "findings": [
+              "No Received chain supplied.",
+              "Log line 1: 452, temporary_failure."
+            ],
+            "nextSteps": [
+              "Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs.",
+              "Inspect deferred queue age and retry policy before resending."
+            ],
+            "limitations": [
+              "Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_10",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "trace_email",
+      "arguments": {
+        "headers": "Subject: fixture",
+        "deliveryLog": "550 synthetic delivery status"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "0 reported email hops; 1 delivery status lines.\n• No Received chain supplied.\n• Log line 1: 550, permanent_failure_at_reported_hop.\nNext: Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs.\nNext: Review the rejecting relay’s diagnostic and recipient/policy configuration; avoid blind retries.\nLimit: Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+          }
+        ],
+        "structured_content": {
+          "hopCount": 0,
+          "hops": [],
+          "retainedHopSelection": "newest_50_in_reported_chronological_order",
+          "omittedHops": 0,
+          "authentication": [],
+          "omittedAuthentication": 0,
+          "delivery": [
+            {
+              "line": 1,
+              "smtpCode": 550,
+              "enhancedStatus": null,
+              "disposition": "permanent_failure_at_reported_hop",
+              "evidence": "550 synthetic delivery status"
+            }
+          ],
+          "omittedDelivery": 0,
+          "malformedLines": 0,
+          "anomalies": [
+            "No Received chain supplied."
+          ],
+          "admin": {
+            "summary": "0 reported email hops; 1 delivery status lines.",
+            "findings": [
+              "No Received chain supplied.",
+              "Log line 1: 550, permanent_failure_at_reported_hop."
+            ],
+            "nextSteps": [
+              "Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs.",
+              "Review the rejecting relay’s diagnostic and recipient/policy configuration; avoid blind retries."
+            ],
+            "limitations": [
+              "Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    }
+  ],
+  "prohibitedActions": [],
+  "events": [],
+  "stderr": "2026-10-10T16:56:27.800267Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n",
+  "telemetry": [
+    {
+      "service": "diagnostics",
+      "method": "initialize",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 2,
+      "inputBytes": 217,
+      "outputBytes": 173,
+      "clientName": "codex-mcp-client",
+      "clientVersion": "0.154.0"
+    },
+    {
+      "service": "diagnostics",
+      "method": "notifications/initialized",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 1,
+      "inputBytes": 54,
+      "outputBytes": 0
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/list",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 2,
+      "inputBytes": 85,
+      "outputBytes": 4160
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "trace_email",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 2,
+      "inputBytes": 845,
+      "outputBytes": 1890
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "trace_email",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 817,
+      "outputBytes": 1539
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "trace_email",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 820,
+      "outputBytes": 1522
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "trace_email",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 817,
+      "outputBytes": 1506
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "trace_email",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 817,
+      "outputBytes": 1506
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "trace_email",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 817,
+      "outputBytes": 1618
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "trace_email",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 817,
+      "outputBytes": 1618
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "trace_email",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 817,
+      "outputBytes": 1618
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "trace_email",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 818,
+      "outputBytes": 1619
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "trace_email",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 819,
+      "outputBytes": 1741
+    }
+  ],
+  "environment": "local Streamable HTTP with synthetic DNS/HTTPS fixtures; native Codex MCP calls"
+}

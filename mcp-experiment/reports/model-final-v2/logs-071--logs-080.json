@@ -1,0 +1,978 @@
+{
+  "model": "gpt-5.6-luna",
+  "at": "2026-10-10T17:00:47.678Z",
+  "elapsedMs": 45221,
+  "exitCode": 0,
+  "usage": {
+    "input_tokens": 199472,
+    "cached_input_tokens": 180224,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 1566,
+    "reasoning_output_tokens": 338
+  },
+  "results": [
+    {
+      "id": "logs-071",
+      "service": "logs",
+      "tool": "analyze_http_trace",
+      "name": "HTTP status 403",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-071",
+        "summary": "Captured request returned HTTP 403, indicating an access-policy or authentication rejection.",
+        "fact": 1,
+        "nextStep": "Inspect the corresponding capture or server log using request indices.",
+        "limitations": "Offline metadata analysis; URL was not fetched."
+      },
+      "responseBytes": 1109,
+      "textChars": 350
+    },
+    {
+      "id": "logs-072",
+      "service": "logs",
+      "tool": "analyze_http_trace",
+      "name": "HTTP status 404",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-072",
+        "summary": "Captured request returned HTTP 404; the route or request inputs should be checked.",
+        "fact": 1,
+        "nextStep": "Inspect the corresponding capture or server log using request indices.",
+        "limitations": "Offline metadata analysis; URL was not fetched."
+      },
+      "responseBytes": 1112,
+      "textChars": 351
+    },
+    {
+      "id": "logs-073",
+      "service": "logs",
+      "tool": "analyze_http_trace",
+      "name": "HTTP status 408",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-073",
+        "summary": "Captured request returned HTTP 408; the capture reports a client error without inferring cause.",
+        "fact": 1,
+        "nextStep": "Inspect the corresponding capture or server log using request indices.",
+        "limitations": "Offline metadata analysis; URL was not fetched."
+      },
+      "responseBytes": 1112,
+      "textChars": 351
+    },
+    {
+      "id": "logs-074",
+      "service": "logs",
+      "tool": "analyze_http_trace",
+      "name": "HTTP status 429",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-074",
+        "summary": "Captured request returned HTTP 429 and included a retry interval of 60 seconds.",
+        "fact": 1,
+        "nextStep": "Respect Retry-After when retrying and inspect the corresponding capture or server log.",
+        "limitations": "Offline metadata analysis; URL was not fetched."
+      },
+      "responseBytes": 1094,
+      "textChars": 345
+    },
+    {
+      "id": "logs-075",
+      "service": "logs",
+      "tool": "analyze_http_trace",
+      "name": "HTTP status 500",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-075",
+        "summary": "Captured request returned HTTP 500, indicating a reported server error.",
+        "fact": 1,
+        "nextStep": "Inspect server logs using the captured request index.",
+        "limitations": "Offline metadata analysis; URL was not fetched."
+      },
+      "responseBytes": 1079,
+      "textChars": 340
+    },
+    {
+      "id": "logs-076",
+      "service": "logs",
+      "tool": "analyze_http_trace",
+      "name": "HTTP credentials/query removed",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-076",
+        "summary": "The captured URL was sanitized by removing user information, query content, and fragment content.",
+        "fact": "https://capture.example.com/a?[REDACTED]",
+        "nextStep": "Use the sanitized request index when correlating with logs.",
+        "limitations": "Sensitive URL components were omitted by the analyzer."
+      },
+      "responseBytes": 937,
+      "textChars": 269
+    },
+    {
+      "id": "logs-077",
+      "service": "logs",
+      "tool": "analyze_http_trace",
+      "name": "HTTP retry guidance",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-077",
+        "summary": "The captured 429 response supplied Retry-After value 60; sensitive Authorization content was omitted.",
+        "fact": "60",
+        "nextStep": "Respect the captured Retry-After value when retrying.",
+        "limitations": "Offline metadata analysis; URL was not fetched."
+      },
+      "responseBytes": 1094,
+      "textChars": 345
+    },
+    {
+      "id": "logs-078",
+      "service": "logs",
+      "tool": "analyze_http_trace",
+      "name": "Relative captured redirect",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-078",
+        "summary": "The captured 302 redirect resolved the relative Location to a sanitized absolute URL.",
+        "fact": "https://capture.example.com/next?[REDACTED]",
+        "nextStep": "Inspect the redirect target through captured metadata or logs; the tool did not follow it.",
+        "limitations": "Query content was redacted and no URL was fetched."
+      },
+      "responseBytes": 1140,
+      "textChars": 345
+    },
+    {
+      "id": "logs-079",
+      "service": "logs",
+      "tool": "analyze_http_trace",
+      "name": "Malformed captured URL",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-079",
+        "summary": "No HTTP response was captured for the supplied malformed URL; the analyzer marked it invalid.",
+        "fact": "[invalid URL]",
+        "nextStep": "Inspect the corresponding capture or transport logs using request index 0.",
+        "limitations": "Transport cause is unknown; no URL was fetched."
+      },
+      "responseBytes": 1080,
+      "textChars": 346
+    },
+    {
+      "id": "logs-080",
+      "service": "logs",
+      "tool": "analyze_http_trace",
+      "name": "Timing sum explicit",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-080",
+        "summary": "The supplied captured durations summed to 6020 milliseconds across two requests.",
+        "fact": 6020,
+        "nextStep": "Inspect server logs for the HTTP 503; the long duration has no inferred cause.",
+        "limitations": "Timing sum is not wall-clock elapsed time; URLs were not fetched."
+      },
+      "responseBytes": 1565,
+      "textChars": 457
+    }
+  ],
+  "calls": [
+    {
+      "id": "item_1",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "analyze_http_trace",
+      "arguments": {
+        "entries": [
+          {
+            "method": "GET",
+            "url": "https://capture.example.com/",
+            "status": 403
+          }
+        ]
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 captured requests; 1 reported errors.\n• Request 0: GET HTTP 403. Authentication or access policy rejected the request.\nNext: Inspect the corresponding capture or server log using request indices.\nLimit: Offline metadata analysis; no URLs fetched. Query strings, userinfo and sensitive headers are omitted. Timing sum is not wall-clock elapsed time."
+          }
+        ],
+        "structured_content": {
+          "requestCount": 1,
+          "statusCounts": {
+            "403": 1
+          },
+          "totalCapturedDurationMs": 0,
+          "requests": [
+            {
+              "index": 0,
+              "method": "GET",
+              "url": "https://capture.example.com/",
+              "status": 403,
+              "durationMs": null,
+              "location": null,
+              "retryAfter": null,
+              "observations": [
+                "Authentication or access policy rejected the request."
+              ]
+            }
+          ],
+          "admin": {
+            "summary": "1 captured requests; 1 reported errors.",
+            "findings": [
+              "Request 0: GET HTTP 403. Authentication or access policy rejected the request."
+            ],
+            "nextSteps": [
+              "Inspect the corresponding capture or server log using request indices."
+            ],
+            "limitations": [
+              "Offline metadata analysis; no URLs fetched. Query strings, userinfo and sensitive headers are omitted. Timing sum is not wall-clock elapsed time."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_2",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "analyze_http_trace",
+      "arguments": {
+        "entries": [
+          {
+            "method": "GET",
+            "url": "https://capture.example.com/",
+            "status": 404
+          }
+        ]
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 captured requests; 1 reported errors.\n• Request 0: GET HTTP 404. Client error reported; check request inputs and route.\nNext: Inspect the corresponding capture or server log using request indices.\nLimit: Offline metadata analysis; no URLs fetched. Query strings, userinfo and sensitive headers are omitted. Timing sum is not wall-clock elapsed time."
+          }
+        ],
+        "structured_content": {
+          "requestCount": 1,
+          "statusCounts": {
+            "404": 1
+          },
+          "totalCapturedDurationMs": 0,
+          "requests": [
+            {
+              "index": 0,
+              "method": "GET",
+              "url": "https://capture.example.com/",
+              "status": 404,
+              "durationMs": null,
+              "location": null,
+              "retryAfter": null,
+              "observations": [
+                "Client error reported; check request inputs and route."
+              ]
+            }
+          ],
+          "admin": {
+            "summary": "1 captured requests; 1 reported errors.",
+            "findings": [
+              "Request 0: GET HTTP 404. Client error reported; check request inputs and route."
+            ],
+            "nextSteps": [
+              "Inspect the corresponding capture or server log using request indices."
+            ],
+            "limitations": [
+              "Offline metadata analysis; no URLs fetched. Query strings, userinfo and sensitive headers are omitted. Timing sum is not wall-clock elapsed time."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_3",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "analyze_http_trace",
+      "arguments": {
+        "entries": [
+          {
+            "method": "GET",
+            "url": "https://capture.example.com/",
+            "status": 408
+          }
+        ]
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 captured requests; 1 reported errors.\n• Request 0: GET HTTP 408. Client error reported; check request inputs and route.\nNext: Inspect the corresponding capture or server log using request indices.\nLimit: Offline metadata analysis; no URLs fetched. Query strings, userinfo and sensitive headers are omitted. Timing sum is not wall-clock elapsed time."
+          }
+        ],
+        "structured_content": {
+          "requestCount": 1,
+          "statusCounts": {
+            "408": 1
+          },
+          "totalCapturedDurationMs": 0,
+          "requests": [
+            {
+              "index": 0,
+              "method": "GET",
+              "url": "https://capture.example.com/",
+              "status": 408,
+              "durationMs": null,
+              "location": null,
+              "retryAfter": null,
+              "observations": [
+                "Client error reported; check request inputs and route."
+              ]
+            }
+          ],
+          "admin": {
+            "summary": "1 captured requests; 1 reported errors.",
+            "findings": [
+              "Request 0: GET HTTP 408. Client error reported; check request inputs and route."
+            ],
+            "nextSteps": [
+              "Inspect the corresponding capture or server log using request indices."
+            ],
+            "limitations": [
+              "Offline metadata analysis; no URLs fetched. Query strings, userinfo and sensitive headers are omitted. Timing sum is not wall-clock elapsed time."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_4",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "analyze_http_trace",
+      "arguments": {
+        "entries": [
+          {
+            "method": "GET",
+            "url": "https://capture.example.com/",
+            "status": 429
+          }
+        ]
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 captured requests; 1 reported errors.\n• Request 0: GET HTTP 429. Rate limited; respect Retry-After when retrying.\nNext: Inspect the corresponding capture or server log using request indices.\nLimit: Offline metadata analysis; no URLs fetched. Query strings, userinfo and sensitive headers are omitted. Timing sum is not wall-clock elapsed time."
+          }
+        ],
+        "structured_content": {
+          "requestCount": 1,
+          "statusCounts": {
+            "429": 1
+          },
+          "totalCapturedDurationMs": 0,
+          "requests": [
+            {
+              "index": 0,
+              "method": "GET",
+              "url": "https://capture.example.com/",
+              "status": 429,
+              "durationMs": null,
+              "location": null,
+              "retryAfter": null,
+              "observations": [
+                "Rate limited; respect Retry-After when retrying."
+              ]
+            }
+          ],
+          "admin": {
+            "summary": "1 captured requests; 1 reported errors.",
+            "findings": [
+              "Request 0: GET HTTP 429. Rate limited; respect Retry-After when retrying."
+            ],
+            "nextSteps": [
+              "Inspect the corresponding capture or server log using request indices."
+            ],
+            "limitations": [
+              "Offline metadata analysis; no URLs fetched. Query strings, userinfo and sensitive headers are omitted. Timing sum is not wall-clock elapsed time."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_5",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "analyze_http_trace",
+      "arguments": {
+        "entries": [
+          {
+            "method": "GET",
+            "url": "https://capture.example.com/",
+            "status": 500
+          }
+        ]
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 captured requests; 1 reported errors.\n• Request 0: GET HTTP 500. Server error reported; inspect server logs.\nNext: Inspect the corresponding capture or server log using request indices.\nLimit: Offline metadata analysis; no URLs fetched. Query strings, userinfo and sensitive headers are omitted. Timing sum is not wall-clock elapsed time."
+          }
+        ],
+        "structured_content": {
+          "requestCount": 1,
+          "statusCounts": {
+            "500": 1
+          },
+          "totalCapturedDurationMs": 0,
+          "requests": [
+            {
+              "index": 0,
+              "method": "GET",
+              "url": "https://capture.example.com/",
+              "status": 500,
+              "durationMs": null,
+              "location": null,
+              "retryAfter": null,
+              "observations": [
+                "Server error reported; inspect server logs."
+              ]
+            }
+          ],
+          "admin": {
+            "summary": "1 captured requests; 1 reported errors.",
+            "findings": [
+              "Request 0: GET HTTP 500. Server error reported; inspect server logs."
+            ],
+            "nextSteps": [
+              "Inspect the corresponding capture or server log using request indices."
+            ],
+            "limitations": [
+              "Offline metadata analysis; no URLs fetched. Query strings, userinfo and sensitive headers are omitted. Timing sum is not wall-clock elapsed time."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_6",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "analyze_http_trace",
+      "arguments": {
+        "entries": [
+          {
+            "method": "POST",
+            "url": "https://user:password@capture.example.com/a?token=secret#fragment",
+            "status": 200
+          }
+        ]
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 captured requests; 0 reported errors.\nNext: Inspect the corresponding capture or server log using request indices.\nLimit: Offline metadata analysis; no URLs fetched. Query strings, userinfo and sensitive headers are omitted. Timing sum is not wall-clock elapsed time."
+          }
+        ],
+        "structured_content": {
+          "requestCount": 1,
+          "statusCounts": {
+            "200": 1
+          },
+          "totalCapturedDurationMs": 0,
+          "requests": [
+            {
+              "index": 0,
+              "method": "POST",
+              "url": "https://capture.example.com/a?[REDACTED]",
+              "status": 200,
+              "durationMs": null,
+              "location": null,
+              "retryAfter": null,
+              "observations": [
+                "Successful HTTP status captured."
+              ]
+            }
+          ],
+          "admin": {
+            "summary": "1 captured requests; 0 reported errors.",
+            "findings": [],
+            "nextSteps": [
+              "Inspect the corresponding capture or server log using request indices."
+            ],
+            "limitations": [
+              "Offline metadata analysis; no URLs fetched. Query strings, userinfo and sensitive headers are omitted. Timing sum is not wall-clock elapsed time."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_7",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "analyze_http_trace",
+      "arguments": {
+        "entries": [
+          {
+            "method": "GET",
+            "url": "https://capture.example.com",
+            "status": 429,
+            "responseHeaders": {
+              "Retry-After": "60",
+              "Authorization": "SECRET"
+            }
+          }
+        ]
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 captured requests; 1 reported errors.\n• Request 0: GET HTTP 429. Rate limited; respect Retry-After when retrying.\nNext: Inspect the corresponding capture or server log using request indices.\nLimit: Offline metadata analysis; no URLs fetched. Query strings, userinfo and sensitive headers are omitted. Timing sum is not wall-clock elapsed time."
+          }
+        ],
+        "structured_content": {
+          "requestCount": 1,
+          "statusCounts": {
+            "429": 1
+          },
+          "totalCapturedDurationMs": 0,
+          "requests": [
+            {
+              "index": 0,
+              "method": "GET",
+              "url": "https://capture.example.com/",
+              "status": 429,
+              "durationMs": null,
+              "location": null,
+              "retryAfter": "60",
+              "observations": [
+                "Rate limited; respect Retry-After when retrying."
+              ]
+            }
+          ],
+          "admin": {
+            "summary": "1 captured requests; 1 reported errors.",
+            "findings": [
+              "Request 0: GET HTTP 429. Rate limited; respect Retry-After when retrying."
+            ],
+            "nextSteps": [
+              "Inspect the corresponding capture or server log using request indices."
+            ],
+            "limitations": [
+              "Offline metadata analysis; no URLs fetched. Query strings, userinfo and sensitive headers are omitted. Timing sum is not wall-clock elapsed time."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_8",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "analyze_http_trace",
+      "arguments": {
+        "entries": [
+          {
+            "method": "GET",
+            "url": "https://capture.example.com/start",
+            "status": 302,
+            "responseHeaders": {
+              "Location": "/next?secret=1"
+            }
+          }
+        ]
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 captured requests; 0 reported errors.\n• Request 0: GET HTTP 302. Redirect captured; this tool does not follow it.\nNext: Inspect the corresponding capture or server log using request indices.\nLimit: Offline metadata analysis; no URLs fetched. Query strings, userinfo and sensitive headers are omitted. Timing sum is not wall-clock elapsed time."
+          }
+        ],
+        "structured_content": {
+          "requestCount": 1,
+          "statusCounts": {
+            "302": 1
+          },
+          "totalCapturedDurationMs": 0,
+          "requests": [
+            {
+              "index": 0,
+              "method": "GET",
+              "url": "https://capture.example.com/start",
+              "status": 302,
+              "durationMs": null,
+              "location": "https://capture.example.com/next?[REDACTED]",
+              "retryAfter": null,
+              "observations": [
+                "Redirect captured; this tool does not follow it."
+              ]
+            }
+          ],
+          "admin": {
+            "summary": "1 captured requests; 0 reported errors.",
+            "findings": [
+              "Request 0: GET HTTP 302. Redirect captured; this tool does not follow it."
+            ],
+            "nextSteps": [
+              "Inspect the corresponding capture or server log using request indices."
+            ],
+            "limitations": [
+              "Offline metadata analysis; no URLs fetched. Query strings, userinfo and sensitive headers are omitted. Timing sum is not wall-clock elapsed time."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_9",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "analyze_http_trace",
+      "arguments": {
+        "entries": [
+          {
+            "method": "GET",
+            "url": "bad URL",
+            "status": 0
+          }
+        ]
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 captured requests; 1 reported errors.\n• Request 0: GET HTTP 0. No HTTP response captured; transport cause unknown.\nNext: Inspect the corresponding capture or server log using request indices.\nLimit: Offline metadata analysis; no URLs fetched. Query strings, userinfo and sensitive headers are omitted. Timing sum is not wall-clock elapsed time."
+          }
+        ],
+        "structured_content": {
+          "requestCount": 1,
+          "statusCounts": {
+            "0": 1
+          },
+          "totalCapturedDurationMs": 0,
+          "requests": [
+            {
+              "index": 0,
+              "method": "GET",
+              "url": "[invalid URL]",
+              "status": 0,
+              "durationMs": null,
+              "location": null,
+              "retryAfter": null,
+              "observations": [
+                "No HTTP response captured; transport cause unknown."
+              ]
+            }
+          ],
+          "admin": {
+            "summary": "1 captured requests; 1 reported errors.",
+            "findings": [
+              "Request 0: GET HTTP 0. No HTTP response captured; transport cause unknown."
+            ],
+            "nextSteps": [
+              "Inspect the corresponding capture or server log using request indices."
+            ],
+            "limitations": [
+              "Offline metadata analysis; no URLs fetched. Query strings, userinfo and sensitive headers are omitted. Timing sum is not wall-clock elapsed time."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_10",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "analyze_http_trace",
+      "arguments": {
+        "entries": [
+          {
+            "method": "GET",
+            "url": "https://capture.example.com",
+            "status": 200,
+            "durationMs": 6000
+          },
+          {
+            "method": "POST",
+            "url": "https://capture.example.com",
+            "status": 503,
+            "durationMs": 20
+          }
+        ]
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "2 captured requests; 1 reported errors.\n• Request 0: GET HTTP 200. Successful HTTP status captured. Captured duration exceeds 5 seconds; no cause inferred.\n• Request 1: POST HTTP 503. Server error reported; inspect server logs.\nNext: Inspect the corresponding capture or server log using request indices.\nLimit: Offline metadata analysis; no URLs fetched. Query strings, userinfo and sensitive headers are omitted. Timing sum is not wall-clock elapsed time."
+          }
+        ],
+        "structured_content": {
+          "requestCount": 2,
+          "statusCounts": {
+            "200": 1,
+            "503": 1
+          },
+          "totalCapturedDurationMs": 6020,
+          "requests": [
+            {
+              "index": 0,
+              "method": "GET",
+              "url": "https://capture.example.com/",
+              "status": 200,
+              "durationMs": 6000,
+              "location": null,
+              "retryAfter": null,
+              "observations": [
+                "Successful HTTP status captured.",
+                "Captured duration exceeds 5 seconds; no cause inferred."
+              ]
+            },
+            {
+              "index": 1,
+              "method": "POST",
+              "url": "https://capture.example.com/",
+              "status": 503,
+              "durationMs": 20,
+              "location": null,
+              "retryAfter": null,
+              "observations": [
+                "Server error reported; inspect server logs."
+              ]
+            }
+          ],
+          "admin": {
+            "summary": "2 captured requests; 1 reported errors.",
+            "findings": [
+              "Request 0: GET HTTP 200. Successful HTTP status captured. Captured duration exceeds 5 seconds; no cause inferred.",
+              "Request 1: POST HTTP 503. Server error reported; inspect server logs."
+            ],
+            "nextSteps": [
+              "Inspect the corresponding capture or server log using request indices."
+            ],
+            "limitations": [
+              "Offline metadata analysis; no URLs fetched. Query strings, userinfo and sensitive headers are omitted. Timing sum is not wall-clock elapsed time."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    }
+  ],
+  "prohibitedActions": [],
+  "events": [],
+  "stderr": "2026-10-10T17:00:02.604452Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n2026-10-10T17:00:40.092153Z  WARN codex_analytics::client: failed to send events request: error sending request for url ([URL]\n",
+  "telemetry": [
+    {
+      "service": "logs",
+      "method": "initialize",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 1,
+      "inputBytes": 217,
+      "outputBytes": 166,
+      "clientName": "codex-mcp-client",
+      "clientVersion": "0.154.0"
+    },
+    {
+      "service": "logs",
+      "method": "notifications/initialized",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 1,
+      "inputBytes": 54,
+      "outputBytes": 0
+    },
+    {
+      "service": "logs",
+      "method": "tools/list",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 2,
+      "inputBytes": 85,
+      "outputBytes": 5302
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "analyze_http_trace",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 828,
+      "outputBytes": 1142
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "analyze_http_trace",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 828,
+      "outputBytes": 1145
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "analyze_http_trace",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 828,
+      "outputBytes": 1145
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "analyze_http_trace",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 2,
+      "inputBytes": 828,
+      "outputBytes": 1127
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "analyze_http_trace",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 828,
+      "outputBytes": 1112
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "analyze_http_trace",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 866,
+      "outputBytes": 970
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "analyze_http_trace",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 2,
+      "inputBytes": 891,
+      "outputBytes": 1127
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "analyze_http_trace",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 881,
+      "outputBytes": 1173
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "analyze_http_trace",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 806,
+      "outputBytes": 1114
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "analyze_http_trace",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 930,
+      "outputBytes": 1599
+    }
+  ],
+  "environment": "local Streamable HTTP with synthetic DNS/HTTPS fixtures; native Codex MCP calls"
+}

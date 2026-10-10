@@ -1,0 +1,950 @@
+{
+  "model": "gpt-5.6-luna",
+  "at": "2026-10-10T17:01:05.701Z",
+  "elapsedMs": 18021,
+  "exitCode": 0,
+  "usage": {
+    "input_tokens": 287482,
+    "cached_input_tokens": 267264,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 1214,
+    "reasoning_output_tokens": 196
+  },
+  "results": [
+    {
+      "id": "logs-081",
+      "service": "logs",
+      "tool": "validate_config",
+      "name": "object type pass",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-081",
+        "summary": "Configuration matches the supported schema.",
+        "fact": true,
+        "nextStep": "None reported.",
+        "limitations": "Bounded JSON Schema subset; values are not echoed."
+      },
+      "responseBytes": 811,
+      "textChars": 224
+    },
+    {
+      "id": "logs-082",
+      "service": "logs",
+      "tool": "validate_config",
+      "name": "type failure",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-082",
+        "summary": "Configuration failed the type rule.",
+        "fact": false,
+        "nextStep": "Correct the reported path and validate again.",
+        "limitations": "Bounded JSON Schema subset; values are not echoed."
+      },
+      "responseBytes": 935,
+      "textChars": 274
+    },
+    {
+      "id": "logs-083",
+      "service": "logs",
+      "tool": "validate_config",
+      "name": "required missing",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-083",
+        "summary": "Configuration is missing the required port.",
+        "fact": "required",
+        "nextStep": "Correct the reported path and validate again.",
+        "limitations": "Bounded JSON Schema subset; values are not echoed."
+      },
+      "responseBytes": 947,
+      "textChars": 278
+    },
+    {
+      "id": "logs-084",
+      "service": "logs",
+      "tool": "validate_config",
+      "name": "required present",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-084",
+        "summary": "Configuration matches the supported schema.",
+        "fact": true,
+        "nextStep": "None reported.",
+        "limitations": "Bounded JSON Schema subset; values are not echoed."
+      },
+      "responseBytes": 811,
+      "textChars": 224
+    },
+    {
+      "id": "logs-085",
+      "service": "logs",
+      "tool": "validate_config",
+      "name": "additional field rejected",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-085",
+        "summary": "Additional property extra was rejected.",
+        "fact": false,
+        "nextStep": "Correct the reported path and validate again.",
+        "limitations": "Bounded JSON Schema subset; values are not echoed."
+      },
+      "responseBytes": 975,
+      "textChars": 287
+    },
+    {
+      "id": "logs-086",
+      "service": "logs",
+      "tool": "validate_config",
+      "name": "integer rejected",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-086",
+        "summary": "The non-integer value failed the type rule.",
+        "fact": false,
+        "nextStep": "Correct the reported path and validate again.",
+        "limitations": "Bounded JSON Schema subset; values are not echoed."
+      },
+      "responseBytes": 935,
+      "textChars": 274
+    },
+    {
+      "id": "logs-087",
+      "service": "logs",
+      "tool": "validate_config",
+      "name": "integer accepted",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-087",
+        "summary": "The integer value matches the supported schema.",
+        "fact": true,
+        "nextStep": "None reported.",
+        "limitations": "Bounded JSON Schema subset; values are not echoed."
+      },
+      "responseBytes": 811,
+      "textChars": 224
+    },
+    {
+      "id": "logs-088",
+      "service": "logs",
+      "tool": "validate_config",
+      "name": "minimum",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-088",
+        "summary": "The value failed the minimum rule.",
+        "fact": false,
+        "nextStep": "Correct the reported path and validate again.",
+        "limitations": "Bounded JSON Schema subset; values are not echoed."
+      },
+      "responseBytes": 944,
+      "textChars": 277
+    },
+    {
+      "id": "logs-089",
+      "service": "logs",
+      "tool": "validate_config",
+      "name": "maximum",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-089",
+        "summary": "The value failed the maximum rule.",
+        "fact": false,
+        "nextStep": "Correct the reported path and validate again.",
+        "limitations": "Bounded JSON Schema subset; values are not echoed."
+      },
+      "responseBytes": 944,
+      "textChars": 277
+    },
+    {
+      "id": "logs-090",
+      "service": "logs",
+      "tool": "validate_config",
+      "name": "Unicode length",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "logs-090",
+        "summary": "The Unicode string matches the configured length bounds.",
+        "fact": true,
+        "nextStep": "None reported.",
+        "limitations": "Bounded JSON Schema subset; values are not echoed."
+      },
+      "responseBytes": 811,
+      "textChars": 224
+    }
+  ],
+  "calls": [
+    {
+      "id": "item_1",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "validate_config",
+      "arguments": {
+        "text": "{}",
+        "schema": {
+          "type": "object"
+        }
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Configuration matches the supplied supported schema.\nLimit: Bounded JSON Schema subset; no remote references, regex, format checks or combinators. This does not validate application-specific semantics. Values are not echoed."
+          }
+        ],
+        "structured_content": {
+          "valid": true,
+          "errorCount": 0,
+          "errors": [],
+          "omittedErrors": 0,
+          "supportedKeywords": [
+            "type",
+            "properties",
+            "required",
+            "additionalProperties",
+            "items",
+            "enum",
+            "minimum",
+            "maximum",
+            "minLength",
+            "maxLength",
+            "minItems",
+            "maxItems",
+            "title",
+            "description"
+          ],
+          "admin": {
+            "summary": "Configuration matches the supplied supported schema.",
+            "findings": [],
+            "nextSteps": [],
+            "limitations": [
+              "Bounded JSON Schema subset; no remote references, regex, format checks or combinators. This does not validate application-specific semantics. Values are not echoed."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_2",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "validate_config",
+      "arguments": {
+        "text": "[]",
+        "schema": {
+          "type": "object"
+        }
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Configuration has 1 schema violations.\n• /: type.\nNext: Correct the reported paths and validate again.\nLimit: Bounded JSON Schema subset; no remote references, regex, format checks or combinators. This does not validate application-specific semantics. Values are not echoed."
+          }
+        ],
+        "structured_content": {
+          "valid": false,
+          "errorCount": 1,
+          "errors": [
+            {
+              "path": "",
+              "rule": "type"
+            }
+          ],
+          "omittedErrors": 0,
+          "supportedKeywords": [
+            "type",
+            "properties",
+            "required",
+            "additionalProperties",
+            "items",
+            "enum",
+            "minimum",
+            "maximum",
+            "minLength",
+            "maxLength",
+            "minItems",
+            "maxItems",
+            "title",
+            "description"
+          ],
+          "admin": {
+            "summary": "Configuration has 1 schema violations.",
+            "findings": [
+              "/: type."
+            ],
+            "nextSteps": [
+              "Correct the reported paths and validate again."
+            ],
+            "limitations": [
+              "Bounded JSON Schema subset; no remote references, regex, format checks or combinators. This does not validate application-specific semantics. Values are not echoed."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_3",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "validate_config",
+      "arguments": {
+        "text": "{}",
+        "schema": {
+          "required": [
+            "port"
+          ]
+        }
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Configuration has 1 schema violations.\n• /: required.\nNext: Correct the reported paths and validate again.\nLimit: Bounded JSON Schema subset; no remote references, regex, format checks or combinators. This does not validate application-specific semantics. Values are not echoed."
+          }
+        ],
+        "structured_content": {
+          "valid": false,
+          "errorCount": 1,
+          "errors": [
+            {
+              "path": "",
+              "rule": "required"
+            }
+          ],
+          "omittedErrors": 0,
+          "supportedKeywords": [
+            "type",
+            "properties",
+            "required",
+            "additionalProperties",
+            "items",
+            "enum",
+            "minimum",
+            "maximum",
+            "minLength",
+            "maxLength",
+            "minItems",
+            "maxItems",
+            "title",
+            "description"
+          ],
+          "admin": {
+            "summary": "Configuration has 1 schema violations.",
+            "findings": [
+              "/: required."
+            ],
+            "nextSteps": [
+              "Correct the reported paths and validate again."
+            ],
+            "limitations": [
+              "Bounded JSON Schema subset; no remote references, regex, format checks or combinators. This does not validate application-specific semantics. Values are not echoed."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_4",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "validate_config",
+      "arguments": {
+        "text": "{\"port\":443}",
+        "schema": {
+          "required": [
+            "port"
+          ]
+        }
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Configuration matches the supplied supported schema.\nLimit: Bounded JSON Schema subset; no remote references, regex, format checks or combinators. This does not validate application-specific semantics. Values are not echoed."
+          }
+        ],
+        "structured_content": {
+          "valid": true,
+          "errorCount": 0,
+          "errors": [],
+          "omittedErrors": 0,
+          "supportedKeywords": [
+            "type",
+            "properties",
+            "required",
+            "additionalProperties",
+            "items",
+            "enum",
+            "minimum",
+            "maximum",
+            "minLength",
+            "maxLength",
+            "minItems",
+            "maxItems",
+            "title",
+            "description"
+          ],
+          "admin": {
+            "summary": "Configuration matches the supplied supported schema.",
+            "findings": [],
+            "nextSteps": [],
+            "limitations": [
+              "Bounded JSON Schema subset; no remote references, regex, format checks or combinators. This does not validate application-specific semantics. Values are not echoed."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_5",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "validate_config",
+      "arguments": {
+        "text": "{\"extra\":1}",
+        "schema": {
+          "additionalProperties": false
+        }
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Configuration has 1 schema violations.\n• /extra: false_schema.\nNext: Correct the reported paths and validate again.\nLimit: Bounded JSON Schema subset; no remote references, regex, format checks or combinators. This does not validate application-specific semantics. Values are not echoed."
+          }
+        ],
+        "structured_content": {
+          "valid": false,
+          "errorCount": 1,
+          "errors": [
+            {
+              "path": "/extra",
+              "rule": "false_schema"
+            }
+          ],
+          "omittedErrors": 0,
+          "supportedKeywords": [
+            "type",
+            "properties",
+            "required",
+            "additionalProperties",
+            "items",
+            "enum",
+            "minimum",
+            "maximum",
+            "minLength",
+            "maxLength",
+            "minItems",
+            "maxItems",
+            "title",
+            "description"
+          ],
+          "admin": {
+            "summary": "Configuration has 1 schema violations.",
+            "findings": [
+              "/extra: false_schema."
+            ],
+            "nextSteps": [
+              "Correct the reported paths and validate again."
+            ],
+            "limitations": [
+              "Bounded JSON Schema subset; no remote references, regex, format checks or combinators. This does not validate application-specific semantics. Values are not echoed."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_6",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "validate_config",
+      "arguments": {
+        "text": "1.5",
+        "schema": {
+          "type": "integer"
+        }
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Configuration has 1 schema violations.\n• /: type.\nNext: Correct the reported paths and validate again.\nLimit: Bounded JSON Schema subset; no remote references, regex, format checks or combinators. This does not validate application-specific semantics. Values are not echoed."
+          }
+        ],
+        "structured_content": {
+          "valid": false,
+          "errorCount": 1,
+          "errors": [
+            {
+              "path": "",
+              "rule": "type"
+            }
+          ],
+          "omittedErrors": 0,
+          "supportedKeywords": [
+            "type",
+            "properties",
+            "required",
+            "additionalProperties",
+            "items",
+            "enum",
+            "minimum",
+            "maximum",
+            "minLength",
+            "maxLength",
+            "minItems",
+            "maxItems",
+            "title",
+            "description"
+          ],
+          "admin": {
+            "summary": "Configuration has 1 schema violations.",
+            "findings": [
+              "/: type."
+            ],
+            "nextSteps": [
+              "Correct the reported paths and validate again."
+            ],
+            "limitations": [
+              "Bounded JSON Schema subset; no remote references, regex, format checks or combinators. This does not validate application-specific semantics. Values are not echoed."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_7",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "validate_config",
+      "arguments": {
+        "text": "4",
+        "schema": {
+          "type": "integer"
+        }
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Configuration matches the supplied supported schema.\nLimit: Bounded JSON Schema subset; no remote references, regex, format checks or combinators. This does not validate application-specific semantics. Values are not echoed."
+          }
+        ],
+        "structured_content": {
+          "valid": true,
+          "errorCount": 0,
+          "errors": [],
+          "omittedErrors": 0,
+          "supportedKeywords": [
+            "type",
+            "properties",
+            "required",
+            "additionalProperties",
+            "items",
+            "enum",
+            "minimum",
+            "maximum",
+            "minLength",
+            "maxLength",
+            "minItems",
+            "maxItems",
+            "title",
+            "description"
+          ],
+          "admin": {
+            "summary": "Configuration matches the supplied supported schema.",
+            "findings": [],
+            "nextSteps": [],
+            "limitations": [
+              "Bounded JSON Schema subset; no remote references, regex, format checks or combinators. This does not validate application-specific semantics. Values are not echoed."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_8",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "validate_config",
+      "arguments": {
+        "text": "-1",
+        "schema": {
+          "minimum": 0
+        }
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Configuration has 1 schema violations.\n• /: minimum.\nNext: Correct the reported paths and validate again.\nLimit: Bounded JSON Schema subset; no remote references, regex, format checks or combinators. This does not validate application-specific semantics. Values are not echoed."
+          }
+        ],
+        "structured_content": {
+          "valid": false,
+          "errorCount": 1,
+          "errors": [
+            {
+              "path": "",
+              "rule": "minimum"
+            }
+          ],
+          "omittedErrors": 0,
+          "supportedKeywords": [
+            "type",
+            "properties",
+            "required",
+            "additionalProperties",
+            "items",
+            "enum",
+            "minimum",
+            "maximum",
+            "minLength",
+            "maxLength",
+            "minItems",
+            "maxItems",
+            "title",
+            "description"
+          ],
+          "admin": {
+            "summary": "Configuration has 1 schema violations.",
+            "findings": [
+              "/: minimum."
+            ],
+            "nextSteps": [
+              "Correct the reported paths and validate again."
+            ],
+            "limitations": [
+              "Bounded JSON Schema subset; no remote references, regex, format checks or combinators. This does not validate application-specific semantics. Values are not echoed."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_9",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "validate_config",
+      "arguments": {
+        "text": "11",
+        "schema": {
+          "maximum": 10
+        }
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Configuration has 1 schema violations.\n• /: maximum.\nNext: Correct the reported paths and validate again.\nLimit: Bounded JSON Schema subset; no remote references, regex, format checks or combinators. This does not validate application-specific semantics. Values are not echoed."
+          }
+        ],
+        "structured_content": {
+          "valid": false,
+          "errorCount": 1,
+          "errors": [
+            {
+              "path": "",
+              "rule": "maximum"
+            }
+          ],
+          "omittedErrors": 0,
+          "supportedKeywords": [
+            "type",
+            "properties",
+            "required",
+            "additionalProperties",
+            "items",
+            "enum",
+            "minimum",
+            "maximum",
+            "minLength",
+            "maxLength",
+            "minItems",
+            "maxItems",
+            "title",
+            "description"
+          ],
+          "admin": {
+            "summary": "Configuration has 1 schema violations.",
+            "findings": [
+              "/: maximum."
+            ],
+            "nextSteps": [
+              "Correct the reported paths and validate again."
+            ],
+            "limitations": [
+              "Bounded JSON Schema subset; no remote references, regex, format checks or combinators. This does not validate application-specific semantics. Values are not echoed."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_10",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "validate_config",
+      "arguments": {
+        "text": "\"😀\"",
+        "schema": {
+          "minLength": 1,
+          "maxLength": 1
+        }
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Configuration matches the supplied supported schema.\nLimit: Bounded JSON Schema subset; no remote references, regex, format checks or combinators. This does not validate application-specific semantics. Values are not echoed."
+          }
+        ],
+        "structured_content": {
+          "valid": true,
+          "errorCount": 0,
+          "errors": [],
+          "omittedErrors": 0,
+          "supportedKeywords": [
+            "type",
+            "properties",
+            "required",
+            "additionalProperties",
+            "items",
+            "enum",
+            "minimum",
+            "maximum",
+            "minLength",
+            "maxLength",
+            "minItems",
+            "maxItems",
+            "title",
+            "description"
+          ],
+          "admin": {
+            "summary": "Configuration matches the supplied supported schema.",
+            "findings": [],
+            "nextSteps": [],
+            "limitations": [
+              "Bounded JSON Schema subset; no remote references, regex, format checks or combinators. This does not validate application-specific semantics. Values are not echoed."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    }
+  ],
+  "prohibitedActions": [],
+  "events": [],
+  "stderr": "2026-10-10T17:00:47.854997Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n",
+  "telemetry": [
+    {
+      "service": "logs",
+      "method": "initialize",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 1,
+      "inputBytes": 217,
+      "outputBytes": 166,
+      "clientName": "codex-mcp-client",
+      "clientVersion": "0.154.0"
+    },
+    {
+      "service": "logs",
+      "method": "notifications/initialized",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 1,
+      "inputBytes": 54,
+      "outputBytes": 0
+    },
+    {
+      "service": "logs",
+      "method": "tools/list",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 3,
+      "inputBytes": 85,
+      "outputBytes": 5302
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "validate_config",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 2,
+      "inputBytes": 785,
+      "outputBytes": 844
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "validate_config",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 2,
+      "inputBytes": 785,
+      "outputBytes": 968
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "validate_config",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 2,
+      "inputBytes": 789,
+      "outputBytes": 980
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "validate_config",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 2,
+      "inputBytes": 801,
+      "outputBytes": 844
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "validate_config",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 809,
+      "outputBytes": 1008
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "validate_config",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 787,
+      "outputBytes": 968
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "validate_config",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 785,
+      "outputBytes": 844
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "validate_config",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 781,
+      "outputBytes": 977
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "validate_config",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 783,
+      "outputBytes": 978
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "validate_config",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 805,
+      "outputBytes": 845
+    }
+  ],
+  "environment": "local Streamable HTTP with synthetic DNS/HTTPS fixtures; native Codex MCP calls"
+}

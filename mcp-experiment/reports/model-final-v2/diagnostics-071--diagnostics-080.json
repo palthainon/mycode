@@ -1,0 +1,930 @@
+{
+  "model": "gpt-5.6-luna",
+  "at": "2026-10-10T16:56:27.651Z",
+  "elapsedMs": 13522,
+  "exitCode": 0,
+  "usage": {
+    "input_tokens": 68320,
+    "cached_input_tokens": 46336,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 1747,
+    "reasoning_output_tokens": 191
+  },
+  "results": [
+    {
+      "id": "diagnostics-071",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "one hop",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-071",
+        "summary": "One unverified hop reported; no delivery status lines.",
+        "fact": 1,
+        "nextStep": "Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs.",
+        "limitations": "Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+      },
+      "responseBytes": 1424,
+      "textChars": 406
+    },
+    {
+      "id": "diagnostics-072",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "two hop delay",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-072",
+        "summary": "Two hops reported with a 300-second delay.",
+        "fact": 300,
+        "nextStep": "Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs.",
+        "limitations": "Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+      },
+      "responseBytes": 1690,
+      "textChars": 406
+    },
+    {
+      "id": "diagnostics-073",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "queue delay",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-073",
+        "summary": "Two hops reported with a 600-second delay exceeding five minutes.",
+        "fact": 600,
+        "nextStep": "Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs.",
+        "limitations": "Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+      },
+      "responseBytes": 1931,
+      "textChars": 486
+    },
+    {
+      "id": "diagnostics-074",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "clock goes backwards",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-074",
+        "summary": "Reported hop delay is negative, indicating backward timestamps.",
+        "fact": -3600,
+        "nextStep": "Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs.",
+        "limitations": "Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+      },
+      "responseBytes": 1942,
+      "textChars": 489
+    },
+    {
+      "id": "diagnostics-075",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "no timezone",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-075",
+        "summary": "The hop timestamp was not parsed because no explicit timezone or year was usable.",
+        "fact": null,
+        "nextStep": "Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs.",
+        "limitations": "Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+      },
+      "responseBytes": 1577,
+      "textChars": 466
+    },
+    {
+      "id": "diagnostics-076",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "invalid date",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-076",
+        "summary": "The invalid date produced no usable parsed timestamp.",
+        "fact": null,
+        "nextStep": "Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs.",
+        "limitations": "Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+      },
+      "responseBytes": 1560,
+      "textChars": 466
+    },
+    {
+      "id": "diagnostics-077",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "folded Received",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-077",
+        "summary": "The folded Received header parsed one hop with b.example.com as the receiving host.",
+        "fact": "b.example.com",
+        "nextStep": "Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs.",
+        "limitations": "Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+      },
+      "responseBytes": 1406,
+      "textChars": 406
+    },
+    {
+      "id": "diagnostics-078",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "body excluded",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-078",
+        "summary": "The body-like section after the blank line was ignored; no hops were reported.",
+        "fact": 0,
+        "nextStep": "Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs.",
+        "limitations": "Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+      },
+      "responseBytes": 1249,
+      "textChars": 436
+    },
+    {
+      "id": "diagnostics-079",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "malformed header",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-079",
+        "summary": "One malformed header line was observed.",
+        "fact": 1,
+        "nextStep": "Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs.",
+        "limitations": "Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+      },
+      "responseBytes": 1336,
+      "textChars": 464
+    },
+    {
+      "id": "diagnostics-080",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "orphan continuation",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-080",
+        "summary": "One orphan continuation line was observed as malformed.",
+        "fact": 1,
+        "nextStep": "Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs.",
+        "limitations": "Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+      },
+      "responseBytes": 1336,
+      "textChars": 464
+    }
+  ],
+  "calls": [
+    {
+      "id": "item_1",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "trace_email",
+      "arguments": {
+        "headers": "Received: from sender.example.com by relay.example.com; Fri, 09 Oct 2026 10:00:00 +0000",
+        "deliveryLog": ""
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 reported email hops; 0 delivery status lines.\nNext: Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs.\nLimit: Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+          }
+        ],
+        "structured_content": {
+          "hopCount": 1,
+          "hops": [
+            {
+              "index": 0,
+              "headerLine": 1,
+              "from": "sender.example.com",
+              "by": "relay.example.com",
+              "timestamp": "2026-10-09T10:00:00.000Z",
+              "delaySeconds": null,
+              "evidence": "from sender.example.com by relay.example.com; Fri, 09 Oct 2026 10:00:00 +0000",
+              "trust": "unverified_supplied_header"
+            }
+          ],
+          "retainedHopSelection": "newest_50_in_reported_chronological_order",
+          "omittedHops": 0,
+          "authentication": [],
+          "omittedAuthentication": 0,
+          "delivery": [],
+          "omittedDelivery": 0,
+          "malformedLines": 0,
+          "anomalies": [],
+          "admin": {
+            "summary": "1 reported email hops; 0 delivery status lines.",
+            "findings": [],
+            "nextSteps": [
+              "Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs."
+            ],
+            "limitations": [
+              "Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_2",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "trace_email",
+      "arguments": {
+        "headers": "Received: from sender.example.com by relay.example.com; Fri, 09 Oct 2026 10:05:00 +0000\nReceived: from sender.example.com by relay.example.com; Fri, 09 Oct 2026 10:00:00 +0000",
+        "deliveryLog": ""
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "2 reported email hops; 0 delivery status lines.\nNext: Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs.\nLimit: Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+          }
+        ],
+        "structured_content": {
+          "hopCount": 2,
+          "hops": [
+            {
+              "index": 0,
+              "headerLine": 2,
+              "from": "sender.example.com",
+              "by": "relay.example.com",
+              "timestamp": "2026-10-09T10:00:00.000Z",
+              "delaySeconds": null,
+              "evidence": "from sender.example.com by relay.example.com; Fri, 09 Oct 2026 10:00:00 +0000",
+              "trust": "unverified_supplied_header"
+            },
+            {
+              "index": 1,
+              "headerLine": 1,
+              "from": "sender.example.com",
+              "by": "relay.example.com",
+              "timestamp": "2026-10-09T10:05:00.000Z",
+              "delaySeconds": 300,
+              "evidence": "from sender.example.com by relay.example.com; Fri, 09 Oct 2026 10:05:00 +0000",
+              "trust": "unverified_supplied_header"
+            }
+          ],
+          "retainedHopSelection": "newest_50_in_reported_chronological_order",
+          "omittedHops": 0,
+          "authentication": [],
+          "omittedAuthentication": 0,
+          "delivery": [],
+          "omittedDelivery": 0,
+          "malformedLines": 0,
+          "anomalies": [],
+          "admin": {
+            "summary": "2 reported email hops; 0 delivery status lines.",
+            "findings": [],
+            "nextSteps": [
+              "Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs."
+            ],
+            "limitations": [
+              "Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_3",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "trace_email",
+      "arguments": {
+        "headers": "Received: from sender.example.com by relay.example.com; Fri, 09 Oct 2026 10:10:00 +0000\nReceived: from sender.example.com by relay.example.com; Fri, 09 Oct 2026 10:00:00 +0000",
+        "deliveryLog": ""
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "2 reported email hops; 0 delivery status lines.\n• At least one reported hop gap exceeds five minutes; inspect that relay queue.\nNext: Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs.\nLimit: Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+          }
+        ],
+        "structured_content": {
+          "hopCount": 2,
+          "hops": [
+            {
+              "index": 0,
+              "headerLine": 2,
+              "from": "sender.example.com",
+              "by": "relay.example.com",
+              "timestamp": "2026-10-09T10:00:00.000Z",
+              "delaySeconds": null,
+              "evidence": "from sender.example.com by relay.example.com; Fri, 09 Oct 2026 10:00:00 +0000",
+              "trust": "unverified_supplied_header"
+            },
+            {
+              "index": 1,
+              "headerLine": 1,
+              "from": "sender.example.com",
+              "by": "relay.example.com",
+              "timestamp": "2026-10-09T10:10:00.000Z",
+              "delaySeconds": 600,
+              "evidence": "from sender.example.com by relay.example.com; Fri, 09 Oct 2026 10:10:00 +0000",
+              "trust": "unverified_supplied_header"
+            }
+          ],
+          "retainedHopSelection": "newest_50_in_reported_chronological_order",
+          "omittedHops": 0,
+          "authentication": [],
+          "omittedAuthentication": 0,
+          "delivery": [],
+          "omittedDelivery": 0,
+          "malformedLines": 0,
+          "anomalies": [
+            "At least one reported hop gap exceeds five minutes; inspect that relay queue."
+          ],
+          "admin": {
+            "summary": "2 reported email hops; 0 delivery status lines.",
+            "findings": [
+              "At least one reported hop gap exceeds five minutes; inspect that relay queue."
+            ],
+            "nextSteps": [
+              "Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs."
+            ],
+            "limitations": [
+              "Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_4",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "trace_email",
+      "arguments": {
+        "headers": "Received: from sender.example.com by relay.example.com; Fri, 09 Oct 2026 09:00:00 +0000\nReceived: from sender.example.com by relay.example.com; Fri, 09 Oct 2026 10:00:00 +0000",
+        "deliveryLog": ""
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "2 reported email hops; 0 delivery status lines.\n• Received timestamps move backwards; clocks or header claims may be inconsistent.\nNext: Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs.\nLimit: Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+          }
+        ],
+        "structured_content": {
+          "hopCount": 2,
+          "hops": [
+            {
+              "index": 0,
+              "headerLine": 2,
+              "from": "sender.example.com",
+              "by": "relay.example.com",
+              "timestamp": "2026-10-09T10:00:00.000Z",
+              "delaySeconds": null,
+              "evidence": "from sender.example.com by relay.example.com; Fri, 09 Oct 2026 10:00:00 +0000",
+              "trust": "unverified_supplied_header"
+            },
+            {
+              "index": 1,
+              "headerLine": 1,
+              "from": "sender.example.com",
+              "by": "relay.example.com",
+              "timestamp": "2026-10-09T09:00:00.000Z",
+              "delaySeconds": -3600,
+              "evidence": "from sender.example.com by relay.example.com; Fri, 09 Oct 2026 09:00:00 +0000",
+              "trust": "unverified_supplied_header"
+            }
+          ],
+          "retainedHopSelection": "newest_50_in_reported_chronological_order",
+          "omittedHops": 0,
+          "authentication": [],
+          "omittedAuthentication": 0,
+          "delivery": [],
+          "omittedDelivery": 0,
+          "malformedLines": 0,
+          "anomalies": [
+            "Received timestamps move backwards; clocks or header claims may be inconsistent."
+          ],
+          "admin": {
+            "summary": "2 reported email hops; 0 delivery status lines.",
+            "findings": [
+              "Received timestamps move backwards; clocks or header claims may be inconsistent."
+            ],
+            "nextSteps": [
+              "Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs."
+            ],
+            "limitations": [
+              "Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_5",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "trace_email",
+      "arguments": {
+        "headers": "Received: from sender.example.com by relay.example.com; Fri, 09 Oct 2026 10:00:00",
+        "deliveryLog": ""
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 reported email hops; 0 delivery status lines.\n• Some Received dates lack a usable explicit timezone/year.\nNext: Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs.\nLimit: Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+          }
+        ],
+        "structured_content": {
+          "hopCount": 1,
+          "hops": [
+            {
+              "index": 0,
+              "headerLine": 1,
+              "from": "sender.example.com",
+              "by": "relay.example.com",
+              "timestamp": null,
+              "delaySeconds": null,
+              "evidence": "from sender.example.com by relay.example.com; Fri, 09 Oct 2026 10:00:00",
+              "trust": "unverified_supplied_header"
+            }
+          ],
+          "retainedHopSelection": "newest_50_in_reported_chronological_order",
+          "omittedHops": 0,
+          "authentication": [],
+          "omittedAuthentication": 0,
+          "delivery": [],
+          "omittedDelivery": 0,
+          "malformedLines": 0,
+          "anomalies": [
+            "Some Received dates lack a usable explicit timezone/year."
+          ],
+          "admin": {
+            "summary": "1 reported email hops; 0 delivery status lines.",
+            "findings": [
+              "Some Received dates lack a usable explicit timezone/year."
+            ],
+            "nextSteps": [
+              "Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs."
+            ],
+            "limitations": [
+              "Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_6",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "trace_email",
+      "arguments": {
+        "headers": "Received: from sender.example.com by relay.example.com; bad date",
+        "deliveryLog": ""
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 reported email hops; 0 delivery status lines.\n• Some Received dates lack a usable explicit timezone/year.\nNext: Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs.\nLimit: Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+          }
+        ],
+        "structured_content": {
+          "hopCount": 1,
+          "hops": [
+            {
+              "index": 0,
+              "headerLine": 1,
+              "from": "sender.example.com",
+              "by": "relay.example.com",
+              "timestamp": null,
+              "delaySeconds": null,
+              "evidence": "from sender.example.com by relay.example.com; bad date",
+              "trust": "unverified_supplied_header"
+            }
+          ],
+          "retainedHopSelection": "newest_50_in_reported_chronological_order",
+          "omittedHops": 0,
+          "authentication": [],
+          "omittedAuthentication": 0,
+          "delivery": [],
+          "omittedDelivery": 0,
+          "malformedLines": 0,
+          "anomalies": [
+            "Some Received dates lack a usable explicit timezone/year."
+          ],
+          "admin": {
+            "summary": "1 reported email hops; 0 delivery status lines.",
+            "findings": [
+              "Some Received dates lack a usable explicit timezone/year."
+            ],
+            "nextSteps": [
+              "Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs."
+            ],
+            "limitations": [
+              "Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_7",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "trace_email",
+      "arguments": {
+        "headers": "Received: from a.example.com\n\tby b.example.com; Fri, 09 Oct 2026 10:00:00 +0000",
+        "deliveryLog": ""
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 reported email hops; 0 delivery status lines.\nNext: Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs.\nLimit: Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+          }
+        ],
+        "structured_content": {
+          "hopCount": 1,
+          "hops": [
+            {
+              "index": 0,
+              "headerLine": 1,
+              "from": "a.example.com",
+              "by": "b.example.com",
+              "timestamp": "2026-10-09T10:00:00.000Z",
+              "delaySeconds": null,
+              "evidence": "from a.example.com by b.example.com; Fri, 09 Oct 2026 10:00:00 +0000",
+              "trust": "unverified_supplied_header"
+            }
+          ],
+          "retainedHopSelection": "newest_50_in_reported_chronological_order",
+          "omittedHops": 0,
+          "authentication": [],
+          "omittedAuthentication": 0,
+          "delivery": [],
+          "omittedDelivery": 0,
+          "malformedLines": 0,
+          "anomalies": [],
+          "admin": {
+            "summary": "1 reported email hops; 0 delivery status lines.",
+            "findings": [],
+            "nextSteps": [
+              "Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs."
+            ],
+            "limitations": [
+              "Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_8",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "trace_email",
+      "arguments": {
+        "headers": "Subject: fixture\n\nReceived: from sender.example.com by relay.example.com; Fri, 09 Oct 2026 10:00:00 +0000",
+        "deliveryLog": ""
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "0 reported email hops; 0 delivery status lines.\n• No Received chain supplied.\nNext: Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs.\nLimit: Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+          }
+        ],
+        "structured_content": {
+          "hopCount": 0,
+          "hops": [],
+          "retainedHopSelection": "newest_50_in_reported_chronological_order",
+          "omittedHops": 0,
+          "authentication": [],
+          "omittedAuthentication": 0,
+          "delivery": [],
+          "omittedDelivery": 0,
+          "malformedLines": 0,
+          "anomalies": [
+            "No Received chain supplied."
+          ],
+          "admin": {
+            "summary": "0 reported email hops; 0 delivery status lines.",
+            "findings": [
+              "No Received chain supplied."
+            ],
+            "nextSteps": [
+              "Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs."
+            ],
+            "limitations": [
+              "Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_9",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "trace_email",
+      "arguments": {
+        "headers": "broken header",
+        "deliveryLog": ""
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "0 reported email hops; 0 delivery status lines.\n• 1 malformed header lines.\n• No Received chain supplied.\nNext: Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs.\nLimit: Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+          }
+        ],
+        "structured_content": {
+          "hopCount": 0,
+          "hops": [],
+          "retainedHopSelection": "newest_50_in_reported_chronological_order",
+          "omittedHops": 0,
+          "authentication": [],
+          "omittedAuthentication": 0,
+          "delivery": [],
+          "omittedDelivery": 0,
+          "malformedLines": 1,
+          "anomalies": [
+            "1 malformed header lines.",
+            "No Received chain supplied."
+          ],
+          "admin": {
+            "summary": "0 reported email hops; 0 delivery status lines.",
+            "findings": [
+              "1 malformed header lines.",
+              "No Received chain supplied."
+            ],
+            "nextSteps": [
+              "Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs."
+            ],
+            "limitations": [
+              "Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_10",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "trace_email",
+      "arguments": {
+        "headers": "\torphan",
+        "deliveryLog": ""
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "0 reported email hops; 0 delivery status lines.\n• 1 malformed header lines.\n• No Received chain supplied.\nNext: Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs.\nLimit: Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+          }
+        ],
+        "structured_content": {
+          "hopCount": 0,
+          "hops": [],
+          "retainedHopSelection": "newest_50_in_reported_chronological_order",
+          "omittedHops": 0,
+          "authentication": [],
+          "omittedAuthentication": 0,
+          "delivery": [],
+          "omittedDelivery": 0,
+          "malformedLines": 1,
+          "anomalies": [
+            "1 malformed header lines.",
+            "No Received chain supplied."
+          ],
+          "admin": {
+            "summary": "0 reported email hops; 0 delivery status lines.",
+            "findings": [
+              "1 malformed header lines.",
+              "No Received chain supplied."
+            ],
+            "nextSteps": [
+              "Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs."
+            ],
+            "limitations": [
+              "Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    }
+  ],
+  "prohibitedActions": [],
+  "events": [],
+  "stderr": "2026-10-10T16:56:14.303725Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n",
+  "telemetry": [
+    {
+      "service": "diagnostics",
+      "method": "initialize",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 2,
+      "inputBytes": 217,
+      "outputBytes": 173,
+      "clientName": "codex-mcp-client",
+      "clientVersion": "0.154.0"
+    },
+    {
+      "service": "diagnostics",
+      "method": "notifications/initialized",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 1,
+      "inputBytes": 54,
+      "outputBytes": 0
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/list",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 2,
+      "inputBytes": 85,
+      "outputBytes": 4160
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "trace_email",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 3,
+      "inputBytes": 859,
+      "outputBytes": 1457
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "trace_email",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 2,
+      "inputBytes": 948,
+      "outputBytes": 1723
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "trace_email",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 948,
+      "outputBytes": 1964
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "trace_email",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 948,
+      "outputBytes": 1975
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "trace_email",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 853,
+      "outputBytes": 1610
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "trace_email",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 836,
+      "outputBytes": 1593
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "trace_email",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 853,
+      "outputBytes": 1439
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "trace_email",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 879,
+      "outputBytes": 1282
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "trace_email",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 2,
+      "inputBytes": 786,
+      "outputBytes": 1370
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "trace_email",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 782,
+      "outputBytes": 1370
+    }
+  ],
+  "environment": "local Streamable HTTP with synthetic DNS/HTTPS fixtures; native Codex MCP calls"
+}

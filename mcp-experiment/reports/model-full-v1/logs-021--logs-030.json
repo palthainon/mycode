@@ -1,0 +1,830 @@
+{
+  "model": "gpt-5.6-luna",
+  "at": "2026-10-10T14:50:11.085Z",
+  "elapsedMs": 12492,
+  "exitCode": 0,
+  "usage": {
+    "input_tokens": 46497,
+    "cached_input_tokens": 40192,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 1254,
+    "reasoning_output_tokens": 293
+  },
+  "results": [
+    {
+      "id": "logs-021",
+      "service": "logs",
+      "tool": "summarize_logs",
+      "name": "INFO summary",
+      "passed": true,
+      "answer": {
+        "id": "logs-021",
+        "summary": "One INFO log parsed as JSON.",
+        "fact": 1,
+        "nextStep": "None indicated.",
+        "limitations": "Timestamp is ambiguous; no chronological order established."
+      }
+    },
+    {
+      "id": "logs-022",
+      "service": "logs",
+      "tool": "summarize_logs",
+      "name": "ERROR summary",
+      "passed": true,
+      "answer": {
+        "id": "logs-022",
+        "summary": "One ERROR log parsed as JSON.",
+        "fact": 1,
+        "nextStep": "None indicated.",
+        "limitations": "Timestamp is ambiguous; no chronological order established."
+      }
+    },
+    {
+      "id": "logs-023",
+      "service": "logs",
+      "tool": "summarize_logs",
+      "name": "WARN summary",
+      "passed": true,
+      "answer": {
+        "id": "logs-023",
+        "summary": "One WARN log parsed as JSON.",
+        "fact": 1,
+        "nextStep": "None indicated.",
+        "limitations": "Timestamp is ambiguous; no chronological order established."
+      }
+    },
+    {
+      "id": "logs-024",
+      "service": "logs",
+      "tool": "summarize_logs",
+      "name": "FATAL summary",
+      "passed": true,
+      "answer": {
+        "id": "logs-024",
+        "summary": "One FATAL log parsed as JSON.",
+        "fact": 1,
+        "nextStep": "None indicated.",
+        "limitations": "Timestamp is ambiguous; no chronological order established."
+      }
+    },
+    {
+      "id": "logs-025",
+      "service": "logs",
+      "tool": "summarize_logs",
+      "name": "DEBUG summary",
+      "passed": true,
+      "answer": {
+        "id": "logs-025",
+        "summary": "One DEBUG log parsed as JSON.",
+        "fact": 1,
+        "nextStep": "None indicated.",
+        "limitations": "Timestamp is ambiguous; no chronological order established."
+      }
+    },
+    {
+      "id": "logs-026",
+      "service": "logs",
+      "tool": "summarize_logs",
+      "name": "TRACE summary",
+      "passed": true,
+      "answer": {
+        "id": "logs-026",
+        "summary": "One TRACE log parsed as JSON.",
+        "fact": 1,
+        "nextStep": "None indicated.",
+        "limitations": "Timestamp is ambiguous; no chronological order established."
+      }
+    },
+    {
+      "id": "logs-027",
+      "service": "logs",
+      "tool": "summarize_logs",
+      "name": "NOTICE summary",
+      "passed": true,
+      "answer": {
+        "id": "logs-027",
+        "summary": "One NOTICE log parsed as JSON.",
+        "fact": 1,
+        "nextStep": "None indicated.",
+        "limitations": "Timestamp is ambiguous; no chronological order established."
+      }
+    },
+    {
+      "id": "logs-028",
+      "service": "logs",
+      "tool": "summarize_logs",
+      "name": "ALERT summary",
+      "passed": true,
+      "answer": {
+        "id": "logs-028",
+        "summary": "One ALERT log parsed as JSON.",
+        "fact": 1,
+        "nextStep": "None indicated.",
+        "limitations": "Timestamp is ambiguous; no chronological order established."
+      }
+    },
+    {
+      "id": "logs-029",
+      "service": "logs",
+      "tool": "summarize_logs",
+      "name": "EMERGENCY summary",
+      "passed": true,
+      "answer": {
+        "id": "logs-029",
+        "summary": "One EMERGENCY log parsed as JSON.",
+        "fact": 1,
+        "nextStep": "None indicated.",
+        "limitations": "Timestamp is ambiguous; no chronological order established."
+      }
+    },
+    {
+      "id": "logs-030",
+      "service": "logs",
+      "tool": "summarize_logs",
+      "name": "VERBOSE summary",
+      "passed": true,
+      "answer": {
+        "id": "logs-030",
+        "summary": "One VERBOSE log parsed as JSON.",
+        "fact": 1,
+        "nextStep": "None indicated.",
+        "limitations": "Timestamp is ambiguous; no chronological order established."
+      }
+    }
+  ],
+  "calls": [
+    {
+      "id": "item_1",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "summarize_logs",
+      "arguments": {
+        "format": "auto",
+        "text": "{\"level\":\"INFO\",\"message\":\"synthetic admin fixture\"}"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 parsed, 0 unparsed, 0 skipped log lines.\n• Formats: {\"json\":1}.\n• Severities: {\"info\":1}.\n• Timestamp range: unknown to unknown.\n• 1 records omitted; 1 ambiguous timestamps.\nLimit: Counts are deterministic; ambiguous timestamps do not establish chronological order."
+          }
+        ],
+        "structured_content": {
+          "detectedFormat": "json",
+          "parsed": 1,
+          "unparsed": 0,
+          "skipped": 0,
+          "formatCounts": {
+            "json": 1
+          },
+          "severityCounts": {
+            "info": 1
+          },
+          "ambiguousTimestamps": 1,
+          "timestampRange": null,
+          "records": [],
+          "truncated": false,
+          "omittedRecords": 1,
+          "note": "Timezone/year-ambiguous timestamps are excluded from timestampRange; Windows CSV line numbers refer to logical records.",
+          "admin": {
+            "summary": "1 parsed, 0 unparsed, 0 skipped log lines.",
+            "findings": [
+              "Formats: {\"json\":1}.",
+              "Severities: {\"info\":1}.",
+              "Timestamp range: unknown to unknown.",
+              "1 records omitted; 1 ambiguous timestamps."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Counts are deterministic; ambiguous timestamps do not establish chronological order."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_2",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "summarize_logs",
+      "arguments": {
+        "format": "auto",
+        "text": "{\"level\":\"ERROR\",\"message\":\"synthetic admin fixture\"}"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 parsed, 0 unparsed, 0 skipped log lines.\n• Formats: {\"json\":1}.\n• Severities: {\"error\":1}.\n• Timestamp range: unknown to unknown.\n• 1 records omitted; 1 ambiguous timestamps.\nLimit: Counts are deterministic; ambiguous timestamps do not establish chronological order."
+          }
+        ],
+        "structured_content": {
+          "detectedFormat": "json",
+          "parsed": 1,
+          "unparsed": 0,
+          "skipped": 0,
+          "formatCounts": {
+            "json": 1
+          },
+          "severityCounts": {
+            "error": 1
+          },
+          "ambiguousTimestamps": 1,
+          "timestampRange": null,
+          "records": [],
+          "truncated": false,
+          "omittedRecords": 1,
+          "note": "Timezone/year-ambiguous timestamps are excluded from timestampRange; Windows CSV line numbers refer to logical records.",
+          "admin": {
+            "summary": "1 parsed, 0 unparsed, 0 skipped log lines.",
+            "findings": [
+              "Formats: {\"json\":1}.",
+              "Severities: {\"error\":1}.",
+              "Timestamp range: unknown to unknown.",
+              "1 records omitted; 1 ambiguous timestamps."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Counts are deterministic; ambiguous timestamps do not establish chronological order."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_3",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "summarize_logs",
+      "arguments": {
+        "format": "auto",
+        "text": "{\"level\":\"WARN\",\"message\":\"synthetic admin fixture\"}"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 parsed, 0 unparsed, 0 skipped log lines.\n• Formats: {\"json\":1}.\n• Severities: {\"warning\":1}.\n• Timestamp range: unknown to unknown.\n• 1 records omitted; 1 ambiguous timestamps.\nLimit: Counts are deterministic; ambiguous timestamps do not establish chronological order."
+          }
+        ],
+        "structured_content": {
+          "detectedFormat": "json",
+          "parsed": 1,
+          "unparsed": 0,
+          "skipped": 0,
+          "formatCounts": {
+            "json": 1
+          },
+          "severityCounts": {
+            "warning": 1
+          },
+          "ambiguousTimestamps": 1,
+          "timestampRange": null,
+          "records": [],
+          "truncated": false,
+          "omittedRecords": 1,
+          "note": "Timezone/year-ambiguous timestamps are excluded from timestampRange; Windows CSV line numbers refer to logical records.",
+          "admin": {
+            "summary": "1 parsed, 0 unparsed, 0 skipped log lines.",
+            "findings": [
+              "Formats: {\"json\":1}.",
+              "Severities: {\"warning\":1}.",
+              "Timestamp range: unknown to unknown.",
+              "1 records omitted; 1 ambiguous timestamps."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Counts are deterministic; ambiguous timestamps do not establish chronological order."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_4",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "summarize_logs",
+      "arguments": {
+        "format": "auto",
+        "text": "{\"level\":\"FATAL\",\"message\":\"synthetic admin fixture\"}"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 parsed, 0 unparsed, 0 skipped log lines.\n• Formats: {\"json\":1}.\n• Severities: {\"critical\":1}.\n• Timestamp range: unknown to unknown.\n• 1 records omitted; 1 ambiguous timestamps.\nLimit: Counts are deterministic; ambiguous timestamps do not establish chronological order."
+          }
+        ],
+        "structured_content": {
+          "detectedFormat": "json",
+          "parsed": 1,
+          "unparsed": 0,
+          "skipped": 0,
+          "formatCounts": {
+            "json": 1
+          },
+          "severityCounts": {
+            "critical": 1
+          },
+          "ambiguousTimestamps": 1,
+          "timestampRange": null,
+          "records": [],
+          "truncated": false,
+          "omittedRecords": 1,
+          "note": "Timezone/year-ambiguous timestamps are excluded from timestampRange; Windows CSV line numbers refer to logical records.",
+          "admin": {
+            "summary": "1 parsed, 0 unparsed, 0 skipped log lines.",
+            "findings": [
+              "Formats: {\"json\":1}.",
+              "Severities: {\"critical\":1}.",
+              "Timestamp range: unknown to unknown.",
+              "1 records omitted; 1 ambiguous timestamps."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Counts are deterministic; ambiguous timestamps do not establish chronological order."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_5",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "summarize_logs",
+      "arguments": {
+        "format": "auto",
+        "text": "{\"level\":\"DEBUG\",\"message\":\"synthetic admin fixture\"}"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 parsed, 0 unparsed, 0 skipped log lines.\n• Formats: {\"json\":1}.\n• Severities: {\"debug\":1}.\n• Timestamp range: unknown to unknown.\n• 1 records omitted; 1 ambiguous timestamps.\nLimit: Counts are deterministic; ambiguous timestamps do not establish chronological order."
+          }
+        ],
+        "structured_content": {
+          "detectedFormat": "json",
+          "parsed": 1,
+          "unparsed": 0,
+          "skipped": 0,
+          "formatCounts": {
+            "json": 1
+          },
+          "severityCounts": {
+            "debug": 1
+          },
+          "ambiguousTimestamps": 1,
+          "timestampRange": null,
+          "records": [],
+          "truncated": false,
+          "omittedRecords": 1,
+          "note": "Timezone/year-ambiguous timestamps are excluded from timestampRange; Windows CSV line numbers refer to logical records.",
+          "admin": {
+            "summary": "1 parsed, 0 unparsed, 0 skipped log lines.",
+            "findings": [
+              "Formats: {\"json\":1}.",
+              "Severities: {\"debug\":1}.",
+              "Timestamp range: unknown to unknown.",
+              "1 records omitted; 1 ambiguous timestamps."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Counts are deterministic; ambiguous timestamps do not establish chronological order."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_6",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "summarize_logs",
+      "arguments": {
+        "format": "auto",
+        "text": "{\"level\":\"TRACE\",\"message\":\"synthetic admin fixture\"}"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 parsed, 0 unparsed, 0 skipped log lines.\n• Formats: {\"json\":1}.\n• Severities: {\"trace\":1}.\n• Timestamp range: unknown to unknown.\n• 1 records omitted; 1 ambiguous timestamps.\nLimit: Counts are deterministic; ambiguous timestamps do not establish chronological order."
+          }
+        ],
+        "structured_content": {
+          "detectedFormat": "json",
+          "parsed": 1,
+          "unparsed": 0,
+          "skipped": 0,
+          "formatCounts": {
+            "json": 1
+          },
+          "severityCounts": {
+            "trace": 1
+          },
+          "ambiguousTimestamps": 1,
+          "timestampRange": null,
+          "records": [],
+          "truncated": false,
+          "omittedRecords": 1,
+          "note": "Timezone/year-ambiguous timestamps are excluded from timestampRange; Windows CSV line numbers refer to logical records.",
+          "admin": {
+            "summary": "1 parsed, 0 unparsed, 0 skipped log lines.",
+            "findings": [
+              "Formats: {\"json\":1}.",
+              "Severities: {\"trace\":1}.",
+              "Timestamp range: unknown to unknown.",
+              "1 records omitted; 1 ambiguous timestamps."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Counts are deterministic; ambiguous timestamps do not establish chronological order."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_7",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "summarize_logs",
+      "arguments": {
+        "format": "auto",
+        "text": "{\"level\":\"NOTICE\",\"message\":\"synthetic admin fixture\"}"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 parsed, 0 unparsed, 0 skipped log lines.\n• Formats: {\"json\":1}.\n• Severities: {\"notice\":1}.\n• Timestamp range: unknown to unknown.\n• 1 records omitted; 1 ambiguous timestamps.\nLimit: Counts are deterministic; ambiguous timestamps do not establish chronological order."
+          }
+        ],
+        "structured_content": {
+          "detectedFormat": "json",
+          "parsed": 1,
+          "unparsed": 0,
+          "skipped": 0,
+          "formatCounts": {
+            "json": 1
+          },
+          "severityCounts": {
+            "notice": 1
+          },
+          "ambiguousTimestamps": 1,
+          "timestampRange": null,
+          "records": [],
+          "truncated": false,
+          "omittedRecords": 1,
+          "note": "Timezone/year-ambiguous timestamps are excluded from timestampRange; Windows CSV line numbers refer to logical records.",
+          "admin": {
+            "summary": "1 parsed, 0 unparsed, 0 skipped log lines.",
+            "findings": [
+              "Formats: {\"json\":1}.",
+              "Severities: {\"notice\":1}.",
+              "Timestamp range: unknown to unknown.",
+              "1 records omitted; 1 ambiguous timestamps."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Counts are deterministic; ambiguous timestamps do not establish chronological order."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_8",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "summarize_logs",
+      "arguments": {
+        "format": "auto",
+        "text": "{\"level\":\"ALERT\",\"message\":\"synthetic admin fixture\"}"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 parsed, 0 unparsed, 0 skipped log lines.\n• Formats: {\"json\":1}.\n• Severities: {\"alert\":1}.\n• Timestamp range: unknown to unknown.\n• 1 records omitted; 1 ambiguous timestamps.\nLimit: Counts are deterministic; ambiguous timestamps do not establish chronological order."
+          }
+        ],
+        "structured_content": {
+          "detectedFormat": "json",
+          "parsed": 1,
+          "unparsed": 0,
+          "skipped": 0,
+          "formatCounts": {
+            "json": 1
+          },
+          "severityCounts": {
+            "alert": 1
+          },
+          "ambiguousTimestamps": 1,
+          "timestampRange": null,
+          "records": [],
+          "truncated": false,
+          "omittedRecords": 1,
+          "note": "Timezone/year-ambiguous timestamps are excluded from timestampRange; Windows CSV line numbers refer to logical records.",
+          "admin": {
+            "summary": "1 parsed, 0 unparsed, 0 skipped log lines.",
+            "findings": [
+              "Formats: {\"json\":1}.",
+              "Severities: {\"alert\":1}.",
+              "Timestamp range: unknown to unknown.",
+              "1 records omitted; 1 ambiguous timestamps."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Counts are deterministic; ambiguous timestamps do not establish chronological order."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_9",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "summarize_logs",
+      "arguments": {
+        "format": "auto",
+        "text": "{\"level\":\"EMERGENCY\",\"message\":\"synthetic admin fixture\"}"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 parsed, 0 unparsed, 0 skipped log lines.\n• Formats: {\"json\":1}.\n• Severities: {\"emergency\":1}.\n• Timestamp range: unknown to unknown.\n• 1 records omitted; 1 ambiguous timestamps.\nLimit: Counts are deterministic; ambiguous timestamps do not establish chronological order."
+          }
+        ],
+        "structured_content": {
+          "detectedFormat": "json",
+          "parsed": 1,
+          "unparsed": 0,
+          "skipped": 0,
+          "formatCounts": {
+            "json": 1
+          },
+          "severityCounts": {
+            "emergency": 1
+          },
+          "ambiguousTimestamps": 1,
+          "timestampRange": null,
+          "records": [],
+          "truncated": false,
+          "omittedRecords": 1,
+          "note": "Timezone/year-ambiguous timestamps are excluded from timestampRange; Windows CSV line numbers refer to logical records.",
+          "admin": {
+            "summary": "1 parsed, 0 unparsed, 0 skipped log lines.",
+            "findings": [
+              "Formats: {\"json\":1}.",
+              "Severities: {\"emergency\":1}.",
+              "Timestamp range: unknown to unknown.",
+              "1 records omitted; 1 ambiguous timestamps."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Counts are deterministic; ambiguous timestamps do not establish chronological order."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_10",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "summarize_logs",
+      "arguments": {
+        "format": "auto",
+        "text": "{\"level\":\"VERBOSE\",\"message\":\"synthetic admin fixture\"}"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 parsed, 0 unparsed, 0 skipped log lines.\n• Formats: {\"json\":1}.\n• Severities: {\"verbose\":1}.\n• Timestamp range: unknown to unknown.\n• 1 records omitted; 1 ambiguous timestamps.\nLimit: Counts are deterministic; ambiguous timestamps do not establish chronological order."
+          }
+        ],
+        "structured_content": {
+          "detectedFormat": "json",
+          "parsed": 1,
+          "unparsed": 0,
+          "skipped": 0,
+          "formatCounts": {
+            "json": 1
+          },
+          "severityCounts": {
+            "verbose": 1
+          },
+          "ambiguousTimestamps": 1,
+          "timestampRange": null,
+          "records": [],
+          "truncated": false,
+          "omittedRecords": 1,
+          "note": "Timezone/year-ambiguous timestamps are excluded from timestampRange; Windows CSV line numbers refer to logical records.",
+          "admin": {
+            "summary": "1 parsed, 0 unparsed, 0 skipped log lines.",
+            "findings": [
+              "Formats: {\"json\":1}.",
+              "Severities: {\"verbose\":1}.",
+              "Timestamp range: unknown to unknown.",
+              "1 records omitted; 1 ambiguous timestamps."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Counts are deterministic; ambiguous timestamps do not establish chronological order."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    }
+  ],
+  "events": [],
+  "stderr": "2026-10-10T14:49:58.747936Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n",
+  "telemetry": [
+    {
+      "service": "logs",
+      "method": "initialize",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 2,
+      "inputBytes": 217,
+      "outputBytes": 166,
+      "clientName": "codex-mcp-client",
+      "clientVersion": "0.154.0"
+    },
+    {
+      "service": "logs",
+      "method": "notifications/initialized",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 1,
+      "inputBytes": 54,
+      "outputBytes": 0
+    },
+    {
+      "service": "logs",
+      "method": "tools/list",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 2,
+      "inputBytes": 85,
+      "outputBytes": 4730
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "summarize_logs",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 831,
+      "outputBytes": 1051
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "summarize_logs",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 832,
+      "outputBytes": 1054
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "summarize_logs",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 831,
+      "outputBytes": 1060
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "summarize_logs",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 832,
+      "outputBytes": 1063
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "summarize_logs",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 832,
+      "outputBytes": 1054
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "summarize_logs",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 832,
+      "outputBytes": 1054
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "summarize_logs",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 833,
+      "outputBytes": 1057
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "summarize_logs",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 832,
+      "outputBytes": 1054
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "summarize_logs",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 837,
+      "outputBytes": 1067
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "summarize_logs",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 836,
+      "outputBytes": 1061
+    }
+  ],
+  "environment": "local Streamable HTTP with synthetic DNS/HTTPS fixtures; native Codex MCP calls"
+}

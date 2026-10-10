@@ -1,0 +1,322 @@
+{
+  "model": "gpt-5.6-luna",
+  "at": "2026-10-10T17:05:51.332Z",
+  "elapsedMs": 19809,
+  "exitCode": 0,
+  "usage": {
+    "input_tokens": 114132,
+    "cached_input_tokens": 98048,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 617,
+    "reasoning_output_tokens": 131
+  },
+  "results": [
+    {
+      "id": "diagnostics-date-001",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "Explicit year/timezone ambiguity regression 1",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-date-001",
+        "summary": "The supplied Received timestamp was not parsed due to missing year despite an explicit timezone.",
+        "fact": null,
+        "nextStep": "Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs.",
+        "limitations": "Supplied headers are unverified; no cryptographic authentication, DNS lookup, mailbox access, or inbox-delivery guarantee."
+      },
+      "responseBytes": 1572,
+      "textChars": 466
+    },
+    {
+      "id": "diagnostics-date-002",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "Explicit year/timezone ambiguity regression 2",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-date-002",
+        "summary": "The two-digit year timestamp was not parsed as a usable explicit date.",
+        "fact": null,
+        "nextStep": "Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs.",
+        "limitations": "Supplied headers are unverified; no cryptographic authentication, DNS lookup, mailbox access, or inbox-delivery guarantee."
+      },
+      "responseBytes": 1575,
+      "textChars": 466
+    },
+    {
+      "id": "diagnostics-date-003",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "Explicit year/timezone ambiguity regression 3",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-date-003",
+        "summary": "The full-year timestamp was not parsed because it lacked an explicit timezone.",
+        "fact": null,
+        "nextStep": "Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs.",
+        "limitations": "Supplied headers are unverified; no cryptographic authentication, DNS lookup, mailbox access, or inbox-delivery guarantee."
+      },
+      "responseBytes": 1571,
+      "textChars": 466
+    }
+  ],
+  "calls": [
+    {
+      "id": "item_1",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "trace_email",
+      "arguments": {
+        "headers": "Received: from sender.example.com by mx.example.com; Fri, 09 Oct 10:00:00 +0000"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 reported email hops; 0 delivery status lines.\n• Some Received dates lack a usable explicit timezone/year.\nNext: Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs.\nLimit: Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+          }
+        ],
+        "structured_content": {
+          "hopCount": 1,
+          "hops": [
+            {
+              "index": 0,
+              "headerLine": 1,
+              "from": "sender.example.com",
+              "by": "mx.example.com",
+              "timestamp": null,
+              "delaySeconds": null,
+              "evidence": "from sender.example.com by mx.example.com; Fri, 09 Oct 10:00:00 +0000",
+              "trust": "unverified_supplied_header"
+            }
+          ],
+          "retainedHopSelection": "newest_50_in_reported_chronological_order",
+          "omittedHops": 0,
+          "authentication": [],
+          "omittedAuthentication": 0,
+          "delivery": [],
+          "omittedDelivery": 0,
+          "malformedLines": 0,
+          "anomalies": [
+            "Some Received dates lack a usable explicit timezone/year."
+          ],
+          "admin": {
+            "summary": "1 reported email hops; 0 delivery status lines.",
+            "findings": [
+              "Some Received dates lack a usable explicit timezone/year."
+            ],
+            "nextSteps": [
+              "Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs."
+            ],
+            "limitations": [
+              "Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_2",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "trace_email",
+      "arguments": {
+        "headers": "Received: from sender.example.com by mx.example.com; Fri, 09 Oct 26 10:00:00 +0000"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 reported email hops; 0 delivery status lines.\n• Some Received dates lack a usable explicit timezone/year.\nNext: Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs.\nLimit: Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+          }
+        ],
+        "structured_content": {
+          "hopCount": 1,
+          "hops": [
+            {
+              "index": 0,
+              "headerLine": 1,
+              "from": "sender.example.com",
+              "by": "mx.example.com",
+              "timestamp": null,
+              "delaySeconds": null,
+              "evidence": "from sender.example.com by mx.example.com; Fri, 09 Oct 26 10:00:00 +0000",
+              "trust": "unverified_supplied_header"
+            }
+          ],
+          "retainedHopSelection": "newest_50_in_reported_chronological_order",
+          "omittedHops": 0,
+          "authentication": [],
+          "omittedAuthentication": 0,
+          "delivery": [],
+          "omittedDelivery": 0,
+          "malformedLines": 0,
+          "anomalies": [
+            "Some Received dates lack a usable explicit timezone/year."
+          ],
+          "admin": {
+            "summary": "1 reported email hops; 0 delivery status lines.",
+            "findings": [
+              "Some Received dates lack a usable explicit timezone/year."
+            ],
+            "nextSteps": [
+              "Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs."
+            ],
+            "limitations": [
+              "Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_3",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "trace_email",
+      "arguments": {
+        "headers": "Received: from sender.example.com by mx.example.com; Fri, 09 Oct 2026 10:00:00"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 reported email hops; 0 delivery status lines.\n• Some Received dates lack a usable explicit timezone/year.\nNext: Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs.\nLimit: Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+          }
+        ],
+        "structured_content": {
+          "hopCount": 1,
+          "hops": [
+            {
+              "index": 0,
+              "headerLine": 1,
+              "from": "sender.example.com",
+              "by": "mx.example.com",
+              "timestamp": null,
+              "delaySeconds": null,
+              "evidence": "from sender.example.com by mx.example.com; Fri, 09 Oct 2026 10:00:00",
+              "trust": "unverified_supplied_header"
+            }
+          ],
+          "retainedHopSelection": "newest_50_in_reported_chronological_order",
+          "omittedHops": 0,
+          "authentication": [],
+          "omittedAuthentication": 0,
+          "delivery": [],
+          "omittedDelivery": 0,
+          "malformedLines": 0,
+          "anomalies": [
+            "Some Received dates lack a usable explicit timezone/year."
+          ],
+          "admin": {
+            "summary": "1 reported email hops; 0 delivery status lines.",
+            "findings": [
+              "Some Received dates lack a usable explicit timezone/year."
+            ],
+            "nextSteps": [
+              "Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs."
+            ],
+            "limitations": [
+              "Supplied headers can be forged. Caller-designated trust is not verified. No DKIM/SPF/DMARC cryptographic validation, mailbox access or DNS lookup. SMTP acceptance does not prove inbox delivery. Content after the first blank header line is ignored."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    }
+  ],
+  "prohibitedActions": [],
+  "events": [],
+  "stderr": "2026-10-10T17:05:31.725085Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n",
+  "telemetry": [
+    {
+      "service": "diagnostics",
+      "method": "initialize",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 17,
+      "inputBytes": 217,
+      "outputBytes": 173,
+      "clientName": "codex-mcp-client",
+      "clientVersion": "0.154.0"
+    },
+    {
+      "service": "diagnostics",
+      "method": "notifications/initialized",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 2,
+      "inputBytes": 54,
+      "outputBytes": 0
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/list",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 5,
+      "inputBytes": 85,
+      "outputBytes": 4160
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "trace_email",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 5,
+      "inputBytes": 834,
+      "outputBytes": 1605
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "trace_email",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 3,
+      "inputBytes": 837,
+      "outputBytes": 1608
+    },
+    {
+      "service": "diagnostics",
+      "method": "tools/call",
+      "tool": "trace_email",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 3,
+      "inputBytes": 833,
+      "outputBytes": 1604
+    }
+  ],
+  "environment": "local Streamable HTTP with synthetic DNS/HTTPS fixtures; native Codex MCP calls"
+}

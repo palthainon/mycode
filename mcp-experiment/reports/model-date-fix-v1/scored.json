@@ -1,0 +1,104 @@
+{
+  "run": "date-fix-v1",
+  "scoredAt": "2026-10-10T17:06:12.788Z",
+  "scoringVersion": 2,
+  "scoringCorrections": [
+    "Match calls by normalized arguments, not parallel completion order.",
+    "Codex status=failed preserves SDK tool errors without isError."
+  ],
+  "prohibitedActions": [],
+  "total": 3,
+  "passed": 3,
+  "calls": 3,
+  "elapsedMs": 19809,
+  "usage": {
+    "input_tokens": 114132,
+    "cached_input_tokens": 98048,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 617,
+    "reasoning_output_tokens": 131
+  },
+  "byService": {
+    "diagnostics": {
+      "total": 3,
+      "passed": 3,
+      "matchedCalls": 3,
+      "structuredPassed": 3,
+      "answerPassed": 3
+    },
+    "logs": {
+      "total": 0,
+      "passed": 0,
+      "matchedCalls": 0,
+      "structuredPassed": 0,
+      "answerPassed": 0
+    },
+    "network": {
+      "total": 0,
+      "passed": 0,
+      "matchedCalls": 0,
+      "structuredPassed": 0,
+      "answerPassed": 0
+    }
+  },
+  "failures": [],
+  "results": [
+    {
+      "id": "diagnostics-date-001",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "Explicit year/timezone ambiguity regression 1",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-date-001",
+        "summary": "The supplied Received timestamp was not parsed due to missing year despite an explicit timezone.",
+        "fact": null,
+        "nextStep": "Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs.",
+        "limitations": "Supplied headers are unverified; no cryptographic authentication, DNS lookup, mailbox access, or inbox-delivery guarantee."
+      },
+      "responseBytes": 1572,
+      "textChars": 466
+    },
+    {
+      "id": "diagnostics-date-002",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "Explicit year/timezone ambiguity regression 2",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-date-002",
+        "summary": "The two-digit year timestamp was not parsed as a usable explicit date.",
+        "fact": null,
+        "nextStep": "Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs.",
+        "limitations": "Supplied headers are unverified; no cryptographic authentication, DNS lookup, mailbox access, or inbox-delivery guarantee."
+      },
+      "responseBytes": 1575,
+      "textChars": 466
+    },
+    {
+      "id": "diagnostics-date-003",
+      "service": "diagnostics",
+      "tool": "trace_email",
+      "name": "Explicit year/timezone ambiguity regression 3",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "diagnostics-date-003",
+        "summary": "The full-year timestamp was not parsed because it lacked an explicit timezone.",
+        "fact": null,
+        "nextStep": "Correlate header lines and delivery statuses with the trusted receiving mail server’s queue logs.",
+        "limitations": "Supplied headers are unverified; no cryptographic authentication, DNS lookup, mailbox access, or inbox-delivery guarantee."
+      },
+      "responseBytes": 1571,
+      "textChars": 466
+    }
+  ]
+}

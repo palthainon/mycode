@@ -8,12 +8,14 @@ import { score } from './score-model.mjs';
 
 const model = process.env.EVAL_MODEL || 'gpt-5.6-luna';
 const runName = process.env.EVAL_RUN || 'initial';
+if (!/^[a-z0-9][a-z0-9-]{0,80}$/.test(runName)) throw Error('EVAL_RUN must be a short lowercase run label.');
 const count = Number(process.env.EVAL_BATCH_SIZE || 5);
 if (!Number.isInteger(count) || count < 1 || count > 10) throw Error('EVAL_BATCH_SIZE must be 1..10 to preserve local production rate limits.');
 const directory = new URL(`../reports/model-${runName}/`, import.meta.url); fs.mkdirSync(directory, { recursive: true });
 const cli = process.env.CODEX_CLI_JS || path.join(process.env.APPDATA || '', 'npm/node_modules/@openai/codex/bin/codex.js');
 if (!fs.existsSync(cli)) throw Error('Set CODEX_CLI_JS to the installed codex.js entry point.');
-const modelCases = cases.map(c => {
+const sourceCases = process.env.EVAL_CASE_FILE ? JSON.parse(fs.readFileSync(process.env.EVAL_CASE_FILE, 'utf8')) : cases;
+const modelCases = sourceCases.map(c => {
   // Boundary-size stress remains in the SDK suite. These three agent variants
   // prevent wasting the model allowance on copying 300 KiB of repeated strings.
   if (c.name === 'byte limit') return { ...c, name: 'Malformed JSON line does not invent a record', args: { text: '{broken-agent-json' }, expected: { path: 'unparsed', value: 1 }, variantOf: c.name };

@@ -1,0 +1,617 @@
+{
+  "model": "gpt-5.6-luna",
+  "at": "2026-10-10T17:02:36.714Z",
+  "elapsedMs": 11330,
+  "exitCode": 0,
+  "usage": {
+    "input_tokens": 43839,
+    "cached_input_tokens": 33024,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 1149,
+    "reasoning_output_tokens": 203
+  },
+  "results": [
+    {
+      "id": "network-031",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "Reject 999.0.0.1/24",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-031",
+        "summary": "MCP rejected the supplied CIDR.",
+        "fact": "invalid_cidr",
+        "nextStep": "Correct the CIDR and retry.",
+        "limitations": "Rejected input; no boundary or capacity was returned."
+      },
+      "responseBytes": 77,
+      "textChars": 12
+    },
+    {
+      "id": "network-032",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "Reject 01.2.3.4/24",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-032",
+        "summary": "MCP rejected the supplied CIDR.",
+        "fact": "invalid_cidr",
+        "nextStep": "Correct the CIDR and retry.",
+        "limitations": "Rejected input; no boundary or capacity was returned."
+      },
+      "responseBytes": 77,
+      "textChars": 12
+    },
+    {
+      "id": "network-033",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "Reject 127.1/8",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-033",
+        "summary": "MCP rejected the supplied CIDR.",
+        "fact": "invalid_cidr",
+        "nextStep": "Correct the CIDR and retry.",
+        "limitations": "Rejected input; no boundary or capacity was returned."
+      },
+      "responseBytes": 77,
+      "textChars": 12
+    },
+    {
+      "id": "network-034",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "Reject 192.0.2.1/33",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-034",
+        "summary": "MCP rejected the supplied CIDR.",
+        "fact": "invalid_cidr",
+        "nextStep": "Correct the CIDR and retry.",
+        "limitations": "Rejected input; no boundary or capacity was returned."
+      },
+      "responseBytes": 77,
+      "textChars": 12
+    },
+    {
+      "id": "network-035",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "Reject 2001:db8::/129",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-035",
+        "summary": "MCP rejected the supplied CIDR.",
+        "fact": "invalid_cidr",
+        "nextStep": "Correct the CIDR and retry.",
+        "limitations": "Rejected input; no boundary or capacity was returned."
+      },
+      "responseBytes": 77,
+      "textChars": 12
+    },
+    {
+      "id": "network-036",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "Reject fe80::1%eth0/64",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-036",
+        "summary": "MCP rejected the supplied CIDR.",
+        "fact": "invalid_cidr",
+        "nextStep": "Correct the CIDR and retry.",
+        "limitations": "Rejected input; no boundary or capacity was returned."
+      },
+      "responseBytes": 77,
+      "textChars": 12
+    },
+    {
+      "id": "network-037",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "Reject bad/cidr",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-037",
+        "summary": "MCP rejected the supplied CIDR.",
+        "fact": "invalid_cidr",
+        "nextStep": "Correct the CIDR and retry.",
+        "limitations": "Rejected input; no boundary or capacity was returned."
+      },
+      "responseBytes": 77,
+      "textChars": 12
+    },
+    {
+      "id": "network-038",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "Reject 192.0.2.1/-1",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-038",
+        "summary": "MCP rejected the supplied CIDR.",
+        "fact": "invalid_cidr",
+        "nextStep": "Correct the CIDR and retry.",
+        "limitations": "Rejected input; no boundary or capacity was returned."
+      },
+      "responseBytes": 77,
+      "textChars": 12
+    },
+    {
+      "id": "network-039",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "/31 has two usable endpoints",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-039",
+        "summary": "The fixture normalized the network to 192.0.2.0/31 and reported two usable endpoints.",
+        "fact": "2",
+        "nextStep": "Use the returned usable range for endpoint planning.",
+        "limitations": "Capacity calculation does not account for provider-reserved addresses."
+      },
+      "responseBytes": 761,
+      "textChars": 193
+    },
+    {
+      "id": "network-040",
+      "service": "network",
+      "tool": "inspect_subnet",
+      "name": "/32 same start/end",
+      "passed": true,
+      "matchedCall": true,
+      "structuredPassed": true,
+      "answerPassed": true,
+      "answer": {
+        "id": "network-040",
+        "summary": "The fixture reported one address, with identical first and last usable values.",
+        "fact": "192.0.2.1",
+        "nextStep": "Treat the returned address as the sole usable value.",
+        "limitations": "Capacity calculation does not account for provider-reserved addresses."
+      },
+      "responseBytes": 761,
+      "textChars": 193
+    }
+  ],
+  "calls": [
+    {
+      "id": "item_1",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "inspect_subnet",
+      "arguments": {
+        "cidr": "999.0.0.1/24"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "invalid_cidr"
+          }
+        ],
+        "structured_content": null
+      },
+      "error": null,
+      "status": "failed"
+    },
+    {
+      "id": "item_2",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "inspect_subnet",
+      "arguments": {
+        "cidr": "01.2.3.4/24"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "invalid_cidr"
+          }
+        ],
+        "structured_content": null
+      },
+      "error": null,
+      "status": "failed"
+    },
+    {
+      "id": "item_3",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "inspect_subnet",
+      "arguments": {
+        "cidr": "127.1/8"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "invalid_cidr"
+          }
+        ],
+        "structured_content": null
+      },
+      "error": null,
+      "status": "failed"
+    },
+    {
+      "id": "item_4",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "inspect_subnet",
+      "arguments": {
+        "cidr": "192.0.2.1/33"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "invalid_cidr"
+          }
+        ],
+        "structured_content": null
+      },
+      "error": null,
+      "status": "failed"
+    },
+    {
+      "id": "item_5",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "inspect_subnet",
+      "arguments": {
+        "cidr": "2001:db8::/129"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "invalid_cidr"
+          }
+        ],
+        "structured_content": null
+      },
+      "error": null,
+      "status": "failed"
+    },
+    {
+      "id": "item_6",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "inspect_subnet",
+      "arguments": {
+        "cidr": "fe80::1%eth0/64"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "invalid_cidr"
+          }
+        ],
+        "structured_content": null
+      },
+      "error": null,
+      "status": "failed"
+    },
+    {
+      "id": "item_7",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "inspect_subnet",
+      "arguments": {
+        "cidr": "bad/cidr"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "invalid_cidr"
+          }
+        ],
+        "structured_content": null
+      },
+      "error": null,
+      "status": "failed"
+    },
+    {
+      "id": "item_8",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "inspect_subnet",
+      "arguments": {
+        "cidr": "192.0.2.1/-1"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "invalid_cidr"
+          }
+        ],
+        "structured_content": null
+      },
+      "error": null,
+      "status": "failed"
+    },
+    {
+      "id": "item_9",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "inspect_subnet",
+      "arguments": {
+        "cidr": "192.0.2.1/31"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "192.0.2.0/31: 2 addresses.\n• Range 192.0.2.0 – 192.0.2.1.\n• Usable 192.0.2.0 – 192.0.2.1 (2); mask 255.255.255.254.\nLimit: Capacity calculation does not account for provider-reserved addresses."
+          }
+        ],
+        "structured_content": {
+          "version": 4,
+          "cidr": "192.0.2.0/31",
+          "prefix": 31,
+          "firstAddress": "192.0.2.0",
+          "lastAddress": "192.0.2.1",
+          "addressCount": "2",
+          "netmask": "255.255.255.254",
+          "usableHostCount": "2",
+          "firstUsable": "192.0.2.0",
+          "lastUsable": "192.0.2.1",
+          "broadcast": null,
+          "admin": {
+            "summary": "192.0.2.0/31: 2 addresses.",
+            "findings": [
+              "Range 192.0.2.0 – 192.0.2.1.",
+              "Usable 192.0.2.0 – 192.0.2.1 (2); mask 255.255.255.254."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Capacity calculation does not account for provider-reserved addresses."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_10",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "inspect_subnet",
+      "arguments": {
+        "cidr": "192.0.2.1/32"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "192.0.2.1/32: 1 addresses.\n• Range 192.0.2.1 – 192.0.2.1.\n• Usable 192.0.2.1 – 192.0.2.1 (1); mask 255.255.255.255.\nLimit: Capacity calculation does not account for provider-reserved addresses."
+          }
+        ],
+        "structured_content": {
+          "version": 4,
+          "cidr": "192.0.2.1/32",
+          "prefix": 32,
+          "firstAddress": "192.0.2.1",
+          "lastAddress": "192.0.2.1",
+          "addressCount": "1",
+          "netmask": "255.255.255.255",
+          "usableHostCount": "1",
+          "firstUsable": "192.0.2.1",
+          "lastUsable": "192.0.2.1",
+          "broadcast": null,
+          "admin": {
+            "summary": "192.0.2.1/32: 1 addresses.",
+            "findings": [
+              "Range 192.0.2.1 – 192.0.2.1.",
+              "Usable 192.0.2.1 – 192.0.2.1 (1); mask 255.255.255.255."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Capacity calculation does not account for provider-reserved addresses."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    }
+  ],
+  "prohibitedActions": [],
+  "events": [],
+  "stderr": "2026-10-10T17:02:25.530430Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n",
+  "telemetry": [
+    {
+      "service": "network",
+      "method": "initialize",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 1,
+      "inputBytes": 217,
+      "outputBytes": 169,
+      "clientName": "codex-mcp-client",
+      "clientVersion": "0.154.0"
+    },
+    {
+      "service": "network",
+      "method": "notifications/initialized",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 1,
+      "inputBytes": 54,
+      "outputBytes": 0
+    },
+    {
+      "service": "network",
+      "method": "tools/list",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 2,
+      "inputBytes": 85,
+      "outputBytes": 2515
+    },
+    {
+      "service": "network",
+      "method": "tools/call",
+      "tool": "inspect_subnet",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_error",
+      "durationMs": 1,
+      "inputBytes": 767,
+      "outputBytes": 100
+    },
+    {
+      "service": "network",
+      "method": "tools/call",
+      "tool": "inspect_subnet",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_error",
+      "durationMs": 1,
+      "inputBytes": 766,
+      "outputBytes": 100
+    },
+    {
+      "service": "network",
+      "method": "tools/call",
+      "tool": "inspect_subnet",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_error",
+      "durationMs": 1,
+      "inputBytes": 762,
+      "outputBytes": 100
+    },
+    {
+      "service": "network",
+      "method": "tools/call",
+      "tool": "inspect_subnet",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_error",
+      "durationMs": 1,
+      "inputBytes": 767,
+      "outputBytes": 100
+    },
+    {
+      "service": "network",
+      "method": "tools/call",
+      "tool": "inspect_subnet",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_error",
+      "durationMs": 1,
+      "inputBytes": 769,
+      "outputBytes": 100
+    },
+    {
+      "service": "network",
+      "method": "tools/call",
+      "tool": "inspect_subnet",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_error",
+      "durationMs": 1,
+      "inputBytes": 770,
+      "outputBytes": 100
+    },
+    {
+      "service": "network",
+      "method": "tools/call",
+      "tool": "inspect_subnet",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_error",
+      "durationMs": 1,
+      "inputBytes": 763,
+      "outputBytes": 100
+    },
+    {
+      "service": "network",
+      "method": "tools/call",
+      "tool": "inspect_subnet",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_error",
+      "durationMs": 1,
+      "inputBytes": 767,
+      "outputBytes": 100
+    },
+    {
+      "service": "network",
+      "method": "tools/call",
+      "tool": "inspect_subnet",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 768,
+      "outputBytes": 795
+    },
+    {
+      "service": "network",
+      "method": "tools/call",
+      "tool": "inspect_subnet",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 769,
+      "outputBytes": 795
+    }
+  ],
+  "environment": "local Streamable HTTP with synthetic DNS/HTTPS fixtures; native Codex MCP calls"
+}

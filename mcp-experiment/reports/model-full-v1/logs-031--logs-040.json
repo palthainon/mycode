@@ -1,0 +1,804 @@
+{
+  "model": "gpt-5.6-luna",
+  "at": "2026-10-10T14:51:02.544Z",
+  "elapsedMs": 51457,
+  "exitCode": 0,
+  "usage": {
+    "input_tokens": 209260,
+    "cached_input_tokens": 192512,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 1301,
+    "reasoning_output_tokens": 324
+  },
+  "results": [
+    {
+      "id": "logs-031",
+      "service": "logs",
+      "tool": "summarize_logs",
+      "name": "summary no records",
+      "passed": false,
+      "failure": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n\n1 !== 0\n",
+      "answer": {
+        "id": "logs-031",
+        "summary": "One JSON log parsed; records were omitted from the response.",
+        "fact": 1,
+        "nextStep": "",
+        "limitations": "Ambiguous timestamps excluded from range."
+      }
+    },
+    {
+      "id": "logs-032",
+      "service": "logs",
+      "tool": "summarize_logs",
+      "name": "summary omitted count",
+      "passed": true,
+      "answer": {
+        "id": "logs-032",
+        "summary": "Two JSON logs parsed; both records were omitted.",
+        "fact": 2,
+        "nextStep": "",
+        "limitations": "Ambiguous timestamps excluded from range."
+      }
+    },
+    {
+      "id": "logs-033",
+      "service": "logs",
+      "tool": "summarize_logs",
+      "name": "summary malformed",
+      "passed": true,
+      "answer": {
+        "id": "logs-033",
+        "summary": "The supplied line was not parsed.",
+        "fact": 1,
+        "nextStep": "Inspect the unparsed source or provide the known format.",
+        "limitations": "Deterministic pattern parsing only."
+      }
+    },
+    {
+      "id": "logs-034",
+      "service": "logs",
+      "tool": "summarize_logs",
+      "name": "unknown severity",
+      "passed": true,
+      "answer": {
+        "id": "logs-034",
+        "summary": "The custom severity was counted as unknown.",
+        "fact": 1,
+        "nextStep": "",
+        "limitations": "Ambiguous timestamps excluded from range."
+      }
+    },
+    {
+      "id": "logs-035",
+      "service": "logs",
+      "tool": "summarize_logs",
+      "name": "range ignores ambiguous",
+      "passed": true,
+      "answer": {
+        "id": "logs-035",
+        "summary": "The ambiguous timestamp was excluded from the timestamp range.",
+        "fact": null,
+        "nextStep": "",
+        "limitations": "Timezone/year-ambiguous timestamps do not establish chronology."
+      }
+    },
+    {
+      "id": "logs-036",
+      "service": "logs",
+      "tool": "extract_ci_failures",
+      "name": "TypeScript error",
+      "passed": true,
+      "answer": {
+        "id": "logs-036",
+        "summary": "The TypeScript error was classified as a compile failure.",
+        "fact": "compile",
+        "nextStep": "Inspect the earliest failure and surrounding source log.",
+        "limitations": "Pattern matching, not root-cause inference."
+      }
+    },
+    {
+      "id": "logs-037",
+      "service": "logs",
+      "tool": "extract_ci_failures",
+      "name": "C# error",
+      "passed": true,
+      "answer": {
+        "id": "logs-037",
+        "summary": "The C# compiler error was classified as a compile failure.",
+        "fact": "compile",
+        "nextStep": "Inspect the earliest failure and surrounding source log.",
+        "limitations": "Pattern matching, not root-cause inference."
+      }
+    },
+    {
+      "id": "logs-038",
+      "service": "logs",
+      "tool": "extract_ci_failures",
+      "name": "C compiler",
+      "passed": true,
+      "answer": {
+        "id": "logs-038",
+        "summary": "The fatal C compiler message was classified as a compile failure.",
+        "fact": "compile",
+        "nextStep": "Inspect the earliest failure and surrounding source log.",
+        "limitations": "Pattern matching, not root-cause inference."
+      }
+    },
+    {
+      "id": "logs-039",
+      "service": "logs",
+      "tool": "extract_ci_failures",
+      "name": "SyntaxError",
+      "passed": true,
+      "answer": {
+        "id": "logs-039",
+        "summary": "The SyntaxError was classified as a compile failure.",
+        "fact": "compile",
+        "nextStep": "Inspect the earliest failure and surrounding source log.",
+        "limitations": "Pattern matching, not root-cause inference."
+      }
+    },
+    {
+      "id": "logs-040",
+      "service": "logs",
+      "tool": "extract_ci_failures",
+      "name": "FAIL test",
+      "passed": true,
+      "answer": {
+        "id": "logs-040",
+        "summary": "The FAIL line was classified as a test failure.",
+        "fact": "test",
+        "nextStep": "Inspect the earliest failure and surrounding source log.",
+        "limitations": "Pattern matching, not root-cause inference."
+      }
+    }
+  ],
+  "calls": [
+    {
+      "id": "item_1",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "summarize_logs",
+      "arguments": {
+        "text": "{\"level\":\"INFO\",\"message\":\"synthetic admin fixture\"}"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 parsed, 0 unparsed, 0 skipped log lines.\n• Formats: {\"json\":1}.\n• Severities: {\"info\":1}.\n• Timestamp range: unknown to unknown.\n• 1 records omitted; 1 ambiguous timestamps.\nLimit: Counts are deterministic; ambiguous timestamps do not establish chronological order."
+          }
+        ],
+        "structured_content": {
+          "detectedFormat": "json",
+          "parsed": 1,
+          "unparsed": 0,
+          "skipped": 0,
+          "formatCounts": {
+            "json": 1
+          },
+          "severityCounts": {
+            "info": 1
+          },
+          "ambiguousTimestamps": 1,
+          "timestampRange": null,
+          "records": [],
+          "truncated": false,
+          "omittedRecords": 1,
+          "note": "Timezone/year-ambiguous timestamps are excluded from timestampRange; Windows CSV line numbers refer to logical records.",
+          "admin": {
+            "summary": "1 parsed, 0 unparsed, 0 skipped log lines.",
+            "findings": [
+              "Formats: {\"json\":1}.",
+              "Severities: {\"info\":1}.",
+              "Timestamp range: unknown to unknown.",
+              "1 records omitted; 1 ambiguous timestamps."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Counts are deterministic; ambiguous timestamps do not establish chronological order."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_2",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "summarize_logs",
+      "arguments": {
+        "text": "{\"level\":\"INFO\",\"message\":\"synthetic admin fixture\"}\n{\"level\":\"INFO\",\"message\":\"synthetic admin fixture\"}"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "2 parsed, 0 unparsed, 0 skipped log lines.\n• Formats: {\"json\":2}.\n• Severities: {\"info\":2}.\n• Timestamp range: unknown to unknown.\n• 2 records omitted; 2 ambiguous timestamps.\nLimit: Counts are deterministic; ambiguous timestamps do not establish chronological order."
+          }
+        ],
+        "structured_content": {
+          "detectedFormat": "json",
+          "parsed": 2,
+          "unparsed": 0,
+          "skipped": 0,
+          "formatCounts": {
+            "json": 2
+          },
+          "severityCounts": {
+            "info": 2
+          },
+          "ambiguousTimestamps": 2,
+          "timestampRange": null,
+          "records": [],
+          "truncated": false,
+          "omittedRecords": 2,
+          "note": "Timezone/year-ambiguous timestamps are excluded from timestampRange; Windows CSV line numbers refer to logical records.",
+          "admin": {
+            "summary": "2 parsed, 0 unparsed, 0 skipped log lines.",
+            "findings": [
+              "Formats: {\"json\":2}.",
+              "Severities: {\"info\":2}.",
+              "Timestamp range: unknown to unknown.",
+              "2 records omitted; 2 ambiguous timestamps."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Counts are deterministic; ambiguous timestamps do not establish chronological order."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_3",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "summarize_logs",
+      "arguments": {
+        "text": "broken"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "0 parsed, 1 unparsed, 0 skipped log lines.\n• Formats: {}.\n• Severities: {}.\n• Timestamp range: unknown to unknown.\n• 0 records omitted; 0 ambiguous timestamps.\nNext: Inspect unparsed source lines or supply the known format.\nLimit: Counts are deterministic; ambiguous timestamps do not establish chronological order."
+          }
+        ],
+        "structured_content": {
+          "detectedFormat": null,
+          "parsed": 0,
+          "unparsed": 1,
+          "skipped": 0,
+          "formatCounts": {},
+          "severityCounts": {},
+          "ambiguousTimestamps": 0,
+          "timestampRange": null,
+          "records": [],
+          "truncated": false,
+          "omittedRecords": 0,
+          "note": "Timezone/year-ambiguous timestamps are excluded from timestampRange; Windows CSV line numbers refer to logical records.",
+          "admin": {
+            "summary": "0 parsed, 1 unparsed, 0 skipped log lines.",
+            "findings": [
+              "Formats: {}.",
+              "Severities: {}.",
+              "Timestamp range: unknown to unknown.",
+              "0 records omitted; 0 ambiguous timestamps."
+            ],
+            "nextSteps": [
+              "Inspect unparsed source lines or supply the known format."
+            ],
+            "limitations": [
+              "Counts are deterministic; ambiguous timestamps do not establish chronological order."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_4",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "summarize_logs",
+      "arguments": {
+        "text": "{\"level\":\"CUSTOM\",\"message\":\"synthetic admin fixture\"}"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 parsed, 0 unparsed, 0 skipped log lines.\n• Formats: {\"json\":1}.\n• Severities: {\"unknown\":1}.\n• Timestamp range: unknown to unknown.\n• 1 records omitted; 1 ambiguous timestamps.\nLimit: Counts are deterministic; ambiguous timestamps do not establish chronological order."
+          }
+        ],
+        "structured_content": {
+          "detectedFormat": "json",
+          "parsed": 1,
+          "unparsed": 0,
+          "skipped": 0,
+          "formatCounts": {
+            "json": 1
+          },
+          "severityCounts": {
+            "unknown": 1
+          },
+          "ambiguousTimestamps": 1,
+          "timestampRange": null,
+          "records": [],
+          "truncated": false,
+          "omittedRecords": 1,
+          "note": "Timezone/year-ambiguous timestamps are excluded from timestampRange; Windows CSV line numbers refer to logical records.",
+          "admin": {
+            "summary": "1 parsed, 0 unparsed, 0 skipped log lines.",
+            "findings": [
+              "Formats: {\"json\":1}.",
+              "Severities: {\"unknown\":1}.",
+              "Timestamp range: unknown to unknown.",
+              "1 records omitted; 1 ambiguous timestamps."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Counts are deterministic; ambiguous timestamps do not establish chronological order."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_5",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "summarize_logs",
+      "arguments": {
+        "text": "{\"level\":\"INFO\",\"message\":\"synthetic admin fixture\",\"timestamp\":\"Oct 9 10:00\"}"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 parsed, 0 unparsed, 0 skipped log lines.\n• Formats: {\"json\":1}.\n• Severities: {\"info\":1}.\n• Timestamp range: unknown to unknown.\n• 1 records omitted; 1 ambiguous timestamps.\nLimit: Counts are deterministic; ambiguous timestamps do not establish chronological order."
+          }
+        ],
+        "structured_content": {
+          "detectedFormat": "json",
+          "parsed": 1,
+          "unparsed": 0,
+          "skipped": 0,
+          "formatCounts": {
+            "json": 1
+          },
+          "severityCounts": {
+            "info": 1
+          },
+          "ambiguousTimestamps": 1,
+          "timestampRange": null,
+          "records": [],
+          "truncated": false,
+          "omittedRecords": 1,
+          "note": "Timezone/year-ambiguous timestamps are excluded from timestampRange; Windows CSV line numbers refer to logical records.",
+          "admin": {
+            "summary": "1 parsed, 0 unparsed, 0 skipped log lines.",
+            "findings": [
+              "Formats: {\"json\":1}.",
+              "Severities: {\"info\":1}.",
+              "Timestamp range: unknown to unknown.",
+              "1 records omitted; 1 ambiguous timestamps."
+            ],
+            "nextSteps": [],
+            "limitations": [
+              "Counts are deterministic; ambiguous timestamps do not establish chronological order."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_6",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "extract_ci_failures",
+      "arguments": {
+        "text": "src/app.ts(2,1): error TS2322: type mismatch"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 failure-like lines in 1 CI log lines.\n• Line 1 (compile): src/app.ts(2,1): error TS2322: type mismatch\nNext: Inspect the earliest relevant failure and its surrounding source log; later failures may be consequences.\nLimit: Pattern matching, not root-cause inference. Excerpts redact common credential assignments, not all possible secrets."
+          }
+        ],
+        "structured_content": {
+          "lines": 1,
+          "failureCount": 1,
+          "categoryCounts": {
+            "compile": 1
+          },
+          "failures": [
+            {
+              "line": 1,
+              "category": "compile",
+              "evidence": "src/app.ts(2,1): error TS2322: type mismatch"
+            }
+          ],
+          "omittedFailures": 0,
+          "truncated": false,
+          "admin": {
+            "summary": "1 failure-like lines in 1 CI log lines.",
+            "findings": [
+              "Line 1 (compile): src/app.ts(2,1): error TS2322: type mismatch"
+            ],
+            "nextSteps": [
+              "Inspect the earliest relevant failure and its surrounding source log; later failures may be consequences."
+            ],
+            "limitations": [
+              "Pattern matching, not root-cause inference. Excerpts redact common credential assignments, not all possible secrets."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_7",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "extract_ci_failures",
+      "arguments": {
+        "text": "error CS1002: semicolon expected"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 failure-like lines in 1 CI log lines.\n• Line 1 (compile): error CS1002: semicolon expected\nNext: Inspect the earliest relevant failure and its surrounding source log; later failures may be consequences.\nLimit: Pattern matching, not root-cause inference. Excerpts redact common credential assignments, not all possible secrets."
+          }
+        ],
+        "structured_content": {
+          "lines": 1,
+          "failureCount": 1,
+          "categoryCounts": {
+            "compile": 1
+          },
+          "failures": [
+            {
+              "line": 1,
+              "category": "compile",
+              "evidence": "error CS1002: semicolon expected"
+            }
+          ],
+          "omittedFailures": 0,
+          "truncated": false,
+          "admin": {
+            "summary": "1 failure-like lines in 1 CI log lines.",
+            "findings": [
+              "Line 1 (compile): error CS1002: semicolon expected"
+            ],
+            "nextSteps": [
+              "Inspect the earliest relevant failure and its surrounding source log; later failures may be consequences."
+            ],
+            "limitations": [
+              "Pattern matching, not root-cause inference. Excerpts redact common credential assignments, not all possible secrets."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_8",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "extract_ci_failures",
+      "arguments": {
+        "text": "fatal error: missing header"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 failure-like lines in 1 CI log lines.\n• Line 1 (compile): fatal error: missing header\nNext: Inspect the earliest relevant failure and its surrounding source log; later failures may be consequences.\nLimit: Pattern matching, not root-cause inference. Excerpts redact common credential assignments, not all possible secrets."
+          }
+        ],
+        "structured_content": {
+          "lines": 1,
+          "failureCount": 1,
+          "categoryCounts": {
+            "compile": 1
+          },
+          "failures": [
+            {
+              "line": 1,
+              "category": "compile",
+              "evidence": "fatal error: missing header"
+            }
+          ],
+          "omittedFailures": 0,
+          "truncated": false,
+          "admin": {
+            "summary": "1 failure-like lines in 1 CI log lines.",
+            "findings": [
+              "Line 1 (compile): fatal error: missing header"
+            ],
+            "nextSteps": [
+              "Inspect the earliest relevant failure and its surrounding source log; later failures may be consequences."
+            ],
+            "limitations": [
+              "Pattern matching, not root-cause inference. Excerpts redact common credential assignments, not all possible secrets."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_9",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "extract_ci_failures",
+      "arguments": {
+        "text": "SyntaxError: bad token"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 failure-like lines in 1 CI log lines.\n• Line 1 (compile): SyntaxError: bad token\nNext: Inspect the earliest relevant failure and its surrounding source log; later failures may be consequences.\nLimit: Pattern matching, not root-cause inference. Excerpts redact common credential assignments, not all possible secrets."
+          }
+        ],
+        "structured_content": {
+          "lines": 1,
+          "failureCount": 1,
+          "categoryCounts": {
+            "compile": 1
+          },
+          "failures": [
+            {
+              "line": 1,
+              "category": "compile",
+              "evidence": "SyntaxError: bad token"
+            }
+          ],
+          "omittedFailures": 0,
+          "truncated": false,
+          "admin": {
+            "summary": "1 failure-like lines in 1 CI log lines.",
+            "findings": [
+              "Line 1 (compile): SyntaxError: bad token"
+            ],
+            "nextSteps": [
+              "Inspect the earliest relevant failure and its surrounding source log; later failures may be consequences."
+            ],
+            "limitations": [
+              "Pattern matching, not root-cause inference. Excerpts redact common credential assignments, not all possible secrets."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    },
+    {
+      "id": "item_10",
+      "type": "mcp_tool_call",
+      "server": "oldweb",
+      "tool": "extract_ci_failures",
+      "arguments": {
+        "text": "FAIL synthetic suite"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "1 failure-like lines in 1 CI log lines.\n• Line 1 (test): FAIL synthetic suite\nNext: Inspect the earliest relevant failure and its surrounding source log; later failures may be consequences.\nLimit: Pattern matching, not root-cause inference. Excerpts redact common credential assignments, not all possible secrets."
+          }
+        ],
+        "structured_content": {
+          "lines": 1,
+          "failureCount": 1,
+          "categoryCounts": {
+            "test": 1
+          },
+          "failures": [
+            {
+              "line": 1,
+              "category": "test",
+              "evidence": "FAIL synthetic suite"
+            }
+          ],
+          "omittedFailures": 0,
+          "truncated": false,
+          "admin": {
+            "summary": "1 failure-like lines in 1 CI log lines.",
+            "findings": [
+              "Line 1 (test): FAIL synthetic suite"
+            ],
+            "nextSteps": [
+              "Inspect the earliest relevant failure and its surrounding source log; later failures may be consequences."
+            ],
+            "limitations": [
+              "Pattern matching, not root-cause inference. Excerpts redact common credential assignments, not all possible secrets."
+            ]
+          }
+        }
+      },
+      "error": null,
+      "status": "completed"
+    }
+  ],
+  "events": [],
+  "stderr": "2026-10-10T14:50:11.813591Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell\n",
+  "telemetry": [
+    {
+      "service": "logs",
+      "method": "initialize",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 1,
+      "inputBytes": 217,
+      "outputBytes": 166,
+      "clientName": "codex-mcp-client",
+      "clientVersion": "0.154.0"
+    },
+    {
+      "service": "logs",
+      "method": "notifications/initialized",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 1,
+      "inputBytes": 54,
+      "outputBytes": 0
+    },
+    {
+      "service": "logs",
+      "method": "tools/list",
+      "tool": "",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "protocol_ok",
+      "durationMs": 3,
+      "inputBytes": 85,
+      "outputBytes": 4730
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "summarize_logs",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 815,
+      "outputBytes": 1051
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "summarize_logs",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 877,
+      "outputBytes": 1051
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "summarize_logs",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 2,
+      "inputBytes": 761,
+      "outputBytes": 1117
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "summarize_logs",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 817,
+      "outputBytes": 1060
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "summarize_logs",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 845,
+      "outputBytes": 1051
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "extract_ci_failures",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 804,
+      "outputBytes": 1036
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "extract_ci_failures",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 2,
+      "inputBytes": 792,
+      "outputBytes": 1000
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "extract_ci_failures",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 787,
+      "outputBytes": 985
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "extract_ci_failures",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 783,
+      "outputBytes": 971
+    },
+    {
+      "service": "logs",
+      "method": "tools/call",
+      "tool": "extract_ci_failures",
+      "phase": "preparation",
+      "caller": "49bc7430bf1c986db49f4560fbdbbf90a637bb0a6c5a5456e269d9c17ba12f1e",
+      "internal": true,
+      "outcome": "tool_success",
+      "durationMs": 1,
+      "inputBytes": 782,
+      "outputBytes": 953
+    }
+  ],
+  "environment": "local Streamable HTTP with synthetic DNS/HTTPS fixtures; native Codex MCP calls"
+}

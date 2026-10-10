@@ -1,0 +1,12 @@
+import fs from 'node:fs';
+import { parseLogs } from '../dist/logs.js';
+import { checkOverlap } from '../dist/network.js';
+import { describe, readable } from '../dist/admin.js';
+const bytes = o => Buffer.byteLength(JSON.stringify(o));
+const text = Array(1000).fill('{"level":"INFO","message":"synthetic capacity benchmark","timestamp":"2026-10-09T10:00:00Z"}').join('\n');
+const beforeLogs = parseLogs(text, 'auto', false, 200), afterLogsRaw = parseLogs(text, 'auto', false, 20), afterLogs = { ...afterLogsRaw, admin: describe('parse_logs', afterLogsRaw) };
+const afterOverlapRaw = checkOverlap(Array(100).fill('192.0.2.0/24')); const pairs = [];
+for (let i=0;i<100;i++) for(let j=i+1;j<100;j++) pairs.push({ firstIndex:i,secondIndex:j,first:'192.0.2.0/24',second:'192.0.2.0/24' });
+const beforeOverlap = { subnets: afterOverlapRaw.subnets, overlaps: pairs, hasOverlap:true }, afterOverlap = { ...afterOverlapRaw, admin: describe('check_cidr_overlap', afterOverlapRaw) };
+const result = { at:new Date().toISOString(), measurement:'Structured JSON bytes on synthetic capacity workloads; not tokens, billing or latency forecasts.', logs:{beforeBytes:bytes(beforeLogs),afterBytes:bytes(afterLogs),reductionPercent:100*(1-bytes(afterLogs)/bytes(beforeLogs)),parsed:afterLogs.parsed,returnedRecords:afterLogs.records.length,omittedRecords:afterLogs.omittedRecords,textChars:readable('parse_logs',afterLogs).length},overlaps:{beforeBytes:bytes(beforeOverlap),afterBytes:bytes(afterOverlap),reductionPercent:100*(1-bytes(afterOverlap)/bytes(beforeOverlap)),exactCount:afterOverlap.overlapCount,returnedPairs:afterOverlap.overlaps.length,omittedPairs:afterOverlap.omittedOverlaps,textChars:readable('check_cidr_overlap',afterOverlap).length} };
+fs.writeFileSync(new URL('../reports/efficiency.json',import.meta.url),JSON.stringify(result,null,2)); console.log(JSON.stringify(result,null,2));

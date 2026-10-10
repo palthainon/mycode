@@ -17,6 +17,10 @@ test('email header trust, redaction, truncation and body exclusion', () => {
   assert.ok(result.admin.nextSteps.some(s => s.includes('avoid blind retries')));
   assert.equal(traceEmail(Array(21).fill('Authentication-Results: mx; spf=pass').join('\n')).omittedAuthentication, 1);
 });
+test('email dates never treat a numeric timezone as a missing year', () => {
+  for (const date of ['Fri, 09 Oct 10:00:00 +0000', 'Fri, 09 Oct 26 10:00:00 +0000', 'Fri, 09 Oct 2026 10:00:00']) assert.equal(traceEmail('Received: from sender by mx; ' + date).hops[0].timestamp, null);
+});
+
 test('email trace bounds combined bytes and lines', () => {
   assert.throws(() => traceEmail('Subject: ' + 'é'.repeat(131073)), /input_too_large/);
   assert.throws(() => traceEmail(Array(600).fill('Subject: x').join('\n'), Array(401).fill('250 accepted').join('\n')), /too_many_lines/);
