@@ -1,6 +1,12 @@
 name: Deploy MCP experiment
 on:
   workflow_dispatch:
+    inputs:
+      existing_image_revision:
+        description: 'Optional already-built immutable r... image tag to resume; blank builds this commit'
+        required: false
+        type: string
+        default: ''
 permissions:
   contents: read
   id-token: write
@@ -30,4 +36,12 @@ jobs:
           subscription-id: ${{ vars.MCP_AZURE_SUBSCRIPTION_ID }}
       - name: Deploy and validate candidate revision
         shell: pwsh
-        run: ./mcp-experiment/scripts/deploy.ps1 -Revision ('r' + '${{ github.sha }}'.Substring(0,12))
+        env:
+          MCP_IMAGE_REVISION: ${{ inputs.existing_image_revision }}
+        run: |
+          $parameters = @{ Revision = ('r' + '${{ github.sha }}'.Substring(0,12)) }
+          if ($env:MCP_IMAGE_REVISION) {
+            $parameters.Revision = $env:MCP_IMAGE_REVISION
+            $parameters.UseExistingImage = $true
+          }
+          ./mcp-experiment/scripts/deploy.ps1 @parameters
