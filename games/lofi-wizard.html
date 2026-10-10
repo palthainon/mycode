@@ -83,6 +83,10 @@
             padding: 0;
             user-select: none;
         }
+        #scene .row {
+            height: 1.12em;
+            white-space: pre;
+        }
         /* Glyphs outside ASCII may come from a fallback font with a different
            advance width; pin each one to a single cell so rows stay aligned. */
         #scene .g {
@@ -209,9 +213,31 @@
         function escapeHtml(ch) {
             return ch === '<' ? '&lt;' : ch === '>' ? '&gt;' : ch === '&' ? '&amp;' : ch;
         }
-        function toHtml() {
-            let out = '';
+        // Remote-browser isolation (e.g. Menlo) streams every DOM mutation to the
+        // viewer, so rewriting the whole <pre> 10x a second looks like jitter.
+        // Keep one element per row and only touch rows whose markup changed.
+        let rowEls = null;
+        const rowHtml = new Array(H).fill(null);
+        function paintScene() {
+            if (!rowEls) {
+                sceneEl.textContent = '';
+                rowEls = Array.from({ length: H }, () => {
+                    const row = document.createElement('div');
+                    row.className = 'row';
+                    sceneEl.appendChild(row);
+                    return row;
+                });
+            }
             for (let y = 0; y < H; y++) {
+                const html = rowToHtml(y);
+                if (html === rowHtml[y]) continue;
+                rowHtml[y] = html;
+                rowEls[y].innerHTML = html;
+            }
+        }
+        function rowToHtml(y) {
+            let out = '';
+            {
                 let run = '', runCls = null;
                 const flush = () => {
                     if (!run) return;
@@ -224,7 +250,6 @@
                     run += ch.charCodeAt(0) > 126 ? `<span class="g">${ch}</span>` : escapeHtml(ch);
                 }
                 flush();
-                if (y < H - 1) out += '\n';
             }
             return out;
         }
@@ -635,7 +660,7 @@
             drawWizard();
             drawMug();      // after the wizard, so a raised mug sits in front of him
             drawThought();
-            sceneEl.innerHTML = toHtml();
+            paintScene();
 
             const catMood = state.action === 'pet' ? 'purring' : state.catBlink > 0 ? 'dozing' : 'loafing';
             const amberCount = leds.filter(l => l.on && l.cls === 'c-amber').length;
@@ -742,19 +767,36 @@
             const availW = stage.clientWidth - padX;
             const top = document.fullscreenElement ? 0 : Math.max(stage.getBoundingClientRect().top + window.scrollY, 0);
             const availH = window.innerHeight - top - padY - siblingsHeight(sceneEl) - 4;
-            // Measure a run of cells at 100px to get this font's real proportions
-            sceneEl.style.fontSize = '100px';
-            const probe = document.createElement('span');
-            probe.textContent = 'M'.repeat(10);
-            sceneEl.appendChild(probe);
-            const cellW = probe.getBoundingClientRect().width / 10 / 100;
-            probe.remove();
-            const size = Math.max(5, Math.min(availW / (W * cellW), availH / (H * 1.12), 28));
-            sceneEl.style.fontSize = size.toFixed(2) + 'px';
+            const size = Math.max(5, Math.min(availW / (W * measureCellW()), availH / (H * 1.12), 28));
+            // Snap to 0.5px and skip no-op writes: a scrollbar or overlay badge
+            // toggling in a remote/isolated browser must not make the font oscillate.
+            const snapped = Math.round(size * 2) / 2;
+            if (snapped === lastSize) return;
+            lastSize = snapped;
+            sceneEl.style.fontSize = snapped + 'px';
         }
-        window.addEventListener('resize', fitScene);
+        // Width of one cell per px of font size, measured off-screen once per font load
+        let cellWCache = 0;
+        function measureCellW() {
+            if (cellWCache) return cellWCache;
+            const probe = document.createElement('span');
+            probe.style.cssText = 'position:absolute;visibility:hidden;white-space:pre;font:100px ' + getComputedStyle(sceneEl).fontFamily;
+            probe.textContent = 'M'.repeat(10);
+            document.body.appendChild(probe);
+            cellWCache = probe.getBoundingClientRect().width / 10 / 100;
+            probe.remove();
+            return cellWCache;
+        }
+        let lastSize = 0;
+        let fitQueued = false;
+        function queueFit() {
+            if (fitQueued) return;
+            fitQueued = true;
+            requestAnimationFrame(() => { fitQueued = false; fitScene(); });
+        }
+        window.addEventListener('resize', queueFit);
         window.addEventListener('load', fitScene);   // the nav adds its breadcrumb after this script runs
-        if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitScene);
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { cellWCache = 0; fitScene(); });
 
         pauseBtn.addEventListener('click', () => {
             setPaused(!state.paused);
