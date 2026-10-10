@@ -26,4 +26,10 @@ try {
   if(-not $current.properties.configuration.ingress.external) { throw 'Pilot paused; execution refused' }
   $execution=AzJson containerapp job start -g $Group -n oldweb-mcp-bulk
   Write-Output "Synthetic bulk execution started: $($execution.name)"
+  . (Join-Path $PSScriptRoot 'wait-bulk.ps1')
+  Wait-BulkExecution {
+    $observed=@(AzJson containerapp job execution list -g $Group -n oldweb-mcp-bulk | Where-Object name -eq $execution.name)
+    if($observed.Count -ne 1) { throw 'Execution missing' }
+    $observed[0].properties.status
+  }
 } finally { Pop-Location }

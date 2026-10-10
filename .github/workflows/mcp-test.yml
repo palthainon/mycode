@@ -21,6 +21,9 @@ jobs:
         working-directory: mcp-experiment
       - name: Test billing retries and shutdown
         shell: pwsh
-        run: ./mcp-experiment/scripts/test-cost-guard.ps1
+        run: |
+          ./mcp-experiment/scripts/test-cost-guard.ps1
+          ./mcp-experiment/scripts/test-bulk-wait.ps1
       - run: az bicep build --file mcp-experiment/infra/main.bicep --stdout > /dev/null
       - run: az bicep build --file mcp-experiment/infra/app.bicep --stdout > /dev/null
+      - run: az bicep build --file mcp-experiment/infra/bulk-job.bicep --stdout > /dev/null

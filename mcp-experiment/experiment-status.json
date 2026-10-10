@@ -103,9 +103,31 @@
       "originalScheduledListing": "2026-10-16T15:00:00 America/New_York",
       "baselineShortened": true,
       "experimentEndUnchanged": "2026-11-15T17:19:14Z"
+    },
+    {
+      "at": "2026-10-10T17:57:40Z",
+      "reason": "User-authorized deterministic bulk prototype; synthetic-only manual Azure job verified",
+      "publicToolsChanged": false,
+      "report": "reports/BULK-WORKER-2026-10-10.md",
+      "experimentEndUnchanged": "2026-11-15T17:19:14Z"
     }
   ],
   "baselineActualSeconds": 87217.537144,
   "baselineInterpretation": "Site-linked baseline lasted about 24 hours 14 minutes; user advanced official Registry publication. Not seven days and not a controlled spontaneous-discovery study.",
-  "phaseTransitionNote": "Requests served by the previous revision after first publication and before configuration promotion can retain a baseline tag. Reviews must classify this transition window using the recorded first-listing timestamp, not the tag alone."
+  "phaseTransitionNote": "Requests served by the previous revision after first publication and before configuration promotion can retain a baseline tag. Reviews must classify this transition window using the recorded first-listing timestamp, not the tag alone.",
+  "bulkPrototype": {
+    "status": "deployed-synthetic-only",
+    "jobName": "oldweb-mcp-bulk",
+    "verifiedExecution": "oldweb-mcp-bulk-hz8ubqv",
+    "executionStatus": "Succeeded",
+    "workflow": "https://github.com/palthainon/mycode/actions/runs/38073640936",
+    "report": "reports/BULK-WORKER-2026-10-10.md",
+    "manualOnly": true,
+    "privateUploadsEnabled": false,
+    "modelInferenceEnabled": false,
+    "publicToolsChanged": false,
+    "shutdownRemovesJob": true,
+    "dayQuota": 4,
+    "monthQuota": 120
+  }
 }

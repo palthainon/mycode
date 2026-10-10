@@ -8,7 +8,7 @@ See [TEST-PLAN.md](TEST-PLAN.md) for the 100-case-per-server matrix and actual s
 
 ## Future bulk processing and learning
 
-The [future bulk and learning plan](FUTURE-BULK-LEARNING-PLAN.md) proposes canonical artifact ingestion, deterministic large-dataset processing, a privacy gate and cheap Azure model drafts of evidence-linked lessons. It compares Container Apps Jobs, Functions and Data Factory, with consistency/privacy benchmarks and combined hosting/inference budget controls. This is deferred proposal work; current inputs remain transient and no inference or bulk resources are enabled.
+The [future bulk and learning plan](FUTURE-BULK-LEARNING-PLAN.md) proposes canonical artifact ingestion, deterministic large-dataset processing, a privacy gate and cheap Azure model drafts of evidence-linked lessons. It compares Container Apps Jobs, Functions and Data Factory, with consistency/privacy benchmarks and combined hosting/inference budget controls. The [first bulk worker](BULK-WORKER.md) is now implemented and validated as a synthetic-only manual Container Apps Job. Public inputs remain transient; private uploads and hosted inference are still deferred.
 
 ## Development
 

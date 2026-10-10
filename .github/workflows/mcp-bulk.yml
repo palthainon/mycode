@@ -26,6 +26,11 @@ jobs:
         env:
           BULK_EVAL_RUN: reports/bulk-ci
         working-directory: mcp-experiment
+      - name: Test job shutdown and completion verification
+        shell: pwsh
+        run: |
+          ./mcp-experiment/scripts/test-cost-guard.ps1
+          ./mcp-experiment/scripts/test-bulk-wait.ps1
       - uses: azure/login@v2
         with:
           client-id: ${{ vars.MCP_AZURE_CLIENT_ID }}
