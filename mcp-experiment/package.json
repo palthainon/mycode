@@ -10,7 +10,9 @@
     "build": "tsc",
     "test": "npm run build && node --test test/*.test.mjs && node ../system/tests/test-parsers.js",
     "start": "node dist/server.js",
-    "smoke": "node scripts/smoke.mjs"
+    "smoke": "node scripts/smoke.mjs",
+    "bulk": "node dist/bulk-worker.js",
+    "evaluate:bulk": "npm run build && node scripts/evaluate-bulk.mjs"
   },
   "dependencies": {
     "@azure/data-tables": "13.3.2",

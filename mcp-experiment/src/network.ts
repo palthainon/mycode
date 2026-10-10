@@ -3,9 +3,9 @@ import { createRequire } from 'node:module';
 import { ToolFailure } from './errors.js';
 const require = createRequire(import.meta.url);
 const ipv4 = require('../../nettools/subnet-core.js');
-type Subnet = { version: 4 | 6; bits: number; prefix: number; start: bigint; end: bigint; size: bigint };
+export type Subnet = { version: 4 | 6; bits: number; prefix: number; start: bigint; end: bigint; size: bigint };
 
-function parse(cidr: string): Subnet {
+export function parseSubnet(cidr: string): Subnet {
   try {
     if (!/^[0-9a-fA-F:.]+\/(?:0|[1-9]\d{0,2})$/.test(cidr)) throw new Error();
     const [address, prefix] = ipaddr.parseCIDR(cidr);
@@ -36,9 +36,9 @@ function describe(s: Subnet) {
     } : { note: 'IPv6 has no broadcast address; addressCount includes the complete prefix.' })
   };
 }
-export function inspectSubnet(cidr: string) { return describe(parse(cidr)); }
+export function inspectSubnet(cidr: string) { return describe(parseSubnet(cidr)); }
 export function planSubnets(parent: string, requests: { label: string; prefix: number }[]) {
-  const pool = parse(parent);
+  const pool = parseSubnet(parent);
   if (requests.length > 100 || requests.some(r => !Number.isInteger(r.prefix) || r.prefix < pool.prefix || r.prefix > pool.bits)) throw new ToolFailure('invalid_allocation_prefix');
   let cursor = pool.start;
   const allocations = requests.map((r, index) => ({ ...r, index })).sort((a, b) => a.prefix - b.prefix || a.index - b.index).map(r => {
@@ -52,7 +52,7 @@ export function planSubnets(parent: string, requests: { label: string; prefix: n
 }
 export function checkOverlap(cidrs: string[]) {
   if (cidrs.length > 100) throw new ToolFailure('too_many_cidrs');
-  const subnets = cidrs.map(parse);
+  const subnets = cidrs.map(parseSubnet);
   const overlaps = [];
   let overlapCount = 0;
   for (let i = 0; i < subnets.length; i++) for (let j = i + 1; j < subnets.length; j++) {

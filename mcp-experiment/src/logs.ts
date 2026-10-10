@@ -4,7 +4,7 @@ const core = createRequire(import.meta.url)('../../system/logparser-core.js');
 export const formats = ['auto', 'json', 'rfc5424', 'rfc3164', 'apache-common', 'apache-combined', 'windows-event', 'common-pid'] as const;
 type Fields = Record<string, string>;
 // Never infer the current year or the server's timezone for ambiguous timestamps.
-function timestamp(value: string): number | null {
+export function logTimestamp(value: string): number | null {
   let text = value;
   const apache = value.match(/^(\d{2})\/([A-Za-z]{3})\/(\d{4}):(\d{2}:\d{2}:\d{2}) ([+-]\d{4})$/);
   if (apache) text = `${apache[1]} ${apache[2]} ${apache[3]} ${apache[4]} ${apache[5]}`;
@@ -40,7 +40,7 @@ export function parseLogs(text: string, format: string = 'auto', summaryOnly = f
     const severity = ({ warn: 'warning', information: 'info', fatal: 'critical' } as Record<string, string>)[rawSeverity] || rawSeverity;
     const key = ['emergency', 'alert', 'critical', 'error', 'warning', 'notice', 'info', 'debug', 'trace', 'verbose'].includes(severity) ? severity : 'unknown';
     severityCounts[key] = (severityCounts[key] || 0) + 1;
-    const time = timestamp(String(fields.timestamp || fields.time || fields['@timestamp'] || ''));
+    const time = logTimestamp(String(fields.timestamp || fields.time || fields['@timestamp'] || ''));
     if (time === null) ambiguousTimestamps++; else times.push(time);
     if (!summaryOnly && records.length < recordLimit) records.push({ line: index + 1, format: id, fields });
   });

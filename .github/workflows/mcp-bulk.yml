@@ -1,0 +1,41 @@
+name: Run synthetic MCP bulk prototype
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+  id-token: write
+concurrency:
+  group: mcp-production
+  cancel-in-progress: false
+jobs:
+  bulk:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: mcp-production
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: mcp-experiment/package-lock.json
+      - run: npm ci --ignore-scripts && npm test
+        working-directory: mcp-experiment
+      - name: Verify exact synthetic bulk totals
+        run: node scripts/evaluate-bulk.mjs
+        env:
+          BULK_EVAL_RUN: reports/bulk-ci
+        working-directory: mcp-experiment
+      - uses: azure/login@v2
+        with:
+          client-id: ${{ vars.MCP_AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.MCP_AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.MCP_AZURE_SUBSCRIPTION_ID }}
+      - name: Enforce guard, build immutable image and start manual bounded job
+        shell: pwsh
+        run: ./mcp-experiment/scripts/deploy-bulk.ps1 -Revision ('bulk' + '${{ github.sha }}'.Substring(0,12))
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: synthetic-bulk-evidence
+          path: mcp-experiment/reports/bulk-ci/

@@ -5,7 +5,14 @@ function AzJson { $result = & az @args --only-show-errors -o json; if ($LASTEXIT
 $appState = AzJson containerapp show -g $Group -n $App
 function Stop-Pilot {
   AzJson containerapp ingress disable -g $Group -n $App | Out-Null
-  Write-Output 'Public ingress disabled. Registry/storage retention charges may continue.'
+  # The prototype job has no input storage and can be recreated from Bicep. Delete it
+  # after stopping executions so independent compute cannot survive ingress shutdown.
+  $bulkJobs = @(AzJson containerapp job list -g $Group | Where-Object name -eq 'oldweb-mcp-bulk')
+  foreach ($bulkJob in $bulkJobs) {
+    AzJson containerapp job stop -g $Group -n $bulkJob.name | Out-Null
+    AzJson containerapp job delete -g $Group -n $bulkJob.name --yes | Out-Null
+  }
+  Write-Output 'Public ingress disabled; synthetic bulk job stopped and removed if present. Registry/storage retention charges may continue.'
 }
 if ($Operation -eq 'shutdown') { Stop-Pilot; exit }
 if ($Operation -eq 'rollback') {
