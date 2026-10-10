@@ -1,7 +1,7 @@
 {
   "status": "listed",
   "experimentStart": "2026-10-09T17:19:14Z",
-  "experimentEnd": "2026-11-15T17:19:14Z",
+  "experimentEnd": "2027-02-15T17:19:14Z",
   "listedAt": "2026-10-10T17:32:51.537144Z",
   "budgetUsdMonthly": 25,
   "resourceGroup": "rg-oldweb-mcp-experiment",
@@ -60,20 +60,22 @@
     "githubPublished": true,
     "generatedHostname": "oldweb-mcp.greencoast-980eedf2.eastus2.azurecontainerapps.io",
     "publicIngress": "enabled",
-    "validatedRevision": "oldweb-mcp--listed20261010",
+    "validatedRevision": "oldweb-mcp--extended20261010",
     "rollbackAndShutdownVerified": true,
     "dnsVerified": true,
     "validatedVersion": "1.1.0",
-    "rollbackRevision": "oldweb-mcp--rcb647b3a4524",
+    "rollbackRevision": "oldweb-mcp--rollbackextended20261010",
     "allToolsSmokePassed": 13,
     "latestDeploymentWorkflow": "https://github.com/palthainon/mycode/actions/runs/38070833673",
     "phaseConfigurationVerifiedAt": "2026-10-10T17:39:00.069301+00:00",
-    "phaseConfigurationChange": "Same immutable 1.1.0 image; LISTED_AT only; candidate passed all 13 tools before promotion and all production endpoint discoveries after promotion."
+    "phaseConfigurationChange": "Same immutable 1.1.0 image; LISTED_AT only; candidate passed all 13 tools before promotion and all production endpoint discoveries after promotion.",
+    "extensionVerifiedAt": "2026-10-10T18:19:59.256825+00:00",
+    "extensionSmokeReport": "reports/extension-smoke-2026-10-10.json"
   },
   "schedules": {
     "directoryPublication": "publish-oldweb-mcp-directory-listings",
     "weeklyUsageReview": "oldweb-mcp-weekly-usage-review",
-    "finalReviewLocal": "2026-11-15T15:00:00 America/New_York",
+    "finalReviewLocal": "2027-02-15T15:00:00 America/New_York",
     "finalReview": "review-oldweb-mcp-pilot-results",
     "directoryPublicationLocal": "2026-10-16T15:00:00 America/New_York",
     "directoryPublicationPurpose": "Remaining free directories only; official Registry already published October 10. Avoid duplicate versions and retain first listing time."
@@ -110,6 +112,15 @@
       "publicToolsChanged": false,
       "report": "reports/BULK-WORKER-2026-10-10.md",
       "experimentEndUnchanged": "2026-11-15T17:19:14Z"
+    },
+    {
+      "at": "2026-10-10T18:18:31.083043+00:00",
+      "reason": "User explicitly authorized three calendar months of continued operation beyond November 15",
+      "previousExperimentEnd": "2026-11-15T17:19:14Z",
+      "experimentEnd": "2027-02-15T17:19:14Z",
+      "budgetUsdMonthlyUnchanged": 25,
+      "pauseUsdMonthlyUnchanged": 20,
+      "report": "reports/PILOT-EXTENSION-2026-10-10.md"
     }
   ],
   "baselineActualSeconds": 87217.537144,
@@ -129,5 +140,11 @@
     "shutdownRemovesJob": true,
     "dayQuota": 4,
     "monthQuota": 120
+  },
+  "originalExperimentEnd": "2026-11-15T17:19:14Z",
+  "telemetryArchive": {
+    "retentionDays": 60,
+    "weeklyAggregateDirectory": "reports/weekly/",
+    "callerMetrics": "Window-scoped estimates; do not sum weekly groups into unique lifetime callers. Flag missing historical evidence."
   }
 }

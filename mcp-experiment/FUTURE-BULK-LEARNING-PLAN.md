@@ -1,6 +1,6 @@
 # Future bulk processing and model-assisted learning plan
 
-Drafted 2026-10-10. Update: the user authorized starting the deterministic Container Apps Jobs prototype. The [first worker](BULK-WORKER.md) implements local bulk processing and a synthetic-only manual cloud job; private artifacts, hosted models and remaining stages are still deferred. This extends the OldWeb MCP experiment without changing its current endpoints, quotas, privacy policy, Azure resources or November 15 pilot deadline.
+Drafted 2026-10-10. Update: the user authorized starting the deterministic Container Apps Jobs prototype. The [first worker](BULK-WORKER.md) implements local bulk processing and a synthetic-only manual cloud job; private artifacts, hosted models and remaining stages are still deferred. This extends the OldWeb MCP experiment without changing its current endpoints, quotas, privacy policy, Azure resources or the original November 15 pilot deadline at that implementation stage. Subsequently, the user explicitly authorized a three-calendar-month extension through February 15, 2027; see [extension record](reports/PILOT-EXTENSION-2026-10-10.md).
 
 ## Objective and evidence
 
