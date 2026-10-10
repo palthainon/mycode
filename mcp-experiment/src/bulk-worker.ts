@@ -28,7 +28,7 @@ async function main() {
   try {
     const chunks=values.synthetic?synthetic(count):fs.createReadStream(values.input!,{highWaterMark:65536});
     const logs=await summarizeBulkLogs(chunks,values.format,deadline);
-    const network=summarizeBulkOverlap((function*(){for(let i=0;i<cidrCount;i++) yield i%2?'2001:db8::/64':'192.0.2.0/24';})(),deadline);
+    const network=values.synthetic?summarizeBulkOverlap((function*(){for(let i=0;i<cidrCount;i++) yield i%2?'2001:db8::/64':'192.0.2.0/24';})(),deadline):null;
     const report={at:new Date().toISOString(),synthetic:!!values.synthetic,cloud,logs,network,lessons:draftBulkLessons(logs),metrics:{durationMs:Math.round(performance.now()-started),peakRssBytes:Math.max(logs.peakRssBytes,process.memoryUsage().rss)},modelUsed:false};
     if(values.output) fs.writeFileSync(values.output,JSON.stringify(report,null,2)+'\n',{mode:0o600});
     console.log(JSON.stringify(report));

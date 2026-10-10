@@ -77,3 +77,13 @@ test('cloud worker rejects real inputs, expired pilot and oversized synthetic jo
   const result=JSON.parse(run.stderr.trim());assert.ok(['cloud_synthetic_only','experiment_ended'].includes(result.code));
  }
 });
+
+test('local log-file mode never presents generated CIDRs as owner inventory',async()=> {
+ const os=await import('node:os'),path=await import('node:path'),{spawnSync}=await import('node:child_process');
+ const folder=fs.mkdtempSync(path.join(os.tmpdir(),'oldweb-bulk-local-test-')),file=path.join(folder,'private.log');
+ try {
+  fs.writeFileSync(file,'{"level":"ERROR","message":"PRIVATE_LOCAL_SENTINEL"}');
+  const run=spawnSync(process.execPath,['dist/bulk-worker.js','--input',file],{encoding:'utf8',cwd:new URL('..',import.meta.url),env:{...process.env,BULK_CLOUD:'false'},timeout:10000});
+  assert.equal(run.status,0);const report=JSON.parse(run.stdout);assert.equal(report.synthetic,false);assert.equal(report.logs.parsed,1);assert.equal(report.network,null);assert.ok(!run.stdout.includes('PRIVATE_LOCAL_SENTINEL'));
+ } finally { fs.unlinkSync(file);fs.rmdirSync(folder); }
+});
