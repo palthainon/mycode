@@ -6,6 +6,10 @@ Version 1.1 groups deployment readiness and offline email tracing with diagnosti
 
 See [TEST-PLAN.md](TEST-PLAN.md) for the 100-case-per-server matrix and actual small-model evaluations, and [the evaluation skill](skills/oldweb-mcp-lab/SKILL.md) for reruns. Azure resource sizes, quotas, budget guard and pilot end stay unchanged; Codex evaluations consume the operator's account allowance separately.
 
+## Future bulk processing and learning
+
+The [future bulk and learning plan](FUTURE-BULK-LEARNING-PLAN.md) proposes canonical artifact ingestion, deterministic large-dataset processing, a privacy gate and cheap Azure model drafts of evidence-linked lessons. It compares Container Apps Jobs, Functions and Data Factory, with consistency/privacy benchmarks and combined hosting/inference budget controls. This is deferred proposal work; current inputs remain transient and no inference or bulk resources are enabled.
+
 ## Development
 
 Requires Node 24 or newer. From this directory run `npm ci --ignore-scripts`, `npm test`, then `npm start`. In another terminal run `npm run smoke` (the diagnostics smoke test queries public DNS). Local URL: `http://127.0.0.1:8080`. Production secrets/configuration are required at startup; local memory quotas cannot be used in production.

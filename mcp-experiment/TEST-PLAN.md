@@ -30,3 +30,7 @@ Release requires 300/300 deterministic cases, existing safety regression checks,
 ## Reproducibility
 
 From `mcp-experiment`: `npm test`, then `node scripts/evaluate.mjs` for the 300-case matrix, and `node scripts/evaluate-model.mjs` for actual model calls. The model harness supports resume and records evidence per batch. Three repetitive bulk-input cases use compact distinct agent variants; the SDK suite still exercises the full-size boundaries. Production smoke uses `MCP_BASE_URL` and `TEST_SECRET` from the existing secret store; never commit a secret. The reusable repository skill is `mcp-experiment/skills/oldweb-mcp-lab/SKILL.md`, installed into the user's Codex skills folder after validation.
+
+## Deferred bulk and learning evaluation
+
+See [FUTURE-BULK-LEARNING-PLAN.md](FUTURE-BULK-LEARNING-PLAN.md) for a separate proposed catalogue covering 1k–1m-record local stress tests, chunk/replay parity, global subnet operations, privacy egress, held-out Azure model lessons, context benefit and worker/model shutdown. These future gates have not been run and do not change the current 300-case release matrix.

@@ -1,0 +1,127 @@
+# Future bulk processing and model-assisted learning plan
+
+Drafted 2026-10-10. Status: research/proposal only; implementation requires a later operating decision. This extends the OldWeb MCP experiment without changing its current endpoints, quotas, privacy policy, Azure resources or November 15 pilot deadline.
+
+## Objective and evidence
+
+Make OldWeb useful for processing operational datasets consistently: exact counts, reproducible network calculations, traceable exceptions and readable administrator reports. A small model should explain compact evidence and propose improvements; software should ingest, validate and calculate over the complete dataset.
+
+The [October 10 evaluation](reports/REPORT-2026-10-10.md) passed 300/300 deterministic cases but the small model sometimes shortened mail inputs, changed log inputs or changed an allocation request. Returning bounded details reduced two synthetic structured responses by 87% and 90% while retaining exact totals. These are evidence for canonical programmatic submission and compact summaries, not evidence of external demand or a universal token saving.
+
+Prioritize bulk log/configuration analysis and bulk CIDR overlap/validation, then offline email queue/header correlation. Existing public diagnostics remain bounded outbound checks; large inventories must not become an unrestricted DNS/HTTPS scanner. Validate demand through qualified external calls, administrator interviews and explicitly contributed examples; directory rankings alone are insufficient.
+
+## Separate the data sources
+
+| Source | What it can teach | Boundary |
+| --- | --- | --- |
+| Existing allowlisted telemetry | Initialization/discovery/call funnels, failures by tool, latency, throttles, approximate returning callers and response sizes | No pasted inputs or results exist here. Do not enable body capture or infer the private cause of an error from metadata. Exclude internal tests and flag gaps. |
+| Synthetic fixtures and opt-in operator examples | Parser gaps, ambiguous timestamps, schema problems, bulk scaling and model input fidelity | Synthetic first. Private examples stay outside the repository; sanitize and review a replacement fixture before committing it. |
+| Future authenticated bulk artifacts | Exact dataset-level results and consented failure patterns | Requires ownership checks, explicit processing consent and a separate, optional consent for contributing sanitized examples to product learning. No automatic reuse of submitted data. |
+
+Current public input processing is transient. Durable uploads and hosted inference would change that operating model. Update the privacy page, retention/deletion policy and tool descriptions before introducing them; do not quietly retain today's public tool inputs to build a corpus.
+
+## Proposed pipeline
+
+1. **Ingest canonically.** An operator CLI first, and later an authenticated upload flow, submits a file once. Generate an opaque job ID and a private manifest containing content digest, byte/record totals, format, schema/parser versions, owner scope and consent purpose. Reject unknown formats, oversized/decompression-heavy files and cross-owner references. No arbitrary URL ingestion or signed URLs in model prompts.
+2. **Normalize deterministically.** Stream complete logical records into a versioned JSONL schema; consider Parquet when repeated column scans justify it. Reuse `system/logparser-core.js` semantics and subnet calculations. Persist checkpoints and source record IDs; preserve malformed/unsupported counts. Never silently coerce ambiguous dates or round IPv6 integers.
+3. **Apply the privacy gate.** Keep owner-visible calculation results separate from the minimized learning projection. Strip disallowed fields, detect credentials and personal/private identifiers, and quarantine uncertain content. Only an allowlisted, reviewed projection can leave for a hosted model.
+4. **Aggregate over the entire dataset.** Produce exact counts, time ranges, error categories, distributions and bounded evidence references. Deduplicate patterns and select rare/new failure categories with deterministic sampling. Record what was excluded or unparsed. Models do not replace these totals.
+5. **Analyze selected digests.** Use a cheap Azure model on minimized summaries and approved snippets, with strict token/output limits. Ask for evidence-linked draft lessons, uncertainty and proposed tool/schema/documentation/tests changes. Run this asynchronously outside the public request path.
+6. **Review and evaluate lessons.** Validate the lesson schema, evidence references and sensitive-data checks. Human review promotes a lesson into a small curated context pack or a synthetic regression case. Evaluate the resulting change against a held-out set before release.
+7. **Retain only what is useful.** Save aggregate research reports, decision history and approved synthetic fixtures. Expire input artifacts and unreviewed drafts. Retire stale or contradicted lessons rather than continually expanding the agent prompt.
+
+A queue message carries an opaque artifact/job reference, not log text. Use managed identities and least-privilege storage/model access. Keep uploads private and owner-scoped; never allow a public caller to enumerate results. Retries are bounded and checkpointed. At-least-once delivery must not duplicate totals or model charges: key a run by owner, input digest, operation, parser/privacy versions and parameters, with an atomic job lease and committed-output manifest. Cache owner outputs only within their retention window.
+
+### Bulk correctness by workflow
+
+| Workflow | Required bulk behavior |
+| --- | --- |
+| Logs/CI/configuration/HTTP captures | Multiline CSV/header records survive chunk boundaries; counts reconcile across chunks. Preserve source IDs and explicit timestamp uncertainty. Validate configurations individually; errors contain paths/codes rather than values. Summaries distinguish observed evidence from suspected causes. |
+| Subnet inspection and overlaps | Exact IPv4/IPv6 boundaries and decimal integer strings; normalize families separately. Replace the bounded pairwise algorithm with a benchmarked sorted interval/index approach. Cross-chunk overlaps must be found. Avoid materializing quadratic pair output: compute the exact total where feasible and page bounded evidence, or fail an explicit work budget without pretending a partial count is exact. |
+| Subnet allocations | Largest blocks first with stable original indices and labels across the whole request. Sorting each chunk separately changes semantics and is unacceptable. Report unallocated requests and capacity explicitly; never let a model rewrite the request list. |
+| Email tracing | Preserve logical header boundaries, explicit year/timezone requirements and input chronology. Correlate queue IDs only inside an authorized dataset; do not claim correlation across unrelated systems. Authentication-Results remain supplied claims; SMTP acceptance remains hop-level acceptance, not inbox delivery. Message bodies and subjects are excluded from learning. |
+
+The future MCP response should contain job status, schema/parser versions, exact totals, omission/partial metadata, a bounded `admin` explanation and owner-authorized artifact/page references. Large data must not be retyped into model arguments or returned as an enormous JSON prompt. Initially use a private operator job workflow; only add public bulk MCP capabilities after demand and authentication are settled. A future submit/cancel tool changes state and must advertise that honestly rather than inherit today's read-only annotations. Keep the three current connection URLs and synchronous bounds stable.
+
+## Privacy filtering before model analysis
+
+Use layered detection, not a model as the sole privacy barrier:
+
+- Parse fields first and allowlist useful learning fields: format, error code/category, line/record index, safe schema path, duration bucket, normalized counts and parser version. Free text is excluded by default, including unparsed lines.
+- Remove authorization headers, cookies, passwords, API keys, private-key blocks, connection strings and URL credentials/query fragments. Scan nested/escaped/encoded representations under explicit decoding limits. Add bounded entropy checks as a detector, not proof of safety. Unknown or unsupported encodings are quarantined.
+- Treat email addresses, names, tenant/customer IDs, file paths, hostnames, IPs and network topology as potentially private even when publicly routable. Prefer generalization and synthetic replacements. If joins are essential, use owner/dataset-scoped keyed HMAC tokens with keys stored separately; these remain pseudonymous and should not link datasets or callers.
+- Keep exact private network values in the owner's protected deterministic result when required for administration. The learning projection can use synthetic CIDRs and topology categories; redacting the owner result must not silently invalidate its arithmetic.
+- Evaluate local [Presidio](https://github.com/data-privacy-stack/presidio/blob/main/docs/faq.md) plus custom recognizers, or optional [Azure Language PII](https://learn.microsoft.com/en-us/azure/ai-services/language-service/personally-identifiable-information/overview), against our log/mail vocabulary. Measure memory/startup cost before packaging NLP models into a small worker. PII detection is not a complete credential scanner. A hosted detector itself receives its input and needs the same consent/residency review.
+- Run an independent egress check on the learning projection and again on model output. Any suspicious content blocks promotion. Use content-free error codes and counters; no excerpts, prompts, completions or arbitrary exception messages in application/platform logging.
+
+Automated detection can miss sensitive information. [Microsoft's PII transparency note](https://learn.microsoft.com/en-us/azure/foundry/responsible-ai/language-service/transparency-note-personally-identifiable-information) documents false positives, false negatives and contextual limits. Do not advertise anonymization guarantees. Start learning with metadata-only digests and manually reviewed synthetic snippets; do not allow arbitrary free-text egress merely because one scanner passed it.
+
+Proposed private-preview retention: raw/quarantined inputs at most 24 hours; owner results at most seven days; minimized drafts at most seven days; reviewed lesson/context records at most 60 days before revalidation. These are design defaults to approve, not current settings. Deletion must cover derived artifacts, model batch input/output files, caches, retry queues and configured backup/soft-delete retention. Destroy scoped pseudonymization keys when their data expires. Azure-side policies can differ: review [Foundry data processing and abuse monitoring](https://learn.microsoft.com/en-us/azure/foundry/responsible-ai/openai/data-privacy) for the selected API and deployment; do not promise zero retention or East US 2-only model processing.
+
+## Azure service comparison and recommendation
+
+| Option | Useful role | Cost/complexity and decision |
+| --- | --- | --- |
+| Blob/Queue Storage + Container Apps Consumption Job | Run the existing parser/container for finite streaming and batch aggregation work | Recommended first private prototype. [Jobs](https://learn.microsoft.com/en-us/azure/container-apps/jobs) can start manually, on schedule or from events. Propose one execution/replica at a time, finite timeout and retries; reuse the environment only after resource isolation is reviewed. Jobs have their own deployment/execution controls; do not assume app revision traffic splitting applies. |
+| Azure Functions / Durable Functions | Small event transforms and orchestration of checkpointed steps | Alternative if orchestration grows more important than parser reuse. Pass artifact references, not raw bodies, through persisted orchestration history; review [performance guidance](https://learn.microsoft.com/en-us/azure/durable-task/durable-functions/durable-functions-perf-and-scale) and persistence settings. Include execution, storage and monitoring charges. |
+| Azure Data Factory Copy activities + versioned custom worker | Managed connectors, schema mappings and repeated ingestion from approved stores | Consider when multiple recurring source systems or connector/operations needs justify it. [Copy activity](https://learn.microsoft.com/en-us/azure/data-factory/copy-activity-overview) supports structured formats such as CSV, JSON and Parquet. Keep log grammar, privacy checks and subnet semantics in tested code; mapping columns alone does not implement them. No customer-source credentials in public MCP calls. |
+| Azure Data Factory Mapping Data Flows | Visual joins/transformations at larger sustained scale | Defer. [Pricing](https://azure.microsoft.com/en-us/pricing/details/data-factory/data-pipeline/) bills execution/debugging per vCore-hour, with an eight-vCore minimum and additional disk/blob charges. That minimum applies to mapping flows, not every Copy pipeline. Benchmark actual runs before deciding; it does not prove ADF can never fit $25. |
+| Fabric/Spark/Databricks/Data Explorer | Larger recurring analytics estates and interactive exploration | Revisit only with demonstrated workload and a separate estimate. No capacity or always-on analytics platform is justified by the present pilot. |
+
+This is an engineering recommendation, not a measured platform comparison. ADF provides orchestration and structured data movement; it does not automatically understand arbitrary logs, remove private data or derive trustworthy lessons. Prototype one representative dataset through the simple worker first, then compare ADF Copy/custom-worker and Mapping Data Flow on identical output, retries, run time and all billed meters if demand warrants it.
+
+## Cheap Azure models: selection and work limits
+
+Shortlist `gpt-4.1-nano` and `gpt-4.1-mini` as evaluation candidates, not committed deployments. Microsoft's [batch support matrix](https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/batch) lists them; check supported versions, lifecycle, region/deployment type and this subscription's available quota again before use. Our Codex GPT-5.6-Luna results do not establish Azure availability, price or performance for these candidates. Compare the smallest eligible candidate against a stronger reference and the deterministic-only baseline on the same held-out cases.
+
+[Global/Data Zone Batch](https://learn.microsoft.com/en-us/azure/foundry/foundry-models/concepts/deployment-types) offers a documented 50% discount against the corresponding standard pricing for supported asynchronous workloads. Global Batch targets 24 hours rather than guaranteeing completion and can process outside the resource region; choose a supported data-zone/geography option if the approved data policy requires it. Small occasional runs may be simpler on pay-per-token Standard. No reserved/provisioned throughput or permanently hosted GPU for this experiment.
+
+Proposed initial analysis envelope: operator-triggered at most once daily; up to ten deduplicated digests per run; each at most 4,000 input tokens and 600 output tokens; up to two attempts per digest including the first; one active run. Count retries, output/reasoning tokens if billed, validation failures and evaluations in the same reservation ledger. Honor Retry-After for throttles and a finite overall deadline; exhaustion leaves an explicit failed/deferred analysis, not a fabricated lesson. Prefer no-model counts for unchanged windows; novelty selection avoids paying repeatedly for identical incidents. Do not recursively summarize the entire corpus or escalate to a larger model automatically.
+
+Price at implementation time from the [Azure model pricing page](https://azure.microsoft.com/en-us/pricing/details/azure-openai/) and subscription meters, recording date/currency/model version/deployment type. The retrieved public price tables exposed placeholders rather than usable region-specific rates, so this draft does not assert an Azure token price. For illustration, the proposed 30-day maximum at two attempts is 2.4 million input and 0.36 million output tokens, before any additional billable token categories. These are reservation limits, not expected traffic.
+
+## Budget and shutdown design
+
+All future Azure inference and bulk infrastructure must fit inside the same $25 monthly target unless a later decision changes it. Codex account evaluation allowance is separate; Azure model calls are Azure spend. Keep the existing $20 pause and delayed-billing headroom. Do not assume subscription free grants are available.
+
+Estimate monthly cost as existing hosting/ACR/telemetry + worker CPU/memory duration + blob capacity/transactions/egress + queue/checkpoint operations + detector calls + model input/output/other billed tokens + any ADF activities/DIU-hours/data-flow vCore-hours and associated storage. Include retries, cold starts, debugging, failed runs and shared grant usage. Use current rates and measured durations; the [existing cost estimate](COST-ESTIMATE.md) is historical context, not a future quote.
+
+Propose incremental allowances of up to $2/month inference and $2/month worker/storage/detectors, reduced whenever projected baseline plus these allowances would exceed $18. If this cannot fit, stay local/synthetic and defer cloud learning. Reserve worst-case run/token costs atomically before admission, reconcile actual usage, and stop when a ledger/rate/billing check is unavailable. Limits must include pending batches, not just completed requests. Local admission controls reduce risk; they are not a guaranteed Azure bill ceiling.
+
+Before any worker/model is activated, extend shutdown to disable job triggers/new executions, stop active executions where supported, and cancel pending model batches where supported, as well as pause ingress. Today's ingress-only shutdown does not stop independent jobs or model batches; cancellation may still incur work already performed. Keep storage cleanup and cost checks functioning after pause. ADF debug clusters/triggers also need explicit shutdown. Verify delayed billing and all residual resource charges in the cost report.
+
+## Evidence-linked lessons and context enhancement
+
+The learning output is a draft observation, not executable instructions. Logs and model output are untrusted data. Models have no deployment, repository-write, mailbox or arbitrary network tools in this analysis step. Strict schema validation, bounded output and evidence-reference validation are required; a schema-valid answer can still be factually wrong.
+
+Each lesson record should include `lessonId`, `status` (draft/reviewed/retired), `tool`, `parserVersion`, `privacyVersion`, `analysisModelVersion`, `window`, `evidenceIds`, `sampleCount`, `denominator`, `excludedCounts`, `observation`, `hypothesis`, `uncertainty`, `proposedChange`, `regressionCaseIds`, `reviewer`, `reviewedAt`, `expiresAt` and an evaluated outcome. Store only approved non-private content. Opaque evidence IDs resolve inside authorized storage and must not expose a raw artifact digest publicly.
+
+Examples: an unsupported multiline log layout merits a parser fixture; ambiguous mail dates merit an uncertainty warning; recurring schema errors merit clearer examples; model mutation of bulk requests merits artifact-reference submission. A frequency spike is an observation, not proof of root cause. Demand lessons combine qualified usage with administrator feedback and dated competitor capability research.
+
+Build versioned context packs of at most ten relevant reviewed lessons and 2,000 tokens per admin workflow. Retrieve by tool/version/task and show provenance/expiry; keep authoritative schemas and deterministic results primary. Deduplicate and check contradictory lessons. Initially use checked-in reviewed Markdown/JSON and simple selection; vector search and fine-tuning are deferred until measured benefit warrants their cost and privacy changes. Never automatically promote a log instruction into the skill, alter tools or deploy a model-suggested fix.
+
+Feed approved conclusions into the [OldWeb MCP Lab loop](skills/oldweb-mcp-lab/SKILL.md): research demand → compare capabilities → propose → implement within authorization → deterministic/bulk/small-model evaluation → retain/revise/retire. Save future runs under `research/loops/<date>-<iteration>/` with a lesson ledger and before/after metrics. Preserve failed evidence and rejected lessons with safe reason codes. No new recurring automation is established by this draft.
+
+## Validation gates for later implementation
+
+| Gate | Dataset and measurement | Acceptance |
+| --- | --- | --- |
+| Bulk parity and consistency | Synthetic 1k/10k/100k/1m records; varied byte sizes; mixed/malformed formats; CSV/header split boundaries; shuffled/chunked/retried runs | Exact small-case parity with existing parser/network fixtures; identical canonical totals and stable IDs on rerun/chunk changes. Every unsupported record is accounted for. Million-record workloads are local stress targets, not a promise for a 0.5-GiB cloud job. |
+| Network scale | IPv4 /31 /32, IPv6 /0 /128, cross-chunk overlaps, duplicates, nested ranges, global allocation exhaustion and stable labels | Exact decimal outputs and overlap totals compared with a small brute-force oracle plus analytical large fixtures. No quadratic evidence expansion; explicit work-budget errors. |
+| Resilience and ownership | Duplicate queues, partial writes, crashes, expired leases, interrupted jobs, cross-owner IDs, expired downloads, decompression abuse | No double totals, cross-owner access or uncontrolled retries. Replays resume from a committed checkpoint. Runtime/memory/bytes/job quotas are enforced. |
+| Privacy | Labeled synthetic secrets/PII across nested JSON, mail/log fields, multiline/encoded/chunk boundaries, URLs and malicious instructions | Zero known seeded leakage into prompts, results destined for learning, telemetry, model files, context packs or repo. Report recall/precision by category and sample size; do not extrapolate to perfect privacy. Unknown free text stays blocked. Verify expiry/deletion and soft-delete behavior. |
+| Model usefulness | At least 100 held-out digest tasks per proposed model; deterministic-only baseline; representative admin review | At least 95% schema/evidence validity, no invented numeric totals or promoted unsupported causes, zero seeded disclosures/instruction-following. Record rejected/missing outputs as failures, cost per accepted lesson, output tokens and admin ratings. Manually review every promoted lesson. |
+| Context benefit | Same held-out admin tasks with/without the reviewed pack; context token budget, correctness and uncertainty scoring | No deterministic correctness/privacy regression; demonstrate a concrete reduction in repeated mistakes or better rated next steps. Record uncertainty rather than claiming improvement from one small run. |
+| Cost and lifecycle | Worker duration/peak memory/throughput; bytes scanned/stored; all token categories; billing failure/429/retry/pending batch; paused ingress with independent jobs | Measured projected total fits the admission allocation; new work fails closed when cost is unknown. Jobs/model submissions stop during shutdown. Report residual charges and compare actual billing later. |
+
+Choose actual cloud byte/record/CPU limits from these benchmarks, not from model context-window marketing. Keep the original 100-case-per-server regression matrix and public quota tests. Bulk work receives a separate test catalogue; these proposed gates have not been run.
+
+## Staged delivery and next decision
+
+1. **Current stage — proposal:** Save this plan, source evidence and open hypotheses. Continue current privacy-safe usage reviews. No resources, model calls, uploads or background data retention added.
+2. **Local synthetic prototype:** Benchmark streaming normalization, global network operations, privacy projection and compact reports. Deliver reproducible results, failures and a priced recommendation; run without private examples by default.
+3. **Private opt-in preview:** After an explicit implementation decision, define consent/ownership/retention, approve a measured budget, then build identity-protected storage and one bounded job worker. Extend the guard/shutdown before starting it. Validate canonical deterministic results first.
+4. **Shadow model lessons:** Compare eligible cheap Azure models on reviewed digests; models produce drafts only. Verify egress/privacy, actual costs and deletion before any real opt-in examples. Hold drafts out of production context until reviewed.
+5. **Reviewed enhancement:** Promote useful lessons to context and synthetic tests, evaluate changes and release through existing safeguards. Revisit ADF only when connector needs or measured scale make it preferable. Public bulk tools and continued operation beyond the original pilot require a separate decision.
+
+Next evidence to collect: which administrators have repetitive datasets, their formats/volume and acceptable retention; whether canonical bulk submission reduces input mutation; whether deidentified digests retain enough evidence for useful lessons; and measured worker/model cost per useful reviewed improvement. Keep these as hypotheses until data supports them.
