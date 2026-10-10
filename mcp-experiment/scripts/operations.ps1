@@ -9,7 +9,7 @@ function Stop-Pilot {
   # after stopping executions so independent compute cannot survive ingress shutdown.
   $bulkJobs = @(AzJson containerapp job list -g $Group | Where-Object name -eq 'oldweb-mcp-bulk')
   foreach ($bulkJob in $bulkJobs) {
-    AzJson containerapp job stop -g $Group -n $bulkJob.name | Out-Null
+    try { AzJson containerapp job stop -g $Group -n $bulkJob.name | Out-Null } catch { Write-Warning 'Bulk stop request unavailable; removing the stateless job resource.' }
     AzJson containerapp job delete -g $Group -n $bulkJob.name --yes | Out-Null
   }
   Write-Output 'Public ingress disabled; synthetic bulk job stopped and removed if present. Registry/storage retention charges may continue.'
