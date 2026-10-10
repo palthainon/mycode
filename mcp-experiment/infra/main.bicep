@@ -33,8 +33,8 @@ resource identity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' 
   tags: tags
 }
 resource tableRole 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: guid(storage.id, identity.id, 'table')
-  scope: storage
+  name: guid(quotas.id, identity.id, 'table')
+  scope: quotas
   properties: { principalId: identity.properties.principalId, principalType: 'ServicePrincipal', roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '0a9a7e1f-b9d0-4cc4-a60d-0319b160aaa3') }
 }
 resource pullRole 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
