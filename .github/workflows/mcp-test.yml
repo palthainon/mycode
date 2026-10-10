@@ -17,6 +17,8 @@ jobs:
           cache-dependency-path: mcp-experiment/package-lock.json
       - run: npm ci --ignore-scripts && npm test
         working-directory: mcp-experiment
+      - run: node scripts/evaluate.mjs
+        working-directory: mcp-experiment
       - name: Test billing retries and shutdown
         shell: pwsh
         run: ./mcp-experiment/scripts/test-cost-guard.ps1

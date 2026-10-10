@@ -37,21 +37,27 @@
   }
 }</pre>
       <button type="button" class="btn copy" data-copy="config">Copy server configuration</button>
-      <p>Configuration keys vary by client; these are the server names and URLs to enter. Tools return structured JSON and a short completion message. Read the structured result for observations, errors and truncation details. <a href="mcp-tools.json">Download the tool schemas and descriptions</a>.</p>
+      <p>Configuration keys vary by client; these are the server names and URLs to enter. Tools return structured JSON plus an admin-readable summary, findings, next steps and limitations. Read the structured result for exact evidence, errors and truncation details. <a href="mcp-tools.json">Download the tool schemas and descriptions</a>.</p>
     </div></section>
     <section class="box" aria-labelledby="diagnostics-heading"><div class="box-head"><h2 id="diagnostics-heading">deployment diagnostics</h2></div><div class="box-body">
       <p><code>https://mcp.oldweb.tech/diagnostics/mcp</code></p>
-      <ul><li><code>lookup_dns</code>: DNS status, records, TTLs and observation time.</li><li><code>check_email_dns</code>: MX, SPF and DMARC record observations.</li><li><code>check_https</code>: HTTPS status, up to three HTTPS redirects, and TLS certificate metadata.</li></ul>
+      <ul><li><code>lookup_dns</code>: DNS status, records, TTLs and observation time.</li><li><code>check_email_dns</code>: MX, SPF and DMARC record observations.</li><li><code>check_https</code>: HTTPS status, up to three HTTPS redirects, certificate metadata and selected security headers.</li><li><code>deployment_readiness</code>: Combined DNS, email DNS, HTTPS and header observations for a rollout.</li><li><code>trace_email</code>: Offline Received chain, timestamp delays, authentication claims and SMTP delivery status analysis from supplied headers/logs.</li></ul>
       <pre>{ "name": "lookup_dns", "arguments": { "domain": "example.com", "type": "A" } }
 { "name": "check_email_dns", "arguments": { "domain": "example.com" } }
-{ "name": "check_https", "arguments": { "domain": "example.com" } }</pre>
-      <p>Diagnostics contacts Google Public DNS and, for HTTPS checks, the requested public website. Supply a domain name, not a URL. HTTPS checks start at its root on port 443. Email observations are not deliverability guarantees.</p>
+{ "name": "check_https", "arguments": { "domain": "example.com" } }
+{ "name": "deployment_readiness", "arguments": { "domain": "example.com" } }
+{ "name": "trace_email", "arguments": { "headers": "Received: from sender.example by mx.example; Fri, 09 Oct 2026 10:00:00 +0000", "deliveryLog": "450 4.2.0 temporary deferral" } }</pre>
+      <p>DNS and deployment checks contact Google Public DNS and, for HTTPS checks, the requested public website. Supply a domain name, not a URL. HTTPS starts at the root on port 443. Email tracing runs offline, ignores the message body and reports unverified header claims. Authentication claims and SMTP acceptance do not prove authenticity or inbox delivery. Up to 50 newest hops, 20 authentication headers and 50 delivery statuses are returned with omission counts.</p>
     </div></section>
-    <section class="box" aria-labelledby="logs-heading"><div class="box-head"><h2 id="logs-heading">log parsing</h2></div><div class="box-body">
+    <section class="box" aria-labelledby="logs-heading"><div class="box-head"><h2 id="logs-heading">logs and configuration</h2></div><div class="box-body">
       <p><code>https://mcp.oldweb.tech/logs/mcp</code></p>
-      <ul><li><code>parse_logs</code>: Up to 200 structured records, format counts and unparsed/truncated counts.</li><li><code>summarize_logs</code>: Severity counts and timestamp ranges, without AI interpretation.</li></ul>
+      <ul><li><code>parse_logs</code>: 20 records by default (recordLimit 0–200), full format counts and explicit truncation/omission counts.</li><li><code>summarize_logs</code>: Severity counts and timestamp ranges, without AI interpretation.</li><li><code>extract_ci_failures</code>: Compile, test, dependency and permission evidence with original line numbers.</li><li><code>analyze_http_trace</code>: Offline status, redirect, retry and timing observations from captured metadata; no fetching.</li><li><code>validate_config</code>: JSON validation against a supplied bounded schema, returning error paths/rules without values.</li></ul>
       <pre>{ "name": "parse_logs", "arguments": { "text": "{\"level\":\"ERROR\",\"timestamp\":\"2026-10-09T10:00:00Z\",\"message\":\"example\"}", "format": "auto" } }
-{ "name": "summarize_logs", "arguments": { "text": "Oct  9 10:00:00 router process: example", "format": "rfc3164" } }</pre>
+{ "name": "summarize_logs", "arguments": { "text": "Oct  9 10:00:00 router process: example", "format": "rfc3164" } }
+{ "name": "extract_ci_failures", "arguments": { "text": "src/app.ts(2,1): error TS2322: type mismatch" } }
+{ "name": "analyze_http_trace", "arguments": { "entries": [{ "method": "GET", "url": "https://example.com/", "status": 429, "responseHeaders": { "Retry-After": "60" } }] } }
+{ "name": "validate_config", "arguments": { "text": "{\"port\":443}", "schema": { "type": "object", "required": ["port"], "properties": { "port": { "type": "integer", "minimum": 1, "maximum": 65535 } }, "additionalProperties": false } } }</pre>
+      <p>Schema keywords: type, properties, required, additionalProperties, items, enum, minimum/maximum, min/maxLength and min/maxItems; title/description are accepted annotations. Other keywords are rejected. CI returns up to 50 excerpts; HTTP captures accept 100 entries and omit query strings, userinfo and sensitive headers. Captured timing does not identify root cause.</p>
       <p>Formats: <code>auto</code>, <code>json</code>, <code>rfc5424</code>, <code>rfc3164</code>, <code>apache-common</code>, <code>apache-combined</code>, <code>windows-event</code>, <code>common-pid</code>. Times missing a year or timezone are excluded from timestamp ranges.</p>
       <p>Submitted text is processed on our server and is not retained. Remove credentials and other sensitive material before submitting it. The <a href="system/log-parser.html">browser log parser</a> processes files locally.</p>
     </div></section>
@@ -61,7 +67,7 @@
       <pre>{ "name": "inspect_subnet", "arguments": { "cidr": "192.0.2.1/24" } }
 { "name": "plan_subnets", "arguments": { "parent": "2001:db8::/48", "requests": [{ "label": "office", "prefix": 64 }] } }
 { "name": "check_cidr_overlap", "arguments": { "cidrs": ["192.0.2.0/24", "192.0.2.128/25"] } }</pre>
-      <p>Large address counts are decimal strings so clients do not lose precision. Allocation results explicitly report insufficient capacity. These tools calculate plans; they do not change devices.</p>
+      <p>Large address counts are decimal strings so clients do not lose precision. Allocation results explicitly report insufficient capacity. Overlap checks report the exact total and up to 200 pairs with omission counts. These tools calculate plans; they do not change devices.</p>
     </div></section>
     <section class="box" aria-labelledby="limits-heading"><div class="box-head"><h2 id="limits-heading">limits and experiment</h2></div><div class="box-body">
       <table><thead><tr><th scope="col">Limit</th><th scope="col">Allowance</th></tr></thead><tbody>

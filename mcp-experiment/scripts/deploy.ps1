@@ -35,7 +35,7 @@ try {
   try {
     node scripts/wait-ready.mjs
     if ($LASTEXITCODE) { throw 'Candidate readiness failed; previous revision still serves production' }
-    node scripts/smoke.mjs
+    node scripts/smoke-all.mjs
     if ($LASTEXITCODE) { throw 'Candidate smoke test failed; previous revision still serves production' }
   } finally { Pop-Location; Remove-Item Env:TEST_SECRET -ErrorAction SilentlyContinue }
   AzJson containerapp ingress traffic set -g $Group -n $App --revision-weight "$candidate=100" | Out-Null

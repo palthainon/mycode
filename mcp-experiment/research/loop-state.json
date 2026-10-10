@@ -1,0 +1,54 @@
+{
+  "lastRun": "2026-10-10",
+  "mode": "implement-and-evaluate",
+  "skill": "oldweb-mcp-lab",
+  "version": "1.1.0",
+  "knownTools": {
+    "diagnostics": [
+      "lookup_dns",
+      "check_email_dns",
+      "check_https",
+      "deployment_readiness",
+      "trace_email"
+    ],
+    "logs": [
+      "parse_logs",
+      "summarize_logs",
+      "extract_ci_failures",
+      "analyze_http_trace",
+      "validate_config"
+    ],
+    "network": [
+      "inspect_subnet",
+      "plan_subnets",
+      "check_cidr_overlap"
+    ]
+  },
+  "decisions": [
+    {
+      "decision": "group-by-admin-workflow",
+      "reason": "Preserve three URLs while adding five bounded capabilities."
+    },
+    {
+      "decision": "offline-input-analysis",
+      "reason": "No mailbox access, arbitrary fetching, paid API or inference operating costs."
+    },
+    {
+      "decision": "bounded-evidence",
+      "reason": "20 default log records and 200 overlap pairs retain exact counts while reducing context."
+    }
+  ],
+  "openHypotheses": [
+    "Combined readiness reduces multi-call setup friction.",
+    "Email queue/header evidence adds value beyond DNS observations.",
+    "Small-model transcription of repetitive inputs remains unreliable; prefer programmatic submission for bulk data."
+  ],
+  "nextReviewTrigger": "weekly external usage report or confirmed directory exposure",
+  "budgetTargetUsdMonthly": 25,
+  "ingressPauseUsd": 20,
+  "experimentEndUnchanged": "2026-11-15T17:19:14Z",
+  "sources": [
+    "popularity-2026-10-10.md"
+  ],
+  "autoLoopScheduled": false
+}

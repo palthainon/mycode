@@ -12,11 +12,12 @@ function timestamp(value: string): number | null {
   const parsed = Date.parse(text);
   return Number.isFinite(parsed) ? parsed : null;
 }
-export function parseLogs(text: string, format: string = 'auto', summaryOnly = false) {
+export function parseLogs(text: string, format: string = 'auto', summaryOnly = false, recordLimit = 200) {
   if (Buffer.byteLength(text) > 262144) throw new ToolFailure('input_too_large');
   const physicalLines = text.replace(/\r?\n$/, '').split(/\r?\n/);
   if (physicalLines.length > 1000) throw new ToolFailure('too_many_lines');
   if (!(formats as readonly string[]).includes(format)) throw new ToolFailure('unknown_format');
+  if (!Number.isInteger(recordLimit) || recordLimit < 0 || recordLimit > 200) throw new ToolFailure('invalid_record_limit');
   const detectedFormat = format === 'auto' ? core.autoDetect(text.split(/\r?\n/)) : format;
   const lines: string[] = detectedFormat === 'windows-event' ? core.splitCSVRecords(text) : text.split(/\r?\n/);
   const records: { line: number; format: string; fields: Fields }[] = [];
@@ -41,7 +42,7 @@ export function parseLogs(text: string, format: string = 'auto', summaryOnly = f
     severityCounts[key] = (severityCounts[key] || 0) + 1;
     const time = timestamp(String(fields.timestamp || fields.time || fields['@timestamp'] || ''));
     if (time === null) ambiguousTimestamps++; else times.push(time);
-    if (!summaryOnly && records.length < 200) records.push({ line: index + 1, format: id, fields });
+    if (!summaryOnly && records.length < recordLimit) records.push({ line: index + 1, format: id, fields });
   });
   return { detectedFormat, parsed, unparsed, skipped, formatCounts, severityCounts, ambiguousTimestamps,
     timestampRange: times.length ? { first: new Date(Math.min(...times)).toISOString(), last: new Date(Math.max(...times)).toISOString() } : null,

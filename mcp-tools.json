@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "1.1.0",
   "services": {
     "diagnostics": {
       "url": "https://mcp.oldweb.tech/diagnostics/mcp",
@@ -62,7 +62,7 @@
         },
         {
           "name": "check_https",
-          "description": "Check a public domain’s HTTPS root, status, redirects and TLS certificate metadata. Contacts that site on port 443, follows at most three HTTPS redirects, and finishes within ten seconds. No page contents returned.",
+          "description": "Check a public domain’s HTTPS root, status, redirects, TLS certificate metadata and selected security headers. Contacts that site on port 443; at most three HTTPS redirects and ten seconds. No page content.",
           "inputSchema": {
             "$schema": "https://json-schema.org/draft/2020-12/schema",
             "type": "object",
@@ -79,6 +79,63 @@
             ],
             "additionalProperties": false
           }
+        },
+        {
+          "name": "deployment_readiness",
+          "description": "Combine public A/AAAA DNS, MX/SPF/DMARC and pinned HTTPS root checks in one admin report. Returns individual observations/errors, selected security headers, next steps and limits. External requests; ten seconds overall. No complete security or deliverability verdict.",
+          "inputSchema": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "type": "object",
+            "properties": {
+              "domain": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 253,
+                "description": "Public domain name only; no URL, path, port or credentials."
+              }
+            },
+            "required": [
+              "domain"
+            ],
+            "additionalProperties": false
+          }
+        },
+        {
+          "name": "trace_email",
+          "description": "Analyze supplied email headers and optional SMTP delivery log offline. Returns Received hops, explicit-timezone delays, unverified Authentication-Results claims, SMTP status classifications, source lines and admin next steps. Up to 256 KiB/1,000 combined lines, 50 hops/statuses and 20 auth headers. No mailbox access, DNS or inbox-delivery guarantee; body ignored.",
+          "inputSchema": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "type": "object",
+            "properties": {
+              "headers": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 262144
+              },
+              "deliveryLog": {
+                "default": "",
+                "type": "string",
+                "maxLength": 262144
+              },
+              "trustedAuthservIds": {
+                "default": [],
+                "description": "Optional caller-designated authserv IDs; trust is reported, not verified.",
+                "maxItems": 20,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 253
+                }
+              }
+            },
+            "required": [
+              "headers",
+              "deliveryLog",
+              "trustedAuthservIds"
+            ],
+            "additionalProperties": false
+          }
         }
       ]
     },
@@ -88,7 +145,7 @@
       "tools": [
         {
           "name": "parse_logs",
-          "description": "Parse supplied JSON, syslog, Apache/Nginx, Windows Event CSV or common PID logs. Returns up to 200 structured records, format counts and explicit truncation/unparsed counts; maximum 1,000 lines. Input is not retained.",
+          "description": "Parse supplied JSON, syslog, Apache/Nginx, Windows Event CSV or common PID logs. Returns 20 records by default (recordLimit 0..200), complete counts and explicit truncation/omission metadata; maximum 1,000 lines. Preserve supplied text exactly; never shorten repeated lines. Input is not retained.",
           "inputSchema": {
             "$schema": "https://json-schema.org/draft/2020-12/schema",
             "type": "object",
@@ -112,11 +169,19 @@
                   "windows-event",
                   "common-pid"
                 ]
+              },
+              "recordLimit": {
+                "default": 20,
+                "description": "Returned record budget; counts still cover all lines. Default 20 saves context; request up to 200 or use 0 for counts.",
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 200
               }
             },
             "required": [
               "text",
-              "format"
+              "format",
+              "recordLimit"
             ],
             "additionalProperties": false
           }
@@ -154,6 +219,142 @@
               "format"
             ],
             "additionalProperties": false
+          }
+        },
+        {
+          "name": "extract_ci_failures",
+          "description": "Find compile, test, dependency, permission and general failure patterns in supplied CI text. Returns counts and up to 50 bounded excerpts with original line numbers, admin findings and next steps. Offline; 256 KiB/1,000 lines. Does not infer root cause; redact secrets before submission.",
+          "inputSchema": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "type": "object",
+            "properties": {
+              "text": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 262144
+              }
+            },
+            "required": [
+              "text"
+            ],
+            "additionalProperties": false
+          }
+        },
+        {
+          "name": "analyze_http_trace",
+          "description": "Analyze up to 100 supplied HTTP capture entries (method/url/status/durationMs/responseHeaders). Returns sanitized request indices, status counts, redirect/error/timing observations and admin next steps. Offline; never fetches URLs. Query/userinfo and sensitive headers omitted; timings do not establish cause.",
+          "inputSchema": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "type": "object",
+            "properties": {
+              "entries": {
+                "minItems": 1,
+                "maxItems": 100,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "method": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 20
+                    },
+                    "url": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 4096
+                    },
+                    "status": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 599
+                    },
+                    "durationMs": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 86400000
+                    },
+                    "responseHeaders": {
+                      "type": "object",
+                      "propertyNames": {
+                        "type": "string",
+                        "maxLength": 100
+                      },
+                      "additionalProperties": {
+                        "type": "string",
+                        "maxLength": 4096
+                      }
+                    }
+                  },
+                  "required": [
+                    "method",
+                    "url",
+                    "status"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "entries"
+            ],
+            "additionalProperties": false
+          }
+        },
+        {
+          "name": "validate_config",
+          "description": "Validate supplied JSON text against a bounded JSON Schema subset: type, properties, required, additionalProperties, items, enum, minimum/maximum, min/maxLength, min/maxItems; title/description accepted. Returns validity, error paths/rules (up to 50) and admin guidance, without echoing values. Offline; 256 KiB/1,000 lines; schema depth 20/1,000 nodes, enum up to 100 values. Unsupported keywords including refs/regex/format/combinators are rejected.",
+          "inputSchema": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "type": "object",
+            "properties": {
+              "text": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 262144
+              },
+              "schema": {
+                "$ref": "#/$defs/__schema0"
+              }
+            },
+            "required": [
+              "text",
+              "schema"
+            ],
+            "additionalProperties": false,
+            "$defs": {
+              "__schema0": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/$defs/__schema0"
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "propertyNames": {
+                      "type": "string"
+                    },
+                    "additionalProperties": {
+                      "$ref": "#/$defs/__schema0"
+                    }
+                  }
+                ]
+              }
+            }
           }
         }
       ]
@@ -229,7 +430,7 @@
         },
         {
           "name": "check_cidr_overlap",
-          "description": "Detect overlapping ranges among up to 100 IPv4/IPv6 CIDRs. Returns normalized subnets and overlapping input-index pairs; IPv4 and IPv6 are compared separately.",
+          "description": "Detect overlapping ranges among up to 100 IPv4/IPv6 CIDRs. Returns normalized subnets, exact overlapCount and up to 200 overlapping input-index pairs with omittedOverlaps/truncated metadata; IPv4 and IPv6 are compared separately.",
           "inputSchema": {
             "$schema": "https://json-schema.org/draft/2020-12/schema",
             "type": "object",

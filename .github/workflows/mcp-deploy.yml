@@ -21,6 +21,8 @@ jobs:
           cache-dependency-path: mcp-experiment/package-lock.json
       - run: npm ci --ignore-scripts && npm test
         working-directory: mcp-experiment
+      - run: node scripts/evaluate.mjs
+        working-directory: mcp-experiment
       - uses: azure/login@v2
         with:
           client-id: ${{ vars.MCP_AZURE_CLIENT_ID }}

@@ -54,9 +54,10 @@ export function checkOverlap(cidrs: string[]) {
   if (cidrs.length > 100) throw new ToolFailure('too_many_cidrs');
   const subnets = cidrs.map(parse);
   const overlaps = [];
+  let overlapCount = 0;
   for (let i = 0; i < subnets.length; i++) for (let j = i + 1; j < subnets.length; j++) {
     const a = subnets[i], b = subnets[j];
-    if (a.version === b.version && a.start <= b.end && b.start <= a.end) overlaps.push({ firstIndex: i, secondIndex: j, first: describe(a).cidr, second: describe(b).cidr });
+    if (a.version === b.version && a.start <= b.end && b.start <= a.end) { overlapCount++; if (overlaps.length < 200) overlaps.push({ firstIndex: i, secondIndex: j, first: describe(a).cidr, second: describe(b).cidr }); }
   }
-  return { subnets: subnets.map(describe), overlaps, hasOverlap: overlaps.length > 0 };
+  return { subnets: subnets.map(describe), overlaps, overlapCount, omittedOverlaps: overlapCount - overlaps.length, truncated: overlapCount > overlaps.length, hasOverlap: overlapCount > 0 };
 }

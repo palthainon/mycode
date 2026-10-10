@@ -22,8 +22,8 @@ test('all endpoints initialize and discover tools; structured results and privat
   const { base, events, telemetry } = await fixture(t);
   for (const [service, count, name, args] of [
     ['network', 3, 'inspect_subnet', { cidr: '192.0.2.1/24' }],
-    ['logs', 2, 'parse_logs', { text: '{"message":"PRIVACY_SENTINEL_90482"}' }],
-    ['diagnostics', 3, null, {}]
+    ['logs', 5, 'parse_logs', { text: '{"message":"PRIVACY_SENTINEL_90482"}' }],
+    ['diagnostics', 5, null, {}]
   ]) {
     const client = new Client({ name: 'oldweb-test', version: '1.0' });
     const transport = new StreamableHTTPClientTransport(new URL(`${base}/${service}/mcp`), { requestInit: { headers: { 'x-oldweb-test': 'fixture-test' } } });

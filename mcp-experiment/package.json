@@ -1,9 +1,11 @@
 {
   "name": "oldweb-mcp-experiment",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "type": "module",
-  "engines": { "node": ">=24" },
+  "engines": {
+    "node": ">=24"
+  },
   "scripts": {
     "build": "tsc",
     "test": "npm run build && node --test test/*.test.mjs && node ../system/tests/test-parsers.js",
@@ -17,5 +19,8 @@
     "ipaddr.js": "2.5.0",
     "zod": "4.6.5"
   },
-  "devDependencies": { "@types/node": "26.6.4", "typescript": "5.9.3" }
+  "devDependencies": {
+    "@types/node": "26.6.4",
+    "typescript": "5.9.3"
+  }
 }

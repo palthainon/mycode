@@ -1,6 +1,10 @@
 # OldWeb MCP experiment
 
-Three stateless public MCP endpoints, eight read-only tools, one Azure Container App.
+Three stateless public MCP endpoints, thirteen read-only tools, one Azure Container App.
+
+Version 1.1 groups deployment readiness and offline email tracing with diagnostics, and CI failures, captured HTTP metadata and bounded JSON configuration validation with logs. Each result has stable programmatic fields and an `admin` explanation; readable text is capped at 1,500 characters. Email authentication claims are not verified. JSON validation supports an explicitly documented subset and rejects remote refs, regex, formats and combinators. Overlap results now cap detailed pairs at 200 with exact `overlapCount` and omission metadata.
+
+See [TEST-PLAN.md](TEST-PLAN.md) for the 100-case-per-server matrix and actual small-model evaluations, and [the evaluation skill](skills/oldweb-mcp-lab/SKILL.md) for reruns. Azure resource sizes, quotas, budget guard and pilot end stay unchanged; Codex evaluations consume the operator's account allowance separately.
 
 ## Development
 
@@ -79,3 +83,5 @@ The cost guard's first posted month-to-date amount was $0.00, subject to reporti
 Baseline started **2026-10-09 17:19:14 UTC**. The application deadline is **2026-11-15 17:19:14 UTC**; the six-hour guard also disables ingress after the deadline. Directory publication is scheduled for October 16 at 15:00 America/New_York after seven full days, with actual listing dates recorded at publication. Weekly usage reviews remain Fridays at 09:00 America/New_York. The final pilot review is scheduled for November 15 at 15:00 America/New_York.
 
 Production workflow evidence: https://github.com/palthainon/mycode/actions/runs/37964839710 ; first cost-guard run: https://github.com/palthainon/mycode/actions/runs/37963952062 . The baseline configuration passed candidate and custom-domain smoke tests before launch was recorded.
+
+Record budgets: parse_logs defaults to 20 returned records; clients can request recordLimit 0–200. Counts always cover all submitted lines. The direct parser helper keeps its legacy default of 200 for browser/fixture compatibility.
