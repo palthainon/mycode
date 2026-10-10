@@ -51,6 +51,20 @@
 - No backend unless tool requires it (APIs, databases, etc.)
 - Build for americans with disability compliance. Users with disabilities need tools too.
 
+### MCP service
+
+`mcp-experiment/` is the repository's backend exception: one Node.js service exposes
+three stateless Streamable HTTP endpoints (`diagnostics`, `logs`, and `network`)
+with 13 read-only MCP tools. The tools use deterministic code for parsing,
+validation, and subnet calculations; diagnostics also make bounded public DNS
+and HTTPS requests. The deployed service does not run or call a language model.
+The separate model evaluation script runs Codex as an MCP client during tests.
+
+Use `mcp-experiment/README.md` for the current tool inventory, deployment,
+privacy, quota, and operating details. Apply the client-side and offline
+guidelines above to website tools; review MCP changes against the service's
+documented network and data-handling behavior.
+
 ### Error Handling Patterns
 When implementing form validation with error states:
 
