@@ -51,6 +51,8 @@ Retention is 60 days. Destroy the fingerprint secret when retiring the experimen
 
 ## Discovery and reviews
 
+See the [October 10 popularity research snapshot](research/popularity-2026-10-10.md) for public popularity estimates and their limitations.
+
 Start the clock only when the custom domain, site documentation, telemetry and cost guard are verified. Days 1–7 have OldWeb links and sitemap discovery only. After seven full days publish the three manifests in `registry/` to the official MCP Registry using GitHub namespace verification, submit to Smithery, and submit to PulseMCP only if submissions are open. Record publication URLs and actual timestamps in `experiment-status.json`; update `LISTED_AT` without changing tool behavior. A directory listing is not an agent connection.
 
 Review at days 7, 14 and 37. The Workbook shows discovery, calls, outcomes, client claims, repeat groups and telemetry gaps. Expand a service only with >=100 successful external calls, >=5 approximate groups, >=2 groups active on three days, and >=95% success among valid admitted calls. Exclude validation errors/throttles/internal tests from that denominator; report tool errors separately. Listing delays, outages and gaps make results inconclusive. End at day 37 unless the operator explicitly chooses continued operation.
