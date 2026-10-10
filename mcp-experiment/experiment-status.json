@@ -17,15 +17,19 @@
     "publicLaunchComplete": true,
     "appName": "oldweb-mcp",
     "customDomainBound": true,
-    "validatedOn": "2026-10-09",
+    "validatedOn": "2026-10-10",
     "blockers": [],
     "costGuardScheduled": true,
     "githubPublished": true,
     "generatedHostname": "oldweb-mcp.greencoast-980eedf2.eastus2.azurecontainerapps.io",
     "publicIngress": "enabled",
-    "validatedRevision": "oldweb-mcp--rbaseline-20261009",
+    "validatedRevision": "oldweb-mcp--rcb647b3a4524",
     "rollbackAndShutdownVerified": true,
-    "dnsVerified": true
+    "dnsVerified": true,
+    "validatedVersion": "1.1.0",
+    "rollbackRevision": "oldweb-mcp--r84a66c9dd9b8",
+    "allToolsSmokePassed": 13,
+    "latestDeploymentWorkflow": "https://github.com/palthainon/mycode/actions/runs/38070833673"
   },
   "schedules": {
     "directoryPublication": "publish-oldweb-mcp-directory-listings",
@@ -33,5 +37,24 @@
     "finalReviewLocal": "2026-11-15T15:00:00 America/New_York",
     "finalReview": "review-oldweb-mcp-pilot-results",
     "directoryPublicationLocal": "2026-10-16T15:00:00 America/New_York"
-  }
+  },
+  "changes": [
+    {
+      "at": "2026-10-10T17:21:36.877664+00:00",
+      "version": "1.1.0",
+      "reason": "User-authorized administrator capability expansion during baseline",
+      "addedTools": [
+        "deployment_readiness",
+        "trace_email",
+        "extract_ci_failures",
+        "analyze_http_trace",
+        "validate_config"
+      ],
+      "defaultLogRecordLimit": 20,
+      "overlapPairLimit": 200,
+      "preservesExactCounts": true,
+      "report": "reports/REPORT-2026-10-10.md",
+      "emailDateRegressionFixed": true
+    }
+  ]
 }
