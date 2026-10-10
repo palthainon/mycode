@@ -1,8 +1,8 @@
 {
-  "status": "baseline",
+  "status": "listed",
   "experimentStart": "2026-10-09T17:19:14Z",
   "experimentEnd": "2026-11-15T17:19:14Z",
-  "listedAt": null,
+  "listedAt": "2026-10-10T17:32:51.537144Z",
   "budgetUsdMonthly": 25,
   "resourceGroup": "rg-oldweb-mcp-experiment",
   "region": "eastus2",
@@ -11,7 +11,44 @@
     "logs",
     "network"
   ],
-  "listings": [],
+  "listings": [
+    {
+      "directory": "official-mcp-registry",
+      "service": "diagnostics",
+      "name": "io.github.palthainon/oldweb-diagnostics",
+      "version": "1.1.0",
+      "status": "active",
+      "publishedAt": "2026-10-10T17:32:51.537144Z",
+      "verifiedAt": "2026-10-10T17:34:46.8844628+00:00",
+      "url": "https://registry.modelcontextprotocol.io/v0.1/servers/io.github.palthainon%2Foldweb-diagnostics/versions/1.1.0",
+      "endpoint": "https://mcp.oldweb.tech/diagnostics/mcp",
+      "evidence": "reports/registry-publication-2026-10-10.json"
+    },
+    {
+      "directory": "official-mcp-registry",
+      "service": "logs",
+      "name": "io.github.palthainon/oldweb-logs",
+      "version": "1.1.0",
+      "status": "active",
+      "publishedAt": "2026-10-10T17:32:51.834208Z",
+      "verifiedAt": "2026-10-10T17:34:46.8940931+00:00",
+      "url": "https://registry.modelcontextprotocol.io/v0.1/servers/io.github.palthainon%2Foldweb-logs/versions/1.1.0",
+      "endpoint": "https://mcp.oldweb.tech/logs/mcp",
+      "evidence": "reports/registry-publication-2026-10-10.json"
+    },
+    {
+      "directory": "official-mcp-registry",
+      "service": "network",
+      "name": "io.github.palthainon/oldweb-network",
+      "version": "1.1.0",
+      "status": "active",
+      "publishedAt": "2026-10-10T17:32:52.215343Z",
+      "verifiedAt": "2026-10-10T17:34:46.8942236+00:00",
+      "url": "https://registry.modelcontextprotocol.io/v0.1/servers/io.github.palthainon%2Foldweb-network/versions/1.1.0",
+      "endpoint": "https://mcp.oldweb.tech/network/mcp",
+      "evidence": "reports/registry-publication-2026-10-10.json"
+    }
+  ],
   "reviews": [],
   "deployment": {
     "publicLaunchComplete": true,
@@ -23,24 +60,27 @@
     "githubPublished": true,
     "generatedHostname": "oldweb-mcp.greencoast-980eedf2.eastus2.azurecontainerapps.io",
     "publicIngress": "enabled",
-    "validatedRevision": "oldweb-mcp--rcb647b3a4524",
+    "validatedRevision": "oldweb-mcp--listed20261010",
     "rollbackAndShutdownVerified": true,
     "dnsVerified": true,
     "validatedVersion": "1.1.0",
-    "rollbackRevision": "oldweb-mcp--r84a66c9dd9b8",
+    "rollbackRevision": "oldweb-mcp--rcb647b3a4524",
     "allToolsSmokePassed": 13,
-    "latestDeploymentWorkflow": "https://github.com/palthainon/mycode/actions/runs/38070833673"
+    "latestDeploymentWorkflow": "https://github.com/palthainon/mycode/actions/runs/38070833673",
+    "phaseConfigurationVerifiedAt": "2026-10-10T17:39:00.069301+00:00",
+    "phaseConfigurationChange": "Same immutable 1.1.0 image; LISTED_AT only; candidate passed all 13 tools before promotion and all production endpoint discoveries after promotion."
   },
   "schedules": {
     "directoryPublication": "publish-oldweb-mcp-directory-listings",
     "weeklyUsageReview": "oldweb-mcp-weekly-usage-review",
     "finalReviewLocal": "2026-11-15T15:00:00 America/New_York",
     "finalReview": "review-oldweb-mcp-pilot-results",
-    "directoryPublicationLocal": "2026-10-16T15:00:00 America/New_York"
+    "directoryPublicationLocal": "2026-10-16T15:00:00 America/New_York",
+    "directoryPublicationPurpose": "Remaining free directories only; official Registry already published October 10. Avoid duplicate versions and retain first listing time."
   },
   "changes": [
     {
-      "at": "2026-10-10T17:21:36.877664+00:00",
+      "at": "2026-10-10T13:21:36.877664-04:00",
       "version": "1.1.0",
       "reason": "User-authorized administrator capability expansion during baseline",
       "addedTools": [
@@ -55,6 +95,17 @@
       "preservesExactCounts": true,
       "report": "reports/REPORT-2026-10-10.md",
       "emailDateRegressionFixed": true
+    },
+    {
+      "at": "2026-10-10T17:34:46.8954533+00:00",
+      "reason": "User authorized immediate official Registry publication, advancing the scheduled October 16 listing date",
+      "firstListingAt": "2026-10-10T17:32:51.537144Z",
+      "originalScheduledListing": "2026-10-16T15:00:00 America/New_York",
+      "baselineShortened": true,
+      "experimentEndUnchanged": "2026-11-15T17:19:14Z"
     }
-  ]
+  ],
+  "baselineActualSeconds": 87217.537144,
+  "baselineInterpretation": "Site-linked baseline lasted about 24 hours 14 minutes; user advanced official Registry publication. Not seven days and not a controlled spontaneous-discovery study.",
+  "phaseTransitionNote": "Requests served by the previous revision after first publication and before configuration promotion can retain a baseline tag. Reviews must classify this transition window using the recorded first-listing timestamp, not the tag alone."
 }

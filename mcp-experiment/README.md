@@ -59,9 +59,11 @@ Retention is 60 days. Destroy the fingerprint secret when retiring the experimen
 
 ## Discovery and reviews
 
+On October 10 the user advanced official Registry publication. All three version 1.1.0 entries are active; the first listing was **2026-10-10 17:32:51 UTC**. The site-linked baseline lasted about 24 hours 14 minutes instead of seven days. Preserve the November 15 end date and use actual phase timestamps for reviews. See [publication evidence](reports/registry-publication-2026-10-10.json) and [publication report](reports/REGISTRY-PUBLICATION-2026-10-10.md). The October 16 follow-up now covers remaining free directories without duplicate Registry publication.
+
 See the [October 10 popularity research snapshot](research/popularity-2026-10-10.md) for public popularity estimates and their limitations.
 
-Start the clock only when the custom domain, site documentation, telemetry and cost guard are verified. Days 1–7 have OldWeb links and sitemap discovery only. After seven full days publish the three manifests in `registry/` to the official MCP Registry using GitHub namespace verification, submit to Smithery, and submit to PulseMCP only if submissions are open. Record publication URLs and actual timestamps in `experiment-status.json`; update `LISTED_AT` without changing tool behavior. A directory listing is not an agent connection.
+Start the clock only when the custom domain, site documentation, telemetry and cost guard are verified. Days 1–7 have OldWeb links and sitemap discovery only. The original plan was to publish after seven full days; immediate publication was authorized on October 10 as recorded above. For any remaining submissions use the three manifests in `registry/` to the official MCP Registry using GitHub namespace verification, submit to Smithery, and submit to PulseMCP only if submissions are open. Record publication URLs and actual timestamps in `experiment-status.json`; update `LISTED_AT` without changing tool behavior. A directory listing is not an agent connection.
 
 Review at days 7, 14 and 37. The Workbook shows discovery, calls, outcomes, client claims, repeat groups and telemetry gaps. Expand a service only with >=100 successful external calls, >=5 approximate groups, >=2 groups active on three days, and >=95% success among valid admitted calls. Exclude validation errors/throttles/internal tests from that denominator; report tool errors separately. Listing delays, outages and gaps make results inconclusive. End at day 37 unless the operator explicitly chooses continued operation.
 
@@ -78,13 +80,13 @@ Hostinger DNS is verified (TTL 300):
 | CNAME | `mcp` | `oldweb-mcp.greencoast-980eedf2.eastus2.azurecontainerapps.io` |
 | TXT | `asuid.mcp` | `94B9870ED8C129786DAEB4D8C61BE643F1CF0CBBD321D7DB9343E368FC34F78E` |
 
-Azure's managed certificate is bound with SNI enabled. All three endpoints passed initialization, discovery and real tool calls through `https://mcp.oldweb.tech`. Actual baseline dates and the latest validated revision are recorded in `experiment-status.json`; no directory listings have been submitted during preparation.
+Azure's managed certificate is bound with SNI enabled. All three endpoints passed initialization, discovery and real tool calls through `https://mcp.oldweb.tech`. Actual baseline dates and the latest validated revision are recorded in `experiment-status.json`; the three official Registry listings were published on October 10 after the user advanced the schedule.
 
 Validation: all 10 MCP tests and 116 existing parser assertions passed, along with Bicep compilation and static-artifact staging. Inspector and an independent SDK client exercised the endpoints. Live calls verified managed-identity quota access. AppEvents retention is 60 days. Application telemetry and Container App console logs contained neither the distinctive test log string nor queried diagnostic domain. Internal cleanup probes are marked internal. Candidate failure preserved the previous serving revision; rollback and public-ingress shutdown were tested successfully before launch.
 
 The cost guard's first posted month-to-date amount was $0.00, subject to reporting delay. Registry/storage charges continue after ingress shutdown. Public traffic must not be resumed after a budget or end-date shutdown without an explicit operating decision.
 
-Baseline started **2026-10-09 17:19:14 UTC**. The application deadline is **2026-11-15 17:19:14 UTC**; the six-hour guard also disables ingress after the deadline. Directory publication is scheduled for October 16 at 15:00 America/New_York after seven full days, with actual listing dates recorded at publication. Weekly usage reviews remain Fridays at 09:00 America/New_York. The final pilot review is scheduled for November 15 at 15:00 America/New_York.
+Baseline started **2026-10-09 17:19:14 UTC**. The application deadline is **2026-11-15 17:19:14 UTC**; the six-hour guard also disables ingress after the deadline. Official Registry publication completed October 10 at the user's request; remaining free-directory submissions are scheduled for October 16 at 15:00 America/New_York, with actual listing dates recorded separately. Weekly usage reviews remain Fridays at 09:00 America/New_York. The final pilot review is scheduled for November 15 at 15:00 America/New_York.
 
 Production workflow evidence: https://github.com/palthainon/mycode/actions/runs/37964839710 ; first cost-guard run: https://github.com/palthainon/mycode/actions/runs/37963952062 . The baseline configuration passed candidate and custom-domain smoke tests before launch was recorded.
 

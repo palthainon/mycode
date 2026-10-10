@@ -1,0 +1,39 @@
+{
+  "at": "2026-10-10T17:37:32.657Z",
+  "results": [
+    {
+      "service": "diagnostics",
+      "initialized": true,
+      "tools": [
+        "lookup_dns",
+        "check_email_dns",
+        "check_https",
+        "deployment_readiness",
+        "trace_email"
+      ],
+      "internal": true
+    },
+    {
+      "service": "logs",
+      "initialized": true,
+      "tools": [
+        "parse_logs",
+        "summarize_logs",
+        "extract_ci_failures",
+        "analyze_http_trace",
+        "validate_config"
+      ],
+      "internal": true
+    },
+    {
+      "service": "network",
+      "initialized": true,
+      "tools": [
+        "inspect_subnet",
+        "plan_subnets",
+        "check_cidr_overlap"
+      ],
+      "internal": true
+    }
+  ]
+}
